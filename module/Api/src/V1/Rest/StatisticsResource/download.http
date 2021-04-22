@@ -1,6 +1,0 @@
-#GET https://dev1.itea4.org/api/statistics/results?output=1
-GET https://dev1.itea4.org/api/statistics/download/1/eyJjb3VudHJ5IjpbXSwiY291bnRyeV9tZXRob2QiOiJvciIsInBhcnRuZXJfdHlwZSI6W10sInBhcnRuZXJfdHlwZV9tZXRob2QiOiJvciIsInByb2plY3Rfc3RhdHVzIjpbXSwicHJvamVjdF9zdGF0dXNfbWV0aG9kIjoiYW5kIiwicHJpbWFyeV9jbHVzdGVyIjpbIklURUEiXSwicHJpbWFyeV9jbHVzdGVyX21ldGhvZCI6ImFuZCJ9=
-Accept: application/json
-Content-Type: application/json
-#Authorization: Bearer 48c103d1ab7d66b1baf35d8b2b726e2c9effc63c #johan
-Authorization: Bearer b0d221286954c2ce35c4c14db60d47713e8eecd0 #holger [GER]
