@@ -1,0 +1,56 @@
+<div class="container">
+    <h1>{{ translate("txt-success") }}</h1>
+
+
+    {% if code %}
+        <p>The authentication code is:<br>
+        <p class="text-monospace">{{ code }}</p>
+
+        <p>Use this code to request an access token.</p>
+
+        <h3 class="pt-3">{{ translate('txt-http') }}</h3>
+        <code>http POST {{ serverUrl() }}/oauth grant_type=authorization_code code={{ code }}
+            redirect_uri=/oauth/receivecode
+            client_id=testclient client_secret=testpass</code>
+
+        <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
+        <code>curl -u testclient:testpass {{ serverUrl() }}/oauth -d 'grant_type=authorization_code&code={{ code }}
+            &redirect_uri=/oauth/receivecode'</code>",
+
+        <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
+        <code>curl -H "Content-Type: application/json" -X POST -d
+            \'{"redirect_uri":"oauth/receivecode","client_id":"testclient","client_secret":"testpass","code":"{{ code }}
+            ","grant_type":"authorization_code"}\' {{ serverUrl() }}/oauth</code>",
+    {% endif %}
+
+    {% if not code %}
+
+        <p>The Bearer token is:<br>
+        <p id="access_token" class="text-monospace">{{ code }}</p>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    // function to parse fragment parameters
+    var parseQueryString = function (queryString) {
+        var params = {}, queries, temp, i, l;
+
+        // Split into key/value pairs
+        queries = queryString.split("&");
+
+        // Convert the array of strings into an object
+        for (i = 0, l = queries.length; i < l; i++) {
+            temp = queries[i].split('=');
+            params[temp[0]] = temp[1];
+        }
+
+        return params;
+    };
+
+    // get token params from URL fragment
+    var tokenParams = parseQueryString(window.location.hash.substr(1));
+    $(document).ready(function () {
+        document.getElementById('access_token').innerHTML = tokenParams.access_token;
+
+    });
+</script>

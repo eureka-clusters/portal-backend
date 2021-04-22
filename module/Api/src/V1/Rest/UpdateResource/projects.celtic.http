@@ -1,0 +1,222 @@
+POST https://dev1.itea4.org/api/update/project
+#GET https://dev1.itea4.org/api/view/project/10732
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 48c103d1ab7d66b1baf35d8b2b726e2c9effc63c
+
+{
+  "id": "33",
+  "internal_identifier": "CELTIC_33",
+  "project_number": "AI2020\/1-33",
+  "project_name": "AI4PV",
+  "project_title": "Artificial Intelligence for Operation and Maintenance of PV Plants ",
+  "programme": "Celtic",
+  "programme_call": "AI Call",
+  "primary_cluster": "EUROGIA",
+  "secondary_cluster": "ITEA 3",
+  "official_start_date": null,
+  "official_end_date": null,
+  "project_status": "setup",
+  "project_leader": {
+    "name": "Mr. Alexandre Neto",
+    "email": "alexandre.neto@edp.pt",
+    "address": "Rua Cidade de Goa, 4",
+    "city": "Sacav\u00e9m",
+    "country": "Portugal",
+    "zip_code": "2685 \u2013 039"
+  },
+  "label_date": "2020-09-30T00:00:00+02:00",
+  "cancel_date": null,
+  "versions": {
+    "fpp": {
+      "version": "1",
+      "type": "1 (Proposal)",
+      "submission_date": "2020-09-30T00:00:00+02:00",
+      "status": "labeled",
+      "total_effort": 17.185,
+      "total_costs": 889300,
+      "countries": {
+        "ES": "Spain",
+        "PT": "Portugal"
+      },
+      "partners": [
+        {
+          "id": "143",
+          "partner": "EDP CNET",
+          "country": "PT",
+          "partner_type_code": "I",
+          "partner_type_label": "Industry",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2.43,
+              "costs": 135300
+            },
+            "2022": {
+              "effort": 2.87,
+              "costs": 130100
+            },
+            "2023": {
+              "effort": 0.13,
+              "costs": 5400
+            }
+          },
+          "technical_contact": {
+            "name": "Neto Alexandre",
+            "email": "alexandre.neto@edp.pt"
+          }
+        },
+        {
+          "id": "144",
+          "partner": "ISOTROL",
+          "country": "ES",
+          "partner_type_code": "S",
+          "partner_type_label": "SME - Small\/Medium Enterprise",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2.92,
+              "costs": 138600
+            },
+            "2022": {
+              "effort": 4.25,
+              "costs": 201500
+            },
+            "2023": {
+              "effort": 0.33,
+              "costs": 15900
+            }
+          },
+          "technical_contact": {
+            "name": "Garcia Franquelo Jose",
+            "email": "Jgfranquelo@isotrol.com"
+          }
+        },
+        {
+          "id": "145",
+          "partner": "INESC TEC",
+          "country": "PT",
+          "partner_type_code": "R",
+          "partner_type_label": "Research institute",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2,
+              "costs": 123100
+            },
+            "2022": {
+              "effort": 2.13,
+              "costs": 131900
+            },
+            "2023": {
+              "effort": 0.125,
+              "costs": 7500
+            }
+          },
+          "technical_contact": {
+            "name": "Bessa Ricardo",
+            "email": "ricardo.j.bessa@inesctec.pt"
+          }
+        }
+      ]
+    },
+    "latest": {
+      "version": "1",
+      "type": "1 (Proposal)",
+      "submission_date": "2020-09-30T00:00:00+02:00",
+      "status": "labeled",
+      "total_effort": 17.185,
+      "total_costs": 889300,
+      "countries": {
+        "ES": "Spain",
+        "PT": "Portugal"
+      },
+      "partners": [
+        {
+          "id": "143",
+          "partner": "EDP CNET",
+          "country": "PT",
+          "partner_type_code": "I",
+          "partner_type_label": "Industry",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2.43,
+              "costs": 135300
+            },
+            "2022": {
+              "effort": 2.87,
+              "costs": 130100
+            },
+            "2023": {
+              "effort": 0.13,
+              "costs": 5400
+            }
+          },
+          "technical_contact": {
+            "name": "Neto Alexandre",
+            "email": "alexandre.neto@edp.pt"
+          }
+        },
+        {
+          "id": "144",
+          "partner": "ISOTROL",
+          "country": "ES",
+          "partner_type_code": "S",
+          "partner_type_label": "SME - Small\/Medium Enterprise",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2.92,
+              "costs": 138600
+            },
+            "2022": {
+              "effort": 4.25,
+              "costs": 201500
+            },
+            "2023": {
+              "effort": 0.33,
+              "costs": 15900
+            }
+          },
+          "technical_contact": {
+            "name": "Garcia Franquelo Jose",
+            "email": "Jgfranquelo@isotrol.com"
+          }
+        },
+        {
+          "id": "145",
+          "partner": "INESC TEC",
+          "country": "PT",
+          "partner_type_code": "R",
+          "partner_type_label": "Research institute",
+          "active": false,
+          "self_funded": false,
+          "costs_and_effort": {
+            "2021": {
+              "effort": 2,
+              "costs": 123100
+            },
+            "2022": {
+              "effort": 2.13,
+              "costs": 131900
+            },
+            "2023": {
+              "effort": 0.125,
+              "costs": 7500
+            }
+          },
+          "technical_contact": {
+            "name": "Bessa Ricardo",
+            "email": "ricardo.j.bessa@inesctec.pt"
+          }
+        }
+      ]
+    }
+  }
+}

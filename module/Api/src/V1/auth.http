@@ -1,0 +1,11 @@
+POST https://dev1.itea4.org/oauth
+Accept: application/json
+Content-Type: application/json
+
+{
+  "grant_type": "authorization_code",
+  "code": "3040dcc6c4e12c9957bef6927f8adbaed06ef22f",
+  "redirect_uri": "/oauth/receivecode",
+  "client_id": "abcd",
+  "client_secret": "dafsfd"
+}

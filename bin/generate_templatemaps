@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+SRC_DIR="$(pwd)"
+cd "$(dirname "$0")"
+cd ".."
+
+#https://gist.github.com/Hounddog/4169214
+
+php ./bin/templatemap_generator.php -l module/Application -v module/Application/view -o module/Application/template_map.php -w

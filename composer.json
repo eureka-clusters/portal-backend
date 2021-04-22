@@ -1,0 +1,87 @@
+{
+  "name": "eureka-clusters/portal-backend",
+  "description": "Backend code for Eureka Clusters PA Portal",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Johan van der Heide",
+      "email": "info@jield.nl"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.4 || ~8.0.0",
+    "laminas/laminas-cli": "^1.1",
+    "laminas/laminas-mvc": "^3.0.3",
+    "laminas/laminas-mvc-i18n": "^1.3.x-dev",
+    "laminas-api-tools/api-tools": "^1.5",
+    "laminas-api-tools/api-tools-documentation": "^1.4",
+    "laminas-api-tools/api-tools-documentation-swagger": "^1.4",
+    "laminas-api-tools/api-tools-doctrine": "@stable",
+    "laminas-api-tools/api-tools-admin": "^1.9",
+    "laminas-api-tools/api-tools-asset-manager": "^1.4",
+    "zfr/zfr-cors": "^2.0",
+    "league/oauth2-client": "dev-master",
+    "doctrine/doctrine-orm-module": "^4.0",
+    "doctrine/migrations": "^3.0",
+    "gedmo/doctrine-extensions": "^3.0",
+    "beberlei/doctrineextensions": "^1.3",
+    "slm/queue": "^2.0.1",
+    "slm/queue-doctrine": "^3.0.1",
+    "ext-zip": "*",
+    "ext-openssl": "*",
+    "ext-intl": "*",
+    "ext-PDO": "*",
+    "ext-redis": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "iteaoffice/testing": "^2.1"
+  },
+  "bin": [
+    "bin/generate_templatemaps"
+  ],
+  "config": {
+    "vendor-dir": "vendor",
+    "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Admin\\": "module/Admin/src/",
+      "Api\\": "module/Api/src/",
+      "Application\\": "module/Application/src/",
+      "Cluster\\": "module/Cluster/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AdminTest\\": "module/Admin/test",
+      "ApplicationTest\\": "module/Application/test",
+      "ClusterTest\\": "module/Cluster/test"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev",
+      "dev-develop": "1.1-dev"
+    }
+  },
+  "scripts": {
+    "check": [
+      "@cs",
+      "@php-lint",
+      "@phpstan"
+    ],
+    "fix": [
+      "@cbf",
+      "@cs-fix"
+    ],
+    "php-lint": "parallel-lint module",
+    "phpstan": "phpstan analyze module --level=1",
+    "cs": "phpcs -n -p --standard=PSR12 --extensions=php,twig module",
+    "cbf": "phpcbf module --standard=PSR12 --extensions=php,twig module",
+    "cs-fix": "php-cs-fixer fix -v module",
+    "test": "phpunit"
+  }
+}
