@@ -10,6 +10,7 @@
 namespace Api;
 
 use Api\V1\Rest;
+use Cluster\Entity\Statistics\Partner;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Project\Provider\ProjectProvider;
@@ -67,8 +68,8 @@ return [
                 'POST'
             ],
             'service_name'               => 'update_project',
-            'entity_class'               => ProjectProvider::class,
-            'collection_class'           => ProjectCollection::class,
+            'entity_class'               => Partner::class,
+            'collection_class'           => Partner::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
@@ -80,8 +81,8 @@ return [
             'collection_name'            => 'facets',
             'collection_http_methods'    => ['GET'],
             'service_name'               => 'statistics_facets',
-            'entity_class'               => ProjectProvider::class,
-            'collection_class'           => ProjectCollection::class,
+            'entity_class'               => Partner::class,
+            'collection_class'           => Partner::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
@@ -96,8 +97,8 @@ return [
             'collection_name'            => 'results',
             'collection_http_methods'    => ['GET'],
             'service_name'               => 'statistics_results',
-            'entity_class'               => ProjectProvider::class,
-            'collection_class'           => ProjectCollection::class,
+            'entity_class'               => Partner::class,
+            'collection_class'           => Partner::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
@@ -111,9 +112,9 @@ return [
             'entity_http_methods'        => ['GET'],
             'collection_name'            => 'results',
             'collection_http_methods'    => [],
-            'service_name'               => 'statistics_results',
-            'entity_class'               => ProjectProvider::class,
-            'collection_class'           => ProjectCollection::class,
+            'service_name'               => 'statistics_download',
+            'entity_class'               => Partner::class,
+            'collection_class'           => Partner::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],

@@ -4,6 +4,7 @@ return [
     'modules'                 => [
         'Laminas\\Router',
         'Laminas\\InputFilter',
+        'Laminas\\Hydrator',
 
         'Laminas\\ApiTools',
         'Laminas\\ApiTools\\Admin',
@@ -19,10 +20,13 @@ return [
         'Laminas\\ApiTools\\Rest',
         'Laminas\\ApiTools\\Rpc',
         'Laminas\\ApiTools\\Versioning',
+        'ZfrCors',
+        'AssetManager',
 
         'Api',
 
-        'ZfrCors',
+
+
         'DoctrineModule',
         'DoctrineORMModule',
         'Admin',
