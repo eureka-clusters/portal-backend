@@ -12,15 +12,18 @@ namespace Application;
 
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
     'service_manager' => [
         'aliases'   => [
             'doctrine.cache.application_cache' => RedisCache::class,
+            'paportal_pdo_adapter'            => Authentication\OAuth2\Adapter\PdoAdapter::class,
         ],
         'factories' => [
             RedisCache::class                                       => Factory\RedisFactory::class,
+            Authentication\OAuth2\Adapter\PdoAdapter::class     => ConfigAbstractFactory::class,
         ],
     ],
     'translator'      => [
