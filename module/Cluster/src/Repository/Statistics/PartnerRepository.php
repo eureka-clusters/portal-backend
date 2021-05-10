@@ -13,11 +13,15 @@ declare(strict_types=1);
 namespace Cluster\Repository\Statistics;
 
 use Cluster\Entity;
+use Cluster\Entity\Funder;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Program\Entity\Funder;
 
+/**
+ * Class PartnerRepository
+ * @package Cluster\Repository\Statistics
+ */
 class PartnerRepository extends EntityRepository
 {
     public function deletePartnersByInternalIdentifier(string $internalIdentifier): void
@@ -49,7 +53,7 @@ class PartnerRepository extends EntityRepository
         $this->applyFilters($filter, $queryBuilder);
         $this->applyFunderFilter($queryBuilder, $funder);
 
-      //  print $queryBuilder->getQuery()->getSQL(); die();
+        //  print $queryBuilder->getQuery()->getSQL(); die();
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
@@ -65,15 +69,31 @@ class PartnerRepository extends EntityRepository
                     $countryFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_statistics_partner_country_filter.identifier')
                         ->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner_country_filter')
-                        ->where($queryBuilder->expr()->in('cluster_entity_statistics_partner_country_filter.country', $countryFilter))
+                        ->where(
+                            $queryBuilder->expr()->in(
+                                'cluster_entity_statistics_partner_country_filter.country',
+                                $countryFilter
+                            )
+                        )
                         ->addGroupBy('cluster_entity_statistics_partner_country_filter.identifier')
-                        ->having('COUNT(DISTINCT cluster_entity_statistics_partner_country_filter.country) > ' . (count($countryFilter) - 1));
+                        ->having(
+                            'COUNT(DISTINCT cluster_entity_statistics_partner_country_filter.country) > ' . (count(
+                                    $countryFilter
+                                ) - 1)
+                        );
 
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $countryFilterSubSelect->getDQL()));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.identifier',
+                            $countryFilterSubSelect->getDQL()
+                        )
+                    );
 
                     break;
                 case 'or':
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.country', $countryFilter));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in('cluster_entity_statistics_partner.country', $countryFilter)
+                    );
                     break;
             }
         }
@@ -85,16 +105,35 @@ class PartnerRepository extends EntityRepository
                     //Find the projects where the country is active
                     $partnerTypeSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_statistics_partner_partner_type_filter.identifier')
-                        ->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner_partner_type_filter')
-                        ->where($queryBuilder->expr()->in('cluster_entity_statistics_partner_partner_type_filter.partnerType', $partnerTypeFilter))
+                        ->from(
+                            Entity\Statistics\Partner::class,
+                            'cluster_entity_statistics_partner_partner_type_filter'
+                        )
+                        ->where(
+                            $queryBuilder->expr()->in(
+                                'cluster_entity_statistics_partner_partner_type_filter.partnerType',
+                                $partnerTypeFilter
+                            )
+                        )
                         ->addGroupBy('cluster_entity_statistics_partner_partner_type_filter.identifier')
-                        ->having('COUNT(DISTINCT cluster_entity_statistics_partner_partner_type_filter.partnerType) > ' . (count($partnerTypeFilter) - 1));
+                        ->having(
+                            'COUNT(DISTINCT cluster_entity_statistics_partner_partner_type_filter.partnerType) > ' . (count(
+                                    $partnerTypeFilter
+                                ) - 1)
+                        );
 
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $partnerTypeSubSelect->getDQL()));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.identifier',
+                            $partnerTypeSubSelect->getDQL()
+                        )
+                    );
 
                     break;
                 case 'or':
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.partnerType', $partnerTypeFilter));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in('cluster_entity_statistics_partner.partnerType', $partnerTypeFilter)
+                    );
                     break;
             }
         }
@@ -106,16 +145,38 @@ class PartnerRepository extends EntityRepository
                     //Find the projects where the country is active
                     $projectStatusSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_statistics_partner_project_status_filter.identifier')
-                        ->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner_project_status_filter')
-                        ->where($queryBuilder->expr()->in('cluster_entity_statistics_partner_project_status_filter.projectStatus', $projectStatusFilter))
+                        ->from(
+                            Entity\Statistics\Partner::class,
+                            'cluster_entity_statistics_partner_project_status_filter'
+                        )
+                        ->where(
+                            $queryBuilder->expr()->in(
+                                'cluster_entity_statistics_partner_project_status_filter.projectStatus',
+                                $projectStatusFilter
+                            )
+                        )
                         ->addGroupBy('cluster_entity_statistics_partner_project_status_filter.identifier')
-                        ->having('COUNT(DISTINCT cluster_entity_statistics_partner_project_status_filter.projectStatus) > ' . (count($partnerTypeFilter) - 1));
+                        ->having(
+                            'COUNT(DISTINCT cluster_entity_statistics_partner_project_status_filter.projectStatus) > ' . (count(
+                                    $partnerTypeFilter
+                                ) - 1)
+                        );
 
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $projectStatusSubSelect->getDQL()));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.identifier',
+                            $projectStatusSubSelect->getDQL()
+                        )
+                    );
 
                     break;
                 case 'or':
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.projectStatus', $projectStatusFilter));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.projectStatus',
+                            $projectStatusFilter
+                        )
+                    );
                     break;
             }
         }
@@ -127,16 +188,38 @@ class PartnerRepository extends EntityRepository
                     //Find the projects where the country is active
                     $primaryClusterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_statistics_partner_primary_cluster_filter.identifier')
-                        ->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner_primary_cluster_filter')
-                        ->where($queryBuilder->expr()->in('cluster_entity_statistics_partner_primary_cluster_filter.primaryCluster', $primaryClusterFilter))
+                        ->from(
+                            Entity\Statistics\Partner::class,
+                            'cluster_entity_statistics_partner_primary_cluster_filter'
+                        )
+                        ->where(
+                            $queryBuilder->expr()->in(
+                                'cluster_entity_statistics_partner_primary_cluster_filter.primaryCluster',
+                                $primaryClusterFilter
+                            )
+                        )
                         ->addGroupBy('cluster_entity_statistics_partner_primary_cluster_filter.identifier')
-                        ->having('COUNT(DISTINCT cluster_entity_statistics_partner_primary_cluster_filter.primaryCluster) > ' . (count($partnerTypeFilter) - 1));
+                        ->having(
+                            'COUNT(DISTINCT cluster_entity_statistics_partner_primary_cluster_filter.primaryCluster) > ' . (count(
+                                    $partnerTypeFilter
+                                ) - 1)
+                        );
 
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $primaryClusterSubSelect->getDQL()));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.identifier',
+                            $primaryClusterSubSelect->getDQL()
+                        )
+                    );
 
                     break;
                 case 'or':
-                    $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.primaryCluster', $primaryClusterFilter));
+                    $queryBuilder->andWhere(
+                        $queryBuilder->expr()->in(
+                            'cluster_entity_statistics_partner.primaryCluster',
+                            $primaryClusterFilter
+                        )
+                    );
                     break;
             }
         }
@@ -155,7 +238,9 @@ class PartnerRepository extends EntityRepository
             ->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner_country')
             ->andWhere('cluster_entity_statistics_partner_country.country = :funder_country');
 
-        $queryBuilder->andWhere($queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $funderSubSelect->getDQL()));
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->in('cluster_entity_statistics_partner.identifier', $funderSubSelect->getDQL())
+        );
         $queryBuilder->setParameter('funder_country', $funder->getCountry()->getCd());
     }
 

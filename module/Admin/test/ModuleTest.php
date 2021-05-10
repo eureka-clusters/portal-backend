@@ -12,9 +12,8 @@ declare(strict_types=1);
 
 namespace AdminTest;
 
-use Admin\Controller\OAuth2Controller;
-use Admin\Form\UserForm;
 use Admin\Module;
+use Application\Service\AbstractService;
 use Laminas\Mvc\Controller\PluginManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
@@ -42,13 +41,6 @@ class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
-            if ($service === UserForm::class) {
-                continue;
-            }
-            if ($service === OAuth2Controller::class) {
-                continue;
-            }
-
             $instantiatedDependencies = [];
             foreach ($dependencies as $dependency) {
                 if ($dependency === 'Config') {

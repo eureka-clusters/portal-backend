@@ -12,18 +12,17 @@ namespace Application;
 
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
-use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
     'service_manager' => [
         'aliases'   => [
             'doctrine.cache.application_cache' => RedisCache::class,
-            'paportal_pdo_adapter'            => Authentication\OAuth2\Adapter\PdoAdapter::class,
+            'paportal_pdo_adapter'             => Authentication\OAuth2\Adapter\PdoAdapter::class,
         ],
         'factories' => [
-            RedisCache::class                                       => Factory\RedisFactory::class,
-            Authentication\OAuth2\Adapter\PdoAdapter::class     => ConfigAbstractFactory::class,
+            RedisCache::class                               => Factory\RedisFactory::class,
+            Authentication\OAuth2\Adapter\PdoAdapter::class => Authentication\Factory\PdoAdapterFactory::class,
         ],
     ],
     'translator'      => [
@@ -36,7 +35,7 @@ $config = [
             ],
         ],
     ],
-    'view_manager'       => [
+    'view_manager'    => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
@@ -50,7 +49,7 @@ $config = [
             'ViewJsonStrategy',
         ],
     ],
-    'doctrine' => [
+    'doctrine'        => [
         'driver'        => [
             'orm_default' => [
                 'class' => MappingDriverChain::class,

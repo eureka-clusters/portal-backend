@@ -12,11 +12,16 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
+use Application\Repository\FilteredObjectRepository;
 use Cluster\Entity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class ClusterRepository
+ * @package Cluster\Repository
+ */
 class ClusterRepository extends EntityRepository implements FilteredObjectRepository
 {
     public function findFiltered(array $filter = []): QueryBuilder
@@ -31,7 +36,11 @@ class ClusterRepository extends EntityRepository implements FilteredObjectReposi
         }
 
         $direction = 'ASC';
-        if (isset($filter['direction']) && in_array(strtoupper($filter['direction']), [Criteria::ASC, Criteria::DESC], true)) {
+        if (isset($filter['direction']) && in_array(
+                strtoupper($filter['direction']),
+                [Criteria::ASC, Criteria::DESC],
+                true
+            )) {
             $direction = strtoupper($filter['direction']);
         }
 

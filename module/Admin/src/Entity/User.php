@@ -136,6 +136,11 @@ class User extends AbstractEntity
             );
     }
 
+    public function isFunder(): bool
+    {
+        return null !== $this->funder;
+    }
+
     public function getRoles()
     {
         return $this->roles;

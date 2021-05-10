@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="cluster_funder")
- * @ORM\Entity(repositoryClass="Program\Repository\Funder")
+ * @ORM\Entity(repositoryClass="Cluster\Repository\FunderRepository")
  */
 class Funder extends AbstractEntity
 {
@@ -37,6 +37,11 @@ class Funder extends AbstractEntity
      * @ORM\JoinColumn(nullable=false)
      */
     private Country $country;
+    /**
+     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="funder", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Cluster $cluster;
 
     public function getId(): int
     {
@@ -70,4 +75,16 @@ class Funder extends AbstractEntity
         $this->country = $country;
         return $this;
     }
+
+    public function getCluster(): Cluster
+    {
+        return $this->cluster;
+    }
+
+    public function setCluster(Cluster $cluster): Funder
+    {
+        $this->cluster = $cluster;
+        return $this;
+    }
+
 }

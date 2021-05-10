@@ -19,6 +19,7 @@
     "laminas-api-tools/api-tools-documentation-swagger": "^1.4",
     "laminas-api-tools/api-tools-doctrine": "@stable",
     "laminas-api-tools/api-tools-admin": "^1.9",
+    "phpoffice/phpspreadsheet": "^1.17.1",
     "zfr/zfr-cors": "^2.0",
     "league/oauth2-client": "dev-master",
     "jield-webdev/laminas-assetmanager": "^1.1",

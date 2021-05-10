@@ -270,5 +270,4 @@ class Partner
     {
         return isset($this->$name);
     }
-
 }

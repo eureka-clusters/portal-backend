@@ -14,7 +14,7 @@ namespace Cluster\Service;
 
 use Application\Service\AbstractService;
 use Cluster\Entity\Statistics\Partner;
-use Program\Entity\Funder;
+use Cluster\Entity\Funder;
 
 /**
  * Class ClusterService

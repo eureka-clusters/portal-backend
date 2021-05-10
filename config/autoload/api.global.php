@@ -25,7 +25,7 @@ return [
         'storage'                        => 'paportal_pdo_adapter',
         'always_issue_new_refresh_token' => true,
         'allow_implicit'                 => true,
-        'access_lifetime'                => 31536000,
+        'access_lifetime'                => 3600,
         'enforce_state'                  => true,
     ],
     'api-tools-mvc-auth' => [

@@ -17,7 +17,6 @@ use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
  * @ORM\Table(name="cluster_country")
  * @ORM\Entity
@@ -74,12 +73,12 @@ class Country extends AbstractEntity
         return $this;
     }
 
-    public function getCd(): ?string
+    public function getCd(): string
     {
         return $this->cd;
     }
 
-    public function setCd(?string $cd): Country
+    public function setCd(string $cd): Country
     {
         $this->cd = $cd;
         return $this;

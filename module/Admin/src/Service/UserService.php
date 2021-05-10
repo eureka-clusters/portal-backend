@@ -12,10 +12,8 @@ declare(strict_types=1);
 
 namespace Admin\Service;
 
+use Admin\Entity\User;
 use Application\Service\AbstractService;
-use Doctrine\ORM\EntityManager;
-use Laminas\Mvc\Controller\PluginManager;
-use Laminas\Permissions\Acl\Resource\GenericResource;
 
 /**
  * Class UserService
@@ -24,5 +22,8 @@ use Laminas\Permissions\Acl\Resource\GenericResource;
  */
 class UserService extends AbstractService
 {
-
+    public function findUserById(int $id): ?User
+    {
+        return $this->entityManager->find(User::class, $id);
+    }
 }

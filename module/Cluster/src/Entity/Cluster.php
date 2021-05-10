@@ -14,9 +14,9 @@ namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
 use DateTime;
+use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Laminas\Form\Annotation;
 
 /**
  * @ORM\Table(name="cluster_cluster")
@@ -45,8 +45,20 @@ class Cluster extends AbstractEntity
     private DateTime $dateCreated;
     /**
      * @ORM\Column(name="date_updated", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
      */
     private ?DateTime $dateUpdated;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="cluster")
+     *
+     * @var Funder[]|Collections\ArrayCollection
+     */
+    private $funder;
+
+    public function __construct()
+    {
+        $this->funder = new Collections\ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -105,6 +117,17 @@ class Cluster extends AbstractEntity
     public function setDateUpdated(?DateTime $dateUpdated): Cluster
     {
         $this->dateUpdated = $dateUpdated;
+        return $this;
+    }
+
+    public function getFunder()
+    {
+        return $this->funder;
+    }
+
+    public function setFunder($funder): Cluster
+    {
+        $this->funder = $funder;
         return $this;
     }
 }

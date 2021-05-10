@@ -13,8 +13,6 @@ use Api\V1\Rest;
 use Cluster\Entity\Statistics\Partner;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Project\Provider\ProjectProvider;
-use Project\Rest\Collection\ProjectCollection;
 
 return [
     'router'                       => [

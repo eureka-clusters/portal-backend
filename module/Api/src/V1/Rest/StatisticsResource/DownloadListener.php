@@ -10,9 +10,9 @@
 
 namespace Api\V1\Rest\StatisticsResource;
 
+use Admin\Service\UserService;
 use Cluster\Entity\Statistics\Partner;
 use Cluster\Service\StatisticsService;
-use Contact\Service\ContactService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -24,22 +24,25 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  */
 final class DownloadListener extends AbstractResourceListener
 {
-    private StatisticsService $statisticsService;
-    private ContactService $contactService;
+    private StatisticsService   $statisticsService;
+    private UserService         $userService;
     private TranslatorInterface $translator;
 
-    public function __construct(StatisticsService $statisticsService, ContactService $contactService, TranslatorInterface $translator)
-    {
+    public function __construct(
+        StatisticsService $statisticsService,
+        UserService $userService,
+        TranslatorInterface $translator
+    ) {
         $this->statisticsService = $statisticsService;
-        $this->contactService    = $contactService;
+        $this->userService       = $userService;
         $this->translator        = $translator;
     }
 
     public function fetch($id = null)
     {
-        $contact = $this->contactService->findContactById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $contact || !$contact->isFunder()) {
+        if (null === $user || !$user->isFunder()) {
             return [];
         }
         $output        = (int)$id;
@@ -49,14 +52,13 @@ final class DownloadListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        $results = $this->statisticsService->getResults($contact->getFunder(), $arrayFilter, $output);
+        $results = $this->statisticsService->getResults($user->getFunder(), $arrayFilter, $output);
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');
         $partnerSheet = $spreadSheet->getActiveSheet();
 
         if ($output === Partner::RESULT_PROJECT) {
-
             $partnerSheet->setTitle($this->translator->translate('txt-projects'));
 
             $row    = 1;

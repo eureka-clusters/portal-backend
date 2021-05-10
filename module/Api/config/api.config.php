@@ -14,7 +14,7 @@ use Api\V1\Rest;
 use BjyAuthorize\Guard\Route;
 use Cluster\Service\ClusterService;
 use Cluster\Service\StatisticsService;
-use Contact\Service\ContactService;
+use Contact\Service\UserService;
 use Deeplink\View;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;

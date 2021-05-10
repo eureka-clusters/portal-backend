@@ -11,9 +11,6 @@
 namespace Cluster;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use General\Navigation\Factory\NavigationInvokableFactory;
-use General\View\Factory\ImageHelperFactory;
-use General\View\Factory\LinkHelperFactory;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 

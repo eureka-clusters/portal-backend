@@ -11,7 +11,7 @@
 namespace Api\V1\Rest\StatisticsResource;
 
 use Cluster\Service\StatisticsService;
-use Contact\Service\ContactService;
+use Admin\Service\UserService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 /**
@@ -21,17 +21,17 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 final class ResultsListener extends AbstractResourceListener
 {
     private StatisticsService $statisticsService;
-    private ContactService $contactService;
+    private UserService $userService;
 
-    public function __construct(StatisticsService $statisticsService, ContactService $contactService)
+    public function __construct(StatisticsService $statisticsService, UserService $userService)
     {
         $this->statisticsService = $statisticsService;
-        $this->contactService    = $contactService;
+        $this->userService    = $userService;
     }
 
     public function fetchAll($data = [])
     {
-        $contact = $this->contactService->findContactById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $contact = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
         if (null === $contact || !$contact->isFunder()) {
             return [];

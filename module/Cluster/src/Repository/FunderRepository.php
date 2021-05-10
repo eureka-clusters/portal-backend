@@ -10,25 +10,25 @@
 
 declare(strict_types=1);
 
-namespace Program\Repository;
+namespace Cluster\Repository;
 
+use Cluster\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Program\Entity;
 
 /**
  * Class Funder
- * @package Program\Repository
+ * @package Cluster\Repository
  */
-class Funder extends EntityRepository
+class FunderRepository extends EntityRepository
 {
     public function findFiltered(array $filter): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('funder_entity_funder');
-        $queryBuilder->from(Entity\Funder::class, 'funder_entity_funder');
-        $queryBuilder->join('funder_entity_funder.contact', 'contact_entity_contact');
-        $queryBuilder->join('funder_entity_funder.country', 'general_entity_country');
+        $queryBuilder->select('cluster_entity_funder');
+        $queryBuilder->from(Entity\Funder::class, 'cluster_entity_funder');
+        $queryBuilder->join('cluster_entity_funder.user', 'admin_entity_user');
+        $queryBuilder->join('cluster_entity_funder.country', 'cluster_entity_country');
 
         $direction = 'DESC';
         if (
@@ -43,14 +43,14 @@ class Funder extends EntityRepository
         }
 
         switch ($filter['order']) {
-            case 'contact':
-                $queryBuilder->addOrderBy('contact_entity_contact.lastName', $direction);
+            case 'user':
+                $queryBuilder->addOrderBy('admin_entity_user.lastName', $direction);
                 break;
             case 'country':
-                $queryBuilder->addOrderBy('general_entity_country.country', $direction);
+                $queryBuilder->addOrderBy('cluster_entity_country.country', $direction);
                 break;
             default:
-                $queryBuilder->addOrderBy('funder_entity_funder.country', 'ASC');
+                $queryBuilder->addOrderBy('cluster_entity_funder.country', 'ASC');
         }
 
         return $queryBuilder;
@@ -58,13 +58,13 @@ class Funder extends EntityRepository
 
     public function applyFilter(QueryBuilder $queryBuilder, array $filter): QueryBuilder
     {
-        if (! empty($filter['search'])) {
+        if (!empty($filter['search'])) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->like('contact_entity_contact.firstName', ':like'),
-                    $queryBuilder->expr()->like('contact_entity_contact.lastName', ':like'),
-                    $queryBuilder->expr()->like('contact_entity_contact.email', ':like'),
-                    $queryBuilder->expr()->like('general_entity_country.country', ':like')
+                    $queryBuilder->expr()->like('admin_entity_user.firstName', ':like'),
+                    $queryBuilder->expr()->like('admin_entity_user.lastName', ':like'),
+                    $queryBuilder->expr()->like('admin_entity_user.email', ':like'),
+                    $queryBuilder->expr()->like('cluster_entity_country.country', ':like')
                 )
             );
 
@@ -72,10 +72,10 @@ class Funder extends EntityRepository
         }
 
 
-        if (! empty($filter['showOnWebsite'])) {
+        if (!empty($filter['showOnWebsite'])) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in(
-                    'funder_entity_funder.showOnWebsite',
+                    'cluster_entity_funder.showOnWebsite',
                     $filter['showOnWebsite']
                 )
             );
