@@ -14,8 +14,6 @@ namespace Cluster\Service;
 
 use Application\Service\AbstractService;
 use Cluster\Entity;
-use Program\Entity\Call\Call;
-use Project\Entity\Project;
 
 /**
  * Class ClusterService

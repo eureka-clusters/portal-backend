@@ -18,8 +18,7 @@ use Laminas\I18n\Translator\TranslatorInterface;
 
 /**
  * Class AbstractService
- *
- * @package Program\Service
+ * @package Application\Service
  */
 abstract class AbstractService
 {
