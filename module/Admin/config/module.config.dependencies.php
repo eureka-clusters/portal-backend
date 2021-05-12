@@ -12,36 +12,29 @@ declare(strict_types=1);
 
 namespace Admin;
 
-use Admin\Form\View\Helper\SelectionFormElement;
-use Admin\Form\View\Helper\UserFormElement;
-use Admin\OAuth2\TokenProvider;
-use Admin\Service\AdminService;
-use Admin\Service\QueueService;
-use Admin\Service\SelectionService;
-use Admin\Service\SelectionUserService;
-use Admin\Service\UserService;
-use Application\Service\FormService;
-use Deeplink\Service\DeeplinkService;
-use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
-use Laminas\Authentication\AuthenticationService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use League\OAuth2\Client\Provider\GenericProvider;
-use Mailing\Service\EmailService;
 
 return [
     ConfigAbstractFactory::class => [
-        Service\UserService::class                 => [
+        Service\UserService::class  => [
             EntityManager::class,
-            AdminService::class,
+            TranslatorInterface::class,
+            Service\AdminService::class,
             'ControllerPluginManager'
         ],
-        Service\QueueService::class                => [
-            EntityManager::class
+        Service\QueueService::class => [
+            EntityManager::class,
+            TranslatorInterface::class
         ],
-        Service\ApiService::class                  => [
-            EntityManager::class
+        Service\AdminService::class => [
+            EntityManager::class,
+            TranslatorInterface::class
+        ],
+        Service\ApiService::class   => [
+            EntityManager::class,
+            TranslatorInterface::class
         ],
 
     ]

@@ -22,11 +22,24 @@ return [
         ],
     ],
     'api-tools-oauth2'   => [
-        'storage'                        => 'paportal_pdo_adapter',
-        'always_issue_new_refresh_token' => true,
+        'storage'                        => \Application\Authentication\OAuth2\Adapter\PdoAdapter::class,
         'allow_implicit'                 => true,
         'access_lifetime'                => 3600,
         'enforce_state'                  => true,
+        'options' => [
+            'use_jwt_access_tokens'             => false,
+            'store_encrypted_token_string'      => true,
+            'use_openid_connect'                => false,
+            'id_lifetime'                       => 3600,
+            'www_realm'                         => 'Service',
+            'token_param_name'                  => 'access_token',
+            'token_bearer_header_name'          => 'Bearer',
+            'require_exact_redirect_uri'        => true,
+            'allow_credentials_in_request_body' => true,
+            'allow_public_clients'              => true,
+            'always_issue_new_refresh_token'    => false,
+            'unset_refresh_token_after_use'     => true,
+        ],
     ],
     'api-tools-mvc-auth' => [
         'authentication' => [
@@ -37,7 +50,7 @@ return [
                 'oauth2_pdo' => [
                     'adapter' => OAuth2Adapter::class,
                     'storage' => [
-                        'storage' => 'paportal_pdo_adapter'
+                        'storage' => \Application\Authentication\OAuth2\Adapter\PdoAdapter::class
                     ]
                 ],
             ],

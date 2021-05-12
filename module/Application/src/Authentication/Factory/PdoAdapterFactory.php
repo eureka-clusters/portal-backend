@@ -14,6 +14,10 @@ use Application\Authentication\OAuth2\Adapter\PdoAdapter;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 
+/**
+ * Class PdoAdapterFactory
+ * @package Application\Authentication\Factory
+ */
 final class PdoAdapterFactory
 {
     public function __invoke(ContainerInterface $container): PdoAdapter

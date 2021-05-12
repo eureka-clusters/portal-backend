@@ -12,16 +12,30 @@ namespace Application;
 
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
+use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\I18n\Translator\TranslatorServiceFactory;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
+    'controllers'     => [
+        'factories'  => [
+            Controller\OAuth2Controller::class => ConfigAbstractFactory::class,
+        ],
+        'invokables' => [
+            Controller\IndexController::class
+        ]
+    ],
     'service_manager' => [
         'aliases'   => [
             'doctrine.cache.application_cache' => RedisCache::class,
-            'paportal_pdo_adapter'             => Authentication\OAuth2\Adapter\PdoAdapter::class,
         ],
         'factories' => [
             RedisCache::class                               => Factory\RedisFactory::class,
+            TranslatorInterface::class                      => TranslatorServiceFactory::class,
+            AuthenticationService::class                    => AuthenticationServiceFactory::class,
             Authentication\OAuth2\Adapter\PdoAdapter::class => Authentication\Factory\PdoAdapterFactory::class,
         ],
     ],
