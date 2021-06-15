@@ -21,7 +21,6 @@ use Cluster\Entity\Funder;
 use DateTime;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
-use Laminas\Form\Annotation;
 
 /**
  * @ORM\Table(name="admin_user")
@@ -36,7 +35,7 @@ class User extends AbstractEntity
      */
     private int $id;
     /**
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      */
     private string $password;
     /**
@@ -136,11 +135,6 @@ class User extends AbstractEntity
             );
     }
 
-    public function isFunder(): bool
-    {
-        return null !== $this->funder;
-    }
-
     public function getRoles()
     {
         return $this->roles;
@@ -150,6 +144,11 @@ class User extends AbstractEntity
     {
         $this->roles = $roles;
         return $this;
+    }
+
+    public function isFunder(): bool
+    {
+        return null !== $this->funder;
     }
 
     public function getId(): int

@@ -9,6 +9,7 @@
 
 namespace Api;
 
+use Admin\Service\UserService;
 use Api\V1\Rest;
 use Cluster\Service\ClusterService;
 use Cluster\Service\StatisticsService;
@@ -67,11 +68,11 @@ $config = [
         ],
         Rest\StatisticsResource\FacetsListener::class   => [
             StatisticsService::class,
-            ClusterService::class
+            UserService::class
         ],
         Rest\StatisticsResource\ResultsListener::class  => [
             StatisticsService::class,
-            ClusterService::class
+            UserService::class
         ],
         Rest\StatisticsResource\DownloadListener::class => [
             StatisticsService::class,

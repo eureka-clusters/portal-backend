@@ -41,7 +41,7 @@ class Clients extends AbstractEntity
      */
     private string $redirectUri;
     /**
-     * @ORM\Column(name="grant_types", length=2000, type="string", )
+     * @ORM\Column(name="grant_types", length=2000, type="string")
      */
     private ?string $grantTypes;
     /**

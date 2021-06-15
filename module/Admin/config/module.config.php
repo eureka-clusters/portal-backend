@@ -9,10 +9,9 @@
 
 namespace Admin;
 
-use Application\Factory\InputFilterFactory;
-use Application\Factory\InvokableFactory;
-use Application\View\Factory\LinkHelperFactory;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Gedmo\Sluggable\SluggableListener;
+use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -49,6 +48,13 @@ $config = [
             'orm_default'             => [
                 'drivers' => [
                     'Admin\Entity' => 'admin_annotation_driver',
+                ],
+            ],
+        ],
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    \Gedmo\Timestampable\TimestampableListener::class,
                 ],
             ],
         ],

@@ -25,8 +25,6 @@ return [
 
         'Api',
 
-
-
         'DoctrineModule',
         'DoctrineORMModule',
         'Admin',
@@ -41,7 +39,7 @@ return [
         ],
         'config_cache_enabled'     => !(!defined('PORTAL_ENVIRONMENT')
             || 'development' === PORTAL_ENVIRONMENT),
-        'config_cache_key'         => 'moonraker',
+        'config_cache_key'         => 'ecp-backend',
         'module_map_cache_enabled' => !(!defined('PORTAL_ENVIRONMENT')
             || 'development' === PORTAL_ENVIRONMENT),
         'cache_dir'                => 'data/cache',
