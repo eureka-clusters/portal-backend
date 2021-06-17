@@ -142,36 +142,36 @@ class Cluster extends AbstractEntity
         return $this->clusterFunders;
     }
 
-    public function setClusterFunders($funders)
+    public function setClusterFunders($funders): Cluster
     {
         $this->clusterFunders = $funders;
         return $this;
     }
 
-    /**
-     * @param Funder $funder
-     */
-    public function addFunder(Funder $funder)
-    {
-        if ($this->clusterFunders->contains($funder)) {
-            return;
-        }
-
-        $this->clusterFunders->add($funder);
-        $funder->addCluster($this);
-    }
-
-    /**
-     * @param Funder $funder
-     */
-    public function removeFunder(Funder $funder)
-    {
-        if (!$this->clusterFunders->contains($funder)) {
-            return;
-        }
-
-        $this->clusterFunders->removeElement($funder);
-        $funder->removeCluster($this);
-    }
+//    /**
+//     * @param Funder $funder
+//     */
+//    public function addFunder(Funder $funder)
+//    {
+//        if ($this->clusterFunders->contains($funder)) {
+//            return;
+//        }
+//
+//        $this->clusterFunders->add($funder);
+//        $funder->addCluster($this);
+//    }
+//
+//    /**
+//     * @param Funder $funder
+//     */
+//    public function removeFunder(Funder $funder)
+//    {
+//        if (!$this->clusterFunders->contains($funder)) {
+//            return;
+//        }
+//
+//        $this->clusterFunders->removeElement($funder);
+//        $funder->removeCluster($this);
+//    }
 
 }

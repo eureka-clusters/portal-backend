@@ -27,17 +27,19 @@ final class GenericUser
     private bool   $isFunder;
     private array  $funder;
     private array  $address;
+    private string $funderCountry;
 
     public function __construct(\stdClass $result)
     {
-        $this->id        = (string)$result->id;
-        $this->firstName = $result->first_name;
-        $this->cluster   = $result->cluster;
-        $this->lastName  = $result->last_name;
-        $this->isFunder  = $result->is_funder;
-        $this->funder    = (array)($result->funder ?? []);
-        $this->address   = (array)($result->address ?? []);
-        $this->email     = $result->email;
+        $this->id            = (string)$result->id;
+        $this->firstName     = $result->first_name;
+        $this->cluster       = $result->cluster;
+        $this->lastName      = $result->last_name;
+        $this->isFunder      = $result->is_funder;
+        $this->funder        = (array)($result->funder ?? []);
+        $this->address       = (array)($result->address ?? []);
+        $this->email         = $result->email;
+        $this->funderCountry = $result->funder_country;
     }
 
     public static function fromJson(string $jsonString): GenericUser
@@ -53,12 +55,6 @@ final class GenericUser
     public function getCluster(): string
     {
         return $this->cluster;
-    }
-
-    public function setCluster($cluster): GenericUser
-    {   
-        $this->cluster = $cluster;
-        return $this;
     }
 
     public function getFirstName(): string
@@ -91,4 +87,8 @@ final class GenericUser
         return $this->address;
     }
 
+    public function getFunderCountry(): string
+    {
+        return $this->funderCountry;
+    }
 }

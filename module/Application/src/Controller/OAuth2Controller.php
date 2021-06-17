@@ -12,16 +12,15 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Admin\Service\UserService;
+use Api\Service\OAuthService;
 use Application\ValueObject\OAuth2\GenericUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
-use Api\Service\OAuthService;
 
 
 /**
@@ -30,16 +29,15 @@ use Api\Service\OAuthService;
  */
 final class OAuth2Controller extends AbstractActionController
 {
-    private UserService           $userService;
-    private array                 $config;
-    private AuthenticationService $authenticationService;
+    private UserService  $userService;
+    private array        $config;
+    private OAuthService $oAuthService;
 
-    public function __construct(UserService $userService, OAuthService $oauthService, array $config, AuthenticationService $authenticationService)
+    public function __construct(UserService $userService, OAuthService $oAuthService, array $config)
     {
-        $this->userService           = $userService;
-        $this->oauthService          = $oauthService;
-        $this->config                = $config;
-        $this->authenticationService = $authenticationService;
+        $this->userService  = $userService;
+        $this->oAuthService = $oAuthService;
+        $this->config       = $config;
     }
 
     public function loginAction(): Response
@@ -88,7 +86,7 @@ final class OAuth2Controller extends AbstractActionController
             var_dump($error);
             die('error on oauth Authorize');
         }
-   
+
         // if ($error === 'access_denied') {
         //     return $this->redirect()->toRoute('home');
         // }
@@ -104,7 +102,6 @@ final class OAuth2Controller extends AbstractActionController
 
         if (null !== $authCode) {
             try {
-
                 //And grab the settings
                 $oAuthClient = new GenericProvider($session->settings);
 
@@ -114,7 +111,7 @@ final class OAuth2Controller extends AbstractActionController
                         'code' => $authCode
                     ]
                 );
-                
+
                 // echo 'accessToken <br>';
                 // var_dump($accessToken);
                 // var_dump($session->profileUrl);
@@ -155,9 +152,7 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 $genericUser = GenericUser::fromJson($request->getBody()->getContents());
-                
-                // only test as my current api/me returns multiple clusters instead of the cluster "application" name tbd. 
-                $genericUser->setCluster('celtic');
+
                 // echo 'genericUser <br>';
                 // var_dump($genericUser);
 
@@ -178,7 +173,7 @@ final class OAuth2Controller extends AbstractActionController
                 // Invalid response received from Authorization Server. Expected JSON.
                 // die();
 
-                // test to get a new token from the cluster application via refreshToken => works 
+                // test to get a new token from the cluster application via refreshToken => works
                 // so this could be used to refresh the login after the token has expired.
                 // $newAccessToken = $oAuthClient->getAccessToken('refresh_token', [
                 //     'refresh_token' => $accessToken->getRefreshToken()
@@ -188,19 +183,15 @@ final class OAuth2Controller extends AbstractActionController
 
 
                 //create a bearer token for the user + cluster + client ="reactclient'
-                $reactToken = $this->oauthService->createTokenForUser($user, 'reactclient');
+                $reactToken = $this->oAuthService->createTokenForUser($user, 'reactclient');
                 echo 'reactToken <br>';
                 var_dump($reactToken);
 
-                //create the db entry manually
-                $reactTokenManual = $this->oauthService->createTokenForUserManual($user, 'reactclient');
-                echo 'reactTokenManual <br>';
-                var_dump($reactTokenManual);
-
+                die();
 
                 // how is the token returned to the react client?
                 // should the parameters added to the redirectUri?
-                
+
                 //Redirect to frontend
                 return $this->redirect()->toRoute('home');
             } catch (IdentityProviderException $e) {

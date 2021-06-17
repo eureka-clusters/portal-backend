@@ -10,12 +10,7 @@
 namespace Api;
 
 use Api\V1\Rest;
-use Cluster\Service\ClusterService;
-use Admin\Service\UserService;
-use Cluster\Service\StatisticsService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 $config = [
@@ -61,27 +56,10 @@ $config = [
             ],
         ],
     ],
-    ConfigAbstractFactory::class => [
-        Rest\UpdateResource\ProjectListener::class      => [
-            StatisticsService::class,
-            EntityManager::class
-        ],
-        Rest\StatisticsResource\FacetsListener::class   => [
-            StatisticsService::class,
-            UserService::class
-        ],
-        Rest\StatisticsResource\ResultsListener::class  => [
-            StatisticsService::class,
-            UserService::class
-        ],
-        Rest\StatisticsResource\DownloadListener::class => [
-            StatisticsService::class,
-            UserService::class,
-            TranslatorInterface::class
-        ],
-    ],
     'service_manager'            => [
         'factories' => [
+            Service\OAuthService::class                     => ConfigAbstractFactory::class,
+            Options\ModuleOptions::class                    => Factory\ModuleOptionsFactory::class,
             Rest\UpdateResource\ProjectListener::class      => ConfigAbstractFactory::class,
             Rest\StatisticsResource\FacetsListener::class   => ConfigAbstractFactory::class,
             Rest\StatisticsResource\ResultsListener::class  => ConfigAbstractFactory::class,

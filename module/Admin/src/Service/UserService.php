@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace Admin\Service;
 
 use Admin\Entity\User;
-use Cluster\Entity\Funder;
-use Cluster\Entity\Cluster;
-use Api\Entity\OAuth\AccessToken;
 use Application\Service\AbstractService;
 use Application\ValueObject\OAuth2\GenericUser;
+use Cluster\Entity\Cluster;
+use Cluster\Entity\Country;
+use Cluster\Entity\Funder;
 
 /**
  * Class UserService
@@ -40,6 +40,12 @@ class UserService extends AbstractService
             ]
         );
 
+        $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+            [
+                'identifier' => $genericUser->getCluster(),
+            ]
+        );
+
         if (null === $user) {
             $user = new User();
             $user->setEmail($genericUser->getEmail());
@@ -56,34 +62,38 @@ class UserService extends AbstractService
 
             $funder = $user->getFunder();
 
+            $country = $this->entityManager->getRepository(Country::class)->findOneBy(
+                [
+                    'iso3' => $genericUser->getFunderCountry(),
+                ]
+            );
+
             if (null === $funder) {
                 $funder = new Funder();
                 $funder->setUser($user);
                 $funder->setCountry($country);
             }
+            $this->save($funder);
 
-            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
-                [
-                    'identifier' => $genericUser->getCluster()
-                ]
-            );
-
-            // @Johan does Laminas has special Exceptions like UserException or something else?
-            if (null === $cluster) {
-                throw new \Exception("Error Cluster cannot be found", 1);
-            }
-
-            // @Johan
-            // no entry in cluster_funder_cluster table?
-            // my guess ist because cluster isn't an ArrayCollection?
-            //$funder->setClusters($cluster);
-
-            // with addCluster it works? Why ?
-            $funder->addCluster($cluster);
-
-            $this->entityManager->persist($funder);   
-
-            $this->entityManager->flush();
+            //Create an entry in the clusterFinder (DOES NOT WORK YET)
+//            if (!$funder->getClusters()->contains($cluster))
+//            {
+//                $funder->getClusters()->add($cluster);
+//            }
+//
+//            $this->save($funder);
+//
+//            // @Johan
+//            // no entry in cluster_funder_cluster table?
+//            // my guess ist because cluster isn't an ArrayCollection?
+//            //$funder->setClusters($cluster);
+//
+//            // with addCluster it works? Why ?
+//            $funder->addCluster($cluster);
+//
+//            $this->entityManager->persist($funder);
+//
+//            $this->entityManager->flush();
         }
 
         return $user;
@@ -95,6 +105,4 @@ class UserService extends AbstractService
         return $this->entityManager->find(User::class, $id);
     }
 
-
-    
 }

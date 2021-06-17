@@ -17,11 +17,6 @@ use Laminas\Router\Http\Segment;
 use Laminas\Stdlib;
 
 $config = [
-    'service_manager'    => [
-        'factories' => [
-            Service\OAuthService::class            => ConfigAbstractFactory::class,
-        ],
-    ],
     'router'                       => [
         'routes' => [
             Rest\UpdateResource\ProjectListener::class     => [

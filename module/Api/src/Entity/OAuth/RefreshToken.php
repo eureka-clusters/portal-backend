@@ -34,9 +34,10 @@ class RefreshToken extends AbstractEntity
      */
     private string $refreshToken;
     /**
-     * @ORM\Column(name="client_id", type="string")
+     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
      */
-    private string $clientId;
+    private Clients $oAuthClient;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
@@ -73,14 +74,14 @@ class RefreshToken extends AbstractEntity
         return $this;
     }
 
-    public function getClientId(): string
+    public function getOAuthClient(): ?Clients
     {
-        return $this->clientId;
+        return $this->oAuthClient;
     }
 
-    public function setClientId(string $clientId): RefreshToken
+    public function setOAuthClient(?Clients $oAuthClient): RefreshToken
     {
-        $this->clientId = $clientId;
+        $this->oAuthClient = $oAuthClient;
         return $this;
     }
 

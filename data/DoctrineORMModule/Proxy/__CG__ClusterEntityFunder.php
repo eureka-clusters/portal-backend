@@ -271,28 +271,6 @@ class Funder extends \Cluster\Entity\Funder implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addCluster(\Cluster\Entity\Cluster $cluster)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCluster', [$cluster]);
-
-        return parent::addCluster($cluster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeCluster(\Cluster\Entity\Cluster $cluster)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeCluster', [$cluster]);
-
-        return parent::removeCluster($cluster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function __toString(): string
     {
 

@@ -14,6 +14,7 @@ namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,15 +24,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Clients extends AbstractEntity
 {
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(name="client_id", length=255, type="string",unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private ?int $id = null;
-    /**
-     * @ORM\Column(name="client_id", length=255, type="string",unique=true)
-     */
     private string $clientId;
+    /**
+     * @ORM\Column()
+     */
+    private string $name;
+    /**
+     * @ORM\Column(name="text")
+     */
+    private string $description;
     /**
      * @ORM\Column(name="client_secret", length=255, type="string")
      */
@@ -39,7 +44,7 @@ class Clients extends AbstractEntity
     /**
      * @ORM\Column(name="redirect_uri", length=2000, type="string", nullable=true)
      */
-    private ?string $redirectUri;
+    private ?string $redirectUri = null;
     /**
      * @ORM\Column(name="grant_types", length=2000, type="string", nullable=true)
      */
@@ -52,17 +57,25 @@ class Clients extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthClients")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private ?User $user;
-  
-    public function getId(): ?int
+    private ?User $user = null;
+    /**
+     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", cascade={"persist"}, mappedBy="oAuthClients")
+     */
+    private $oAuthAccessTokens;
+    /**
+     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", cascade={"persist"}, mappedBy="oAuthClients")
+     */
+    private $oAuthRefreshTokens;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->oAuthAccessTokens  = new ArrayCollection();
+        $this->oAuthRefreshTokens = new ArrayCollection();
     }
 
-    public function setId(?int $id): Clients
+    public function getId(): string
     {
-        $this->id = $id;
-        return $this;
+        return $this->clientId;
     }
 
     public function getClientId(): string
@@ -128,6 +141,50 @@ class Clients extends AbstractEntity
     public function setUser(User $user): Clients
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getOAuthAccessTokens(): ?ArrayCollection
+    {
+        return $this->oAuthAccessTokens;
+    }
+
+    public function setOAuthAccessTokens(?ArrayCollection $oAuthAccessTokens): Clients
+    {
+        $this->oAuthAccessTokens = $oAuthAccessTokens;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): Clients
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): Clients
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getOAuthRefreshTokens(): ?ArrayCollection
+    {
+        return $this->oAuthRefreshTokens;
+    }
+
+    public function setOAuthRefreshTokens(?ArrayCollection $oAuthRefreshTokens): Clients
+    {
+        $this->oAuthRefreshTokens = $oAuthRefreshTokens;
         return $this;
     }
 }

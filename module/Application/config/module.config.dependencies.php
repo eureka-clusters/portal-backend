@@ -13,18 +13,16 @@ declare(strict_types=1);
 namespace Application;
 
 use Admin\Service\UserService;
-use Doctrine\ORM\EntityManager;
-use Laminas\Authentication\AuthenticationService;
-use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Api\Service\OAuthService;
+use Doctrine\ORM\EntityManager;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
         Controller\OAuth2Controller::class              => [
             UserService::class,
             OAuthService::class,
-            'Config',
-            AuthenticationService::class
+            'Config'
         ],
         Authentication\OAuth2\Adapter\PdoAdapter::class => [
             EntityManager::class

@@ -25,7 +25,7 @@ use function sprintf;
  * Class Clients
  * @package Api\Repository\OAuth
  */
-final class Clients extends EntityRepository implements ClientCredentialsInterface
+final class Clients extends EntityRepository //implements ClientCredentialsInterface
 {
     public function findFiltered(array $filter): QueryBuilder
     {
@@ -72,40 +72,40 @@ final class Clients extends EntityRepository implements ClientCredentialsInterfa
         return $qb;
     }
 
-    // functions from bshaffer cookbook https://bshaffer.github.io/oauth2-server-php-docs/cookbook/doctrine2/
-    public function getClientDetails($clientIdentifier)
-    {
-        $client = $this->findOneBy(['client_identifier' => $clientIdentifier]);
-        if ($client) {
-            $client = $client->toArray();
-        }
-        return $client;
-    }
-
-    // function for ClientCredentialsInterface
-    public function checkClientCredentials($clientIdentifier, $clientSecret = NULL)
-    {
-        $client = $this->findOneBy(['client_identifier' => $clientIdentifier]);
-        if ($client) {
-            return $client->verifyClientSecret($clientSecret);
-        }
-        return false;
-    }
-
-    public function checkRestrictedGrantType($clientId, $grantType)
-    {
-        // no support for different grant types per client atm.
-        return true;
-    }
-
-    // function for ClientCredentialsInterface
-    public function isPublicClient($clientId)
-    {
-        return false;
-    }
-
-    public function getClientScope($clientId)
-    {
-        return null;
-    }
+//    // functions from bshaffer cookbook https://bshaffer.github.io/oauth2-server-php-docs/cookbook/doctrine2/
+//    public function getClientDetails($clientIdentifier)
+//    {
+//        $client = $this->findOneBy(['client_identifier' => $clientIdentifier]);
+//        if ($client) {
+//            $client = $client->toArray();
+//        }
+//        return $client;
+//    }
+//
+//    // function for ClientCredentialsInterface
+//    public function checkClientCredentials($clientIdentifier, $clientSecret = NULL)
+//    {
+//        $client = $this->findOneBy(['client_identifier' => $clientIdentifier]);
+//        if ($client) {
+//            return $client->verifyClientSecret($clientSecret);
+//        }
+//        return false;
+//    }
+//
+//    public function checkRestrictedGrantType($clientId, $grantType)
+//    {
+//        // no support for different grant types per client atm.
+//        return true;
+//    }
+//
+//    // function for ClientCredentialsInterface
+//    public function isPublicClient($clientId)
+//    {
+//        return false;
+//    }
+//
+//    public function getClientScope($clientId)
+//    {
+//        return null;
+//    }
 }

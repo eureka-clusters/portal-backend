@@ -33,7 +33,7 @@ final class Scopes extends EntityRepository
         $qb->from(Entity\OAuth\Scopes::class, 'api_entity_oauth_scopes');
 
         if (null !== $filter) {
-            $qb = $this->applyRoleFilter($qb, $filter);
+            $qb = $this->applyScopeFilter($qb, $filter);
         }
 
         $direction = Criteria::ASC;
@@ -65,7 +65,7 @@ final class Scopes extends EntityRepository
         return $qb;
     }
 
-    public function applyRoleFilter(QueryBuilder $qb, array $filter): QueryBuilder
+    public function applyScopeFilter(QueryBuilder $qb, array $filter): QueryBuilder
     {
         if (! empty($filter['query'])) {
             $qb->andWhere($qb->expr()->like('api_entity_oauth_scopes.scope', ':like'));

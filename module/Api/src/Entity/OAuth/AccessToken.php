@@ -38,19 +38,11 @@ class AccessToken extends AbstractEntity
      * @ORM\Column(name="access_token", length=255, type="string",unique=true)
      */
     private string $accessToken;
-
-
     /**
-     * @ORM\Column(name="client_id", length=255, type="string", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAccessTokens")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
      */
-    private string $clientId;
-
-    /**
-     * //ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAccessTokens")
-     * //ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
-     */
-    private Clients $client;
-
+    private Clients $oAuthClient;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAccessTokens")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
@@ -87,27 +79,14 @@ class AccessToken extends AbstractEntity
         return $this;
     }
 
-    public function getClient(): Clients
+    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
     {
-        return $this->client;
+        return $this->oAuthClient;
     }
 
-    public function setClient(Clients $client): AccessToken
+    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): AccessToken
     {
-        $this->client = $client;
-        $this->setClientId($client->getClientId());
-        return $this;
-    }
-
-
-    public function getClientId(): string
-    {
-        return $this->clientId;
-    }
-
-    public function setClientId(string $clientId): AccessToken
-    {
-        $this->clientId = $clientId;
+        $this->oAuthClient = $oAuthClient;
         return $this;
     }
 
@@ -142,14 +121,5 @@ class AccessToken extends AbstractEntity
     {
         $this->scope = $scope;
         return $this;
-    }
-
-    public static function fromArray($params)
-    {
-        $token = new self();
-        foreach ($params as $property => $value) {
-            $token->$property = $value;
-        }
-        return $token;
     }
 }

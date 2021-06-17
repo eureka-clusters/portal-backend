@@ -337,34 +337,12 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setClusterFunders($funders)
+    public function setClusterFunders($funders): \Cluster\Entity\Cluster
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClusterFunders', [$funders]);
 
         return parent::setClusterFunders($funders);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addFunder(\Cluster\Entity\Funder $funder)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFunder', [$funder]);
-
-        return parent::addFunder($funder);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeFunder(\Cluster\Entity\Funder $funder)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFunder', [$funder]);
-
-        return parent::removeFunder($funder);
     }
 
     /**

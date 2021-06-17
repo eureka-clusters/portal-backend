@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="cluster_funder")
@@ -52,9 +52,8 @@ class Funder extends AbstractEntity
 
     public function __construct()
     {
-        $this->clusters   = new ArrayCollection();
+        $this->clusters = new ArrayCollection();
     }
-
 
     public function getId(): int
     {
@@ -100,28 +99,25 @@ class Funder extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @param Cluster $cluster
-     */
-    public function addCluster(Cluster $cluster)
-    {
-        if ($this->clusters->contains($cluster)) {
-            return;
-        }
-        $this->clusters->add($cluster);
-        $cluster->addFunder($this);
-    }
+//    public function addCluster(Cluster $cluster)
+//    {
+//        if ($this->clusters->contains($cluster)) {
+//            return;
+//        }
+//        $this->clusters->add($cluster);
+//        $cluster->addFunder($this);
+//    }
 
-    /**
-     * @param Cluster $cluster
-     */
-    public function removeCluster(Cluster $cluster)
-    {
-        if (!$this->clusters->contains($cluster)) {
-            return;
-        }
-
-        $this->clusters->removeElement($cluster);
-        $cluster->removeCluster($this);
-    }
+//    /**
+//     * @param Cluster $cluster
+//     */
+//    public function removeCluster(Cluster $cluster)
+//    {
+//        if (!$this->clusters->contains($cluster)) {
+//            return;
+//        }
+//
+//        $this->clusters->removeElement($cluster);
+//        $cluster->removeCluster($this);
+//    }
 }
