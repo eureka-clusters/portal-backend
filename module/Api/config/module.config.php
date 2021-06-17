@@ -11,10 +11,17 @@ namespace Api;
 
 use Api\V1\Rest;
 use Cluster\Entity\Statistics\Partner;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
+use Laminas\Stdlib;
 
-return [
+$config = [
+    'service_manager'    => [
+        'factories' => [
+            Service\OAuthService::class            => ConfigAbstractFactory::class,
+        ],
+    ],
     'router'                       => [
         'routes' => [
             Rest\UpdateResource\ProjectListener::class     => [
@@ -170,3 +177,9 @@ return [
         ]
     ]
 ];
+
+
+foreach (Stdlib\Glob::glob(__DIR__ . '/module.config.{,*}.php', Stdlib\Glob::GLOB_BRACE) as $file) {
+    $config = Stdlib\ArrayUtils::merge($config, include $file);
+}
+return $config;

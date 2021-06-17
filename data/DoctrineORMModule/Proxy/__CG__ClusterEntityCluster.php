@@ -66,10 +66,10 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders'];
     }
 
     /**
@@ -238,6 +238,28 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function getIdentifier(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdentifier', []);
+
+        return parent::getIdentifier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdentifier(string $identifier): \Cluster\Entity\Cluster
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIdentifier', [$identifier]);
+
+        return parent::setIdentifier($identifier);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getDescription(): ?string
     {
 
@@ -299,6 +321,50 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateUpdated', [$dateUpdated]);
 
         return parent::setDateUpdated($dateUpdated);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getClusterFunders()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClusterFunders', []);
+
+        return parent::getClusterFunders();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setClusterFunders($funders)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClusterFunders', [$funders]);
+
+        return parent::setClusterFunders($funders);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addFunder(\Cluster\Entity\Funder $funder)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFunder', [$funder]);
+
+        return parent::addFunder($funder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeFunder(\Cluster\Entity\Funder $funder)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFunder', [$funder]);
+
+        return parent::removeFunder($funder);
     }
 
     /**

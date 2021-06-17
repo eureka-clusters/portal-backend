@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Admin\Service;
 
 use Admin\Entity\User;
+use Cluster\Entity\Funder;
+use Cluster\Entity\Cluster;
+use Api\Entity\OAuth\AccessToken;
 use Application\Service\AbstractService;
 use Application\ValueObject\OAuth2\GenericUser;
 
@@ -47,12 +50,51 @@ class UserService extends AbstractService
 
         $this->entityManager->persist($user);
 
+
         if ($genericUser->isFunder()) {
             //Handle the funder
-        }
 
-        $this->entityManager->flush();
+            $funder = $user->getFunder();
+
+            if (null === $funder) {
+                $funder = new Funder();
+                $funder->setUser($user);
+                $funder->setCountry($country);
+            }
+
+            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+                [
+                    'identifier' => $genericUser->getCluster()
+                ]
+            );
+
+            // @Johan does Laminas has special Exceptions like UserException or something else?
+            if (null === $cluster) {
+                throw new \Exception("Error Cluster cannot be found", 1);
+            }
+
+            // @Johan
+            // no entry in cluster_funder_cluster table?
+            // my guess ist because cluster isn't an ArrayCollection?
+            //$funder->setClusters($cluster);
+
+            // with addCluster it works? Why ?
+            $funder->addCluster($cluster);
+
+            $this->entityManager->persist($funder);   
+
+            $this->entityManager->flush();
+        }
 
         return $user;
     }
+
+    // function from the clusterService. 
+    public function findContactById(int $id): ?User
+    {
+        return $this->entityManager->find(User::class, $id);
+    }
+
+
+    
 }

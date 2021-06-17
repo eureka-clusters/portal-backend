@@ -2,3 +2,5 @@
 .http
 .php_cs.cache
 /vendor
+/data/cache
+/data/DoctrineORMModule

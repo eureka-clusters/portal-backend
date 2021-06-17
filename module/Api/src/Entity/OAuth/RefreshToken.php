@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="oauth_refresh_tokens")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Repository\OAuth\RefreshToken")
  */
 class RefreshToken extends AbstractEntity
 {

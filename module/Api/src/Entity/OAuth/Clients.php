@@ -37,11 +37,11 @@ class Clients extends AbstractEntity
      */
     private string $clientSecret;
     /**
-     * @ORM\Column(name="redirect_uri", length=2000, type="string")
+     * @ORM\Column(name="redirect_uri", length=2000, type="string", nullable=true)
      */
-    private string $redirectUri;
+    private ?string $redirectUri;
     /**
-     * @ORM\Column(name="grant_types", length=2000, type="string")
+     * @ORM\Column(name="grant_types", length=2000, type="string", nullable=true)
      */
     private ?string $grantTypes;
     /**
@@ -50,10 +50,10 @@ class Clients extends AbstractEntity
     private string $scope;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthClients")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private User $user;
-
+    private ?User $user;
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -120,7 +120,7 @@ class Clients extends AbstractEntity
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }

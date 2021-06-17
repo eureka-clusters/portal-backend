@@ -55,6 +55,12 @@ final class GenericUser
         return $this->cluster;
     }
 
+    public function setCluster($cluster): GenericUser
+    {   
+        $this->cluster = $cluster;
+        return $this;
+    }
+
     public function getFirstName(): string
     {
         return $this->firstName;

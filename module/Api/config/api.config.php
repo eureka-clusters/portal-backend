@@ -9,9 +9,9 @@
 
 namespace Api;
 
-use Admin\Service\UserService;
 use Api\V1\Rest;
 use Cluster\Service\ClusterService;
+use Admin\Service\UserService;
 use Cluster\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -76,8 +76,8 @@ $config = [
         ],
         Rest\StatisticsResource\DownloadListener::class => [
             StatisticsService::class,
-            ClusterService::class,
-            TranslatorInterface::class,
+            UserService::class,
+            TranslatorInterface::class
         ],
     ],
     'service_manager'            => [

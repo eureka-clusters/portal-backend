@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
-use Application\Entity\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Application\Entity\AbstractEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table(name="cluster_funder")
@@ -38,10 +39,22 @@ class Funder extends AbstractEntity
      */
     private Country $country;
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="funder", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="Cluster\Entity\Cluster", inversedBy="clusterFunders", cascade={"persist"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"description"="ASC"})
+     * @ORM\JoinTable(name="cluster_funder_cluster",
+     *      joinColumns={@ORM\JoinColumn(nullable=false)},
+     *      inverseJoinColumns={@ORM\JoinColumn(nullable=false)}
+     * )
+     *
+     * @var Cluster[]|ArrayCollection
      */
-    private Cluster $cluster;
+    private $clusters;
+
+    public function __construct()
+    {
+        $this->clusters   = new ArrayCollection();
+    }
+
 
     public function getId(): int
     {
@@ -76,15 +89,39 @@ class Funder extends AbstractEntity
         return $this;
     }
 
-    public function getCluster(): Cluster
+    public function getClusters()
     {
-        return $this->cluster;
+        return $this->clusters;
     }
 
-    public function setCluster(Cluster $cluster): Funder
+    public function setClusters($clusters): Funder
     {
-        $this->cluster = $cluster;
+        $this->clusters = $clusters;
         return $this;
     }
 
+    /**
+     * @param Cluster $cluster
+     */
+    public function addCluster(Cluster $cluster)
+    {
+        if ($this->clusters->contains($cluster)) {
+            return;
+        }
+        $this->clusters->add($cluster);
+        $cluster->addFunder($this);
+    }
+
+    /**
+     * @param Cluster $cluster
+     */
+    public function removeCluster(Cluster $cluster)
+    {
+        if (!$this->clusters->contains($cluster)) {
+            return;
+        }
+
+        $this->clusters->removeElement($cluster);
+        $cluster->removeCluster($this);
+    }
 }

@@ -315,7 +315,7 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function getUser(): \Admin\Entity\User
+    public function getUser(): ?\Admin\Entity\User
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);

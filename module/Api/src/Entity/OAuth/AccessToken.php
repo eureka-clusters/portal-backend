@@ -13,13 +13,16 @@ declare(strict_types=1);
 namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
+
 use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Api\Entity\OAuth\Clients;
+
 
 /**
  * @ORM\Table(name="oauth_access_tokens")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Repository\OAuth\AccessToken")
  */
 class AccessToken extends AbstractEntity
 {
@@ -35,21 +38,30 @@ class AccessToken extends AbstractEntity
      * @ORM\Column(name="access_token", length=255, type="string",unique=true)
      */
     private string $accessToken;
+
+
     /**
      * @ORM\Column(name="client_id", length=255, type="string", nullable=false)
      */
     private string $clientId;
+
+    /**
+     * //ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAccessTokens")
+     * //ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
+     */
+    private Clients $client;
+
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAccessTokens")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private User $user;
+    private ?User $user;
     /**
      * @ORM\Column(name="expires", type="datetime_immutable")
      */
     private DateTimeImmutable $expires;
     /**
-     * @ORM\Column(name="scope", length=2000, type="string", )
+     * @ORM\Column(name="scope", length=2000, type="string", nullable=true)
      */
     private ?string $scope;
 
@@ -75,6 +87,19 @@ class AccessToken extends AbstractEntity
         return $this;
     }
 
+    public function getClient(): Clients
+    {
+        return $this->client;
+    }
+
+    public function setClient(Clients $client): AccessToken
+    {
+        $this->client = $client;
+        $this->setClientId($client->getClientId());
+        return $this;
+    }
+
+
     public function getClientId(): string
     {
         return $this->clientId;
@@ -86,7 +111,7 @@ class AccessToken extends AbstractEntity
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
@@ -117,5 +142,14 @@ class AccessToken extends AbstractEntity
     {
         $this->scope = $scope;
         return $this;
+    }
+
+    public static function fromArray($params)
+    {
+        $token = new self();
+        foreach ($params as $property => $value) {
+            $token->$property = $value;
+        }
+        return $token;
     }
 }

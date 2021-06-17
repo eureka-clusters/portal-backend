@@ -205,7 +205,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getCd(): ?string
+    public function getCd(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCd', []);
@@ -216,7 +216,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setCd(?string $cd): \Cluster\Entity\Country
+    public function setCd(string $cd): \Cluster\Entity\Country
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCd', [$cd]);

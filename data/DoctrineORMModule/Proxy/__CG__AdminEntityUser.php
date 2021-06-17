@@ -223,6 +223,17 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isFunder(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isFunder', []);
+
+        return parent::isFunder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {

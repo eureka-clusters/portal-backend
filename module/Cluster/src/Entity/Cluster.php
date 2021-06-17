@@ -34,6 +34,12 @@ class Cluster extends AbstractEntity
      * @ORM\Column(unique=true)
      */
     private string $name;
+
+    /**
+     * @ORM\Column(unique=true)
+     */
+    private string $identifier;
+
     /**
      * @ORM\Column(nullable=true)
      */
@@ -49,15 +55,15 @@ class Cluster extends AbstractEntity
      */
     private ?DateTime $dateUpdated;
     /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="cluster")
+     * @ORM\ManyToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="clusters")
      *
      * @var Funder[]|Collections\ArrayCollection
      */
-    private $funder;
+    private $clusterFunders;
 
     public function __construct()
     {
-        $this->funder = new Collections\ArrayCollection();
+        $this->clusterFunders = new Collections\ArrayCollection();
     }
 
     public function __toString(): string
@@ -84,6 +90,17 @@ class Cluster extends AbstractEntity
     public function setName(string $name): Cluster
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(string $identifier): Cluster
+    {
+        $this->identifier = $identifier;
         return $this;
     }
 
@@ -120,14 +137,41 @@ class Cluster extends AbstractEntity
         return $this;
     }
 
-    public function getFunder()
+    public function getClusterFunders()
     {
-        return $this->funder;
+        return $this->clusterFunders;
     }
 
-    public function setFunder($funder): Cluster
+    public function setClusterFunders($funders)
     {
-        $this->funder = $funder;
+        $this->clusterFunders = $funders;
         return $this;
     }
+
+    /**
+     * @param Funder $funder
+     */
+    public function addFunder(Funder $funder)
+    {
+        if ($this->clusterFunders->contains($funder)) {
+            return;
+        }
+
+        $this->clusterFunders->add($funder);
+        $funder->addCluster($this);
+    }
+
+    /**
+     * @param Funder $funder
+     */
+    public function removeFunder(Funder $funder)
+    {
+        if (!$this->clusterFunders->contains($funder)) {
+            return;
+        }
+
+        $this->clusterFunders->removeElement($funder);
+        $funder->removeCluster($this);
+    }
+
 }

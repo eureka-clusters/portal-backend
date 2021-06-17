@@ -66,10 +66,10 @@ class Funder extends \Cluster\Entity\Funder implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'user', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'country'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'user', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'clusters'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'user', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'country'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'user', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Funder' . "\0" . 'clusters'];
     }
 
     /**
@@ -244,6 +244,50 @@ class Funder extends \Cluster\Entity\Funder implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCountry', [$country]);
 
         return parent::setCountry($country);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getClusters()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClusters', []);
+
+        return parent::getClusters();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setClusters($clusters): \Cluster\Entity\Funder
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClusters', [$clusters]);
+
+        return parent::setClusters($clusters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addCluster(\Cluster\Entity\Cluster $cluster)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCluster', [$cluster]);
+
+        return parent::addCluster($cluster);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeCluster(\Cluster\Entity\Cluster $cluster)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeCluster', [$cluster]);
+
+        return parent::removeCluster($cluster);
     }
 
     /**
