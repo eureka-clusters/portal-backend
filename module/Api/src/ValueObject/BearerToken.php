@@ -38,11 +38,16 @@ final class BearerToken
     public static function fromArray(array $params): BearerToken
     {
         return new self(
-            $params['accessToken'],
-            $params['expiresIn'],
-            $params['tokenType'],
-            $params['scope'],
-            $params['refreshToken'],
+            isset($params['accessToken']) ? $params['accessToken'] : '',
+            isset($params['expiresIn']) ? $params['expiresIn'] : '',
+            isset($params['tokenType']) ? $params['tokenType'] : '',
+            isset($params['scope']) ? $params['scope'] : '',
+            isset($params['refreshToken']) ? $params['refreshToken'] : '',
+            // $params['accessToken'],
+            // $params['expiresIn'],
+            // $params['tokenType'],
+            // $params['scope'],
+            // $params['refreshToken'],
         );
     }
 

@@ -52,6 +52,9 @@ class OAuthService extends AbstractService
         $accessToken->setAccessToken($this->generateAccessToken());
 
         $expireDate = new DateTimeImmutable(sprintf('+ %d second', $this->moduleOptions->getAccessTokenLifetime()));
+        // is there a reason for sprintf? instead of following?
+        // $expireDate = (new DateTimeImmutable())->setTimestamp($this->moduleOptions->getAccessTokenLifetime());
+
 
         $accessToken->setExpires($expireDate);
         $this->save($accessToken);
@@ -68,7 +71,7 @@ class OAuthService extends AbstractService
 
         return BearerToken::fromArray(
             [
-                'acccessToken' => $accessToken->getAccessToken(),
+                'accessToken' => $accessToken->getAccessToken(),
                 'expiresIn'    => $this->moduleOptions->getAccessTokenLifetime(),
                 'tokenType'    => 'Bearer',
                 'scope'        => $oAuthClient->getScope(),
@@ -148,8 +151,8 @@ class OAuthService extends AbstractService
 
     public function findoAuthClientByClientId(string $clientId): Clients
     {
-        $client = $this->entityManager->getRepository(Clients::class)->findOneBy(['client_id' => $clientId]);
-
+        $client = $this->entityManager->getRepository(Clients::class)->findOneBy(['clientId' => $clientId]);
+    
         if (null === $client) {
             throw new InvalidArgumentException('The selected client cannot be found');
         }
