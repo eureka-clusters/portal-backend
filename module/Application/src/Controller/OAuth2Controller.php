@@ -22,7 +22,6 @@ use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 
-
 /**
  * Class OAuth2Controller
  * @package Application\Controller

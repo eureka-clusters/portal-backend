@@ -111,5 +111,4 @@ final class User extends EntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
-
 }

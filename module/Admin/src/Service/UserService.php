@@ -99,10 +99,9 @@ class UserService extends AbstractService
         return $user;
     }
 
-    // function from the clusterService. 
+    // function from the clusterService.
     public function findContactById(int $id): ?User
     {
         return $this->entityManager->find(User::class, $id);
     }
-
 }

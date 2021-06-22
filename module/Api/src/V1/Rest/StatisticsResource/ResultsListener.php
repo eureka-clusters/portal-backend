@@ -45,6 +45,5 @@ final class ResultsListener extends AbstractResourceListener
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
         return $this->statisticsService->getResults($contact->getFunder(), $arrayFilter, $output);
-
     }
 }

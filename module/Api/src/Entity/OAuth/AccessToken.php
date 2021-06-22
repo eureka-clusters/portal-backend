@@ -19,7 +19,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Api\Entity\OAuth\Clients;
 
-
 /**
  * @ORM\Table(name="oauth_access_tokens")
  * @ORM\Entity(repositoryClass="Api\Repository\OAuth\AccessToken")

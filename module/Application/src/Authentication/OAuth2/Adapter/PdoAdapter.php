@@ -18,5 +18,4 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
         //Inject the connection our own Doctrine instance
         parent::__construct($entityManager->getConnection()->getWrappedConnection(), $config);
     }
-
 }

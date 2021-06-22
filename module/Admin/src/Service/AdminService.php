@@ -21,5 +21,4 @@ use Application\Service\AbstractService;
  */
 class AdminService extends AbstractService
 {
-
 }

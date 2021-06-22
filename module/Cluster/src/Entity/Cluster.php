@@ -173,5 +173,4 @@ class Cluster extends AbstractEntity
 //        $this->clusterFunders->removeElement($funder);
 //        $funder->removeCluster($this);
 //    }
-
 }

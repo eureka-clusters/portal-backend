@@ -6,6 +6,3 @@
  * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
  * @license     https://itea3.org/license.txt proprietary
  */
-
-
-

@@ -9,17 +9,15 @@
  */
 declare(strict_types=1);
 
-
 namespace Api\ValueObject;
-
 
 final class BearerToken
 {
-    private string  $accessToken;
-    private int     $expiresIn;
-    private string  $tokenType;
-    private ?string $scope;
-    private string  $refreshToken;
+    private string $accessToken;
+    private int    $expiresIn;
+    private string $tokenType;
+    private string $scope;
+    private string $refreshToken;
 
     public function __construct(
         string $accessToken,
@@ -38,11 +36,11 @@ final class BearerToken
     public static function fromArray(array $params): BearerToken
     {
         return new self(
-            $params['accessToken'],
-            $params['expiresIn'],
-            $params['tokenType'],
-            $params['scope'],
-            $params['refreshToken'],
+            $params['accessToken'] ?? '',
+            $params['expiresIn'] ?? 3600,
+            $params['tokenType'] ?? '',
+            $params['scope'] ?? '',
+            $params['refreshToken'] ?? '',
         );
     }
 

@@ -40,7 +40,4 @@ class ModuleOptions extends AbstractOptions
         $this->refreshTokenLifetime = $refreshTokenLifetime;
         return $this;
     }
-
-
-
 }

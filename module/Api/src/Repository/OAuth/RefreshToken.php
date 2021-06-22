@@ -95,5 +95,4 @@ final class RefreshToken extends EntityRepository //implements RefreshTokenInter
 //    {
 //        // todo
 //    }
-
 }

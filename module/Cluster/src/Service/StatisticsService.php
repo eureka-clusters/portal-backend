@@ -30,7 +30,9 @@ class StatisticsService extends AbstractService
     public function getResults(Funder $funder, array $filter, int $output = Partner::RESULT_PROJECT): array
     {
         //Make the chart/partners the same
-        if ($output === 3) {$output = 1;}
+        if ($output === 3) {
+            $output = 1;
+        }
 
         return $this->entityManager->getRepository(Partner::class)->getResults($funder, $filter, $output);
     }
@@ -38,7 +40,9 @@ class StatisticsService extends AbstractService
     public function generateFacets(Funder $funder, array $filter, int $output = Partner::RESULT_PROJECT): array
     {
         //Make the chart/partners the same
-        if ($output === 3) {$output = 1;}
+        if ($output === 3) {
+            $output = 1;
+        }
 
         $countries       = $this->entityManager->getRepository(Partner::class)->fetchCountries($funder, $filter, $output);
         $partnerTypes    = $this->entityManager->getRepository(Partner::class)->fetchPartnerTypes($funder, $filter, $output);

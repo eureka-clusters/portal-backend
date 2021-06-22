@@ -78,8 +78,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('cluster_entity_statistics_partner_country_filter.identifier')
                         ->having(
                             'COUNT(DISTINCT cluster_entity_statistics_partner_country_filter.country) > ' . (count(
-                                    $countryFilter
-                                ) - 1)
+                                $countryFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -118,8 +118,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('cluster_entity_statistics_partner_partner_type_filter.identifier')
                         ->having(
                             'COUNT(DISTINCT cluster_entity_statistics_partner_partner_type_filter.partnerType) > ' . (count(
-                                    $partnerTypeFilter
-                                ) - 1)
+                                $partnerTypeFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -158,8 +158,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('cluster_entity_statistics_partner_project_status_filter.identifier')
                         ->having(
                             'COUNT(DISTINCT cluster_entity_statistics_partner_project_status_filter.projectStatus) > ' . (count(
-                                    $partnerTypeFilter
-                                ) - 1)
+                                $partnerTypeFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -201,8 +201,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('cluster_entity_statistics_partner_primary_cluster_filter.identifier')
                         ->having(
                             'COUNT(DISTINCT cluster_entity_statistics_partner_primary_cluster_filter.primaryCluster) > ' . (count(
-                                    $partnerTypeFilter
-                                ) - 1)
+                                $partnerTypeFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(

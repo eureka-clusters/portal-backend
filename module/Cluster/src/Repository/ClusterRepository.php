@@ -37,10 +37,10 @@ class ClusterRepository extends EntityRepository implements FilteredObjectReposi
 
         $direction = 'ASC';
         if (isset($filter['direction']) && in_array(
-                strtoupper($filter['direction']),
-                [Criteria::ASC, Criteria::DESC],
-                true
-            )) {
+            strtoupper($filter['direction']),
+            [Criteria::ASC, Criteria::DESC],
+            true
+        )) {
             $direction = strtoupper($filter['direction']);
         }
 
