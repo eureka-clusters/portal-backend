@@ -112,29 +112,6 @@ final class OAuth2Controller extends AbstractActionController
                     ]
                 );
 
-                // echo 'accessToken <br>';
-                // var_dump($accessToken);
-                // var_dump($session->profileUrl);
-                // var_dump($session);
-
-                $session->accessToken = $accessToken;
-
-                // the api could also be requested through the oauthClient so no addional guzzle request object could be required.
-                // $request = $oAuthClient->getAuthenticatedRequest(
-                //     'GET',
-                //     $session->profileUrl,
-                //     $accessToken,
-                //     [
-                //         'Accept'        => 'application/json',
-                //         'Content-Type'  => 'application/json'
-                //     ]
-                // );
-                // var_dump($request);
-                // $response = $oAuthClient->getParsedResponse($request);
-                // var_dump($response);
-                // die();
-
-
                 //Do a manual Guzzle Request for better debugging
                 $guzzle  = new Client();
                 $request = $guzzle->request(
@@ -153,47 +130,15 @@ final class OAuth2Controller extends AbstractActionController
 
                 $genericUser = GenericUser::fromJson($request->getBody()->getContents());
 
-                // echo 'genericUser <br>';
-                // var_dump($genericUser);
-
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser($genericUser);
 
-                //get the settings for the react client
-                $reactSettings = $this->config['oauth2-settings']['services']['reactclient']['settings'];
-                // echo 'settings react client<br>';
-                // var_dump($reactSettings);
+                $oAuthClient = $this->oAuthService->findoAuthClientByClientId('reactclient');
 
-                // can the react client details be used on itself to generate a user token?
-                // $reactOAuthClient = new GenericProvider($reactSettings);
-                // $reactAccessToken = $reactOAuthClient->getAccessToken('client_credentials');
-                // echo 'reactAccessToken<br>';
-                // var_dump($reactAccessToken);
-                // doesn't work!
-                // Invalid response received from Authorization Server. Expected JSON.
-                // die();
-
-                // test to get a new token from the cluster application via refreshToken => works
-                // so this could be used to refresh the login after the token has expired.
-                // $newAccessToken = $oAuthClient->getAccessToken('refresh_token', [
-                //     'refresh_token' => $accessToken->getRefreshToken()
-                // ]);
-                // echo 'newAccessToken <br>';
-                // var_dump($newAccessToken);
-
-
-                //create a bearer token for the user + cluster + client ="reactclient'
-                $reactToken = $this->oAuthService->createTokenForUser($user, 'reactclient');
-                echo 'reactToken <br>';
-                var_dump($reactToken);
-
-                die();
-
-                // how is the token returned to the react client?
-                // should the parameters added to the redirectUri?
+                $reactToken = $this->oAuthService->createTokenForUser($user, $oAuthClient);
 
                 //Redirect to frontend
-                return $this->redirect()->toRoute('home');
+                return $this->redirect()->toUrl($oAuthClient->getRedirectUri());
             } catch (IdentityProviderException $e) {
                 var_dump($e);
                 //  return $this->redirect()->toRoute('user/login');

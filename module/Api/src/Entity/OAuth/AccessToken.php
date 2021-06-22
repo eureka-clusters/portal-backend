@@ -53,7 +53,7 @@ class AccessToken extends AbstractEntity
      */
     private DateTimeImmutable $expires;
     /**
-     * @ORM\Column(name="scope", length=2000, type="string", nullable=true)
+     * @ORM\Column(name="scope", length=2000, type="string", nullable=false)
      */
     private ?string $scope;
 
