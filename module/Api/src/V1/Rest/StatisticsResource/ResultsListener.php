@@ -31,9 +31,9 @@ final class ResultsListener extends AbstractResourceListener
 
     public function fetchAll($data = [])
     {
-        $contact = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $contact || !$contact->isFunder()) {
+        if (null === $user || !$user->isFunder()) {
             return [];
         }
 
@@ -44,6 +44,6 @@ final class ResultsListener extends AbstractResourceListener
         $filter = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        return $this->statisticsService->getResults($contact->getFunder(), $arrayFilter, $output);
+        return $this->statisticsService->getResults($user->getFunder(), $arrayFilter, $output);
     }
 }

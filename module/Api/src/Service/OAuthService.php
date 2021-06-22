@@ -42,7 +42,7 @@ class OAuthService extends AbstractService
         $this->moduleOptions = $moduleOptions;
     }
 
-    public function createTokenForUser(User $user, Clients $oAuthClient): array
+    public function createTokenForUser(User $user, Clients $oAuthClient): BearerToken
     {
         $accessToken = new AccessToken();
         $accessToken->setUser($user);
@@ -74,7 +74,7 @@ class OAuthService extends AbstractService
                 'scope'        => $oAuthClient->getScope(),
                 'refreshToken' => $refreshToken->getRefreshToken()
             ]
-        )->toArray();
+        );
     }
 
     public function findoAuthClientByClientId(string $clientId): Clients

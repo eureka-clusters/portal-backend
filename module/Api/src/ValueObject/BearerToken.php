@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Api\ValueObject;
 
+use Laminas\Json\Json;
+use PDepend\TextUI\CommandTest;
+
 final class BearerToken
 {
     private string $accessToken;
@@ -23,7 +26,7 @@ final class BearerToken
         string $accessToken,
         int $expiresIn,
         string $tokenType,
-        ?string $scope,
+        string $scope,
         string $refreshToken
     ) {
         $this->accessToken  = $accessToken;
@@ -42,6 +45,11 @@ final class BearerToken
             $params['scope'] ?? '',
             $params['refreshToken'] ?? '',
         );
+    }
+
+    public function getHash(): string
+    {
+        return base64_encode(Json::encode($this->toArray()));
     }
 
     public function toArray(): array
