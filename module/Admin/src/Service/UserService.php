@@ -67,6 +67,9 @@ class UserService extends AbstractService
                     'iso3' => $genericUser->getFunderCountry(),
                 ]
             );
+            if (null === $country) {
+                throw new \Exception(sprintf('Error Country with iso code "%s" not found', $genericUser->getFunderCountry()) , 1);
+            }
 
             if (null === $funder) {
                 $funder = new Funder();

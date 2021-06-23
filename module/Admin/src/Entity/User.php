@@ -82,7 +82,7 @@ class User extends AbstractEntity
     /**
      * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user")
      */
-    private ?Funder $funder;
+    private ?Funder $funder = null;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", mappedBy="user", cascade={"persist"})
      * @var AccessToken[]|Collections\ArrayCollection
