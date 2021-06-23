@@ -59,11 +59,11 @@ class Clients extends AbstractEntity
      */
     private ?User $user = null;
     /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", cascade={"persist"}, mappedBy="oAuthClients")
+     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", cascade={"persist"}, mappedBy="oAuthClient")
      */
     private $oAuthAccessTokens;
     /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", cascade={"persist"}, mappedBy="oAuthClients")
+     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", cascade={"persist"}, mappedBy="oAuthClient")
      */
     private $oAuthRefreshTokens;
 
