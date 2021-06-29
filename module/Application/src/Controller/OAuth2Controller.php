@@ -132,12 +132,16 @@ final class OAuth2Controller extends AbstractActionController
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser($genericUser);
 
+
                 $oAuthClient = $this->oAuthService->findoAuthClientByClientId('reactclient');
 
-                $reactToken = $this->oAuthService->createTokenForUser($user, $oAuthClient);
+                //$reactToken = $this->oAuthService->createTokenForUser($user, $oAuthClient);
+                $authorizationCode = $this->oAuthService->createAuthorizationCodeForUser($user, $oAuthClient);
+
 
                 //Redirect to frontend
-                return $this->redirect()->toUrl($oAuthClient->getRedirectUri() . '/' . $reactToken->getHash());
+                return $this->redirect()->toUrl($oAuthClient->getRedirectUri() . '/' . $authorizationCode->getAuthorizationCode());
+                //return $this->redirect()->toUrl($oAuthClient->getRedirectUri() . '/' . $reactToken->getHash());
             } catch (IdentityProviderException $e) {
                 var_dump($e);
                 //  return $this->redirect()->toRoute('user/login');

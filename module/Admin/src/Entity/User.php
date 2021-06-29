@@ -21,6 +21,7 @@ use Cluster\Entity\Funder;
 use DateTime;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="admin_user")
@@ -51,11 +52,13 @@ class User extends AbstractEntity
      */
     private string $email;
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
+     * @Gedmo\Timestampable(on="create")
      */
     private DateTime $dateCreated;
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
      */
     private ?DateTime $lastUpdate = null;
     /**

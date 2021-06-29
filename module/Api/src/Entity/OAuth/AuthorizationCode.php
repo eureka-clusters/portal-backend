@@ -33,10 +33,13 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\Column(name="authorization_code", length=255, type="string",unique=true)
      */
     private string $authorizationCode;
+
     /**
-     * @ORM\Column(name="client_id", length=255, type="string")
+     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
      */
-    private string $clientId;
+    private Clients $oAuthClient;
+
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
@@ -54,10 +57,7 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\Column(name="scope", length=2000, type="string", )
      */
     private ?string $scope;
-    /**
-     * @ORM\Column(name="id_token", length=2000, type="string", )
-     */
-    private ?string $idToken;
+
 
     public function getId(): int
     {
@@ -81,14 +81,14 @@ class AuthorizationCode extends AbstractEntity
         return $this;
     }
 
-    public function getClientId(): string
+    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
     {
-        return $this->clientId;
+        return $this->oAuthClient;
     }
 
-    public function setClientId(string $clientId): AuthorizationCode
+    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): AuthorizationCode
     {
-        $this->clientId = $clientId;
+        $this->oAuthClient = $oAuthClient;
         return $this;
     }
 
@@ -133,17 +133,6 @@ class AuthorizationCode extends AbstractEntity
     public function setScope(string $scope): AuthorizationCode
     {
         $this->scope = $scope;
-        return $this;
-    }
-
-    public function getIdToken(): ?string
-    {
-        return $this->idToken;
-    }
-
-    public function setIdToken(?string $idToken): AuthorizationCode
-    {
-        $this->idToken = $idToken;
         return $this;
     }
 }
