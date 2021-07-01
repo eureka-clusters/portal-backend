@@ -127,17 +127,16 @@ final class OAuth2Controller extends AbstractActionController
                     ]
                 );
 
-                $genericUser = GenericUser::fromJson($request->getBody()->getContents());
+                // get the GenericUser but filter the cluster_permissions with the allowedCluster setting of the oauth2-settings for the used service
+                $genericUser = GenericUser::fromJson($request->getBody()->getContents(), $session->settings['allowedClusters']);
 
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser($genericUser);
-
 
                 $oAuthClient = $this->oAuthService->findoAuthClientByClientId('reactclient');
 
                 //$reactToken = $this->oAuthService->createTokenForUser($user, $oAuthClient);
                 $authorizationCode = $this->oAuthService->createAuthorizationCodeForUser($user, $oAuthClient);
-
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl($oAuthClient->getRedirectUri() . '/' . $authorizationCode->getAuthorizationCode());

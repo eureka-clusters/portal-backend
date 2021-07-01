@@ -79,6 +79,22 @@ class UserService extends AbstractService
             }
             $this->save($funder);
 
+            // create the cluster entries depening on the Cluster Permissions
+            $clusterPermissions = $genericUser->getClusterPermissions();
+            foreach ($clusterPermissions as $cluster_identifier) {
+                $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+                    [
+                        'identifier' => $cluster_identifier,
+                    ]
+                );
+                if (null !== $cluster) {
+                    if (!$funder->getClusters()->contains($cluster)) {
+                        $funder->getClusters()->add($cluster);
+                    }
+                }
+            }
+            $this->save($funder);
+
             //Create an entry in the clusterFinder (DOES NOT WORK YET)
             //            if (!$funder->getClusters()->contains($cluster))
             //            {
