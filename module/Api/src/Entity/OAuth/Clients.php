@@ -26,7 +26,6 @@ class Clients extends AbstractEntity
     /**
      * @ORM\Column(name="client_id", length=255, type="string",unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private string $clientId;
     /**

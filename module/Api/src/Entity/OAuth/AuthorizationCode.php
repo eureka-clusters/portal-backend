@@ -51,11 +51,11 @@ class AuthorizationCode extends AbstractEntity
      */
     private string $redirectUri;
     /**
-     * @ORM\Column(name="scope", length=2000, type="string", )
+     * @ORM\Column(name="scope", length=2000, type="string")
      */
     private ?string $scope;
     /**
-     * @ORM\Column(name="id_token", length=2000, type="string", )
+     * @ORM\Column(name="id_token", length=2000, type="string")
      */
     private ?string $idToken;
 
