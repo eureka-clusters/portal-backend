@@ -16,6 +16,7 @@ use Admin\Entity\User;
 use Api\Entity\OAuth\AccessToken;
 use Api\Entity\OAuth\Clients;
 use Api\Entity\OAuth\RefreshToken;
+use Api\Entity\OAuth\AuthorizationCode;
 use Api\Options\ModuleOptions;
 use Api\ValueObject\BearerToken;
 use Application\Service\AbstractService;
@@ -40,6 +41,21 @@ class OAuthService extends AbstractService
     ) {
         parent::__construct($entityManager, $translator);
         $this->moduleOptions = $moduleOptions;
+    }
+
+    public function createAuthorizationCodeForUser(User $user, Clients $oAuthClient): AuthorizationCode
+    {
+        $autorizationCode = new AuthorizationCode();
+        $autorizationCode->setUser($user);
+        $autorizationCode->setOAuthClient($oAuthClient);
+        $autorizationCode->setAuthorizationCode($this->generateAuthorizationCode());
+        $autorizationCode->setRedirectUri($oAuthClient->getRedirectUri());
+
+        $expireDate = new DateTimeImmutable(sprintf('+ %d second', $this->moduleOptions->getAuthorizationCodeLifetime()));
+
+        $autorizationCode->setExpires($expireDate);
+        $this->save($autorizationCode);
+        return $autorizationCode;
     }
 
     public function createTokenForUser(User $user, Clients $oAuthClient): BearerToken
@@ -86,6 +102,12 @@ class OAuthService extends AbstractService
         }
 
         return $client;
+    }
+
+    protected function generateAuthorizationCode(): string
+    {
+        $randomData = Rand::getBytes(500);
+        return substr(hash('sha512', $randomData), 0, 40);
     }
 
     protected function generateAccessToken(): string

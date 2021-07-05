@@ -64,11 +64,12 @@ class UserService extends AbstractService
 
             $country = $this->entityManager->getRepository(Country::class)->findOneBy(
                 [
-                    'iso3' => $genericUser->getFunderCountry(),
+                    //'iso3' => $genericUser->getFunderCountry(),
+                    'cd' => $genericUser->getFunderCountry(),
                 ]
             );
             if (null === $country) {
-                throw new \Exception(sprintf('Error Country with iso code "%s" not found', $genericUser->getFunderCountry()) , 1);
+                throw new \Exception(sprintf('Error Country with iso code "%s" not found', $genericUser->getFunderCountry()), 1);
             }
 
             if (null === $funder) {
@@ -78,25 +79,41 @@ class UserService extends AbstractService
             }
             $this->save($funder);
 
+            // create the cluster entries depening on the Cluster Permissions
+            $clusterPermissions = $genericUser->getClusterPermissions();
+            foreach ($clusterPermissions as $cluster_identifier) {
+                $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+                    [
+                        'identifier' => $cluster_identifier,
+                    ]
+                );
+                if (null !== $cluster) {
+                    if (!$funder->getClusters()->contains($cluster)) {
+                        $funder->getClusters()->add($cluster);
+                    }
+                }
+            }
+            $this->save($funder);
+
             //Create an entry in the clusterFinder (DOES NOT WORK YET)
-//            if (!$funder->getClusters()->contains($cluster))
-//            {
-//                $funder->getClusters()->add($cluster);
-//            }
-//
-//            $this->save($funder);
-//
-//            // @Johan
-//            // no entry in cluster_funder_cluster table?
-//            // my guess ist because cluster isn't an ArrayCollection?
-//            //$funder->setClusters($cluster);
-//
-//            // with addCluster it works? Why ?
-//            $funder->addCluster($cluster);
-//
-//            $this->entityManager->persist($funder);
-//
-//            $this->entityManager->flush();
+            //            if (!$funder->getClusters()->contains($cluster))
+            //            {
+            //                $funder->getClusters()->add($cluster);
+            //            }
+            //
+            //            $this->save($funder);
+            //
+            //            // @Johan
+            //            // no entry in cluster_funder_cluster table?
+            //            // my guess ist because cluster isn't an ArrayCollection?
+            //            //$funder->setClusters($cluster);
+            //
+            //            // with addCluster it works? Why ?
+            //            $funder->addCluster($cluster);
+            //
+            //            $this->entityManager->persist($funder);
+            //
+            //            $this->entityManager->flush();
         }
 
         return $user;

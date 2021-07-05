@@ -66,10 +66,16 @@ class Clients extends AbstractEntity
      */
     private $oAuthRefreshTokens;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", cascade={"persist"}, mappedBy="oAuthClient")
+     */
+    private $oAuthAuthorizationCodes;
+
     public function __construct()
     {
         $this->oAuthAccessTokens  = new ArrayCollection();
         $this->oAuthRefreshTokens = new ArrayCollection();
+        $this->oAuthAuthorizationCodes = new ArrayCollection();
     }
 
     public function getId(): string
@@ -143,12 +149,12 @@ class Clients extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthAccessTokens(): ?ArrayCollection
+    public function getOAuthAccessTokens()
     {
         return $this->oAuthAccessTokens;
     }
 
-    public function setOAuthAccessTokens(?ArrayCollection $oAuthAccessTokens): Clients
+    public function setOAuthAccessTokens($oAuthAccessTokens): Clients
     {
         $this->oAuthAccessTokens = $oAuthAccessTokens;
         return $this;
@@ -176,14 +182,25 @@ class Clients extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthRefreshTokens(): ?ArrayCollection
+    public function getOAuthRefreshTokens()
     {
         return $this->oAuthRefreshTokens;
     }
 
-    public function setOAuthRefreshTokens(?ArrayCollection $oAuthRefreshTokens): Clients
+    public function setOAuthRefreshTokens($oAuthRefreshTokens): Clients
     {
         $this->oAuthRefreshTokens = $oAuthRefreshTokens;
+        return $this;
+    }
+
+    public function getOAuthAuthorizationCodes()
+    {
+        return $this->oAuthAuthorizationCodes;
+    }
+
+    public function setOAuthAuthorizationCodes($oAuthAuthorizationCodes): Clients
+    {
+        $this->oAuthAuthorizationCodes = $oAuthAuthorizationCodes;
         return $this;
     }
 }
