@@ -83,7 +83,7 @@ class User extends AbstractEntity
      */
     private $session;
     /**
-     * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"})
      */
     private ?Funder $funder = null;
     /**

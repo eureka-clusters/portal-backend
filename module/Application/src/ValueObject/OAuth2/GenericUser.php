@@ -32,16 +32,16 @@ final class GenericUser
 
     public function __construct(\stdClass $result)
     {
-        $this->id            = (string)$result->id;
-        $this->firstName     = $result->first_name;
-        $this->cluster       = $result->cluster;
+        $this->id                 = (string)$result->id;
+        $this->firstName          = $result->first_name;
+        $this->cluster            = $result->cluster;
         $this->clusterPermissions = (array)($result->cluster_permissions ?? []);
-        $this->lastName      = $result->last_name;
-        $this->isFunder      = $result->is_funder;
-        $this->funder        = (array)($result->funder ?? []);
-        $this->address       = (array)($result->address ?? []);
-        $this->email         = $result->email;
-        $this->funderCountry = $result->funder_country;
+        $this->lastName           = $result->last_name;
+        $this->isFunder           = $result->is_funder;
+        $this->funder             = (array)($result->funder ?? []);
+        $this->address            = (array)($result->address ?? []);
+        $this->email              = $result->email;
+        $this->funderCountry      = $result->funder_country;
     }
 
     public static function fromJson(string $jsonString, array $allowedClusters): GenericUser
@@ -50,7 +50,7 @@ final class GenericUser
         $data = Json::decode($jsonString, Json::TYPE_ARRAY);
         // filter the cluster permissions
         $data['cluster_permissions'] = array_intersect($data['cluster_permissions'], $allowedClusters);
-        return new self((object) $data);
+        return new self((object)$data);
     }
 
     public function getId(): string
@@ -63,7 +63,7 @@ final class GenericUser
         return $this->cluster;
     }
 
-    public function getClusterPermissions()
+    public function getClusterPermissions(): array
     {
         return $this->clusterPermissions;
     }

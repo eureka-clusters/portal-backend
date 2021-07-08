@@ -40,12 +40,6 @@ class UserService extends AbstractService
             ]
         );
 
-        $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
-            [
-                'identifier' => $genericUser->getCluster(),
-            ]
-        );
-
         if (null === $user) {
             $user = new User();
             $user->setEmail($genericUser->getEmail());
@@ -54,8 +48,12 @@ class UserService extends AbstractService
         $user->setFirstName($genericUser->getFirstName());
         $user->setLastName($genericUser->getLastName());
 
-        $this->entityManager->persist($user);
+        $this->save($user);
 
+        //Delete the funder object when the user is not a funder
+        if (!$genericUser->isFunder() && $user->isFunder()) {
+            $this->delete($user->getFunder());
+        }
 
         if ($genericUser->isFunder()) {
             //Handle the funder
@@ -64,12 +62,14 @@ class UserService extends AbstractService
 
             $country = $this->entityManager->getRepository(Country::class)->findOneBy(
                 [
-                    //'iso3' => $genericUser->getFunderCountry(),
                     'cd' => $genericUser->getFunderCountry(),
                 ]
             );
             if (null === $country) {
-                throw new \Exception(sprintf('Error Country with iso code "%s" not found', $genericUser->getFunderCountry()), 1);
+                throw new \Exception(
+                    sprintf('Error Country with Alpha 2 code "%s" not found', $genericUser->getFunderCountry()),
+                    1
+                );
             }
 
             if (null === $funder) {
@@ -79,41 +79,21 @@ class UserService extends AbstractService
             }
             $this->save($funder);
 
-            // create the cluster entries depening on the Cluster Permissions
+            // create the cluster entries depending on the Cluster Permissions
             $clusterPermissions = $genericUser->getClusterPermissions();
-            foreach ($clusterPermissions as $cluster_identifier) {
+
+            //Johan: We need to have something in case a permission is removed
+            foreach ($clusterPermissions as $clusterIdentifier) {
                 $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
                     [
-                        'identifier' => $cluster_identifier,
+                        'identifier' => $clusterIdentifier,
                     ]
                 );
-                if (null !== $cluster) {
-                    if (!$funder->getClusters()->contains($cluster)) {
-                        $funder->getClusters()->add($cluster);
-                    }
+                if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
+                    $funder->getClusters()->add($cluster);
                 }
             }
             $this->save($funder);
-
-            //Create an entry in the clusterFinder (DOES NOT WORK YET)
-            //            if (!$funder->getClusters()->contains($cluster))
-            //            {
-            //                $funder->getClusters()->add($cluster);
-            //            }
-            //
-            //            $this->save($funder);
-            //
-            //            // @Johan
-            //            // no entry in cluster_funder_cluster table?
-            //            // my guess ist because cluster isn't an ArrayCollection?
-            //            //$funder->setClusters($cluster);
-            //
-            //            // with addCluster it works? Why ?
-            //            $funder->addCluster($cluster);
-            //
-            //            $this->entityManager->persist($funder);
-            //
-            //            $this->entityManager->flush();
         }
 
         return $user;

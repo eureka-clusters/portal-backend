@@ -59,22 +59,25 @@ class Clients extends AbstractEntity
     private ?User $user = null;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", cascade={"persist"}, mappedBy="oAuthClient")
+     * @var \Api\Entity\OAuth\AccessToken[]|ArrayCollection
      */
     private $oAuthAccessTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", cascade={"persist"}, mappedBy="oAuthClient")
+     * @var \Api\Entity\OAuth\RefreshToken[]|ArrayCollection
      */
     private $oAuthRefreshTokens;
 
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", cascade={"persist"}, mappedBy="oAuthClient")
+     * @var \Api\Entity\OAuth\AuthorizationCode[]|ArrayCollection
      */
     private $oAuthAuthorizationCodes;
 
     public function __construct()
     {
-        $this->oAuthAccessTokens  = new ArrayCollection();
-        $this->oAuthRefreshTokens = new ArrayCollection();
+        $this->oAuthAccessTokens       = new ArrayCollection();
+        $this->oAuthRefreshTokens      = new ArrayCollection();
         $this->oAuthAuthorizationCodes = new ArrayCollection();
     }
 
@@ -149,7 +152,7 @@ class Clients extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthAccessTokens()
+    public function getOAuthAccessTokens(): ArrayCollection
     {
         return $this->oAuthAccessTokens;
     }

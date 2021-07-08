@@ -13,12 +13,9 @@ declare(strict_types=1);
 namespace Api\Service;
 
 use Admin\Entity\User;
-use Api\Entity\OAuth\AccessToken;
-use Api\Entity\OAuth\Clients;
-use Api\Entity\OAuth\RefreshToken;
 use Api\Entity\OAuth\AuthorizationCode;
+use Api\Entity\OAuth\Clients;
 use Api\Options\ModuleOptions;
-use Api\ValueObject\BearerToken;
 use Application\Service\AbstractService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
@@ -45,52 +42,27 @@ class OAuthService extends AbstractService
 
     public function createAuthorizationCodeForUser(User $user, Clients $oAuthClient): AuthorizationCode
     {
-        $autorizationCode = new AuthorizationCode();
-        $autorizationCode->setUser($user);
-        $autorizationCode->setOAuthClient($oAuthClient);
-        $autorizationCode->setAuthorizationCode($this->generateAuthorizationCode());
-        $autorizationCode->setRedirectUri($oAuthClient->getRedirectUri());
+        $authorizationCode = new AuthorizationCode();
+        $authorizationCode->setUser($user);
+        $authorizationCode->setOAuthClient($oAuthClient);
+        $authorizationCode->setScope($oAuthClient->getScope());
+        $authorizationCode->setAuthorizationCode($this->generateAuthorizationCode());
+        $authorizationCode->setRedirectUri($oAuthClient->getRedirectUri());
 
-        $expireDate = new DateTimeImmutable(sprintf('+ %d second', $this->moduleOptions->getAuthorizationCodeLifetime()));
+        $expireDate = new DateTimeImmutable(
+            sprintf('+ %d second', $this->moduleOptions->getAuthorizationCodeLifetime())
+        );
 
-        $autorizationCode->setExpires($expireDate);
-        $this->save($autorizationCode);
-        return $autorizationCode;
+        $authorizationCode->setExpires($expireDate);
+        $this->save($authorizationCode);
+
+        return $authorizationCode;
     }
 
-    public function createTokenForUser(User $user, Clients $oAuthClient): BearerToken
+    protected function generateAuthorizationCode(): string
     {
-        $accessToken = new AccessToken();
-        $accessToken->setUser($user);
-        $accessToken->setOAuthClient($oAuthClient);
-        $accessToken->setScope($oAuthClient->getScope());
-        $accessToken->setAccessToken($this->generateAccessToken());
-
-        $expireDate = new DateTimeImmutable(sprintf('+ %d second', $this->moduleOptions->getAccessTokenLifetime()));
-
-        $accessToken->setExpires($expireDate);
-        $this->save($accessToken);
-
-        //Create the refreshToken
-        $refreshToken = new RefreshToken();
-        $refreshToken->setUser($user);
-        $refreshToken->setOAuthClient($oAuthClient);
-        $refreshToken->setScope($oAuthClient->getScope());
-        $refreshToken->setRefreshToken($this->generateRefreshToken());
-
-        $expireDate = new DateTimeImmutable(sprintf('+ %d second', $this->moduleOptions->getRefreshTokenLifetime()));
-        $refreshToken->setExpires($expireDate);
-        $this->save($refreshToken);
-
-        return BearerToken::fromArray(
-            [
-                'accessToken' => $accessToken->getAccessToken(),
-                'expiresIn'    => $this->moduleOptions->getAccessTokenLifetime(),
-                'tokenType'    => 'Bearer',
-                'scope'        => $oAuthClient->getScope(),
-                'refreshToken' => $refreshToken->getRefreshToken()
-            ]
-        );
+        $randomData = Rand::getBytes(500);
+        return substr(hash('sha512', $randomData), 0, 40);
     }
 
     public function findoAuthClientByClientId(string $clientId): Clients
@@ -102,12 +74,6 @@ class OAuthService extends AbstractService
         }
 
         return $client;
-    }
-
-    protected function generateAuthorizationCode(): string
-    {
-        $randomData = Rand::getBytes(500);
-        return substr(hash('sha512', $randomData), 0, 40);
     }
 
     protected function generateAccessToken(): string
