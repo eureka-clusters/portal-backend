@@ -31,7 +31,7 @@ class UserService extends AbstractService
         return $this->entityManager->find(User::class, $id);
     }
 
-    public function findOrCreateUserFromGenericUser(GenericUser $genericUser): User
+    public function findOrCreateUserFromGenericUser(GenericUser $genericUser, array $allowedClusters = []): User
     {
         //Try to see if we already have the user
         $user = $this->entityManager->getRepository(User::class)->findOneBy(
@@ -79,24 +79,80 @@ class UserService extends AbstractService
             }
             $this->save($funder);
 
-            // create the cluster entries depending on the Cluster Permissions
-            $clusterPermissions = $genericUser->getClusterPermissions();
-
-            //Johan: We need to have something in case a permission is removed
-            foreach ($clusterPermissions as $clusterIdentifier) {
-                $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
-                    [
-                        'identifier' => $clusterIdentifier,
-                    ]
-                );
-                if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
-                    $funder->getClusters()->add($cluster);
-                }
-            }
-            $this->save($funder);
+            $this->updateClusterPermissions($funder, $genericUser, $allowedClusters);
         }
 
         return $user;
+    }
+
+    protected function updateClusterPermissions(Funder $funder, GenericUser $genericUser, array $allowedClusters = [])
+    {
+        // get the ClusterPermissions from generic User
+        $clusterPermissions = $genericUser->getClusterPermissions();
+
+        $funderClusters = $funder->getClusters();
+
+        // @Johan:  how can i get a column of a relation e.g. all identifier columns of the funders->clusters relation?
+        // i can't find this simple thing for laminas / doctrine
+        // in yii1 it would be something like CHtml::listData($funder->getClusters(), 'id', 'identifier'); 
+
+        // some test
+        // var_dump($funderClusters->toArray());
+        // var_dump($funderClusters->getKeys());  returns [0,1];
+        // var_dump($funderClusters->getValues());  // returns array same as toArray
+        // var_dump($funderClusters->__toString());  // doesn't exists?
+
+        // all null
+        // var_dump($funderClusters->get('identifier'));  
+        // var_dump($funderClusters->get('Identifier'));
+        // var_dump($funderClusters->get('getIdentifier'));
+
+        // all empty
+        // $test = array_column($funderClusters->toArray(), 'getIdentifier');
+        // $test = array_column($funderClusters->toArray(), 'Identifier');
+        // $test = array_column($funderClusters->toArray(), 'identifier');
+
+        // get it manually if i don't know the correct function for this
+        $linkedIdentifierArray = [];
+        foreach ($funderClusters as $cluster) {
+            $linkedIdentifierArray[] = $cluster->getIdentifier();
+        }
+
+        // filter by the allowed cluster of this oauth provider to only remove clusters which can be set.
+        $linkedIdentifierArray = array_intersect($linkedIdentifierArray, $allowedClusters);
+
+        // get the clusters to add
+        $identifiersToAdd = array_values(array_diff($clusterPermissions, $linkedIdentifierArray));
+
+        // add the clusters which permission was added
+        foreach ($identifiersToAdd as $clusterIdentifier) {
+            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+                [
+                    'identifier' => $clusterIdentifier,
+                ]
+            );
+            if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
+                $funder->getClusters()->add($cluster);
+            }
+        }
+
+        // which clusters should be removed given by its identifier
+        //@Johan could relations perhaps also be removed by some attribute?
+        $identifiersToRemove = array_values(array_diff($linkedIdentifierArray, $clusterPermissions));
+
+        // remove the clusters which permission was revoked
+        foreach ($identifiersToRemove as $clusterIdentifier) {
+            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
+                [
+                    'identifier' => $clusterIdentifier,
+                ]
+            );
+            if ((null !== $cluster) && $funder->getClusters()->contains($cluster)) {
+                $funder->getClusters()->removeElement($cluster);
+            }
+        }
+
+        $this->save($funder);
     }
 
     // function from the clusterService.

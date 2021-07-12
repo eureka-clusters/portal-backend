@@ -134,7 +134,7 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 //find or create new user by the returned User information
-                $user = $this->userService->findOrCreateUserFromGenericUser($genericUser);
+                $user = $this->userService->findOrCreateUserFromGenericUser($genericUser, $session->settings['allowedClusters']);
 
                 $oAuthClient = $this->oAuthService->findoAuthClientByClientId('ZoDgQeNuqWAdtQyGPZoAPFYGGBzWqkqYHomOynefk');
 
