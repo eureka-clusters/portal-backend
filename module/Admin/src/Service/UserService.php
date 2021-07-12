@@ -92,33 +92,12 @@ class UserService extends AbstractService
 
         $funderClusters = $funder->getClusters();
 
-        // @Johan:  how can i get a column of a relation e.g. all identifier columns of the funders->clusters relation?
-        // i can't find this simple thing for laminas / doctrine
-        // in yii1 it would be something like CHtml::listData($funder->getClusters(), 'id', 'identifier'); 
+        // map clusters to each identifier name
+        $linkedIdentifierArray = $funderClusters->map(
+            fn (Cluster $cluster) => $cluster->getIdentifier()
+        )->toArray();
 
-        // some test
-        // var_dump($funderClusters->toArray());
-        // var_dump($funderClusters->getKeys());  returns [0,1];
-        // var_dump($funderClusters->getValues());  // returns array same as toArray
-        // var_dump($funderClusters->__toString());  // doesn't exists?
-
-        // all null
-        // var_dump($funderClusters->get('identifier'));  
-        // var_dump($funderClusters->get('Identifier'));
-        // var_dump($funderClusters->get('getIdentifier'));
-
-        // all empty
-        // $test = array_column($funderClusters->toArray(), 'getIdentifier');
-        // $test = array_column($funderClusters->toArray(), 'Identifier');
-        // $test = array_column($funderClusters->toArray(), 'identifier');
-
-        // get it manually if i don't know the correct function for this
-        $linkedIdentifierArray = [];
-        foreach ($funderClusters as $cluster) {
-            $linkedIdentifierArray[] = $cluster->getIdentifier();
-        }
-
-        // filter by the allowed cluster of this oauth provider to only remove clusters which can be set.
+        // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
         $linkedIdentifierArray = array_intersect($linkedIdentifierArray, $allowedClusters);
 
         // get the clusters to add
