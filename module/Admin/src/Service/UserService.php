@@ -133,10 +133,4 @@ class UserService extends AbstractService
 
         $this->save($funder);
     }
-
-    // function from the clusterService.
-    public function findContactById(int $id): ?User
-    {
-        return $this->entityManager->find(User::class, $id);
-    }
 }
