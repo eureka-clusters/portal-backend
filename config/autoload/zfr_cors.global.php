@@ -14,6 +14,7 @@ return [
          */
         'allowed_origins' => [
             'https://tool.eureka-clusters-ai.eu',
+            'http://localhost:3000'
         ],
 
         /**
