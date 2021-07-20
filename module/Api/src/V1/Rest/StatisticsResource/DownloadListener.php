@@ -124,10 +124,10 @@ final class DownloadListener extends AbstractResourceListener
 
         ob_start();
         $excelWriter->save('php://output');
-        $test = ob_get_clean();
+        $file = ob_get_clean();
 
-        print $test;
-
-        return [$test];
+        $extension = '.xlsx';
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype'=>$mimetype];
     }
 }

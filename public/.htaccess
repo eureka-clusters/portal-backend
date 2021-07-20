@@ -3,12 +3,22 @@
 # month A2592000, week A604800, day A86400, hour A3600,15 min A900
 # irgendwie hat A900 2h zuwenig expire ?? lokales problem?
 ExpiresActive On
-ExpiresDefault "access plus 4 hours"
+#ExpiresDefault "access plus 4 hours"
+ExpiresDefault "access plus 0 seconds"
 ExpiresByType application/javascript A86400
 ExpiresByType application/x-javascript A900
+
+ExpiresByType application/json                     "access plus 0 seconds"
+ExpiresByType application/ld+json                  "access plus 0 seconds"
+ExpiresByType application/hal+json                 "access plus 0 seconds"
+ExpiresByType application/schema+json              "access plus 0 seconds"
+ExpiresByType application/vnd.geo+json             "access plus 0 seconds"
+ExpiresByType application/xml                      "access plus 0 seconds"
+ExpiresByType text/xml                             "access plus 0 seconds"
+
 ExpiresByType text/javascript A900
 ExpiresByType text/html A90
-ExpiresByType text/xml A90
+#ExpiresByType text/xml A90
 ExpiresByType text/css A900
 ExpiresByType text/plain A62
 ExpiresByType image/gif A86400
@@ -18,6 +28,11 @@ ExpiresByType image/png A86400
 ExpiresByType image/bmp A86400
 ExpiresByType application/x-shockwave-flash A3600
 </IfModule>
+
+#<IfModule mod_headers.c>
+#Header set Access-Control-Allow-Origin "*"
+#</IfModule>
+
 
 # Block access to multiple file types
 <FilesMatch ".(htaccess|htpasswd|ini|phps|fla|psd|log|sh|env|git)$">
