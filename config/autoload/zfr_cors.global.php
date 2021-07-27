@@ -13,8 +13,7 @@ return [
          * Set the list of allowed origins domain with protocol.
          */
         'allowed_origins' => [
-            'https://tool.eureka-clusters-ai.eu',
-            'http://localhost:3000'
+            'https://tool.eureka-clusters-ai.eu'
         ],
 
         /**
