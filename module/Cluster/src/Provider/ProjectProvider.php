@@ -47,16 +47,16 @@ class ProjectProvider
 
         //$projectData = false;//$this->redisCache->fetch($cacheKey);
         $projectData = [
-            'number'          => $partner->projectNumber,
-            'name'            => $partner->projectName,
-            'title'           => $partner->projectTitle,
-            'description'     => $partner->projectDescription,
-            'technical_araa'  => $partner->technicalArea,
-            'programme'       => $partner->programme,
-            'programme_call'  => $partner->programmeCall,
-            'primary_cluster' => $partner->primaryCluster,
-            'label_date'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
-            'status'          => $partner->status,
+            'number'         => $partner->projectNumber,
+            'name'           => $partner->projectName,
+            'title'          => $partner->projectTitle,
+            'description'    => $partner->projectDescription,
+            'technicalAraa'  => $partner->technicalArea,
+            'programme'      => $partner->programme,
+            'programmeCall'  => $partner->programmeCall,
+            'primaryCluster' => $partner->primaryCluster,
+            'labelDate'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
+            'status'         => $partner->status,
         ];
 
         if (!$projectData) {
@@ -68,4 +68,5 @@ class ProjectProvider
 
         return $projectData;
     }
+
 }
