@@ -15,13 +15,17 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
-    'service_manager'    => [
+    'service_manager' => [
         'factories' => [
-            Service\ClusterService::class            => ConfigAbstractFactory::class,
-            Service\StatisticsService::class         => ConfigAbstractFactory::class
+            Provider\ProjectProvider::class  => ConfigAbstractFactory::class,
+            Provider\PartnerProvider::class  => ConfigAbstractFactory::class,
+            Service\ClusterService::class    => ConfigAbstractFactory::class,
+            Service\PartnerService::class    => ConfigAbstractFactory::class,
+            Service\ProjectService::class    => ConfigAbstractFactory::class,
+            Service\StatisticsService::class => ConfigAbstractFactory::class
         ],
     ],
-    'doctrine'           => [
+    'doctrine'        => [
         'driver' => [
             'cluster_annotation_driver' => [
                 'class' => AnnotationDriver::class,

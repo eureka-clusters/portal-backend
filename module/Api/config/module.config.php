@@ -9,9 +9,14 @@
 
 namespace Api;
 
+use Admin\Entity\User;
 use Api\V1\Rest;
 use Cluster\Entity\Statistics\Partner;
-use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Cluster\Provider\PartnerProvider;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Rest\Collection\PartnerCollection;
+use Cluster\Rest\Collection\ProjectCollection;
+use Contact\Entity\Contact;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\Stdlib;
@@ -19,7 +24,34 @@ use Laminas\Stdlib;
 $config = [
     'router'                       => [
         'routes' => [
-            Rest\UpdateResource\ProjectListener::class     => [
+            Rest\UserResource\MeListener::class             => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/[:id]',
+                    'defaults' => [
+                        'controller' => Rest\UserResource\MeListener::class,
+                    ],
+                ],
+            ],
+            Rest\ViewResource\ProjectListener::class        => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/view/project/[:identifier]',
+                    'defaults' => [
+                        'controller' => Rest\ViewResource\ProjectListener::class,
+                    ],
+                ],
+            ],
+            Rest\ViewResource\PartnerListener::class        => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/view/partner/[:identifier]',
+                    'defaults' => [
+                        'controller' => Rest\ViewResource\PartnerListener::class,
+                    ],
+                ],
+            ],
+            Rest\UpdateResource\ProjectListener::class      => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/update/project',
@@ -28,7 +60,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\StatisticsResource\FacetsListener::class  => [
+            Rest\StatisticsResource\FacetsListener::class   => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/statistics/facets',
@@ -37,7 +69,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\StatisticsResource\ResultsListener::class => [
+            Rest\StatisticsResource\ResultsListener::class  => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/statistics/results',
@@ -58,7 +90,46 @@ $config = [
         ],
     ],
     'api-tools-rest'               => [
-        Rest\UpdateResource\ProjectListener::class     => [
+        Rest\UserResource\MeListener::class             => [
+            'listener'                   => Rest\UserResource\MeListener::class,
+            'route_name'                 => Rest\UserResource\MeListener::class,
+            'route_identifier_name'      => 'id',
+            'entity_http_methods'        => ['GET'],
+            'collection_name'            => 'me',
+            'collection_http_methods'    => [],
+            'service_name'               => 'me',
+            'entity_class'               => User::class,
+            'collection_class'           => User::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [],
+        ],
+        Rest\ViewResource\ProjectListener::class        => [
+            'listener'                   => Rest\ViewResource\ProjectListener::class,
+            'route_name'                 => Rest\ViewResource\ProjectListener::class,
+            'route_identifier_name'      => 'identifier',
+            'entity_http_methods'        => ['GET'],
+            'collection_name'            => 'view_project',
+            'collection_http_methods'    => [],
+            'service_name'               => 'view_project',
+            'entity_class'               => ProjectProvider::class,
+            'collection_class'           => ProjectCollection::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [],
+        ],
+        Rest\ViewResource\PartnerListener::class        => [
+            'listener'                   => Rest\ViewResource\PartnerListener::class,
+            'route_name'                 => Rest\ViewResource\PartnerListener::class,
+            'route_identifier_name'      => 'identifier',
+            'entity_http_methods'        => ['GET'],
+            'collection_name'            => 'view_partner',
+            'collection_http_methods'    => [],
+            'service_name'               => 'view_partner',
+            'entity_class'               => PartnerProvider::class,
+            'collection_class'           => PartnerCollection::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [],
+        ],
+        Rest\UpdateResource\ProjectListener::class      => [
             'listener'                   => Rest\UpdateResource\ProjectListener::class,
             'route_name'                 => Rest\UpdateResource\ProjectListener::class,
             'route_identifier_name'      => 'id',
@@ -73,7 +144,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-        Rest\StatisticsResource\FacetsListener::class  => [
+        Rest\StatisticsResource\FacetsListener::class   => [
             'listener'                   => Rest\StatisticsResource\FacetsListener::class,
             'route_name'                 => Rest\StatisticsResource\FacetsListener::class,
             'route_identifier_name'      => 'id',
@@ -89,7 +160,7 @@ $config = [
                 'filter'
             ],
         ],
-        Rest\StatisticsResource\ResultsListener::class => [
+        Rest\StatisticsResource\ResultsListener::class  => [
             'listener'                   => Rest\StatisticsResource\ResultsListener::class,
             'route_name'                 => Rest\StatisticsResource\ResultsListener::class,
             'route_identifier_name'      => 'id',
@@ -121,17 +192,32 @@ $config = [
     ],
     'api-tools-mvc-auth'           => [
         'authorization' => [
-            Rest\UpdateResource\ProjectListener::class     => [
+            Rest\UserResource\MeListener::class          => [
+                'entity' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\ViewResource\ProjectListener::class        => [
+                'entity' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\ViewResource\PartnerListener::class        => [
+                'entity' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\UpdateResource\ProjectListener::class      => [
                 'collection' => [
                     'POST' => true,
                 ],
             ],
-            Rest\StatisticsResource\FacetsListener::class  => [
+            Rest\StatisticsResource\FacetsListener::class   => [
                 'collection' => [
                     'GET' => true,
                 ],
             ],
-            Rest\StatisticsResource\ResultsListener::class => [
+            Rest\StatisticsResource\ResultsListener::class  => [
                 'collection' => [
                     'GET' => true,
                 ],

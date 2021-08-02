@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 $config = [
-    'router'                     => [
+    'router'          => [
         'routes' => [
             'api' => [
                 'type'    => 'Literal',
@@ -28,7 +28,7 @@ $config = [
             ],
         ],
     ],
-    'navigation'                 => [
+    'navigation'      => [
         'admin' => [
             'tools' => [
                 'pages' => [
@@ -41,7 +41,7 @@ $config = [
             ],
         ],
     ],
-    'doctrine'                   => [
+    'doctrine'        => [
         'driver' => [
             'api_annotation_driver' => [
                 'class' => AnnotationDriver::class,
@@ -56,10 +56,13 @@ $config = [
             ],
         ],
     ],
-    'service_manager'            => [
+    'service_manager' => [
         'factories' => [
             Service\OAuthService::class                     => ConfigAbstractFactory::class,
             Options\ModuleOptions::class                    => Factory\ModuleOptionsFactory::class,
+            Rest\UserResource\MeListener::class             => ConfigAbstractFactory::class,
+            Rest\ViewResource\ProjectListener::class        => ConfigAbstractFactory::class,
+            Rest\ViewResource\PartnerListener::class        => ConfigAbstractFactory::class,
             Rest\UpdateResource\ProjectListener::class      => ConfigAbstractFactory::class,
             Rest\StatisticsResource\FacetsListener::class   => ConfigAbstractFactory::class,
             Rest\StatisticsResource\ResultsListener::class  => ConfigAbstractFactory::class,

@@ -12,9 +12,14 @@ declare(strict_types=1);
 
 namespace Api;
 
+use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
 use Api\Options\ModuleOptions;
 use Api\V1\Rest;
+use Cluster\Provider\PartnerProvider;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Service\PartnerService;
+use Cluster\Service\ProjectService;
 use Cluster\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -22,6 +27,18 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
+        Rest\UserResource\MeListener::class             => [
+            UserService::class,
+            UserProvider::class
+        ],
+        Rest\ViewResource\ProjectListener::class        => [
+            ProjectService::class,
+            ProjectProvider::class
+        ],
+        Rest\ViewResource\PartnerListener::class        => [
+            PartnerService::class,
+            PartnerProvider::class
+        ],
         Rest\UpdateResource\ProjectListener::class      => [
             StatisticsService::class,
             EntityManager::class
@@ -39,7 +56,7 @@ return [
             UserService::class,
             TranslatorInterface::class
         ],
-        Service\OAuthService::class  => [
+        Service\OAuthService::class                     => [
             EntityManager::class,
             TranslatorInterface::class,
             ModuleOptions::class

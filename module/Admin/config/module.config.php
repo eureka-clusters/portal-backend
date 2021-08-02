@@ -10,35 +10,23 @@
 namespace Admin;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Gedmo\Sluggable\SluggableListener;
-use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
-use League\OAuth2\Client\Provider\GenericProvider;
 
 $config = [
-    'controllers'  => [
-        'invokables' => [
-            \Api\Controller\IndexController::class
-        ]
-    ],
-    'view_manager' => [
-        'template_map' => include __DIR__ . '/../template_map.php',
-    ],
-
-    'view_helpers'    => [
-
-    ],
     'service_manager' => [
-        'factories' => [
-            Service\AdminService::class         => ConfigAbstractFactory::class,
-            Service\ApiService::class           => ConfigAbstractFactory::class,
-            Service\UserService::class          => ConfigAbstractFactory::class,
-            Service\QueueService::class         => ConfigAbstractFactory::class
+        'invokables' => [
+            Provider\UserProvider::class
+        ],
+        'factories'  => [
+            Service\AdminService::class => ConfigAbstractFactory::class,
+            Service\ApiService::class   => ConfigAbstractFactory::class,
+            Service\UserService::class  => ConfigAbstractFactory::class,
+            Service\QueueService::class => ConfigAbstractFactory::class
         ],
     ],
     'doctrine'        => [
-        'driver' => [
+        'driver'       => [
             'admin_annotation_driver' => [
                 'class' => AnnotationDriver::class,
                 'paths' => [

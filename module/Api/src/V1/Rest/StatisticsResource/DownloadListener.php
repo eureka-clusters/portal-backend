@@ -127,7 +127,7 @@ final class DownloadListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype'=>$mimetype];
+        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }
