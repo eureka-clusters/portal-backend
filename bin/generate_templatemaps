@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
-SRC_DIR="$(pwd)"
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 cd ".."
 
-#https://gist.github.com/Hounddog/4169214
+cd "module/Application" || exit
+../../vendor/bin/templatemap_generator.php ./view $(find ./view -name '*.twig') > template_map.php
 
-php ./bin/templatemap_generator.php -l module/Application -v module/Application/view -o module/Application/template_map.php -w
+rm -rf ./data/cache/module-config-cache.ecp.php
