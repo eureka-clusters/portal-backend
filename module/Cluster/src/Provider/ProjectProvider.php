@@ -21,12 +21,6 @@ use Doctrine\Common\Cache\RedisCache;
  */
 class ProjectProvider
 {
-    private const STATUS_CONCEPT   = 'Concept';
-    private const STATUS_LABELLED  = 'Labelled';
-    private const STATUS_RUNNING   = 'Running';
-    private const STATUS_COMPLETED = 'Completed';
-    private const STATUS_STOPPED   = 'Stopped';
-
     private RedisCache      $redisCache;
     private ProjectService  $projectService;
     private PartnerProvider $partnerProvider;

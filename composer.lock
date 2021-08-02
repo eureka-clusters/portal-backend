@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef6ee40e8a29196cf9f5b5273d717baf",
+    "content-hash": "87a7eaaa81895ff8837be72ef3bb6f2f",
     "packages": [
         {
             "name": "assetic/framework",
@@ -5035,6 +5035,78 @@
             "time": "2021-03-04T19:29:58+00:00"
         },
         {
+            "name": "laminas/laminas-console",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-console.git",
+                "reference": "9a5e8cf0076f44840892599fcf2a3d2b249a008a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-console/zipball/9a5e8cf0076f44840892599fcf2a3d2b249a008a",
+                "reference": "9a5e8cf0076f44840892599fcf2a3d2b249a008a",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-stdlib": "^3.2.1",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "replace": {
+                "zendframework/zend-console": "^2.8.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-filter": "^2.7.2",
+                "laminas/laminas-json": "^2.6 || ^3.0",
+                "laminas/laminas-validator": "^2.10.1",
+                "phpunit/phpunit": "^5.7.23 || ^6.4.3 || ^7.5.18"
+            },
+            "suggest": {
+                "laminas/laminas-filter": "To support DefaultRouteMatcher usage",
+                "laminas/laminas-validator": "To support DefaultRouteMatcher usage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8.x-dev",
+                    "dev-develop": "2.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Console\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Build console applications using getopt syntax or routing, complete with prompts",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "console",
+                "laminas"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-console/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-console/issues",
+                "rss": "https://github.com/laminas/laminas-console/releases.atom",
+                "source": "https://github.com/laminas/laminas-console"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "abandoned": "laminas/laminas-cli",
+            "time": "2020-04-15T19:21:25+00:00"
+        },
+        {
             "name": "laminas/laminas-crypt",
             "version": "3.5.x-dev",
             "source": {
@@ -6503,12 +6575,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "1a32d6811fcbf54fd59f7a4763acd52fca8a7c97"
+                "reference": "9a6a6ed125a6494ae7ede8b9002976d0075a5f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/1a32d6811fcbf54fd59f7a4763acd52fca8a7c97",
-                "reference": "1a32d6811fcbf54fd59f7a4763acd52fca8a7c97",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/9a6a6ed125a6494ae7ede8b9002976d0075a5f11",
+                "reference": "9a6a6ed125a6494ae7ede8b9002976d0075a5f11",
                 "shasum": ""
             },
             "require": {
@@ -6585,7 +6657,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-07-28T07:26:47+00:00"
+            "time": "2021-08-02T14:06:19+00:00"
         },
         {
             "name": "laminas/laminas-stdlib",

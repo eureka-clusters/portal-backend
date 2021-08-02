@@ -66,10 +66,10 @@ class AuthorizationCode extends \Api\Entity\OAuth\AuthorizationCode implements \
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'oAuthClient', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'oAuthClient', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope'];
     }
 
     /**
@@ -227,23 +227,23 @@ class AuthorizationCode extends \Api\Entity\OAuth\AuthorizationCode implements \
     /**
      * {@inheritDoc}
      */
-    public function getClientId(): string
+    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClientId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthClient', []);
 
-        return parent::getClientId();
+        return parent::getOAuthClient();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setClientId(string $clientId): \Api\Entity\OAuth\AuthorizationCode
+    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): \Api\Entity\OAuth\AuthorizationCode
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClientId', [$clientId]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthClient', [$oAuthClient]);
 
-        return parent::setClientId($clientId);
+        return parent::setOAuthClient($oAuthClient);
     }
 
     /**
@@ -332,28 +332,6 @@ class AuthorizationCode extends \Api\Entity\OAuth\AuthorizationCode implements \
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setScope', [$scope]);
 
         return parent::setScope($scope);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getIdToken(): ?string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdToken', []);
-
-        return parent::getIdToken();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setIdToken(?string $idToken): \Api\Entity\OAuth\AuthorizationCode
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIdToken', [$idToken]);
-
-        return parent::setIdToken($idToken);
     }
 
     /**

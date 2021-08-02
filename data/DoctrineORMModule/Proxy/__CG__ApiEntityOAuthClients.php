@@ -66,10 +66,10 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthRefreshTokens'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAuthorizationCodes'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthRefreshTokens'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Clients' . "\0" . 'oAuthAuthorizationCodes'];
     }
 
     /**
@@ -326,7 +326,7 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function getOAuthAccessTokens(): ?\Doctrine\Common\Collections\ArrayCollection
+    public function getOAuthAccessTokens(): \Doctrine\Common\Collections\ArrayCollection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthAccessTokens', []);
@@ -337,7 +337,7 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function setOAuthAccessTokens(?\Doctrine\Common\Collections\ArrayCollection $oAuthAccessTokens): \Api\Entity\OAuth\Clients
+    public function setOAuthAccessTokens($oAuthAccessTokens): \Api\Entity\OAuth\Clients
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthAccessTokens', [$oAuthAccessTokens]);
@@ -392,7 +392,7 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function getOAuthRefreshTokens(): ?\Doctrine\Common\Collections\ArrayCollection
+    public function getOAuthRefreshTokens()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthRefreshTokens', []);
@@ -403,12 +403,34 @@ class Clients extends \Api\Entity\OAuth\Clients implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function setOAuthRefreshTokens(?\Doctrine\Common\Collections\ArrayCollection $oAuthRefreshTokens): \Api\Entity\OAuth\Clients
+    public function setOAuthRefreshTokens($oAuthRefreshTokens): \Api\Entity\OAuth\Clients
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthRefreshTokens', [$oAuthRefreshTokens]);
 
         return parent::setOAuthRefreshTokens($oAuthRefreshTokens);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOAuthAuthorizationCodes()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthAuthorizationCodes', []);
+
+        return parent::getOAuthAuthorizationCodes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOAuthAuthorizationCodes($oAuthAuthorizationCodes): \Api\Entity\OAuth\Clients
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthAuthorizationCodes', [$oAuthAuthorizationCodes]);
+
+        return parent::setOAuthAuthorizationCodes($oAuthAuthorizationCodes);
     }
 
     /**

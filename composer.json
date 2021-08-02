@@ -12,6 +12,7 @@
   "require": {
     "php": "^7.4 || ~8.0.0",
     "laminas/laminas-cli": "^1.2",
+    "laminas/laminas-console": "^2.8",
     "laminas-api-tools/api-tools": "^1.6.x-dev",
     "laminas-api-tools/api-tools-documentation": "^1.5",
     "laminas-api-tools/api-tools-documentation-swagger": "^1.5",
