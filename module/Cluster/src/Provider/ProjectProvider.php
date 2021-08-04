@@ -45,12 +45,13 @@ class ProjectProvider
             'name'           => $partner->projectName,
             'title'          => $partner->projectTitle,
             'description'    => $partner->projectDescription,
-            'technicalAraa'  => $partner->technicalArea,
+            'technicalArea'  => $partner->technicalArea,
             'programme'      => $partner->programme,
             'programmeCall'  => $partner->programmeCall,
             'primaryCluster' => $partner->primaryCluster,
             'labelDate'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
-            'status'         => $partner->status,
+            'status'         => $partner->latestVersionStatus, //  Notice: Undefined property: Cluster\Entity\Statistics\Partner::$status
+            //'status'         => $partner->status,
         ];
 
         if (!$projectData) {
