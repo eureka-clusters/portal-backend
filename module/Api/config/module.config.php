@@ -16,7 +16,6 @@ use Cluster\Provider\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Rest\Collection\PartnerCollection;
 use Cluster\Rest\Collection\ProjectCollection;
-use Contact\Entity\Contact;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\Stdlib;

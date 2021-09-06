@@ -45,7 +45,7 @@ class ProjectProvider
             'name'           => $partner->projectName,
             'title'          => $partner->projectTitle,
             'description'    => $partner->projectDescription,
-            'technicalAraa'  => $partner->technicalArea,
+            'technicalArea'  => $partner->technicalArea,
             'programme'      => $partner->programme,
             'programmeCall'  => $partner->programmeCall,
             'primaryCluster' => $partner->primaryCluster,
