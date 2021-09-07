@@ -8,6 +8,7 @@
  */
 
 declare(strict_types=1);
+date_default_timezone_set("Europe/Berlin");
 
 use Laminas\Mvc\Application;
 use Laminas\Stdlib\ArrayUtils;
