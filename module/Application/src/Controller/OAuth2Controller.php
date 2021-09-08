@@ -43,6 +43,7 @@ final class OAuth2Controller extends AbstractActionController
     {
         //Find the service
         $service = $this->params('service');
+        $client_id =$this->getRequest()->getQuery('client_id');
 
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
@@ -58,6 +59,7 @@ final class OAuth2Controller extends AbstractActionController
         $session             = new Container('session');
         $session->authState  = $oAuthClient->getState();
         $session->service    = $service;
+        $session->client_id    = $client_id;
         $session->settings   = $settings['settings'];
         $session->profileUrl = $settings['profileUrl'] ?? null;
 
@@ -136,7 +138,8 @@ final class OAuth2Controller extends AbstractActionController
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser($genericUser, $session->settings['allowedClusters']);
 
-                $oAuthClient = $this->oAuthService->findoAuthClientByClientId('ZoDgQeNuqWAdtQyGPZoAPFYGGBzWqkqYHomOynefk');
+                //$oAuthClient = $this->oAuthService->findoAuthClientByClientId('ZoDgQeNuqWAdtQyGPZoAPFYGGBzWqkqYHomOynefk');
+                $oAuthClient = $this->oAuthService->findoAuthClientByClientId($session->client_id);
 
                 $authorizationCode = $this->oAuthService->createAuthorizationCodeForUser($user, $oAuthClient);
 
