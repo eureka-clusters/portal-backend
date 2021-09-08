@@ -31,6 +31,16 @@ return [
             UserService::class,
             UserProvider::class
         ],
+        Rest\ListResource\ProjectListener::class        => [
+            ProjectService::class,
+            UserService::class,
+            ProjectProvider::class
+        ],
+        Rest\ListResource\PartnerListener::class        => [
+            PartnerService::class,
+            UserService::class,
+            PartnerProvider::class
+        ],
         Rest\ViewResource\ProjectListener::class        => [
             ProjectService::class,
             ProjectProvider::class

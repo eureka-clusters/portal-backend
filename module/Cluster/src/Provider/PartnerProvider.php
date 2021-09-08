@@ -13,26 +13,37 @@ declare(strict_types=1);
 namespace Cluster\Provider;
 
 use Cluster\Entity;
-use Cluster\Service\PartnerService;
 use Doctrine\Common\Cache\RedisCache;
 
 /**
- * Class ProjectProvider
- * @package Project\Provider
+ *
  */
 class PartnerProvider
 {
-    private RedisCache     $redisCache;
-    private PartnerService $partnerService;
+    private RedisCache $redisCache;
 
-    public function __construct(RedisCache $redisCache, PartnerService $partnerService)
+    public function __construct(RedisCache $redisCache)
     {
-        $this->redisCache     = $redisCache;
-        $this->partnerService = $partnerService;
+        $this->redisCache = $redisCache;
     }
 
     public function generateArray(Entity\Statistics\Partner $partner): array
     {
-        return ['test'];
+        $cacheKey = $partner->partnerIdentifier;
+
+        $partnerData = $this->redisCache->fetch($cacheKey);
+
+        if (!$partnerData) {
+            $partnerData = [
+                'identifier' => $partner->partnerIdentifier,
+                'name'       => $partner->partner,
+                'type'       => $partner->partnerType,
+                'country'    => $partner->country
+            ];
+
+            $this->redisCache->save($cacheKey, $partnerData);
+        }
+
+        return $partnerData;
     }
 }

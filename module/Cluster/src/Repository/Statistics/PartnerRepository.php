@@ -53,9 +53,33 @@ class PartnerRepository extends EntityRepository
         $this->applyFilters($filter, $queryBuilder);
         $this->applyFunderFilter($queryBuilder, $funder);
 
-        //  print $queryBuilder->getQuery()->getSQL(); die();
-
         return $queryBuilder->getQuery()->getArrayResult();
+    }
+
+    public function findProjects(Funder $funder, array $filter): QueryBuilder
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_statistics_partner');
+        $queryBuilder->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner');
+
+        $queryBuilder->addGroupBy('cluster_entity_statistics_partner.identifier');
+
+        $this->applyFunderFilter($queryBuilder, $funder);
+
+        return $queryBuilder;
+    }
+
+    public function findPartners(Funder $funder, array $filter): QueryBuilder
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_statistics_partner');
+        $queryBuilder->from(Entity\Statistics\Partner::class, 'cluster_entity_statistics_partner');
+
+        $queryBuilder->addGroupBy('cluster_entity_statistics_partner.partnerIdentifier');
+
+        $this->applyFunderFilter($queryBuilder, $funder);
+
+        return $queryBuilder;
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void

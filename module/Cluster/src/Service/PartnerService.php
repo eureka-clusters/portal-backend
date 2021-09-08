@@ -14,6 +14,7 @@ namespace Cluster\Service;
 
 use Application\Service\AbstractService;
 use Cluster\Entity;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  *
@@ -25,5 +26,10 @@ class PartnerService extends AbstractService
         return $this->entityManager->getRepository(Entity\Statistics\Partner::class)->findOneBy(
             ['partnerIdentifier' => $identifier]
         );
+    }
+
+    public function findPartners(Entity\Funder $funder): QueryBuilder
+    {
+        return $this->entityManager->getRepository(Entity\Statistics\Partner::class)->findPartners($funder, []);
     }
 }

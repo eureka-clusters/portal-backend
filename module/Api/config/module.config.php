@@ -32,6 +32,24 @@ $config = [
                     ],
                 ],
             ],
+            Rest\ListResource\ProjectListener::class        => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/api/list/project',
+                    'defaults' => [
+                        'controller' => Rest\ListResource\ProjectListener::class,
+                    ],
+                ],
+            ],
+            Rest\ListResource\PartnerListener::class        => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/api/list/partner',
+                    'defaults' => [
+                        'controller' => Rest\ListResource\PartnerListener::class,
+                    ],
+                ],
+            ],
             Rest\ViewResource\ProjectListener::class        => [
                 'type'    => Segment::class,
                 'options' => [
@@ -102,12 +120,42 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
+        Rest\ListResource\ProjectListener::class        => [
+            'listener'                   => Rest\ListResource\ProjectListener::class,
+            'route_name'                 => Rest\ListResource\ProjectListener::class,
+            'route_identifier_name'      => '',
+            'entity_http_methods'        => [],
+            'collection_name'            => 'project',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'list_project',
+            'entity_class'               => ProjectProvider::class,
+            'collection_class'           => ProjectCollection::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [
+                'call'
+            ],
+        ],
+        Rest\ListResource\PartnerListener::class        => [
+            'listener'                   => Rest\ListResource\PartnerListener::class,
+            'route_name'                 => Rest\ListResource\PartnerListener::class,
+            'route_identifier_name'      => '',
+            'entity_http_methods'        => [],
+            'collection_name'            => 'partner',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'list_partner',
+            'entity_class'               => PartnerProvider::class,
+            'collection_class'           => ProjectCollection::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [
+                'country'
+            ],
+        ],
         Rest\ViewResource\ProjectListener::class        => [
             'listener'                   => Rest\ViewResource\ProjectListener::class,
             'route_name'                 => Rest\ViewResource\ProjectListener::class,
             'route_identifier_name'      => 'identifier',
             'entity_http_methods'        => ['GET'],
-            'collection_name'            => 'view_project',
+            'collection_name'            => 'project',
             'collection_http_methods'    => [],
             'service_name'               => 'view_project',
             'entity_class'               => ProjectProvider::class,
@@ -120,7 +168,7 @@ $config = [
             'route_name'                 => Rest\ViewResource\PartnerListener::class,
             'route_identifier_name'      => 'identifier',
             'entity_http_methods'        => ['GET'],
-            'collection_name'            => 'view_partner',
+            'collection_name'            => 'project',
             'collection_http_methods'    => [],
             'service_name'               => 'view_partner',
             'entity_class'               => PartnerProvider::class,
@@ -191,8 +239,18 @@ $config = [
     ],
     'api-tools-mvc-auth'           => [
         'authorization' => [
-            Rest\UserResource\MeListener::class          => [
+            Rest\UserResource\MeListener::class             => [
                 'entity' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\ListResource\ProjectListener::class        => [
+                'collection' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\ListResource\PartnerListener::class        => [
+                'collection' => [
                     'GET' => true,
                 ],
             ],

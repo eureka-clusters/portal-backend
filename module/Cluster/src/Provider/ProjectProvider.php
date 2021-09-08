@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cluster\Provider;
 
 use Cluster\Entity;
-use Cluster\Service\ProjectService;
 use Doctrine\Common\Cache\RedisCache;
 
 /**
@@ -21,40 +20,33 @@ use Doctrine\Common\Cache\RedisCache;
  */
 class ProjectProvider
 {
-    private RedisCache      $redisCache;
-    private ProjectService  $projectService;
-    private PartnerProvider $partnerProvider;
+    private RedisCache $redisCache;
 
-    public function __construct(
-        RedisCache $redisCache,
-        ProjectService $projectService,
-        PartnerProvider $partnerProvider
-    ) {
-        $this->redisCache      = $redisCache;
-        $this->projectService  = $projectService;
-        $this->partnerProvider = $partnerProvider;
+    public function __construct(RedisCache $redisCache)
+    {
+        $this->redisCache = $redisCache;
     }
 
     public function generateArray(Entity\Statistics\Partner $partner): array
     {
-        $cacheKey = 'test';
+        $cacheKey = $partner->identifier;
 
-        //$projectData = false;//$this->redisCache->fetch($cacheKey);
-        $projectData = [
-            'number'         => $partner->projectNumber,
-            'name'           => $partner->projectName,
-            'title'          => $partner->projectTitle,
-            'description'    => $partner->projectDescription,
-            'technicalArea'  => $partner->technicalArea,
-            'programme'      => $partner->programme,
-            'programmeCall'  => $partner->programmeCall,
-            'primaryCluster' => $partner->primaryCluster,
-            'labelDate'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
-            'status'         => $partner->status,
-        ];
+        $projectData = $this->redisCache->fetch($cacheKey);
 
         if (!$projectData) {
-            // $projectData['internal_identifier'] = ITEAOFFICE_HOST . '-' . $project->getId();
+            $projectData = [
+                'identifier'     => $partner->identifier,
+                'number'         => $partner->projectNumber,
+                'name'           => $partner->projectName,
+                'title'          => $partner->projectTitle,
+                'description'    => $partner->projectDescription,
+                'technicalArea'  => $partner->technicalArea,
+                'programme'      => $partner->programme,
+                'programmeCall'  => $partner->programmeCall,
+                'primaryCluster' => $partner->primaryCluster,
+                'labelDate'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
+                'status'         => $partner->status,
+            ];
 
 
             $this->redisCache->save($cacheKey, $projectData);
@@ -62,5 +54,4 @@ class ProjectProvider
 
         return $projectData;
     }
-
 }
