@@ -37,6 +37,7 @@ class PartnerProvider
             'projectName'       => $partner->projectName,
             'projectIdentifier' => $partner->identifier,
 
+            'identifier'       => $partner->partnerIdentifier,
             'title'            => $partner->projectTitle,
             'description'      => $partner->projectDescription,
             'technicalArea'    => $partner->technicalArea,
