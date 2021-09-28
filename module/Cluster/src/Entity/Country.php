@@ -56,10 +56,17 @@ class Country extends AbstractEntity
      * @var Funder[]|Collections\ArrayCollection
      */
     private $funder;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="country")
+     *
+     * @var \Cluster\Entity\Organisation[]|Collections\ArrayCollection
+     */
+    private $organisations;
 
     public function __construct()
     {
-        $this->funder = new Collections\ArrayCollection();
+        $this->funder    = new Collections\ArrayCollection();
+        $this->organisations = new Collections\ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +143,17 @@ class Country extends AbstractEntity
     public function setFunder($funder): Country
     {
         $this->funder = $funder;
+        return $this;
+    }
+
+    public function getOrganisations()
+    {
+        return $this->organisations;
+    }
+
+    public function setOrganisations($organisations): Country
+    {
+        $this->organisations = $organisations;
         return $this;
     }
 }

@@ -36,7 +36,7 @@ final class ProjectCollection extends ArrayAdapter
         $set = parent::getItems($offset, $itemCountPerPage);
 
         $collection = [];
-        /** @var Entity\Statistics\Partner $project */
+        /** @var Entity\Project $project */
         foreach ($set as $project) {
             $collection[] = $this->projectProvider->generateArray($project);
         }

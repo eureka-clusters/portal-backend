@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Cluster\Rest\Collection;
 
 use Cluster\Entity;
-use Cluster\Provider\PartnerProvider;
+use Cluster\Provider\Project\PartnerProvider;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
 /**
@@ -36,7 +36,7 @@ final class PartnerCollection extends ArrayAdapter
         $set = parent::getItems($offset, $itemCountPerPage);
 
         $collection = [];
-        /** @var Entity\Statistics\Partner $partner */
+        /** @var Entity\Project\Partner $partner */
         foreach ($set as $partner) {
             $collection[] = $this->partnerProvider->generateArray($partner);
         }

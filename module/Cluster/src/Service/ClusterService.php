@@ -25,4 +25,9 @@ class ClusterService extends AbstractService
     {
         return $this->entityManager->find(Entity\Cluster::class, $id);
     }
+
+    public function findClusterByName(string $name): ?Entity\Cluster
+    {
+        return $this->entityManager->getRepository(Entity\Cluster::class)->findOneBy(['name' => $name]);
+    }
 }

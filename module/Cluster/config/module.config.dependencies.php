@@ -12,8 +12,12 @@ declare(strict_types=1);
 
 namespace Cluster;
 
-use Cluster\Provider\PartnerProvider;
-use Cluster\Service\PartnerService;
+use Cluster\Provider\OrganisationProvider;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Service\ClusterService;
+use Cluster\Service\CountryService;
+use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
@@ -21,25 +25,38 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        Provider\ProjectProvider::class  => [
+        Provider\ProjectProvider::class         => [
             RedisCache::class,
             ProjectService::class,
             PartnerProvider::class
         ],
-        Provider\PartnerProvider::class  => [
+        Provider\Project\PartnerProvider::class => [
             RedisCache::class,
-            PartnerService::class
+            ProjectProvider::class,
+            OrganisationProvider::class
         ],
-        Service\ClusterService::class    => [
+        Service\CountryService::class           => [
             EntityManager::class
         ],
-        Service\PartnerService::class    => [
+        Service\ClusterService::class           => [
             EntityManager::class
         ],
-        Service\ProjectService::class    => [
+        Service\ProjectService::class           => [
+            EntityManager::class,
+            ClusterService::class
+        ],
+        Service\OrganisationService::class      => [
             EntityManager::class
         ],
-        Service\StatisticsService::class => [
+        Service\Project\PartnerService::class   => [
+            EntityManager::class,
+            CountryService::class,
+            OrganisationService::class
+        ],
+        Service\Project\VersionService::class   => [
+            EntityManager::class
+        ],
+        Service\StatisticsService::class        => [
             EntityManager::class
         ],
     ]

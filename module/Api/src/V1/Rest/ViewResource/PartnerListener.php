@@ -9,8 +9,8 @@
 
 namespace Api\V1\Rest\ViewResource;
 
-use Cluster\Provider\PartnerProvider;
-use Cluster\Service\PartnerService;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 

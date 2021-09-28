@@ -16,9 +16,10 @@ use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
 use Api\Options\ModuleOptions;
 use Api\V1\Rest;
-use Cluster\Provider\PartnerProvider;
+use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Service\PartnerService;
+use Cluster\Service\Project\PartnerService;
+use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Cluster\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
@@ -27,46 +28,63 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        Rest\UserResource\MeListener::class             => [
+        Rest\UserResource\MeListener::class                     => [
             UserService::class,
             UserProvider::class
         ],
-        Rest\ListResource\ProjectListener::class        => [
+        Rest\ListResource\ProjectListener::class                => [
             ProjectService::class,
             UserService::class,
             ProjectProvider::class
         ],
-        Rest\ListResource\PartnerListener::class        => [
+        Rest\ListResource\PartnerListener::class                => [
             PartnerService::class,
+            ProjectService::class,
             UserService::class,
             PartnerProvider::class
         ],
-        Rest\ViewResource\ProjectListener::class        => [
+        Rest\ViewResource\ProjectListener::class                => [
             ProjectService::class,
             ProjectProvider::class
         ],
-        Rest\ViewResource\PartnerListener::class        => [
+        Rest\ViewResource\PartnerListener::class                => [
             PartnerService::class,
             PartnerProvider::class
         ],
-        Rest\UpdateResource\ProjectListener::class      => [
+        Rest\UpdateResource\ProjectListener::class              => [
             StatisticsService::class,
+            ProjectService::class,
+            VersionService::class,
+            PartnerService::class,
             EntityManager::class
         ],
-        Rest\StatisticsResource\FacetsListener::class   => [
-            StatisticsService::class,
+        Rest\StatisticsResource\Facets\ProjectListener::class   => [
+            ProjectService::class,
             UserService::class
         ],
-        Rest\StatisticsResource\ResultsListener::class  => [
-            StatisticsService::class,
+        Rest\StatisticsResource\Facets\PartnerListener::class   => [
+            PartnerService::class,
             UserService::class
         ],
-        Rest\StatisticsResource\DownloadListener::class => [
-            StatisticsService::class,
+        Rest\StatisticsResource\Results\ProjectListener::class  => [
+            ProjectService::class,
+            UserService::class
+        ],
+        Rest\StatisticsResource\Results\PartnerListener::class  => [
+            PartnerService::class,
+            UserService::class
+        ],
+        Rest\StatisticsResource\Download\ProjectListener::class => [
+            ProjectService::class,
             UserService::class,
             TranslatorInterface::class
         ],
-        Service\OAuthService::class                     => [
+        Rest\StatisticsResource\Download\PartnerListener::class => [
+            PartnerService::class,
+            UserService::class,
+            TranslatorInterface::class
+        ],
+        Service\OAuthService::class                             => [
             EntityManager::class,
             TranslatorInterface::class,
             ModuleOptions::class

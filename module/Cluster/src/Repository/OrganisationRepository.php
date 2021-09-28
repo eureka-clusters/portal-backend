@@ -12,15 +12,12 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
-use Cluster\Entity;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 /**
- * Class Funder
- * @package Cluster\Repository
+ *
  */
-class FunderRepository extends EntityRepository
+class OrganisationRepository extends EntityRepository
 {
 
 }

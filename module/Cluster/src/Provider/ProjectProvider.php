@@ -27,25 +27,25 @@ class ProjectProvider
         $this->redisCache = $redisCache;
     }
 
-    public function generateArray(Entity\Statistics\Partner $partner): array
+    public function generateArray(Entity\Project $project): array
     {
-        $cacheKey = $partner->identifier;
+        $cacheKey = $project->getIdentifier();
 
         $projectData = $this->redisCache->fetch($cacheKey);
 
-        if (!$projectData) {
+        if (true || !$projectData) {
             $projectData = [
-                'identifier'     => $partner->identifier,
-                'number'         => $partner->projectNumber,
-                'name'           => $partner->projectName,
-                'title'          => $partner->projectTitle,
-                'description'    => $partner->projectDescription,
-                'technicalArea'  => $partner->technicalArea,
-                'programme'      => $partner->programme,
-                'programmeCall'  => $partner->programmeCall,
-                'primaryCluster' => $partner->primaryCluster,
-                'labelDate'      => $partner->labelDate->format(\DateTimeInterface::ATOM),
-                'status'         => $partner->status,
+                'identifier'     => $project->getIdentifier(),
+                'number'         => $project->getNumber(),
+                'name'           => $project->getName(),
+                'title'          => $project->getTitle(),
+                'description'    => $project->getDescription(),
+                'technicalArea'  => $project->getTechnicalArea(),
+                'programme'      => $project->getProgramme(),
+                'programmeCall'  => $project->getProgrammeCall(),
+                'primaryCluster' => $project->getPrimaryCluster()->getName(),
+                'labelDate'      => $project->getLabelDate()->format(\DateTimeInterface::ATOM),
+                'status'         => $project->getStatus()->getStatus(),
             ];
 
 

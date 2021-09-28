@@ -50,7 +50,7 @@ class Cluster extends AbstractEntity
      */
     private DateTime $dateCreated;
     /**
-     * @ORM\Column(name="date_updated", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
     private ?DateTime $dateUpdated;
@@ -60,10 +60,24 @@ class Cluster extends AbstractEntity
      * @var Funder[]|Collections\ArrayCollection
      */
     private $clusterFunders;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="primaryCluster")
+     *
+     * @var \Cluster\Entity\Project[]|Collections\ArrayCollection
+     */
+    private $projectsPrimary;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="secondaryCluster")
+     *
+     * @var \Cluster\Entity\Project[]|Collections\ArrayCollection
+     */
+    private $projectsSecondary;
 
     public function __construct()
     {
-        $this->clusterFunders = new Collections\ArrayCollection();
+        $this->clusterFunders    = new Collections\ArrayCollection();
+        $this->projectsPrimary   = new Collections\ArrayCollection();
+        $this->projectsSecondary = new Collections\ArrayCollection();
     }
 
     public function __toString(): string
@@ -148,29 +162,25 @@ class Cluster extends AbstractEntity
         return $this;
     }
 
-//    /**
-//     * @param Funder $funder
-//     */
-//    public function addFunder(Funder $funder)
-//    {
-//        if ($this->clusterFunders->contains($funder)) {
-//            return;
-//        }
-//
-//        $this->clusterFunders->add($funder);
-//        $funder->addCluster($this);
-//    }
-//
-//    /**
-//     * @param Funder $funder
-//     */
-//    public function removeFunder(Funder $funder)
-//    {
-//        if (!$this->clusterFunders->contains($funder)) {
-//            return;
-//        }
-//
-//        $this->clusterFunders->removeElement($funder);
-//        $funder->removeCluster($this);
-//    }
+    public function getProjectsPrimary()
+    {
+        return $this->projectsPrimary;
+    }
+
+    public function setProjectsPrimary($projectsPrimary): Cluster
+    {
+        $this->projectsPrimary = $projectsPrimary;
+        return $this;
+    }
+
+    public function getProjectsSecondary()
+    {
+        return $this->projectsSecondary;
+    }
+
+    public function setProjectsSecondary($projectsSecondary): Cluster
+    {
+        $this->projectsSecondary = $projectsSecondary;
+        return $this;
+    }
 }
