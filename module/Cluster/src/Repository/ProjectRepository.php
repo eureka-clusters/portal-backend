@@ -30,7 +30,7 @@ class ProjectRepository extends EntityRepository
 
         $this->applyFilters($filter, $queryBuilder);
 
-        return $queryBuilder->getQuery()->getArrayResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
@@ -226,7 +226,7 @@ class ProjectRepository extends EntityRepository
 
         $queryBuilder->select(
             'cluster_entity_organisation_type.type',
-            $queryBuilder->expr()->count('cluster_entity_project')
+            $queryBuilder->expr()->countDistinct('cluster_entity_project')
         );
 
         $queryBuilder->from(Entity\Organisation\Type::class, 'cluster_entity_organisation_type')
@@ -270,7 +270,7 @@ class ProjectRepository extends EntityRepository
 
         $queryBuilder->select(
             'cluster_entity_project_partners_organisation_country.country',
-            $queryBuilder->expr()->count('cluster_entity_project.id')
+            $queryBuilder->expr()->countDistinct('cluster_entity_project.id')
         );
 
         $queryBuilder->from(Entity\Project::class, 'cluster_entity_project')

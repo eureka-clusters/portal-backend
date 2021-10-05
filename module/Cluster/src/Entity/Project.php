@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project\Version;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -313,6 +314,17 @@ class Project extends AbstractEntity
     {
         $this->versions = $versions;
         return $this;
+    }
+
+    public function getLatestVersion(): ?Version
+    {
+        $hasLatest = $this->versions->exists(fn(int $key, Version $version) => $version->getType()->isLatest());
+
+        if (!$hasLatest) {
+            return null;
+        }
+
+        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first();
     }
 
     public function getPartners()

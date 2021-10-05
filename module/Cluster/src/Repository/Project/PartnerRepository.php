@@ -29,7 +29,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(Entity\Project\Partner::class, 'cluster_entity_project_partner');
 
 
-        return $queryBuilder->getQuery()->getArrayResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     public function getPartnersByProject(Entity\Project $project): array
@@ -95,7 +95,7 @@ class PartnerRepository extends EntityRepository
             'cluster_entity_cluster_project_primary_partner'
         );
 
-        $queryBuilder->groupBy('cluster_entity_cluster_project_primary_partner');
+        $queryBuilder->groupBy('cluster_entity_cluster');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
@@ -116,7 +116,7 @@ class PartnerRepository extends EntityRepository
             'cluster_entity_project_status_project_partners'
         );
 
-        $queryBuilder->groupBy('cluster_entity_project_status_project_partners');
+        $queryBuilder->groupBy('cluster_entity_project_status');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

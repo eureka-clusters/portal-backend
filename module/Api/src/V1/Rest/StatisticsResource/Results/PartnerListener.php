@@ -11,6 +11,8 @@
 namespace Api\V1\Rest\StatisticsResource\Results;
 
 use Admin\Service\UserService;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Rest\Collection\PartnerCollection;
 use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
@@ -19,16 +21,21 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
  */
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService $partnerService;
-    private UserService    $userService;
+    private PartnerService  $partnerService;
+    private UserService     $userService;
+    private PartnerProvider $partnerProvider;
 
-    public function __construct(PartnerService $partnerService, UserService $userService)
-    {
+    public function __construct(
+        PartnerService $partnerService,
+        UserService $userService,
+        PartnerProvider $partnerProvider
+    ) {
         $this->partnerService = $partnerService;
-        $this->userService    = $userService;
+        $this->userService = $userService;
+        $this->partnerProvider = $partnerProvider;
     }
 
-    public function fetchAll($data = [])
+    public function fetchAll($params = [])
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
@@ -43,6 +50,11 @@ final class PartnerListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        return $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+        $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+
+        return (new PartnerCollection($partners, $this->partnerProvider))->getItems(
+            $params->offset,
+            $params->amount ?? 100
+        );
     }
 }

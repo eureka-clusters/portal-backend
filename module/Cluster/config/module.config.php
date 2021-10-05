@@ -19,6 +19,7 @@ $config = [
         'factories' => [
             Provider\ProjectProvider::class         => ConfigAbstractFactory::class,
             Provider\Project\PartnerProvider::class => ConfigAbstractFactory::class,
+            Provider\OrganisationProvider::class    => ConfigAbstractFactory::class,
             Service\ClusterService::class           => ConfigAbstractFactory::class,
             Service\CountryService::class           => ConfigAbstractFactory::class,
             Service\OrganisationService::class      => ConfigAbstractFactory::class,

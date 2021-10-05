@@ -35,7 +35,7 @@ class Type extends AbstractEntity
     /**
      * @ORM\Column(unique=true)
      */
-    private string $type;
+    private string $type = '';
     /**
      * @ORM\Column(unique=true)
      */
@@ -50,6 +50,11 @@ class Type extends AbstractEntity
     public function __construct()
     {
         $this->versions = new Collections\ArrayCollection();
+    }
+
+    public function isLatest(): bool
+    {
+        return $this->type === self::TYPE_LATEST;
     }
 
     public function getId(): ?int

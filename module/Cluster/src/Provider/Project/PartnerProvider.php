@@ -42,12 +42,12 @@ class PartnerProvider
 
         //$partnerData = false;//$this->redisCache->fetch($cacheKey);
         $partnerData = [
-            'project'        => $this->projectProvider->generateArray($partner->getProject()),
-            'is_active'      => $partner->isActive(),
-            'is_self_funded' => $partner->isSelfFunded(),
-            'is_coordinator' => $partner->isCoordinator(),
-
-
+            'id'            => $partner->getId(),
+            'project'       => $this->projectProvider->generateArray($partner->getProject()),
+            'isActive'      => $partner->isActive(),
+            'isSelfFunded'  => $partner->isSelfFunded(),
+            'isCoordinator' => $partner->isCoordinator(),
+            'organisation'  => $this->organisationProvider->generateArray($partner->getOrganisation())
         ];
 
         if (!$partnerData) {

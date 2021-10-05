@@ -35,19 +35,10 @@ class OrganisationProvider
 
         if (true || !$organisationData) {
             $organisationData = [
-                'identifier'     => $organisation->getIdentifier(),
-                'number'         => $organisation->getNumber(),
-                'name'           => $organisation->getName(),
-                'title'          => $organisation->getTitle(),
-                'description'    => $organisation->getDescription(),
-                'technicalArea'  => $organisation->getTechnicalArea(),
-                'programme'      => $organisation->getProgramme(),
-                'programmeCall'  => $organisation->getProgrammeCall(),
-                'primaryCluster' => $organisation->getPrimaryCluster()->getName(),
-                'labelDate'      => $organisation->getLabelDate()->format(\DateTimeInterface::ATOM),
-                'status'         => $organisation->getStatus()->getStatus(),
-            ];
+                'id'   => $organisation->getId(),
+                'name' => $organisation->getName(),
 
+            ];
 
             $this->redisCache->save($cacheKey, $organisationData);
         }

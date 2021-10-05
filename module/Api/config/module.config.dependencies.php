@@ -60,7 +60,7 @@ return [
         ],
         Rest\StatisticsResource\Facets\ProjectListener::class   => [
             ProjectService::class,
-            UserService::class
+            UserService::class,
         ],
         Rest\StatisticsResource\Facets\PartnerListener::class   => [
             PartnerService::class,
@@ -68,11 +68,13 @@ return [
         ],
         Rest\StatisticsResource\Results\ProjectListener::class  => [
             ProjectService::class,
-            UserService::class
+            UserService::class,
+            ProjectProvider::class
         ],
         Rest\StatisticsResource\Results\PartnerListener::class  => [
             PartnerService::class,
-            UserService::class
+            UserService::class,
+            PartnerProvider::class
         ],
         Rest\StatisticsResource\Download\ProjectListener::class => [
             ProjectService::class,

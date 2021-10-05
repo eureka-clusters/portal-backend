@@ -108,7 +108,7 @@ $config = [
             Rest\StatisticsResource\Results\PartnerListener::class  => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/api/statistics/results\partner',
+                    'route'    => '/api/statistics/results/partner',
                     'defaults' => [
                         'controller' => Rest\StatisticsResource\Results\PartnerListener::class,
                     ],

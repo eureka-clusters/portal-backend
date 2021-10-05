@@ -24,7 +24,8 @@ return [
     'api-tools-oauth2'   => [
         'storage'                        => \Application\Authentication\OAuth2\Adapter\PdoAdapter::class,
         'allow_implicit'                 => true,
-        'access_lifetime'                => 100,
+        //'access_lifetime'                => 100,
+        'access_lifetime'                => 100000,
         'enforce_state'                  => true,
         'options' => [
             'use_jwt_access_tokens'             => false,

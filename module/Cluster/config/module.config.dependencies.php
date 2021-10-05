@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cluster;
 
 use Cluster\Provider\OrganisationProvider;
-use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ClusterService;
 use Cluster\Service\CountryService;
@@ -27,8 +26,10 @@ return [
     ConfigAbstractFactory::class => [
         Provider\ProjectProvider::class         => [
             RedisCache::class,
-            ProjectService::class,
-            PartnerProvider::class
+            ProjectService::class
+        ],
+        Provider\OrganisationProvider::class    => [
+            RedisCache::class
         ],
         Provider\Project\PartnerProvider::class => [
             RedisCache::class,

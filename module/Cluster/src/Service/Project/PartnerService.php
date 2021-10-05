@@ -65,9 +65,9 @@ class PartnerService extends AbstractService
             ];
         }, $countries);
 
-        $partnerTypesIndexed = array_map(static function (array $partnerType) {
+        $organisationTypesIndexed = array_map(static function (array $partnerType) {
             return [
-                'partnerType' => $partnerType['type'],
+                'organisationType' => $partnerType['type'],
                 'amount'      => $partnerType[1]
             ];
         }, $organisationTypes);
@@ -88,7 +88,7 @@ class PartnerService extends AbstractService
 
         return [
             'countries'          => $countriesIndexed,
-            'organisation_types' => $partnerTypesIndexed,
+            'organisation_types' => $organisationTypesIndexed,
             'project_status'     => $projectStatusIndexed,
             'primary_clusters'   => $primaryClustersIndexed,
             'years'              => $years,

@@ -41,6 +41,8 @@ class ProjectProvider
                 'title'          => $project->getTitle(),
                 'description'    => $project->getDescription(),
                 'technicalArea'  => $project->getTechnicalArea(),
+                'latestVersion'  => null === $project->getLatestVersion() ? null : $project->getLatestVersion(
+                )->getType()->getType(),
                 'programme'      => $project->getProgramme(),
                 'programmeCall'  => $project->getProgrammeCall(),
                 'primaryCluster' => $project->getPrimaryCluster()->getName(),

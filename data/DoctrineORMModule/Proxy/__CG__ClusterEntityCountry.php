@@ -66,10 +66,10 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'cd', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'docRef', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'iso3', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'numcode', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'funder'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'cd', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'docRef', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'iso3', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'numcode', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'funder', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'organisations'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'cd', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'docRef', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'iso3', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'numcode', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'funder'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'cd', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'country', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'docRef', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'iso3', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'numcode', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'funder', '' . "\0" . 'Cluster\\Entity\\Country' . "\0" . 'organisations'];
     }
 
     /**
@@ -332,6 +332,28 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFunder', [$funder]);
 
         return parent::setFunder($funder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrganisations()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrganisations', []);
+
+        return parent::getOrganisations();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOrganisations($organisations): \Cluster\Entity\Country
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOrganisations', [$organisations]);
+
+        return parent::setOrganisations($organisations);
     }
 
     /**

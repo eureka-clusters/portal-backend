@@ -11,24 +11,31 @@
 namespace Api\V1\Rest\StatisticsResource\Results;
 
 use Admin\Service\UserService;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Rest\Collection\ProjectCollection;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 /**
- * 
+ *
  */
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $ProjectService;
-    private UserService       $userService;
+    private ProjectService  $projectService;
+    private UserService     $userService;
+    private ProjectProvider $projectProvider;
 
-    public function __construct(ProjectService $ProjectService, UserService $userService)
-    {
-        $this->ProjectService = $ProjectService;
-        $this->userService       = $userService;
+    public function __construct(
+        ProjectService $projectService,
+        UserService $userService,
+        ProjectProvider $projectProvider
+    ) {
+        $this->projectService  = $projectService;
+        $this->userService     = $userService;
+        $this->projectProvider = $projectProvider;
     }
 
-    public function fetchAll($data = [])
+    public function fetchAll($params = [])
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
@@ -36,13 +43,17 @@ final class ProjectListener extends AbstractResourceListener
             return [];
         }
 
-        $output        = (int)$this->getEvent()->getQueryParams()->get('output');
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        return $this->ProjectService->getProjects($user->getFunder(), $arrayFilter);
+        $projects = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+
+        return (new ProjectCollection($projects, $this->projectProvider))->getItems(
+            $params->offset,
+            $params->amount ?? 100
+        );
     }
 }
