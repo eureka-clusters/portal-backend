@@ -136,15 +136,15 @@ class ProjectRepository extends EntityRepository
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_organisation_type')
                         ->from(Entity\Project\Partner::class, 'cluster_entity_project_partner')
-                        ->join('cluster_entity_project_partner.project', 'cluster_entity_project_filter_country')
+                        ->join('cluster_entity_project_partner.project', 'cluster_entity_project_filter_organisation_type')
                         ->join(
                             'cluster_entity_project_partner.organisation',
                             'cluster_entity_project_partner_organisation'
                         )
-                        ->join('cluster_entity_project_partner_organisation.type', 'cluster_entity_organisation_type')
+                        ->join('cluster_entity_project_partner_organisation.type', 'cluster_entity_project_partner_organisation_type')
                         ->where(
                             $queryBuilder->expr()->in(
-                                'cluster_entity_organisation_type.type',
+                                'cluster_entity_project_partner_organisation_type.type',
                                 $organisationTypeFilter
                             )
                         );
