@@ -100,7 +100,7 @@ class ProjectRepository extends EntityRepository
         $organisationTypeFilter = $filter['organisation_type'] ?? [];
 
         if (!empty($organisationTypeFilter)) {
-            switch ($filter['organisation_type']) {
+            switch ($filter['organisation_type_method']) {
                 case 'and':
                     //Find the projects we have at least organisations with this type
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
