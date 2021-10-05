@@ -66,10 +66,10 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'projectsPrimary', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'projectsSecondary'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'clusterFunders', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'projectsPrimary', '' . "\0" . 'Cluster\\Entity\\Cluster' . "\0" . 'projectsSecondary'];
     }
 
     /**
@@ -343,6 +343,50 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClusterFunders', [$funders]);
 
         return parent::setClusterFunders($funders);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectsPrimary()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectsPrimary', []);
+
+        return parent::getProjectsPrimary();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectsPrimary($projectsPrimary): \Cluster\Entity\Cluster
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectsPrimary', [$projectsPrimary]);
+
+        return parent::setProjectsPrimary($projectsPrimary);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectsSecondary()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectsSecondary', []);
+
+        return parent::getProjectsSecondary();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectsSecondary($projectsSecondary): \Cluster\Entity\Cluster
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectsSecondary', [$projectsSecondary]);
+
+        return parent::setProjectsSecondary($projectsSecondary);
     }
 
     /**

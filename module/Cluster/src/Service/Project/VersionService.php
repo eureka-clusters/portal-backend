@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * ITEA Office all rights reserved
+ *
+ * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
+ * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
+ * @license     https://itea3.org/license.txt proprietary
+ */
+
+declare(strict_types=1);
+
+namespace Cluster\Service\Project;
+
+use Application\Service\AbstractService;
+use Cluster\Entity;
+
+/**
+ *
+ */
+class VersionService extends AbstractService
+{
+    public function findVersionTypeById(int $id): Entity\Version\Type
+    {
+        return $this->entityManager->find(Entity\Version\Type::class, $id);
+    }
+
+    public function createVersionFromData(\stdClass $data, Entity\Version\Type $type, Entity\Project $project): Entity\Project\Version
+    {
+        $version = new Entity\Project\Version();
+        $version->setProject($project);
+
+        $version->setType($type);
+
+        //Find the status
+        $status = $this->findOrCreateVersionStatus($data->status);
+
+        $version->setStatus($status);
+
+        //Handle the submission date
+        $submissionDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->submission_date);
+        $version->setSubmissionDate($submissionDate);
+
+        $version->setCosts($data->total_costs);
+        $version->setEffort($data->total_effort);
+
+        //@todo: We keep an array here, might need to create entities
+        $version->setCountries($data->countries);
+
+        $this->save($version);
+
+        return $version;
+    }
+
+    public function findVersionType(string $typeName): Entity\Version\Type
+    {
+        $type = $this->entityManager->getRepository(Entity\Version\Type::class)
+            ->findOneBy(['type' => $typeName]);
+
+        if (null === $type) {
+            throw new \InvalidArgumentException(sprintf("Project version type \"%s\" cannot be found", $typeName));
+        }
+
+        return $type;
+    }
+
+    public function findOrCreateVersionStatus(string $statusName): Entity\Version\Status
+    {
+        $status = $this->entityManager->getRepository(Entity\Version\Status::class)
+            ->findOneBy(['status' => $statusName]);
+
+        if (null === $status) {
+            $status = new Entity\Version\Status();
+            $status->setStatus($statusName);
+            $this->save($status);
+        }
+
+        return $status;
+    }
+}

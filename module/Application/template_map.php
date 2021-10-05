@@ -1,5 +1,4 @@
 <?php
-
 return [
     'application/index/index' => __DIR__ . '/./view/application/index/index.phtml',
     'oauth/receive-code' => __DIR__ . '/./view/oauth/receive-code.phtml',

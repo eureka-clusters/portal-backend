@@ -11,8 +11,9 @@ namespace Api;
 
 use Admin\Entity\User;
 use Api\V1\Rest;
-use Cluster\Entity\Statistics\Partner;
-use Cluster\Provider\PartnerProvider;
+use Cluster\Entity\Project;
+use Cluster\Entity\Project\Partner;
+use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Rest\Collection\PartnerCollection;
 use Cluster\Rest\Collection\ProjectCollection;
@@ -23,7 +24,7 @@ use Laminas\Stdlib;
 $config = [
     'router'                       => [
         'routes' => [
-            Rest\UserResource\MeListener::class             => [
+            Rest\UserResource\MeListener::class                     => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/api/[:id]',
@@ -32,7 +33,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\ListResource\ProjectListener::class        => [
+            Rest\ListResource\ProjectListener::class                => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/list/project',
@@ -41,7 +42,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\ListResource\PartnerListener::class        => [
+            Rest\ListResource\PartnerListener::class                => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/list/partner',
@@ -50,7 +51,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\ViewResource\ProjectListener::class        => [
+            Rest\ViewResource\ProjectListener::class                => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/api/view/project/[:identifier]',
@@ -59,7 +60,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\ViewResource\PartnerListener::class        => [
+            Rest\ViewResource\PartnerListener::class                => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/api/view/partner/[:identifier]',
@@ -68,7 +69,7 @@ $config = [
                     ],
                 ],
             ],
-            Rest\UpdateResource\ProjectListener::class      => [
+            Rest\UpdateResource\ProjectListener::class              => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api/update/project',
@@ -77,37 +78,64 @@ $config = [
                     ],
                 ],
             ],
-            Rest\StatisticsResource\FacetsListener::class   => [
+            Rest\StatisticsResource\Facets\ProjectListener::class   => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/api/statistics/facets',
+                    'route'    => '/api/statistics/facets/project',
                     'defaults' => [
-                        'controller' => Rest\StatisticsResource\FacetsListener::class,
+                        'controller' => Rest\StatisticsResource\Facets\ProjectListener::class,
                     ],
                 ],
             ],
-            Rest\StatisticsResource\ResultsListener::class  => [
+            Rest\StatisticsResource\Facets\PartnerListener::class   => [
                 'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/api/statistics/results',
+                    'route'    => '/api/statistics/facets/partner',
                     'defaults' => [
-                        'controller' => Rest\StatisticsResource\ResultsListener::class,
+                        'controller' => Rest\StatisticsResource\Facets\PartnerListener::class,
                     ],
                 ],
             ],
-            Rest\StatisticsResource\DownloadListener::class => [
-                'type'    => Segment::class,
+            Rest\StatisticsResource\Results\ProjectListener::class  => [
+                'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/api/statistics/download/[:id]/[:filter]',
+                    'route'    => '/api/statistics/results/project',
                     'defaults' => [
-                        'controller' => Rest\StatisticsResource\DownloadListener::class,
+                        'controller' => Rest\StatisticsResource\Results\ProjectListener::class,
+                    ],
+                ],
+            ],
+            Rest\StatisticsResource\Results\PartnerListener::class  => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/api/statistics/results/partner',
+                    'defaults' => [
+                        'controller' => Rest\StatisticsResource\Results\PartnerListener::class,
+                    ],
+                ],
+            ],
+            Rest\StatisticsResource\Download\ProjectListener::class => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/api/statistics/download/project',
+                    'defaults' => [
+                        'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
+                    ],
+                ],
+            ],
+            Rest\StatisticsResource\Download\PartnerListener::class => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/api/statistics/download\partner',
+                    'defaults' => [
+                        'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                     ],
                 ],
             ],
         ],
     ],
     'api-tools-rest'               => [
-        Rest\UserResource\MeListener::class             => [
+        Rest\UserResource\MeListener::class                    => [
             'listener'                   => Rest\UserResource\MeListener::class,
             'route_name'                 => Rest\UserResource\MeListener::class,
             'route_identifier_name'      => 'id',
@@ -120,7 +148,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-        Rest\ListResource\ProjectListener::class        => [
+        Rest\ListResource\ProjectListener::class               => [
             'listener'                   => Rest\ListResource\ProjectListener::class,
             'route_name'                 => Rest\ListResource\ProjectListener::class,
             'route_identifier_name'      => '',
@@ -132,10 +160,10 @@ $config = [
             'collection_class'           => ProjectCollection::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [
-                'call'
+                'call',
             ],
         ],
-        Rest\ListResource\PartnerListener::class        => [
+        Rest\ListResource\PartnerListener::class               => [
             'listener'                   => Rest\ListResource\PartnerListener::class,
             'route_name'                 => Rest\ListResource\PartnerListener::class,
             'route_identifier_name'      => '',
@@ -147,10 +175,10 @@ $config = [
             'collection_class'           => ProjectCollection::class,
             'page_size'                  => 25,
             'collection_query_whitelist' => [
-                'country'
+                'project'
             ],
         ],
-        Rest\ViewResource\ProjectListener::class        => [
+        Rest\ViewResource\ProjectListener::class               => [
             'listener'                   => Rest\ViewResource\ProjectListener::class,
             'route_name'                 => Rest\ViewResource\ProjectListener::class,
             'route_identifier_name'      => 'identifier',
@@ -163,7 +191,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-        Rest\ViewResource\PartnerListener::class        => [
+        Rest\ViewResource\PartnerListener::class               => [
             'listener'                   => Rest\ViewResource\PartnerListener::class,
             'route_name'                 => Rest\ViewResource\PartnerListener::class,
             'route_identifier_name'      => 'identifier',
@@ -176,7 +204,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-        Rest\UpdateResource\ProjectListener::class      => [
+        Rest\UpdateResource\ProjectListener::class             => [
             'listener'                   => Rest\UpdateResource\ProjectListener::class,
             'route_name'                 => Rest\UpdateResource\ProjectListener::class,
             'route_identifier_name'      => 'id',
@@ -191,14 +219,30 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-        Rest\StatisticsResource\FacetsListener::class   => [
-            'listener'                   => Rest\StatisticsResource\FacetsListener::class,
-            'route_name'                 => Rest\StatisticsResource\FacetsListener::class,
+        Rest\StatisticsResource\Facets\ProjectListener::class  => [
+            'listener'                   => Rest\StatisticsResource\Facets\ProjectListener::class,
+            'route_name'                 => Rest\StatisticsResource\Facets\ProjectListener::class,
             'route_identifier_name'      => 'id',
             'entity_http_methods'        => [],
             'collection_name'            => 'facets',
             'collection_http_methods'    => ['GET'],
-            'service_name'               => 'statistics_facets',
+            'service_name'               => 'statistics_facets_project',
+            'entity_class'               => Project::class,
+            'collection_class'           => Project::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [
+                'output',
+                'filter'
+            ],
+        ],
+        Rest\StatisticsResource\Facets\PartnerListener::class  => [
+            'listener'                   => Rest\StatisticsResource\Facets\PartnerListener::class,
+            'route_name'                 => Rest\StatisticsResource\Facets\PartnerListener::class,
+            'route_identifier_name'      => 'id',
+            'entity_http_methods'        => [],
+            'collection_name'            => 'facets',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'statistics_facets_partner',
             'entity_class'               => Partner::class,
             'collection_class'           => Partner::class,
             'page_size'                  => 25,
@@ -207,14 +251,30 @@ $config = [
                 'filter'
             ],
         ],
-        Rest\StatisticsResource\ResultsListener::class  => [
-            'listener'                   => Rest\StatisticsResource\ResultsListener::class,
-            'route_name'                 => Rest\StatisticsResource\ResultsListener::class,
+        Rest\StatisticsResource\Results\ProjectListener::class => [
+            'listener'                   => Rest\StatisticsResource\Results\ProjectListener::class,
+            'route_name'                 => Rest\StatisticsResource\Results\ProjectListener::class,
             'route_identifier_name'      => 'id',
             'entity_http_methods'        => [],
             'collection_name'            => 'results',
             'collection_http_methods'    => ['GET'],
-            'service_name'               => 'statistics_results',
+            'service_name'               => 'statistics_results_project',
+            'entity_class'               => Project::class,
+            'collection_class'           => Project::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [
+                'output',
+                'filter'
+            ],
+        ],
+        Rest\StatisticsResource\Results\PartnerListener::class => [
+            'listener'                   => Rest\StatisticsResource\Results\PartnerListener::class,
+            'route_name'                 => Rest\StatisticsResource\Results\PartnerListener::class,
+            'route_identifier_name'      => 'id',
+            'entity_http_methods'        => [],
+            'collection_name'            => 'results',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'statistics_results_partner',
             'entity_class'               => Partner::class,
             'collection_class'           => Partner::class,
             'page_size'                  => 25,
@@ -223,64 +283,99 @@ $config = [
                 'filter'
             ],
         ],
-        Rest\StatisticsResource\DownloadListener::class => [
-            'listener'                   => Rest\StatisticsResource\DownloadListener::class,
-            'route_name'                 => Rest\StatisticsResource\DownloadListener::class,
+        Rest\StatisticsResource\Download\ProjectListener::class => [
+            'listener'                   => Rest\StatisticsResource\Download\ProjectListener::class,
+            'route_name'                 => Rest\StatisticsResource\Download\ProjectListener::class,
             'route_identifier_name'      => 'id',
-            'entity_http_methods'        => ['GET'],
+            'entity_http_methods'        => [],
             'collection_name'            => 'results',
-            'collection_http_methods'    => [],
-            'service_name'               => 'statistics_download',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'statistics_download_project',
+            'entity_class'               => Project::class,
+            'collection_class'           => Project::class,
+            'page_size'                  => 25,
+            'collection_query_whitelist' => [
+                'output',
+                'filter'
+            ],
+        ],
+        Rest\StatisticsResource\Download\PartnerListener::class => [
+            'listener'                   => Rest\StatisticsResource\Download\PartnerListener::class,
+            'route_name'                 => Rest\StatisticsResource\Download\PartnerListener::class,
+            'route_identifier_name'      => 'id',
+            'entity_http_methods'        => [],
+            'collection_name'            => 'results',
+            'collection_http_methods'    => ['GET'],
+            'service_name'               => 'statistics_download_partner',
             'entity_class'               => Partner::class,
             'collection_class'           => Partner::class,
             'page_size'                  => 25,
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [
+                'output',
+                'filter'
+            ],
         ],
+
     ],
     'api-tools-mvc-auth'           => [
         'authorization' => [
-            Rest\UserResource\MeListener::class             => [
+            Rest\UserResource\MeListener::class                     => [
                 'entity' => [
                     'GET' => true,
                 ],
             ],
-            Rest\ListResource\ProjectListener::class        => [
+            Rest\ListResource\ProjectListener::class                => [
                 'collection' => [
                     'GET' => true,
                 ],
             ],
-            Rest\ListResource\PartnerListener::class        => [
+            Rest\ListResource\PartnerListener::class                => [
                 'collection' => [
                     'GET' => true,
                 ],
             ],
-            Rest\ViewResource\ProjectListener::class        => [
+            Rest\ViewResource\ProjectListener::class                => [
                 'entity' => [
                     'GET' => true,
                 ],
             ],
-            Rest\ViewResource\PartnerListener::class        => [
+            Rest\ViewResource\PartnerListener::class                => [
                 'entity' => [
                     'GET' => true,
                 ],
             ],
-            Rest\UpdateResource\ProjectListener::class      => [
+            Rest\UpdateResource\ProjectListener::class              => [
                 'collection' => [
                     'POST' => true,
                 ],
             ],
-            Rest\StatisticsResource\FacetsListener::class   => [
+            Rest\StatisticsResource\Facets\ProjectListener::class   => [
                 'collection' => [
                     'GET' => true,
                 ],
             ],
-            Rest\StatisticsResource\ResultsListener::class  => [
+            Rest\StatisticsResource\Facets\PartnerListener::class   => [
                 'collection' => [
                     'GET' => true,
                 ],
             ],
-            Rest\StatisticsResource\DownloadListener::class => [
-                'entity' => [
+            Rest\StatisticsResource\Results\ProjectListener::class  => [
+                'collection' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\StatisticsResource\Results\PartnerListener::class  => [
+                'collection' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\StatisticsResource\Download\ProjectListener::class => [
+                'collection' => [
+                    'GET' => true,
+                ],
+            ],
+            Rest\StatisticsResource\Download\PartnerListener::class => [
+                'collection' => [
                     'GET' => true,
                 ],
             ],

@@ -12,12 +12,7 @@ declare(strict_types=1);
 
 namespace ClusterTest;
 
-use Application\Authentication\OAuth2\Adapter\PdoAdapter;
-use Application\Controller\Plugin\GetFilter;
-use Application\Controller\Plugin\Preferences;
-use Application\Module;
-use Application\Service\SetTitle;
-use Application\View\UnauthorizedStrategy;
+use Cluster\Module;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
 

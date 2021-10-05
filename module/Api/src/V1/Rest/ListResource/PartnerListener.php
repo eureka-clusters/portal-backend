@@ -10,9 +10,11 @@
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
-use Cluster\Provider\PartnerProvider;
+use Cluster\Entity\Project;
+use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Rest\Collection\PartnerCollection;
-use Cluster\Service\PartnerService;
+use Cluster\Service\Project\PartnerService;
+use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 /**
@@ -22,15 +24,18 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 final class PartnerListener extends AbstractResourceListener
 {
     private PartnerService  $partnerService;
+    private ProjectService  $projectService;
     private UserService     $userService;
     private PartnerProvider $partnerProvider;
 
     public function __construct(
         PartnerService $partnerService,
+        ProjectService $projectService,
         UserService $userService,
         PartnerProvider $partnerProvider
     ) {
         $this->partnerService  = $partnerService;
+        $this->projectService  = $projectService;
         $this->userService     = $userService;
         $this->partnerProvider = $partnerProvider;
     }
@@ -43,23 +48,22 @@ final class PartnerListener extends AbstractResourceListener
             return [];
         }
 
-        $partnerQueryBuilder = $this->partnerService->findPartners($user->getFunder());
+        switch (true) {
+            case isset($params->project):
+                /** @var Project $project */
+                $project = $this->projectService->findProjectByIdentifier($params->project);
 
-//        switch (true) {
-//            case isset($params->call):
-//                /** @var Call $call */
-//                $call = $this->callService->findCallById((int)$params->call);
-//
-//                if (null === $call) {
-//                    return [];
-//                }
-//
-//                $partners = $this->projectService->findProjectsByCall($call);
-//                break;
-//            default:
-//        }
+                if (null === $project) {
+                    return [];
+                }
 
-        return (new PartnerCollection($partnerQueryBuilder->getQuery()->getResult(), $this->partnerProvider))->getItems(
+                $partnerQueryBuilder = $this->partnerService->getPartnersByProject($project);
+                break;
+            default:
+                $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), []);
+        }
+
+        return (new PartnerCollection($partnerQueryBuilder, $this->partnerProvider))->getItems(
             $params->offset,
             $params->amount ?? 100
         );
