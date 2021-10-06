@@ -183,4 +183,11 @@ class Cluster extends AbstractEntity
         $this->projectsSecondary = $projectsSecondary;
         return $this;
     }
+
+    public static function getSafeIdentifierFromName($name)
+    {
+        $name = strtolower($name);
+        // remove special character allowed a-z,-,_
+        return preg_replace("/[^a-z0-9_-]/", "", $name);
+    }
 }

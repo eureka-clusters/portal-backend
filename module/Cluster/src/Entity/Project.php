@@ -118,6 +118,12 @@ class Project extends AbstractEntity
      */
     private $partners;
 
+    public function __construct()
+    {
+        $this->versions   = new ArrayCollection();
+        $this->partners = new ArrayCollection();
+    }
+
     public function getId(): int
     {
         return $this->id;

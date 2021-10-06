@@ -110,19 +110,27 @@ class ProjectService extends AbstractService
         $project->setTechnicalArea($data->technical_area);
 
         //Find or create the primary cluster
-        $primaryCluster = $this->clusterService->findClusterByName($data->primary_cluster);
+        $primaryCluster = $this->clusterService->findOrCreateCluster($data->primary_cluster);
 
-        if (null === $primaryCluster) {
-            throw new \InvalidArgumentException(
-                sprintf('The primary cluster %s cannot be found', $data->primary_cluster)
-            );
-        }
+        // $primaryCluster = $this->clusterService->findClusterByName($data->primary_cluster);
+        // if (null === $primaryCluster) {
+        //     throw new \InvalidArgumentException(
+        //         sprintf('The primary cluster %s cannot be found', $data->primary_cluster)
+        //     );
+        // }
 
         $project->setPrimaryCluster($primaryCluster);
 
-        //If found, set the secondary cluster
-        $secondaryCluster = $this->clusterService->findClusterByName((string)$data->secondary_cluster);
-        if (null !== $secondaryCluster) {
+        // @Johan what happens if the secondary cluster can't be found?
+        // If found, set the secondary cluster
+        // $secondaryCluster = $this->clusterService->findClusterByName((string)$data->secondary_cluster);
+        // if (null !== $secondaryCluster) {
+        //     $project->setSecondaryCluster($secondaryCluster);
+        // }
+
+        // my suggestion
+        if (null!==$data->secondary_cluster) {
+            $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondary_cluster);
             $project->setSecondaryCluster($secondaryCluster);
         }
 
@@ -140,17 +148,27 @@ class ProjectService extends AbstractService
         $project->setStatus($status);
 
         //Handle the dates
-        $officialStartDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_start_date);
-        $project->setOfficialStartDate($officialStartDate ?: null);
-        $officialEndDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_end_date);
-        $project->setOfficialStartDate($officialEndDate ?: null);
-        $labelData = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->label_date);
-        $project->setLabelDate($labelData ?: null);
-        $cancelDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$data->cancel_date);
-        $project->setCancelDate($cancelDate ?: null);
+        if ($data->official_start_date) {
+            $officialStartDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_start_date);
+            $project->setOfficialStartDate($officialStartDate ?: null);
+        }
+
+        if ($data->official_end_date) {
+            $officialEndDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_end_date);
+            $project->setOfficialEndDate($officialEndDate ?: null);
+        }
+
+        if ($data->label_date) {
+            $labelDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->label_date);
+            $project->setLabelDate($labelDate ?: null);
+        }
+
+        if ($data->cancel_date) {
+            $cancelDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$data->cancel_date);
+            $project->setCancelDate($cancelDate ?: null);
+        }
 
         $this->save($project);
-
         return $project;
     }
 

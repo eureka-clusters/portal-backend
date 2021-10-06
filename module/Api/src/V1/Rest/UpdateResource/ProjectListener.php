@@ -63,40 +63,44 @@ final class ProjectListener extends AbstractResourceListener
         $this->extractDataFromVersion($data->versions, Type::TYPE_PO, $project);
         $this->extractDataFromVersion($data->versions, Type::TYPE_FPP, $project);
         $this->extractDataFromVersion($data->versions, Type::TYPE_LATEST, $project);
+
+        //@Johan i guess this flush is needed as i can't relate that the flush is called in the extractDataFromVersion()
+        $this->entityManager->flush();
     }
 
     private function extractDataFromVersion(array $data, string $versionTypeName, Project $project): void
     {
-        //Find the version type
-        $versionType = $this->versionService->findVersionType($versionTypeName);
+        if (isset($data[$versionTypeName])) {
+            //Find the version type
+            $versionType = $this->versionService->findVersionType($versionTypeName);
 
-        //First we create the version
-        $version = $this->versionService->createVersionFromData(
-            (object)$data[$versionTypeName],
-            $versionType,
-            $project
-        );
+            //First we create the version
+            $version = $this->versionService->createVersionFromData(
+                (object)$data[$versionTypeName],
+                $versionType,
+                $project
+            );
 
-        //Now we go over the partners and collect these and save the costs and effort
-        foreach ($data[$versionTypeName]['partners'] as $partnerData) {
-            //Cast to an object
-            $partnerData = (object)$partnerData;
+            //Now we go over the partners and collect these and save the costs and effort
+            foreach ($data[$versionTypeName]['partners'] as $partnerData) {
+                //Cast to an object
+                $partnerData = (object)$partnerData;
 
-            $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
+                $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
 
-            foreach ($partnerData->costs_and_effort as $year => $costsAndEffortData) {
-                //This data is saved in a costs and effort table
-                $costsAndEffort = new Project\Version\CostsAndEffort();
-                $costsAndEffort->setVersion($version);
-                $costsAndEffort->setPartner($partner);
-                $costsAndEffort->setYear($year);
-                $costsAndEffort->setCosts($costsAndEffortData['costs']);
-                $costsAndEffort->setEffort($costsAndEffortData['effort']);
+                foreach ($partnerData->costs_and_effort as $year => $costsAndEffortData) {
+                    //This data is saved in a costs and effort table
+                    $costsAndEffort = new Project\Version\CostsAndEffort();
+                    $costsAndEffort->setVersion($version);
+                    $costsAndEffort->setPartner($partner);
+                    $costsAndEffort->setYear($year);
+                    $costsAndEffort->setCosts($costsAndEffortData['costs']);
+                    $costsAndEffort->setEffort($costsAndEffortData['effort']);
 
-                $this->entityManager->persist($costsAndEffort);
+                    $this->entityManager->persist($costsAndEffort);
+                }
             }
+            $this->entityManager->flush();
         }
-
-        $this->entityManager->flush();
     }
 }

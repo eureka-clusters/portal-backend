@@ -94,7 +94,7 @@ class UserService extends AbstractService
 
         // map clusters to each identifier name
         $linkedIdentifierArray = $funderClusters->map(
-            fn (Cluster $cluster) => $cluster->getIdentifier()
+            fn(Cluster $cluster) => $cluster->getIdentifier()
         )->toArray();
 
         // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
@@ -116,7 +116,6 @@ class UserService extends AbstractService
         }
 
         // which clusters should be removed given by its identifier
-        //@Johan could relations perhaps also be removed by some attribute?
         $identifiersToRemove = array_values(array_diff($linkedIdentifierArray, $clusterPermissions));
 
         // remove the clusters which permission was revoked
