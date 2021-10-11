@@ -19,5 +19,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class OrganisationRepository extends EntityRepository
 {
-
 }

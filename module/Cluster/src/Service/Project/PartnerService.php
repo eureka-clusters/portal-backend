@@ -19,7 +19,6 @@ use Cluster\Entity\Project;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  *
@@ -42,7 +41,10 @@ class PartnerService extends AbstractService
 
     public function getPartners(Funder $funder, array $filter): array
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByFunderAndFilter($funder, $filter);
+        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByFunderAndFilter(
+            $funder,
+            $filter
+        );
     }
 
     public function getPartnersByProject(Project $project): array
@@ -52,11 +54,23 @@ class PartnerService extends AbstractService
 
     public function generateFacets(Funder $funder, array $filter): array
     {
-        $countries       = $this->entityManager->getRepository(Project\Partner::class)->fetchCountries($funder, $filter);
-        $organisationTypes    = $this->entityManager->getRepository(Project\Partner::class)->fetchOrganisationTypes($funder, $filter);
-        $primaryClusters = $this->entityManager->getRepository(Project\Partner::class)->fetchPrimaryClusters($funder, $filter);
-        $projectStatuses = $this->entityManager->getRepository(Project\Partner::class)->fetchProjectStatuses($funder, $filter);
-        $years           = $this->entityManager->getRepository(Project\Partner::class)->fetchYears($funder);
+        $countries         = $this->entityManager->getRepository(Project\Partner::class)->fetchCountries(
+            $funder,
+            $filter
+        );
+        $organisationTypes = $this->entityManager->getRepository(Project\Partner::class)->fetchOrganisationTypes(
+            $funder,
+            $filter
+        );
+        $primaryClusters   = $this->entityManager->getRepository(Project\Partner::class)->fetchPrimaryClusters(
+            $funder,
+            $filter
+        );
+        $projectStatuses   = $this->entityManager->getRepository(Project\Partner::class)->fetchProjectStatuses(
+            $funder,
+            $filter
+        );
+        $years             = $this->entityManager->getRepository(Project\Partner::class)->fetchYears($funder);
 
         $countriesIndexed = array_map(static function (array $country) {
             return [
@@ -68,7 +82,7 @@ class PartnerService extends AbstractService
         $organisationTypesIndexed = array_map(static function (array $partnerType) {
             return [
                 'organisationType' => $partnerType['type'],
-                'amount'      => $partnerType[1]
+                'amount'           => $partnerType[1]
             ];
         }, $organisationTypes);
 

@@ -77,5 +77,4 @@ class Status extends AbstractEntity
         $this->projects = $projects;
         return $this;
     }
-
 }

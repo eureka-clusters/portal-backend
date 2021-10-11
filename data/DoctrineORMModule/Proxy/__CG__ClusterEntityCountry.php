@@ -271,7 +271,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getIso3(): string
+    public function getIso3(): ?string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIso3', []);
@@ -282,7 +282,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setIso3(string $iso3): \Cluster\Entity\Country
+    public function setIso3(?string $iso3): \Cluster\Entity\Country
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIso3', [$iso3]);

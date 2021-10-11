@@ -22,5 +22,4 @@ use Doctrine\ORM\QueryBuilder;
  */
 class FunderRepository extends EntityRepository
 {
-
 }

@@ -94,7 +94,7 @@ class UserService extends AbstractService
 
         // map clusters to each identifier name
         $linkedIdentifierArray = $funderClusters->map(
-            fn(Cluster $cluster) => $cluster->getIdentifier()
+            fn (Cluster $cluster) => $cluster->getIdentifier()
         )->toArray();
 
         // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.

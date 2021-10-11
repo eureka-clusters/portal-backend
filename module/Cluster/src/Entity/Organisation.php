@@ -109,5 +109,4 @@ class Organisation extends AbstractEntity
         $this->partners = $partners;
         return $this;
     }
-
 }

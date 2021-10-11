@@ -45,7 +45,7 @@ class Country extends AbstractEntity
     /**
      * @ORM\Column(type="string",nullable=true)
      */
-    private string $iso3;
+    private ?string $iso3 = null;
     /**
      * @ORM\Column(name="numcode",type="integer",length=6)
      */
@@ -113,12 +113,12 @@ class Country extends AbstractEntity
         return $this;
     }
 
-    public function getIso3(): string
+    public function getIso3(): ?string
     {
         return $this->iso3;
     }
 
-    public function setIso3(string $iso3): Country
+    public function setIso3(?string $iso3): Country
     {
         $this->iso3 = $iso3;
         return $this;

@@ -22,9 +22,4 @@ use Cluster\Entity\Project;
  */
 class StatisticsService extends AbstractService
 {
-
-
-
-
-
 }

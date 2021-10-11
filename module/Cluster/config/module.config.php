@@ -17,16 +17,24 @@ use Laminas\Stdlib;
 $config = [
     'service_manager' => [
         'factories' => [
-            Provider\ProjectProvider::class         => ConfigAbstractFactory::class,
-            Provider\Project\PartnerProvider::class => ConfigAbstractFactory::class,
-            Provider\OrganisationProvider::class    => ConfigAbstractFactory::class,
-            Service\ClusterService::class           => ConfigAbstractFactory::class,
-            Service\CountryService::class           => ConfigAbstractFactory::class,
-            Service\OrganisationService::class      => ConfigAbstractFactory::class,
-            Service\ProjectService::class           => ConfigAbstractFactory::class,
-            Service\Project\VersionService::class   => ConfigAbstractFactory::class,
-            Service\Project\PartnerService::class   => ConfigAbstractFactory::class,
-            Service\StatisticsService::class        => ConfigAbstractFactory::class
+            Provider\ClusterProvider::class           => ConfigAbstractFactory::class,
+            Provider\OrganisationProvider::class      => ConfigAbstractFactory::class,
+            Provider\Organisation\TypeProvider::class => ConfigAbstractFactory::class,
+            Provider\ProjectProvider::class           => ConfigAbstractFactory::class,
+            Provider\Project\PartnerProvider::class   => ConfigAbstractFactory::class,
+            Provider\Project\StatusProvider::class    => ConfigAbstractFactory::class,
+            Provider\Project\VersionProvider::class   => ConfigAbstractFactory::class,
+            Provider\Version\StatusProvider::class    => ConfigAbstractFactory::class,
+            Provider\Version\TypeProvider::class      => ConfigAbstractFactory::class,
+            Provider\CountryProvider::class           => ConfigAbstractFactory::class,
+
+            Service\ClusterService::class         => ConfigAbstractFactory::class,
+            Service\CountryService::class         => ConfigAbstractFactory::class,
+            Service\OrganisationService::class    => ConfigAbstractFactory::class,
+            Service\ProjectService::class         => ConfigAbstractFactory::class,
+            Service\Project\VersionService::class => ConfigAbstractFactory::class,
+            Service\Project\PartnerService::class => ConfigAbstractFactory::class,
+            Service\StatisticsService::class      => ConfigAbstractFactory::class
         ],
     ],
     'doctrine'        => [

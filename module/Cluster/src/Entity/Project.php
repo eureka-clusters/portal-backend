@@ -120,8 +120,13 @@ class Project extends AbstractEntity
 
     public function __construct()
     {
-        $this->versions   = new ArrayCollection();
+        $this->versions = new ArrayCollection();
         $this->partners = new ArrayCollection();
+    }
+
+    public function hasSecondaryCluster(): bool
+    {
+        return null !== $this->secondaryCluster;
     }
 
     public function getId(): int
@@ -343,5 +348,4 @@ class Project extends AbstractEntity
         $this->partners = $partners;
         return $this;
     }
-
 }

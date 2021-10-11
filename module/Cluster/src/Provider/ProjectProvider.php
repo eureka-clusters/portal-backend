@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Cluster\Provider;
 
 use Cluster\Entity;
+use Cluster\Provider\Project\StatusProvider;
+use Cluster\Provider\Project\VersionProvider;
 use Doctrine\Common\Cache\RedisCache;
 
 /**
@@ -20,11 +22,21 @@ use Doctrine\Common\Cache\RedisCache;
  */
 class ProjectProvider
 {
-    private RedisCache $redisCache;
+    private RedisCache      $redisCache;
+    private ClusterProvider $clusterProvider;
+    private StatusProvider  $projectStatusProvider;
+    private VersionProvider $versionProvider;
 
-    public function __construct(RedisCache $redisCache)
-    {
-        $this->redisCache = $redisCache;
+    public function __construct(
+        RedisCache $redisCache,
+        ClusterProvider $clusterProvider,
+        StatusProvider $projectStatusProvider,
+        VersionProvider $versionProvider
+    ) {
+        $this->redisCache            = $redisCache;
+        $this->clusterProvider       = $clusterProvider;
+        $this->projectStatusProvider = $projectStatusProvider;
+        $this->versionProvider       = $versionProvider;
     }
 
     public function generateArray(Entity\Project $project): array
@@ -35,19 +47,24 @@ class ProjectProvider
 
         if (true || !$projectData) {
             $projectData = [
-                'identifier'     => $project->getIdentifier(),
-                'number'         => $project->getNumber(),
-                'name'           => $project->getName(),
-                'title'          => $project->getTitle(),
-                'description'    => $project->getDescription(),
-                'technicalArea'  => $project->getTechnicalArea(),
-                'latestVersion'  => null === $project->getLatestVersion() ? null : $project->getLatestVersion(
-                )->getType()->getType(),
-                'programme'      => $project->getProgramme(),
-                'programmeCall'  => $project->getProgrammeCall(),
-                'primaryCluster' => $project->getPrimaryCluster()->getName(),
-                'labelDate'      => $project->getLabelDate()->format(\DateTimeInterface::ATOM),
-                'status'         => $project->getStatus()->getStatus(),
+                'identifier'       => $project->getIdentifier(),
+                'number'           => $project->getNumber(),
+                'name'             => $project->getName(),
+                'title'            => $project->getTitle(),
+                'description'      => $project->getDescription(),
+                'technicalArea'    => $project->getTechnicalArea(),
+                'latestVersion'    => null === $project->getLatestVersion(
+                ) ? null : $this->versionProvider->generateArray(
+                    $project->getLatestVersion()
+                ),
+                'programme'        => $project->getProgramme(),
+                'programmeCall'    => $project->getProgrammeCall(),
+                'primaryCluster'   => $this->clusterProvider->generateArray($project->getPrimaryCluster()),
+                'secondaryCluster' => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
+                    $project->getSecondaryCluster()
+                ),
+                'labelDate'        => $project->getLabelDate()->format(\DateTimeInterface::ATOM),
+                'status'           => $this->projectStatusProvider->generateArray($project->getStatus()),
             ];
 
 

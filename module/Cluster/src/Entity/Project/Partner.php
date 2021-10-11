@@ -155,7 +155,4 @@ class Partner extends AbstractEntity
         $this->costsAndEffort = $costsAndEffort;
         return $this;
     }
-
-
-
 }

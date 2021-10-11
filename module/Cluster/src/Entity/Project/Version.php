@@ -175,5 +175,4 @@ class Version extends AbstractEntity
         $this->costsAndEffort = $costsAndEffort;
         return $this;
     }
-
 }
