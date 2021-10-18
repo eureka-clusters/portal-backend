@@ -758,12 +758,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "9099437b960c36b08804b4f693002ce199df567c"
+                "reference": "b13395642bbb84269a3b1515f2a216203345f2de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/9099437b960c36b08804b4f693002ce199df567c",
-                "reference": "9099437b960c36b08804b4f693002ce199df567c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/b13395642bbb84269a3b1515f2a216203345f2de",
+                "reference": "b13395642bbb84269a3b1515f2a216203345f2de",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "phpstan/phpstan": "0.12.99",
                 "phpunit/phpunit": "^7.5.20|^8.5|9.5.10",
                 "psalm/plugin-phpunit": "0.16.1",
-                "squizlabs/php_codesniffer": "3.6.0",
+                "squizlabs/php_codesniffer": "3.6.1",
                 "symfony/cache": "^4.4",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
                 "vimeo/psalm": "4.10.0"
@@ -859,7 +859,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-07T16:33:26+00:00"
+            "time": "2021-10-17T20:30:58+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1219,12 +1219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "eb044d4b27d552d4065fbc0548183e24815240a8"
+                "reference": "e70ba7c7b9843cdfef183d9df0c851ff2f494f7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/eb044d4b27d552d4065fbc0548183e24815240a8",
-                "reference": "eb044d4b27d552d4065fbc0548183e24815240a8",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/e70ba7c7b9843cdfef183d9df0c851ff2f494f7b",
+                "reference": "e70ba7c7b9843cdfef183d9df0c851ff2f494f7b",
                 "shasum": ""
             },
             "require": {
@@ -1236,7 +1236,8 @@
             "require-dev": {
                 "doctrine/coding-standard": "^8.0",
                 "phpstan/phpstan": "^0.12.58",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "vimeo/psalm": "^4.10"
             },
             "type": "library",
             "autoload": {
@@ -1301,7 +1302,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-20T18:51:22+00:00"
+            "time": "2021-10-16T15:37:06+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1539,21 +1540,21 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.3.x-dev",
+            "version": "3.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "21cd4dfdd7c194b0bec82a02945b68098e74a090"
+                "reference": "1967775546df997eb97057911d80184c91c92b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/21cd4dfdd7c194b0bec82a02945b68098e74a090",
-                "reference": "21cd4dfdd7c194b0bec82a02945b68098e74a090",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/1967775546df997eb97057911d80184c91c92b9a",
+                "reference": "1967775546df997eb97057911d80184c91c92b9a",
                 "shasum": ""
             },
             "require": {
                 "composer/package-versions-deprecated": "^1.8",
-                "doctrine/dbal": "^2.11",
+                "doctrine/dbal": "^2.11 || ^3.0",
                 "doctrine/deprecations": "^0.5.3",
                 "doctrine/event-manager": "^1.0",
                 "friendsofphp/proxy-manager-lts": "^1.0",
@@ -1625,7 +1626,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/migrations/issues",
-                "source": "https://github.com/doctrine/migrations/tree/3.3.x"
+                "source": "https://github.com/doctrine/migrations/tree/3.3.0"
             },
             "funding": [
                 {
@@ -1641,7 +1642,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-20T18:23:20+00:00"
+            "time": "2021-10-15T16:53:47+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -8810,12 +8811,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "412eda2039ad5466f823c3696c0c309e6c140086"
+                "reference": "37db45dab9de8140550389b95099c86af68c4b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/412eda2039ad5466f823c3696c0c309e6c140086",
-                "reference": "412eda2039ad5466f823c3696c0c309e6c140086",
+                "url": "https://api.github.com/repos/symfony/string/zipball/37db45dab9de8140550389b95099c86af68c4b3e",
+                "reference": "37db45dab9de8140550389b95099c86af68c4b3e",
                 "shasum": ""
             },
             "require": {
@@ -8885,7 +8886,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-17T07:22:48+00:00"
+            "time": "2021-10-13T18:06:36+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -13188,6 +13189,7 @@
         "laminas-api-tools/api-tools": 20,
         "laminas-api-tools/api-tools-doctrine": 0,
         "league/oauth2-client": 20,
+        "doctrine/migrations": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
