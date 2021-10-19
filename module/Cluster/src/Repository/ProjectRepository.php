@@ -59,7 +59,7 @@ class ProjectRepository extends EntityRepository
                         )
                         ->addGroupBy('cluster_entity_project_filter_country')
                         ->having(
-                            'COUNT(DISTINCT cluster_entity_project_filter_country) > ' . (count(
+                            'COUNT(DISTINCT cluster_entity_country) > ' . (count(
                                 $countryFilter
                             ) - 1)
                         );
@@ -118,7 +118,7 @@ class ProjectRepository extends EntityRepository
                                 $organisationTypeFilter
                             )
                         )
-                        ->addGroupBy('cluster_entity_organisation_type')
+                        ->addGroupBy('cluster_entity_project_filter_organisation_type')
                         ->having(
                             'COUNT(DISTINCT cluster_entity_organisation_type) > ' . (count(
                                 $organisationTypeFilter
@@ -174,17 +174,17 @@ class ProjectRepository extends EntityRepository
                                 $projectStatusFilter
                             )
                         )
-                        ->addGroupBy('cluster_entity_project_status')
+
+                        ->addGroupBy('cluster_entity_project_filter_project_status')
                         ->having(
-                            'COUNT(DISTINCT cluster_entity_project_status) > ' . (count(
-                                    $projectStatusFilter
-                                ) - 1)
+                            'COUNT(DISTINCT cluster_entity_project_filter_project_status) > ' . (count(
+                                $projectStatusFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('cluster_entity_project', $projectStatusFilterSubSelect->getDQL())
                     );
-
                     break;
                 case 'or':
 
@@ -193,7 +193,7 @@ class ProjectRepository extends EntityRepository
                         ->select('cluster_entity_project_filter_project_status')
                         ->from(Entity\Project::class, 'cluster_entity_project_filter_project_status')
                         ->join('cluster_entity_project_filter_project_status.status', 'cluster_entity_project_filter_project_status_status')
-                         ->where(
+                        ->where(
                             $queryBuilder->expr()->in(
                                 'cluster_entity_project_filter_project_status_status.status',
                                 $projectStatusFilter
@@ -226,11 +226,11 @@ class ProjectRepository extends EntityRepository
                                 $primaryClusterFilter
                             )
                         )
-                        ->addGroupBy('cluster_entity_primary_cluster')
+                        ->addGroupBy('cluster_entity_project_filter_primary_cluster')
                         ->having(
-                            'COUNT(DISTINCT cluster_entity_primary_cluster) > ' . (count(
-                                    $primaryClusterFilter
-                                ) - 1)
+                            'COUNT(DISTINCT cluster_entity_project_filter_primary_cluster) > ' . (count(
+                                $primaryClusterFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
