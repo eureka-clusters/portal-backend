@@ -11,7 +11,6 @@
 namespace Api\V1\Rest\StatisticsResource;
 
 use Admin\Service\UserService;
-use Cluster\Entity\Statistics\Partner;
 use Cluster\Service\StatisticsService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -52,13 +51,13 @@ final class DownloadListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        $results = $this->statisticsService->getResults($user->getFunder(), $arrayFilter, $output);
+        $results = //$this->statisticsService->getResults($user->getFunder(), $arrayFilter, $output);
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');
         $partnerSheet = $spreadSheet->getActiveSheet();
 
-        if ($output === Partner::RESULT_PROJECT) {
+        if ($output === 1) {
             $partnerSheet->setTitle($this->translator->translate('txt-projects'));
 
             $row    = 1;
@@ -72,7 +71,6 @@ final class DownloadListener extends AbstractResourceListener
             $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
 
 
-            /** @var Partner $result */
             foreach ($results as $result) {
                 $column = 'A';
                 $row++;
@@ -87,7 +85,7 @@ final class DownloadListener extends AbstractResourceListener
             }
         }
 
-        if ($output === Partner::RESULT_PARTNER) {
+        if ($output === 1) {
             $spreadSheet = new Spreadsheet();
             $spreadSheet->getProperties()->setTitle('Statistics');
             $partnerSheet = $spreadSheet->getActiveSheet();
@@ -104,7 +102,6 @@ final class DownloadListener extends AbstractResourceListener
             $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort'));
 
 
-            /** @var Partner $result */
             foreach ($results as $result) {
                 $column = 'A';
                 $row++;

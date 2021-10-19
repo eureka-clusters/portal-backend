@@ -273,7 +273,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
 
-        return $queryBuilder->getQuery()->getArrayResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     public function fetchCountries(Funder $funder, $filter): array

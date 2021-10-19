@@ -30,8 +30,8 @@ final class PartnerListener extends AbstractResourceListener
         UserService $userService,
         PartnerProvider $partnerProvider
     ) {
-        $this->partnerService = $partnerService;
-        $this->userService = $userService;
+        $this->partnerService  = $partnerService;
+        $this->userService     = $userService;
         $this->partnerProvider = $partnerProvider;
     }
 
@@ -43,7 +43,6 @@ final class PartnerListener extends AbstractResourceListener
             return [];
         }
 
-        $output        = (int)$this->getEvent()->getQueryParams()->get('output');
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string

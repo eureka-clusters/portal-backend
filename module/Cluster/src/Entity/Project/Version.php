@@ -24,10 +24,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Version extends AbstractEntity
 {
-    public const RESULT_PROJECT = 1;
-    public const RESULT_PARTNER = 2;
-    public const RESULT_CHART   = 3;
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

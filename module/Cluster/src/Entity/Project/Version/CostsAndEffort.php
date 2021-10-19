@@ -12,21 +12,15 @@ declare(strict_types=1);
 
 namespace Cluster\Entity\Project\Version;
 
-use Cluster\Entity\Country;
 use Cluster\Entity\Project;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="cluster_project_version_costs_and_effort")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cluster\Repository\Project\Version\CostsAndEffort")
  */
 class CostsAndEffort
 {
-    public const RESULT_PROJECT = 1;
-    public const RESULT_PARTNER = 2;
-    public const RESULT_CHART   = 3;
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

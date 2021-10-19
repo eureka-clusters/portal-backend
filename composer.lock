@@ -427,12 +427,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "732ea120f89e570dd63828b91af83a1b48e21dfb"
+                "reference": "2da982ad3c26da81b91db8d7b54abf3a5922e73c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/732ea120f89e570dd63828b91af83a1b48e21dfb",
-                "reference": "732ea120f89e570dd63828b91af83a1b48e21dfb",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/2da982ad3c26da81b91db8d7b54abf3a5922e73c",
+                "reference": "2da982ad3c26da81b91db8d7b54abf3a5922e73c",
                 "shasum": ""
             },
             "require": {
@@ -446,9 +446,9 @@
                 "doctrine/coding-standard": "^6.0 || ^8.1",
                 "phpstan/phpstan": "^0.12.20",
                 "phpunit/phpunit": "^7.5 || ^8.0 || ^9.1.5",
-                "symfony/cache": "^4.4 || ^5.2"
+                "symfony/cache": "^4.4 || ^5.2",
+                "vimeo/psalm": "^4.10"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -492,7 +492,7 @@
                 "issues": "https://github.com/doctrine/annotations/issues",
                 "source": "https://github.com/doctrine/annotations/tree/1.14.x"
             },
-            "time": "2021-08-05T19:26:38+00:00"
+            "time": "2021-10-15T21:17:00+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -668,12 +668,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "0e0138bbfa43fab7484af3784b88f840a73b6841"
+                "reference": "6d970a11479275300b5144e9373ce5feacfa9b91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/0e0138bbfa43fab7484af3784b88f840a73b6841",
-                "reference": "0e0138bbfa43fab7484af3784b88f840a73b6841",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/6d970a11479275300b5144e9373ce5feacfa9b91",
+                "reference": "6d970a11479275300b5144e9373ce5feacfa9b91",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +750,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-24T19:58:38+00:00"
+            "time": "2021-10-19T06:47:22+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -758,12 +758,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "9099437b960c36b08804b4f693002ce199df567c"
+                "reference": "b13395642bbb84269a3b1515f2a216203345f2de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/9099437b960c36b08804b4f693002ce199df567c",
-                "reference": "9099437b960c36b08804b4f693002ce199df567c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/b13395642bbb84269a3b1515f2a216203345f2de",
+                "reference": "b13395642bbb84269a3b1515f2a216203345f2de",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "phpstan/phpstan": "0.12.99",
                 "phpunit/phpunit": "^7.5.20|^8.5|9.5.10",
                 "psalm/plugin-phpunit": "0.16.1",
-                "squizlabs/php_codesniffer": "3.6.0",
+                "squizlabs/php_codesniffer": "3.6.1",
                 "symfony/cache": "^4.4",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
                 "vimeo/psalm": "4.10.0"
@@ -859,7 +859,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-07T16:33:26+00:00"
+            "time": "2021-10-17T20:30:58+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -910,27 +910,32 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine-laminas-hydrator.git",
-                "reference": "3ea522b1b65dddc767caa5301bf41373c9d4d16c"
+                "reference": "346e511ed0c42b00963715585111eab760ffd025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine-laminas-hydrator/zipball/3ea522b1b65dddc767caa5301bf41373c9d4d16c",
-                "reference": "3ea522b1b65dddc767caa5301bf41373c9d4d16c",
+                "url": "https://api.github.com/repos/doctrine/doctrine-laminas-hydrator/zipball/346e511ed0c42b00963715585111eab760ffd025",
+                "reference": "346e511ed0c42b00963715585111eab760ffd025",
                 "shasum": ""
             },
             "require": {
-                "doctrine/collections": "^1.6.5",
-                "doctrine/inflector": "^1.4.3 || ^2.0.3",
-                "doctrine/persistence": "^1.3.7 || ^2.0",
+                "doctrine/collections": "^1.6.8",
+                "doctrine/inflector": "^1.4.4 || ^2.0.3",
+                "doctrine/persistence": "^1.3.8 || ^2.2.2",
                 "ext-ctype": "*",
-                "laminas/laminas-hydrator": "^3.0.2 || ^4.0",
-                "laminas/laminas-stdlib": "^3.2.1",
-                "php": "^7.2 || ~8.0.0"
+                "laminas/laminas-hydrator": "^3.2.1 || ^4.3.1",
+                "laminas/laminas-stdlib": "^3.6.0",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^2.0",
-                "phpunit/phpunit": "^8.5"
+                "jangregor/phpstan-prophecy": "^0.8.1",
+                "laminas/laminas-coding-standard": "^2.3.0",
+                "phpspec/prophecy-phpunit": "^2.0.1",
+                "phpstan/phpstan": "^0.12.99",
+                "phpunit/phpunit": "^9.5.10",
+                "vimeo/psalm": "^4.10.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -967,7 +972,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-05T03:31:27+00:00"
+            "time": "2021-10-17T12:48:44+00:00"
         },
         {
             "name": "doctrine/doctrine-module",
@@ -975,12 +980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineModule.git",
-                "reference": "7147ffdac80cdcb5823cd2e3dc2c6a2f15bd6ad3"
+                "reference": "f2deeceefb076c3f03e27021390408588ceacb9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineModule/zipball/7147ffdac80cdcb5823cd2e3dc2c6a2f15bd6ad3",
-                "reference": "7147ffdac80cdcb5823cd2e3dc2c6a2f15bd6ad3",
+                "url": "https://api.github.com/repos/doctrine/DoctrineModule/zipball/f2deeceefb076c3f03e27021390408588ceacb9e",
+                "reference": "f2deeceefb076c3f03e27021390408588ceacb9e",
                 "shasum": ""
             },
             "require": {
@@ -1004,6 +1009,7 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9.0.0",
+                "doctrine/orm": "^2.9.0",
                 "laminas/laminas-i18n": "^2.11.1",
                 "laminas/laminas-log": "^2.13.1",
                 "laminas/laminas-modulemanager": "^2.10.2",
@@ -1023,13 +1029,9 @@
             ],
             "type": "library",
             "extra": {
-                "zf": {
+                "laminas": {
                     "config-provider": "DoctrineModule\\ConfigProvider",
                     "module": "DoctrineModule"
-                },
-                "branch-alias": {
-                    "dev-1.2-dev": "1.2-dev",
-                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -1092,7 +1094,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-08T18:30:36+00:00"
+            "time": "2021-10-18T19:55:56+00:00"
         },
         {
             "name": "doctrine/doctrine-orm-module",
@@ -1100,12 +1102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineORMModule.git",
-                "reference": "cd309adebed24f40f62006fa95fe9bbf2ce43ff0"
+                "reference": "2da90be662cffb23ac3970bf2b933a06b8745f1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/cd309adebed24f40f62006fa95fe9bbf2ce43ff0",
-                "reference": "cd309adebed24f40f62006fa95fe9bbf2ce43ff0",
+                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/2da90be662cffb23ac3970bf2b933a06b8745f1b",
+                "reference": "2da90be662cffb23ac3970bf2b933a06b8745f1b",
                 "shasum": ""
             },
             "require": {
@@ -1195,7 +1197,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineORMModule/issues",
-                "source": "https://github.com/doctrine/DoctrineORMModule/tree/4.0.1"
+                "source": "https://github.com/doctrine/DoctrineORMModule/tree/4.0.2"
             },
             "funding": [
                 {
@@ -1211,7 +1213,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-05T19:25:16+00:00"
+            "time": "2021-10-18T17:01:29+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -1219,12 +1221,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "eb044d4b27d552d4065fbc0548183e24815240a8"
+                "reference": "e70ba7c7b9843cdfef183d9df0c851ff2f494f7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/eb044d4b27d552d4065fbc0548183e24815240a8",
-                "reference": "eb044d4b27d552d4065fbc0548183e24815240a8",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/e70ba7c7b9843cdfef183d9df0c851ff2f494f7b",
+                "reference": "e70ba7c7b9843cdfef183d9df0c851ff2f494f7b",
                 "shasum": ""
             },
             "require": {
@@ -1236,7 +1238,8 @@
             "require-dev": {
                 "doctrine/coding-standard": "^8.0",
                 "phpstan/phpstan": "^0.12.58",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "vimeo/psalm": "^4.10"
             },
             "type": "library",
             "autoload": {
@@ -1301,7 +1304,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-20T18:51:22+00:00"
+            "time": "2021-10-16T15:37:06+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1539,21 +1542,21 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.3.x-dev",
+            "version": "3.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "21cd4dfdd7c194b0bec82a02945b68098e74a090"
+                "reference": "1967775546df997eb97057911d80184c91c92b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/21cd4dfdd7c194b0bec82a02945b68098e74a090",
-                "reference": "21cd4dfdd7c194b0bec82a02945b68098e74a090",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/1967775546df997eb97057911d80184c91c92b9a",
+                "reference": "1967775546df997eb97057911d80184c91c92b9a",
                 "shasum": ""
             },
             "require": {
                 "composer/package-versions-deprecated": "^1.8",
-                "doctrine/dbal": "^2.11",
+                "doctrine/dbal": "^2.11 || ^3.0",
                 "doctrine/deprecations": "^0.5.3",
                 "doctrine/event-manager": "^1.0",
                 "friendsofphp/proxy-manager-lts": "^1.0",
@@ -1625,7 +1628,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/migrations/issues",
-                "source": "https://github.com/doctrine/migrations/tree/3.3.x"
+                "source": "https://github.com/doctrine/migrations/tree/3.3.0"
             },
             "funding": [
                 {
@@ -1641,7 +1644,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-20T18:23:20+00:00"
+            "time": "2021-10-15T16:53:47+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -1649,12 +1652,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "b0381b3705505fef18ba6158b4b6d4b127f2317a"
+                "reference": "06d9c584a30b732bc506786cea271f3d153534e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/b0381b3705505fef18ba6158b4b6d4b127f2317a",
-                "reference": "b0381b3705505fef18ba6158b4b6d4b127f2317a",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/06d9c584a30b732bc506786cea271f3d153534e8",
+                "reference": "06d9c584a30b732bc506786cea271f3d153534e8",
                 "shasum": ""
             },
             "require": {
@@ -1686,7 +1689,7 @@
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
                 "phpstan/phpstan": "0.12.99",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
-                "squizlabs/php_codesniffer": "3.6.0",
+                "squizlabs/php_codesniffer": "3.6.1",
                 "symfony/cache": "^4.4 || ^5.2",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
                 "vimeo/psalm": "4.10.0"
@@ -1740,7 +1743,7 @@
                 "issues": "https://github.com/doctrine/orm/issues",
                 "source": "https://github.com/doctrine/orm/tree/2.11.x"
             },
-            "time": "2021-10-05T13:12:04+00:00"
+            "time": "2021-10-15T16:41:04+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2086,12 +2089,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "7ec2e2a6653521433fd759f6f800ab1bb463ab6c"
+                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/7ec2e2a6653521433fd759f6f800ab1bb463ab6c",
-                "reference": "7ec2e2a6653521433fd759f6f800ab1bb463ab6c",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/868b3571a039f0ebc11ac8f344f4080babe2cb94",
+                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94",
                 "shasum": ""
             },
             "require": {
@@ -2110,7 +2113,7 @@
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "^3.0",
                 "phpunit/phpunit": "^8.5.5 || ^9.3.5",
-                "psr/log": "^1.1"
+                "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
                 "ext-curl": "Required for CURL handler support",
@@ -2187,7 +2190,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/master"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.0"
             },
             "funding": [
                 {
@@ -2203,7 +2206,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-07T20:43:45+00:00"
+            "time": "2021-10-18T09:52:00+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2211,12 +2214,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "136a635e2b4a49b9d79e9c8fee267ffb257fdba0"
+                "reference": "b2e8301545358f39b94576b34b305b89cee04193"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/136a635e2b4a49b9d79e9c8fee267ffb257fdba0",
-                "reference": "136a635e2b4a49b9d79e9c8fee267ffb257fdba0",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b2e8301545358f39b94576b34b305b89cee04193",
+                "reference": "b2e8301545358f39b94576b34b305b89cee04193",
                 "shasum": ""
             },
             "require": {
@@ -2272,7 +2275,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.5.0"
+                "source": "https://github.com/guzzle/promises/tree/master"
             },
             "funding": [
                 {
@@ -2288,7 +2291,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-07T13:05:22+00:00"
+            "time": "2021-10-14T23:58:19+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -2296,12 +2299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
+                "reference": "04896ddeb63173888238ff1e8bad58df650a9d90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/04896ddeb63173888238ff1e8bad58df650a9d90",
+                "reference": "04896ddeb63173888238ff1e8bad58df650a9d90",
                 "shasum": ""
             },
             "require": {
@@ -2388,7 +2391,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
+                "source": "https://github.com/guzzle/psr7/tree/master"
             },
             "funding": [
                 {
@@ -2404,7 +2407,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T17:43:30+00:00"
+            "time": "2021-10-17T13:32:11+00:00"
         },
         {
             "name": "jield-webdev/laminas-assetmanager",
@@ -4906,12 +4909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-i18n.git",
-                "reference": "bdec925a10cddd78528ca968adb0298557ac1d05"
+                "reference": "18f0198e527240bec1067233f28e03b374532ce7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-i18n/zipball/bdec925a10cddd78528ca968adb0298557ac1d05",
-                "reference": "bdec925a10cddd78528ca968adb0298557ac1d05",
+                "url": "https://api.github.com/repos/laminas/laminas-i18n/zipball/18f0198e527240bec1067233f28e03b374532ce7",
+                "reference": "18f0198e527240bec1067233f28e03b374532ce7",
                 "shasum": ""
             },
             "require": {
@@ -4938,12 +4941,12 @@
                 "phpunit/phpunit": "^9.3"
             },
             "suggest": {
-                "laminas/laminas-cache": "Laminas\\Cache component",
-                "laminas/laminas-config": "Laminas\\Config component",
+                "laminas/laminas-cache": "You should install this package to cache the translations",
+                "laminas/laminas-config": "You should install this package to use the INI translation format",
                 "laminas/laminas-eventmanager": "You should install this package to use the events in the translator",
                 "laminas/laminas-filter": "You should install this package to use the provided filters",
-                "laminas/laminas-i18n-resources": "Translation resources",
-                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+                "laminas/laminas-i18n-resources": "This package provides validator and captcha translations",
+                "laminas/laminas-servicemanager": "You should install this package to use the translator",
                 "laminas/laminas-validator": "You should install this package to use the provided validators",
                 "laminas/laminas-view": "You should install this package to use the provided view helpers"
             },
@@ -4984,7 +4987,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-08-20T08:27:24+00:00"
+            "time": "2021-10-13T08:10:22+00:00"
         },
         {
             "name": "laminas/laminas-inputfilter",
@@ -5252,16 +5255,16 @@
         },
         {
             "name": "laminas/laminas-modulemanager",
-            "version": "2.11.x-dev",
+            "version": "2.10.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-modulemanager.git",
-                "reference": "086f4b26937b030b4bef8b6d7124b2c01eb26f25"
+                "reference": "2068e0b300e87e139112016a6025be341ceaaf33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-modulemanager/zipball/086f4b26937b030b4bef8b6d7124b2c01eb26f25",
-                "reference": "086f4b26937b030b4bef8b6d7124b2c01eb26f25",
+                "url": "https://api.github.com/repos/laminas/laminas-modulemanager/zipball/2068e0b300e87e139112016a6025be341ceaaf33",
+                "reference": "2068e0b300e87e139112016a6025be341ceaaf33",
                 "shasum": ""
             },
             "require": {
@@ -5277,7 +5280,7 @@
                 "zendframework/zend-modulemanager": "^2.8.4"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^2.3",
+                "laminas/laminas-coding-standard": "~1.0.0",
                 "laminas/laminas-console": "^2.8",
                 "laminas/laminas-di": "^2.6.1",
                 "laminas/laminas-loader": "^2.6.1",
@@ -5291,7 +5294,6 @@
                 "laminas/laminas-mvc": "Laminas\\Mvc component",
                 "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5322,20 +5324,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-10-09T15:30:06+00:00"
+            "time": "2021-04-13T20:11:28+00:00"
         },
         {
             "name": "laminas/laminas-mvc",
-            "version": "3.3.x-dev",
+            "version": "3.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mvc.git",
-                "reference": "474bb92100b8f0805316a5ed0a975d17ffead15f"
+                "reference": "60f3157bc7245c0734a86f38a15fc14f376351de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/474bb92100b8f0805316a5ed0a975d17ffead15f",
-                "reference": "474bb92100b8f0805316a5ed0a975d17ffead15f",
+                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/60f3157bc7245c0734a86f38a15fc14f376351de",
+                "reference": "60f3157bc7245c0734a86f38a15fc14f376351de",
                 "shasum": ""
             },
             "require": {
@@ -5405,7 +5407,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-10-09T16:14:41+00:00"
+            "time": "2021-04-09T19:39:01+00:00"
         },
         {
             "name": "laminas/laminas-mvc-i18n",
@@ -5490,37 +5492,36 @@
         },
         {
             "name": "laminas/laminas-paginator",
-            "version": "2.11.x-dev",
+            "version": "2.12.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-paginator.git",
-                "reference": "14ce4a397e6329954389cc40aa635caa9573f695"
+                "reference": "7f00d5fdecd1b4f67c8e84e6f6d57bbabda4b7d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-paginator/zipball/14ce4a397e6329954389cc40aa635caa9573f695",
-                "reference": "14ce4a397e6329954389cc40aa635caa9573f695",
+                "url": "https://api.github.com/repos/laminas/laminas-paginator/zipball/7f00d5fdecd1b4f67c8e84e6f6d57bbabda4b7d8",
+                "reference": "7f00d5fdecd1b4f67c8e84e6f6d57bbabda4b7d8",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "laminas/laminas-stdlib": "^3.2.1",
-                "laminas/laminas-zendframework-bridge": "^1.0.4",
-                "php": "^7.3 || ~8.0.0"
+                "laminas/laminas-stdlib": "^3.6.0",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
-            "replace": {
-                "zendframework/zend-paginator": "^2.8.2"
+            "conflict": {
+                "zendframework/zend-paginator": "*"
             },
             "require-dev": {
-                "laminas/laminas-cache": "^2.9.0",
+                "laminas/laminas-cache": "^2.13.0",
                 "laminas/laminas-coding-standard": "~2.1.4",
                 "laminas/laminas-config": "^2.6.0",
-                "laminas/laminas-filter": "^2.9.4",
-                "laminas/laminas-servicemanager": "^3.4.1",
-                "laminas/laminas-view": "^2.11.4",
-                "phpunit/phpunit": "^9.3",
+                "laminas/laminas-filter": "^2.11.1",
+                "laminas/laminas-servicemanager": "^3.7.0",
+                "laminas/laminas-view": "^2.14.1",
+                "phpunit/phpunit": "^9.5.10",
                 "psalm/plugin-phpunit": "^0.15.1",
-                "vimeo/psalm": "^4.6"
+                "vimeo/psalm": "^4.10.0"
             },
             "suggest": {
                 "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
@@ -5566,7 +5567,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-02-25T21:39:49+00:00"
+            "time": "2021-10-14T15:59:50+00:00"
         },
         {
             "name": "laminas/laminas-permissions-acl",
@@ -5635,24 +5636,23 @@
         },
         {
             "name": "laminas/laminas-permissions-rbac",
-            "version": "3.2.x-dev",
+            "version": "3.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-permissions-rbac.git",
-                "reference": "ef224b6c7376d6fc8131b6d5b3609fe2583ffadb"
+                "reference": "ce117f1d2fb8ec8ec6186633bf485a89149fe46f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-permissions-rbac/zipball/ef224b6c7376d6fc8131b6d5b3609fe2583ffadb",
-                "reference": "ef224b6c7376d6fc8131b6d5b3609fe2583ffadb",
+                "url": "https://api.github.com/repos/laminas/laminas-permissions-rbac/zipball/ce117f1d2fb8ec8ec6186633bf485a89149fe46f",
+                "reference": "ce117f1d2fb8ec8ec6186633bf485a89149fe46f",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.3 || ~8.0.0"
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
-            "replace": {
-                "zendframework/zend-permissions-rbac": "^3.0.2"
+            "conflict": {
+                "zendframework/zend-permissions-rbac": "*"
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~1.0.0",
@@ -5693,20 +5693,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-04-08T13:07:31+00:00"
+            "time": "2021-10-13T17:50:42+00:00"
         },
         {
             "name": "laminas/laminas-router",
-            "version": "3.5.x-dev",
+            "version": "3.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-router.git",
-                "reference": "1faa125212c5251cd40152973c4b97355a696317"
+                "reference": "aaf2eb364eedeb5c4d5b9ee14cd2938d0f7e89b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/1faa125212c5251cd40152973c4b97355a696317",
-                "reference": "1faa125212c5251cd40152973c4b97355a696317",
+                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/aaf2eb364eedeb5c4d5b9ee14cd2938d0f7e89b7",
+                "reference": "aaf2eb364eedeb5c4d5b9ee14cd2938d0f7e89b7",
                 "shasum": ""
             },
             "require": {
@@ -5728,7 +5728,6 @@
             "suggest": {
                 "laminas/laminas-i18n": "^2.7.4, if defining translatable HTTP path segments"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laminas": {
@@ -5765,7 +5764,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-04-19T16:09:52+00:00"
+            "time": "2021-04-19T16:06:00+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -6072,12 +6071,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "f998bdf4f368dda8d675c0b9912176f5cf9ad493"
+                "reference": "8d6e0961b7546d097d857dd529e33b545fde4463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/f998bdf4f368dda8d675c0b9912176f5cf9ad493",
-                "reference": "f998bdf4f368dda8d675c0b9912176f5cf9ad493",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/8d6e0961b7546d097d857dd529e33b545fde4463",
+                "reference": "8d6e0961b7546d097d857dd529e33b545fde4463",
                 "shasum": ""
             },
             "require": {
@@ -6171,7 +6170,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-05-08T22:44:34+00:00"
+            "time": "2021-10-12T16:49:16+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
@@ -7641,12 +7640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "6b71e16a5e9c1a163268c60cb1a528a01d72e5d9"
+                "reference": "fb8a259b7585eb160a0e777756a560d4dab7dc8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/6b71e16a5e9c1a163268c60cb1a528a01d72e5d9",
-                "reference": "6b71e16a5e9c1a163268c60cb1a528a01d72e5d9",
+                "url": "https://api.github.com/repos/symfony/console/zipball/fb8a259b7585eb160a0e777756a560d4dab7dc8e",
+                "reference": "fb8a259b7585eb160a0e777756a560d4dab7dc8e",
                 "shasum": ""
             },
             "require": {
@@ -7732,7 +7731,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T07:48:19+00:00"
+            "time": "2021-10-19T08:38:06+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -8810,12 +8809,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "412eda2039ad5466f823c3696c0c309e6c140086"
+                "reference": "37db45dab9de8140550389b95099c86af68c4b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/412eda2039ad5466f823c3696c0c309e6c140086",
-                "reference": "412eda2039ad5466f823c3696c0c309e6c140086",
+                "url": "https://api.github.com/repos/symfony/string/zipball/37db45dab9de8140550389b95099c86af68c4b3e",
+                "reference": "37db45dab9de8140550389b95099c86af68c4b3e",
                 "shasum": ""
             },
             "require": {
@@ -8885,7 +8884,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-17T07:22:48+00:00"
+            "time": "2021-10-13T18:06:36+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -9308,12 +9307,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "c4989f8ef45e6940222e9c4b57cd8dd8846b29a1"
+                "reference": "66d103e1ef4ed15fb526c13bb549db016d483848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/c4989f8ef45e6940222e9c4b57cd8dd8846b29a1",
-                "reference": "c4989f8ef45e6940222e9c4b57cd8dd8846b29a1",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/66d103e1ef4ed15fb526c13bb549db016d483848",
+                "reference": "66d103e1ef4ed15fb526c13bb549db016d483848",
                 "shasum": ""
             },
             "require": {
@@ -9391,7 +9390,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-11T05:00:00+00:00"
+            "time": "2021-10-17T22:03:45+00:00"
         },
         {
             "name": "iteaoffice/testing",
@@ -10170,12 +10169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "833e758963d6d6e1adbc5081a95a9dc82fd1d09d"
+                "reference": "30452fdabb3dfca89f4bf977abc44adc5391e062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/833e758963d6d6e1adbc5081a95a9dc82fd1d09d",
-                "reference": "833e758963d6d6e1adbc5081a95a9dc82fd1d09d",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/30452fdabb3dfca89f4bf977abc44adc5391e062",
+                "reference": "30452fdabb3dfca89f4bf977abc44adc5391e062",
                 "shasum": ""
             },
             "require": {
@@ -10212,7 +10211,7 @@
             "description": "Official version of pdepend to be handled with Composer",
             "support": {
                 "issues": "https://github.com/pdepend/pdepend/issues",
-                "source": "https://github.com/pdepend/pdepend/tree/master"
+                "source": "https://github.com/pdepend/pdepend/tree/2.10.1"
             },
             "funding": [
                 {
@@ -10220,7 +10219,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-11T07:18:40+00:00"
+            "time": "2021-10-11T12:15:18+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11228,12 +11227,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a"
+                "reference": "233872f9640164f6220a0e022cd17d538743e906"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
-                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/233872f9640164f6220a0e022cd17d538743e906",
+                "reference": "233872f9640164f6220a0e022cd17d538743e906",
                 "shasum": ""
             },
             "require": {
@@ -11311,7 +11310,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5"
             },
             "funding": [
                 {
@@ -11323,7 +11322,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-25T07:38:51+00:00"
+            "time": "2021-10-19T07:42:16+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -12584,6 +12583,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -12837,12 +12837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "f84ead26ab27ae04ee9268e28093fb9510815d92"
+                "reference": "f1842388c94f8c9bb9d85a56c0373ba3cb7a78c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f84ead26ab27ae04ee9268e28093fb9510815d92",
-                "reference": "f84ead26ab27ae04ee9268e28093fb9510815d92",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f1842388c94f8c9bb9d85a56c0373ba3cb7a78c9",
+                "reference": "f1842388c94f8c9bb9d85a56c0373ba3cb7a78c9",
                 "shasum": ""
             },
             "require": {
@@ -12917,7 +12917,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T07:48:19+00:00"
+            "time": "2021-10-19T08:33:42+00:00"
         },
         {
             "name": "symfony/finder",

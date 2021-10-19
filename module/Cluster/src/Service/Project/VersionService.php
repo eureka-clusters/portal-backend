@@ -77,4 +77,14 @@ class VersionService extends AbstractService
 
         return $status;
     }
+
+    public function parseTotalCostsByProjectVersion(Entity\Project\Version $projectVersion): ?float
+    {
+        return $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class)->parseTotalCostsByProjectVersion($projectVersion);
+    }
+
+    public function parseTotalEffortByProjectVersion(Entity\Project\Version $projectVersion): ?float
+    {
+        return $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class)->parseTotalEffortByProjectVersion($projectVersion);
+    }
 }

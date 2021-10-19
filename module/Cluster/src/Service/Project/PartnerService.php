@@ -142,4 +142,18 @@ class PartnerService extends AbstractService
 
         return $partner;
     }
+
+    public function parseTotalCostsByPartnerAndLatestProjectVersion(Entity\Project\Partner $partner, Entity\Project\Version $projectVersion): float
+    {
+        $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
+
+        return $repository->parseTotalCostsByPartnerAndLatestProjectVersion($partner, $projectVersion);
+    }
+
+    public function parseTotalEffortByPartnerAndLatestProjectVersion(Entity\Project\Partner $partner, Entity\Project\Version $projectVersion): float
+    {
+        $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
+
+        return $repository->parseTotalEffortByPartnerAndLatestProjectVersion($partner, $projectVersion);
+    }
 }
