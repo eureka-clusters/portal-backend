@@ -17,7 +17,6 @@ use Cluster\Entity;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Project;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  *
@@ -107,6 +106,7 @@ class ProjectService extends AbstractService
         $project->setProgramme($data->programme);
         $project->setProgrammeCall($data->programme_call);
 
+        $project->setProjectLeader($data->project_leader);
         $project->setTechnicalArea($data->technical_area);
 
         //Find or create the primary cluster
@@ -129,7 +129,7 @@ class ProjectService extends AbstractService
         // }
 
         // my suggestion
-        if (null!==$data->secondary_cluster) {
+        if (null !== $data->secondary_cluster) {
             $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondary_cluster);
             $project->setSecondaryCluster($secondaryCluster);
         }
@@ -177,10 +177,5 @@ class ProjectService extends AbstractService
         return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(
             ['identifier' => $identifier]
         );
-    }
-
-    public function findProjects(Entity\Funder $funder): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Entity\Project::class)->findProjects($funder, []);
     }
 }

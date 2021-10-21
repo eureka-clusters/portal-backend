@@ -39,6 +39,11 @@ class PartnerService extends AbstractService
         $this->organisationService = $organisationService;
     }
 
+    public function findPartnerById(int $id)
+    {
+        return $this->entityManager->getRepository(Entity\Project\Partner::class)->find($id);
+    }
+
     public function getPartners(Funder $funder, array $filter): array
     {
         return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByFunderAndFilter(
@@ -50,6 +55,13 @@ class PartnerService extends AbstractService
     public function getPartnersByProject(Project $project): array
     {
         return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByProject($project);
+    }
+
+    public function getPartnersByOrganisation(Entity\Organisation $organisation): array
+    {
+        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByOrganisation(
+            $organisation
+        );
     }
 
     public function generateFacets(Funder $funder, array $filter): array
@@ -143,15 +155,19 @@ class PartnerService extends AbstractService
         return $partner;
     }
 
-    public function parseTotalCostsByPartnerAndLatestProjectVersion(Entity\Project\Partner $partner, Entity\Project\Version $projectVersion): float
-    {
+    public function parseTotalCostsByPartnerAndLatestProjectVersion(
+        Entity\Project\Partner $partner,
+        Entity\Project\Version $projectVersion
+    ): float {
         $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
 
         return $repository->parseTotalCostsByPartnerAndLatestProjectVersion($partner, $projectVersion);
     }
 
-    public function parseTotalEffortByPartnerAndLatestProjectVersion(Entity\Project\Partner $partner, Entity\Project\Version $projectVersion): float
-    {
+    public function parseTotalEffortByPartnerAndLatestProjectVersion(
+        Entity\Project\Partner $partner,
+        Entity\Project\Version $projectVersion
+    ): float {
         $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
 
         return $repository->parseTotalEffortByPartnerAndLatestProjectVersion($partner, $projectVersion);

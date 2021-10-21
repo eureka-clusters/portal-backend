@@ -10,9 +10,11 @@
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
+use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Rest\Collection\PartnerCollection;
+use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
@@ -23,21 +25,24 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
  */
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService  $partnerService;
-    private ProjectService  $projectService;
-    private UserService     $userService;
-    private PartnerProvider $partnerProvider;
+    private PartnerService      $partnerService;
+    private ProjectService      $projectService;
+    private OrganisationService $organisationService;
+    private UserService         $userService;
+    private PartnerProvider     $partnerProvider;
 
     public function __construct(
         PartnerService $partnerService,
         ProjectService $projectService,
+        OrganisationService $organisationService,
         UserService $userService,
         PartnerProvider $partnerProvider
     ) {
-        $this->partnerService  = $partnerService;
-        $this->projectService  = $projectService;
-        $this->userService     = $userService;
-        $this->partnerProvider = $partnerProvider;
+        $this->partnerService      = $partnerService;
+        $this->projectService      = $projectService;
+        $this->organisationService = $organisationService;
+        $this->userService         = $userService;
+        $this->partnerProvider     = $partnerProvider;
     }
 
     public function fetchAll($params = [])
@@ -58,6 +63,16 @@ final class PartnerListener extends AbstractResourceListener
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByProject($project);
+                break;
+            case isset($params->organisation):
+                /** @var Organisation $organisation */
+                $organisation = $this->organisationService->findOrganisationById((int)$params->organisation);
+
+                if (null === $organisation) {
+                    return [];
+                }
+
+                $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation($organisation);
                 break;
             default:
                 $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), []);

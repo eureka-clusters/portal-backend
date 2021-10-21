@@ -56,7 +56,7 @@ class Partner extends AbstractEntity
     /**
      * @ORM\Column(type="array")
      */
-    private array $technicalContact;
+    private array $technicalContact = [];
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist"}, mappedBy="partner")
      * @var \Cluster\Entity\Project\Version\CostsAndEffort[]|ArrayCollection

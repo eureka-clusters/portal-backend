@@ -30,7 +30,7 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetch($id = null)
     {
-        $partner = $this->partnerService->findPartnerByIdentifier($id);
+        $partner = $this->partnerService->findPartnerById($id);
 
         if (null === $partner) {
             return new ApiProblem(404, 'The selected partner cannot be found');

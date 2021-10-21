@@ -104,7 +104,7 @@ class Project extends AbstractEntity
     /**
      * @ORM\Column(type="array")
      */
-    private array $projectLeader;
+    private array $projectLeader = [];
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist", "remove"}, mappedBy="project")

@@ -46,7 +46,7 @@ class PartnerProvider
 
     public function generateArray(Entity\Project\Partner $partner): array
     {
-        $cacheKey = $partner->getResourceId();
+        $cacheKey    = $partner->getResourceId();
         $partnerData = $this->redisCache->fetch($cacheKey);
 
         if (!$partnerData) {
@@ -56,6 +56,7 @@ class PartnerProvider
                 'isActive'            => $partner->isActive(),
                 'isSelfFunded'        => $partner->isSelfFunded(),
                 'isCoordinator'       => $partner->isCoordinator(),
+                'technicalContact'    => $partner->getTechnicalContact(),
                 'organisation'        => $this->organisationProvider->generateArray($partner->getOrganisation()),
                 'latestVersionCosts'  => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersion(
                     $partner,

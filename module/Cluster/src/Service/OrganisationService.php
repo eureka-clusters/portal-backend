@@ -20,6 +20,11 @@ use Cluster\Entity;
  */
 class OrganisationService extends AbstractService
 {
+    public function findOrganisationById(int $id): ?Entity\Organisation
+    {
+        return $this->entityManager->getRepository(Entity\Organisation::class)->find($id);
+    }
+
     public function findOrCreateOrganisationType(string $typeName): Entity\Organisation\Type
     {
         $type = $this->entityManager->getRepository(Entity\Organisation\Type::class)
@@ -32,6 +37,11 @@ class OrganisationService extends AbstractService
         }
 
         return $type;
+    }
+
+    public function getOrganisations(array $filter): array
+    {
+        return $this->entityManager->getRepository(Entity\Organisation::class)->getOrganisationsByFilter($filter);
     }
 
     public function findOrCreateOrganisation(

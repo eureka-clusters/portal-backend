@@ -57,6 +57,7 @@ class ProjectProvider
                 'title'                    => $project->getTitle(),
                 'description'              => $project->getDescription(),
                 'technicalArea'            => $project->getTechnicalArea(),
+                'projectLeader'            => $project->getProjectLeader(),
                 'latestVersion'            => null === $project->getLatestVersion(
                 ) ? null : $this->versionProvider->generateArray(
                     $project->getLatestVersion()

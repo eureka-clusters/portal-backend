@@ -50,7 +50,10 @@ class PartnerRepository extends EntityRepository
                             'project_partner_filter_country.organisation',
                             'project_partner_filter_country_organisation'
                         )
-                        ->join('project_partner_filter_country_organisation.country', 'project_partner_filter_country_organisation_country')
+                        ->join(
+                            'project_partner_filter_country_organisation.country',
+                            'project_partner_filter_country_organisation_country'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_country_organisation_country.country',
@@ -109,7 +112,10 @@ class PartnerRepository extends EntityRepository
                             'project_partner_filter_organisation_type.organisation',
                             'project_partner_filter_organisation_type_organisation'
                         )
-                        ->join('project_partner_filter_organisation_type_organisation.type', 'project_partner_filter_organisation_type_organisation_type')
+                        ->join(
+                            'project_partner_filter_organisation_type_organisation.type',
+                            'project_partner_filter_organisation_type_organisation_type'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_organisation_type_organisation_type.type',
@@ -138,7 +144,10 @@ class PartnerRepository extends EntityRepository
                             'project_partner_filter_organisation_type.organisation',
                             'project_partner_filter_organisation_type_organisation'
                         )
-                        ->join('project_partner_filter_organisation_type_organisation.type', 'project_partner_filter_organisation_type_organisation_type')
+                        ->join(
+                            'project_partner_filter_organisation_type_organisation.type',
+                            'project_partner_filter_organisation_type_organisation_type'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_organisation_type_organisation_type.type',
@@ -164,8 +173,14 @@ class PartnerRepository extends EntityRepository
                     $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_project_status')
                         ->from(Entity\Project\Partner::class, 'project_partner_filter_project_status')
-                        ->join('project_partner_filter_project_status.project', 'project_partner_filter_project_status_project')
-                        ->join('project_partner_filter_project_status_project.status', 'project_partner_filter_project_status_project_status')
+                        ->join(
+                            'project_partner_filter_project_status.project',
+                            'project_partner_filter_project_status_project'
+                        )
+                        ->join(
+                            'project_partner_filter_project_status_project.status',
+                            'project_partner_filter_project_status_project_status'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_project_status_project_status.status',
@@ -190,8 +205,14 @@ class PartnerRepository extends EntityRepository
                     $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_project_status')
                         ->from(Entity\Project\Partner::class, 'project_partner_filter_project_status')
-                        ->join('project_partner_filter_project_status.project', 'project_partner_filter_project_status_project')
-                        ->join('project_partner_filter_project_status_project.status', 'project_partner_filter_project_status_project_status')
+                        ->join(
+                            'project_partner_filter_project_status.project',
+                            'project_partner_filter_project_status_project'
+                        )
+                        ->join(
+                            'project_partner_filter_project_status_project.status',
+                            'project_partner_filter_project_status_project_status'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_project_status_project_status.status',
@@ -218,8 +239,14 @@ class PartnerRepository extends EntityRepository
                     $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_primary_cluster')
                         ->from(Entity\Project\Partner::class, 'project_partner_filter_primary_cluster')
-                        ->join('project_partner_filter_primary_cluster.project', 'project_partner_filter_primary_cluster_project')
-                        ->join('project_partner_filter_primary_cluster_project.primaryCluster', 'project_partner_filter_primary_cluster_project_primary_cluster')
+                        ->join(
+                            'project_partner_filter_primary_cluster.project',
+                            'project_partner_filter_primary_cluster_project'
+                        )
+                        ->join(
+                            'project_partner_filter_primary_cluster_project.primaryCluster',
+                            'project_partner_filter_primary_cluster_project_primary_cluster'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_primary_cluster_project_primary_cluster.name',
@@ -244,8 +271,14 @@ class PartnerRepository extends EntityRepository
                     $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_primary_cluster')
                         ->from(Entity\Project\Partner::class, 'project_partner_filter_primary_cluster')
-                        ->join('project_partner_filter_primary_cluster.project', 'project_partner_filter_primary_cluster_project')
-                        ->join('project_partner_filter_primary_cluster_project.primaryCluster', 'project_partner_filter_primary_cluster_project_primary_cluster')
+                        ->join(
+                            'project_partner_filter_primary_cluster.project',
+                            'project_partner_filter_primary_cluster_project'
+                        )
+                        ->join(
+                            'project_partner_filter_primary_cluster_project.primaryCluster',
+                            'project_partner_filter_primary_cluster_project_primary_cluster'
+                        )
                         ->where(
                             $queryBuilder->expr()->in(
                                 'project_partner_filter_primary_cluster_project_primary_cluster.name',
@@ -272,6 +305,19 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->where('project_partner.project = :project');
         $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getPartnersByOrganisation(Entity\Organisation $organisation): array
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('project_partner');
+        $queryBuilder->from(Entity\Project\Partner::class, 'project_partner');
+        $queryBuilder->join('project_partner.organisation', 'project_partner_organisation');
+        $queryBuilder->where('project_partner_organisation = :organisation');
+        $queryBuilder->setParameter('organisation', $organisation);
+        $queryBuilder->addOrderBy('project_partner_organisation.name');
 
         return $queryBuilder->getQuery()->getResult();
     }

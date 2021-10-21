@@ -16,8 +16,10 @@ use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
 use Api\Options\ModuleOptions;
 use Api\V1\Rest;
+use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
+use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
@@ -32,6 +34,10 @@ return [
             UserService::class,
             UserProvider::class
         ],
+        Rest\ListResource\OrganisationListener::class           => [
+            OrganisationService::class,
+            OrganisationProvider::class
+        ],
         Rest\ListResource\ProjectListener::class                => [
             ProjectService::class,
             UserService::class,
@@ -40,12 +46,17 @@ return [
         Rest\ListResource\PartnerListener::class                => [
             PartnerService::class,
             ProjectService::class,
+            OrganisationService::class,
             UserService::class,
             PartnerProvider::class
         ],
         Rest\ViewResource\ProjectListener::class                => [
             ProjectService::class,
             ProjectProvider::class
+        ],
+        Rest\ViewResource\OrganisationListener::class           => [
+            OrganisationService::class,
+            OrganisationProvider::class
         ],
         Rest\ViewResource\PartnerListener::class                => [
             PartnerService::class,
