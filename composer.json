@@ -12,7 +12,6 @@
   "require": {
     "php": "^7.4 || ~8.0.0",
     "laminas/laminas-cli": "^1.2",
-    "laminas/laminas-console": "^2.8",
     "laminas/laminas-cache": "^2.11 || ^3.0",
     "laminas/laminas-cache-storage-adapter-redis": "^1.2",
     "laminas-api-tools/api-tools": "^1.6.x-dev",
@@ -21,7 +20,7 @@
     "laminas-api-tools/api-tools-doctrine": "@stable",
     "laminas-api-tools/api-tools-admin": "^1.11",
     "phpoffice/phpspreadsheet": "^1.18",
-    "zfr/zfr-cors": "^2.0",
+    "lm-commons/lmc-cors": "^1.2",
     "league/oauth2-client": "dev-master",
     "jield-webdev/laminas-assetmanager": "^1.1",
     "doctrine/doctrine-orm-module": "^4.0",
