@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8078c7de785611ac844a49d05d92639f",
+    "content-hash": "e2090754b22c30743ed59e20a20e91cf",
     "packages": [
         {
             "name": "assetic/framework",
@@ -5783,6 +5783,89 @@
             "time": "2021-09-18T20:19:40+00:00"
         },
         {
+            "name": "laminas/laminas-session",
+            "version": "2.13.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-session.git",
+                "reference": "fc538bba5196e3b5937ae7db3c713fc7c0829881"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-session/zipball/fc538bba5196e3b5937ae7db3c713fc7c0829881",
+                "reference": "fc538bba5196e3b5937ae7db3c713fc7c0829881",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-eventmanager": "^3.4",
+                "laminas/laminas-stdlib": "^3.6",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
+            },
+            "conflict": {
+                "zendframework/zend-session": "*"
+            },
+            "require-dev": {
+                "container-interop/container-interop": "^1.1",
+                "laminas/laminas-cache": "3.0.x-dev",
+                "laminas/laminas-cache-storage-adapter-memory": "2.0.x-dev",
+                "laminas/laminas-coding-standard": "~2.2.1",
+                "laminas/laminas-db": "^2.13.4",
+                "laminas/laminas-http": "^2.15",
+                "laminas/laminas-servicemanager": "^3.7",
+                "laminas/laminas-validator": "^2.15",
+                "mongodb/mongodb": "v1.9.x-dev",
+                "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5.9"
+            },
+            "suggest": {
+                "laminas/laminas-cache": "Laminas\\Cache component",
+                "laminas/laminas-db": "Laminas\\Db component",
+                "laminas/laminas-http": "Laminas\\Http component",
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+                "laminas/laminas-validator": "Laminas\\Validator component",
+                "mongodb/mongodb": "If you want to use the MongoDB session save handler"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "Laminas\\Session",
+                    "config-provider": "Laminas\\Session\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Object-oriented interface to PHP sessions and storage",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "session"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-session/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-session/issues",
+                "rss": "https://github.com/laminas/laminas-session/releases.atom",
+                "source": "https://github.com/laminas/laminas-session"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-09-21T19:25:14+00:00"
+        },
+        {
             "name": "laminas/laminas-stdlib",
             "version": "3.7.x-dev",
             "source": {
@@ -7644,12 +7727,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "8e31576132f1b717878bbc0b15a5d2d3ff00ccaa"
+                "reference": "9eddbf1180ee37a0bd7cde4032ece2dc68b335c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/8e31576132f1b717878bbc0b15a5d2d3ff00ccaa",
-                "reference": "8e31576132f1b717878bbc0b15a5d2d3ff00ccaa",
+                "url": "https://api.github.com/repos/symfony/console/zipball/9eddbf1180ee37a0bd7cde4032ece2dc68b335c5",
+                "reference": "9eddbf1180ee37a0bd7cde4032ece2dc68b335c5",
                 "shasum": ""
             },
             "require": {
@@ -7735,7 +7818,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-22T16:17:18+00:00"
+            "time": "2021-10-25T13:44:00+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
