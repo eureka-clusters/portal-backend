@@ -43,9 +43,9 @@ final class ProjectListener extends AbstractResourceListener
             return [];
         }
 
-        $projects = $this->projectService->getProjects($user->getFunder());
+        $projects = $this->projectService->getProjects($user->getFunder(), []);
 
-        return (new ProjectCollection($projects->getQuery()->getResult(), $this->projectProvider))->getItems(
+        return (new ProjectCollection($projects, $this->projectProvider))->getItems(
             $params->offset,
             $params->amount ?? 100
         );
