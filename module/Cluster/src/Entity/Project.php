@@ -14,6 +14,7 @@ namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project\Version;
+use Cluster\Entity\Project\Partner;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -336,6 +337,15 @@ class Project extends AbstractEntity
         }
 
         return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first();
+    }
+
+    public function getCoordinatorPartner(): ?Partner
+    {
+        $coordinatorPartner = $this->partners->exists(fn(int $key, Partner $partner) => $partner->isCoordinator());
+        if (!$coordinatorPartner) {
+            return null;
+        }
+        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first();
     }
 
     public function getPartners()

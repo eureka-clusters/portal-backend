@@ -28,6 +28,7 @@ class ProjectProvider
     private ClusterProvider $clusterProvider;
     private StatusProvider  $projectStatusProvider;
     private VersionProvider $versionProvider;
+    private PartnerProvider $partnerProvider;
 
     public function __construct(
         RedisCache $redisCache,
@@ -35,12 +36,14 @@ class ProjectProvider
         ClusterProvider $clusterProvider,
         StatusProvider $projectStatusProvider,
         VersionProvider $versionProvider
+        // ,PartnerProvider $partnerProvider
     ) {
         $this->redisCache            = $redisCache;
         $this->versionService        = $versionService;
         $this->clusterProvider       = $clusterProvider;
         $this->projectStatusProvider = $projectStatusProvider;
         $this->versionProvider       = $versionProvider;
+        // $this->partnerProvider       = $partnerProvider;
     }
 
     public function generateArray(Entity\Project $project): array
@@ -58,6 +61,10 @@ class ProjectProvider
                 'description'              => $project->getDescription(),
                 'technicalArea'            => $project->getTechnicalArea(),
                 'projectLeader'            => $project->getProjectLeader(),
+                // 'coordinator'            => null === $project->getCoordinatorPartner(
+                // ) ? null : $this->partnerProvider->generateArray(
+                //     $project->getCoordinatorPartner()
+                // ),
                 'latestVersion'            => null === $project->getLatestVersion(
                 ) ? null : $this->versionProvider->generateArray(
                     $project->getLatestVersion()

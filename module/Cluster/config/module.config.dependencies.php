@@ -35,6 +35,7 @@ return [
             Provider\ClusterProvider::class,
             Provider\Project\StatusProvider::class,
             Provider\Project\VersionProvider::class
+            // ,Provider\Project\PartnerProvider::class
         ],
         Provider\Project\PartnerProvider::class   => [
             RedisCache::class,
