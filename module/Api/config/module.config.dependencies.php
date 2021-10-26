@@ -23,7 +23,6 @@ use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
-use Cluster\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
@@ -63,7 +62,6 @@ return [
             PartnerProvider::class
         ],
         Rest\UpdateResource\ProjectListener::class              => [
-            StatisticsService::class,
             ProjectService::class,
             VersionService::class,
             PartnerService::class,

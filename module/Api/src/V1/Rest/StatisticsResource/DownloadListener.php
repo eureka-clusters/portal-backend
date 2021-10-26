@@ -11,7 +11,6 @@
 namespace Api\V1\Rest\StatisticsResource;
 
 use Admin\Service\UserService;
-use Cluster\Service\StatisticsService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -20,19 +19,17 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 /**
  * Class ResultsListener
  * @package Api\V1\Rest\StatisticsResource
+ * @deprecated
  */
 final class DownloadListener extends AbstractResourceListener
 {
-    private StatisticsService   $statisticsService;
     private UserService         $userService;
     private TranslatorInterface $translator;
 
     public function __construct(
-        StatisticsService $statisticsService,
         UserService $userService,
         TranslatorInterface $translator
     ) {
-        $this->statisticsService = $statisticsService;
         $this->userService       = $userService;
         $this->translator        = $translator;
     }
@@ -51,7 +48,7 @@ final class DownloadListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        $results = //$this->statisticsService->getResults($user->getFunder(), $arrayFilter, $output);
+        $results = [];
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');

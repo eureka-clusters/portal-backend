@@ -14,7 +14,6 @@ use Cluster\Entity\Version\Type;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
-use Cluster\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
@@ -24,20 +23,17 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
  */
 final class ProjectListener extends AbstractResourceListener
 {
-    private StatisticsService $statisticsService;
     private ProjectService    $projectService;
     private VersionService    $versionService;
     private PartnerService    $partnerService;
     private EntityManager     $entityManager;
 
     public function __construct(
-        StatisticsService $statisticsService,
         ProjectService $projectService,
         VersionService $versionService,
         PartnerService $partnerService,
         EntityManager $entityManager
     ) {
-        $this->statisticsService = $statisticsService;
         $this->projectService    = $projectService;
         $this->versionService    = $versionService;
         $this->partnerService    = $partnerService;

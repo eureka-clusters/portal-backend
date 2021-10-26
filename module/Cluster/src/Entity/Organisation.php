@@ -15,6 +15,7 @@ namespace Cluster\Entity;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="cluster_organisation")
@@ -32,6 +33,11 @@ class Organisation extends AbstractEntity
      * @ORM\Column()
      */
     private string $name;
+    /**
+     * @ORM\Column(unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private string $slug;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -74,6 +80,17 @@ class Organisation extends AbstractEntity
     public function setName(string $name): Organisation
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): Organisation
+    {
+        $this->slug = $slug;
         return $this;
     }
 

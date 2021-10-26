@@ -25,6 +25,11 @@ class OrganisationService extends AbstractService
         return $this->entityManager->getRepository(Entity\Organisation::class)->find($id);
     }
 
+    public function findOrganisationBySlug(string $slug): ?Entity\Organisation
+    {
+        return $this->entityManager->getRepository(Entity\Organisation::class)->findOneBy(['slug' => $slug]);
+    }
+
     public function findOrCreateOrganisationType(string $typeName): Entity\Organisation\Type
     {
         $type = $this->entityManager->getRepository(Entity\Organisation\Type::class)

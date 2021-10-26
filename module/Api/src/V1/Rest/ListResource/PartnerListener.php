@@ -56,7 +56,7 @@ final class PartnerListener extends AbstractResourceListener
         switch (true) {
             case isset($params->project):
                 /** @var Project $project */
-                $project = $this->projectService->findProjectByIdentifier($params->project);
+                $project = $this->projectService->findProjectBySlug($params->project);
 
                 if (null === $project) {
                     return [];
@@ -66,7 +66,7 @@ final class PartnerListener extends AbstractResourceListener
                 break;
             case isset($params->organisation):
                 /** @var Organisation $organisation */
-                $organisation = $this->organisationService->findOrganisationById((int)$params->organisation);
+                $organisation = $this->organisationService->findOrganisationBySlug($params->organisation);
 
                 if (null === $organisation) {
                     return [];

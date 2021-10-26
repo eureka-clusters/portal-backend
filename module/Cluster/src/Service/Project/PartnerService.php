@@ -19,6 +19,8 @@ use Cluster\Entity\Project;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
 use Doctrine\ORM\EntityManager;
+use InvalidArgumentException;
+use stdClass;
 
 /**
  *
@@ -39,9 +41,14 @@ class PartnerService extends AbstractService
         $this->organisationService = $organisationService;
     }
 
-    public function findPartnerById(int $id)
+    public function findPartnerById(int $id): ?Entity\Project\Partner
     {
         return $this->entityManager->getRepository(Entity\Project\Partner::class)->find($id);
+    }
+
+    public function findPartnerBySlug(string $slug): ?Entity\Project\Partner
+    {
+        return $this->entityManager->getRepository(Entity\Project\Partner::class)->findOneBy(['slug' => $slug]);
     }
 
     public function getPartners(Funder $funder, array $filter): array
@@ -121,13 +128,13 @@ class PartnerService extends AbstractService
         ];
     }
 
-    public function findOrCreatePartner(\stdClass $data, Entity\Project $project): Entity\Project\Partner
+    public function findOrCreatePartner(stdClass $data, Entity\Project $project): Entity\Project\Partner
     {
         //Find the country first
         $country = $this->countryService->findCountryByCd($data->country);
 
         if (null === $country) {
-            throw new \InvalidArgumentException(sprintf("Country with code %s cannot be found", $data->country));
+            throw new InvalidArgumentException(sprintf("Country with code %s cannot be found", $data->country));
         }
 
         //Find the type
@@ -143,6 +150,11 @@ class PartnerService extends AbstractService
         if (null === $partner) {
             $partner = new Entity\Project\Partner();
             $partner->setOrganisation($organisation);
+
+            //Save the projectName and PartnerName for slug creation
+            $partner->setProjectName($project->getName());
+            $partner->setOrganisationName($organisation->getName());
+
             $partner->setProject($project);
             $partner->setIsActive($data->active);
             $partner->setIsCoordinator($data->coordinator);

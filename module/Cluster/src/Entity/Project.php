@@ -17,6 +17,7 @@ use Cluster\Entity\Project\Version;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="cluster_project",
@@ -37,6 +38,11 @@ class Project extends AbstractEntity
      * @ORM\Column(unique=true)
      */
     private string $identifier;
+    /**
+     * @ORM\Column(unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=true)
+     */
+    private string $slug;
     /**
      * @ORM\Column()
      */
@@ -148,6 +154,17 @@ class Project extends AbstractEntity
     public function setIdentifier(string $identifier): Project
     {
         $this->identifier = $identifier;
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): Project
+    {
+        $this->slug = $slug;
         return $this;
     }
 

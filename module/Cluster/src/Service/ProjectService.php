@@ -16,7 +16,10 @@ use Application\Service\AbstractService;
 use Cluster\Entity;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Project;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
+use stdClass;
 
 /**
  *
@@ -89,7 +92,7 @@ class ProjectService extends AbstractService
         ];
     }
 
-    public function findOrCreateProject(\stdClass $data): Entity\Project
+    public function findOrCreateProject(stdClass $data): Entity\Project
     {
         $project = $this->findProjectByIdentifier($data->internal_identifier);
 
@@ -149,22 +152,22 @@ class ProjectService extends AbstractService
 
         //Handle the dates
         if ($data->official_start_date) {
-            $officialStartDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_start_date);
+            $officialStartDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->official_start_date);
             $project->setOfficialStartDate($officialStartDate ?: null);
         }
 
         if ($data->official_end_date) {
-            $officialEndDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->official_end_date);
+            $officialEndDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->official_end_date);
             $project->setOfficialEndDate($officialEndDate ?: null);
         }
 
         if ($data->label_date) {
-            $labelDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->label_date);
+            $labelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->label_date);
             $project->setLabelDate($labelDate ?: null);
         }
 
         if ($data->cancel_date) {
-            $cancelDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$data->cancel_date);
+            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancel_date);
             $project->setCancelDate($cancelDate ?: null);
         }
 
@@ -172,10 +175,10 @@ class ProjectService extends AbstractService
         return $project;
     }
 
-    public function findProjectByIdentifier(string $identifier): ?Entity\Project
+    public function findProjectBySlug(string $slug): ?Entity\Project
     {
         return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(
-            ['identifier' => $identifier]
+            ['slug' => $slug]
         );
     }
 }

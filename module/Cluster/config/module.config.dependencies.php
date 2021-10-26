@@ -81,8 +81,5 @@ return [
         Service\Project\VersionService::class     => [
             EntityManager::class
         ],
-        Service\StatisticsService::class          => [
-            EntityManager::class
-        ],
     ]
 ];

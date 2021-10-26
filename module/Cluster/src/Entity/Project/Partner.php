@@ -15,6 +15,7 @@ namespace Cluster\Entity\Project;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="cluster_project_partner")
@@ -42,6 +43,20 @@ class Partner extends AbstractEntity
     private \Cluster\Entity\Project $project;
 
     /**
+     * @ORM\Column(unique=true)
+     * @Gedmo\Slug(fields={"projectName","organisationName"}, updatable=true)
+     */
+    private string $slug;
+    /**
+     * @ORM\Column()
+     */
+    private string $organisationName;
+    /**
+     * @ORM\Column()
+     */
+    private string $projectName;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private bool $isActive;
@@ -66,17 +81,7 @@ class Partner extends AbstractEntity
     public function __construct()
     {
         $this->costsAndEffort = new ArrayCollection();
-    }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): Partner
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getProject(): \Cluster\Entity\Project
@@ -98,6 +103,28 @@ class Partner extends AbstractEntity
     public function setOrganisation(\Cluster\Entity\Organisation $organisation): Partner
     {
         $this->organisation = $organisation;
+        return $this;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): Partner
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): Partner
+    {
+        $this->slug = $slug;
         return $this;
     }
 
@@ -153,6 +180,18 @@ class Partner extends AbstractEntity
     public function setCostsAndEffort($costsAndEffort): Partner
     {
         $this->costsAndEffort = $costsAndEffort;
+        return $this;
+    }
+
+    public function setOrganisationName(string $organisationName): Partner
+    {
+        $this->organisationName = $organisationName;
+        return $this;
+    }
+
+    public function setProjectName(string $projectName): Partner
+    {
+        $this->projectName = $projectName;
         return $this;
     }
 }

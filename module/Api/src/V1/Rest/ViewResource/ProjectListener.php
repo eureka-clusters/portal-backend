@@ -29,9 +29,9 @@ final class ProjectListener extends AbstractResourceListener
         $this->projectProvider = $projectProvider;
     }
 
-    public function fetch($id = null)
+    public function fetch($slug = null)
     {
-        $project = $this->projectService->findProjectByIdentifier($id);
+        $project = $this->projectService->findProjectBySlug($slug);
 
         if (null === $project) {
             return new ApiProblem(404, 'The selected project cannot be found');

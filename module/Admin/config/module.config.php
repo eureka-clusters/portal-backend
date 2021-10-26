@@ -43,6 +43,7 @@ $config = [
             'orm_default' => [
                 'subscribers' => [
                     \Gedmo\Timestampable\TimestampableListener::class,
+                    \Gedmo\Sluggable\SluggableListener::class,
                 ],
             ],
         ],

@@ -65,7 +65,7 @@ $config = [
             Rest\ViewResource\ProjectListener::class                => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/api/view/project/[:identifier]',
+                    'route'    => '/api/view/project/[:slug]',
                     'defaults' => [
                         'controller' => Rest\ViewResource\ProjectListener::class,
                     ],
@@ -74,7 +74,7 @@ $config = [
             Rest\ViewResource\OrganisationListener::class           => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/api/view/organisation/[:identifier]',
+                    'route'    => '/api/view/organisation/[:slug]',
                     'defaults' => [
                         'controller' => Rest\ViewResource\OrganisationListener::class,
                     ],
@@ -83,7 +83,7 @@ $config = [
             Rest\ViewResource\PartnerListener::class                => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/api/view/partner/[:identifier]',
+                    'route'    => '/api/view/partner/[:slug]',
                     'defaults' => [
                         'controller' => Rest\ViewResource\PartnerListener::class,
                     ],

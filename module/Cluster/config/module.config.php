@@ -33,8 +33,7 @@ $config = [
             Service\OrganisationService::class    => ConfigAbstractFactory::class,
             Service\ProjectService::class         => ConfigAbstractFactory::class,
             Service\Project\VersionService::class => ConfigAbstractFactory::class,
-            Service\Project\PartnerService::class => ConfigAbstractFactory::class,
-            Service\StatisticsService::class      => ConfigAbstractFactory::class
+            Service\Project\PartnerService::class => ConfigAbstractFactory::class
         ],
     ],
     'doctrine'        => [

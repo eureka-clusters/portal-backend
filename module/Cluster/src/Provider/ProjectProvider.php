@@ -45,7 +45,7 @@ class ProjectProvider
 
     public function generateArray(Entity\Project $project): array
     {
-        $cacheKey = $project->getIdentifier();
+        $cacheKey = $project->getResourceId();
 
         $projectData = $this->redisCache->fetch($cacheKey);
 
