@@ -175,6 +175,13 @@ class ProjectService extends AbstractService
         return $project;
     }
 
+    public function findProjectByIdentifier(string $identifier): ?Entity\Project
+    {
+        return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(
+            ['identifier' => $identifier]
+        );
+    }
+
     public function findProjectBySlug(string $slug): ?Entity\Project
     {
         return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(

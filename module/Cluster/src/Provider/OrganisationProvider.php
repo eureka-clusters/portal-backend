@@ -41,6 +41,7 @@ class OrganisationProvider
         if (!$organisationData) {
             $organisationData = [
                 'id'      => $organisation->getId(),
+                'slug'    => $organisation->getSlug(),
                 'name'    => $organisation->getName(),
                 'country' => $this->countryProvider->generateArray($organisation->getCountry()),
                 'type'    => $this->typeProvider->generateArray($organisation->getType()),

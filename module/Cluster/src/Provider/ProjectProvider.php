@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cluster\Provider;
 
 use Cluster\Entity;
+use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
 use Cluster\Service\Project\VersionService;
@@ -26,24 +27,24 @@ class ProjectProvider
     private RedisCache      $redisCache;
     private VersionService  $versionService;
     private ClusterProvider $clusterProvider;
+    private ContactProvider $contactProvider;
     private StatusProvider  $projectStatusProvider;
     private VersionProvider $versionProvider;
-    private PartnerProvider $partnerProvider;
 
     public function __construct(
         RedisCache $redisCache,
         VersionService $versionService,
         ClusterProvider $clusterProvider,
+        ContactProvider $contactProvider,
         StatusProvider $projectStatusProvider,
         VersionProvider $versionProvider
-        // ,PartnerProvider $partnerProvider
     ) {
         $this->redisCache            = $redisCache;
         $this->versionService        = $versionService;
         $this->clusterProvider       = $clusterProvider;
+        $this->contactProvider       = $contactProvider;
         $this->projectStatusProvider = $projectStatusProvider;
         $this->versionProvider       = $versionProvider;
-        // $this->partnerProvider       = $partnerProvider;
     }
 
     public function generateArray(Entity\Project $project): array
@@ -54,17 +55,16 @@ class ProjectProvider
 
         if (!$projectData) {
             $projectData = [
+                'slug'                     => $project->getSlug(),
                 'identifier'               => $project->getIdentifier(),
                 'number'                   => $project->getNumber(),
                 'name'                     => $project->getName(),
                 'title'                    => $project->getTitle(),
                 'description'              => $project->getDescription(),
                 'technicalArea'            => $project->getTechnicalArea(),
-                'projectLeader'            => $project->getProjectLeader(),
-                // 'coordinator'            => null === $project->getCoordinatorPartner(
-                // ) ? null : $this->partnerProvider->generateArray(
-                //     $project->getCoordinatorPartner()
-                // ),
+                'coordinator'              => null === $project->getCoordinatorPartner(
+                ) ? null : PartnerProvider::parseCoordinatorArray($project->getCoordinatorPartner()),
+                'projectLeader'            => $this->contactProvider->generateArray($project->getProjectLeader()),
                 'latestVersion'            => null === $project->getLatestVersion(
                 ) ? null : $this->versionProvider->generateArray(
                     $project->getLatestVersion()

@@ -10,13 +10,14 @@
 
 namespace Cluster;
 
+use Cluster\Provider\ContactProvider;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
     'service_manager' => [
-        'factories' => [
+        'factories'  => [
             Provider\ClusterProvider::class           => ConfigAbstractFactory::class,
             Provider\OrganisationProvider::class      => ConfigAbstractFactory::class,
             Provider\Organisation\TypeProvider::class => ConfigAbstractFactory::class,
@@ -35,6 +36,9 @@ $config = [
             Service\Project\VersionService::class => ConfigAbstractFactory::class,
             Service\Project\PartnerService::class => ConfigAbstractFactory::class
         ],
+        'invokables' => [
+            ContactProvider::class
+        ]
     ],
     'doctrine'        => [
         'driver' => [

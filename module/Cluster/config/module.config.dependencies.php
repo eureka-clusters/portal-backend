@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cluster;
 
+use Cluster\Provider\ContactProvider;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
@@ -33,6 +34,7 @@ return [
             RedisCache::class,
             Service\Project\VersionService::class,
             Provider\ClusterProvider::class,
+            Provider\ContactProvider::class,
             Provider\Project\StatusProvider::class,
             Provider\Project\VersionProvider::class
             // ,Provider\Project\PartnerProvider::class
@@ -40,8 +42,8 @@ return [
         Provider\Project\PartnerProvider::class   => [
             RedisCache::class,
             Provider\ProjectProvider::class,
+            Provider\ContactProvider::class,
             Provider\OrganisationProvider::class,
-            Service\ProjectService::class,
             Service\Project\PartnerService::class
         ],
         Provider\Project\StatusProvider::class    => [
