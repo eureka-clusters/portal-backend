@@ -6,3 +6,4 @@
 /data/DoctrineORMModule
 /module/Api/src/V1/Rest/StatisticsResource/*.http
 /module/Api/src/V1/Rest/UpdateResource/*.http
+/mutagen.yml.lock
