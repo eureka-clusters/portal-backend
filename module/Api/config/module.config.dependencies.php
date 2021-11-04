@@ -88,12 +88,14 @@ return [
         Rest\StatisticsResource\Download\ProjectListener::class => [
             ProjectService::class,
             UserService::class,
-            TranslatorInterface::class
+            TranslatorInterface::class,
+            ProjectProvider::class
         ],
         Rest\StatisticsResource\Download\PartnerListener::class => [
             PartnerService::class,
             UserService::class,
-            TranslatorInterface::class
+            TranslatorInterface::class,
+            PartnerProvider::class
         ],
         Service\OAuthService::class                             => [
             EntityManager::class,

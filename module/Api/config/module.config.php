@@ -135,18 +135,19 @@ $config = [
                 ],
             ],
             Rest\StatisticsResource\Download\ProjectListener::class => [
-                'type'    => Literal::class,
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/api/statistics/download/project',
+                    'route'    => '/api/statistics/download/project/[:filter]',
                     'defaults' => [
                         'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
                     ],
                 ],
             ],
+
             Rest\StatisticsResource\Download\PartnerListener::class => [
-                'type'    => Literal::class,
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/api/statistics/download\partner',
+                    'route'    => '/api/statistics/download/partner/[:filter]',
                     'defaults' => [
                         'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                     ],
@@ -332,34 +333,29 @@ $config = [
         Rest\StatisticsResource\Download\ProjectListener::class => [
             'listener'                   => Rest\StatisticsResource\Download\ProjectListener::class,
             'route_name'                 => Rest\StatisticsResource\Download\ProjectListener::class,
-            'route_identifier_name'      => 'id',
-            'entity_http_methods'        => [],
+            'route_identifier_name'      => 'filter',
+            'entity_http_methods'        => ['GET'],
             'collection_name'            => 'results',
-            'collection_http_methods'    => ['GET'],
+            'collection_http_methods'    => [],
             'service_name'               => 'statistics_download_project',
             'entity_class'               => Project::class,
             'collection_class'           => Project::class,
             'page_size'                  => 25,
-            'collection_query_whitelist' => [
-                'output',
-                'filter'
-            ],
+            'collection_query_whitelist' => [],
         ],
+
         Rest\StatisticsResource\Download\PartnerListener::class => [
             'listener'                   => Rest\StatisticsResource\Download\PartnerListener::class,
             'route_name'                 => Rest\StatisticsResource\Download\PartnerListener::class,
-            'route_identifier_name'      => 'id',
-            'entity_http_methods'        => [],
+            'route_identifier_name'      => 'filter',
+            'entity_http_methods'        => ['GET'],
             'collection_name'            => 'results',
-            'collection_http_methods'    => ['GET'],
+            'collection_http_methods'    => [],
             'service_name'               => 'statistics_download_partner',
             'entity_class'               => Partner::class,
             'collection_class'           => Partner::class,
             'page_size'                  => 25,
-            'collection_query_whitelist' => [
-                'output',
-                'filter'
-            ],
+            'collection_query_whitelist' => [],
         ],
 
     ],

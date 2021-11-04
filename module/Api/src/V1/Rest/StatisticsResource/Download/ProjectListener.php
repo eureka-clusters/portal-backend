@@ -12,6 +12,8 @@ namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
 use Cluster\Service\ProjectService;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Rest\Collection\ProjectCollection;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -26,32 +28,49 @@ final class ProjectListener extends AbstractResourceListener
     private ProjectService      $projectService;
     private UserService         $userService;
     private TranslatorInterface $translator;
+    private ProjectProvider $projectProvider;
 
     public function __construct(
         ProjectService $projectService,
         UserService $userService,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ProjectProvider $projectProvider
     ) {
         $this->projectService = $projectService;
         $this->userService    = $userService;
         $this->translator     = $translator;
+        $this->projectProvider = $projectProvider;
     }
 
-    public function fetch($id = null)
+    public function fetch($filter = null)
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
             return [];
         }
-        $output        = (int)$id;
-        $encodedFilter = $this->getEvent()->getRouteMatch()->getParam('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter      = base64_decode($filter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        $results = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        // @johan what type is params? i included a zero offset with return of 100 entries for the time to fix this
+        // $params->offset and $params->amount are not existing.
+        // are they are coming from fetchAll($params = []), so what do we have to use to return all?
+        // does offset = null, limit = null return anything or do i have to use -1 or something else?
+        // i guess the pageSize is the params amount set in the module.config.php ?
+        // 'page_size'                  => 25,
+        // is this even available for 'type'    => Segment::class, ?
+
+        $projects = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        $results = (new ProjectCollection($projects, $this->projectProvider))->getItems(
+            null,
+            null
+            // 0,
+            // 100
+            // $params->offset,
+            // $params->amount ?? 100
+        );
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');
@@ -74,11 +93,11 @@ final class ProjectListener extends AbstractResourceListener
             $column = 'A';
             $row++;
 
-            $partnerSheet->getCell($column++ . $row)->setValue($result['projectNumber']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['projectName']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['primaryCluster']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionType']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['number']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['name']);
+            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['primaryCluster']['name'])?$result['primaryCluster']['name']:null);
+            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['secondaryCluster']['name'])?$result['secondaryCluster']['name']:null);
+            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['latestVersion']['type']['type'])?$result['latestVersion']['type']['type']: null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
             $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
         }

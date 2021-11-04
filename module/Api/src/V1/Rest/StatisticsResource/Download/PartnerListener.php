@@ -12,6 +12,8 @@ namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
 use Cluster\Service\Project\PartnerService;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Rest\Collection\PartnerCollection;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -26,32 +28,38 @@ final class PartnerListener extends AbstractResourceListener
     private PartnerService      $partnerService;
     private UserService         $userService;
     private TranslatorInterface $translator;
+    private PartnerProvider $partnerProvider;
 
     public function __construct(
         PartnerService $partnerService,
         UserService $userService,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PartnerProvider $partnerProvider
     ) {
         $this->partnerService = $partnerService;
         $this->userService    = $userService;
         $this->translator     = $translator;
+        $this->partnerProvider = $partnerProvider;
     }
 
-    public function fetch($id = null)
+    public function fetch($filter = null)
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
             return [];
         }
-        $output        = (int)$id;
-        $encodedFilter = $this->getEvent()->getRouteMatch()->getParam('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter      = base64_decode($filter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        $results = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+        // @johan same question as in the ProjectListener
+        $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+        $results = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
+            null,
+            null
+        );
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');
@@ -73,14 +81,14 @@ final class PartnerListener extends AbstractResourceListener
             $column = 'A';
             $row++;
 
-            $partnerSheet->getCell($column++ . $row)->setValue($result['projectNumber']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['projectName']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['partner']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['country']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['partnerType']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionType']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionCosts']);
-            $partnerSheet->getCell($column . $row)->setValue($result['latestVersionEffort']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['number']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['name']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['name']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['country']['country']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['type']['type']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalCosts']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalEffort']);
+
         }
 
         $excelWriter = IOFactory::createWriter($spreadSheet, 'Xlsx');
