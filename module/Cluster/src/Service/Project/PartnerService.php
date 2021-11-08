@@ -93,38 +93,38 @@ class PartnerService extends AbstractService
 
         $countriesIndexed = array_map(static function (array $country) {
             return [
-                'country' => $country['country'],
-                'amount'  => $country[1]
+                'name'   => $country['country'],
+                'amount' => $country[1]
             ];
         }, $countries);
 
         $organisationTypesIndexed = array_map(static function (array $partnerType) {
             return [
-                'organisationType' => $partnerType['type'],
-                'amount'           => $partnerType[1]
+                'name'   => $partnerType['type'],
+                'amount' => $partnerType[1]
             ];
         }, $organisationTypes);
 
         $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
             return [
-                'primaryCluster' => $primaryCluster['name'],
-                'amount'         => $primaryCluster[1]
+                'name'   => $primaryCluster['name'],
+                'amount' => $primaryCluster[1]
             ];
         }, $primaryClusters);
 
         $projectStatusIndexed = array_map(static function (array $projectStatus) {
             return [
-                'projectStatus' => $projectStatus['status'],
-                'amount'        => $projectStatus[1]
+                'name'   => $projectStatus['status'],
+                'amount' => $projectStatus[1]
             ];
         }, $projectStatuses);
 
         return [
-            'countries'          => $countriesIndexed,
-            'organisation_types' => $organisationTypesIndexed,
-            'project_status'     => $projectStatusIndexed,
-            'primary_clusters'   => $primaryClustersIndexed,
-            'years'              => $years,
+            'countries'         => $countriesIndexed,
+            'organisationTypes' => $organisationTypesIndexed,
+            'projectStatus'     => $projectStatusIndexed,
+            'primaryClusters'   => $primaryClustersIndexed,
+            'years'             => $years,
         ];
     }
 
