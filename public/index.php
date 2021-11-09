@@ -13,7 +13,7 @@ date_default_timezone_set("Europe/Berlin");
 use Laminas\Mvc\Application;
 use Laminas\Stdlib\ArrayUtils;
 
-define('PORTAL_ENVIRONMENT', getenv('ITEAOFFICE_ENVIRONMENT')); //development, staging, production
+define('PORTAL_ENVIRONMENT', getenv('PORTAL_ENVIRONMENT')); //development, staging, production
 
 /**
  * This makes our life easier when dealing with paths. Everything is relative
