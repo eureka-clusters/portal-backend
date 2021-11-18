@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Rest\Collection;
@@ -16,10 +8,6 @@ use Cluster\Entity;
 use Cluster\Provider\Project\PartnerProvider;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
-/**
- * Class PartnerCollection
- * @package Partner\Rest\Collection
- */
 final class PartnerCollection extends ArrayAdapter
 {
     private PartnerProvider $partnerProvider;

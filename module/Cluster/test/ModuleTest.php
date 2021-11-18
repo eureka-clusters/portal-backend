@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace ClusterTest;
@@ -16,10 +8,6 @@ use Cluster\Module;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
 
-/**
- * Class ModuleTest
- * @package ClusterTest
- */
 final class ModuleTest extends AbstractServiceTest
 {
     public function testCanFindConfiguration(): void
@@ -47,8 +35,8 @@ final class ModuleTest extends AbstractServiceTest
                         'youtrack' => [
                             'url'      => '',
                             'username' => '',
-                            'program'  => ''
-                        ]
+                            'program'  => '',
+                        ],
                     ];
                 } else {
                     $instantiatedDependencies[]

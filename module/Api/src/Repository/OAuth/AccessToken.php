@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 namespace Api\Repository\OAuth;
 
-use Api\Entity\OAuth\AccessToken as OAuthAccessToken;
-use Api\Entity\OAuth\Clients;
-use Admin\Entity\User;
 use Doctrine\ORM\EntityRepository;
-use OAuth2\Storage\AccessTokenInterface;
 
-/**
- * Class AccessToken
- * @package Api\Repository\OAuth
- */
 final class AccessToken extends EntityRepository //implements AccessTokenInterface
 {
 //    public function getAccessToken($oauthToken)

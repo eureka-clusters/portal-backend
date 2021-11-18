@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin\Service;
@@ -18,12 +10,13 @@ use Application\ValueObject\OAuth2\GenericUser;
 use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
+use Exception;
 
-/**
- * Class UserService
- *
- * @package Admin\Service
- */
+use function array_diff;
+use function array_intersect;
+use function array_values;
+use function sprintf;
+
 class UserService extends AbstractService
 {
     public function findUserById(int $id): ?User
@@ -36,7 +29,7 @@ class UserService extends AbstractService
         //Try to see if we already have the user
         $user = $this->entityManager->getRepository(User::class)->findOneBy(
             [
-                'email' => $genericUser->getEmail()
+                'email' => $genericUser->getEmail(),
             ]
         );
 
@@ -51,7 +44,7 @@ class UserService extends AbstractService
         $this->save($user);
 
         //Delete the funder object when the user is not a funder
-        if (!$genericUser->isFunder() && $user->isFunder()) {
+        if (! $genericUser->isFunder() && $user->isFunder()) {
             $this->delete($user->getFunder());
         }
 
@@ -66,7 +59,7 @@ class UserService extends AbstractService
                 ]
             );
             if (null === $country) {
-                throw new \Exception(
+                throw new Exception(
                     sprintf('Error Country with Alpha 2 code "%s" not found', $genericUser->getFunderCountry()),
                     1
                 );
@@ -110,7 +103,7 @@ class UserService extends AbstractService
                     'identifier' => $clusterIdentifier,
                 ]
             );
-            if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
+            if ((null !== $cluster) && ! $funder->getClusters()->contains($cluster)) {
                 $funder->getClusters()->add($cluster);
             }
         }

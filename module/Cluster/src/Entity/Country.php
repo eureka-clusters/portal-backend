@@ -1,18 +1,11 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Organisation;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -29,26 +22,19 @@ class Country extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-    /**
-     * @ORM\Column(length=2, unique=true)
-     */
+    /** @ORM\Column(length=2, unique=true) */
     private string $cd;
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $country;
     /**
      * @ORM\Column(name="docRef",type="string",unique=true)
+     *
      * @Gedmo\Slug(fields={"country"})
      */
     private string $docRef;
-    /**
-     * @ORM\Column(type="string",nullable=true)
-     */
+    /** @ORM\Column(type="string",nullable=true) */
     private ?string $iso3 = null;
-    /**
-     * @ORM\Column(name="numcode",type="integer",length=6)
-     */
+    /** @ORM\Column(name="numcode",type="integer",length=6) */
     private int $numcode;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="country")
@@ -59,13 +45,13 @@ class Country extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="country")
      *
-     * @var \Cluster\Entity\Organisation[]|Collections\ArrayCollection
+     * @var Organisation[]|Collections\ArrayCollection
      */
     private $organisations;
 
     public function __construct()
     {
-        $this->funder    = new Collections\ArrayCollection();
+        $this->funder        = new Collections\ArrayCollection();
         $this->organisations = new Collections\ArrayCollection();
     }
 

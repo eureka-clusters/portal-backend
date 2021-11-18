@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin\Entity;
@@ -29,44 +21,29 @@ class Session extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id = null;
-    /**
-     * @ORM\Column(name="`key`")
-     */
+    /** @ORM\Column(name="`key`") */
     private string $key;
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="integer") */
     private int $modified;
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="integer") */
     private int $lifetime;
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="integer") */
     private int $hits;
-    /**
-     * @ORM\Column(type="text")
-     */
+    /** @ORM\Column(type="text") */
     private string $data;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $name;
-    /**
-     * @ORM\Column(type="string", length=15, nullable=false)
-     */
+    /** @ORM\Column(type="string", length=15, nullable=false) */
     private $ip;
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     *
      * @Gedmo\Timestampable(on="create")
      */
     private DateTime $dateStart;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", inversedBy="session", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @var User
      */
     private User $user;
 
@@ -78,7 +55,7 @@ class Session extends AbstractEntity
 
     public function __toString(): string
     {
-        return (string)$this->name;
+        return (string) $this->name;
     }
 
     public function getId(): int

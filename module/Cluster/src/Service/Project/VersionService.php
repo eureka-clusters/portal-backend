@@ -1,23 +1,18 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Service\Project;
 
 use Application\Service\AbstractService;
 use Cluster\Entity;
+use DateTime;
+use DateTimeInterface;
+use InvalidArgumentException;
+use stdClass;
 
-/**
- *
- */
+use function sprintf;
+
 class VersionService extends AbstractService
 {
     public function findVersionTypeById(int $id): Entity\Version\Type
@@ -25,7 +20,7 @@ class VersionService extends AbstractService
         return $this->entityManager->find(Entity\Version\Type::class, $id);
     }
 
-    public function createVersionFromData(\stdClass $data, Entity\Version\Type $type, Entity\Project $project): Entity\Project\Version
+    public function createVersionFromData(stdClass $data, Entity\Version\Type $type, Entity\Project $project): Entity\Project\Version
     {
         $version = new Entity\Project\Version();
         $version->setProject($project);
@@ -38,7 +33,7 @@ class VersionService extends AbstractService
         $version->setStatus($status);
 
         //Handle the submission date
-        $submissionDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $data->submission_date);
+        $submissionDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->submission_date);
         $version->setSubmissionDate($submissionDate);
 
         $version->setCosts($data->total_costs);
@@ -58,7 +53,7 @@ class VersionService extends AbstractService
             ->findOneBy(['type' => $typeName]);
 
         if (null === $type) {
-            throw new \InvalidArgumentException(sprintf("Project version type \"%s\" cannot be found", $typeName));
+            throw new InvalidArgumentException(sprintf("Project version type \"%s\" cannot be found", $typeName));
         }
 
         return $type;

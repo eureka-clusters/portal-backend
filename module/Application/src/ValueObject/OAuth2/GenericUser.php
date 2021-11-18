@@ -1,45 +1,37 @@
 <?php
 
-/**
- * Jield BV all rights reserved
- *
- * @author      Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2021 Jield BV (https://jield.nl)
- */
-
 declare(strict_types=1);
 
 namespace Application\ValueObject\OAuth2;
 
 use Laminas\Json\Json;
+use stdClass;
 
-/**
- * Class GenericUser
- * @package Application\ValueObject\OAuth2
- */
+use function array_intersect;
+
 final class GenericUser
 {
     private string $id;
     private string $cluster;
-    private array  $clusterPermissions;
+    private array $clusterPermissions;
     private string $firstName;
     private string $lastName;
     private string $email;
-    private bool   $isFunder;
-    private array  $funder;
-    private array  $address;
+    private bool $isFunder;
+    private array $funder;
+    private array $address;
     private string $funderCountry;
 
-    public function __construct(\stdClass $result)
+    public function __construct(stdClass $result)
     {
-        $this->id                 = (string)$result->id;
+        $this->id                 = (string) $result->id;
         $this->firstName          = $result->first_name;
         $this->cluster            = $result->cluster;
-        $this->clusterPermissions = (array)($result->cluster_permissions ?? []);
+        $this->clusterPermissions = (array) ($result->cluster_permissions ?? []);
         $this->lastName           = $result->last_name;
         $this->isFunder           = $result->is_funder;
-        $this->funder             = (array)($result->funder ?? []);
-        $this->address            = (array)($result->address ?? []);
+        $this->funder             = (array) ($result->funder ?? []);
+        $this->address            = (array) ($result->address ?? []);
         $this->email              = $result->email;
         $this->funderCountry      = $result->funder_country;
     }
@@ -51,7 +43,7 @@ final class GenericUser
         // filter the cluster permissions
 
         $data['cluster_permissions'] = array_intersect($data['cluster_permissions'], $allowedClusters);
-        return new self((object)$data);
+        return new self((object) $data);
     }
 
     public function getId(): string

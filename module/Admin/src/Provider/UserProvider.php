@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Jield BV All rights reserved
- *
- * @author      Dr. ir. Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2004-2020 Jield BV (https://jield.nl)
- */
-
 declare(strict_types=1);
 
 namespace Admin\Provider;
@@ -14,10 +7,8 @@ namespace Admin\Provider;
 use Admin\Entity;
 use Cluster\Entity\Cluster;
 
-/**
- * Class UserProvider
- * @package User\Provider
- */
+use function array_merge;
+
 class UserProvider
 {
     public function generateArray(Entity\User $user): array

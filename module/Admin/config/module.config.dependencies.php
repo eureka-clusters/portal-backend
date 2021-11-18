@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin;
@@ -22,20 +14,15 @@ return [
             EntityManager::class,
             TranslatorInterface::class,
             Service\AdminService::class,
-            'ControllerPluginManager'
-        ],
-        Service\QueueService::class => [
-            EntityManager::class,
-            TranslatorInterface::class
+            'ControllerPluginManager',
         ],
         Service\AdminService::class => [
             EntityManager::class,
-            TranslatorInterface::class
+            TranslatorInterface::class,
         ],
         Service\ApiService::class   => [
             EntityManager::class,
-            TranslatorInterface::class
+            TranslatorInterface::class,
         ],
-
-    ]
+    ],
 ];

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Provider\Project;
@@ -15,9 +7,6 @@ namespace Cluster\Provider\Project;
 use Cluster\Entity;
 use Doctrine\Common\Cache\RedisCache;
 
-/**
- *
- */
 class StatusProvider
 {
     private RedisCache $redisCache;
@@ -33,10 +22,10 @@ class StatusProvider
 
         $statusData = $this->redisCache->fetch($cacheKey);
 
-        if (!$statusData) {
+        if (! $statusData) {
             $statusData = [
                 'id'     => $status->getId(),
-                'status' => $status->getStatus()
+                'status' => $status->getStatus(),
             ];
 
             $this->redisCache->save($cacheKey, $statusData);

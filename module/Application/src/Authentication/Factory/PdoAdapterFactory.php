@@ -1,23 +1,15 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Application\Authentication\Factory;
 
-use Application\Authentication\OAuth2\Adapter\PdoAdapter;
-use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
+use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
 
-/**
- * Class PdoAdapterFactory
- * @package Application\Authentication\Factory
- */
+use function is_array;
+use function sprintf;
+
 final class PdoAdapterFactory
 {
     public function __invoke(ContainerInterface $container): PdoAdapter
@@ -26,13 +18,33 @@ final class PdoAdapterFactory
 
         $oauthConfig = $config['api-tools-oauth2'];
 
+        //Grab the params directly from the Doctrine Params
+        $username = $config['doctrine']['connection']['orm_default']['params']['user'] ?? null;
+        $password = $config['doctrine']['connection']['orm_default']['params']['password'] ?? null;
+        $options  = $config['doctrine']['connection']['orm_default']['params']['driverOptions'] ?? [];
+
+        $dsn = sprintf(
+            'mysql:dbname=%s;host=%s',
+            $config['doctrine']['connection']['orm_default']['params']['dbname'],
+            $config['doctrine']['connection']['orm_default']['params']['host']
+        );
+
         $oauth2ServerConfig = [];
         if (isset($oauthConfig['storage_settings']) && is_array($oauthConfig['storage_settings'])) {
             $oauth2ServerConfig = $oauthConfig['storage_settings'];
         }
 
+        //Add 2 own options
+        $oauth2ServerConfig['bcrypt_cost'] = 14;
+        $oauth2ServerConfig['user_table']  = 'admin_user';
+
         return new PdoAdapter(
-            $container->get(EntityManager::class),
+            [
+                'dsn'      => $dsn,
+                'username' => $username,
+                'password' => $password,
+                'options'  => $options,
+            ],
             $oauth2ServerConfig
         );
     }

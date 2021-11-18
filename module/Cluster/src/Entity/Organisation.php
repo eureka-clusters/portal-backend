@@ -1,18 +1,13 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Country;
+use Cluster\Entity\Organisation\Type;
+use Cluster\Entity\Project\Partner;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -29,12 +24,11 @@ class Organisation extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $name;
     /**
      * @ORM\Column(unique=true)
+     *
      * @Gedmo\Slug(fields={"name"})
      */
     private string $slug;
@@ -42,17 +36,18 @@ class Organisation extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Country $country;
+    private Country $country;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation\Type", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Organisation\Type $type;
+    private Type $type;
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist"}, mappedBy="organisation")
-     * @var \Cluster\Entity\Project\Partner[]|ArrayCollection
+     *
+     * @var Partner[]|ArrayCollection
      */
     private $partners;
 
@@ -105,12 +100,12 @@ class Organisation extends AbstractEntity
         return $this;
     }
 
-    public function getType(): Organisation\Type
+    public function getType(): Type
     {
         return $this->type;
     }
 
-    public function setType(Organisation\Type $type): Organisation
+    public function setType(Type $type): Organisation
     {
         $this->type = $type;
         return $this;

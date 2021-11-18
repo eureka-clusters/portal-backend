@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Jield BV all rights reserved
- *
- * @author      Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2021 Jield BV (https://jield.nl)
- */
-
 declare(strict_types=1);
 
 namespace Application\Controller;
@@ -22,14 +15,12 @@ use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 
-/**
- * Class OAuth2Controller
- * @package Application\Controller
- */
+use function var_dump;
+
 final class OAuth2Controller extends AbstractActionController
 {
-    private UserService  $userService;
-    private array        $config;
+    private UserService $userService;
+    private array $config;
     private OAuthService $oAuthService;
 
     public function __construct(UserService $userService, OAuthService $oAuthService, array $config)
@@ -42,13 +33,13 @@ final class OAuth2Controller extends AbstractActionController
     public function loginAction(): Response
     {
         //Find the service
-        $service = $this->params('service');
-        $client_id =$this->getRequest()->getQuery('client_id');
+        $service   = $this->params('service');
+        $client_id = $this->getRequest()->getQuery('client_id');
 
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
 
-        if (empty($settings) || !isset($settings['settings'])) {
+        if (empty($settings) || ! isset($settings['settings'])) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -59,7 +50,7 @@ final class OAuth2Controller extends AbstractActionController
         $session             = new Container('session');
         $session->authState  = $oAuthClient->getState();
         $session->service    = $service;
-        $session->client_id    = $client_id;
+        $session->client_id  = $client_id;
         $session->settings   = $settings['settings'];
         $session->profileUrl = $settings['profileUrl'] ?? null;
 
@@ -109,7 +100,7 @@ final class OAuth2Controller extends AbstractActionController
                 $accessToken = $oAuthClient->getAccessToken(
                     'authorization_code',
                     [
-                        'code' => $authCode
+                        'code' => $authCode,
                     ]
                 );
 
@@ -122,7 +113,7 @@ final class OAuth2Controller extends AbstractActionController
                         RequestOptions::HEADERS     => [
                             'Authorization' => 'Bearer ' . $accessToken,
                             'Accept'        => 'application/json',
-                            'Content-Type'  => 'application/json'
+                            'Content-Type'  => 'application/json',
                         ],
                         RequestOptions::DEBUG       => false,
                         RequestOptions::HTTP_ERRORS => true,
@@ -136,7 +127,10 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 //find or create new user by the returned User information
-                $user = $this->userService->findOrCreateUserFromGenericUser($genericUser, $session->settings['allowedClusters']);
+                $user = $this->userService->findOrCreateUserFromGenericUser(
+                    $genericUser,
+                    $session->settings['allowedClusters']
+                );
 
                 //$oAuthClient = $this->oAuthService->findoAuthClientByClientId('ZoDgQeNuqWAdtQyGPZoAPFYGGBzWqkqYHomOynefk');
                 $oAuthClient = $this->oAuthService->findoAuthClientByClientId($session->client_id);

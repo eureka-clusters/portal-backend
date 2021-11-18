@@ -1,12 +1,6 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Application;
 
@@ -25,18 +19,17 @@ $config = [
             Controller\OAuth2Controller::class => ConfigAbstractFactory::class,
         ],
         'invokables' => [
-            Controller\IndexController::class
-        ]
+            Controller\IndexController::class,
+        ],
     ],
     'service_manager' => [
         'aliases'   => [
             'doctrine.cache.application_cache' => RedisCache::class,
         ],
         'factories' => [
-            RedisCache::class                               => Factory\RedisFactory::class,
-            TranslatorInterface::class                      => TranslatorServiceFactory::class,
-            AuthenticationService::class                    => AuthenticationServiceFactory::class,
-            Authentication\OAuth2\Adapter\PdoAdapter::class => Authentication\Factory\PdoAdapterFactory::class,
+            RedisCache::class            => Factory\RedisFactory::class,
+            TranslatorInterface::class   => TranslatorServiceFactory::class,
+            AuthenticationService::class => AuthenticationServiceFactory::class,
         ],
     ],
     'translator'      => [
@@ -84,7 +77,6 @@ $config = [
                 'generate_proxies' => false,
             ],
         ],
-
     ],
 ];
 

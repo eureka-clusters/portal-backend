@@ -1,32 +1,30 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
-use Cluster\Service\Project\PartnerService;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Rest\Collection\PartnerCollection;
+use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-/**
- * Class ResultsListener
- * @package Api\V1\Rest\StatisticsResource
- */
+use function base64_decode;
+use function base64_encode;
+use function json_decode;
+use function ob_get_clean;
+use function ob_start;
+
+use const JSON_THROW_ON_ERROR;
+
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService      $partnerService;
-    private UserService         $userService;
+    private PartnerService $partnerService;
+    private UserService $userService;
     private TranslatorInterface $translator;
     private PartnerProvider $partnerProvider;
 
@@ -36,17 +34,17 @@ final class PartnerListener extends AbstractResourceListener
         TranslatorInterface $translator,
         PartnerProvider $partnerProvider
     ) {
-        $this->partnerService = $partnerService;
-        $this->userService    = $userService;
-        $this->translator     = $translator;
+        $this->partnerService  = $partnerService;
+        $this->userService     = $userService;
+        $this->translator      = $translator;
         $this->partnerProvider = $partnerProvider;
     }
 
     public function fetch($filter = null)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user || ! $user->isFunder()) {
             return [];
         }
 
@@ -56,7 +54,7 @@ final class PartnerListener extends AbstractResourceListener
 
         // @johan same question as in the ProjectListener
         $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
-        $results = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
+        $results  = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
             null,
             null
         );
@@ -76,7 +74,6 @@ final class PartnerListener extends AbstractResourceListener
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-costs'));
         $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort'));
 
-
         foreach ($results as $result) {
             $column = 'A';
             $row++;
@@ -88,7 +85,6 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['type']['type']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalCosts']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalEffort']);
-
         }
 
         $excelWriter = IOFactory::createWriter($spreadSheet, 'Xlsx');

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
@@ -29,9 +21,7 @@ class RefreshToken extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /**
-     * @ORM\Column(name="refresh_token", length=255, type="string", unique=true)
-     */
+    /** @ORM\Column(name="refresh_token", length=255, type="string", unique=true) */
     private string $refreshToken;
     /**
      * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
@@ -43,13 +33,9 @@ class RefreshToken extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
      */
     private User $user;
-    /**
-     * @ORM\Column(name="expires", type="datetime_immutable")
-     */
+    /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string")
-     */
+    /** @ORM\Column(name="scope", length=2000, type="string") */
     private ?string $scope;
 
     public function getId(): int

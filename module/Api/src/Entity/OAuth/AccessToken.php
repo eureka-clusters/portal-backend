@@ -1,23 +1,14 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
-
+use Api\Entity\OAuth\Clients;
 use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Api\Entity\OAuth\Clients;
 
 /**
  * @ORM\Table(name="oauth_access_tokens")
@@ -29,13 +20,9 @@ class AccessToken extends AbstractEntity
      * @ORM\Column(type="integer",nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var int
      */
     private int $id;
-    /**
-     * @ORM\Column(name="access_token", length=255, type="string",unique=true)
-     */
+    /** @ORM\Column(name="access_token", length=255, type="string",unique=true) */
     private string $accessToken;
     /**
      * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAccessTokens")
@@ -47,13 +34,9 @@ class AccessToken extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private ?User $user;
-    /**
-     * @ORM\Column(name="expires", type="datetime_immutable")
-     */
+    /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string", nullable=false)
-     */
+    /** @ORM\Column(name="scope", length=2000, type="string", nullable=false) */
     private ?string $scope;
 
     public function getId(): int
@@ -78,12 +61,12 @@ class AccessToken extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
+    public function getOAuthClient(): ?Clients
     {
         return $this->oAuthClient;
     }
 
-    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): AccessToken
+    public function setOAuthClient(?Clients $oAuthClient): AccessToken
     {
         $this->oAuthClient = $oAuthClient;
         return $this;

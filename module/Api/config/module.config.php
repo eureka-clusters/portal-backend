@@ -1,11 +1,6 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+
+declare(strict_types=1);
 
 namespace Api;
 
@@ -143,7 +138,6 @@ $config = [
                     ],
                 ],
             ],
-
             Rest\StatisticsResource\Download\PartnerListener::class => [
                 'type'    => Segment::class,
                 'options' => [
@@ -209,7 +203,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'project',
-                'organisation'
+                'organisation',
             ],
         ],
         Rest\ViewResource\ProjectListener::class                => [
@@ -258,7 +252,7 @@ $config = [
             'entity_http_methods'        => [],
             'collection_name'            => 'update_project',
             'collection_http_methods'    => [
-                'POST'
+                'POST',
             ],
             'service_name'               => 'update_project',
             'entity_class'               => Partner::class,
@@ -279,7 +273,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
-                'filter'
+                'filter',
             ],
         ],
         Rest\StatisticsResource\Facets\PartnerListener::class   => [
@@ -295,7 +289,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
-                'filter'
+                'filter',
             ],
         ],
         Rest\StatisticsResource\Results\ProjectListener::class  => [
@@ -311,7 +305,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
-                'filter'
+                'filter',
             ],
         ],
         Rest\StatisticsResource\Results\PartnerListener::class  => [
@@ -327,7 +321,7 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [
                 'output',
-                'filter'
+                'filter',
             ],
         ],
         Rest\StatisticsResource\Download\ProjectListener::class => [
@@ -343,7 +337,6 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-
         Rest\StatisticsResource\Download\PartnerListener::class => [
             'listener'                   => Rest\StatisticsResource\Download\PartnerListener::class,
             'route_name'                 => Rest\StatisticsResource\Download\PartnerListener::class,
@@ -357,7 +350,6 @@ $config = [
             'page_size'                  => 25,
             'collection_query_whitelist' => [],
         ],
-
     ],
     'api-tools-mvc-auth'           => [
         'authorization' => [
@@ -435,8 +427,8 @@ $config = [
     ],
     'api-tools-content-validation' => [
         Rest\UpdateResource\ProjectListener::class => [
-            'input_filter' => Rest\UpdateResource\ProjectListener::class
-        ]
+            'input_filter' => Rest\UpdateResource\ProjectListener::class,
+        ],
     ],
     'input_filter_specs'           => [
         Rest\UpdateResource\ProjectListener::class => [
@@ -458,11 +450,9 @@ $config = [
                 'field_type'    => 'string',
                 'error_message' => 'Please provide a value for the primary cluster',
             ],
-
-        ]
-    ]
+        ],
+    ],
 ];
-
 
 foreach (Stdlib\Glob::glob(__DIR__ . '/module.config.{,*}.php', Stdlib\Glob::GLOB_BRACE) as $file) {
     $config = Stdlib\ArrayUtils::merge($config, include $file);

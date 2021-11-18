@@ -1,19 +1,14 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity\Project;
 
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Version\CostsAndEffort;
+use Cluster\Entity\Version\Status;
+use Cluster\Entity\Version\Type;
 use DateTime;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,33 +34,25 @@ class Version extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Version\Type", inversedBy="versions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Version\Type $type;
+    private Type $type;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist", "remove"}, mappedBy="version")
      *
-     * @var \Cluster\Entity\Project\Version\CostsAndEffort[]|Collections\ArrayCollection
+     * @var CostsAndEffort[]|Collections\ArrayCollection
      */
     private $costsAndEffort;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    /** @ORM\Column(type="date", nullable=true) */
     private DateTime $submissionDate;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Version\Status", inversedBy="versions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Version\Status $status;
-    /**
-     * @ORM\Column(type="float")
-     */
+    private Status $status;
+    /** @ORM\Column(type="float") */
     private float $effort;
-    /**
-     * @ORM\Column(type="float")
-     */
+    /** @ORM\Column(type="float") */
     private float $costs;
-    /**
-     * @ORM\Column(type="array")
-     */
+    /** @ORM\Column(type="array") */
     private array $countries = [];
 
     public function __construct()
@@ -95,12 +82,12 @@ class Version extends AbstractEntity
         return $this;
     }
 
-    public function getType(): \Cluster\Entity\Version\Type
+    public function getType(): Type
     {
         return $this->type;
     }
 
-    public function setType(\Cluster\Entity\Version\Type $type): Version
+    public function setType(Type $type): Version
     {
         $this->type = $type;
         return $this;
@@ -117,12 +104,12 @@ class Version extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): \Cluster\Entity\Version\Status
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
-    public function setStatus(\Cluster\Entity\Version\Status $status): Version
+    public function setStatus(Status $status): Version
     {
         $this->status = $status;
         return $this;

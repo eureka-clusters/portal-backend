@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin\Entity;
@@ -31,46 +23,55 @@ class Log extends AbstractEntity
     private $id;
     /**
      * @ORM\Column(name="date", type="string",nullable=false)
+     *
      * @var string
      */
     private $date;
     /**
      * @ORM\Column(name="type", type="integer",nullable=false)
+     *
      * @var int
      */
     private $type;
     /**
      * @ORM\Column(name="event", type="text",nullable=false)
+     *
      * @var string
      */
     private $event;
     /**
      * @ORM\Column(name="url", type="string", length=2000, nullable=false)
+     *
      * @var string
      */
     private $url;
     /**
      * @ORM\Column(name="file", type="string", length=2000, nullable=false)
+     *
      * @var string
      */
     private $file;
     /**
      * @ORM\Column(name="line", type="integer",nullable=false)
+     *
      * @var int
      */
     private $line;
     /**
      * @ORM\Column(name="error_type", type="string", nullable=false)
+     *
      * @var string
      */
     private $errorType;
     /**
      * @ORM\Column(name="trace", type="text")
+     *
      * @var string
      */
     private $trace;
     /**
      * @ORM\Column(name="request_data", type="text")
+     *
      * @var string
      */
     private $requestData;

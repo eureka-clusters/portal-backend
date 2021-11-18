@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Repository\Project;
@@ -18,9 +10,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- *
- */
+use function count;
+
 class PartnerRepository extends EntityRepository
 {
     public function getPartnersByFunderAndFilter(Entity\Funder $funder, array $filter): array
@@ -39,7 +30,7 @@ class PartnerRepository extends EntityRepository
         //Filters filters filters
         $countryFilter = $filter['country'] ?? [];
 
-        if (!empty($countryFilter)) {
+        if (! empty($countryFilter)) {
             switch ($filter['country_method']) {
                 case 'and':
                     //Find the projects where the country is active
@@ -63,8 +54,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('project_partner_filter_country')
                         ->having(
                             'COUNT(DISTINCT project_partner_filter_country) > ' . (count(
-                                    $countryFilter
-                                ) - 1)
+                                $countryFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -73,7 +64,6 @@ class PartnerRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where the country is active
                     $countryFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_country')
@@ -90,7 +80,6 @@ class PartnerRepository extends EntityRepository
                             )
                         );
 
-
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('project_partner', $countryFilterSubSelect->getDQL())
                     );
@@ -101,7 +90,7 @@ class PartnerRepository extends EntityRepository
 
         $organisationTypeFilter = $filter['organisation_type'] ?? [];
 
-        if (!empty($organisationTypeFilter)) {
+        if (! empty($organisationTypeFilter)) {
             switch ($filter['organisation_type_method']) {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -125,8 +114,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('project_partner_filter_organisation_type_organisation_type')
                         ->having(
                             'COUNT(DISTINCT project_partner_filter_organisation_type_organisation_type) > ' . (count(
-                                    $organisationTypeFilter
-                                ) - 1)
+                                $organisationTypeFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -135,7 +124,6 @@ class PartnerRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where we have organisations with this type
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_organisation_type')
@@ -155,7 +143,6 @@ class PartnerRepository extends EntityRepository
                             )
                         );
 
-
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('project_partner', $organisationTypeFilterSubSelect->getDQL())
                     );
@@ -166,7 +153,7 @@ class PartnerRepository extends EntityRepository
 
         $projectStatusFilter = $filter['project_status'] ?? [];
 
-        if (!empty($projectStatusFilter)) {
+        if (! empty($projectStatusFilter)) {
             switch ($filter['project_status_method']) {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -190,8 +177,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('project_partner_filter_project_status_project_status')
                         ->having(
                             'COUNT(DISTINCT project_partner_filter_project_status_project_status) > ' . (count(
-                                    $projectStatusFilter
-                                ) - 1)
+                                $projectStatusFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -200,7 +187,6 @@ class PartnerRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where we have organisations with this type
                     $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_project_status')
@@ -220,7 +206,6 @@ class PartnerRepository extends EntityRepository
                             )
                         );
 
-
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('project_partner', $projectStatusFilterSubSelect->getDQL())
                     );
@@ -229,10 +214,9 @@ class PartnerRepository extends EntityRepository
             }
         }
 
-
         $primaryClusterFilter = $filter['primary_cluster'] ?? [];
 
-        if (!empty($primaryClusterFilter)) {
+        if (! empty($primaryClusterFilter)) {
             switch ($filter['primary_cluster_method']) {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -256,8 +240,8 @@ class PartnerRepository extends EntityRepository
                         ->addGroupBy('project_partner_filter_primary_cluster_project_primary_cluster')
                         ->having(
                             'COUNT(DISTINCT project_partner_filter_primary_cluster_project_primary_cluster) > ' . (count(
-                                    $primaryClusterFilter
-                                ) - 1)
+                                $primaryClusterFilter
+                            ) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -266,7 +250,6 @@ class PartnerRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where we have organisations with this type
                     $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('project_partner_filter_primary_cluster')
@@ -285,7 +268,6 @@ class PartnerRepository extends EntityRepository
                                 $primaryClusterFilter
                             )
                         );
-
 
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('project_partner', $primaryClusterFilterSubSelect->getDQL())

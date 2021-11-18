@@ -1,28 +1,24 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+
+declare(strict_types=1);
 
 namespace Admin;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Gedmo\Sluggable\SluggableListener;
+use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
 
 $config = [
     'service_manager' => [
         'invokables' => [
-            Provider\UserProvider::class
+            Provider\UserProvider::class,
         ],
         'factories'  => [
             Service\AdminService::class => ConfigAbstractFactory::class,
             Service\ApiService::class   => ConfigAbstractFactory::class,
             Service\UserService::class  => ConfigAbstractFactory::class,
-            Service\QueueService::class => ConfigAbstractFactory::class
         ],
     ],
     'doctrine'        => [
@@ -42,8 +38,8 @@ $config = [
         'eventmanager' => [
             'orm_default' => [
                 'subscribers' => [
-                    \Gedmo\Timestampable\TimestampableListener::class,
-                    \Gedmo\Sluggable\SluggableListener::class,
+                    TimestampableListener::class,
+                    SluggableListener::class,
                 ],
             ],
         ],

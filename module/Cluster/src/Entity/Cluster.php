@@ -1,22 +1,18 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project;
 use DateTime;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+
+use function preg_replace;
+use function strtolower;
 
 /**
  * @ORM\Table(name="cluster_cluster")
@@ -30,27 +26,23 @@ class Cluster extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $name;
 
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $identifier;
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    /** @ORM\Column(nullable=true) */
     private ?string $description = null;
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     *
      * @Gedmo\Timestampable(on="create")
      */
     private DateTime $dateCreated;
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Timestampable(on="update")
      */
     private ?DateTime $dateUpdated;
@@ -63,13 +55,13 @@ class Cluster extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="primaryCluster")
      *
-     * @var \Cluster\Entity\Project[]|Collections\ArrayCollection
+     * @var Project[]|Collections\ArrayCollection
      */
     private $projectsPrimary;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="secondaryCluster")
      *
-     * @var \Cluster\Entity\Project[]|Collections\ArrayCollection
+     * @var Project[]|Collections\ArrayCollection
      */
     private $projectsSecondary;
 
@@ -82,7 +74,7 @@ class Cluster extends AbstractEntity
 
     public function __toString(): string
     {
-        return (string)$this->name;
+        return (string) $this->name;
     }
 
     public function getId(): ?int

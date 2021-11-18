@@ -1,18 +1,11 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
+use Api\Entity\OAuth\Clients;
 use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,9 +22,7 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /**
-     * @ORM\Column(name="authorization_code", length=255, type="string",unique=true)
-     */
+    /** @ORM\Column(name="authorization_code", length=255, type="string",unique=true) */
     private string $authorizationCode;
 
     /**
@@ -45,17 +36,11 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
      */
     private ?User $user;
-    /**
-     * @ORM\Column(name="expires", type="datetime_immutable")
-     */
+    /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
-    /**
-     * @ORM\Column(name="redirect_uri", length=2000, type="string")
-     */
+    /** @ORM\Column(name="redirect_uri", length=2000, type="string") */
     private string $redirectUri;
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string")
-     */
+    /** @ORM\Column(name="scope", length=2000, type="string") */
     private ?string $scope;
 
     public function getId(): int
@@ -80,12 +65,12 @@ class AuthorizationCode extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
+    public function getOAuthClient(): ?Clients
     {
         return $this->oAuthClient;
     }
 
-    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): AuthorizationCode
+    public function setOAuthClient(?Clients $oAuthClient): AuthorizationCode
     {
         $this->oAuthClient = $oAuthClient;
         return $this;

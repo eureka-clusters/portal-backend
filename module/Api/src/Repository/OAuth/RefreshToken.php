@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 namespace Api\Repository\OAuth;
 
-use Api\Entity\OAuth\RefreshToken as OAuthRefreshToken;
-use Api\Entity\OAuth\Clients;
-use Admin\Entity\User;
 use Doctrine\ORM\EntityRepository;
-use OAuth2\Storage\RefreshTokenInterface;
 
-/**
- * Class RefreshToken
- * @package Api\Repository\OAuth
- */
 final class RefreshToken extends EntityRepository //implements RefreshTokenInterface
 {
 //    public function getRefreshToken($refreshToken)

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Repository\OAuth;
@@ -19,11 +11,8 @@ use Doctrine\ORM\QueryBuilder;
 
 use function in_array;
 use function sprintf;
+use function strtoupper;
 
-/**
- * Class Scopes
- * @package Api\Repository\OAuth
- */
 final class Scopes extends EntityRepository
 {
     public function findFiltered(array $filter): QueryBuilder
@@ -42,14 +31,13 @@ final class Scopes extends EntityRepository
                 strtoupper($filter['direction']),
                 [
                     Criteria::ASC,
-                    Criteria::DESC
+                    Criteria::DESC,
                 ],
                 true
             )
         ) {
             $direction = strtoupper($filter['direction']);
         }
-
 
         switch ($filter['order']) {
             case 'id':

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Provider;
@@ -17,18 +9,16 @@ use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
 use Cluster\Service\Project\VersionService;
+use DateTimeInterface;
 use Doctrine\Common\Cache\RedisCache;
 
-/**
- *
- */
 class ProjectProvider
 {
-    private RedisCache      $redisCache;
-    private VersionService  $versionService;
+    private RedisCache $redisCache;
+    private VersionService $versionService;
     private ClusterProvider $clusterProvider;
     private ContactProvider $contactProvider;
-    private StatusProvider  $projectStatusProvider;
+    private StatusProvider $projectStatusProvider;
     private VersionProvider $versionProvider;
 
     public function __construct(
@@ -53,7 +43,7 @@ class ProjectProvider
 
         $projectData = $this->redisCache->fetch($cacheKey);
 
-        if (!$projectData) {
+        if (! $projectData) {
             $projectData = [
                 'slug'                     => $project->getSlug(),
                 'identifier'               => $project->getIdentifier(),
@@ -72,11 +62,11 @@ class ProjectProvider
                 'programme'                => $project->getProgramme(),
                 'programmeCall'            => $project->getProgrammeCall(),
                 'primaryCluster'           => $this->clusterProvider->generateArray($project->getPrimaryCluster()),
-                'secondaryCluster'         => !$project->hasSecondaryCluster(
+                'secondaryCluster'         => ! $project->hasSecondaryCluster(
                 ) ? null : $this->clusterProvider->generateArray(
                     $project->getSecondaryCluster()
                 ),
-                'labelDate'                => $project->getLabelDate()->format(\DateTimeInterface::ATOM),
+                'labelDate'                => $project->getLabelDate()->format(DateTimeInterface::ATOM),
                 'status'                   => $this->projectStatusProvider->generateArray($project->getStatus()),
                 'latestVersionTotalCosts'  => $this->versionService->parseTotalCostsByProjectVersion(
                     $project->getLatestVersion()
@@ -85,7 +75,6 @@ class ProjectProvider
                     $project->getLatestVersion()
                 ),
             ];
-
 
             $this->redisCache->save($cacheKey, $projectData);
         }

@@ -1,11 +1,4 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
 
 declare(strict_types=1);
 
@@ -16,14 +9,12 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Redis;
 
-/**
- * Class RedisFactory
- *
- * @package Application\Factory
- */
 final class RedisFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): RedisCache
+    /**
+     * @param string $requestedName
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): RedisCache
     {
         $cacheOptions = $container->get('Config')['application_config']['cache_options'];
 

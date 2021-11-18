@@ -1,12 +1,6 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource;
 
@@ -16,32 +10,38 @@ use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
+use function base64_decode;
+use function base64_encode;
+use function json_decode;
+use function ob_get_clean;
+use function ob_start;
+
+use const JSON_THROW_ON_ERROR;
+
 /**
- * Class ResultsListener
- * @package Api\V1\Rest\StatisticsResource
  * @deprecated
  */
 final class DownloadListener extends AbstractResourceListener
 {
-    private UserService         $userService;
+    private UserService $userService;
     private TranslatorInterface $translator;
 
     public function __construct(
         UserService $userService,
         TranslatorInterface $translator
     ) {
-        $this->userService       = $userService;
-        $this->translator        = $translator;
+        $this->userService = $userService;
+        $this->translator  = $translator;
     }
 
     public function fetch($id = null)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user || ! $user->isFunder()) {
             return [];
         }
-        $output        = (int)$id;
+        $output        = (int) $id;
         $encodedFilter = $this->getEvent()->getRouteMatch()->getParam('filter');
 
         //The filter is a base64 encoded serialised json string
@@ -66,7 +66,6 @@ final class DownloadListener extends AbstractResourceListener
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-latest-version'));
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-total-costs'));
             $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
-
 
             foreach ($results as $result) {
                 $column = 'A';
@@ -97,7 +96,6 @@ final class DownloadListener extends AbstractResourceListener
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-type'));
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-costs'));
             $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort'));
-
 
             foreach ($results as $result) {
                 $column = 'A';

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity\Project;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Organisation;
+use Cluster\Entity\Project;
+use Cluster\Entity\Project\Version\CostsAndEffort;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -34,73 +29,62 @@ class Partner extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation", inversedBy="partners", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Organisation $organisation;
+    private Organisation $organisation;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", inversedBy="partners", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Project $project;
+    private Project $project;
 
     /**
      * @ORM\Column(unique=true)
+     *
      * @Gedmo\Slug(fields={"projectName","organisationName"}, updatable=true)
      */
     private string $slug;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $organisationName;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $projectName;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    /** @ORM\Column(type="boolean") */
     private bool $isActive;
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    /** @ORM\Column(type="boolean") */
     private bool $isCoordinator;
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    /** @ORM\Column(type="boolean") */
     private bool $isSelfFunded;
-    /**
-     * @ORM\Column(type="array")
-     */
+    /** @ORM\Column(type="array") */
     private array $technicalContact = [];
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist"}, mappedBy="partner")
-     * @var \Cluster\Entity\Project\Version\CostsAndEffort[]|ArrayCollection
+     *
+     * @var CostsAndEffort[]|ArrayCollection
      */
     private $costsAndEffort;
 
     public function __construct()
     {
         $this->costsAndEffort = new ArrayCollection();
-
     }
 
-    public function getProject(): \Cluster\Entity\Project
+    public function getProject(): Project
     {
         return $this->project;
     }
 
-    public function setProject(\Cluster\Entity\Project $project): Partner
+    public function setProject(Project $project): Partner
     {
         $this->project = $project;
         return $this;
     }
 
-    public function getOrganisation(): \Cluster\Entity\Organisation
+    public function getOrganisation(): Organisation
     {
         return $this->organisation;
     }
 
-    public function setOrganisation(\Cluster\Entity\Organisation $organisation): Partner
+    public function setOrganisation(Organisation $organisation): Partner
     {
         $this->organisation = $organisation;
         return $this;

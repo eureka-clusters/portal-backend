@@ -1,14 +1,10 @@
 # dockerfile
-FROM php:8.0-fpm
-
-MAINTAINER 'Johan van der Heide <info@jield.nl>'
-
-LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/portal-backend"
+FROM php:8.0-cli
 
 # Copy composer.lock and composer.json
 COPY composer.json* /var/www/
 
-RUN echo 'memory_limit = 1G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
+RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 
 # Set working directory
 WORKDIR /var/www
@@ -67,6 +63,7 @@ apt-get install -y --force-yes --no-install-recommends \
             bz2 \
             calendar \
             exif \
+            gd \
             gettext \
             gmp \
             intl \
@@ -88,18 +85,17 @@ apt-get install -y --force-yes --no-install-recommends \
             xsl \
             zip \
         " \
+&& docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+&& docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
 && docker-php-ext-install -j$(nproc) $phpModules \
-&& pecl install memcached-3.1.5 \
 && pecl install redis-5.3.2 \
 && pecl install igbinary-3.1.6 \
-&& docker-php-ext-enable memcached redis igbinary
+&& docker-php-ext-enable  redis igbinary
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents
 COPY ./ /var/www
-
-RUN composer install --no-dev --prefer-dist --no-interaction
 
 CMD ["php-fpm"]

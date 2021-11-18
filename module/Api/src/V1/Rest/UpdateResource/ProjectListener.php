@@ -1,11 +1,6 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+
+declare(strict_types=1);
 
 namespace Api\V1\Rest\UpdateResource;
 
@@ -17,16 +12,12 @@ use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
-/**
- * Class ProjectListener
- * @package Api\V1\Rest\UpdateResource
- */
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService    $projectService;
-    private VersionService    $versionService;
-    private PartnerService    $partnerService;
-    private EntityManager     $entityManager;
+    private ProjectService $projectService;
+    private VersionService $versionService;
+    private PartnerService $partnerService;
+    private EntityManager $entityManager;
 
     public function __construct(
         ProjectService $projectService,
@@ -34,10 +25,10 @@ final class ProjectListener extends AbstractResourceListener
         PartnerService $partnerService,
         EntityManager $entityManager
     ) {
-        $this->projectService    = $projectService;
-        $this->versionService    = $versionService;
-        $this->partnerService    = $partnerService;
-        $this->entityManager     = $entityManager;
+        $this->projectService = $projectService;
+        $this->versionService = $versionService;
+        $this->partnerService = $partnerService;
+        $this->entityManager  = $entityManager;
     }
 
     public function create($data = []): void
@@ -72,7 +63,7 @@ final class ProjectListener extends AbstractResourceListener
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                (object)$data[$versionTypeName],
+                (object) $data[$versionTypeName],
                 $versionType,
                 $project
             );
@@ -80,7 +71,7 @@ final class ProjectListener extends AbstractResourceListener
             //Now we go over the partners and collect these and save the costs and effort
             foreach ($data[$versionTypeName]['partners'] as $partnerData) {
                 //Cast to an object
-                $partnerData = (object)$partnerData;
+                $partnerData = (object) $partnerData;
 
                 $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
 

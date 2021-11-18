@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Repository\OAuth;
@@ -16,15 +8,11 @@ use Api\Entity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use OAuth2\Storage\ClientCredentialsInterface;
 
 use function in_array;
 use function sprintf;
+use function strtoupper;
 
-/**
- * Class Clients
- * @package Api\Repository\OAuth
- */
 final class Clients extends EntityRepository //implements ClientCredentialsInterface
 {
     public function findFiltered(array $filter): QueryBuilder
@@ -43,7 +31,7 @@ final class Clients extends EntityRepository //implements ClientCredentialsInter
                 strtoupper($filter['direction']),
                 [
                     Criteria::ASC,
-                    Criteria::DESC
+                    Criteria::DESC,
                 ],
                 true
             )

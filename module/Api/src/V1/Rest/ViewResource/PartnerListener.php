@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Jield BV all rights reserved
- *
- * @author      Dr. ir. Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2020 Jield BV (https://jield.nl)
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\ViewResource;
 
@@ -14,12 +9,9 @@ use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
-/**
- *
- */
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService  $partnerService;
+    private PartnerService $partnerService;
     private PartnerProvider $partnerProvider;
 
     public function __construct(PartnerService $partnerService, PartnerProvider $partnerProvider)

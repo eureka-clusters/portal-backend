@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Application\Entity;
@@ -19,14 +11,13 @@ use function array_slice;
 use function explode;
 use function implode;
 use function is_array;
+use function method_exists;
 use function sprintf;
 use function str_replace;
+use function strpos;
+use function strtolower;
+use function ucfirst;
 
-/**
- * Class AbstractEntity
- *
- * @package Application\Entity
- */
 abstract class AbstractEntity implements EntityInterface, ResourceInterface
 {
     public function __toString(): string
@@ -36,7 +27,7 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface
 
     public function getResourceId(): string
     {
-        return sprintf('%s-%s', $this->get('underscore_entity_name'), (string)$this->getId());
+        return sprintf('%s-%s', $this->get('underscore_entity_name'), (string) $this->getId());
     }
 
     public function get(string $switch): string
@@ -54,7 +45,7 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface
             case 'entity_fieldset_name':
                 return sprintf(
                     '%sFieldset',
-                    str_replace(['Entity\\','Entity'], ['Form\\',''], $this->get('class_name'))
+                    str_replace(['Entity\\', 'Entity'], ['Form\\', ''], $this->get('class_name'))
                 ); //Run\Form\RunFieldset
             case 'entity_form_name':
                 return sprintf(
@@ -64,7 +55,7 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface
             case 'entity_inputfilter_name':
                 return sprintf(
                     '%sFilter',
-                    str_replace(['Entity\\','Entity'], ['InputFilter\\',''], $this->get('class_name'))
+                    str_replace(['Entity\\', 'Entity'], ['InputFilter\\', ''], $this->get('class_name'))
                 ); //Run\InputFilter\RunFilter
             default:
                 throw new InvalidArgumentException(sprintf('Unknown option %s for get entity name', $switch));

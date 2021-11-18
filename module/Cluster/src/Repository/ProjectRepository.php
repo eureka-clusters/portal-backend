@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Repository;
@@ -17,9 +9,8 @@ use Cluster\Entity\Funder;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- *
- */
+use function count;
+
 class ProjectRepository extends EntityRepository
 {
     public function getProjectsByFunderAndFilter(Entity\Funder $funder, array $filter)
@@ -38,7 +29,7 @@ class ProjectRepository extends EntityRepository
         //Filters filters filters
         $countryFilter = $filter['country'] ?? [];
 
-        if (!empty($countryFilter)) {
+        if (! empty($countryFilter)) {
             switch ($filter['country_method']) {
                 case 'and':
                     //Find the projects where the country is active
@@ -70,7 +61,6 @@ class ProjectRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where the country is active
                     $countryFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_country')
@@ -88,7 +78,6 @@ class ProjectRepository extends EntityRepository
                             )
                         );
 
-
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('cluster_entity_project', $countryFilterSubSelect->getDQL())
                     );
@@ -99,7 +88,7 @@ class ProjectRepository extends EntityRepository
 
         $organisationTypeFilter = $filter['organisation_type'] ?? [];
 
-        if (!empty($organisationTypeFilter)) {
+        if (! empty($organisationTypeFilter)) {
             switch ($filter['organisation_type_method']) {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -131,7 +120,6 @@ class ProjectRepository extends EntityRepository
 
                     break;
                 case 'or':
-
                     //Find the projects where we have organisations with this type
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_organisation_type')
@@ -149,7 +137,6 @@ class ProjectRepository extends EntityRepository
                             )
                         );
 
-
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in('cluster_entity_project', $organisationTypeFilterSubSelect->getDQL())
                     );
@@ -160,7 +147,7 @@ class ProjectRepository extends EntityRepository
 
         $projectStatusFilter = $filter['project_status'] ?? [];
 
-        if (!empty($projectStatusFilter)) {
+        if (! empty($projectStatusFilter)) {
             //Find the projects where we have organisations with this type
             $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('cluster_entity_project_filter_project_status')
@@ -173,16 +160,14 @@ class ProjectRepository extends EntityRepository
                     )
                 );
 
-
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in('cluster_entity_project', $projectStatusFilterSubSelect->getDQL())
             );
         }
 
-
         $primaryClusterFilter = $filter['primary_cluster'] ?? [];
 
-        if (!empty($primaryClusterFilter)) {
+        if (! empty($primaryClusterFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('cluster_entity_project_filter_primary_cluster')
@@ -194,7 +179,6 @@ class ProjectRepository extends EntityRepository
                         $primaryClusterFilter
                     )
                 );
-
 
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in('cluster_entity_project', $primaryClusterFilterSubSelect->getDQL())

@@ -1,18 +1,12 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity\Project\Version;
 
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Project\Version;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,23 +25,17 @@ class CostsAndEffort
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Partner", inversedBy="costsAndEffort", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Project\Partner $partner;
+    private Partner $partner;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Version", inversedBy="costsAndEffort", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Project\Version $version;
-    /**
-     * @ORM\Column(type="integer")
-     */
+    private Version $version;
+    /** @ORM\Column(type="integer") */
     private int $year;
-    /**
-     * @ORM\Column(type="float")
-     */
+    /** @ORM\Column(type="float") */
     private float $effort;
-    /**
-     * @ORM\Column(type="float")
-     */
+    /** @ORM\Column(type="float") */
     private float $costs;
 
     public function getId(): int

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Application\Service;
@@ -16,16 +8,12 @@ use Application\Entity\AbstractEntity;
 use Doctrine\ORM\EntityManager;
 use Laminas\I18n\Translator\TranslatorInterface;
 
-/**
- * Class AbstractService
- * @package Application\Service
- */
 abstract class AbstractService
 {
-    protected EntityManager        $entityManager;
+    protected EntityManager $entityManager;
     protected ?TranslatorInterface $translator;
 
-    public function __construct(EntityManager $entityManager, TranslatorInterface $translator = null)
+    public function __construct(EntityManager $entityManager, ?TranslatorInterface $translator = null)
     {
         $this->entityManager = $entityManager;
         $this->translator    = $translator;
@@ -48,7 +36,7 @@ abstract class AbstractService
 
     public function save(AbstractEntity $entity): AbstractEntity
     {
-        if (!$this->entityManager->contains($entity)) {
+        if (! $this->entityManager->contains($entity)) {
             $this->entityManager->persist($entity);
         }
         $this->entityManager->flush();

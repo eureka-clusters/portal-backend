@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin\Entity;
@@ -35,35 +27,27 @@ class User extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    /** @ORM\Column(nullable=true) */
     private string $password;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $firstName;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $lastName;
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $email;
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     *
      * @Gedmo\Timestampable(on="create")
      */
     private DateTime $dateCreated;
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Timestampable(on="update")
      */
     private ?DateTime $lastUpdate = null;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    /** @ORM\Column(type="datetime", nullable=true) */
     private ?DateTime $dateEnd = null;
     /**
      * @ORM\ManyToMany(targetEntity="Admin\Entity\Role", inversedBy="users", cascade={"persist"}, fetch="EXTRA_LAZY")
@@ -82,27 +66,29 @@ class User extends AbstractEntity
      * @var Session[]|Collections\ArrayCollection
      */
     private $session;
-    /**
-     * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"})
-     */
+    /** @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"}) */
     private ?Funder $funder = null;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", mappedBy="user", cascade={"persist"})
+     *
      * @var AccessToken[]|Collections\ArrayCollection
      */
     private $oAuthAccessTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", mappedBy="user", cascade={"persist"})
+     *
      * @var AuthorizationCode[]|Collections\ArrayCollection
      */
     private $oAuthAuthorizationCodes;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Clients", mappedBy="user", cascade={"persist"})
+     *
      * @var Clients[]|Collections\ArrayCollection
      */
     private $oAuthClients;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", mappedBy="user", cascade={"persist"})
+     *
      * @var RefreshToken[]|Collections\ArrayCollection
      */
     private $oAuthRefreshTokens;

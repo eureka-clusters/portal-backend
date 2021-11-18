@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Provider\Project;
@@ -20,16 +12,15 @@ use Cluster\Service\Project\PartnerService;
 use Doctrine\Common\Cache\RedisCache;
 use InvalidArgumentException;
 
-/**
- *
- */
+use function sprintf;
+
 class PartnerProvider
 {
-    private RedisCache           $redisCache;
-    private ProjectProvider      $projectProvider;
-    private ContactProvider      $contactProvider;
+    private RedisCache $redisCache;
+    private ProjectProvider $projectProvider;
+    private ContactProvider $contactProvider;
     private OrganisationProvider $organisationProvider;
-    private PartnerService       $partnerService;
+    private PartnerService $partnerService;
 
     public function __construct(
         RedisCache $redisCache,
@@ -47,7 +38,7 @@ class PartnerProvider
 
     public static function parseCoordinatorArray(Entity\Project\Partner $partner): array
     {
-        if (!$partner->isCoordinator()) {
+        if (! $partner->isCoordinator()) {
             throw new InvalidArgumentException(
                 sprintf("%s in %s is no coordinator", $partner->getOrganisation(), $partner->getProject())
             );
@@ -59,7 +50,7 @@ class PartnerProvider
             'isActive'         => $partner->isActive(),
             'isSelfFunded'     => $partner->isSelfFunded(),
             'isCoordinator'    => $partner->isCoordinator(),
-            'technicalContact' => $partner->getTechnicalContact()
+            'technicalContact' => $partner->getTechnicalContact(),
         ];
     }
 
@@ -68,7 +59,7 @@ class PartnerProvider
         $cacheKey    = $partner->getResourceId();
         $partnerData = $this->redisCache->fetch($cacheKey);
 
-        if (!$partnerData) {
+        if (! $partnerData) {
             $partnerData = [
                 'id'                  => $partner->getId(),
                 'slug'                => $partner->getSlug(),

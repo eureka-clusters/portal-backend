@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Service\Project;
@@ -22,12 +14,12 @@ use Doctrine\ORM\EntityManager;
 use InvalidArgumentException;
 use stdClass;
 
-/**
- *
- */
+use function array_map;
+use function sprintf;
+
 class PartnerService extends AbstractService
 {
-    private CountryService      $countryService;
+    private CountryService $countryService;
     private OrganisationService $organisationService;
 
     public function __construct(
@@ -94,28 +86,28 @@ class PartnerService extends AbstractService
         $countriesIndexed = array_map(static function (array $country) {
             return [
                 'name'   => $country['country'],
-                'amount' => $country[1]
+                'amount' => $country[1],
             ];
         }, $countries);
 
         $organisationTypesIndexed = array_map(static function (array $partnerType) {
             return [
                 'name'   => $partnerType['type'],
-                'amount' => $partnerType[1]
+                'amount' => $partnerType[1],
             ];
         }, $organisationTypes);
 
         $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
             return [
                 'name'   => $primaryCluster['name'],
-                'amount' => $primaryCluster[1]
+                'amount' => $primaryCluster[1],
             ];
         }, $primaryClusters);
 
         $projectStatusIndexed = array_map(static function (array $projectStatus) {
             return [
                 'name'   => $projectStatus['status'],
-                'amount' => $projectStatus[1]
+                'amount' => $projectStatus[1],
             ];
         }, $projectStatuses);
 

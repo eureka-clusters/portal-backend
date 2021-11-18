@@ -1,18 +1,13 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
+use Api\Entity\OAuth\AccessToken;
+use Api\Entity\OAuth\AuthorizationCode;
+use Api\Entity\OAuth\RefreshToken;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,29 +23,17 @@ class Clients extends AbstractEntity
      * @ORM\Id
      */
     private string $clientId;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $name;
-    /**
-     * @ORM\Column(name="text")
-     */
+    /** @ORM\Column(name="text") */
     private string $description;
-    /**
-     * @ORM\Column(name="client_secret", length=255, type="string")
-     */
+    /** @ORM\Column(name="client_secret", length=255, type="string") */
     private string $clientSecret;
-    /**
-     * @ORM\Column(name="redirect_uri", length=2000, type="string", nullable=true)
-     */
+    /** @ORM\Column(name="redirect_uri", length=2000, type="string", nullable=true) */
     private ?string $redirectUri = null;
-    /**
-     * @ORM\Column(name="grant_types", length=2000, type="string", nullable=true)
-     */
+    /** @ORM\Column(name="grant_types", length=2000, type="string", nullable=true) */
     private ?string $grantTypes;
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string")
-     */
+    /** @ORM\Column(name="scope", length=2000, type="string") */
     private string $scope;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthClients")
@@ -59,18 +42,21 @@ class Clients extends AbstractEntity
     private ?User $user = null;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", cascade={"persist"}, mappedBy="oAuthClient")
-     * @var \Api\Entity\OAuth\AccessToken[]|ArrayCollection
+     *
+     * @var AccessToken[]|ArrayCollection
      */
     private $oAuthAccessTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", cascade={"persist"}, mappedBy="oAuthClient")
-     * @var \Api\Entity\OAuth\RefreshToken[]|ArrayCollection
+     *
+     * @var RefreshToken[]|ArrayCollection
      */
     private $oAuthRefreshTokens;
 
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", cascade={"persist"}, mappedBy="oAuthClient")
-     * @var \Api\Entity\OAuth\AuthorizationCode[]|ArrayCollection
+     *
+     * @var AuthorizationCode[]|ArrayCollection
      */
     private $oAuthAuthorizationCodes;
 

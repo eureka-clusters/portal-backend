@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Service;
@@ -21,9 +13,8 @@ use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
 use stdClass;
 
-/**
- *
- */
+use function array_map;
+
 class ProjectService extends AbstractService
 {
     private ClusterService $clusterService;
@@ -59,28 +50,28 @@ class ProjectService extends AbstractService
         $countriesIndexed = array_map(static function (array $country) {
             return [
                 'name'   => $country['country'],
-                'amount' => $country[1]
+                'amount' => $country[1],
             ];
         }, $countries);
 
         $organisationTypesIndexed = array_map(static function (array $organisationType) {
             return [
                 'name'   => $organisationType['type'],
-                'amount' => $organisationType[1]
+                'amount' => $organisationType[1],
             ];
         }, $organisationTypes);
 
         $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
             return [
                 'name'   => $primaryCluster['name'],
-                'amount' => $primaryCluster[1]
+                'amount' => $primaryCluster[1],
             ];
         }, $primaryClusters);
 
         $projectStatusIndexed = array_map(static function (array $projectStatus) {
             return [
                 'name'   => $projectStatus['status'],
-                'amount' => $projectStatus[1]
+                'amount' => $projectStatus[1],
             ];
         }, $projectStatuses);
 
@@ -167,7 +158,7 @@ class ProjectService extends AbstractService
         }
 
         if ($data->cancel_date) {
-            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancel_date);
+            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string) $data->cancel_date);
             $project->setCancelDate($cancelDate ?: null);
         }
 

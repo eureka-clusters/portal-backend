@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
@@ -27,21 +19,13 @@ class Scopes extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id = null;
-    /**
-     * @ORM\Column(name="type", type="string")
-     */
+    /** @ORM\Column(name="type", type="string") */
     private string $type = 'supported';
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string")
-     */
+    /** @ORM\Column(name="scope", length=2000, type="string") */
     private ?string $scope;
-    /**
-     * @ORM\Column(name="client_id", type="string", )
-     */
+    /** @ORM\Column(name="client_id", type="string", ) */
     private string $clientId;
-    /**
-     * @ORM\Column(name="is_default", type="smallint", )
-     */
+    /** @ORM\Column(name="is_default", type="smallint", ) */
     private ?int $isDefault;
 
     public function getId(): ?int

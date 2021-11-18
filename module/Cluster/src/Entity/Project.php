@@ -1,20 +1,14 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
-use Cluster\Entity\Project\Version;
+use Cluster\Entity\Cluster;
 use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Project\Status;
+use Cluster\Entity\Project\Version;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,93 +29,70 @@ class Project extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $identifier;
     /**
      * @ORM\Column(unique=true)
+     *
      * @Gedmo\Slug(fields={"name"}, updatable=true)
      */
     private string $slug;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $number;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $name;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $title;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    /** @ORM\Column(type="text", nullable=true) */
     private string $description;
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    /** @ORM\Column(nullable=true) */
     private string $technicalArea;
 
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $programme;
-    /**
-     * @ORM\Column()
-     */
+    /** @ORM\Column() */
     private string $programmeCall;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsPrimary", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Cluster $primaryCluster;
+    private Cluster $primaryCluster;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsSecondary", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?\Cluster\Entity\Cluster $secondaryCluster = null;
+    private ?Cluster $secondaryCluster = null;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    /** @ORM\Column(type="date", nullable=true) */
     private ?DateTime $labelDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    /** @ORM\Column(type="date", nullable=true) */
     private ?DateTime $cancelDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    /** @ORM\Column(type="date", nullable=true) */
     private ?DateTime $officialStartDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    /** @ORM\Column(type="date", nullable=true) */
     private ?DateTime $officialEndDate = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Status", inversedBy="projects", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private \Cluster\Entity\Project\Status $status;
+    private Status $status;
 
-    /**
-     * @ORM\Column(type="array")
-     */
+    /** @ORM\Column(type="array") */
     private array $projectLeader = [];
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist", "remove"}, mappedBy="project")
-     * @var \Cluster\Entity\Project\Version[]|ArrayCollection
+     *
+     * @var Version[]|ArrayCollection
      */
     private $versions;
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist", "remove"}, mappedBy="project")
-     * @var \Cluster\Entity\Project\Partner[]|ArrayCollection
+     *
+     * @var Partner[]|ArrayCollection
      */
     private $partners;
 
@@ -312,12 +283,12 @@ class Project extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): Project\Status
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
-    public function setStatus(Project\Status $status): Project
+    public function setStatus(Status $status): Project
     {
         $this->status = $status;
         return $this;
@@ -347,12 +318,12 @@ class Project extends AbstractEntity
 
     public function getLatestVersion(): ?Version
     {
-        return ($this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first()) ?: null;
+        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
     }
 
     public function getCoordinatorPartner(): ?Partner
     {
-        return ($this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first()) ?: null;
+        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
     }
 
     public function getPartners()

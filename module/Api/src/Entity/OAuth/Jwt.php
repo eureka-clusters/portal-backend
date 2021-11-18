@@ -1,13 +1,5 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
@@ -27,17 +19,11 @@ class Jwt extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /**
-     * @ORM\Column(name="client_id", type="string")
-     */
+    /** @ORM\Column(name="client_id", type="string") */
     private string $clientId;
-    /**
-     * @ORM\Column(name="subject", length=80, type="string")
-     */
+    /** @ORM\Column(name="subject", length=80, type="string") */
     private string $subject;
-    /**
-     * @ORM\Column(name="public_key", length=2000, type="string")
-     */
+    /** @ORM\Column(name="public_key", length=2000, type="string") */
     private string $publicKey;
 
     public function getId(): int

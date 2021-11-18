@@ -1,17 +1,10 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Admin\Entity;
 
+use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +15,7 @@ use function in_array;
 /**
  * @ORM\Table(name="admin_role")
  * @ORM\Entity(repositoryClass="Admin\Repository\Role")
+ *
  * @Annotation\Name("admin_role")
  */
 class Role extends AbstractEntity
@@ -41,24 +35,24 @@ class Role extends AbstractEntity
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Annotation\Exclude()
      *
+     * @Annotation\Exclude()
      * @var int
      */
     private $id;
     /**
      * @ORM\Column(type="string",length=255,nullable=false)
+     *
      * @Annotation\Type("\Laminas\Form\Element\Text")
      * @Annotation\Options({"label":"txt-role-description","help-block":"txt-role-description-help-block"})
-     *
      * @var string
      */
     private $description;
     /**
      * @ORM\ManyToMany(targetEntity="Admin\Entity\User", mappedBy="roles", cascade={"persist"})
-     * @Annotation\Exclude()
      *
-     * @var \Admin\Entity\User[]|Collections\ArrayCollection
+     * @Annotation\Exclude()
+     * @var User[]|Collections\ArrayCollection
      */
     private $users;
 
@@ -79,7 +73,7 @@ class Role extends AbstractEntity
 
     public function __toString(): string
     {
-        return (string)$this->description;
+        return (string) $this->description;
     }
 
     public function getId(): ?int

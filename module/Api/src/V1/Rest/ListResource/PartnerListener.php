@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Jield BV all rights reserved
- *
- * @author      Dr. ir. Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2020 Jield BV (https://jield.nl)
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource;
 
@@ -19,17 +14,13 @@ use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
-/**
- * Class ProjectListener
- * @package Api\V1\Rest\ListResource
- */
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService      $partnerService;
-    private ProjectService      $projectService;
+    private PartnerService $partnerService;
+    private ProjectService $projectService;
     private OrganisationService $organisationService;
-    private UserService         $userService;
-    private PartnerProvider     $partnerProvider;
+    private UserService $userService;
+    private PartnerProvider $partnerProvider;
 
     public function __construct(
         PartnerService $partnerService,
@@ -47,9 +38,9 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetchAll($params = [])
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user || ! $user->isFunder()) {
             return [];
         }
 

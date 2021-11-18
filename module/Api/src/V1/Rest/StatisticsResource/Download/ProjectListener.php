@@ -1,32 +1,30 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
-use Cluster\Service\ProjectService;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Rest\Collection\ProjectCollection;
+use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-/**
- * Class ResultsListener
- * @package Api\V1\Rest\StatisticsResource
- */
+use function base64_decode;
+use function base64_encode;
+use function json_decode;
+use function ob_get_clean;
+use function ob_start;
+
+use const JSON_THROW_ON_ERROR;
+
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService      $projectService;
-    private UserService         $userService;
+    private ProjectService $projectService;
+    private UserService $userService;
     private TranslatorInterface $translator;
     private ProjectProvider $projectProvider;
 
@@ -36,17 +34,17 @@ final class ProjectListener extends AbstractResourceListener
         TranslatorInterface $translator,
         ProjectProvider $projectProvider
     ) {
-        $this->projectService = $projectService;
-        $this->userService    = $userService;
-        $this->translator     = $translator;
+        $this->projectService  = $projectService;
+        $this->userService     = $userService;
+        $this->translator      = $translator;
         $this->projectProvider = $projectProvider;
     }
 
     public function fetch($filter = null)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user || ! $user->isFunder()) {
             return [];
         }
 
@@ -63,7 +61,7 @@ final class ProjectListener extends AbstractResourceListener
         // is this even available for 'type'    => Segment::class, ?
 
         $projects = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
-        $results = (new ProjectCollection($projects, $this->projectProvider))->getItems(
+        $results  = (new ProjectCollection($projects, $this->projectProvider))->getItems(
             null,
             null
             // 0,
@@ -88,16 +86,15 @@ final class ProjectListener extends AbstractResourceListener
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-total-costs'));
         $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
 
-
         foreach ($results as $result) {
             $column = 'A';
             $row++;
 
             $partnerSheet->getCell($column++ . $row)->setValue($result['number']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['name']);
-            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['primaryCluster']['name'])?$result['primaryCluster']['name']:null);
-            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['secondaryCluster']['name'])?$result['secondaryCluster']['name']:null);
-            $partnerSheet->getCell($column++ . $row)->setValue(isset($result['latestVersion']['type']['type'])?$result['latestVersion']['type']['type']: null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['primaryCluster']['name'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']['name'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersion']['type']['type'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
             $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
         }

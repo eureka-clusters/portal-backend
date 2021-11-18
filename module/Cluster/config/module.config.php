@@ -1,12 +1,6 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+declare(strict_types=1);
 
 namespace Cluster;
 
@@ -28,17 +22,16 @@ $config = [
             Provider\Version\StatusProvider::class    => ConfigAbstractFactory::class,
             Provider\Version\TypeProvider::class      => ConfigAbstractFactory::class,
             Provider\CountryProvider::class           => ConfigAbstractFactory::class,
-
-            Service\ClusterService::class         => ConfigAbstractFactory::class,
-            Service\CountryService::class         => ConfigAbstractFactory::class,
-            Service\OrganisationService::class    => ConfigAbstractFactory::class,
-            Service\ProjectService::class         => ConfigAbstractFactory::class,
-            Service\Project\VersionService::class => ConfigAbstractFactory::class,
-            Service\Project\PartnerService::class => ConfigAbstractFactory::class
+            Service\ClusterService::class             => ConfigAbstractFactory::class,
+            Service\CountryService::class             => ConfigAbstractFactory::class,
+            Service\OrganisationService::class        => ConfigAbstractFactory::class,
+            Service\ProjectService::class             => ConfigAbstractFactory::class,
+            Service\Project\VersionService::class     => ConfigAbstractFactory::class,
+            Service\Project\PartnerService::class     => ConfigAbstractFactory::class,
         ],
         'invokables' => [
-            ContactProvider::class
-        ]
+            ContactProvider::class,
+        ],
     ],
     'doctrine'        => [
         'driver' => [

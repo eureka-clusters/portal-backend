@@ -1,17 +1,15 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
+
+declare(strict_types=1);
 
 namespace Api;
 
 use Api\V1\Rest;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+
+use function _;
+use function array_merge_recursive;
 
 $config = [
     'router'          => [

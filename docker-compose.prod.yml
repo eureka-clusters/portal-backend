@@ -5,7 +5,7 @@ services:
     container_name: pa-portal-backend-webserver
     volumes:
       - './:/var/www'
-      - './.docker/nginx/conf.d/:/etc/nginx/conf.d/'
+      - './.docker/nginx/conf.d:/etc/nginx/conf.d'
     environment:
       PORTAL_ENVIRONMENT: development
     labels:
@@ -25,7 +25,7 @@ services:
     container_name: pa-portal-backend-app
     working_dir: /var/www
     volumes:
-      - './:/var/www'
+      - '.:/var/www'
     environment:
       PORTAL_ENVIRONMENT: development
     labels:
@@ -33,21 +33,6 @@ services:
     networks:
       - internal
       - web
-
-  cli:
-    build:
-      context: .
-      dockerfile: ./.docker/php-cli/Dockerfile
-    working_dir: /var/www
-    container_name: pa-portal-backend--cli
-    volumes:
-      - './:/var/www'
-    labels:
-      - traefik.enable=false
-    environment:
-      PORTAL_ENVIRONMENT: development
-    networks:
-      - internal
 
   redis:
     image: redis:latest

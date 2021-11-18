@@ -1,19 +1,11 @@
 <?php
 
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
-
 declare(strict_types=1);
 
 namespace Cluster\Entity\Version;
 
 use Application\Entity\AbstractEntity;
-use Cluster\Entity;
+use Cluster\Entity\Project\Version;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,14 +21,12 @@ class Status extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-    /**
-     * @ORM\Column(unique=true)
-     */
+    /** @ORM\Column(unique=true) */
     private string $status;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist"}, mappedBy="status")
      *
-     * @var \Cluster\Entity\Project\Version[]|Collections\ArrayCollection
+     * @var Version[]|Collections\ArrayCollection
      */
     private $versions;
 

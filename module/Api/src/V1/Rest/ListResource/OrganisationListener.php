@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Jield BV all rights reserved
- *
- * @author      Dr. ir. Johan van der Heide <info@jield.nl>
- * @copyright   Copyright (c) 2020 Jield BV (https://jield.nl)
- */
+declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource;
 
@@ -14,13 +9,9 @@ use Cluster\Rest\Collection\OrganisationCollection;
 use Cluster\Service\OrganisationService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
-/**
- * Class ProjectListener
- * @package Api\V1\Rest\ListResource
- */
 final class OrganisationListener extends AbstractResourceListener
 {
-    private OrganisationService  $organisationService;
+    private OrganisationService $organisationService;
     private OrganisationProvider $organisationProvider;
 
     public function __construct(OrganisationService $organisationService, OrganisationProvider $organisationProvider)
