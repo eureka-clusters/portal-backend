@@ -1,4 +1,4 @@
-FROM ghcr.io/jield-webdev/docker-repos/php80-prod:latest
+FROM ghcr.io/jield-webdev/docker-repos/php80-dev:latest
 
 # Copy composer.lock and composer.json
 COPY composer.json* /var/www/
