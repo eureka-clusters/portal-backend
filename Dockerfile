@@ -41,10 +41,3 @@ WORKDIR /var/www
 
 #Copy the source code in the container (we don't need the full code)
 COPY ./ /var/www
-
-#create the necessary cache folders
-RUN mkdir -p data
-RUN chown -R 777 /data
-
-#set some paths open
-RUN chmod -R 777 data
