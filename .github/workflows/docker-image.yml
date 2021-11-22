@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - frontend-to-typescript
   pull_request:
     branches:
       - main
