@@ -17,4 +17,6 @@ COPY ./.docker/app /var/www/config/autoload
 
 RUN composer install --no-dev --prefer-dist --no-interaction
 
+EXPOSE 9000
+
 CMD ["php-fpm"]
