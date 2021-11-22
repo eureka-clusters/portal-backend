@@ -25,7 +25,8 @@ RUN composer install --no-dev --prefer-dist --no-interaction
 COPY --chown=www:www . /var/www
 
 #Allow writing in the data folder
-RUN chmod -R 777 data
+RUN mdir data/cache
+RUN chown www:www -R data
 
 # Change current user to www
 USER www
