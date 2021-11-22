@@ -1,4 +1,4 @@
-FROM ghcr.io/jield-webdev/docker-repos/php80-prod:latest
+FROM ghcr.io/jield-webdev/docker-repos/php80-prod:latest as php
 
 MAINTAINER 'Johan van der Heide <info@jield.nl>'
 
@@ -27,3 +27,14 @@ USER www
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+
+FROM nginx:mainline-alpine as nginx
+
+#Copy the source code in the container (we don't need the full code)
+COPY ./ /var/www
+COPY ./.docker/nginx/conf.d /etc/nginx/conf.d
+
+#set some paths open
+RUN chmod -R 777 data
+RUN chmod -R 777 public/assets
