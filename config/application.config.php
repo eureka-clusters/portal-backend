@@ -29,9 +29,7 @@ return [
         'DoctrineORMModule',
         'Admin',
         'Cluster',
-        'Application',
-        'SlmQueue',
-        'SlmQueueDoctrine'
+        'Application'
     ],
     'module_listener_options' => [
         'config_glob_paths'        => [

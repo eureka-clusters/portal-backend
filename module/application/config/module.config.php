@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Authentication\Factory\PdoAdapterFactory;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
+use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\I18n\Translator\TranslatorServiceFactory;
@@ -28,6 +30,7 @@ $config = [
         ],
         'factories' => [
             RedisCache::class            => Factory\RedisFactory::class,
+            PdoAdapter::class            => PdoAdapterFactory::class,
             TranslatorInterface::class   => TranslatorServiceFactory::class,
             AuthenticationService::class => AuthenticationServiceFactory::class,
         ],

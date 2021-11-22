@@ -1,4 +1,3 @@
-# dockerfile
 FROM php:8.0-cli
 
 # Copy composer.lock and composer.json
@@ -9,7 +8,8 @@ RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.in
 # Set working directory
 WORKDIR /var/www
 
-# -----------------------
+#Copy the global config files in
+COPY ./.docker/app /var/www/config/autoload
 
 RUN apt-get update && \
 apt-get install -y --force-yes --no-install-recommends \
