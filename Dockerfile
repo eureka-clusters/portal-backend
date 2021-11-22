@@ -29,12 +29,12 @@ EXPOSE 9000
 CMD ["php-fpm"]
 
 
-FROM nginx:mainline-alpine as nginx
+FROM nginx:latest as nginx
+
+WORKDIR /var/www
 
 #Copy the source code in the container (we don't need the full code)
 COPY ./ /var/www
-COPY ./.docker/nginx/conf.d /etc/nginx/conf.d
 
 #set some paths open
 RUN chmod -R 777 data
-RUN chmod -R 777 public/assets
