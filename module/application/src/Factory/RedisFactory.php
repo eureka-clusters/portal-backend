@@ -11,9 +11,6 @@ use Redis;
 
 final class RedisFactory implements FactoryInterface
 {
-    /**
-     * @param string $requestedName
-     */
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): RedisCache
     {
         $cacheOptions = $container->get('Config')['application_config']['cache_options'];

@@ -17,7 +17,7 @@ services:
       - traefik.http.routers.pa-portal-backend-webserver.tls=true
     networks:
       - internal
-      - web
+      - pa-portal
 
   app:
     build:
@@ -33,7 +33,7 @@ services:
       - traefik.enable=false
     networks:
       - internal
-      - web
+      - pa-portal
 
   cli:
     build:
@@ -59,7 +59,7 @@ services:
       - internal
 
 networks:
-  web:
+  pa-portal:
     external: true
   internal:
     external: false

@@ -19,8 +19,8 @@ use function var_dump;
 
 final class OAuth2Controller extends AbstractActionController
 {
-    private UserService $userService;
-    private array $config;
+    private UserService  $userService;
+    private array        $config;
     private OAuthService $oAuthService;
 
     public function __construct(UserService $userService, OAuthService $oAuthService, array $config)
@@ -39,7 +39,7 @@ final class OAuth2Controller extends AbstractActionController
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
 
-        if (empty($settings) || ! isset($settings['settings'])) {
+        if (empty($settings) || !isset($settings['settings'])) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -78,17 +78,6 @@ final class OAuth2Controller extends AbstractActionController
             var_dump($error);
             die('error on oauth Authorize');
         }
-
-        // if ($error === 'access_denied') {
-        //     return $this->redirect()->toRoute('home');
-        // }
-
-        // no handling for other errors e.g.
-        // 'error=invalid_scope&error_description=An+unsupported+scope+was+requested&state=1184dd44eb0364f72d9694745fd7a64e
-
-        // @Johan how are errors handled?
-        // should they be returned or echoed on the middleware
-        // perhaps the error should be shown on the react app as the react app calls this action?
 
         $authCode = $this->getRequest()->getQuery('code');
 
