@@ -11,8 +11,8 @@
 >
     <testsuites>
         <testsuite name="ClusterBackend">
-            <directory>./module/Admin/test</directory>
-            <directory>./module/Cluster/test</directory>
+            <directory>./module/admin/test</directory>
+            <directory>./module/cluster/test</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -61,6 +61,15 @@ final class OAuth2Controller extends AbstractActionController
 
     public function callbackAction(): Response
     {
+        //We have the user now, so lets create a JWT for this guy
+        $payload = [
+            'id' => 1
+        ];
+
+        $token = (new Jwt())->encode($payload, $this->apiModuleOptions->getCryptoKey());
+        print $token;
+        die();
+
         $session       = new Container('session');
         $expectedState = $session->authState;
 
