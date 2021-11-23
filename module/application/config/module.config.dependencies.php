@@ -12,7 +12,8 @@ return [
     ConfigAbstractFactory::class => [
         Controller\OAuth2Controller::class => [
             UserService::class,
-            ModuleOptions::class
+            ModuleOptions::class,
+            'Config'
         ],
     ],
 ];

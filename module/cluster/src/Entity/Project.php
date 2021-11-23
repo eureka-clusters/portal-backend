@@ -318,12 +318,12 @@ class Project extends AbstractEntity
 
     public function getLatestVersion(): ?Version
     {
-        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
+        return $this->versions->filter(fn (Version $version) => $version->getType()->isLatest())->first() ?: null;
     }
 
     public function getCoordinatorPartner(): ?Partner
     {
-        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
+        return $this->partners->filter(fn (Partner $partner) => $partner->isCoordinator())->first() ?: null;
     }
 
     public function getPartners()

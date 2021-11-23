@@ -9,3 +9,4 @@
 /.phpcs-cache
 /.phpcs-cache
 /.phpunit.result.cache
+/.php-cs-fixer.cache

@@ -16,19 +16,20 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use OAuth2\Encryption\Jwt;
 
-use function var_dump;
-
 final class OAuth2Controller extends AbstractActionController
 {
     private UserService   $userService;
     private ModuleOptions $apiModuleOptions;
+    private array         $config;
 
     public function __construct(
         UserService $userService,
-        ModuleOptions $apiModuleOptions
+        ModuleOptions $apiModuleOptions,
+        array $config
     ) {
         $this->userService      = $userService;
         $this->apiModuleOptions = $apiModuleOptions;
+        $this->config           = $config;
     }
 
     public function loginAction(): Response
@@ -60,10 +61,6 @@ final class OAuth2Controller extends AbstractActionController
 
     public function callbackAction(): Response
     {
-        $jwt = new Jwt();
-        print (new Jwt())->encode(['id' => 1], $this->apiModuleOptions->getCryptoKey());
-        die();
-
         $session       = new Container('session');
         $expectedState = $session->authState;
 
@@ -80,7 +77,6 @@ final class OAuth2Controller extends AbstractActionController
         $error = $this->getRequest()->getQuery('error');
 
         if ($error !== null) {
-            var_dump($error);
             die('error on oauth Authorize');
         }
 
