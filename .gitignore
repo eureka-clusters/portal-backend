@@ -3,7 +3,6 @@
 .php_cs.cache
 /vendor
 /data/cache
-/data/DoctrineORMModule
 /module/Api/src/V1/Rest/StatisticsResource/*.http
 /module/Api/src/V1/Rest/UpdateResource/*.http
 /.phpcs-cache
