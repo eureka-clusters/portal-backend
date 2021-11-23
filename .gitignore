@@ -6,6 +6,5 @@
 /module/Api/src/V1/Rest/StatisticsResource/*.http
 /module/Api/src/V1/Rest/UpdateResource/*.http
 /.phpcs-cache
-/.phpcs-cache
 /.phpunit.result.cache
 /.php-cs-fixer.cache
