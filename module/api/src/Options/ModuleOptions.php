@@ -8,40 +8,15 @@ use Laminas\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions
 {
-    protected int $accessTokenLifetime       = 3600;      // 1 hour
-    protected int $refreshTokenLifetime      = 1209600;   // 14 days
-    protected int $authorizationCodeLifetime = 300;   // 5 minutes
+    protected string $cryptoKey = 'this-is-a-default-key';
 
-    public function getAccessTokenLifetime(): int
+    public function getCryptoKey(): string
     {
-        return $this->accessTokenLifetime;
+        return $this->cryptoKey;
     }
 
-    public function setAccessTokenLifetime(int $accessTokenLifetime): ModuleOptions
+    public function setCryptoKey(string $cryptoKey): void
     {
-        $this->accessTokenLifetime = $accessTokenLifetime;
-        return $this;
-    }
-
-    public function getRefreshTokenLifetime(): int
-    {
-        return $this->refreshTokenLifetime;
-    }
-
-    public function setRefreshTokenLifetime(int $refreshTokenLifetime): ModuleOptions
-    {
-        $this->refreshTokenLifetime = $refreshTokenLifetime;
-        return $this;
-    }
-
-    public function getAuthorizationCodeLifetime(): int
-    {
-        return $this->authorizationCodeLifetime;
-    }
-
-    public function setAuthorizationCodeLifetime(int $authorizationCodeLifetime): ModuleOptions
-    {
-        $this->authorizationCodeLifetime = $authorizationCodeLifetime;
-        return $this;
+        $this->cryptoKey = $cryptoKey;
     }
 }

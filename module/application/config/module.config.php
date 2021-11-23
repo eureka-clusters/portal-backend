@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Application;
 
 use Application\Authentication\Factory\PdoAdapterFactory;
+use Application\Factory\ModuleOptionsFactory;
+use Application\Options\ModuleOptions;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Admin\Service\UserService;
-use Api\Service\OAuthService;
+use Api\Options\ModuleOptions;
 use Application\ValueObject\OAuth2\GenericUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -14,20 +14,21 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
+use OAuth2\Encryption\Jwt;
 
 use function var_dump;
 
 final class OAuth2Controller extends AbstractActionController
 {
-    private UserService  $userService;
-    private array        $config;
-    private OAuthService $oAuthService;
+    private UserService   $userService;
+    private ModuleOptions $apiModuleOptions;
 
-    public function __construct(UserService $userService, OAuthService $oAuthService, array $config)
-    {
-        $this->userService  = $userService;
-        $this->oAuthService = $oAuthService;
-        $this->config       = $config;
+    public function __construct(
+        UserService $userService,
+        ModuleOptions $apiModuleOptions
+    ) {
+        $this->userService      = $userService;
+        $this->apiModuleOptions = $apiModuleOptions;
     }
 
     public function loginAction(): Response
@@ -59,6 +60,10 @@ final class OAuth2Controller extends AbstractActionController
 
     public function callbackAction(): Response
     {
+        $jwt = new Jwt();
+        print (new Jwt())->encode(['id' => 1], $this->apiModuleOptions->getCryptoKey());
+        die();
+
         $session       = new Container('session');
         $expectedState = $session->authState;
 
@@ -121,14 +126,16 @@ final class OAuth2Controller extends AbstractActionController
                     $session->settings['allowedClusters']
                 );
 
-                //$oAuthClient = $this->oAuthService->findoAuthClientByClientId('ZoDgQeNuqWAdtQyGPZoAPFYGGBzWqkqYHomOynefk');
-                $oAuthClient = $this->oAuthService->findoAuthClientByClientId($session->client_id);
+                //We have the user now, so lets create a JWT for this guy
+                $payload = [
+                    'id' => $user->getId()
+                ];
 
-                $authorizationCode = $this->oAuthService->createAuthorizationCodeForUser($user, $oAuthClient);
+                $token = (new Jwt())->encode($payload, $this->apiModuleOptions->getCryptoKey());
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    $oAuthClient->getRedirectUri() . '?code=' . $authorizationCode->getAuthorizationCode()
+                    $oAuthClient->getRedirectUri() . '?token=' . $token
                 );
             } catch (IdentityProviderException $e) {
                 return $this->redirect()->toRoute('user/login');

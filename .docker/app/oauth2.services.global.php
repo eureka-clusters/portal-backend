@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'api_options'     => [
+        'cryptoKey' => 'my_crypto_key'
+    ],
     'oauth2-settings' => [
         'services' => [
             'itea'   => [
