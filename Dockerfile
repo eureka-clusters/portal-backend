@@ -1,20 +1,44 @@
-FROM webdevops/php-nginx:7.4-alpine
-LABEL maintainer="johan.van.der.heide@itea4.org"
-LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/portal-backend"
+FROM ghcr.io/jield-webdev/docker-repos/php80-prod:latest as php
 
-ENV TZ=Europe/Amsterdam
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+MAINTAINER 'Johan van der Heide <info@jield.nl>'
+
+LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/portal-backend"
+LABEL org.opencontainers.image.description="Docker container holding the PHP backend code"
+
+#set the workdir
+WORKDIR /var/www
+
+# Copy composer.lock and composer.json
+COPY composer.json* /var/www/
+
+RUN echo 'memory_limit = 1G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
+
+# Copy existing application directory contents
+COPY ./ /var/www
+
+#Copy the global config files in
+COPY ./.docker/app /var/www/config/autoload
+
+RUN composer install --no-dev --prefer-dist --no-interaction
+
+# Copy existing application directory permissions
+COPY --chown=www:www . /var/www
+
+#Allow writing in the data folder
+RUN mkdir data/cache
+RUN chown www:www -R data
+
+# Change current user to www
+USER www
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
+
+
+FROM nginx:latest as nginx
 
 WORKDIR /var/www
-COPY . .
 
-#Do a fresh reinstall of the composer packages
-#RUN rm -rf /var/www/vendor/*
-RUN php composer.phar update --prefer-dist --no-interaction --no-dev
-
-ENV WEB_DOCUMENT_ROOT="/var/www/public"
-ENV PHP_DISMOD=ioncube,imagick,memcached,apcu,amqp
-ENV PHP_DATE_TIMEZONE='Europe/Amsterdam'
-
-ENV SSH_PORT 2222
-EXPOSE 2222
+#Copy the source code in the container (we don't need the full code)
+COPY ./ /var/www

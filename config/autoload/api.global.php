@@ -1,11 +1,4 @@
 <?php
-/**
- * ITEA Office all rights reserved
- *
- * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
- * @license     https://itea3.org/license.txt proprietary
- */
 
 use Laminas\ApiTools\MvcAuth\Authentication\OAuth2Adapter;
 
@@ -22,12 +15,12 @@ return [
         ],
     ],
     'api-tools-oauth2'   => [
-        'storage'                        => \Application\Authentication\OAuth2\Adapter\PdoAdapter::class,
-        'allow_implicit'                 => true,
+        'storage'         => \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter::class,
+        'allow_implicit'  => true,
         //'access_lifetime'                => 100,
-        'access_lifetime'                => 100000,
-        'enforce_state'                  => true,
-        'options' => [
+        'access_lifetime' => 100000,
+        'enforce_state'   => true,
+        'options'         => [
             'use_jwt_access_tokens'             => false,
             'store_encrypted_token_string'      => true,
             'use_openid_connect'                => false,
@@ -51,7 +44,7 @@ return [
                 'oauth2_pdo' => [
                     'adapter' => OAuth2Adapter::class,
                     'storage' => [
-                        'storage' => \Application\Authentication\OAuth2\Adapter\PdoAdapter::class
+                        'storage' => \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter::class
                     ]
                 ],
             ],
