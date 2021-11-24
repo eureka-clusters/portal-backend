@@ -44,6 +44,7 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
         $header = $e->getMvcEvent()->getRequest()->getHeader('Authorization');
 
         if (!$header) {
+            $e->setIdentity($guest);
             return $guest;
         }
 
@@ -53,17 +54,20 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
         /** @var ModuleOptions $moduleOptions */
         $moduleOptions = $this->container->get(ModuleOptions::class);
 
-
         $tokenData = $jwt->decode($token, $moduleOptions->getCryptoKey());
 
         // If the token is invalid, give up
         if (!$tokenData) {
+            $e->setIdentity($guest);
+
             return $guest;
         }
 
         /** @var UserService $userService */
         $userService = $this->container->get(UserService::class);
         $user        = $userService->findUserById($tokenData['id']);
+
+        $e->getMvcEvent()->setParam('Laminas\ApiTools\MvcAuth\Identity', new AuthenticatedIdentity($user));
 
         return new AuthenticatedIdentity($user);
     }
