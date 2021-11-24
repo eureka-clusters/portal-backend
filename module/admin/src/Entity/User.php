@@ -293,4 +293,9 @@ class User extends AbstractEntity
         $this->funder = $funder;
         return $this;
     }
+
+    public function getAuthenticationIdentity()
+    {
+        return $this;
+    }
 }

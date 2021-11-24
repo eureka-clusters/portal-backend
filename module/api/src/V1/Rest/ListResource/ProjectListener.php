@@ -28,7 +28,7 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = [])
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity());
 
         if (null === $user || ! $user->isFunder()) {
             return [];
