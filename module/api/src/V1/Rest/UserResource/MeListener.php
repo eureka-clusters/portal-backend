@@ -22,7 +22,7 @@ final class MeListener extends AbstractResourceListener
 
     public function fetch($id)
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
 
         if (null === $user) {
             return new ApiProblem(404, 'The selected user cannot be found');

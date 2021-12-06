@@ -12,25 +12,18 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $projectService;
-    private UserService $userService;
-    private ProjectProvider $projectProvider;
-
     public function __construct(
-        ProjectService $projectService,
-        UserService $userService,
-        ProjectProvider $projectProvider
+        private ProjectService $projectService,
+        private UserService $userService,
+        private ProjectProvider $projectProvider
     ) {
-        $this->projectService  = $projectService;
-        $this->userService     = $userService;
-        $this->projectProvider = $projectProvider;
     }
 
     public function fetchAll($params = [])
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
-        if (null === $user || ! $user->isFunder()) {
+        if (null === $user || !$user->isFunder()) {
             return [];
         }
 

@@ -33,7 +33,7 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetchAll($params = [])
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
 
         if (null === $user || ! $user->isFunder()) {
             return [];

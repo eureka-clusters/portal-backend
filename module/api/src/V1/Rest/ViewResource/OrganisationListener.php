@@ -11,13 +11,10 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class OrganisationListener extends AbstractResourceListener
 {
-    private OrganisationService $organisationService;
-    private OrganisationProvider $organisationProvider;
-
-    public function __construct(OrganisationService $organisationService, OrganisationProvider $organisationProvider)
-    {
-        $this->organisationService  = $organisationService;
-        $this->organisationProvider = $organisationProvider;
+    public function __construct(
+        private OrganisationService $organisationService,
+        private OrganisationProvider $organisationProvider
+    ) {
     }
 
     public function fetch($slug = null)

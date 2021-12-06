@@ -16,29 +16,18 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class PartnerListener extends AbstractResourceListener
 {
-    private PartnerService $partnerService;
-    private ProjectService $projectService;
-    private OrganisationService $organisationService;
-    private UserService $userService;
-    private PartnerProvider $partnerProvider;
-
     public function __construct(
-        PartnerService $partnerService,
-        ProjectService $projectService,
-        OrganisationService $organisationService,
-        UserService $userService,
-        PartnerProvider $partnerProvider
+        private PartnerService $partnerService,
+        private ProjectService $projectService,
+        private OrganisationService $organisationService,
+        private UserService $userService,
+        private PartnerProvider $partnerProvider
     ) {
-        $this->partnerService      = $partnerService;
-        $this->projectService      = $projectService;
-        $this->organisationService = $organisationService;
-        $this->userService         = $userService;
-        $this->partnerProvider     = $partnerProvider;
     }
 
     public function fetchAll($params = [])
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
 
         if (null === $user || ! $user->isFunder()) {
             return [];
