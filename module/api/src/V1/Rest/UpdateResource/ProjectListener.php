@@ -14,21 +14,12 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $projectService;
-    private VersionService $versionService;
-    private PartnerService $partnerService;
-    private EntityManager $entityManager;
-
     public function __construct(
-        ProjectService $projectService,
-        VersionService $versionService,
-        PartnerService $partnerService,
-        EntityManager $entityManager
+        private ProjectService $projectService,
+        private VersionService $versionService,
+        private PartnerService $partnerService,
+        private EntityManager $entityManager
     ) {
-        $this->projectService = $projectService;
-        $this->versionService = $versionService;
-        $this->partnerService = $partnerService;
-        $this->entityManager  = $entityManager;
     }
 
     public function create($data = []): void

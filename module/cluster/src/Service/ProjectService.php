@@ -123,7 +123,8 @@ class ProjectService extends AbstractService
         // }
 
         // my suggestion
-        if (null !== $data->secondary_cluster) {
+        //An isset is necessary
+        if (isset($data->secondary_cluster)) {
             $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondary_cluster);
             $project->setSecondaryCluster($secondaryCluster);
         }
@@ -158,7 +159,7 @@ class ProjectService extends AbstractService
         }
 
         if ($data->cancel_date) {
-            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string) $data->cancel_date);
+            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancel_date);
             $project->setCancelDate($cancelDate ?: null);
         }
 
