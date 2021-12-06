@@ -66,10 +66,10 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastUpdate', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthClients', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastUpdate', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthJwt'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastUpdate', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthClients', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastUpdate', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthJwt'];
     }
 
     /**
@@ -201,7 +201,7 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getRoles()
+    public function getRoles(): \Doctrine\Common\Collections\ArrayCollection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoles', []);
@@ -414,7 +414,7 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getSession()
+    public function getSession(): \Doctrine\Common\Collections\Collection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSession', []);
@@ -436,7 +436,7 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getOAuthAccessTokens()
+    public function getOAuthAccessTokens(): \Doctrine\Common\Collections\Collection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthAccessTokens', []);
@@ -458,7 +458,7 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getOAuthAuthorizationCodes()
+    public function getOAuthAuthorizationCodes(): \Doctrine\Common\Collections\Collection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthAuthorizationCodes', []);
@@ -480,29 +480,7 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getOAuthClients()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthClients', []);
-
-        return parent::getOAuthClients();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setOAuthClients($oAuthClients): \Admin\Entity\User
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthClients', [$oAuthClients]);
-
-        return parent::setOAuthClients($oAuthClients);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getOAuthRefreshTokens()
+    public function getOAuthRefreshTokens(): \Doctrine\Common\Collections\ArrayCollection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthRefreshTokens', []);
@@ -541,6 +519,28 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFunder', [$funder]);
 
         return parent::setFunder($funder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOAuthJwt(): \Doctrine\Common\Collections\Collection|array
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthJwt', []);
+
+        return parent::getOAuthJwt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOAuthJwt(\Doctrine\Common\Collections\Collection|array $oAuthJwt): \Admin\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthJwt', [$oAuthJwt]);
+
+        return parent::setOAuthJwt($oAuthJwt);
     }
 
     /**

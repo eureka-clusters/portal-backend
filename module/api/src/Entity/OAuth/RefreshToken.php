@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="oauth_refresh_tokens")
- * @ORM\Entity(repositoryClass="Api\Repository\OAuth\RefreshToken")
+ * @ORM\Entity
  */
 class RefreshToken extends AbstractEntity
 {
@@ -20,25 +20,22 @@ class RefreshToken extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
     /** @ORM\Column(name="refresh_token", length=255, type="string", unique=true) */
     private string $refreshToken;
-    /**
-     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
-     */
-    private Clients $oAuthClient;
+    /** @ORM\Column(name="client_id", type="string") */
+    private string $clientId;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private User $user;
     /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
-    /** @ORM\Column(name="scope", length=2000, type="string") */
+    /** @ORM\Column(name="scope", length=2000, nullable=true) */
     private ?string $scope;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -60,14 +57,14 @@ class RefreshToken extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthClient(): ?Clients
+    public function getClientId(): string
     {
-        return $this->oAuthClient;
+        return $this->clientId;
     }
 
-    public function setOAuthClient(?Clients $oAuthClient): RefreshToken
+    public function setClientId(string $clientId): RefreshToken
     {
-        $this->oAuthClient = $oAuthClient;
+        $this->clientId = $clientId;
         return $this;
     }
 

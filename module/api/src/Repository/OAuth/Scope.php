@@ -13,17 +13,15 @@ use function in_array;
 use function sprintf;
 use function strtoupper;
 
-final class Scopes extends EntityRepository
+final class Scope extends EntityRepository
 {
     public function findFiltered(array $filter): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('api_entity_oauth_scopes');
-        $qb->from(Entity\OAuth\Scopes::class, 'api_entity_oauth_scopes');
+        $qb->select('api_entity_oauth_scope');
+        $qb->from(Entity\OAuth\Scope::class, 'api_entity_oauth_scope');
 
-        if (null !== $filter) {
-            $qb = $this->applyScopeFilter($qb, $filter);
-        }
+        $qb = $this->applyScopeFilter($qb, $filter);
 
         $direction = Criteria::ASC;
         if (
@@ -41,13 +39,13 @@ final class Scopes extends EntityRepository
 
         switch ($filter['order']) {
             case 'id':
-                $qb->addOrderBy('api_entity_oauth_scopes.id', $direction);
+                $qb->addOrderBy('api_entity_oauth_scope.id', $direction);
                 break;
             case 'scope':
-                $qb->addOrderBy('api_entity_oauth_scopes.scope', $direction);
+                $qb->addOrderBy('api_entity_oauth_scope.scope', $direction);
                 break;
             default:
-                $qb->addOrderBy('api_entity_oauth_scopes.id', $direction);
+                $qb->addOrderBy('api_entity_oauth_scope.id', $direction);
         }
 
         return $qb;
@@ -56,7 +54,7 @@ final class Scopes extends EntityRepository
     public function applyScopeFilter(QueryBuilder $qb, array $filter): QueryBuilder
     {
         if (! empty($filter['query'])) {
-            $qb->andWhere($qb->expr()->like('api_entity_oauth_scopes.scope', ':like'));
+            $qb->andWhere($qb->expr()->like('api_entity_oauth_scope.scope', ':like'));
             $qb->setParameter('like', sprintf('%%%s%%', $filter['query']));
         }
 

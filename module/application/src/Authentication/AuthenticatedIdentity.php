@@ -9,11 +9,11 @@ class AuthenticatedIdentity extends BaseIdentity
 {
     private User $user;
 
-    public function __construct(User $user)
+    public function __construct($userId)
     {
-        parent::__construct($user->getEmail());
-        $this->setName($user->getEmail());
-        $this->user = $user;
+        parent::__construct(['user_id' => $userId]);
+//        $this->setName($user->getEmail());
+//        $this->user = $user;
     }
 
     public function getUser(): User

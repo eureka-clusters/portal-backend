@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Admin\Service\UserService;
-use Api\Options\ModuleOptions;
+use Api\Service\OAuthService;
 use Application\ValueObject\OAuth2\GenericUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -14,29 +14,20 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
-use OAuth2\Encryption\Jwt;
 
 final class OAuth2Controller extends AbstractActionController
 {
-    private UserService   $userService;
-    private ModuleOptions $apiModuleOptions;
-    private array         $config;
-
     public function __construct(
-        UserService $userService,
-        ModuleOptions $apiModuleOptions,
-        array $config
+        private UserService $userService,
+        private OAuthService $oAuthService,
+        private array $config
     ) {
-        $this->userService      = $userService;
-        $this->apiModuleOptions = $apiModuleOptions;
-        $this->config           = $config;
     }
 
     public function loginAction(): Response
     {
         //Find the service
-        $service   = $this->params('service');
-        $client_id = $this->getRequest()->getQuery('client_id');
+        $service = $this->params('service');
 
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
@@ -46,13 +37,13 @@ final class OAuth2Controller extends AbstractActionController
         }
 
         $oAuthClient = new GenericProvider($settings['settings']);
-        $authUrl     = $oAuthClient->getAuthorizationUrl();
+
+        $authUrl = $oAuthClient->getAuthorizationUrl();
 
         //Create a session and keep the important data
         $session             = new Container('session');
         $session->authState  = $oAuthClient->getState();
         $session->service    = $service;
-        $session->client_id  = $client_id;
         $session->settings   = $settings['settings'];
         $session->profileUrl = $settings['profileUrl'] ?? null;
 
@@ -84,10 +75,10 @@ final class OAuth2Controller extends AbstractActionController
 
         if (null !== $authCode) {
             try {
-                //And grab the settings
-                $oAuthClient = new GenericProvider($session->settings);
+                //And grab the settings and grab a token to check the backend so we can
+                $oAuthBackendClient = new GenericProvider($session->settings);
 
-                $accessToken = $oAuthClient->getAccessToken(
+                $accessToken = $oAuthBackendClient->getAccessToken(
                     'authorization_code',
                     [
                         'code' => $authCode,
@@ -122,16 +113,13 @@ final class OAuth2Controller extends AbstractActionController
                     $session->settings['allowedClusters']
                 );
 
-                //We have the user now, so lets create a JWT for this guy
-                $payload = [
-                    'id' => $user->getId()
-                ];
-
-                $token = (new Jwt())->encode($payload, $this->apiModuleOptions->getCryptoKey());
+                $client = $this->oAuthService->findDefaultJWTClient();
+                //We need to find the client and we use the generic client
+                $token = $this->oAuthService->findOrGenereateJWTToken($user);
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    $oAuthClient->getRedirectUri() . '?token=' . $token
+                    $client->getRedirectUri() . '?token=' . $token->getToken()
                 );
             } catch (IdentityProviderException $e) {
                 return $this->redirect()->toRoute('user/login');

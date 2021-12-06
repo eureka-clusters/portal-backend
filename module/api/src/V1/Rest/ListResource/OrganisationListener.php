@@ -22,6 +22,9 @@ final class OrganisationListener extends AbstractResourceListener
 
     public function fetchAll($params = [])
     {
+        print_r($this->getIdentity()->getAuthenticationIdentity()['user_id']);
+        die();
+
         $partnerQueryBuilder = $this->organisationService->getOrganisations([]);
 
         return (new OrganisationCollection($partnerQueryBuilder, $this->organisationProvider))->getItems(

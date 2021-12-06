@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Api\Entity\OAuth;
 
 use Admin\Entity\User;
-use Api\Entity\OAuth\Clients;
 use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,29 +20,26 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
     /** @ORM\Column(name="authorization_code", length=255, type="string",unique=true) */
     private string $authorizationCode;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Clients", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="client_id", nullable=false)
-     */
-    private Clients $oAuthClient;
-
+    /** @ORM\Column(name="client_id", length=255, type="string") */
+    private string $clientId;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", )
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private ?User $user;
     /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
     /** @ORM\Column(name="redirect_uri", length=2000, type="string") */
     private string $redirectUri;
-    /** @ORM\Column(name="scope", length=2000, type="string") */
+    /** @ORM\Column(name="scope", length=2000, type="string", nullable=true) */
     private ?string $scope;
+    /** @ORM\Column(name="id_token", length=2000, type="string", nullable=true) */
+    private ?string $idToken;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -65,14 +61,14 @@ class AuthorizationCode extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthClient(): ?Clients
+    public function getClientId(): string
     {
-        return $this->oAuthClient;
+        return $this->clientId;
     }
 
-    public function setOAuthClient(?Clients $oAuthClient): AuthorizationCode
+    public function setClientId(string $clientId): AuthorizationCode
     {
-        $this->oAuthClient = $oAuthClient;
+        $this->clientId = $clientId;
         return $this;
     }
 
@@ -117,6 +113,17 @@ class AuthorizationCode extends AbstractEntity
     public function setScope(string $scope): AuthorizationCode
     {
         $this->scope = $scope;
+        return $this;
+    }
+
+    public function getIdToken(): ?string
+    {
+        return $this->idToken;
+    }
+
+    public function setIdToken(?string $idToken): AuthorizationCode
+    {
+        $this->idToken = $idToken;
         return $this;
     }
 }

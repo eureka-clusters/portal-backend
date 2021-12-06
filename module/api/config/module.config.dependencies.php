@@ -6,7 +6,6 @@ namespace Api;
 
 use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
-use Api\Options\ModuleOptions;
 use Api\V1\Rest;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
@@ -91,8 +90,7 @@ return [
         ],
         Service\OAuthService::class                             => [
             EntityManager::class,
-            TranslatorInterface::class,
-            ModuleOptions::class,
+            TranslatorInterface::class
         ],
     ],
 ];

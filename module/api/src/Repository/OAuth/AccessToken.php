@@ -29,7 +29,7 @@ final class AccessToken extends EntityRepository //implements AccessTokenInterfa
 //        var_dump($user_id);
 //
 //        // check if the client exists
-//        $client = $this->_em->getRepository(Clients::class)
+//        $client = $this->_em->getRepository(Client::class)
 //        ->findOneBy(['clientId' => $client_id]);
 //
 //        if ($client === null) {

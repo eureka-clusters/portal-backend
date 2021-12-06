@@ -10,13 +10,10 @@ use Laminas\I18n\Translator\TranslatorInterface;
 
 abstract class AbstractService
 {
-    protected EntityManager $entityManager;
-    protected ?TranslatorInterface $translator;
-
-    public function __construct(EntityManager $entityManager, ?TranslatorInterface $translator = null)
-    {
-        $this->entityManager = $entityManager;
-        $this->translator    = $translator;
+    public function __construct(
+        protected EntityManager $entityManager,
+        protected ?TranslatorInterface $translator = null
+    ) {
     }
 
     public function findAll(string $entity): array
@@ -36,7 +33,7 @@ abstract class AbstractService
 
     public function save(AbstractEntity $entity): AbstractEntity
     {
-        if (! $this->entityManager->contains($entity)) {
+        if (!$this->entityManager->contains($entity)) {
             $this->entityManager->persist($entity);
         }
         $this->entityManager->flush();

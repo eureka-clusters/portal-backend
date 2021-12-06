@@ -66,10 +66,10 @@ class Jwt extends \Api\Entity\OAuth\Jwt implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'subject', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'publicKey'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'token'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'subject', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'publicKey'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\Jwt' . "\0" . 'token'];
     }
 
     /**
@@ -179,7 +179,7 @@ class Jwt extends \Api\Entity\OAuth\Jwt implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -194,7 +194,7 @@ class Jwt extends \Api\Entity\OAuth\Jwt implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Api\Entity\OAuth\Jwt
+    public function setId(?int $id): \Api\Entity\OAuth\Jwt
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -205,67 +205,67 @@ class Jwt extends \Api\Entity\OAuth\Jwt implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getClientId(): string
+    public function getClient(): ?\Api\Entity\OAuth\Client
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClientId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClient', []);
 
-        return parent::getClientId();
+        return parent::getClient();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setClientId(string $clientId): \Api\Entity\OAuth\Jwt
+    public function setClient(?\Api\Entity\OAuth\Client $client): \Api\Entity\OAuth\Jwt
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClientId', [$clientId]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClient', [$client]);
 
-        return parent::setClientId($clientId);
+        return parent::setClient($client);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getSubject(): ?string
+    public function getUser(): \Admin\Entity\User
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubject', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
 
-        return parent::getSubject();
+        return parent::getUser();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setSubject(string $subject): \Api\Entity\OAuth\Jwt
+    public function setUser(\Admin\Entity\User $user): \Api\Entity\OAuth\Jwt
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSubject', [$subject]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
 
-        return parent::setSubject($subject);
+        return parent::setUser($user);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getPublicKey(): string
+    public function getToken(): string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPublicKey', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getToken', []);
 
-        return parent::getPublicKey();
+        return parent::getToken();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setPublicKey(string $publicKey): \Api\Entity\OAuth\Jwt
+    public function setToken(string $token): \Api\Entity\OAuth\Jwt
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublicKey', [$publicKey]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setToken', [$token]);
 
-        return parent::setPublicKey($publicKey);
+        return parent::setToken($token);
     }
 
     /**

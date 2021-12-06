@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Admin\Service\UserService;
-use Api\Options\ModuleOptions;
-use Application\Authentication\AuthenticatedIdentity;
+use Api\Service\OAuthService;
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
 use Laminas\ApiTools\MvcAuth\MvcAuthEvent;
@@ -31,13 +29,6 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
         $events->attach('authentication', [$this, 'onAuthentication'], 100);
     }
 
-    /**
-     * If the AUTHORIZATION HTTP header is found, validate and return the user,
-     * otherwise default to 'guest'
-     *
-     * @param MvcAuthEvent $e
-     * @return AuthenticatedIdentity|GuestIdentity
-     */
     public function onAuthentication(MvcAuthEvent $e)
     {
         $guest  = new GuestIdentity();
@@ -49,26 +40,33 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
         }
 
         $token = $header->getFieldValue();
-        $jwt   = new Jwt();
 
-        /** @var ModuleOptions $moduleOptions */
-        $moduleOptions = $this->container->get(ModuleOptions::class);
+        //Skip this event when we found a Bearer token
+        if (str_starts_with($token, 'Bearer')) {
+            return;
+        }
 
-        $tokenData = $jwt->decode($token, $moduleOptions->getCryptoKey());
+        $jwt = new Jwt();
+
+
+        /** @var OAuthService $oauthService */
+        $oauthService = $this->container->get(OAuthService::class);
+
+        $tokenData = $jwt->decode($token, $oauthService->findDefaultJWTClient()->getJwtKey());
 
         // If the token is invalid, give up
         if (!$tokenData) {
+            //We return nothing so the event manager continues to the next operation
             $e->setIdentity($guest);
-
             return $guest;
         }
 
-        /** @var UserService $userService */
-        $userService = $this->container->get(UserService::class);
-        $user        = $userService->findUserById($tokenData['id']);
+        //We use the name here
+        $identity = new \Laminas\ApiTools\MvcAuth\Identity\AuthenticatedIdentity($tokenData['id']);
+        $identity->setName((string)$tokenData['id']);
 
-        $e->getMvcEvent()->setParam('Laminas\ApiTools\MvcAuth\Identity', new AuthenticatedIdentity($user));
+        $e->getMvcEvent()->setParam('Laminas\ApiTools\MvcAuth\Identity', $identity);
 
-        return new AuthenticatedIdentity($user);
+        return $identity;
     }
 }

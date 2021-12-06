@@ -12,7 +12,7 @@ services:
       - traefik.enable=true
       - traefik.http.services.pa-portal-backend-webserver.loadbalancer.server.port=80
       - traefik.http.routers.pa-portal-backend-webserver.service=pa-portal-backend-webserver
-      - traefik.http.routers.pa-portal-backend-webserver.rule=Host(`portal.backend.docker.localhost`)
+      - traefik.http.routers.pa-portal-backend-webserver.rule=Host(`portal-backend.docker.localhost`)
       - traefik.http.routers.pa-portal-backend-webserver.entrypoints=https
       - traefik.http.routers.pa-portal-backend-webserver.tls=true
     networks:

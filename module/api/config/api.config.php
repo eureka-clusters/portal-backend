@@ -57,7 +57,6 @@ $config = [
     'service_manager' => [
         'factories' => [
             Service\OAuthService::class                             => ConfigAbstractFactory::class,
-            Options\ModuleOptions::class                            => Factory\ModuleOptionsFactory::class,
             Rest\UserResource\MeListener::class                     => ConfigAbstractFactory::class,
             Rest\ListResource\ProjectListener::class                => ConfigAbstractFactory::class,
             Rest\ListResource\OrganisationListener::class           => ConfigAbstractFactory::class,

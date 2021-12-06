@@ -66,10 +66,10 @@ class RefreshToken extends \Api\Entity\OAuth\RefreshToken implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'refreshToken', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'oAuthClient', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'scope'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'refreshToken', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'scope'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'refreshToken', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'oAuthClient', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'scope'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'refreshToken', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\RefreshToken' . "\0" . 'scope'];
     }
 
     /**
@@ -179,7 +179,7 @@ class RefreshToken extends \Api\Entity\OAuth\RefreshToken implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -227,23 +227,23 @@ class RefreshToken extends \Api\Entity\OAuth\RefreshToken implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function getOAuthClient(): ?\Api\Entity\OAuth\Clients
+    public function getClientId(): string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthClient', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClientId', []);
 
-        return parent::getOAuthClient();
+        return parent::getClientId();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setOAuthClient(?\Api\Entity\OAuth\Clients $oAuthClient): \Api\Entity\OAuth\RefreshToken
+    public function setClientId(string $clientId): \Api\Entity\OAuth\RefreshToken
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthClient', [$oAuthClient]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClientId', [$clientId]);
 
-        return parent::setOAuthClient($oAuthClient);
+        return parent::setClientId($clientId);
     }
 
     /**

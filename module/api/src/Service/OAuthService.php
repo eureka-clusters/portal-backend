@@ -5,78 +5,61 @@ declare(strict_types=1);
 namespace Api\Service;
 
 use Admin\Entity\User;
-use Api\Entity\OAuth\AuthorizationCode;
-use Api\Entity\OAuth\Clients;
-use Api\Options\ModuleOptions;
+use Api\Entity\OAuth;
 use Application\Service\AbstractService;
-use DateTimeImmutable;
-use Doctrine\ORM\EntityManager;
-use InvalidArgumentException;
-use Laminas\I18n\Translator\TranslatorInterface;
-use Laminas\Math\Rand;
-
-use function hash;
-use function sprintf;
-use function substr;
+use OAuth2\Encryption\Jwt;
 
 class OAuthService extends AbstractService
 {
-    private ModuleOptions $moduleOptions;
-
-    public function __construct(
-        EntityManager $entityManager,
-        TranslatorInterface $translator,
-        ModuleOptions $moduleOptions
-    ) {
-        parent::__construct($entityManager, $translator);
-        $this->moduleOptions = $moduleOptions;
-    }
-
-    public function createAuthorizationCodeForUser(User $user, Clients $oAuthClient): AuthorizationCode
+    public function findOrGenereateJWTToken(User $user): OAuth\Jwt
     {
-        $authorizationCode = new AuthorizationCode();
-        $authorizationCode->setUser($user);
-        $authorizationCode->setOAuthClient($oAuthClient);
-        $authorizationCode->setScope($oAuthClient->getScope());
-        $authorizationCode->setAuthorizationCode($this->generateAuthorizationCode());
-        $authorizationCode->setRedirectUri($oAuthClient->getRedirectUri());
+        $client = $this->findDefaultJWTClient();
 
-        $expireDate = new DateTimeImmutable(
-            sprintf('+ %d second', $this->moduleOptions->getAuthorizationCodeLifetime())
+        //Try to find an existing JWT
+        $jwt = $this->entityManager->getRepository(OAuth\Jwt::class)->findOneBy(
+            [
+                'client' => $client,
+                'user'   => $user
+            ]
         );
 
-        $authorizationCode->setExpires($expireDate);
-        $this->save($authorizationCode);
-
-        return $authorizationCode;
+        //Return token, or create new one if not found
+        return $jwt ?? $this->createJWTToken($user);
     }
 
-    protected function generateAuthorizationCode(): string
+    public function findDefaultJWTClient(): OAuth\Client
     {
-        $randomData = Rand::getBytes(500);
-        return substr(hash('sha512', $randomData), 0, 40);
-    }
-
-    public function findoAuthClientByClientId(string $clientId): Clients
-    {
-        $client = $this->entityManager->getRepository(Clients::class)->findOneBy(['clientId' => $clientId]);
+        $client = $this->entityManager->getRepository(OAuth\Client::class)->findOneBy(
+            [
+                'isJwt' => true,
+            ]
+        );
 
         if (null === $client) {
-            throw new InvalidArgumentException('The selected client cannot be found');
+            throw new \RuntimeException("No default JWT client created");
         }
 
         return $client;
     }
 
-    protected function generateAccessToken(): string
+    public function createJWTToken(User $user): OAuth\Jwt
     {
-        $randomData = Rand::getBytes(500);
-        return substr(hash('sha512', $randomData), 0, 40);
-    }
+        $client = $this->findDefaultJWTClient();
 
-    protected function generateRefreshToken(): string
-    {
-        $randomData = Rand::getBytes(500);
-        return substr(hash('sha512', $randomData), 0, 80);
+        $jwt = new OAuth\Jwt();
+        $jwt->setUser($user);
+        $jwt->setClient($client);
+
+        //We have the user now, so lets create a JWT for this guy
+        $payload = [
+            'id' => $user->getId()
+        ];
+
+        $token = (new Jwt())->encode($payload, $client->getJwtKey());
+        $jwt->setToken($token);
+
+        $this->save($jwt);
+
+        return $jwt;
     }
 }
