@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @ORM\Table(name="oauth_client")
+ * @ORM\Table(name="oauth_clients")
  * @ORM\Entity(repositoryClass="Api\Repository\OAuth\Client")
  */
 class Client extends AbstractEntity
