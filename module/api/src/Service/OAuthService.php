@@ -11,10 +11,8 @@ use OAuth2\Encryption\Jwt;
 
 class OAuthService extends AbstractService
 {
-    public function findOrGenereateJWTToken(User $user): OAuth\Jwt
+    public function findOrGenereateJWTToken(User $user, OAuth\Client $client): OAuth\Jwt
     {
-        $client = $this->findDefaultJWTClient();
-
         //Try to find an existing JWT
         $jwt = $this->entityManager->getRepository(OAuth\Jwt::class)->findOneBy(
             [
@@ -24,28 +22,11 @@ class OAuthService extends AbstractService
         );
 
         //Return token, or create new one if not found
-        return $jwt ?? $this->createJWTToken($user);
+        return $jwt ?? $this->createJWTToken($user, $client);
     }
 
-    public function findDefaultJWTClient(): OAuth\Client
+    public function createJWTToken(User $user, OAuth\Client $client): OAuth\Jwt
     {
-        $client = $this->entityManager->getRepository(OAuth\Client::class)->findOneBy(
-            [
-                'isJwt' => true,
-            ]
-        );
-
-        if (null === $client) {
-            throw new \RuntimeException("No default JWT client created");
-        }
-
-        return $client;
-    }
-
-    public function createJWTToken(User $user): OAuth\Jwt
-    {
-        $client = $this->findDefaultJWTClient();
-
         $jwt = new OAuth\Jwt();
         $jwt->setUser($user);
         $jwt->setClient($client);
@@ -61,5 +42,28 @@ class OAuthService extends AbstractService
         $this->save($jwt);
 
         return $jwt;
+    }
+
+    public function findClientByClientId(string $clientId): OAuth\Client
+    {
+        $client = $this->entityManager->getRepository(OAuth\Client::class)->findOneBy(
+            [
+                'clientId' => $clientId,
+            ]
+        );
+
+        if (null === $client) {
+            throw new \RuntimeException("No default JWT client created");
+        }
+
+        return $client;
+    }
+
+    public function findJWTTokenByToken(string $token): ?OAuth\Jwt
+    {
+        return $this->entityManager->getRepository(OAuth\Jwt::class)
+            ->findOneBy([
+                            'token' => $token
+                        ]);
     }
 }

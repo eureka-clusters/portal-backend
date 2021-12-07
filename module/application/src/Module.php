@@ -46,13 +46,20 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
             return;
         }
 
-        $jwt = new Jwt();
-
-
         /** @var OAuthService $oauthService */
         $oauthService = $this->container->get(OAuthService::class);
 
-        $tokenData = $jwt->decode($token, $oauthService->findDefaultJWTClient()->getJwtKey());
+        //Try to find the JWT Token
+        $jwtToken = $oauthService->findJWTTokenByToken($token);
+
+        if (null === $jwtToken) {
+            //We return nothing so the event manager continues to the next operation
+            $e->setIdentity($guest);
+            return $guest;
+        }
+
+        $jwt = new Jwt();
+        $tokenData = $jwt->decode($jwtToken, $jwtToken->getClient()?->getJwtKey());
 
         // If the token is invalid, give up
         if (!$tokenData) {

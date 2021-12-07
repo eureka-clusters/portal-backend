@@ -27,7 +27,8 @@ final class OAuth2Controller extends AbstractActionController
     public function loginAction(): Response
     {
         //Find the service
-        $service = $this->params('service');
+        $service  = $this->params('service');
+        $clientId = $this->getRequest()->getQuery('client');
 
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
@@ -44,6 +45,7 @@ final class OAuth2Controller extends AbstractActionController
         $session             = new Container('session');
         $session->authState  = $oAuthClient->getState();
         $session->service    = $service;
+        $session->clientId   = $clientId;
         $session->settings   = $settings['settings'];
         $session->profileUrl = $settings['profileUrl'] ?? null;
 
@@ -113,13 +115,15 @@ final class OAuth2Controller extends AbstractActionController
                     $session->settings['allowedClusters']
                 );
 
-                $client = $this->oAuthService->findDefaultJWTClient();
+                //Find the oAuth client to redirect to the frontend
+                $oAuthClient = $this->oAuthService->findClientByClientId($session->clientId);
+
                 //We need to find the client and we use the generic client
-                $token = $this->oAuthService->findOrGenereateJWTToken($user);
+                $token = $this->oAuthService->findOrGenereateJWTToken($user, $oAuthClient);
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    $client->getRedirectUri() . '?token=' . $token->getToken()
+                    $oAuthClient->getRedirectUri() . '?token=' . $token->getToken()
                 );
             } catch (IdentityProviderException $e) {
                 return $this->redirect()->toRoute('user/login');
