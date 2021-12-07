@@ -58,8 +58,8 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
             return $guest;
         }
 
-        $jwt = new Jwt();
-        $tokenData = $jwt->decode($jwtToken, $jwtToken->getClient()?->getJwtKey());
+        $jwt       = new Jwt();
+        $tokenData = $jwt->decode($jwtToken->getToken(), $jwtToken->getClient()?->getJwtKey());
 
         // If the token is invalid, give up
         if (!$tokenData) {
