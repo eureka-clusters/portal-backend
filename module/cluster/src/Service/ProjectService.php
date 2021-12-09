@@ -77,9 +77,9 @@ class ProjectService extends AbstractService
 
         return [
             'countries'          => $countriesIndexed,
-            'organisation_types' => $organisationTypesIndexed,
-            'project_status'     => $projectStatusIndexed,
-            'primary_clusters'   => $primaryClustersIndexed,
+            'organisationTypes' => $organisationTypesIndexed,
+            'projectStatus'     => $projectStatusIndexed,
+            'primaryClusters'   => $primaryClustersIndexed,
         ];
     }
 

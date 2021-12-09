@@ -111,12 +111,19 @@ class PartnerService extends AbstractService
             ];
         }, $projectStatuses);
 
+        $yearsIndexed = array_map(static function (array $years) {
+            return $years['year'];
+        }, $years);
+
+
+
         return [
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'primaryClusters'   => $primaryClustersIndexed,
-            'years'             => $years,
+            // 'years'             => $years,
+            'years'             => $yearsIndexed,
         ];
     }
 

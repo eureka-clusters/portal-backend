@@ -39,6 +39,6 @@ final class ProjectListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
 
-        return $this->projectService->generateFacets($user->getFunder(), $arrayFilter);
+        return [$this->projectService->generateFacets($user->getFunder(), $arrayFilter)];
     }
 }
