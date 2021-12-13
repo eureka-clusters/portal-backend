@@ -19,7 +19,7 @@ use function sprintf;
 
 class PartnerService extends AbstractService
 {
-    private CountryService $countryService;
+    private CountryService      $countryService;
     private OrganisationService $organisationService;
 
     public function __construct(

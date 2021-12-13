@@ -8,9 +8,11 @@ use Application\Service\AbstractService;
 use Cluster\Entity;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Project;
+use Cluster\Repository\ProjectRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
+use JetBrains\PhpStorm\Pure;
 use stdClass;
 
 use function array_map;
@@ -19,7 +21,7 @@ class ProjectService extends AbstractService
 {
     private ClusterService $clusterService;
 
-    public function __construct(EntityManager $entityManager, ClusterService $clusterService)
+    #[Pure] public function __construct(EntityManager $entityManager, ClusterService $clusterService)
     {
         parent::__construct($entityManager);
 
@@ -28,7 +30,10 @@ class ProjectService extends AbstractService
 
     public function getProjects(Funder $funder, array $filter): array
     {
-        return $this->entityManager->getRepository(Project::class)->getProjectsByFunderAndFilter($funder, $filter);
+        /** @var ProjectRepository $repository */
+        $repository = $this->entityManager->getRepository(Project::class);
+
+        return $repository->getProjectsByFunderAndFilter($funder, $filter);
     }
 
     public function generateFacets(Funder $funder, array $filter): array
@@ -76,7 +81,7 @@ class ProjectService extends AbstractService
         }, $projectStatuses);
 
         return [
-            'countries'          => $countriesIndexed,
+            'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'primaryClusters'   => $primaryClustersIndexed,
@@ -85,12 +90,12 @@ class ProjectService extends AbstractService
 
     public function findOrCreateProject(stdClass $data): Entity\Project
     {
-        $project = $this->findProjectByIdentifier($data->internal_identifier);
+        $project = $this->findProjectByIdentifier($data->internalIdentifier);
 
         //If we cannot find the project we create a new one. Only set the identifier as we will later overwrite/update the properties
         if (null === $project) {
             $project = new Entity\Project();
-            $project->setIdentifier($data->internal_identifier);
+            $project->setIdentifier($data->internalIdentifier);
         }
 
         $project->setNumber($data->project_number);

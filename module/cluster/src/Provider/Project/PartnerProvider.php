@@ -12,31 +12,28 @@ use Cluster\Service\Project\PartnerService;
 use Doctrine\Common\Cache\RedisCache;
 use InvalidArgumentException;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 use function sprintf;
 
 class PartnerProvider
 {
-    private RedisCache $redisCache;
-    private ProjectProvider $projectProvider;
-    private ContactProvider $contactProvider;
-    private OrganisationProvider $organisationProvider;
-    private PartnerService $partnerService;
-
     public function __construct(
-        RedisCache $redisCache,
-        ProjectProvider $projectProvider,
-        ContactProvider $contactProvider,
-        OrganisationProvider $organisationProvider,
-        PartnerService $partnerService
+        private RedisCache $redisCache,
+        private ProjectProvider $projectProvider,
+        private ContactProvider $contactProvider,
+        private OrganisationProvider $organisationProvider,
+        private PartnerService $partnerService
     ) {
-        $this->redisCache           = $redisCache;
-        $this->projectProvider      = $projectProvider;
-        $this->contactProvider      = $contactProvider;
-        $this->organisationProvider = $organisationProvider;
-        $this->partnerService       = $partnerService;
     }
 
-    public static function parseCoordinatorArray(Entity\Project\Partner $partner): array
+    #[ArrayShape(['id'               => "int",
+                  'organisation'     => "string",
+                  'isActive'         => "bool",
+                  'isSelfFunded'     => "bool",
+                  'isCoordinator'    => "bool",
+                  'technicalContact' => "array"
+    ])] public static function parseCoordinatorArray(Entity\Project\Partner $partner): array
     {
         if (! $partner->isCoordinator()) {
             throw new InvalidArgumentException(

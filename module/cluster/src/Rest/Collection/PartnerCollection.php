@@ -6,13 +6,14 @@ namespace Cluster\Rest\Collection;
 
 use Cluster\Entity;
 use Cluster\Provider\Project\PartnerProvider;
+use JetBrains\PhpStorm\Pure;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
 final class PartnerCollection extends ArrayAdapter
 {
     private PartnerProvider $partnerProvider;
 
-    public function __construct(array $array, PartnerProvider $partnerProvider)
+    #[Pure] public function __construct(array $array, PartnerProvider $partnerProvider)
     {
         parent::__construct($array);
 

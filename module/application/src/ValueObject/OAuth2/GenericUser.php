@@ -25,15 +25,15 @@ final class GenericUser
     public function __construct(stdClass $result)
     {
         $this->id                 = (string)$result->id;
-        $this->firstName          = $result->first_name;
+        $this->firstName          = $result->firstName;
         $this->cluster            = $result->cluster;
-        $this->clusterPermissions = (array)($result->cluster_permissions ?? []);
-        $this->lastName           = $result->last_name;
-        $this->isFunder           = $result->is_funder;
+        $this->clusterPermissions = (array)($result->clusterPermissions ?? []);
+        $this->lastName           = $result->lastName;
+        $this->isFunder           = $result->isFunder;
         $this->funder             = (array)($result->funder ?? []);
         $this->address            = (array)($result->address ?? []);
         $this->email              = $result->email;
-        $this->funderCountry      = $result->funder_country;
+        $this->funderCountry      = $result->funderCountry;
     }
 
     public static function fromJson(string $jsonString, array $allowedClusters): GenericUser
@@ -42,7 +42,7 @@ final class GenericUser
         $data = Json::decode($jsonString, Json::TYPE_ARRAY);
         // filter the cluster permissions
 
-        $data['cluster_permissions'] = array_intersect($data['cluster_permissions'], $allowedClusters);
+        $data['cluster_permissions'] = array_intersect($data['clusterPermissions'], $allowedClusters);
         return new self((object)$data);
     }
 

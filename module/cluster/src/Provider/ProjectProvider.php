@@ -14,27 +14,14 @@ use Doctrine\Common\Cache\RedisCache;
 
 class ProjectProvider
 {
-    private RedisCache $redisCache;
-    private VersionService $versionService;
-    private ClusterProvider $clusterProvider;
-    private ContactProvider $contactProvider;
-    private StatusProvider $projectStatusProvider;
-    private VersionProvider $versionProvider;
-
     public function __construct(
-        RedisCache $redisCache,
-        VersionService $versionService,
-        ClusterProvider $clusterProvider,
-        ContactProvider $contactProvider,
-        StatusProvider $projectStatusProvider,
-        VersionProvider $versionProvider
+        private RedisCache $redisCache,
+        private VersionService $versionService,
+        private ClusterProvider $clusterProvider,
+        private ContactProvider $contactProvider,
+        private StatusProvider $projectStatusProvider,
+        private VersionProvider $versionProvider
     ) {
-        $this->redisCache            = $redisCache;
-        $this->versionService        = $versionService;
-        $this->clusterProvider       = $clusterProvider;
-        $this->contactProvider       = $contactProvider;
-        $this->projectStatusProvider = $projectStatusProvider;
-        $this->versionProvider       = $versionProvider;
     }
 
     public function generateArray(Entity\Project $project): array
@@ -43,7 +30,7 @@ class ProjectProvider
 
         $projectData = $this->redisCache->fetch($cacheKey);
 
-        if (! $projectData) {
+        if (!$projectData) {
             $projectData = [
                 'slug'                     => $project->getSlug(),
                 'identifier'               => $project->getIdentifier(),
@@ -62,7 +49,7 @@ class ProjectProvider
                 'programme'                => $project->getProgramme(),
                 'programmeCall'            => $project->getProgrammeCall(),
                 'primaryCluster'           => $this->clusterProvider->generateArray($project->getPrimaryCluster()),
-                'secondaryCluster'         => ! $project->hasSecondaryCluster(
+                'secondaryCluster'         => !$project->hasSecondaryCluster(
                 ) ? null : $this->clusterProvider->generateArray(
                     $project->getSecondaryCluster()
                 ),
