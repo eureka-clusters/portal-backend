@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin\Service;
 
+use Admin\Entity\Api\Log;
 use Admin\Entity;
 use Application\Service\AbstractService;
 
@@ -17,7 +18,7 @@ class ApiService extends AbstractService
         string $status,
         ?string $response
     ): void {
-        $log = new Entity\Api\Log();
+        $log = new Log();
         $log->setClass($class);
         $log->setType($type);
         $log->setPayload($payload);

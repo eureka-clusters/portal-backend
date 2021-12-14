@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Cluster\Entity\Organisation;
 use Cluster\Entity;
 use Cluster\Provider\Organisation\TypeProvider;
 use Doctrine\Common\Cache\RedisCache;
 
 class OrganisationProvider
 {
-    private RedisCache $redisCache;
-    private CountryProvider $countryProvider;
-    private TypeProvider $typeProvider;
-
-    public function __construct(RedisCache $redisCache, CountryProvider $countryProvider, TypeProvider $typeProvider)
+    public function __construct(private RedisCache $redisCache, private CountryProvider $countryProvider, private TypeProvider $typeProvider)
     {
-        $this->redisCache      = $redisCache;
-        $this->countryProvider = $countryProvider;
-        $this->typeProvider    = $typeProvider;
     }
 
-    public function generateArray(Entity\Organisation $organisation): array
+    public function generateArray(Organisation $organisation): array
     {
         $cacheKey = $organisation->getResourceId();
 

@@ -20,7 +20,7 @@ final class GenericUser
     private bool    $isFunder;
     private array   $funder;
     private array   $address;
-    private ?string $funderCountry = null;
+    private ?string $funderCountry;
 
     public function __construct(stdClass $result)
     {
@@ -42,7 +42,7 @@ final class GenericUser
         $data = Json::decode($jsonString, Json::TYPE_ARRAY);
         // filter the cluster permissions
 
-        $data['cluster_permissions'] = array_intersect($data['clusterPermissions'], $allowedClusters);
+        $data['clusterPermissions'] = array_intersect($data['clusterPermissions'], $allowedClusters);
         return new self((object)$data);
     }
 

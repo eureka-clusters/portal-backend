@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Project;
 
-use Cluster\Entity;
+use Cluster\Entity\Project\Partner;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\Project\PartnerService;
 use Doctrine\Common\Cache\RedisCache;
 use InvalidArgumentException;
-
 use JetBrains\PhpStorm\ArrayShape;
 
 use function sprintf;
@@ -27,15 +26,16 @@ class PartnerProvider
     ) {
     }
 
-    #[ArrayShape(['id'               => "int",
-                  'organisation'     => "string",
-                  'isActive'         => "bool",
-                  'isSelfFunded'     => "bool",
-                  'isCoordinator'    => "bool",
-                  'technicalContact' => "array"
-    ])] public static function parseCoordinatorArray(Entity\Project\Partner $partner): array
+    #[ArrayShape([
+        'id'               => "int",
+        'organisation'     => "string",
+        'isActive'         => "bool",
+        'isSelfFunded'     => "bool",
+        'isCoordinator'    => "bool",
+        'technicalContact' => "array"
+    ])] public static function parseCoordinatorArray(Partner $partner): array
     {
-        if (! $partner->isCoordinator()) {
+        if (!$partner->isCoordinator()) {
             throw new InvalidArgumentException(
                 sprintf("%s in %s is no coordinator", $partner->getOrganisation(), $partner->getProject())
             );
@@ -51,12 +51,12 @@ class PartnerProvider
         ];
     }
 
-    public function generateArray(Entity\Project\Partner $partner): array
+    public function generateArray(Partner $partner): array
     {
         $cacheKey    = $partner->getResourceId();
         $partnerData = $this->redisCache->fetch($cacheKey);
 
-        if (! $partnerData) {
+        if (!$partnerData) {
             $partnerData = [
                 'id'                  => $partner->getId(),
                 'slug'                => $partner->getSlug(),
@@ -73,6 +73,32 @@ class PartnerProvider
                 'latestVersionEffort' => $this->partnerService->parseTotalEffortByPartnerAndLatestProjectVersion(
                     $partner,
                     $partner->getProject()->getLatestVersion()
+                ),
+            ];
+
+            $this->redisCache->save($cacheKey, $partnerData);
+        }
+
+        return $partnerData;
+    }
+
+    public function generateYearArray(Partner $partner, int $year): array
+    {
+        $cacheKey    = $partner->getResourceId() . $year;
+        $partnerData = $this->redisCache->fetch($cacheKey);
+
+        if (!$partnerData) {
+            $partnerData = [
+                'year'                       => $year,
+                'latestVersionTotalCostsInYear'   => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
+                    $partner,
+                    $partner->getProject()->getLatestVersion(),
+                    $year
+                ),
+                'latestVersionTotalEffortInYear' => $this->partnerService->parseTotalEffortByPartnerAndLatestProjectVersionAndYear(
+                    $partner,
+                    $partner->getProject()->getLatestVersion(),
+                    $year
                 ),
             ];
 

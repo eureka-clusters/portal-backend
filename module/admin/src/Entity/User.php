@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Api\Entity\OAuth\AccessToken;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Funder;
@@ -67,13 +69,13 @@ class User extends AbstractEntity
      *
      * @var Role[]|Collections\Collection
      */
-    private array|Collections\Collection $roles;
+    private array|Collection $roles;
     /**
      * @ORM\OneToMany(targetEntity="Admin\Entity\Session", mappedBy="user")
      *
      * @var Session[]|Collections\Collection
      */
-    private array|Collections\Collection $session;
+    private array|Collection $session;
     /**
      * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"})
      */
@@ -83,28 +85,28 @@ class User extends AbstractEntity
      *
      * @var AccessToken[]|Collections\Collection
      */
-    private array|Collections\Collection $oAuthAccessTokens;
+    private array|Collection $oAuthAccessTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", mappedBy="user", cascade={"persist"})
      */
-    private array|Collections\Collection $oAuthAuthorizationCodes;
+    private array|Collection $oAuthAuthorizationCodes;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", mappedBy="user", cascade={"persist"})
      */
-    private array|Collections\Collection $oAuthRefreshTokens;
+    private array|Collection $oAuthRefreshTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Jwt", mappedBy="user", cascade={"persist"})
      */
-    private array|Collections\Collection $oAuthJwt;
+    private array|Collection $oAuthJwt;
 
     #[Pure] public function __construct()
     {
-        $this->roles                   = new Collections\ArrayCollection();
-        $this->session                 = new Collections\ArrayCollection();
-        $this->oAuthAccessTokens       = new Collections\ArrayCollection();
-        $this->oAuthAuthorizationCodes = new Collections\ArrayCollection();
-        $this->oAuthRefreshTokens      = new Collections\ArrayCollection();
-        $this->oAuthJwt                = new Collections\ArrayCollection();
+        $this->roles                   = new ArrayCollection();
+        $this->session                 = new ArrayCollection();
+        $this->oAuthAccessTokens       = new ArrayCollection();
+        $this->oAuthAuthorizationCodes = new ArrayCollection();
+        $this->oAuthRefreshTokens      = new ArrayCollection();
+        $this->oAuthJwt                = new ArrayCollection();
     }
 
     public function getRolesAsArray(): array
@@ -121,13 +123,11 @@ class User extends AbstractEntity
     {
         return null !== $this->getRoles()
             && $this->getRoles()->exists(
-                static function ($key, Role $role) use ($userRole) {
-                    return $role->getId() === $userRole->getId();
-                }
+                static fn($key, Role $role) => $role->getId() === $userRole->getId()
             );
     }
 
-    public function getRoles(): Collections\ArrayCollection|array
+    public function getRoles(): ArrayCollection|array
     {
         return $this->roles;
     }
@@ -231,7 +231,7 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getSession(): array|Collections\Collection
+    public function getSession(): array|Collection
     {
         return $this->session;
     }
@@ -242,7 +242,7 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthAccessTokens(): array|Collections\Collection
+    public function getOAuthAccessTokens(): array|Collection
     {
         return $this->oAuthAccessTokens;
     }
@@ -253,7 +253,7 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthAuthorizationCodes(): Collections\Collection|array
+    public function getOAuthAuthorizationCodes(): Collection|array
     {
         return $this->oAuthAuthorizationCodes;
     }
@@ -264,7 +264,7 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthRefreshTokens(): Collections\ArrayCollection|array
+    public function getOAuthRefreshTokens(): ArrayCollection|array
     {
         return $this->oAuthRefreshTokens;
     }
@@ -286,12 +286,12 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthJwt(): Collections\Collection|array
+    public function getOAuthJwt(): Collection|array
     {
         return $this->oAuthJwt;
     }
 
-    public function setOAuthJwt(Collections\Collection|array $oAuthJwt): User
+    public function setOAuthJwt(Collection|array $oAuthJwt): User
     {
         $this->oAuthJwt = $oAuthJwt;
         return $this;

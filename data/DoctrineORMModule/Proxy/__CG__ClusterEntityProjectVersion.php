@@ -249,6 +249,28 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
+    public function getCostsAndEffort(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCostsAndEffort', []);
+
+        return parent::getCostsAndEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCostsAndEffort(\Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection $costsAndEffort): \Cluster\Entity\Project\Version
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCostsAndEffort', [$costsAndEffort]);
+
+        return parent::setCostsAndEffort($costsAndEffort);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getSubmissionDate(): \DateTime
     {
 
@@ -354,28 +376,6 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCountries', [$countries]);
 
         return parent::setCountries($countries);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCostsAndEffort()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCostsAndEffort', []);
-
-        return parent::getCostsAndEffort();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCostsAndEffort($costsAndEffort): \Cluster\Entity\Project\Version
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCostsAndEffort', [$costsAndEffort]);
-
-        return parent::setCostsAndEffort($costsAndEffort);
     }
 
     /**

@@ -6,12 +6,13 @@ namespace Cluster\Entity\Project;
 
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project;
-use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Entity\Version\Status;
 use Cluster\Entity\Version\Type;
 use DateTime;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project_version")
@@ -37,10 +38,8 @@ class Version extends AbstractEntity
     private Type $type;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist", "remove"}, mappedBy="version")
-     *
-     * @var CostsAndEffort[]|Collections\ArrayCollection
      */
-    private $costsAndEffort;
+    private Collection $costsAndEffort;
     /** @ORM\Column(type="date", nullable=true) */
     private DateTime $submissionDate;
     /**
@@ -55,9 +54,9 @@ class Version extends AbstractEntity
     /** @ORM\Column(type="array") */
     private array $countries = [];
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->costsAndEffort = new Collections\ArrayCollection();
+        $this->costsAndEffort = new ArrayCollection();
     }
 
     public function getId(): int
@@ -90,6 +89,17 @@ class Version extends AbstractEntity
     public function setType(Type $type): Version
     {
         $this->type = $type;
+        return $this;
+    }
+
+    public function getCostsAndEffort(): ArrayCollection|Collection
+    {
+        return $this->costsAndEffort;
+    }
+
+    public function setCostsAndEffort(ArrayCollection|Collection $costsAndEffort): Version
+    {
+        $this->costsAndEffort = $costsAndEffort;
         return $this;
     }
 
@@ -145,17 +155,6 @@ class Version extends AbstractEntity
     public function setCountries(array $countries): Version
     {
         $this->countries = $countries;
-        return $this;
-    }
-
-    public function getCostsAndEffort()
-    {
-        return $this->costsAndEffort;
-    }
-
-    public function setCostsAndEffort($costsAndEffort): Version
-    {
-        $this->costsAndEffort = $costsAndEffort;
         return $this;
     }
 }

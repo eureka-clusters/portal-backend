@@ -17,18 +17,8 @@ use const JSON_THROW_ON_ERROR;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $projectService;
-    private UserService $userService;
-    private ProjectProvider $projectProvider;
-
-    public function __construct(
-        ProjectService $projectService,
-        UserService $userService,
-        ProjectProvider $projectProvider
-    ) {
-        $this->projectService  = $projectService;
-        $this->userService     = $userService;
-        $this->projectProvider = $projectProvider;
+    public function __construct(private ProjectService $projectService, private UserService $userService, private ProjectProvider $projectProvider)
+    {
     }
 
     public function fetchAll($params = [])

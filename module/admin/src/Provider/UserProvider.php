@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin\Provider;
 
+use Admin\Entity\User;
 use Admin\Entity;
 use Cluster\Entity\Cluster;
 
@@ -11,7 +12,7 @@ use function array_merge;
 
 class UserProvider
 {
-    public function generateArray(Entity\User $user): array
+    public function generateArray(User $user): array
     {
         return array_merge(
             [

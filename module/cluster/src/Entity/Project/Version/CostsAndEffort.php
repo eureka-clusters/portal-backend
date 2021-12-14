@@ -49,23 +49,23 @@ class CostsAndEffort
         return $this;
     }
 
-    public function getPartner(): Project\Partner
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
 
-    public function setPartner(Project\Partner $partner): CostsAndEffort
+    public function setPartner(Partner $partner): CostsAndEffort
     {
         $this->partner = $partner;
         return $this;
     }
 
-    public function getVersion(): Project\Version
+    public function getVersion(): Version
     {
         return $this->version;
     }
 
-    public function setVersion(Project\Version $version): CostsAndEffort
+    public function setVersion(Version $version): CostsAndEffort
     {
         $this->version = $version;
         return $this;

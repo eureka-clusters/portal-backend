@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
+use JetBrains\PhpStorm\Pure;
+use Stringable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections;
@@ -18,7 +22,7 @@ use function in_array;
  *
  * @Annotation\Name("admin_role")
  */
-class Role extends AbstractEntity
+class Role extends AbstractEntity implements Stringable
 {
     public const ROLE_ADMIN  = 1;
     public const ROLE_USER   = 2;
@@ -37,28 +41,25 @@ class Role extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @Annotation\Exclude()
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
     /**
      * @ORM\Column(type="string",length=255,nullable=false)
      *
      * @Annotation\Type("\Laminas\Form\Element\Text")
      * @Annotation\Options({"label":"txt-role-description","help-block":"txt-role-description-help-block"})
-     * @var string
      */
-    private $description;
+    private ?string $description = null;
     /**
      * @ORM\ManyToMany(targetEntity="Admin\Entity\User", mappedBy="roles", cascade={"persist"})
      *
      * @Annotation\Exclude()
-     * @var User[]|Collections\ArrayCollection
      */
-    private $users;
+    private Collection $users;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->users = new Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function isLocked(): bool
@@ -98,7 +99,7 @@ class Role extends AbstractEntity
         return $this;
     }
 
-    public function getUsers()
+    public function getUsers(): ArrayCollection|Collection
     {
         return $this->users;
     }

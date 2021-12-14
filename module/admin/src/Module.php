@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Admin;
 
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use Laminas\ModuleManager\Feature;
 
-class Module implements Feature\ConfigProviderInterface
+class Module implements ConfigProviderInterface
 {
     public function getConfig(): array
     {

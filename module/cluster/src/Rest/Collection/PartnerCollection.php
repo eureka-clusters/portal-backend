@@ -11,13 +11,9 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 
 final class PartnerCollection extends ArrayAdapter
 {
-    private PartnerProvider $partnerProvider;
-
-    #[Pure] public function __construct(array $array, PartnerProvider $partnerProvider)
+    #[Pure] public function __construct(array $array, private PartnerProvider $partnerProvider)
     {
         parent::__construct($array);
-
-        $this->partnerProvider = $partnerProvider;
     }
 
     public function getItems($offset, $itemCountPerPage): array

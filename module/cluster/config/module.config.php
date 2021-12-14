@@ -4,6 +4,22 @@ declare(strict_types=1);
 
 namespace Cluster;
 
+use Cluster\Provider\ClusterProvider;
+use Cluster\Provider\OrganisationProvider;
+use Cluster\Provider\Organisation\TypeProvider;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Provider\Project\StatusProvider;
+use Cluster\Provider\Project\VersionProvider;
+use Cluster\Provider\CountryProvider;
+use Cluster\Service\ClusterService;
+use Cluster\Service\CountryService;
+use Cluster\Service\OrganisationService;
+use Cluster\Service\ProjectService;
+use Cluster\Service\Project\VersionService;
+use Cluster\Service\Project\PartnerService;
+use Laminas\Stdlib\Glob;
+use Laminas\Stdlib\ArrayUtils;
 use Cluster\Provider\ContactProvider;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
@@ -12,22 +28,22 @@ use Laminas\Stdlib;
 $config = [
     'service_manager' => [
         'factories'  => [
-            Provider\ClusterProvider::class           => ConfigAbstractFactory::class,
-            Provider\OrganisationProvider::class      => ConfigAbstractFactory::class,
-            Provider\Organisation\TypeProvider::class => ConfigAbstractFactory::class,
-            Provider\ProjectProvider::class           => ConfigAbstractFactory::class,
-            Provider\Project\PartnerProvider::class   => ConfigAbstractFactory::class,
-            Provider\Project\StatusProvider::class    => ConfigAbstractFactory::class,
-            Provider\Project\VersionProvider::class   => ConfigAbstractFactory::class,
+            ClusterProvider::class           => ConfigAbstractFactory::class,
+            OrganisationProvider::class      => ConfigAbstractFactory::class,
+            TypeProvider::class => ConfigAbstractFactory::class,
+            ProjectProvider::class           => ConfigAbstractFactory::class,
+            PartnerProvider::class   => ConfigAbstractFactory::class,
+            StatusProvider::class    => ConfigAbstractFactory::class,
+            VersionProvider::class   => ConfigAbstractFactory::class,
             Provider\Version\StatusProvider::class    => ConfigAbstractFactory::class,
             Provider\Version\TypeProvider::class      => ConfigAbstractFactory::class,
-            Provider\CountryProvider::class           => ConfigAbstractFactory::class,
-            Service\ClusterService::class             => ConfigAbstractFactory::class,
-            Service\CountryService::class             => ConfigAbstractFactory::class,
-            Service\OrganisationService::class        => ConfigAbstractFactory::class,
-            Service\ProjectService::class             => ConfigAbstractFactory::class,
-            Service\Project\VersionService::class     => ConfigAbstractFactory::class,
-            Service\Project\PartnerService::class     => ConfigAbstractFactory::class,
+            CountryProvider::class           => ConfigAbstractFactory::class,
+            ClusterService::class             => ConfigAbstractFactory::class,
+            CountryService::class             => ConfigAbstractFactory::class,
+            OrganisationService::class        => ConfigAbstractFactory::class,
+            ProjectService::class             => ConfigAbstractFactory::class,
+            VersionService::class     => ConfigAbstractFactory::class,
+            PartnerService::class     => ConfigAbstractFactory::class,
         ],
         'invokables' => [
             ContactProvider::class,
@@ -47,7 +63,7 @@ $config = [
         ],
     ],
 ];
-foreach (Stdlib\Glob::glob(__DIR__ . '/module.config.{,*}.php', Stdlib\Glob::GLOB_BRACE) as $file) {
-    $config = Stdlib\ArrayUtils::merge($config, include $file);
+foreach (Glob::glob(__DIR__ . '/module.config.{,*}.php', Glob::GLOB_BRACE) as $file) {
+    $config = ArrayUtils::merge($config, include $file);
 }
 return $config;

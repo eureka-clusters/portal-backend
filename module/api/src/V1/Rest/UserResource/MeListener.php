@@ -11,13 +11,8 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class MeListener extends AbstractResourceListener
 {
-    private UserService $userService;
-    private UserProvider $userProvider;
-
-    public function __construct(UserService $userService, UserProvider $userProvider)
+    public function __construct(private UserService $userService, private UserProvider $userProvider)
     {
-        $this->userService  = $userService;
-        $this->userProvider = $userProvider;
     }
 
     public function fetch($id)

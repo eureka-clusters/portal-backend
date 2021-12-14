@@ -227,7 +227,7 @@ class Status extends \Cluster\Entity\Version\Status implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
-    public function getVersions()
+    public function getVersions(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersions', []);

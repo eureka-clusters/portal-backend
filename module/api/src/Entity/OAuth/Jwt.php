@@ -24,7 +24,7 @@ class Jwt extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Client", cascade={"persist"}, inversedBy="jwt")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?\Api\Entity\OAuth\Client $client = null;
+    private ?Client $client = null;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthJwt")
      * @ORM\JoinColumn(nullable=false)

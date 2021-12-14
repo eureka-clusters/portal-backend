@@ -29,15 +29,15 @@ class AuthorizationCode extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private ?User $user;
+    private ?User $user = null;
     /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
     /** @ORM\Column(name="redirect_uri", length=2000, type="string") */
     private string $redirectUri;
     /** @ORM\Column(name="scope", length=2000, type="string", nullable=true) */
-    private ?string $scope;
+    private ?string $scope = null;
     /** @ORM\Column(name="id_token", length=2000, type="string", nullable=true) */
-    private ?string $idToken;
+    private ?string $idToken = null;
 
     public function getId(): ?int
     {

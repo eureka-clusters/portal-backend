@@ -227,7 +227,7 @@ class Type extends \Cluster\Entity\Organisation\Type implements \Doctrine\ORM\Pr
     /**
      * {@inheritDoc}
      */
-    public function getOrganisations()
+    public function getOrganisations(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrganisations', []);

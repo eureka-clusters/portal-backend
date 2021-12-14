@@ -7,10 +7,11 @@ namespace Cluster\Entity\Project;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
-use Cluster\Entity\Project\Version\CostsAndEffort;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project_partner")
@@ -24,19 +25,16 @@ class Partner extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation", inversedBy="partners", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Organisation $organisation;
-
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", inversedBy="partners", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Project $project;
-
     /**
      * @ORM\Column(unique=true)
      *
@@ -58,24 +56,22 @@ class Partner extends AbstractEntity
     private array $technicalContact = [];
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist"}, mappedBy="partner")
-     *
-     * @var CostsAndEffort[]|ArrayCollection
      */
-    private $costsAndEffort;
+    private Collection $costsAndEffort;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->costsAndEffort = new ArrayCollection();
     }
 
-    public function getProject(): Project
+    public function getId(): int
     {
-        return $this->project;
+        return $this->id;
     }
 
-    public function setProject(Project $project): Partner
+    public function setId(int $id): Partner
     {
-        $this->project = $project;
+        $this->id = $id;
         return $this;
     }
 
@@ -90,14 +86,14 @@ class Partner extends AbstractEntity
         return $this;
     }
 
-    public function getId(): int
+    public function getProject(): Project
     {
-        return $this->id;
+        return $this->project;
     }
 
-    public function setId(int $id): Partner
+    public function setProject(Project $project): Partner
     {
-        $this->id = $id;
+        $this->project = $project;
         return $this;
     }
 
@@ -109,6 +105,28 @@ class Partner extends AbstractEntity
     public function setSlug(string $slug): Partner
     {
         $this->slug = $slug;
+        return $this;
+    }
+
+    public function getOrganisationName(): string
+    {
+        return $this->organisationName;
+    }
+
+    public function setOrganisationName(string $organisationName): Partner
+    {
+        $this->organisationName = $organisationName;
+        return $this;
+    }
+
+    public function getProjectName(): string
+    {
+        return $this->projectName;
+    }
+
+    public function setProjectName(string $projectName): Partner
+    {
+        $this->projectName = $projectName;
         return $this;
     }
 
@@ -156,26 +174,14 @@ class Partner extends AbstractEntity
         return $this;
     }
 
-    public function getCostsAndEffort()
+    public function getCostsAndEffort(): ArrayCollection|Collection
     {
         return $this->costsAndEffort;
     }
 
-    public function setCostsAndEffort($costsAndEffort): Partner
+    public function setCostsAndEffort(ArrayCollection|Collection $costsAndEffort): Partner
     {
         $this->costsAndEffort = $costsAndEffort;
-        return $this;
-    }
-
-    public function setOrganisationName(string $organisationName): Partner
-    {
-        $this->organisationName = $organisationName;
-        return $this;
-    }
-
-    public function setProjectName(string $projectName): Partner
-    {
-        $this->projectName = $projectName;
         return $this;
     }
 }

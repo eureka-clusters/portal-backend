@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace Cluster\Service\Project;
 
 use Application\Service\AbstractService;
-use Cluster\Entity;
 use Cluster\Entity\Funder;
+use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Project\Version;
+use Cluster\Entity\Project\Version\CostsAndEffort;
+use Cluster\Repository\Project\PartnerRepository;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
 use Doctrine\ORM\EntityManager;
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use stdClass;
 
 use function array_map;
@@ -19,102 +24,80 @@ use function sprintf;
 
 class PartnerService extends AbstractService
 {
-    private CountryService      $countryService;
-    private OrganisationService $organisationService;
-
-    public function __construct(
+    #[Pure] public function __construct(
         EntityManager $entityManager,
-        CountryService $countryService,
-        OrganisationService $organisationService
+        private CountryService $countryService,
+        private OrganisationService $organisationService
     ) {
         parent::__construct($entityManager);
-
-        $this->countryService      = $countryService;
-        $this->organisationService = $organisationService;
     }
 
-    public function findPartnerById(int $id): ?Entity\Project\Partner
+    public function findPartnerById(int $id): ?Partner
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->find($id);
+        return $this->entityManager->getRepository(Partner::class)->find($id);
     }
 
-    public function findPartnerBySlug(string $slug): ?Entity\Project\Partner
+    public function findPartnerBySlug(string $slug): ?Partner
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->findOneBy(['slug' => $slug]);
+        return $this->entityManager->getRepository(Partner::class)->findOneBy(['slug' => $slug]);
     }
 
     public function getPartners(Funder $funder, array $filter): array
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByFunderAndFilter(
-            $funder,
-            $filter
-        );
+        /** @var PartnerRepository $repository */
+        $repository = $this->entityManager->getRepository(Partner::class);
+
+        return $repository->getPartnersByFunderAndFilter($funder, $filter);
     }
 
     public function getPartnersByProject(Project $project): array
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByProject($project);
+        /** @var PartnerRepository $repository */
+        $repository = $this->entityManager->getRepository(Partner::class);
+
+        return $repository->getPartnersByProject($project);
     }
 
-    public function getPartnersByOrganisation(Entity\Organisation $organisation): array
+    public function getPartnersByOrganisation(Organisation $organisation): array
     {
-        return $this->entityManager->getRepository(Entity\Project\Partner::class)->getPartnersByOrganisation(
-            $organisation
-        );
+        /** @var PartnerRepository $repository */
+        $repository = $this->entityManager->getRepository(Partner::class);
+
+        return $repository->getPartnersByOrganisation($organisation);
     }
 
     public function generateFacets(Funder $funder, array $filter): array
     {
-        $countries         = $this->entityManager->getRepository(Project\Partner::class)->fetchCountries(
-            $funder,
-            $filter
-        );
-        $organisationTypes = $this->entityManager->getRepository(Project\Partner::class)->fetchOrganisationTypes(
-            $funder,
-            $filter
-        );
-        $primaryClusters   = $this->entityManager->getRepository(Project\Partner::class)->fetchPrimaryClusters(
-            $funder,
-            $filter
-        );
-        $projectStatuses   = $this->entityManager->getRepository(Project\Partner::class)->fetchProjectStatuses(
-            $funder,
-            $filter
-        );
-        $years             = $this->entityManager->getRepository(Project\Partner::class)->fetchYears($funder);
+        /** @var PartnerRepository $repository */
+        $repository = $this->entityManager->getRepository(Partner::class);
 
-        $countriesIndexed = array_map(static function (array $country) {
-            return [
-                'name'   => $country['country'],
-                'amount' => $country[1],
-            ];
-        }, $countries);
+        $countries         = $repository->fetchCountries($funder, $filter);
+        $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
+        $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
+        $years             = $repository->fetchYears($funder);
 
-        $organisationTypesIndexed = array_map(static function (array $partnerType) {
-            return [
-                'name'   => $partnerType['type'],
-                'amount' => $partnerType[1],
-            ];
-        }, $organisationTypes);
+        $countriesIndexed = array_map(static fn(array $country) => [
+            'name'   => $country['country'],
+            'amount' => $country[1],
+        ], $countries);
 
-        $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
-            return [
-                'name'   => $primaryCluster['name'],
-                'amount' => $primaryCluster[1],
-            ];
-        }, $primaryClusters);
+        $organisationTypesIndexed = array_map(static fn(array $partnerType) => [
+            'name'   => $partnerType['type'],
+            'amount' => $partnerType[1],
+        ], $organisationTypes);
 
-        $projectStatusIndexed = array_map(static function (array $projectStatus) {
-            return [
-                'name'   => $projectStatus['status'],
-                'amount' => $projectStatus[1],
-            ];
-        }, $projectStatuses);
+        $primaryClustersIndexed = array_map(static fn(array $primaryCluster) => [
+            'name'   => $primaryCluster['name'],
+            'amount' => $primaryCluster[1],
+        ], $primaryClusters);
 
-        $yearsIndexed = array_map(static function (array $years) {
-            return $years['year'];
-        }, $years);
+        $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
+            'name'   => $projectStatus['status'],
+            'amount' => $projectStatus[1],
+        ], $projectStatuses);
 
+        $yearsIndexed = array_map(static fn(array $years) => $years['year'], $years);
 
 
         return [
@@ -122,12 +105,11 @@ class PartnerService extends AbstractService
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'primaryClusters'   => $primaryClustersIndexed,
-            // 'years'             => $years,
             'years'             => $yearsIndexed,
         ];
     }
 
-    public function findOrCreatePartner(stdClass $data, Entity\Project $project): Entity\Project\Partner
+    public function findOrCreatePartner(stdClass $data, Project $project): Partner
     {
         //Find the country first
         $country = $this->countryService->findCountryByCd($data->country);
@@ -137,17 +119,17 @@ class PartnerService extends AbstractService
         }
 
         //Find the type
-        $type = $this->organisationService->findOrCreateOrganisationType($data->partner_type);
+        $type = $this->organisationService->findOrCreateOrganisationType($data->type);
 
         $organisation = $this->organisationService->findOrCreateOrganisation($data->partner, $country, $type);
 
         //Check if we already have this partner
-        $partner = $this->entityManager->getRepository(Entity\Project\Partner::class)->findOneBy(
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneBy(
             ['project' => $project, 'organisation' => $organisation]
         );
 
         if (null === $partner) {
-            $partner = new Entity\Project\Partner();
+            $partner = new Partner();
             $partner->setOrganisation($organisation);
 
             //Save the projectName and PartnerName for slug creation
@@ -155,10 +137,10 @@ class PartnerService extends AbstractService
             $partner->setOrganisationName($organisation->getName());
 
             $partner->setProject($project);
-            $partner->setIsActive($data->active);
-            $partner->setIsCoordinator($data->coordinator);
-            $partner->setIsSelfFunded($data->self_funded);
-            $partner->setTechnicalContact($data->technical_contact);
+            $partner->setIsActive($data->isActive);
+            $partner->setIsCoordinator($data->isCoordinator);
+            $partner->setIsSelfFunded($data->isSelfFunded);
+            $partner->setTechnicalContact($data->technicalContact);
 
             $this->save($partner);
         }
@@ -167,20 +149,45 @@ class PartnerService extends AbstractService
     }
 
     public function parseTotalCostsByPartnerAndLatestProjectVersion(
-        Entity\Project\Partner $partner,
-        Entity\Project\Version $projectVersion
+        Partner $partner,
+        Version $projectVersion
     ): float {
-        $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
 
         return $repository->parseTotalCostsByPartnerAndLatestProjectVersion($partner, $projectVersion);
     }
 
-    public function parseTotalEffortByPartnerAndLatestProjectVersion(
-        Entity\Project\Partner $partner,
-        Entity\Project\Version $projectVersion
+    public function parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
+        Partner $partner,
+        Version $projectVersion,
+        int $year
     ): float {
-        $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
+
+        return $repository->parseTotalCostsByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+    }
+
+    public function parseTotalEffortByPartnerAndLatestProjectVersion(
+        Partner $partner,
+        Version $projectVersion
+    ): float {
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
 
         return $repository->parseTotalEffortByPartnerAndLatestProjectVersion($partner, $projectVersion);
     }
+
+    public function parseTotalEffortByPartnerAndLatestProjectVersionAndYear(
+        Partner $partner,
+        Version $projectVersion,
+        int $year
+    ): float {
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
+
+        return $repository->parseTotalEffortByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+    }
+
 }

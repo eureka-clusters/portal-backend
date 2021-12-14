@@ -6,17 +6,14 @@ namespace Cluster\Rest\Collection;
 
 use Cluster\Entity;
 use Cluster\Provider\OrganisationProvider;
+use JetBrains\PhpStorm\Pure;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
 final class OrganisationCollection extends ArrayAdapter
 {
-    private OrganisationProvider $organisationProvider;
-
-    public function __construct(array $array, OrganisationProvider $organisationProvider)
+    #[Pure] public function __construct(array $array, private OrganisationProvider $organisationProvider)
     {
         parent::__construct($array);
-
-        $this->organisationProvider = $organisationProvider;
     }
 
     public function getItems($offset, $itemCountPerPage): array

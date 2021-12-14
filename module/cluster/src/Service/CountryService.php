@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
+use Cluster\Entity\Country;
 use Application\Service\AbstractService;
 use Cluster\Entity;
 
 class CountryService extends AbstractService
 {
-    public function findCountryById(int $id): ?Entity\Country
+    public function findCountryById(int $id): ?Country
     {
-        return $this->entityManager->find(Entity\Country::class, $id);
+        return $this->entityManager->find(Country::class, $id);
     }
 
-    public function findCountryByCd(string $cd): ?Entity\Country
+    public function findCountryByCd(string $cd): ?Country
     {
-        return $this->entityManager->getRepository(Entity\Country::class)->findOneBy(['cd' => $cd]);
+        return $this->entityManager->getRepository(Country::class)->findOneBy(['cd' => $cd]);
     }
 }

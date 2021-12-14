@@ -7,7 +7,9 @@ namespace Cluster\Entity;
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_funder")
@@ -38,12 +40,10 @@ class Funder extends AbstractEntity
      *      joinColumns={@ORM\JoinColumn(nullable=false)},
      *      inverseJoinColumns={@ORM\JoinColumn(nullable=false)}
      * )
-     *
-     * @var Cluster[]|ArrayCollection
      */
-    private $clusters;
+    private Collection $clusters;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->clusters = new ArrayCollection();
     }
@@ -81,36 +81,14 @@ class Funder extends AbstractEntity
         return $this;
     }
 
-    public function getClusters()
+    public function getClusters(): ArrayCollection|Collection
     {
         return $this->clusters;
     }
 
-    public function setClusters($clusters): Funder
+    public function setClusters(ArrayCollection|Collection $clusters): Funder
     {
         $this->clusters = $clusters;
         return $this;
     }
-
-//    public function addCluster(Cluster $cluster)
-//    {
-//        if ($this->clusters->contains($cluster)) {
-//            return;
-//        }
-//        $this->clusters->add($cluster);
-//        $cluster->addFunder($this);
-//    }
-
-//    /**
-//     * @param Cluster $cluster
-//     */
-//    public function removeCluster(Cluster $cluster)
-//    {
-//        if (!$this->clusters->contains($cluster)) {
-//            return;
-//        }
-//
-//        $this->clusters->removeElement($cluster);
-//        $cluster->removeCluster($this);
-//    }
 }

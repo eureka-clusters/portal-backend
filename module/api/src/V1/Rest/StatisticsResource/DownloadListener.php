@@ -18,30 +18,20 @@ use function ob_start;
 
 use const JSON_THROW_ON_ERROR;
 
-/**
- * @deprecated
- */
 final class DownloadListener extends AbstractResourceListener
 {
-    private UserService $userService;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        UserService $userService,
-        TranslatorInterface $translator
-    ) {
-        $this->userService = $userService;
-        $this->translator  = $translator;
+    public function __construct(private UserService $userService, private TranslatorInterface $translator)
+    {
     }
 
     public function fetch($id = null)
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
-        if (null === $user || ! $user->isFunder()) {
+        if (null === $user || !$user->isFunder()) {
             return [];
         }
-        $output        = (int) $id;
+        $output        = (int)$id;
         $encodedFilter = $this->getEvent()->getRouteMatch()->getParam('filter');
 
         //The filter is a base64 encoded serialised json string

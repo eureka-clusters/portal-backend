@@ -293,7 +293,7 @@ class Organisation extends \Cluster\Entity\Organisation implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getPartners()
+    public function getPartners(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPartners', []);
@@ -304,7 +304,7 @@ class Organisation extends \Cluster\Entity\Organisation implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function setPartners($partners)
+    public function setPartners(\Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection $partners): \Cluster\Entity\Organisation
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPartners', [$partners]);

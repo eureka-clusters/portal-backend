@@ -249,7 +249,7 @@ class Funder extends \Cluster\Entity\Funder implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getClusters()
+    public function getClusters(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClusters', []);
@@ -260,7 +260,7 @@ class Funder extends \Cluster\Entity\Funder implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setClusters($clusters): \Cluster\Entity\Funder
+    public function setClusters(\Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection $clusters): \Cluster\Entity\Funder
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClusters', [$clusters]);

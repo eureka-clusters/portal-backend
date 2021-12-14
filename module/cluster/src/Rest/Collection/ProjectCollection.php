@@ -6,17 +6,14 @@ namespace Cluster\Rest\Collection;
 
 use Cluster\Entity;
 use Cluster\Provider\ProjectProvider;
+use JetBrains\PhpStorm\Pure;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
 final class ProjectCollection extends ArrayAdapter
 {
-    private ProjectProvider $projectProvider;
-
-    public function __construct(array $array, ProjectProvider $projectProvider)
+    #[Pure] public function __construct(array $array, private ProjectProvider $projectProvider)
     {
         parent::__construct($array);
-
-        $this->projectProvider = $projectProvider;
     }
 
     public function getItems($offset, $itemCountPerPage): array

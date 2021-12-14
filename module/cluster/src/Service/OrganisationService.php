@@ -4,28 +4,31 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
+use Cluster\Entity\Organisation;
+use Cluster\Entity\Organisation\Type;
+use Cluster\Entity\Country;
 use Application\Service\AbstractService;
 use Cluster\Entity;
 
 class OrganisationService extends AbstractService
 {
-    public function findOrganisationById(int $id): ?Entity\Organisation
+    public function findOrganisationById(int $id): ?Organisation
     {
-        return $this->entityManager->getRepository(Entity\Organisation::class)->find($id);
+        return $this->entityManager->getRepository(Organisation::class)->find($id);
     }
 
-    public function findOrganisationBySlug(string $slug): ?Entity\Organisation
+    public function findOrganisationBySlug(string $slug): ?Organisation
     {
-        return $this->entityManager->getRepository(Entity\Organisation::class)->findOneBy(['slug' => $slug]);
+        return $this->entityManager->getRepository(Organisation::class)->findOneBy(['slug' => $slug]);
     }
 
-    public function findOrCreateOrganisationType(string $typeName): Entity\Organisation\Type
+    public function findOrCreateOrganisationType(string $typeName): Type
     {
-        $type = $this->entityManager->getRepository(Entity\Organisation\Type::class)
+        $type = $this->entityManager->getRepository(Type::class)
             ->findOneBy(['type' => $typeName]);
 
         if (null === $type) {
-            $type = new Entity\Organisation\Type();
+            $type = new Type();
             $type->setType($typeName);
             $this->save($type);
         }
@@ -35,20 +38,20 @@ class OrganisationService extends AbstractService
 
     public function getOrganisations(array $filter): array
     {
-        return $this->entityManager->getRepository(Entity\Organisation::class)->getOrganisationsByFilter($filter);
+        return $this->entityManager->getRepository(Organisation::class)->getOrganisationsByFilter($filter);
     }
 
     public function findOrCreateOrganisation(
         string $name,
-        Entity\Country $country,
-        Entity\Organisation\Type $type
-    ): Entity\Organisation {
-        $organisation = $this->entityManager->getRepository(Entity\Organisation::class)
+        Country $country,
+        Type $type
+    ): Organisation {
+        $organisation = $this->entityManager->getRepository(Organisation::class)
             ->findOneBy(['name' => $name, 'country' => $country, 'type' => $type]);
 
         //If we cannot find the project we create a new one. Only set the identifier as we will later overwrite/update the properties
         if (null === $organisation) {
-            $organisation = new Entity\Organisation();
+            $organisation = new Organisation();
             $organisation->setName($name);
             $organisation->setCountry($country);
             $organisation->setType($type);

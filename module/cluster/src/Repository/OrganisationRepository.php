@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
+use Cluster\Entity\Organisation;
 use Cluster\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,7 +15,7 @@ class OrganisationRepository extends EntityRepository
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('cluster_entity_organisation');
-        $queryBuilder->from(Entity\Organisation::class, 'cluster_entity_organisation');
+        $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
 
         $this->applyFilters($filter, $queryBuilder);
 

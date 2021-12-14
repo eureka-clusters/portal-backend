@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Controller\OAuth2Controller;
+use Application\Controller\IndexController;
+use Application\Factory\RedisFactory;
+use Laminas\Stdlib\Glob;
+use Laminas\Stdlib\ArrayUtils;
 use Application\Authentication\Factory\PdoAdapterFactory;
 use Application\Factory\ModuleOptionsFactory;
 use Application\Options\ModuleOptions;
@@ -20,10 +25,10 @@ use Laminas\Stdlib;
 $config = [
     'controllers'     => [
         'factories'  => [
-            Controller\OAuth2Controller::class => ConfigAbstractFactory::class,
+            OAuth2Controller::class => ConfigAbstractFactory::class,
         ],
         'invokables' => [
-            Controller\IndexController::class,
+            IndexController::class,
         ],
     ],
     'service_manager' => [
@@ -31,7 +36,7 @@ $config = [
             'doctrine.cache.application_cache' => RedisCache::class,
         ],
         'factories' => [
-            RedisCache::class            => Factory\RedisFactory::class,
+            RedisCache::class            => RedisFactory::class,
             PdoAdapter::class            => PdoAdapterFactory::class,
             TranslatorInterface::class   => TranslatorServiceFactory::class,
             AuthenticationService::class => AuthenticationServiceFactory::class,
@@ -85,8 +90,8 @@ $config = [
     ],
 ];
 
-foreach (Stdlib\Glob::glob(__DIR__ . '/module.config.{,*}.php', Stdlib\Glob::GLOB_BRACE) as $file) {
-    $config = Stdlib\ArrayUtils::merge($config, include $file);
+foreach (Glob::glob(__DIR__ . '/module.config.{,*}.php', Glob::GLOB_BRACE) as $file) {
+    $config = ArrayUtils::merge($config, include $file);
 }
 
 return $config;

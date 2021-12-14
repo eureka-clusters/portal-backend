@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
+use Cluster\Entity\Project;
+use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Organisation\Type;
+use Cluster\Entity\Cluster;
+use Cluster\Entity\Project\Status;
 use Cluster\Entity;
 use Cluster\Entity\Funder;
 use Doctrine\ORM\EntityRepository;
@@ -13,11 +18,11 @@ use function count;
 
 class ProjectRepository extends EntityRepository
 {
-    public function getProjectsByFunderAndFilter(Entity\Funder $funder, array $filter)
+    public function getProjectsByFunderAndFilter(Funder $funder, array $filter)
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('cluster_entity_project');
-        $queryBuilder->from(Entity\Project::class, 'cluster_entity_project');
+        $queryBuilder->from(Project::class, 'cluster_entity_project');
 
         $this->applyFilters($filter, $queryBuilder);
 
@@ -35,7 +40,7 @@ class ProjectRepository extends EntityRepository
                     //Find the projects where the country is active
                     $countryFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_country')
-                        ->from(Entity\Project\Partner::class, 'cluster_entity_project_partner_filter_country')
+                        ->from(Partner::class, 'cluster_entity_project_partner_filter_country')
                         ->join('cluster_entity_project_partner_filter_country.project', 'cluster_entity_project_filter_country')
                         ->join(
                             'cluster_entity_project_partner_filter_country.organisation',
@@ -50,9 +55,9 @@ class ProjectRepository extends EntityRepository
                         )
                         ->addGroupBy('cluster_entity_project_filter_country.id') //Add an id so we don't get all group by statements
                         ->having(
-                            'COUNT(DISTINCT cluster_entity_country) > ' . (count(
+                            'COUNT(DISTINCT cluster_entity_country) > ' . ((is_countable($countryFilter) ? count(
                                 $countryFilter
-                            ) - 1)
+                            ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -64,7 +69,7 @@ class ProjectRepository extends EntityRepository
                     //Find the projects where the country is active
                     $countryFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_country')
-                        ->from(Entity\Project\Partner::class, 'cluster_entity_project_partner_filter_country')
+                        ->from(Partner::class, 'cluster_entity_project_partner_filter_country')
                         ->join('cluster_entity_project_partner_filter_country.project', 'cluster_entity_project_filter_country')
                         ->join(
                             'cluster_entity_project_partner_filter_country.organisation',
@@ -94,7 +99,7 @@ class ProjectRepository extends EntityRepository
                     //Find the projects we have at least organisations with this type
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_organisation_type')
-                        ->from(Entity\Project\Partner::class, 'cluster_entity_project_partner_filter_organisation_type')
+                        ->from(Partner::class, 'cluster_entity_project_partner_filter_organisation_type')
                         ->join('cluster_entity_project_partner_filter_organisation_type.project', 'cluster_entity_project_filter_organisation_type')
                         ->join(
                             'cluster_entity_project_partner_filter_organisation_type.organisation',
@@ -109,9 +114,9 @@ class ProjectRepository extends EntityRepository
                         )
                         ->addGroupBy('cluster_entity_project_filter_organisation_type.id')
                         ->having(
-                            'COUNT(DISTINCT cluster_entity_organisation_type) > ' . (count(
+                            'COUNT(DISTINCT cluster_entity_organisation_type) > ' . ((is_countable($organisationTypeFilter) ? count(
                                 $organisationTypeFilter
-                            ) - 1)
+                            ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -123,7 +128,7 @@ class ProjectRepository extends EntityRepository
                     //Find the projects where we have organisations with this type
                     $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                         ->select('cluster_entity_project_filter_organisation_type')
-                        ->from(Entity\Project\Partner::class, 'cluster_entity_project_partner_filter_organisation_type')
+                        ->from(Partner::class, 'cluster_entity_project_partner_filter_organisation_type')
                         ->join('cluster_entity_project_partner_filter_organisation_type.project', 'cluster_entity_project_filter_organisation_type')
                         ->join(
                             'cluster_entity_project_partner_filter_organisation_type.organisation',
@@ -151,7 +156,7 @@ class ProjectRepository extends EntityRepository
             //Find the projects where we have organisations with this type
             $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('cluster_entity_project_filter_project_status')
-                ->from(Entity\Project::class, 'cluster_entity_project_filter_project_status')
+                ->from(Project::class, 'cluster_entity_project_filter_project_status')
                 ->join('cluster_entity_project_filter_project_status.status', 'cluster_entity_project_filter_project_status_status')
                 ->where(
                     $queryBuilder->expr()->in(
@@ -171,7 +176,7 @@ class ProjectRepository extends EntityRepository
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('cluster_entity_project_filter_primary_cluster')
-                ->from(Entity\Project::class, 'cluster_entity_project_filter_primary_cluster')
+                ->from(Project::class, 'cluster_entity_project_filter_primary_cluster')
                 ->join('cluster_entity_project_filter_primary_cluster.primaryCluster', 'cluster_entity_project_filter_primary_cluster_primary_cluster')
                 ->where(
                     $queryBuilder->expr()->in(
@@ -195,7 +200,7 @@ class ProjectRepository extends EntityRepository
             $queryBuilder->expr()->countDistinct('cluster_entity_project')
         );
 
-        $queryBuilder->from(Entity\Organisation\Type::class, 'cluster_entity_organisation_type')
+        $queryBuilder->from(Type::class, 'cluster_entity_organisation_type')
             ->join('cluster_entity_organisation_type.organisations', 'cluster_entity_organisation_type_organisations')
             ->join(
                 'cluster_entity_organisation_type_organisations.partners',
@@ -216,7 +221,7 @@ class ProjectRepository extends EntityRepository
         //Find the projects where the country is active
         $funderSubSelect = $this->_em->createQueryBuilder()
             ->select('cluster_entity_project_funder')
-            ->from(Entity\Project::class, 'cluster_entity_project_funder')
+            ->from(Project::class, 'cluster_entity_project_funder')
             ->join('cluster_entity_project_funder.partners', 'cluster_entity_project_funder_partners')
             ->join(
                 'cluster_entity_project_funder_partners.organisation',
@@ -239,7 +244,7 @@ class ProjectRepository extends EntityRepository
             $queryBuilder->expr()->countDistinct('cluster_entity_project.id')
         );
 
-        $queryBuilder->from(Entity\Project::class, 'cluster_entity_project')
+        $queryBuilder->from(Project::class, 'cluster_entity_project')
             ->join('cluster_entity_project.partners', 'cluster_entity_project_partners')
             ->join(
                 'cluster_entity_project_partners.organisation',
@@ -265,7 +270,7 @@ class ProjectRepository extends EntityRepository
             $queryBuilder->expr()->count('cluster_entity_cluster_project_primary.id')
         );
 
-        $queryBuilder->from(Entity\Cluster::class, 'cluster_entity_cluster')
+        $queryBuilder->from(Cluster::class, 'cluster_entity_cluster')
             ->join('cluster_entity_cluster.projectsPrimary', 'cluster_entity_cluster_project_primary')
             ->groupBy('cluster_entity_cluster');
 
@@ -283,7 +288,7 @@ class ProjectRepository extends EntityRepository
             $queryBuilder->expr()->count('cluster_entity_project_status_project.id')
         );
 
-        $queryBuilder->from(Entity\Project\Status::class, 'cluster_entity_project_status')
+        $queryBuilder->from(Status::class, 'cluster_entity_project_status')
             ->join('cluster_entity_project_status.projects', 'cluster_entity_project_status_project')
             ->groupBy('cluster_entity_project_status');
 

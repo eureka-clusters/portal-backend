@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Cluster\Entity\Project;
 use Cluster\Entity;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\StatusProvider;
@@ -24,7 +25,7 @@ class ProjectProvider
     ) {
     }
 
-    public function generateArray(Entity\Project $project): array
+    public function generateArray(Project $project): array
     {
         $cacheKey = $project->getResourceId();
 

@@ -11,30 +11,23 @@ use Laminas\Json\Json;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $projectService;
-    private UserService $userService;
-
-    public function __construct(ProjectService $projectService, UserService $userService)
+    public function __construct(private ProjectService $projectService, private UserService $userService)
     {
-        $this->projectService = $projectService;
-        $this->userService    = $userService;
     }
 
-    public function fetchAll($data = [])
+    public function fetch($id)
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
-        if (null === $user || ! $user->isFunder()) {
+        if (null === $user || !$user->isFunder()) {
             return [];
         }
 
-        $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
-
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter      = base64_decode($id);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!
-        return [$this->projectService->generateFacets($user->getFunder(), $arrayFilter)];
+        return $this->projectService->generateFacets($user->getFunder(), $arrayFilter);
     }
 }

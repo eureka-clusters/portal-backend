@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,7 +46,7 @@ class Client extends AbstractEntity
     /**
      * @ORM\Column(name="grant_types", length=2000, type="string", nullable=true)
      */
-    private ?string $grantTypes;
+    private ?string $grantTypes = null;
     /**
      * @ORM\Column(type="boolean")
      */
@@ -57,11 +59,11 @@ class Client extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Jwt", mappedBy="client", cascade={"persist"})
      */
-    private array|Collections\Collection $jwt;
+    private array|Collection $jwt;
 
     #[Pure] public function __construct()
     {
-        $this->jwt = new Collections\ArrayCollection();
+        $this->jwt = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,12 +143,12 @@ class Client extends AbstractEntity
         return $this;
     }
 
-    public function getJwt(): Collections\Collection|array
+    public function getJwt(): Collection|array
     {
         return $this->jwt;
     }
 
-    public function setJwt(Collections\Collection|array $jwt): Client
+    public function setJwt(Collection|array $jwt): Client
     {
         $this->jwt = $jwt;
         return $this;

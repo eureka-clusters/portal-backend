@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
+use Stringable;
 use Application\Entity\AbstractEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="admin_session",indexes={@ORM\Index(name="session_key_idx", columns={"key"})})
  * @ORM\Entity
  */
-class Session extends AbstractEntity
+class Session extends AbstractEntity implements Stringable
 {
     /**
      * @ORM\Column(type="integer", nullable=false)

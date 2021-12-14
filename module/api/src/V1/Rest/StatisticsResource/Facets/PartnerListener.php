@@ -19,7 +19,7 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($data = [])
+    public function fetch($id)
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
@@ -27,12 +27,10 @@ final class PartnerListener extends AbstractResourceListener
             return [];
         }
 
-        $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
-
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter      = base64_decode($id);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        return [$this->partnerService->generateFacets($user->getFunder(), $arrayFilter)];
+        return $this->partnerService->generateFacets($user->getFunder(), $arrayFilter);
     }
 }

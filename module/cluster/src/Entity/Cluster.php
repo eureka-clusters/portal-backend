@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
+use JetBrains\PhpStorm\Pure;
+use Stringable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project;
 use DateTime;
@@ -45,31 +49,25 @@ class Cluster extends AbstractEntity
      *
      * @Gedmo\Timestampable(on="update")
      */
-    private ?DateTime $dateUpdated;
+    private ?DateTime $dateUpdated = null;
     /**
      * @ORM\ManyToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="clusters")
-     *
-     * @var Funder[]|Collections\ArrayCollection
      */
-    private $clusterFunders;
+    private Collection $clusterFunders;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="primaryCluster")
-     *
-     * @var Project[]|Collections\ArrayCollection
      */
-    private $projectsPrimary;
+    private Collection $projectsPrimary;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="secondaryCluster")
-     *
-     * @var Project[]|Collections\ArrayCollection
      */
-    private $projectsSecondary;
+    private Collection $projectsSecondary;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->clusterFunders    = new Collections\ArrayCollection();
-        $this->projectsPrimary   = new Collections\ArrayCollection();
-        $this->projectsSecondary = new Collections\ArrayCollection();
+        $this->clusterFunders    = new ArrayCollection();
+        $this->projectsPrimary   = new ArrayCollection();
+        $this->projectsSecondary = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -143,7 +141,7 @@ class Cluster extends AbstractEntity
         return $this;
     }
 
-    public function getClusterFunders()
+    public function getClusterFunders(): ArrayCollection|Collection
     {
         return $this->clusterFunders;
     }
@@ -154,7 +152,7 @@ class Cluster extends AbstractEntity
         return $this;
     }
 
-    public function getProjectsPrimary()
+    public function getProjectsPrimary(): ArrayCollection|Collection
     {
         return $this->projectsPrimary;
     }
@@ -165,7 +163,7 @@ class Cluster extends AbstractEntity
         return $this;
     }
 
-    public function getProjectsSecondary()
+    public function getProjectsSecondary(): ArrayCollection|Collection
     {
         return $this->projectsSecondary;
     }
@@ -174,12 +172,5 @@ class Cluster extends AbstractEntity
     {
         $this->projectsSecondary = $projectsSecondary;
         return $this;
-    }
-
-    public static function getSafeIdentifierFromName($name)
-    {
-        $name = strtolower($name);
-        // remove special character allowed a-z,-,_
-        return preg_replace("/[^a-z0-9_-]/", "", $name);
     }
 }

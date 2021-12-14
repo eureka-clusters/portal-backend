@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Organisation;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_country")
@@ -38,21 +41,17 @@ class Country extends AbstractEntity
     private int $numcode;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="country")
-     *
-     * @var Funder[]|Collections\ArrayCollection
      */
-    private $funder;
+    private Collection $funder;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="country")
-     *
-     * @var Organisation[]|Collections\ArrayCollection
      */
-    private $organisations;
+    private Collection $organisations;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->funder        = new Collections\ArrayCollection();
-        $this->organisations = new Collections\ArrayCollection();
+        $this->funder        = new ArrayCollection();
+        $this->organisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,7 +120,7 @@ class Country extends AbstractEntity
         return $this;
     }
 
-    public function getFunder()
+    public function getFunder(): ArrayCollection|Collection|array
     {
         return $this->funder;
     }
@@ -132,7 +131,7 @@ class Country extends AbstractEntity
         return $this;
     }
 
-    public function getOrganisations()
+    public function getOrganisations(): ArrayCollection|Collection
     {
         return $this->organisations;
     }

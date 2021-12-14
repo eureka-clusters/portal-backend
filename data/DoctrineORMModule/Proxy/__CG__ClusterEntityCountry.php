@@ -315,7 +315,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getFunder()
+    public function getFunder(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection|array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFunder', []);
@@ -337,7 +337,7 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getOrganisations()
+    public function getOrganisations(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrganisations', []);

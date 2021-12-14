@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Cluster\Service;
 
 use Application\Service\AbstractService;
-use Cluster\Entity;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Status;
 use Cluster\Repository\ProjectRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use stdClass;
 
@@ -19,13 +20,9 @@ use function array_map;
 
 class ProjectService extends AbstractService
 {
-    private ClusterService $clusterService;
-
-    #[Pure] public function __construct(EntityManager $entityManager, ClusterService $clusterService)
+    #[Pure] public function __construct(EntityManager $entityManager, private ClusterService $clusterService)
     {
         parent::__construct($entityManager);
-
-        $this->clusterService = $clusterService;
     }
 
     public function getProjects(Funder $funder, array $filter): array
@@ -36,49 +33,39 @@ class ProjectService extends AbstractService
         return $repository->getProjectsByFunderAndFilter($funder, $filter);
     }
 
-    public function generateFacets(Funder $funder, array $filter): array
+    #[ArrayShape(['countries'         => "array[]",
+                  'organisationTypes' => "array[]",
+                  'projectStatus'     => "array[]",
+                  'primaryClusters'   => "array[]"
+    ])] public function generateFacets(Funder $funder, array $filter): array
     {
-        $countries         = $this->entityManager->getRepository(Project::class)->fetchCountries($funder, $filter);
-        $organisationTypes = $this->entityManager->getRepository(Project::class)->fetchOrganisationTypes(
-            $funder,
-            $filter
-        );
-        $primaryClusters   = $this->entityManager->getRepository(Project::class)->fetchPrimaryClusters(
-            $funder,
-            $filter
-        );
-        $projectStatuses   = $this->entityManager->getRepository(Project::class)->fetchProjectStatuses(
-            $funder,
-            $filter,
-        );
+        /** @var ProjectRepository $repository */
+        $repository = $this->entityManager->getRepository(Project::class);
 
-        $countriesIndexed = array_map(static function (array $country) {
-            return [
-                'name'   => $country['country'],
-                'amount' => $country[1],
-            ];
-        }, $countries);
+        $countries         = $repository->fetchCountries($funder, $filter);
+        $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
+        $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
 
-        $organisationTypesIndexed = array_map(static function (array $organisationType) {
-            return [
-                'name'   => $organisationType['type'],
-                'amount' => $organisationType[1],
-            ];
-        }, $organisationTypes);
+        $countriesIndexed = array_map(static fn(array $country) => [
+            'name'   => $country['country'],
+            'amount' => $country[1],
+        ], $countries);
 
-        $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
-            return [
-                'name'   => $primaryCluster['name'],
-                'amount' => $primaryCluster[1],
-            ];
-        }, $primaryClusters);
+        $organisationTypesIndexed = array_map(static fn(array $organisationType) => [
+            'name'   => $organisationType['type'],
+            'amount' => $organisationType[1],
+        ], $organisationTypes);
 
-        $projectStatusIndexed = array_map(static function (array $projectStatus) {
-            return [
-                'name'   => $projectStatus['status'],
-                'amount' => $projectStatus[1],
-            ];
-        }, $projectStatuses);
+        $primaryClustersIndexed = array_map(static fn(array $primaryCluster) => [
+            'name'   => $primaryCluster['name'],
+            'amount' => $primaryCluster[1],
+        ], $primaryClusters);
+
+        $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
+            'name'   => $projectStatus['status'],
+            'amount' => $projectStatus[1],
+        ], $projectStatuses);
 
         return [
             'countries'         => $countriesIndexed,
@@ -88,83 +75,67 @@ class ProjectService extends AbstractService
         ];
     }
 
-    public function findOrCreateProject(stdClass $data): Entity\Project
+    public function findOrCreateProject(stdClass $data): Project
     {
         $project = $this->findProjectByIdentifier($data->internalIdentifier);
 
         //If we cannot find the project we create a new one. Only set the identifier as we will later overwrite/update the properties
         if (null === $project) {
-            $project = new Entity\Project();
+            $project = new Project();
             $project->setIdentifier($data->internalIdentifier);
         }
 
-        $project->setNumber($data->project_number);
-        $project->setName($data->project_name);
-        $project->setTitle($data->project_title);
-        $project->setDescription($data->project_description);
+        $project->setNumber($data->number);
+        $project->setName($data->name);
+        $project->setTitle($data->title);
+        $project->setDescription($data->description);
         $project->setProgramme($data->programme);
-        $project->setProgrammeCall($data->programme_call);
+        $project->setProgrammeCall($data->programmeCall);
 
-        $project->setProjectLeader($data->project_leader);
-        $project->setTechnicalArea($data->technical_area);
+        $project->setProjectLeader($data->projectLeader);
+        $project->setTechnicalArea($data->technicalArea);
 
         //Find or create the primary cluster
-        $primaryCluster = $this->clusterService->findOrCreateCluster($data->primary_cluster);
-
-        // $primaryCluster = $this->clusterService->findClusterByName($data->primary_cluster);
-        // if (null === $primaryCluster) {
-        //     throw new \InvalidArgumentException(
-        //         sprintf('The primary cluster %s cannot be found', $data->primary_cluster)
-        //     );
-        // }
+        $primaryCluster = $this->clusterService->findOrCreateCluster($data->primaryCluster);
 
         $project->setPrimaryCluster($primaryCluster);
 
-        // @Johan what happens if the secondary cluster can't be found?
-        // If found, set the secondary cluster
-        // $secondaryCluster = $this->clusterService->findClusterByName((string)$data->secondary_cluster);
-        // if (null !== $secondaryCluster) {
-        //     $project->setSecondaryCluster($secondaryCluster);
-        // }
-
-        // my suggestion
-        //An isset is necessary
-        if (isset($data->secondary_cluster)) {
-            $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondary_cluster);
+        if (isset($data->secondaryCluster)) {
+            $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondaryCluster);
             $project->setSecondaryCluster($secondaryCluster);
         }
 
         //Find the status
-        $status = $this->entityManager->getRepository(Entity\Project\Status::class)->findOneBy(
-            ['status' => $data->project_status]
+        $status = $this->entityManager->getRepository(Status::class)->findOneBy(
+            ['status' => $data->projectStatus]
         );
 
         //If we cannot find the status, we create a new one
         if (null === $status) {
-            $status = new Entity\Project\Status();
-            $status->setStatus($data->project_status);
+            $status = new Status();
+            $status->setStatus($data->projectStatus);
         }
 
         $project->setStatus($status);
 
         //Handle the dates
-        if ($data->official_start_date) {
-            $officialStartDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->official_start_date);
+        if ($data->officialStartDate) {
+            $officialStartDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->officialStartDate);
             $project->setOfficialStartDate($officialStartDate ?: null);
         }
 
-        if ($data->official_end_date) {
-            $officialEndDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->official_end_date);
+        if ($data->officialEndDate) {
+            $officialEndDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->officialEndDate);
             $project->setOfficialEndDate($officialEndDate ?: null);
         }
 
-        if ($data->label_date) {
-            $labelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->label_date);
+        if ($data->labelDate) {
+            $labelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->labelDate);
             $project->setLabelDate($labelDate ?: null);
         }
 
-        if ($data->cancel_date) {
-            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancel_date);
+        if ($data->cancelDate) {
+            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancelDate);
             $project->setCancelDate($cancelDate ?: null);
         }
 
@@ -172,16 +143,16 @@ class ProjectService extends AbstractService
         return $project;
     }
 
-    public function findProjectByIdentifier(string $identifier): ?Entity\Project
+    public function findProjectByIdentifier(string $identifier): ?Project
     {
-        return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(
+        return $this->entityManager->getRepository(Project::class)->findOneBy(
             ['identifier' => $identifier]
         );
     }
 
-    public function findProjectBySlug(string $slug): ?Entity\Project
+    public function findProjectBySlug(string $slug): ?Project
     {
-        return $this->entityManager->getRepository(Entity\Project::class)->findOneBy(
+        return $this->entityManager->getRepository(Project::class)->findOneBy(
             ['slug' => $slug]
         );
     }

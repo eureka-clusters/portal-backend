@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Version;
 
+use Cluster\Entity\Version\Status;
 use Cluster\Entity;
 use Doctrine\Common\Cache\RedisCache;
 
 class StatusProvider
 {
-    private RedisCache $redisCache;
-
-    public function __construct(RedisCache $redisCache)
+    public function __construct(private RedisCache $redisCache)
     {
-        $this->redisCache = $redisCache;
     }
 
-    public function generateArray(Entity\Version\Status $status): array
+    public function generateArray(Status $status): array
     {
         $cacheKey = $status->getResourceId();
 

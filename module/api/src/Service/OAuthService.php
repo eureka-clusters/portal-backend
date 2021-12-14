@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Api\Service;
 
+use Api\Entity\OAuth\Client;
+use RuntimeException;
 use Admin\Entity\User;
 use Api\Entity\OAuth;
 use Application\Service\AbstractService;
@@ -11,7 +13,7 @@ use OAuth2\Encryption\Jwt;
 
 class OAuthService extends AbstractService
 {
-    public function findOrGenereateJWTToken(User $user, OAuth\Client $client): OAuth\Jwt
+    public function findOrGenereateJWTToken(User $user, Client $client): OAuth\Jwt
     {
         //Try to find an existing JWT
         $jwt = $this->entityManager->getRepository(OAuth\Jwt::class)->findOneBy(
@@ -25,7 +27,7 @@ class OAuthService extends AbstractService
         return $jwt ?? $this->createJWTToken($user, $client);
     }
 
-    public function createJWTToken(User $user, OAuth\Client $client): OAuth\Jwt
+    public function createJWTToken(User $user, Client $client): OAuth\Jwt
     {
         $jwt = new OAuth\Jwt();
         $jwt->setUser($user);
@@ -44,16 +46,16 @@ class OAuthService extends AbstractService
         return $jwt;
     }
 
-    public function findClientByClientId(string $clientId): OAuth\Client
+    public function findClientByClientId(string $clientId): Client
     {
-        $client = $this->entityManager->getRepository(OAuth\Client::class)->findOneBy(
+        $client = $this->entityManager->getRepository(Client::class)->findOneBy(
             [
                 'clientId' => $clientId,
             ]
         );
 
         if (null === $client) {
-            throw new \RuntimeException("No default JWT client created");
+            throw new RuntimeException("No default JWT client created");
         }
 
         return $client;

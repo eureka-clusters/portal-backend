@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Cluster\Service\Project;
 
+use Cluster\Entity\Version\Type;
+use Cluster\Entity\Project;
+use Cluster\Entity\Project\Version;
+use Cluster\Entity\Version\Status;
 use Application\Service\AbstractService;
 use Cluster\Entity;
 use Cluster\Repository\Project\Version\CostsAndEffort;
@@ -16,17 +20,12 @@ use function sprintf;
 
 class VersionService extends AbstractService
 {
-    public function findVersionTypeById(int $id): Entity\Version\Type
-    {
-        return $this->entityManager->find(Entity\Version\Type::class, $id);
-    }
-
     public function createVersionFromData(
         stdClass $data,
-        Entity\Version\Type $type,
-        Entity\Project $project
-    ): Entity\Project\Version {
-        $version = new Entity\Project\Version();
+        Type $type,
+        Project $project
+    ): Version {
+        $version = new Version();
         $version->setProject($project);
 
         $version->setType($type);
@@ -37,7 +36,7 @@ class VersionService extends AbstractService
         $version->setStatus($status);
 
         //Handle the submission date
-        $submissionDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->submission_date);
+        $submissionDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->submissionDate);
         $version->setSubmissionDate($submissionDate);
 
         $version->setCosts($data->totalCosts);
@@ -51,13 +50,13 @@ class VersionService extends AbstractService
         return $version;
     }
 
-    public function findOrCreateVersionStatus(string $statusName): Entity\Version\Status
+    public function findOrCreateVersionStatus(string $statusName): Status
     {
-        $status = $this->entityManager->getRepository(Entity\Version\Status::class)
+        $status = $this->entityManager->getRepository(Status::class)
             ->findOneBy(['status' => $statusName]);
 
         if (null === $status) {
-            $status = new Entity\Version\Status();
+            $status = new Status();
             $status->setStatus($statusName);
             $this->save($status);
         }
@@ -65,9 +64,9 @@ class VersionService extends AbstractService
         return $status;
     }
 
-    public function findVersionType(string $typeName): Entity\Version\Type
+    public function findVersionType(string $typeName): Type
     {
-        $type = $this->entityManager->getRepository(Entity\Version\Type::class)
+        $type = $this->entityManager->getRepository(Type::class)
             ->findOneBy(['type' => $typeName]);
 
         if (null === $type) {
@@ -77,7 +76,7 @@ class VersionService extends AbstractService
         return $type;
     }
 
-    public function parseTotalCostsByProjectVersion(Entity\Project\Version $projectVersion): float
+    public function parseTotalCostsByProjectVersion(Version $projectVersion): float
     {
         /** @var CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);
@@ -85,7 +84,7 @@ class VersionService extends AbstractService
         return $repository->parseTotalCostsByProjectVersion($projectVersion);
     }
 
-    public function parseTotalEffortByProjectVersion(Entity\Project\Version $projectVersion): float
+    public function parseTotalEffortByProjectVersion(Version $projectVersion): float
     {
         /** @var CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(Entity\Project\Version\CostsAndEffort::class);

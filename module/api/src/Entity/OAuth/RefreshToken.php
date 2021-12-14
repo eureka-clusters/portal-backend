@@ -33,7 +33,7 @@ class RefreshToken extends AbstractEntity
     /** @ORM\Column(name="expires", type="datetime_immutable") */
     private DateTimeImmutable $expires;
     /** @ORM\Column(name="scope", length=2000, nullable=true) */
-    private ?string $scope;
+    private ?string $scope = null;
 
     public function getId(): ?int
     {

@@ -4,41 +4,18 @@ declare(strict_types=1);
 
 namespace Api;
 
+use Api\Service\OAuthService;
 use Api\V1\Rest;
+use Api\V1\Rest\ListResource\OrganisationListener;
+use Api\V1\Rest\ListResource\PartnerListener;
+use Api\V1\Rest\ListResource\ProjectListener;
+use Api\V1\Rest\UserResource\MeListener;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
-use function _;
 use function array_merge_recursive;
 
 $config = [
-    'router'          => [
-        'routes' => [
-            'api' => [
-                'type'    => 'Literal',
-                'options' => [
-                    'route'    => '/api',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
-        ],
-    ],
-    'navigation'      => [
-        'admin' => [
-            'tools' => [
-                'pages' => [
-                    'api' => [
-                        'order' => 110,
-                        'label' => _('txt-api-tools'),
-                        'route' => 'api',
-                    ],
-                ],
-            ],
-        ],
-    ],
     'doctrine'        => [
         'driver' => [
             'api_annotation_driver' => [
@@ -56,11 +33,11 @@ $config = [
     ],
     'service_manager' => [
         'factories' => [
-            Service\OAuthService::class                             => ConfigAbstractFactory::class,
-            Rest\UserResource\MeListener::class                     => ConfigAbstractFactory::class,
-            Rest\ListResource\ProjectListener::class                => ConfigAbstractFactory::class,
-            Rest\ListResource\OrganisationListener::class           => ConfigAbstractFactory::class,
-            Rest\ListResource\PartnerListener::class                => ConfigAbstractFactory::class,
+            OAuthService::class                                     => ConfigAbstractFactory::class,
+            MeListener::class                                       => ConfigAbstractFactory::class,
+            ProjectListener::class                                  => ConfigAbstractFactory::class,
+            OrganisationListener::class                             => ConfigAbstractFactory::class,
+            PartnerListener::class                                  => ConfigAbstractFactory::class,
             Rest\ViewResource\ProjectListener::class                => ConfigAbstractFactory::class,
             Rest\ViewResource\OrganisationListener::class           => ConfigAbstractFactory::class,
             Rest\ViewResource\PartnerListener::class                => ConfigAbstractFactory::class,

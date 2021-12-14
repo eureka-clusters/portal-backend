@@ -66,10 +66,10 @@ class Client extends \Api\Entity\OAuth\Client implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwt'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'isJwt', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwt'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwt'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'isJwt', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwt'];
     }
 
     /**
@@ -376,6 +376,28 @@ class Client extends \Api\Entity\OAuth\Client implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setJwtKey', [$jwtKey]);
 
         return parent::setJwtKey($jwtKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isJwt(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isJwt', []);
+
+        return parent::isJwt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsJwt(bool $isJwt): \Api\Entity\OAuth\Client
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsJwt', [$isJwt]);
+
+        return parent::setIsJwt($isJwt);
     }
 
     /**

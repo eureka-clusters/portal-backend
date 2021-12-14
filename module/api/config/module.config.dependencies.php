@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Api;
 
+use Api\V1\Rest\UserResource\MeListener;
+use Api\V1\Rest\ListResource\OrganisationListener;
+use Api\V1\Rest\ListResource\ProjectListener;
+use Api\V1\Rest\ListResource\PartnerListener;
+use Api\Service\OAuthService;
 use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
 use Api\V1\Rest;
@@ -20,20 +25,20 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        Rest\UserResource\MeListener::class                     => [
+        MeListener::class                     => [
             UserService::class,
             UserProvider::class,
         ],
-        Rest\ListResource\OrganisationListener::class           => [
+        OrganisationListener::class           => [
             OrganisationService::class,
             OrganisationProvider::class,
         ],
-        Rest\ListResource\ProjectListener::class                => [
+        ProjectListener::class                => [
             ProjectService::class,
             UserService::class,
             ProjectProvider::class,
         ],
-        Rest\ListResource\PartnerListener::class                => [
+        PartnerListener::class                => [
             PartnerService::class,
             ProjectService::class,
             OrganisationService::class,
@@ -88,7 +93,7 @@ return [
             TranslatorInterface::class,
             PartnerProvider::class,
         ],
-        Service\OAuthService::class                             => [
+        OAuthService::class                             => [
             EntityManager::class,
             TranslatorInterface::class
         ],

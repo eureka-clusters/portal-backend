@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
-use Cluster\Entity\Country;
 use Cluster\Entity\Organisation\Type;
-use Cluster\Entity\Project\Partner;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_organisation")
@@ -46,12 +46,10 @@ class Organisation extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist"}, mappedBy="organisation")
-     *
-     * @var Partner[]|ArrayCollection
      */
-    private $partners;
+    private Collection $partners;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->partners = new ArrayCollection();
     }
@@ -111,12 +109,12 @@ class Organisation extends AbstractEntity
         return $this;
     }
 
-    public function getPartners()
+    public function getPartners(): ArrayCollection|Collection
     {
         return $this->partners;
     }
 
-    public function setPartners($partners)
+    public function setPartners(ArrayCollection|Collection $partners): Organisation
     {
         $this->partners = $partners;
         return $this;

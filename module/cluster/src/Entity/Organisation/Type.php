@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Cluster\Entity\Organisation;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_organisation_type")
@@ -25,14 +28,12 @@ class Type extends AbstractEntity
     private string $type;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="type")
-     *
-     * @var Entity\Organisation[]|Collections\ArrayCollection
      */
-    private $organisations;
+    private Collection $organisations;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->organisations = new Collections\ArrayCollection();
+        $this->organisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,7 +58,7 @@ class Type extends AbstractEntity
         return $this;
     }
 
-    public function getOrganisations()
+    public function getOrganisations(): ArrayCollection|Collection
     {
         return $this->organisations;
     }

@@ -4,43 +4,58 @@ declare(strict_types=1);
 
 namespace Cluster;
 
+use Cluster\Provider\ClusterProvider;
+use Cluster\Provider\OrganisationProvider;
+use Cluster\Provider\CountryProvider;
+use Cluster\Provider\Organisation\TypeProvider;
+use Cluster\Provider\ProjectProvider;
+use Cluster\Service\Project\VersionService;
+use Cluster\Provider\ContactProvider;
+use Cluster\Provider\Project\StatusProvider;
+use Cluster\Provider\Project\VersionProvider;
+use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Service\Project\PartnerService;
+use Cluster\Service\CountryService;
+use Cluster\Service\ClusterService;
+use Cluster\Service\ProjectService;
+use Cluster\Service\OrganisationService;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\ORM\EntityManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        Provider\ClusterProvider::class           => [
+        ClusterProvider::class           => [
             RedisCache::class,
         ],
-        Provider\OrganisationProvider::class      => [
+        OrganisationProvider::class      => [
             RedisCache::class,
-            Provider\CountryProvider::class,
-            Provider\Organisation\TypeProvider::class,
+            CountryProvider::class,
+            TypeProvider::class,
         ],
-        Provider\Organisation\TypeProvider::class => [
+        TypeProvider::class => [
             RedisCache::class,
         ],
-        Provider\ProjectProvider::class           => [
+        ProjectProvider::class           => [
             RedisCache::class,
-            Service\Project\VersionService::class,
-            Provider\ClusterProvider::class,
-            Provider\ContactProvider::class,
-            Provider\Project\StatusProvider::class,
-            Provider\Project\VersionProvider::class,
+            VersionService::class,
+            ClusterProvider::class,
+            ContactProvider::class,
+            StatusProvider::class,
+            VersionProvider::class,
             // ,Provider\Project\PartnerProvider::class
         ],
-        Provider\Project\PartnerProvider::class   => [
+        PartnerProvider::class   => [
             RedisCache::class,
-            Provider\ProjectProvider::class,
-            Provider\ContactProvider::class,
-            Provider\OrganisationProvider::class,
-            Service\Project\PartnerService::class,
+            ProjectProvider::class,
+            ContactProvider::class,
+            OrganisationProvider::class,
+            PartnerService::class,
         ],
-        Provider\Project\StatusProvider::class    => [
+        StatusProvider::class    => [
             RedisCache::class,
         ],
-        Provider\Project\VersionProvider::class   => [
+        VersionProvider::class   => [
             RedisCache::class,
             Provider\Version\TypeProvider::class,
             Provider\Version\StatusProvider::class,
@@ -51,28 +66,28 @@ return [
         Provider\Version\TypeProvider::class      => [
             RedisCache::class,
         ],
-        Provider\CountryProvider::class           => [
+        CountryProvider::class           => [
             RedisCache::class,
         ],
-        Service\CountryService::class             => [
+        CountryService::class             => [
             EntityManager::class,
         ],
-        Service\ClusterService::class             => [
+        ClusterService::class             => [
             EntityManager::class,
         ],
-        Service\ProjectService::class             => [
+        ProjectService::class             => [
             EntityManager::class,
-            Service\ClusterService::class,
+            ClusterService::class,
         ],
-        Service\OrganisationService::class        => [
+        OrganisationService::class        => [
             EntityManager::class,
         ],
-        Service\Project\PartnerService::class     => [
+        PartnerService::class     => [
             EntityManager::class,
-            Service\CountryService::class,
-            Service\OrganisationService::class,
+            CountryService::class,
+            OrganisationService::class,
         ],
-        Service\Project\VersionService::class     => [
+        VersionService::class     => [
             EntityManager::class,
         ],
     ],

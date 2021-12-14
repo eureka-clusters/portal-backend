@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Admin;
 
+use Application\Controller\IndexController;
+use Application\Controller\OAuth2Controller;
 use Application\Controller;
 
 return [
@@ -14,7 +16,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => IndexController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -25,7 +27,7 @@ return [
                     'route'    => '/oauth2',
                     'priority' => 1000,
                     'defaults' => [
-                        'controller' => Controller\OAuth2Controller::class,
+                        'controller' => OAuth2Controller::class,
                         'action'     => 'list',
                     ],
                 ],

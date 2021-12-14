@@ -11,13 +11,8 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    private ProjectService $projectService;
-    private ProjectProvider $projectProvider;
-
-    public function __construct(ProjectService $projectService, ProjectProvider $projectProvider)
+    public function __construct(private ProjectService $projectService, private ProjectProvider $projectProvider)
     {
-        $this->projectService  = $projectService;
-        $this->projectProvider = $projectProvider;
     }
 
     public function fetch($slug = null)

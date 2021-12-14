@@ -125,7 +125,7 @@ final class OAuth2Controller extends AbstractActionController
                 return $this->redirect()->toUrl(
                     $oAuthClient->getRedirectUri() . '?token=' . $token->getToken()
                 );
-            } catch (IdentityProviderException $e) {
+            } catch (IdentityProviderException) {
                 return $this->redirect()->toRoute('user/login');
             }
         }

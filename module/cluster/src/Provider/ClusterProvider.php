@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Cluster\Entity\Cluster;
 use Cluster\Entity;
 use Doctrine\Common\Cache\RedisCache;
 
 class ClusterProvider
 {
-    private RedisCache $redisCache;
-
-    public function __construct(RedisCache $redisCache)
+    public function __construct(private RedisCache $redisCache)
     {
-        $this->redisCache = $redisCache;
     }
 
-    public function generateArray(Entity\Cluster $cluster): array
+    public function generateArray(Cluster $cluster): array
     {
         $cacheKey = $cluster->getResourceId();
 

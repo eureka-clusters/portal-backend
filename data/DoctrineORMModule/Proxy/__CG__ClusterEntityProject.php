@@ -590,7 +590,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getVersions()
+    public function getVersions(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersions', []);
@@ -634,7 +634,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getPartners()
+    public function getPartners(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPartners', []);

@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
-use Cluster\Entity\Cluster;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
 use Cluster\Entity\Project\Version;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project",
@@ -84,19 +85,15 @@ class Project extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist", "remove"}, mappedBy="project")
-     *
-     * @var Version[]|ArrayCollection
      */
-    private $versions;
+    private Collection $versions;
 
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist", "remove"}, mappedBy="project")
-     *
-     * @var Partner[]|ArrayCollection
      */
-    private $partners;
+    private Collection $partners;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->versions = new ArrayCollection();
         $this->partners = new ArrayCollection();
@@ -305,7 +302,7 @@ class Project extends AbstractEntity
         return $this;
     }
 
-    public function getVersions()
+    public function getVersions(): ArrayCollection|Collection
     {
         return $this->versions;
     }
@@ -318,15 +315,15 @@ class Project extends AbstractEntity
 
     public function getLatestVersion(): ?Version
     {
-        return $this->versions->filter(fn (Version $version) => $version->getType()->isLatest())->first() ?: null;
+        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
     }
 
     public function getCoordinatorPartner(): ?Partner
     {
-        return $this->partners->filter(fn (Partner $partner) => $partner->isCoordinator())->first() ?: null;
+        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
     }
 
-    public function getPartners()
+    public function getPartners(): ArrayCollection|Collection
     {
         return $this->partners;
     }

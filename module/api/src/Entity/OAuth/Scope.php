@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
+use Stringable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +16,7 @@ use JetBrains\PhpStorm\Pure;
  * @ORM\Table(name="oauth_scopes")
  * @ORM\Entity(repositoryClass="Api\Repository\OAuth\Scope")
  */
-class Scope extends AbstractEntity
+class Scope extends AbstractEntity implements Stringable
 {
     /**
      * @ORM\Column(type="integer")
@@ -32,7 +35,7 @@ class Scope extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Client", mappedBy="scope", cascade={"persist"})
      */
-    private Collections\Collection|array $clients;
+    private Collection|array $clients;
     /**
      * @ORM\Column(name="is_default", type="boolean")
      */
@@ -40,7 +43,7 @@ class Scope extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->clients = new Collections\ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -81,12 +84,12 @@ class Scope extends AbstractEntity
         return $this;
     }
 
-    public function getClients(): Collections\Collection|array
+    public function getClients(): Collection|array
     {
         return $this->clients;
     }
 
-    public function setClients(Collections\Collection|array $clients): Scope
+    public function setClients(Collection|array $clients): Scope
     {
         $this->clients = $clients;
         return $this;

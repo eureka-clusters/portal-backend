@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Version;
 
+use Cluster\Entity\Version\Type;
 use Cluster\Entity;
 use Doctrine\Common\Cache\RedisCache;
 
 class TypeProvider
 {
-    private RedisCache $redisCache;
-
-    public function __construct(RedisCache $redisCache)
+    public function __construct(private RedisCache $redisCache)
     {
-        $this->redisCache = $redisCache;
     }
 
-    public function generateArray(Entity\Version\Type $type): array
+    public function generateArray(Type $type): array
     {
         $cacheKey = $type->getResourceId();
 

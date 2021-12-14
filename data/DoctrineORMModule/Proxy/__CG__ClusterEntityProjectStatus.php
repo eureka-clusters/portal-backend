@@ -227,7 +227,7 @@ class Status extends \Cluster\Entity\Project\Status implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
-    public function getProjects()
+    public function getProjects(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjects', []);
@@ -238,7 +238,7 @@ class Status extends \Cluster\Entity\Project\Status implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
-    public function setProjects($projects)
+    public function setProjects($projects): static
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjects', [$projects]);

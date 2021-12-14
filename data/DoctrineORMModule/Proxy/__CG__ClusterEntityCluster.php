@@ -326,7 +326,7 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getClusterFunders()
+    public function getClusterFunders(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClusterFunders', []);
@@ -348,7 +348,7 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getProjectsPrimary()
+    public function getProjectsPrimary(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectsPrimary', []);
@@ -370,7 +370,7 @@ class Cluster extends \Cluster\Entity\Cluster implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getProjectsSecondary()
+    public function getProjectsSecondary(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectsSecondary', []);

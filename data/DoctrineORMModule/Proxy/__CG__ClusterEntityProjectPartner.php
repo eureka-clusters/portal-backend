@@ -179,23 +179,27 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getProject(): \Cluster\Entity\Project
+    public function getId(): int
     {
+        if ($this->__isInitialized__ === false) {
+            return (int)  parent::getId();
+        }
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProject', []);
 
-        return parent::getProject();
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
+
+        return parent::getId();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setProject(\Cluster\Entity\Project $project): \Cluster\Entity\Project\Partner
+    public function setId(int $id): \Cluster\Entity\Project\Partner
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProject', [$project]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
-        return parent::setProject($project);
+        return parent::setId($id);
     }
 
     /**
@@ -223,27 +227,23 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getProject(): \Cluster\Entity\Project
     {
-        if ($this->__isInitialized__ === false) {
-            return (int)  parent::getId();
-        }
 
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProject', []);
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
-
-        return parent::getId();
+        return parent::getProject();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Cluster\Entity\Project\Partner
+    public function setProject(\Cluster\Entity\Project $project): \Cluster\Entity\Project\Partner
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProject', [$project]);
 
-        return parent::setId($id);
+        return parent::setProject($project);
     }
 
     /**
@@ -266,6 +266,50 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSlug', [$slug]);
 
         return parent::setSlug($slug);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrganisationName(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrganisationName', []);
+
+        return parent::getOrganisationName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOrganisationName(string $organisationName): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOrganisationName', [$organisationName]);
+
+        return parent::setOrganisationName($organisationName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectName(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectName', []);
+
+        return parent::getProjectName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectName(string $projectName): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectName', [$projectName]);
+
+        return parent::setProjectName($projectName);
     }
 
     /**
@@ -359,7 +403,7 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getCostsAndEffort()
+    public function getCostsAndEffort(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCostsAndEffort', []);
@@ -370,34 +414,12 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function setCostsAndEffort($costsAndEffort): \Cluster\Entity\Project\Partner
+    public function setCostsAndEffort(\Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection $costsAndEffort): \Cluster\Entity\Project\Partner
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCostsAndEffort', [$costsAndEffort]);
 
         return parent::setCostsAndEffort($costsAndEffort);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setOrganisationName(string $organisationName): \Cluster\Entity\Project\Partner
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOrganisationName', [$organisationName]);
-
-        return parent::setOrganisationName($organisationName);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setProjectName(string $projectName): \Cluster\Entity\Project\Partner
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectName', [$projectName]);
-
-        return parent::setProjectName($projectName);
     }
 
     /**

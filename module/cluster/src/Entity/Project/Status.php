@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Cluster\Entity\Project;
 
 use Application\Entity\AbstractEntity;
-use Cluster\Entity;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project_status")
@@ -25,14 +26,12 @@ class Status extends AbstractEntity
     private string $status;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="status")
-     *
-     * @var Entity\Project[]|Collections\ArrayCollection
      */
-    private $projects;
+    private Collection $projects;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->projects = new Collections\ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,12 +56,12 @@ class Status extends AbstractEntity
         return $this;
     }
 
-    public function getProjects()
+    public function getProjects(): ArrayCollection|Collection
     {
         return $this->projects;
     }
 
-    public function setProjects($projects)
+    public function setProjects($projects): static
     {
         $this->projects = $projects;
         return $this;

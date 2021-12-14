@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
+use Laminas\ApiTools\MvcAuth\Identity\AuthenticatedIdentity;
 use Api\Service\OAuthService;
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
@@ -12,7 +15,7 @@ use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\Feature;
 use OAuth2\Encryption\Jwt;
 
-final class Module implements Feature\ConfigProviderInterface, Feature\BootstrapListenerInterface
+final class Module implements ConfigProviderInterface, BootstrapListenerInterface
 {
     private ContainerInterface $container;
 
@@ -69,7 +72,7 @@ final class Module implements Feature\ConfigProviderInterface, Feature\Bootstrap
         }
 
         //We use the name here
-        $identity = new \Laminas\ApiTools\MvcAuth\Identity\AuthenticatedIdentity($tokenData['id']);
+        $identity = new AuthenticatedIdentity($tokenData['id']);
         $identity->setName((string)$tokenData['id']);
 
         $e->getMvcEvent()->setParam('Laminas\ApiTools\MvcAuth\Identity', $identity);

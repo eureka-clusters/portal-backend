@@ -47,7 +47,7 @@ class Log extends AbstractEntity
     /** @ORM\Column(type="text") */
     private string $status;
     /** @ORM\Column(type="text") */
-    private ?string $response;
+    private ?string $response = null;
 
     public function getId(): int
     {

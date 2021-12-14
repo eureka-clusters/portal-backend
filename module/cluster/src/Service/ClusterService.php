@@ -5,39 +5,40 @@ declare(strict_types=1);
 namespace Cluster\Service;
 
 use Application\Service\AbstractService;
-use Cluster\Entity;
+use Cluster\Entity\Cluster;
 
 class ClusterService extends AbstractService
 {
-    public function findClusterById(int $id): ?Entity\Cluster
+    public function findClusterById(int $id): ?Cluster
     {
-        return $this->entityManager->find(Entity\Cluster::class, $id);
+        return $this->entityManager->find(Cluster::class, $id);
     }
 
-    public function findClusterByName(string $name): ?Entity\Cluster
+    public function findClusterByName(string $name): ?Cluster
     {
-        return $this->entityManager->getRepository(Entity\Cluster::class)->findOneBy(['name' => $name]);
+        return $this->entityManager->getRepository(Cluster::class)->findOneBy(['name' => $name]);
     }
 
-    public function findClusterByIdentifier(string $identifier): ?Entity\Cluster
+    public function findOrCreateCluster(array $clusterData): Cluster
     {
-        return $this->entityManager->getRepository(Entity\Cluster::class)->findOneBy(['identifier' => Entity\Cluster::getSafeIdentifierFromName($identifier)]);
-    }
-
-    public function findOrCreateCluster(string $name): Entity\Cluster
-    {
-        $identifier = Entity\Cluster::getSafeIdentifierFromName($name);
-        $cluster    = $this->findClusterByIdentifier($identifier);
+        $cluster = $this->findClusterByIdentifier($clusterData['identifier']);
 
         //If we cannot find the cluster we create a new one.
         if (null === $cluster) {
-            $cluster = new Entity\Cluster();
-            $cluster->setName($name);
-            // $description = $name . ' auto created cluster entry';
-            // $cluster->setDescription($description);
-            $cluster->setIdentifier($identifier);
-            $this->save($cluster);
+            $cluster = new Cluster();
+            $cluster->setIdentifier($clusterData['identifier']);
         }
+
+        //It will be possible to update the cluster name
+        $cluster->setName($clusterData['name']);
+        $cluster->setDescription($clusterData['description']);
+        $this->save($cluster);
+
         return $cluster;
+    }
+
+    public function findClusterByIdentifier(string $identifier): ?Cluster
+    {
+        return $this->entityManager->getRepository(Cluster::class)->findOneBy(['identifier' => $identifier]);
     }
 }

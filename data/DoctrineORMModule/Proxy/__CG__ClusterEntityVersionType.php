@@ -260,7 +260,7 @@ class Type extends \Cluster\Entity\Version\Type implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function getVersions()
+    public function getVersions(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersions', []);
