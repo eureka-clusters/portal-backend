@@ -40,7 +40,7 @@ final class PartnerListener extends AbstractResourceListener
 
         $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
 
-        if (isset($arrayFilter['year'])) {
+        if (!empty($arrayFilter['year'])) {
             $partnerYears = [];
             //We need to pepare the parnters so we get results per year
             foreach ($partners as $partner) {
