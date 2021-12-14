@@ -7,7 +7,7 @@ return [
         'Laminas\\Hydrator',
 
         'Laminas\\ApiTools',
-        'Laminas\\ApiTools\\Admin',
+        // 'Laminas\\ApiTools\\Admin',
         'Laminas\\ApiTools\\Documentation',
         'Laminas\\ApiTools\\Documentation\\Swagger',
         'Laminas\\ApiTools\\ApiProblem',
