@@ -13,6 +13,7 @@ use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 
 use function base64_decode;
 use function base64_encode;
@@ -41,12 +42,30 @@ final class PartnerListener extends AbstractResourceListener
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        // @johan same question as in the ProjectListener
         $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
-        $results  = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
-            null,
-            null
-        );
+
+        if (!empty($arrayFilter['year'])) {
+            $partnerYears = [];
+            //We need to pepare the parnters so we get results per year
+            foreach ($partners as $partner) {
+                foreach ($arrayFilter['year'] as $year) {
+                    $partnerYears[] = array_merge(
+                        $this->partnerProvider->generateArray($partner),
+                        $this->partnerProvider->generateYearArray($partner, (int) $year)
+                    );
+                }
+            }
+
+            $results = (new ArrayAdapter($partnerYears))->getItems(
+                null,
+                null
+            );
+        } else {
+            $results = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
+                null,
+                null
+            );
+        }
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');
@@ -60,8 +79,14 @@ final class PartnerListener extends AbstractResourceListener
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-country'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-type'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-costs'));
-        $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort'));
+
+        if (!empty($arrayFilter['year'])) {
+            $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-costs-in-year'));
+            $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort-in-year'));
+        } else {
+            $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-partner-costs'));
+            $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-partner-effort'));
+        }
 
         foreach ($results as $result) {
             $column = 'A';
@@ -72,8 +97,14 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['name']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['country']['country']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['type']['type']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalCosts']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['project']['latestVersionTotalEffort']);
+
+            if (!empty($arrayFilter['year'])) {
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCostsInYear']);
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalEffortInYear']);
+            } else {
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionCosts']);
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionEffort']);
+            }
         }
 
         $excelWriter = IOFactory::createWriter($spreadSheet, 'Xlsx');
