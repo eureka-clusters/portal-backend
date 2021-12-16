@@ -41,8 +41,7 @@ final class GenericUser
         // decode as array to be able to use the filter
         $data = Json::decode($jsonString, Json::TYPE_ARRAY);
         // filter the cluster permissions
-
-        $data['clusterPermissions'] = array_intersect($data['clusterPermissions'], $allowedClusters);
+        $data['clusterPermissions'] = array_intersect($data['clusterPermissions'] ?? [], $allowedClusters);
         return new self((object)$data);
     }
 
