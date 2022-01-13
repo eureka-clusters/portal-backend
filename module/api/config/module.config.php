@@ -179,7 +179,7 @@ $config = [
             'entity_class'               => ProjectProvider::class,
             'collection_class'           => ProjectCollection::class,
             'page_size'                  => 25,
-            'page_size_param'            => 'limit',
+            'page_size_param'            => 'pageSize',
             'collection_query_whitelist' => [
                 'call',
             ],
@@ -195,6 +195,7 @@ $config = [
             'entity_class'            => OrganisationProvider::class,
             'collection_class'        => OrganisationCollection::class,
             'page_size'               => 25,
+            'page_size_param'         => 'pageSize',
         ],
         PartnerListener::class                                  => [
             'listener'                   => PartnerListener::class,
@@ -207,7 +208,7 @@ $config = [
             'entity_class'               => PartnerProvider::class,
             'collection_class'           => ProjectCollection::class,
             'page_size'                  => 12,
-            'page_size_param'            => 'limit',
+            'page_size_param'            => 'pageSize',
             'collection_query_whitelist' => [
                 'project',
                 'organisation',
