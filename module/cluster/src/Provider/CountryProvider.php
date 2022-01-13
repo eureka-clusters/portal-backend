@@ -4,23 +4,28 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Country;
-use Cluster\Entity;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 
-class CountryProvider
+class CountryProvider implements ProviderInterface
 {
-    public function __construct(private RedisCache $redisCache)
+    public function __construct(private Redis $cache)
     {
     }
 
-    public function generateArray(Country $country): array
+    /**
+     * @param Country $country
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($country): array
     {
         $cacheKey = $country->getResourceId();
 
-        $countryData = $this->redisCache->fetch($cacheKey);
+        $countryData = $this->cache->getItem($cacheKey);
 
-        if (! $countryData) {
+        if (!$countryData) {
             $countryData = [
                 'id'      => $country->getId(),
                 'country' => $country->getCountry(),
@@ -28,7 +33,7 @@ class CountryProvider
                 'iso3'    => $country->getIso3(),
             ];
 
-            $this->redisCache->save($cacheKey, $countryData);
+            $this->cache->setItem($cacheKey, $countryData);
         }
 
         return $countryData;

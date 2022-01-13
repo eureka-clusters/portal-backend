@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Project;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Partner;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\Project\PartnerService;
-use Doctrine\Common\Cache\RedisCache;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
+use Laminas\Cache\Storage\Adapter\Redis;
 
 use function sprintf;
 
-class PartnerProvider
+class PartnerProvider implements ProviderInterface
 {
     public function __construct(
-        private RedisCache $redisCache,
+        private Redis $cache,
         private ProjectProvider $projectProvider,
         private ContactProvider $contactProvider,
         private OrganisationProvider $organisationProvider,
@@ -51,10 +52,15 @@ class PartnerProvider
         ];
     }
 
-    public function generateArray(Partner $partner): array
+    /**
+     * @param Partner $partner
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($partner): array
     {
         $cacheKey    = $partner->getResourceId();
-        $partnerData = $this->redisCache->fetch($cacheKey);
+        $partnerData = $this->cache->getItem($cacheKey);
 
         if (!$partnerData) {
             $partnerData = [
@@ -76,7 +82,7 @@ class PartnerProvider
                 ),
             ];
 
-            $this->redisCache->save($cacheKey, $partnerData);
+            $this->cache->setItem($cacheKey, $partnerData);
         }
 
         return $partnerData;
@@ -85,12 +91,12 @@ class PartnerProvider
     public function generateYearArray(Partner $partner, int $year): array
     {
         $cacheKey    = $partner->getResourceId() . $year;
-        $partnerData = $this->redisCache->fetch($cacheKey);
+        $partnerData = $this->cache->getItem($cacheKey);
 
         if (!$partnerData) {
             $partnerData = [
-                'year'                       => $year,
-                'latestVersionTotalCostsInYear'   => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
+                'year'                           => $year,
+                'latestVersionTotalCostsInYear'  => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
                     $partner,
                     $partner->getProject()->getLatestVersion(),
                     $year
@@ -102,7 +108,7 @@ class PartnerProvider
                 ),
             ];
 
-            $this->redisCache->save($cacheKey, $partnerData);
+            $this->cache->setItem($cacheKey, $partnerData);
         }
 
         return $partnerData;

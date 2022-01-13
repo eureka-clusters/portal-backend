@@ -27,7 +27,7 @@ class AccessToken extends AbstractEntity
     private string $clientId;
     /**
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAccessTokens")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private User $user;
     /** @ORM\Column(name="expires", type="datetime_immutable") */

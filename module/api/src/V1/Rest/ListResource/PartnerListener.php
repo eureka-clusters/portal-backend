@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
+use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
 use Cluster\Provider\Project\PartnerProvider;
-use Cluster\Rest\Collection\PartnerCollection;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 final class PartnerListener extends AbstractResourceListener
 {
@@ -25,12 +27,12 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($params = [])
+    public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
-        if (null === $user || ! $user->isFunder()) {
-            return [];
+        if (null === $user || !$user->isFunder()) {
+            return new Paginator(new ArrayAdapter());
         }
 
         switch (true) {
@@ -39,7 +41,7 @@ final class PartnerListener extends AbstractResourceListener
                 $project = $this->projectService->findProjectBySlug($params->project);
 
                 if (null === $project) {
-                    return [];
+                    return new Paginator(new ArrayAdapter());
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByProject($project);
@@ -49,7 +51,7 @@ final class PartnerListener extends AbstractResourceListener
                 $organisation = $this->organisationService->findOrganisationBySlug($params->organisation);
 
                 if (null === $organisation) {
-                    return [];
+                    return new Paginator(new ArrayAdapter());
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation($organisation);
@@ -58,9 +60,9 @@ final class PartnerListener extends AbstractResourceListener
                 $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), []);
         }
 
-        return (new PartnerCollection($partnerQueryBuilder, $this->partnerProvider))->getItems(
-            $params->offset,
-            $params->amount ?? 100
-        );
+        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
+        $doctrineORMAdapter->setProvider($this->partnerProvider);
+
+        return new Paginator($doctrineORMAdapter);
     }
 }

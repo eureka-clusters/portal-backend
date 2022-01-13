@@ -30,7 +30,9 @@ class Cluster extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-    /** @ORM\Column(unique=true) */
+    /**
+     * @ORM\Column(unique=true)
+     */
     private string $name;
 
     /** @ORM\Column(unique=true) */

@@ -138,7 +138,7 @@ class PartnerRepository extends EntityRepository
         }
     }
 
-    public function getPartnersByProject(Project $project): array
+    public function getPartnersByProject(Project $project): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -148,10 +148,10 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
-    public function getPartnersByOrganisation(Organisation $organisation): array
+    public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -161,7 +161,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter('organisation', $organisation);
         $queryBuilder->addOrderBy('project_partner_organisation.name');
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
     public function fetchCountries(Funder $funder, $filter): array

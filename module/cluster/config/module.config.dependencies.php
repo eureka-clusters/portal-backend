@@ -19,25 +19,25 @@ use Cluster\Service\CountryService;
 use Cluster\Service\ClusterService;
 use Cluster\Service\ProjectService;
 use Cluster\Service\OrganisationService;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 use Doctrine\ORM\EntityManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
         ClusterProvider::class           => [
-            RedisCache::class,
+            Redis::class,
         ],
         OrganisationProvider::class      => [
-            RedisCache::class,
+            Redis::class,
             CountryProvider::class,
             TypeProvider::class,
         ],
         TypeProvider::class => [
-            RedisCache::class,
+            Redis::class,
         ],
         ProjectProvider::class           => [
-            RedisCache::class,
+            Redis::class,
             VersionService::class,
             ClusterProvider::class,
             ContactProvider::class,
@@ -46,28 +46,28 @@ return [
             // ,Provider\Project\PartnerProvider::class
         ],
         PartnerProvider::class   => [
-            RedisCache::class,
+            Redis::class,
             ProjectProvider::class,
             ContactProvider::class,
             OrganisationProvider::class,
             PartnerService::class,
         ],
         StatusProvider::class    => [
-            RedisCache::class,
+            Redis::class,
         ],
         VersionProvider::class   => [
-            RedisCache::class,
+            Redis::class,
             Provider\Version\TypeProvider::class,
             Provider\Version\StatusProvider::class,
         ],
         Provider\Version\StatusProvider::class    => [
-            RedisCache::class,
+            Redis::class,
         ],
         Provider\Version\TypeProvider::class      => [
-            RedisCache::class,
+            Redis::class,
         ],
         CountryProvider::class           => [
-            RedisCache::class,
+            Redis::class,
         ],
         CountryService::class             => [
             EntityManager::class,

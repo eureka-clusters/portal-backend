@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
-class ContactProvider
+use Api\Provider\ProviderInterface;
+
+class ContactProvider implements ProviderInterface
 {
-    public function generateArray(array $contact): array
+    /**
+     * @param array $contact
+     * @return array
+     */
+    public function generateArray($contact): array
     {
         return $contact;
     }

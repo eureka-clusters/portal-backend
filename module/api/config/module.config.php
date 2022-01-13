@@ -179,6 +179,7 @@ $config = [
             'entity_class'               => ProjectProvider::class,
             'collection_class'           => ProjectCollection::class,
             'page_size'                  => 25,
+            'page_size_param'            => 'limit',
             'collection_query_whitelist' => [
                 'call',
             ],
@@ -205,7 +206,8 @@ $config = [
             'service_name'               => 'list_partners',
             'entity_class'               => PartnerProvider::class,
             'collection_class'           => ProjectCollection::class,
-            'page_size'                  => 25,
+            'page_size'                  => 12,
+            'page_size_param'            => 'limit',
             'collection_query_whitelist' => [
                 'project',
                 'organisation',

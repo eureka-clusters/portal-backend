@@ -24,7 +24,13 @@ final class PartnerListener extends AbstractResourceListener
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
 
         if (null === $user || !$user->isFunder()) {
-            return [];
+            return [
+                'countries'         => [],
+                'organisationTypes' => [],
+                'projectStatus'     => [],
+                'primaryClusters'   => [],
+                'years'             => [],
+            ];
         }
 
         //The filter is a base64 encoded serialised json string

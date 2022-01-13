@@ -15,7 +15,9 @@ use Cluster\Repository\Project\PartnerRepository;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use stdClass;
 
@@ -50,7 +52,7 @@ class PartnerService extends AbstractService
         return $repository->getPartnersByFunderAndFilter($funder, $filter);
     }
 
-    public function getPartnersByProject(Project $project): array
+    public function getPartnersByProject(Project $project): QueryBuilder
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
@@ -58,7 +60,7 @@ class PartnerService extends AbstractService
         return $repository->getPartnersByProject($project);
     }
 
-    public function getPartnersByOrganisation(Organisation $organisation): array
+    public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
@@ -66,7 +68,12 @@ class PartnerService extends AbstractService
         return $repository->getPartnersByOrganisation($organisation);
     }
 
-    public function generateFacets(Funder $funder, array $filter): array
+    #[ArrayShape(['countries'         => "array[]",
+                  'organisationTypes' => "array[]",
+                  'projectStatus'     => "array[]",
+                  'primaryClusters'   => "array[]",
+                  'years'             => "array"
+    ])] public function generateFacets(Funder $funder, array $filter): array
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);

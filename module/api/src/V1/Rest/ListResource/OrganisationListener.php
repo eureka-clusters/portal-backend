@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource;
 
+use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\OrganisationProvider;
-use Cluster\Rest\Collection\OrganisationCollection;
 use Cluster\Service\OrganisationService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Paginator\Paginator;
 
 final class OrganisationListener extends AbstractResourceListener
 {
@@ -17,13 +18,13 @@ final class OrganisationListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($params = [])
+    public function fetchAll($params = []): Paginator
     {
         $partnerQueryBuilder = $this->organisationService->getOrganisations([]);
 
-        return (new OrganisationCollection($partnerQueryBuilder, $this->organisationProvider))->getItems(
-            $params->offset,
-            $params->amount ?? 25
-        );
+        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
+        $doctrineORMAdapter->setProvider($this->organisationProvider);
+
+        return new Paginator($doctrineORMAdapter);
     }
 }
