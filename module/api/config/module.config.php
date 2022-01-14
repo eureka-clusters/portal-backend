@@ -305,6 +305,7 @@ $config = [
             'entity_class'               => Project::class,
             'collection_class'           => Project::class,
             'page_size'                  => 25,
+            'page_size_param'            => 'pageSize',
             'collection_query_whitelist' => [
                 'output',
                 'filter',
@@ -321,6 +322,7 @@ $config = [
             'entity_class'               => Partner::class,
             'collection_class'           => Partner::class,
             'page_size'                  => 25,
+            'page_size_param'            => 'pageSize',
             'collection_query_whitelist' => [
                 'output',
                 'filter',

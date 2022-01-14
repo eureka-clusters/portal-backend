@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(Funder $funder, array $filter): array
+    public function getPartnersByFunderAndFilter(Funder $funder, array $filter): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -26,7 +26,7 @@ class PartnerRepository extends EntityRepository
 
         $this->applyFilters($filter, $queryBuilder);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
