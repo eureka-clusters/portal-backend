@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
-use Stringable;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="oauth_scopes")
- * @ORM\Entity(repositoryClass="Api\Repository\OAuth\Scope")
- */
-class Scope extends AbstractEntity implements Stringable
+#[ORM\Table(name: 'oauth_scopes')]
+#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Scope::class)]
+class Scope extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(name="type", type="string")
-     */
+
+    #[ORM\Column(name: 'type', type: 'string')]
     private string $type = 'supported';
-    /**
-     * @ORM\Column(name="scope", length=2000, type="string")
-     */
+
+    #[ORM\Column(name: 'scope', type: 'string', length: 2000)]
     private string $scope = '';
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Client", mappedBy="scope", cascade={"persist"})
-     */
-    private Collection|array $clients;
-    /**
-     * @ORM\Column(name="is_default", type="boolean")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'scope', targetEntity: Client::class, cascade: ['persist'])]
+    private Collection $clients;
+
+    #[ORM\Column(name: 'is_default', type: 'boolean')]
     private bool $isDefault = true;
 
     #[Pure] public function __construct()

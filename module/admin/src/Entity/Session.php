@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
-use Stringable;
 use Application\Entity\AbstractEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="admin_session",indexes={@ORM\Index(name="session_key_idx", columns={"key"})})
  * @ORM\Entity
  */
-class Session extends AbstractEntity implements Stringable
+class Session extends AbstractEntity
 {
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -25,17 +24,17 @@ class Session extends AbstractEntity implements Stringable
     /** @ORM\Column(name="`key`") */
     private string $key;
     /** @ORM\Column(type="integer") */
-    private int $modified;
+    private int $modified = 0;
     /** @ORM\Column(type="integer") */
-    private int $lifetime;
+    private int $lifetime = 0;
     /** @ORM\Column(type="integer") */
-    private int $hits;
+    private int $hits = 1;
     /** @ORM\Column(type="text") */
-    private string $data;
+    private string $data = '';
     /** @ORM\Column() */
-    private string $name;
+    private string $name = '';
     /** @ORM\Column(type="string", length=15, nullable=false) */
-    private $ip;
+    private string $ip;
     /**
      * @ORM\Column(type="datetime", nullable=false)
      *
@@ -46,25 +45,25 @@ class Session extends AbstractEntity implements Stringable
      * @ORM\ManyToOne(targetEntity="Admin\Entity\User", inversedBy="session", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private User $user;
+    private ?User $user = null;
 
     public function __construct()
     {
-        $this->ip   = $_SERVER['REMOTE_ADDR'] ?? '-';
-        $this->hits = 1;
+        $this->ip        = $_SERVER['REMOTE_ADDR'] ?? '-';
+        $this->dateStart = new DateTime();
     }
 
     public function __toString(): string
     {
-        return (string) $this->name;
+        return $this->name;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): Session
+    public function setId(?int $id): Session
     {
         $this->id = $id;
         return $this;
@@ -136,18 +135,18 @@ class Session extends AbstractEntity implements Stringable
         return $this;
     }
 
-    public function getIp(): string
+    public function getIp(): mixed
     {
         return $this->ip;
     }
 
-    public function setIp(string $ip): Session
+    public function setIp(mixed $ip): Session
     {
         $this->ip = $ip;
         return $this;
     }
 
-    public function getDateStart(): ?DateTime
+    public function getDateStart(): DateTime
     {
         return $this->dateStart;
     }
@@ -163,7 +162,7 @@ class Session extends AbstractEntity implements Stringable
         return $this->user;
     }
 
-    public function setUser(User $user): Session
+    public function setUser(?User $user): Session
     {
         $this->user = $user;
         return $this;

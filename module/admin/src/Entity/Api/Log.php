@@ -30,24 +30,56 @@ class Log extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /** @ORM\Column() */
-    private string $class;
-    /** @ORM\Column(type="smallint") */
-    private int $type;
+    /**
+     * @ORM\Column()
+     */
+    private string $class = '';
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private int $type = self::TYPE_INCOMING;
     /**
      * @ORM\Column(type="datetime")
      *
      * @Gedmo\Timestampable(on="create")
      */
     private DateTime $dateCreated;
-    /** @ORM\Column(type="text") */
-    private string $payload;
-    /** @ORM\Column(type="integer") */
-    private int $statusCode;
-    /** @ORM\Column(type="text") */
-    private string $status;
-    /** @ORM\Column(type="text") */
+    /**
+     * @ORM\Column(type="text")
+     */
+    private string $payload = '';
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $statusCode = 0;
+    /**
+     * @ORM\Column(type="text")
+     */
+    private string $status = '';
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
     private ?string $response = null;
+
+    public function __construct()
+    {
+        $this->dateCreated = new DateTime();
+    }
+
+    public static function getTypeTemplates(): array
+    {
+        return self::$typeTemplates;
+    }
+
+    public static function setTypeTemplates(array $typeTemplates): void
+    {
+        self::$typeTemplates = $typeTemplates;
+    }
+
+    public function getTypeText(): string
+    {
+        return self::$typeTemplates[$this->type];
+    }
 
     public function getId(): int
     {
@@ -80,11 +112,6 @@ class Log extends AbstractEntity
     {
         $this->type = $type;
         return $this;
-    }
-
-    public function getTypeText(): string
-    {
-        return self::$typeTemplates[$this->type];
     }
 
     public function getDateCreated(): DateTime

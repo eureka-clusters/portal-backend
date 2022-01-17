@@ -8,24 +8,27 @@ use Application\Entity\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-#[ORM\Table(name: 'oauth_jwt')]
+#[ORM\Table(name: 'oauth_public_keys')]
 #[ORM\Entity]
-class Jwt extends AbstractEntity
+class PublicKey extends AbstractEntity
 {
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'jwtTokens')]
+    #[ORM\OneToOne(inversedBy: 'publicKey', targetEntity: Client::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
     private Client $client;
 
-    #[ORM\Column(name: 'public_key', length: 2000)]
+    #[ORM\Column(name: 'public_key', type: 'text')]
     private string $publicKey = '';
 
-    #[ORM\Column(name: 'subject')]
-    private string $subject = '';
+    #[ORM\Column(name: 'private_key', type: 'text')]
+    private string $privateKey = '';
+
+    #[ORM\Column(name: 'encryption_algorithm', type: 'string')]
+    private string $encryptionAlgorithm = '';
 
     #[Pure] public function __construct()
     {
@@ -37,7 +40,7 @@ class Jwt extends AbstractEntity
         return $this->id;
     }
 
-    public function setId(int $id): Jwt
+    public function setId(int $id): PublicKey
     {
         $this->id = $id;
         return $this;
@@ -48,7 +51,7 @@ class Jwt extends AbstractEntity
         return $this->client;
     }
 
-    public function setClient(Client $client): Jwt
+    public function setClient(Client $client): PublicKey
     {
         $this->client = $client;
         return $this;
@@ -59,20 +62,31 @@ class Jwt extends AbstractEntity
         return $this->publicKey;
     }
 
-    public function setPublicKey(string $publicKey): Jwt
+    public function setPublicKey(string $publicKey): PublicKey
     {
         $this->publicKey = $publicKey;
         return $this;
     }
 
-    public function getSubject(): string
+    public function getPrivateKey(): string
     {
-        return $this->subject;
+        return $this->privateKey;
     }
 
-    public function setSubject(string $subject): Jwt
+    public function setPrivateKey(string $privateKey): PublicKey
     {
-        $this->subject = $subject;
+        $this->privateKey = $privateKey;
+        return $this;
+    }
+
+    public function getEncryptionAlgorithm(): string
+    {
+        return $this->encryptionAlgorithm;
+    }
+
+    public function setEncryptionAlgorithm(string $encryptionAlgorithm): PublicKey
+    {
+        $this->encryptionAlgorithm = $encryptionAlgorithm;
         return $this;
     }
 }

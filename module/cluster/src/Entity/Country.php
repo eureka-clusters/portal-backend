@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
-use Cluster\Entity\Organisation;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
@@ -34,11 +32,11 @@ class Country extends AbstractEntity
      *
      * @Gedmo\Slug(fields={"country"})
      */
-    private string $docRef;
+    private string $docRef = '';
     /** @ORM\Column(type="string",nullable=true) */
     private ?string $iso3 = null;
     /** @ORM\Column(name="numcode",type="integer",length=6) */
-    private int $numcode;
+    private int $numcode = 0;
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="country")
      */

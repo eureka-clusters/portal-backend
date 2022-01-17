@@ -12,7 +12,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project_version")
@@ -25,7 +24,7 @@ class Version extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", inversedBy="versions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -40,31 +39,36 @@ class Version extends AbstractEntity
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist", "remove"}, mappedBy="version")
      */
     private Collection $costsAndEffort;
-    /** @ORM\Column(type="date", nullable=true) */
-    private DateTime $submissionDate;
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private ?DateTime $submissionDate = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Version\Status", inversedBy="versions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Status $status;
     /** @ORM\Column(type="float") */
-    private float $effort;
+    private float $effort = 0.0;
     /** @ORM\Column(type="float") */
-    private float $costs;
+    private float $costs = 0.0;
     /** @ORM\Column(type="array") */
     private array $countries = [];
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->project        = new Project();
+        $this->type           = new Type();
+        $this->status         = new Status();
         $this->costsAndEffort = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): Version
+    public function setId(?int $id): Version
     {
         $this->id = $id;
         return $this;
@@ -103,12 +107,12 @@ class Version extends AbstractEntity
         return $this;
     }
 
-    public function getSubmissionDate(): DateTime
+    public function getSubmissionDate(): ?DateTime
     {
         return $this->submissionDate;
     }
 
-    public function setSubmissionDate(DateTime $submissionDate): Version
+    public function setSubmissionDate(?DateTime $submissionDate): Version
     {
         $this->submissionDate = $submissionDate;
         return $this;

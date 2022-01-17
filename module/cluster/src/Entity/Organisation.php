@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_organisation")
@@ -24,33 +23,35 @@ class Organisation extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
-    /** @ORM\Column() */
-    private string $name;
+    /**
+     * @ORM\Column()
+     */
+    private string $name = '';
     /**
      * @ORM\Column(unique=true)
      *
      * @Gedmo\Slug(fields={"name"})
      */
-    private string $slug;
+    private string $slug = '';
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Country $country;
-
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation\Type", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Type $type;
-
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist"}, mappedBy="organisation")
      */
     private Collection $partners;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->country  = new Country();
+        $this->type     = new Type();
         $this->partners = new ArrayCollection();
     }
 

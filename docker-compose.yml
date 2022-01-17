@@ -22,7 +22,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./.docker/php-fpm/Dockerfile
+      dockerfile: .docker/php-fpm/dev/Dockerfile
     container_name: pa-portal-backend-app
     working_dir: /var/www
     volumes:

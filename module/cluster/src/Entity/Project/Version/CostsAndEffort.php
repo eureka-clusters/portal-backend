@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Entity\Project\Version;
 
-use Cluster\Entity\Project;
+use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Version;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,14 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="cluster_project_version_costs_and_effort")
  * @ORM\Entity(repositoryClass="Cluster\Repository\Project\Version\CostsAndEffort")
  */
-class CostsAndEffort
+class CostsAndEffort extends AbstractEntity
 {
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Partner", inversedBy="costsAndEffort", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -32,18 +32,24 @@ class CostsAndEffort
      */
     private Version $version;
     /** @ORM\Column(type="integer") */
-    private int $year;
+    private int $year = 2000;
     /** @ORM\Column(type="float") */
-    private float $effort;
+    private float $effort = 0.0;
     /** @ORM\Column(type="float") */
-    private float $costs;
+    private float $costs = 0.0;
 
-    public function getId(): int
+    public function __construct()
+    {
+        $this->partner = new Partner();
+        $this->version = new Version();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): CostsAndEffort
+    public function setId(?int $id): CostsAndEffort
     {
         $this->id = $id;
         return $this;

@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project_partner")
@@ -24,7 +23,7 @@ class Partner extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation", inversedBy="partners", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -59,8 +58,10 @@ class Partner extends AbstractEntity
      */
     private Collection $costsAndEffort;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->organisation   = new Organisation();
+        $this->project        = new Project();
         $this->costsAndEffort = new ArrayCollection();
     }
 

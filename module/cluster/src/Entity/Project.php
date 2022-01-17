@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_project",
@@ -29,30 +28,46 @@ class Project extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
-    /** @ORM\Column(unique=true) */
-    private string $identifier;
+    private ?int $id = null;
+    /**
+     * @ORM\Column(unique=true)
+     */
+    private string $identifier = '';
     /**
      * @ORM\Column(unique=true)
      *
      * @Gedmo\Slug(fields={"name"}, updatable=true)
      */
-    private string $slug;
-    /** @ORM\Column() */
-    private string $number;
-    /** @ORM\Column() */
-    private string $name;
-    /** @ORM\Column() */
-    private string $title;
-    /** @ORM\Column(type="text", nullable=true) */
-    private string $description;
-    /** @ORM\Column(nullable=true) */
-    private string $technicalArea;
+    private string $slug = '';
+    /**
+     * @ORM\Column()
+     */
+    private string $number = '';
+    /**
+     * @ORM\Column()
+     */
+    private string $name = '';
+    /**
+     * @ORM\Column()
+     */
+    private string $title = '';
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $description = null;
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    private ?string $technicalArea = null;
 
-    /** @ORM\Column() */
-    private string $programme;
-    /** @ORM\Column() */
-    private string $programmeCall;
+    /**
+     * @ORM\Column()
+     */
+    private string $programme = '';
+    /**
+     * @ORM\Column()
+     */
+    private string $programmeCall = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsPrimary", cascade={"persist"})
@@ -93,10 +108,12 @@ class Project extends AbstractEntity
      */
     private Collection $partners;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
-        $this->versions = new ArrayCollection();
-        $this->partners = new ArrayCollection();
+        $this->primaryCluster = new Cluster();
+        $this->status         = new Status();
+        $this->versions       = new ArrayCollection();
+        $this->partners       = new ArrayCollection();
     }
 
     public function hasSecondaryCluster(): bool
@@ -104,12 +121,22 @@ class Project extends AbstractEntity
         return null !== $this->secondaryCluster;
     }
 
-    public function getId(): int
+    public function getLatestVersion(): ?Version
+    {
+        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
+    }
+
+    public function getCoordinatorPartner(): ?Partner
+    {
+        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): Project
+    public function setId(?int $id): Project
     {
         $this->id = $id;
         return $this;
@@ -170,23 +197,23 @@ class Project extends AbstractEntity
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): Project
+    public function setDescription(?string $description): Project
     {
         $this->description = $description;
         return $this;
     }
 
-    public function getTechnicalArea(): string
+    public function getTechnicalArea(): ?string
     {
         return $this->technicalArea;
     }
 
-    public function setTechnicalArea(string $technicalArea): Project
+    public function setTechnicalArea(?string $technicalArea): Project
     {
         $this->technicalArea = $technicalArea;
         return $this;
@@ -302,33 +329,23 @@ class Project extends AbstractEntity
         return $this;
     }
 
-    public function getVersions(): ArrayCollection|Collection
+    public function getVersions(): Collection
     {
         return $this->versions;
     }
 
-    public function setVersions($versions): Project
+    public function setVersions(Collection $versions): Project
     {
         $this->versions = $versions;
         return $this;
     }
 
-    public function getLatestVersion(): ?Version
-    {
-        return $this->versions->filter(fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
-    }
-
-    public function getCoordinatorPartner(): ?Partner
-    {
-        return $this->partners->filter(fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
-    }
-
-    public function getPartners(): ArrayCollection|Collection
+    public function getPartners(): Collection
     {
         return $this->partners;
     }
 
-    public function setPartners($partners): Project
+    public function setPartners(Collection $partners): Project
     {
         $this->partners = $partners;
         return $this;
