@@ -15,6 +15,10 @@ COPY ./.docker/app /var/www/config/autoload
 # Copy existing application directory permissions
 COPY --chown=www:www .. /var/www
 
+#Allow writing in the data folder
+RUN mkdir data/cache
+RUN chown www:www -R data
+
 # Change current user to www
 USER www
 

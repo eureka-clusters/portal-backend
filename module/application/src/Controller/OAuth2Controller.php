@@ -14,6 +14,7 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
+use OAuth2\Encryption\Jwt;
 
 final class OAuth2Controller extends AbstractActionController
 {
@@ -116,14 +117,33 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 //Find the oAuth client to redirect to the frontend
-                $oAuthClient = $this->oAuthService->findClientByClientId($session->clientId);
+                $oAuthClient = $this->oAuthService->findLatestClient();
 
-                //We need to find the client and we use the generic client
-                $token = $this->oAuthService->findOrGenereateJWTToken($user, $oAuthClient);
+                $jwtHelper = new Jwt();
+
+                $expire = (new \DateTime())->add(new \DateInterval('P1D'))->getTimestamp();
+
+                $payload = [
+                    'id'         => 1,
+                    'jti'        => 1,
+                    'iss'        => 'eureka-clusters',
+                    'aud'        => $oAuthClient->getClientId(),
+                    'sub'        => $user->getId(),
+                    'exp'        => $expire,
+                    'iat'        => time(),
+                    'token_type' => $oAuthClient->getPublicKey()?->getEncryptionAlgorithm(),
+                    'scope'      => 'openid'
+                ];
+
+                $RS256Token = $jwtHelper->encode(
+                    $payload,
+                    $oAuthClient->getPublicKey()?->getPrivateKey(),
+                    $oAuthClient->getPublicKey()?->getEncryptionAlgorithm()
+                );
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    $oAuthClient->getRedirectUri() . '?token=' . $token->getToken()
+                    $oAuthClient->getRedirectUri() . '?token=' . $RS256Token
                 );
             } catch (IdentityProviderException) {
                 return $this->redirect()->toRoute('user/login');
