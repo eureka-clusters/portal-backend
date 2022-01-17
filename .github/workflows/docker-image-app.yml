@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - develop
+      - create-pagination
   pull_request:
     branches:
       - main
-      - develop
+      - create-pagination
 
 jobs:
   build:
