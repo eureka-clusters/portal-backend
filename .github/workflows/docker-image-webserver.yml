@@ -38,4 +38,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: ./.docker/nginx/Dockerfile
           push: true
-          tags: ghcr.io/eureka-clusters/backend/app:latest
+          tags: ghcr.io/eureka-clusters/backend/nginx:latest
