@@ -179,7 +179,7 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -194,7 +194,7 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Cluster\Entity\Project\Version
+    public function setId(?int $id): \Cluster\Entity\Project\Version
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -271,7 +271,7 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getSubmissionDate(): \DateTime
+    public function getSubmissionDate(): ?\DateTime
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubmissionDate', []);
@@ -282,7 +282,7 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function setSubmissionDate(\DateTime $submissionDate): \Cluster\Entity\Project\Version
+    public function setSubmissionDate(?\DateTime $submissionDate): \Cluster\Entity\Project\Version
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSubmissionDate', [$submissionDate]);

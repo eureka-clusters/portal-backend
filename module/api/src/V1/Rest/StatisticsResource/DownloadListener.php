@@ -25,7 +25,7 @@ final class DownloadListener extends AbstractResourceListener
 
     public function fetch($id = null)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
             return [];

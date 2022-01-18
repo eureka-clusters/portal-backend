@@ -13,9 +13,8 @@ use Cluster\Entity\Project\Partner;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Rest\Collection\OrganisationCollection;
 use Cluster\Rest\Collection\PartnerCollection;
-use Cluster\Rest\Collection\ProjectCollection;
+use Laminas\Paginator\Paginator;
 
 class ApiConfigProvider
 {
@@ -44,7 +43,7 @@ class ApiConfigProvider
                 'collection_http_methods'    => ['GET'],
                 'service_name'               => 'list_projects',
                 'entity_class'               => ProjectProvider::class,
-                'collection_class'           => ProjectCollection::class,
+                'collection_class'           => Paginator::class,
                 'page_size'                  => 25,
                 'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
@@ -60,7 +59,7 @@ class ApiConfigProvider
                 'collection_http_methods' => ['GET'],
                 'service_name'            => 'list_organisations',
                 'entity_class'            => OrganisationProvider::class,
-                'collection_class'        => OrganisationCollection::class,
+                'collection_class'        => Paginator::class,
                 'page_size'               => 25,
                 'page_size_param'         => 'pageSize',
             ],
@@ -73,7 +72,7 @@ class ApiConfigProvider
                 'collection_http_methods'    => ['GET'],
                 'service_name'               => 'list_partners',
                 'entity_class'               => PartnerProvider::class,
-                'collection_class'           => ProjectCollection::class,
+                'collection_class'           => Paginator::class,
                 'page_size'                  => 12,
                 'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
@@ -90,7 +89,7 @@ class ApiConfigProvider
                 'collection_http_methods'    => [],
                 'service_name'               => 'view_project',
                 'entity_class'               => ProjectProvider::class,
-                'collection_class'           => ProjectCollection::class,
+                'collection_class'           => Paginator::class,
                 'page_size'                  => 25,
                 'collection_query_whitelist' => [],
             ],
@@ -103,7 +102,7 @@ class ApiConfigProvider
                 'collection_http_methods'    => [],
                 'service_name'               => 'view_project',
                 'entity_class'               => OrganisationProvider::class,
-                'collection_class'           => OrganisationCollection::class,
+                'collection_class'           => null,
                 'page_size'                  => 25,
                 'collection_query_whitelist' => [],
             ],

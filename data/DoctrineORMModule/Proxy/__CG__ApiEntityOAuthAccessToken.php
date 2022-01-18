@@ -66,10 +66,10 @@ class AccessToken extends \Api\Entity\OAuth\AccessToken implements \Doctrine\ORM
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'accessToken', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'scope'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'accessToken', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'scope'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'accessToken', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'scope'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'accessToken', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AccessToken' . "\0" . 'scope'];
     }
 
     /**
@@ -194,7 +194,7 @@ class AccessToken extends \Api\Entity\OAuth\AccessToken implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Api\Entity\OAuth\AccessToken
+    public function setId(?int $id): \Api\Entity\OAuth\AccessToken
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -227,29 +227,29 @@ class AccessToken extends \Api\Entity\OAuth\AccessToken implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getClientId(): string
+    public function getClient(): \Api\Entity\OAuth\Client
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClientId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClient', []);
 
-        return parent::getClientId();
+        return parent::getClient();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setClientId(string $clientId): \Api\Entity\OAuth\AccessToken
+    public function setClient(\Api\Entity\OAuth\Client $client): \Api\Entity\OAuth\AccessToken
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClientId', [$clientId]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClient', [$client]);
 
-        return parent::setClientId($clientId);
+        return parent::setClient($client);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getUser(): \Admin\Entity\User
+    public function getUser(): ?\Admin\Entity\User
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
@@ -260,7 +260,7 @@ class AccessToken extends \Api\Entity\OAuth\AccessToken implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function setUser(\Admin\Entity\User $user): \Api\Entity\OAuth\AccessToken
+    public function setUser(?\Admin\Entity\User $user): \Api\Entity\OAuth\AccessToken
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);

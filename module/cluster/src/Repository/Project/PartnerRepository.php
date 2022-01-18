@@ -136,6 +136,25 @@ class PartnerRepository extends EntityRepository
                 $queryBuilder->expr()->in('project_partner', $primaryClusterFilterSubSelect->getDQL())
             );
         }
+
+        $yearFilter = $filter['year'] ?? [2021];
+
+        if (!empty($yearFilter)) {
+            $yearFilterSubSelect = $this->_em->createQueryBuilder()
+                ->select('project_partner_filter_year')
+                ->from(Partner::class, 'project_partner_filter_year')
+                ->join('project_partner_filter_year.costsAndEffort', 'project_partner_filter_year_costs_and_effort')
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'project_partner_filter_year_costs_and_effort.year',
+                        $yearFilter
+                    )
+                );
+
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->in('project_partner', $yearFilterSubSelect->getDQL())
+            );
+        }
     }
 
     public function getPartnersByProject(Project $project): QueryBuilder

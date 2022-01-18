@@ -216,7 +216,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getDate(): ?string
+    public function getDate(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDate', []);
@@ -227,7 +227,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setDate(?string $date): \Admin\Entity\Log
+    public function setDate(string $date): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDate', [$date]);
@@ -238,7 +238,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getType(): ?int
+    public function getType(): int
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
@@ -249,7 +249,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setType(?int $type): \Admin\Entity\Log
+    public function setType(int $type): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
@@ -260,7 +260,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getEvent(): ?string
+    public function getEvent(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEvent', []);
@@ -271,7 +271,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setEvent(?string $event): \Admin\Entity\Log
+    public function setEvent(string $event): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvent', [$event]);
@@ -282,7 +282,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUrl(): ?string
+    public function getUrl(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUrl', []);
@@ -293,7 +293,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setUrl(?string $url): \Admin\Entity\Log
+    public function setUrl(string $url): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUrl', [$url]);
@@ -304,7 +304,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getFile(): ?string
+    public function getFile(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFile', []);
@@ -315,7 +315,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setFile(?string $file): \Admin\Entity\Log
+    public function setFile(string $file): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFile', [$file]);
@@ -326,7 +326,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getLine(): ?int
+    public function getLine(): int
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLine', []);
@@ -337,7 +337,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setLine(?int $line): \Admin\Entity\Log
+    public function setLine(int $line): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLine', [$line]);
@@ -348,7 +348,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getErrorType(): ?string
+    public function getErrorType(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getErrorType', []);
@@ -359,7 +359,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setErrorType(?string $errorType): \Admin\Entity\Log
+    public function setErrorType(string $errorType): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setErrorType', [$errorType]);
@@ -370,7 +370,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getTrace(): ?string
+    public function getTrace(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTrace', []);
@@ -381,7 +381,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setTrace(?string $trace): \Admin\Entity\Log
+    public function setTrace(string $trace): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTrace', [$trace]);
@@ -392,7 +392,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getRequestData(): ?string
+    public function getRequestData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRequestData', []);
@@ -403,7 +403,7 @@ class Log extends \Admin\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setRequestData(?string $requestData): \Admin\Entity\Log
+    public function setRequestData(string $requestData): \Admin\Entity\Log
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRequestData', [$requestData]);
