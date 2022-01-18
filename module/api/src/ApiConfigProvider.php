@@ -192,6 +192,8 @@ class ApiConfigProvider
                 'collection_query_whitelist' => [
                     'output',
                     'filter',
+                    'sort',
+                    'order',
                 ],
             ],
             Rest\StatisticsResource\Download\ProjectListener::class => [
