@@ -28,7 +28,6 @@ final class PartnerListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-
         if (null === $user || !$user->isFunder()) {
             return new Paginator(new ArrayAdapter());
         }
@@ -40,6 +39,21 @@ final class PartnerListener extends AbstractResourceListener
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+
+        if (!empty($arrayFilter['year'])) {
+            $partnerYears = [];
+            //We need to pepare the parnters so we get results per year
+            foreach ($partnerQueryBuilder->getQuery()->getResult() as $partner) {
+                foreach ($arrayFilter['year'] as $year) {
+                    $partnerYears[] = array_merge(
+                        $this->partnerProvider->generateArray($partner),
+                        $this->partnerProvider->generateYearArray($partner, (int)$year)
+                    );
+                }
+            }
+
+            return new Paginator(new ArrayAdapter($partnerYears));
+        }
 
         $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
         $doctrineORMAdapter->setProvider($this->partnerProvider);
