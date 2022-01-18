@@ -179,6 +179,17 @@ class Log extends \Admin\Entity\Api\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getTypeText(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTypeText', []);
+
+        return parent::getTypeText();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {
@@ -244,17 +255,6 @@ class Log extends \Admin\Entity\Api\Log implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
 
         return parent::setType($type);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTypeText(): string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTypeText', []);
-
-        return parent::getTypeText();
     }
 
     /**

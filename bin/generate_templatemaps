@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-cd "$(dirname "$0")" || exit
-cd ".."
-
-cd "module/Application" || exit
-../../vendor/bin/templatemap_generator.php ./view $(find ./view -name '*.twig') > template_map.php
-
-rm -rf ./data/cache/module-config-cache.backend.php

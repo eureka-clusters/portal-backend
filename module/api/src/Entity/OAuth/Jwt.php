@@ -4,78 +4,75 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
-use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="oauth_jwt")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'oauth_jwt')]
+#[ORM\Entity]
 class Jwt extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer",nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private ?int $id = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Client", cascade={"persist"}, inversedBy="jwt")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private ?Client $client = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthJwt")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private User $user;
-    /**
-     * @ORM\Column()
-     */
-    private string $token;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    public function getId(): ?int
+    #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'jwtTokens')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    private Client $client;
+
+    #[ORM\Column(name: 'public_key', length: 2000)]
+    private string $publicKey = '';
+
+    #[ORM\Column(name: 'subject')]
+    private string $subject = '';
+
+    #[Pure] public function __construct()
+    {
+        $this->client = new Client();
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(?int $id): Jwt
+    public function setId(int $id): Jwt
     {
         $this->id = $id;
         return $this;
     }
 
-    public function getClient(): ?Client
+    public function getClient(): Client
     {
         return $this->client;
     }
 
-    public function setClient(?Client $client): Jwt
+    public function setClient(Client $client): Jwt
     {
         $this->client = $client;
         return $this;
     }
 
-    public function getUser(): User
+    public function getPublicKey(): string
     {
-        return $this->user;
+        return $this->publicKey;
     }
 
-    public function setUser(User $user): Jwt
+    public function setPublicKey(string $publicKey): Jwt
     {
-        $this->user = $user;
+        $this->publicKey = $publicKey;
         return $this;
     }
 
-    public function getToken(): string
+    public function getSubject(): string
     {
-        return $this->token;
+        return $this->subject;
     }
 
-    public function setToken(string $token): Jwt
+    public function setSubject(string $subject): Jwt
     {
-        $this->token = $token;
+        $this->subject = $subject;
         return $this;
     }
 }

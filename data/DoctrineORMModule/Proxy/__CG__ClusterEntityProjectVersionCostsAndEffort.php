@@ -179,7 +179,7 @@ class CostsAndEffort extends \Cluster\Entity\Project\Version\CostsAndEffort impl
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -194,7 +194,7 @@ class CostsAndEffort extends \Cluster\Entity\Project\Version\CostsAndEffort impl
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Cluster\Entity\Project\Version\CostsAndEffort
+    public function setId(?int $id): \Cluster\Entity\Project\Version\CostsAndEffort
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -310,6 +310,61 @@ class CostsAndEffort extends \Cluster\Entity\Project\Version\CostsAndEffort impl
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCosts', [$costs]);
 
         return parent::setCosts($costs);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getResourceId(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceId', []);
+
+        return parent::getResourceId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get(string $switch): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'get', [$switch]);
+
+        return parent::get($switch);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEmpty(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isEmpty', []);
+
+        return parent::isEmpty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function has(string $prop): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'has', [$prop]);
+
+        return parent::has($prop);
     }
 
 }

@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(Funder $funder, array $filter): array
+    public function getPartnersByFunderAndFilter(Funder $funder, array $filter): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -26,7 +26,7 @@ class PartnerRepository extends EntityRepository
 
         $this->applyFilters($filter, $queryBuilder);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
@@ -136,9 +136,28 @@ class PartnerRepository extends EntityRepository
                 $queryBuilder->expr()->in('project_partner', $primaryClusterFilterSubSelect->getDQL())
             );
         }
+
+        $yearFilter = $filter['year'] ?? [2021];
+
+        if (!empty($yearFilter)) {
+            $yearFilterSubSelect = $this->_em->createQueryBuilder()
+                ->select('project_partner_filter_year')
+                ->from(Partner::class, 'project_partner_filter_year')
+                ->join('project_partner_filter_year.costsAndEffort', 'project_partner_filter_year_costs_and_effort')
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'project_partner_filter_year_costs_and_effort.year',
+                        $yearFilter
+                    )
+                );
+
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->in('project_partner', $yearFilterSubSelect->getDQL())
+            );
+        }
     }
 
-    public function getPartnersByProject(Project $project): array
+    public function getPartnersByProject(Project $project): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -148,10 +167,10 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
-    public function getPartnersByOrganisation(Organisation $organisation): array
+    public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
@@ -161,7 +180,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter('organisation', $organisation);
         $queryBuilder->addOrderBy('project_partner_organisation.name');
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder;
     }
 
     public function fetchCountries(Funder $funder, $filter): array

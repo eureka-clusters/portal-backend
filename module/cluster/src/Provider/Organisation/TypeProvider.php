@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Organisation;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Organisation\Type;
-use Cluster\Entity;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 
-class TypeProvider
+class TypeProvider implements ProviderInterface
 {
-    public function __construct(private RedisCache $redisCache)
+    public function __construct(private Redis $cache)
     {
     }
 
-    public function generateArray(Type $type): array
+    /**
+     * @param Type $type
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($type): array
     {
         $cacheKey = $type->getResourceId();
 
-        $typeData = $this->redisCache->fetch($cacheKey);
+        $typeData = $this->cache->getItem($cacheKey);
 
-        if (! $typeData) {
+        if (!$typeData) {
             $typeData = [
                 'id'   => $type->getId(),
                 'type' => $type->getType(),
             ];
 
-            $this->redisCache->save($cacheKey, $typeData);
+            $this->cache->setItem($cacheKey, $typeData);
         }
 
         return $typeData;

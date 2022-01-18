@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
-use JetBrains\PhpStorm\Pure;
-use Stringable;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
-use Cluster\Entity\Project;
 use DateTime;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
-use function preg_replace;
-use function strtolower;
 
 /**
  * @ORM\Table(name="cluster_cluster")
@@ -30,11 +23,13 @@ class Cluster extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private ?int $id = null;
-    /** @ORM\Column(unique=true) */
-    private string $name;
+    /**
+     * @ORM\Column(unique=true)
+     */
+    private string $name = '';
 
     /** @ORM\Column(unique=true) */
-    private string $identifier;
+    private string $identifier = '';
 
     /** @ORM\Column(nullable=true) */
     private ?string $description = null;
@@ -63,8 +58,9 @@ class Cluster extends AbstractEntity
      */
     private Collection $projectsSecondary;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->dateCreated       = new DateTime();
         $this->clusterFunders    = new ArrayCollection();
         $this->projectsPrimary   = new ArrayCollection();
         $this->projectsSecondary = new ArrayCollection();
@@ -72,7 +68,7 @@ class Cluster extends AbstractEntity
 
     public function __toString(): string
     {
-        return (string) $this->name;
+        return $this->name;
     }
 
     public function getId(): ?int

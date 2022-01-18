@@ -190,7 +190,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -205,7 +205,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Admin\Entity\Session
+    public function setId(?int $id): \Admin\Entity\Session
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -348,7 +348,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getIp(): string
+    public function getIp(): mixed
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIp', []);
@@ -359,7 +359,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setIp(string $ip): \Admin\Entity\Session
+    public function setIp(mixed $ip): \Admin\Entity\Session
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIp', [$ip]);
@@ -370,7 +370,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getDateStart(): ?\DateTime
+    public function getDateStart(): \DateTime
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateStart', []);
@@ -403,7 +403,7 @@ class Session extends \Admin\Entity\Session implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setUser(\Admin\Entity\User $user): \Admin\Entity\Session
+    public function setUser(?\Admin\Entity\User $user): \Admin\Entity\Session
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);

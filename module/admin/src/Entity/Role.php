@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
-use JetBrains\PhpStorm\Pure;
-use Stringable;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation;
+
 
 use function in_array;
 
@@ -22,7 +20,7 @@ use function in_array;
  *
  * @Annotation\Name("admin_role")
  */
-class Role extends AbstractEntity implements Stringable
+class Role extends AbstractEntity
 {
     public const ROLE_ADMIN  = 1;
     public const ROLE_USER   = 2;
@@ -49,7 +47,7 @@ class Role extends AbstractEntity implements Stringable
      * @Annotation\Type("\Laminas\Form\Element\Text")
      * @Annotation\Options({"label":"txt-role-description","help-block":"txt-role-description-help-block"})
      */
-    private ?string $description = null;
+    private string $description = '';
     /**
      * @ORM\ManyToMany(targetEntity="Admin\Entity\User", mappedBy="roles", cascade={"persist"})
      *
@@ -74,7 +72,7 @@ class Role extends AbstractEntity implements Stringable
 
     public function __toString(): string
     {
-        return (string) $this->description;
+        return $this->description;
     }
 
     public function getId(): ?int
@@ -88,23 +86,23 @@ class Role extends AbstractEntity implements Stringable
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): Role
+    public function setDescription(string $description): Role
     {
         $this->description = $description;
         return $this;
     }
 
-    public function getUsers(): ArrayCollection|Collection
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function setUsers($users): Role
+    public function setUsers(Collection $users): Role
     {
         $this->users = $users;
         return $this;

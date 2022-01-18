@@ -4,76 +4,76 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="oauth_clients")
- * @ORM\Entity(repositoryClass="Api\Repository\OAuth\Client")
- */
+#[ORM\Table(name: 'oauth_clients')]
+#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Client::class)]
 class Client extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer",nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private ?int $id = null;
-    /**
-     * @ORM\Column(name="client_id", length=255, type="string",unique=true)
-     */
-    private string $clientId;
-    /**
-     * @ORM\Column(name="client_secret", length=255, type="string")
-     */
+    #[ORM\Column(name: 'client_id', unique: true)]
+    #[ORM\Id]
+    private ?string $clientId = null;
+
+    #[ORM\Column(name: 'client_secret')]
     private string $clientsecret;
-    /**
-     * @ORM\Column(length=2000, nullable=true)
-     */
-    private string $jwtKey;
-    /**
-     * @ORM\Column(name="client_secret_teaser", length=255, type="string")
-     */
-    private string $clientsecretTeaser;
-    /**
-     * @ORM\Column(name="redirect_uri", length=2000, type="string")
-     */
+
+    #[ORM\Column(name: 'name')]
+    private string $name = '';
+
+    #[ORM\Column(name: 'description', type: 'text')]
+    private string $description = '';
+
+    #[ORM\Column(name: 'client_secret_teaser')]
+    private string $clientsecretTeaser = '';
+
+    #[ORM\Column(name: 'redirect_uri', length: 2000)]
     private string $redirectUri;
-    /**
-     * @ORM\Column(name="grant_types", length=2000, type="string", nullable=true)
-     */
+
+    #[ORM\Column(name: 'grant_types', length: 2000, nullable: true)]
     private ?string $grantTypes = null;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $isJwt = false;
-    /**
-     * @ORM\ManyToOne(targetEntity="Api\Entity\OAuth\Scope", cascade={"persist"}, inversedBy="clients")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Scope::class, cascade: ['persist'], inversedBy: 'clients')]
+    #[ORM\JoinColumn(nullable: false)]
     private Scope $scope;
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Jwt", mappedBy="client", cascade={"persist"})
-     */
-    private array|Collection $jwt;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Jwt::class, cascade: ['persist'])]
+    private Collection $jwtTokens;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: AccessToken::class, cascade: ['persist'])]
+    private Collection $accessTokens;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: AuthorizationCode::class, cascade: ['persist'])]
+    private Collection $authorizationCodes;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: RefreshToken::class, cascade: ['persist'])]
+    private Collection $refreshTokens;
+
+    #[ORM\OneToOne(mappedBy: 'client', targetEntity: PublicKey::class, cascade: ['persist'])]
+    private ?PublicKey $publicKey = null; //Cannot initiate here so nullable is needed
 
     #[Pure] public function __construct()
     {
-        $this->jwt = new ArrayCollection();
+        $this->jwtTokens          = new ArrayCollection();
+        $this->accessTokens       = new ArrayCollection();
+        $this->authorizationCodes = new ArrayCollection();
+        $this->refreshTokens      = new ArrayCollection();
+
+        $this->scope = new Scope();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->clientId;
     }
 
-    public function setId(?int $id): Client
+    public function setId(string|int $clientId): Client
     {
-        $this->id = $id;
+        $this->setClientId((string)$clientId);
+
         return $this;
     }
 
@@ -96,6 +96,28 @@ class Client extends AbstractEntity
     public function setClientsecret(string $clientsecret): Client
     {
         $this->clientsecret = $clientsecret;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): Client
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): Client
+    {
+        $this->description = $description;
         return $this;
     }
 
@@ -143,36 +165,58 @@ class Client extends AbstractEntity
         return $this;
     }
 
-    public function getJwt(): Collection|array
+    public function getJwtTokens(): ArrayCollection|Collection
     {
-        return $this->jwt;
+        return $this->jwtTokens;
     }
 
-    public function setJwt(Collection|array $jwt): Client
+    public function setJwtTokens(ArrayCollection|Collection $jwtTokens): Client
     {
-        $this->jwt = $jwt;
+        $this->jwtTokens = $jwtTokens;
         return $this;
     }
 
-    public function getJwtKey(): string
+    public function getAccessTokens(): ArrayCollection|Collection
     {
-        return $this->jwtKey;
+        return $this->accessTokens;
     }
 
-    public function setJwtKey(string $jwtKey): Client
+    public function setAccessTokens(ArrayCollection|Collection $accessTokens): Client
     {
-        $this->jwtKey = $jwtKey;
+        $this->accessTokens = $accessTokens;
         return $this;
     }
 
-    public function isJwt(): bool
+    public function getAuthorizationCodes(): ArrayCollection|Collection
     {
-        return $this->isJwt;
+        return $this->authorizationCodes;
     }
 
-    public function setIsJwt(bool $isJwt): Client
+    public function setAuthorizationCodes(ArrayCollection|Collection $authorizationCodes): Client
     {
-        $this->isJwt = $isJwt;
+        $this->authorizationCodes = $authorizationCodes;
+        return $this;
+    }
+
+    public function getRefreshTokens(): ArrayCollection|Collection
+    {
+        return $this->refreshTokens;
+    }
+
+    public function setRefreshTokens(ArrayCollection|Collection $refreshTokens): Client
+    {
+        $this->refreshTokens = $refreshTokens;
+        return $this;
+    }
+
+    public function getPublicKey(): ?PublicKey
+    {
+        return $this->publicKey;
+    }
+
+    public function setPublicKey(?PublicKey $publicKey): Client
+    {
+        $this->publicKey = $publicKey;
         return $this;
     }
 }

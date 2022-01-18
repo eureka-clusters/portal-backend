@@ -4,30 +4,35 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Cluster;
-use Cluster\Entity;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 
-class ClusterProvider
+class ClusterProvider implements ProviderInterface
 {
-    public function __construct(private RedisCache $redisCache)
+    public function __construct(private Redis $cache)
     {
     }
 
-    public function generateArray(Cluster $cluster): array
+    /**
+     * @param Cluster $cluster
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($cluster): array
     {
         $cacheKey = $cluster->getResourceId();
 
-        $clusterData = $this->redisCache->fetch($cacheKey);
+        $clusterData = $this->cache->getItem($cacheKey);
 
-        if (! $clusterData) {
+        if (!$clusterData) {
             $clusterData = [
                 'id'          => $cluster->getId(),
                 'name'        => $cluster->getName(),
                 'description' => $cluster->getDescription(),
             ];
 
-            $this->redisCache->save($cacheKey, $clusterData);
+            $this->cache->setItem($cacheKey, $clusterData);
         }
 
         return $clusterData;

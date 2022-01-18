@@ -9,7 +9,6 @@ use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_funder")
@@ -43,8 +42,10 @@ class Funder extends AbstractEntity
      */
     private Collection $clusters;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->user     = new User();
+        $this->country  = new Country();
         $this->clusters = new ArrayCollection();
     }
 

@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use Api\Entity\OAuth\AccessToken;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Funder;
 use DateTime;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="admin_user")
@@ -26,23 +23,23 @@ class User extends AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $id;
+    private ?int $id = null;
     /**
      * @ORM\Column(nullable=true)
      */
-    private string $password;
+    private ?string $password = null;
     /**
      * @ORM\Column()
      */
-    private string $firstName;
+    private string $firstName = '';
     /**
      * @ORM\Column()
      */
-    private string $lastName;
+    private string $lastName = '';
     /**
      * @ORM\Column(unique=true)
      */
-    private string $email;
+    private string $email = '';
     /**
      * @ORM\Column(type="datetime", nullable=false)
      *
@@ -66,47 +63,38 @@ class User extends AbstractEntity
      *      joinColumns={@ORM\JoinColumn(nullable=false)},
      *      inverseJoinColumns={@ORM\JoinColumn(nullable=false)}
      * )
-     *
-     * @var Role[]|Collections\Collection
      */
-    private array|Collection $roles;
+    private Collection $roles;
     /**
      * @ORM\OneToMany(targetEntity="Admin\Entity\Session", mappedBy="user")
-     *
-     * @var Session[]|Collections\Collection
      */
-    private array|Collection $session;
+    private Collection $session;
     /**
      * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"})
      */
     private ?Funder $funder = null;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", mappedBy="user", cascade={"persist"})
-     *
-     * @var AccessToken[]|Collections\Collection
      */
-    private array|Collection $oAuthAccessTokens;
+    private Collection $oAuthAccessTokens;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", mappedBy="user", cascade={"persist"})
      */
-    private array|Collection $oAuthAuthorizationCodes;
+    private Collection $oAuthAuthorizationCodes;
     /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", mappedBy="user", cascade={"persist"})
      */
-    private array|Collection $oAuthRefreshTokens;
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\Jwt", mappedBy="user", cascade={"persist"})
-     */
-    private array|Collection $oAuthJwt;
+    private Collection $oAuthRefreshTokens;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
+        $this->dateCreated = new DateTime();
+
         $this->roles                   = new ArrayCollection();
         $this->session                 = new ArrayCollection();
         $this->oAuthAccessTokens       = new ArrayCollection();
         $this->oAuthAuthorizationCodes = new ArrayCollection();
         $this->oAuthRefreshTokens      = new ArrayCollection();
-        $this->oAuthJwt                = new ArrayCollection();
     }
 
     public function getRolesAsArray(): array
@@ -127,7 +115,7 @@ class User extends AbstractEntity
             );
     }
 
-    public function getRoles(): ArrayCollection|array
+    public function getRoles(): Collection
     {
         return $this->roles;
     }
@@ -143,23 +131,23 @@ class User extends AbstractEntity
         return null !== $this->funder;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): User
+    public function setId(?int $id): User
     {
         $this->id = $id;
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): User
+    public function setPassword(?string $password): User
     {
         $this->password = $password;
         return $this;
@@ -231,47 +219,14 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getSession(): array|Collection
+    public function getSession(): Collection
     {
         return $this->session;
     }
 
-    public function setSession($session): User
+    public function setSession(Collection $session): User
     {
         $this->session = $session;
-        return $this;
-    }
-
-    public function getOAuthAccessTokens(): array|Collection
-    {
-        return $this->oAuthAccessTokens;
-    }
-
-    public function setOAuthAccessTokens($oAuthAccessTokens): User
-    {
-        $this->oAuthAccessTokens = $oAuthAccessTokens;
-        return $this;
-    }
-
-    public function getOAuthAuthorizationCodes(): Collection|array
-    {
-        return $this->oAuthAuthorizationCodes;
-    }
-
-    public function setOAuthAuthorizationCodes($oAuthAuthorizationCodes): User
-    {
-        $this->oAuthAuthorizationCodes = $oAuthAuthorizationCodes;
-        return $this;
-    }
-
-    public function getOAuthRefreshTokens(): ArrayCollection|array
-    {
-        return $this->oAuthRefreshTokens;
-    }
-
-    public function setOAuthRefreshTokens($oAuthRefreshTokens): User
-    {
-        $this->oAuthRefreshTokens = $oAuthRefreshTokens;
         return $this;
     }
 
@@ -286,14 +241,36 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getOAuthJwt(): Collection|array
+    public function getOAuthAccessTokens(): Collection
     {
-        return $this->oAuthJwt;
+        return $this->oAuthAccessTokens;
     }
 
-    public function setOAuthJwt(Collection|array $oAuthJwt): User
+    public function setOAuthAccessTokens(Collection $oAuthAccessTokens): User
     {
-        $this->oAuthJwt = $oAuthJwt;
+        $this->oAuthAccessTokens = $oAuthAccessTokens;
+        return $this;
+    }
+
+    public function getOAuthAuthorizationCodes(): Collection
+    {
+        return $this->oAuthAuthorizationCodes;
+    }
+
+    public function setOAuthAuthorizationCodes(Collection $oAuthAuthorizationCodes): User
+    {
+        $this->oAuthAuthorizationCodes = $oAuthAuthorizationCodes;
+        return $this;
+    }
+
+    public function getOAuthRefreshTokens(): Collection
+    {
+        return $this->oAuthRefreshTokens;
+    }
+
+    public function setOAuthRefreshTokens(Collection $oAuthRefreshTokens): User
+    {
+        $this->oAuthRefreshTokens = $oAuthRefreshTokens;
         return $this;
     }
 }

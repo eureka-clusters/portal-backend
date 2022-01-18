@@ -5,67 +5,33 @@ declare(strict_types=1);
 namespace Api\Service;
 
 use Api\Entity\OAuth\Client;
-use RuntimeException;
-use Admin\Entity\User;
-use Api\Entity\OAuth;
 use Application\Service\AbstractService;
-use OAuth2\Encryption\Jwt;
+use Doctrine\Common\Collections\Criteria;
+use RuntimeException;
 
 class OAuthService extends AbstractService
 {
-    public function findOrGenereateJWTToken(User $user, Client $client): OAuth\Jwt
-    {
-        //Try to find an existing JWT
-        $jwt = $this->entityManager->getRepository(OAuth\Jwt::class)->findOneBy(
-            [
-                'client' => $client,
-                'user'   => $user
-            ]
-        );
-
-        //Return token, or create new one if not found
-        return $jwt ?? $this->createJWTToken($user, $client);
-    }
-
-    public function createJWTToken(User $user, Client $client): OAuth\Jwt
-    {
-        $jwt = new OAuth\Jwt();
-        $jwt->setUser($user);
-        $jwt->setClient($client);
-
-        //We have the user now, so lets create a JWT for this guy
-        $payload = [
-            'id' => $user->getId()
-        ];
-
-        $token = (new Jwt())->encode($payload, $client->getJwtKey());
-        $jwt->setToken($token);
-
-        $this->save($jwt);
-
-        return $jwt;
-    }
-
     public function findClientByClientId(string $clientId): Client
     {
-        $client = $this->entityManager->getRepository(Client::class)->findOneBy(
-            [
-                'clientId' => $clientId,
-            ]
-        );
+        $repository = $this->entityManager->getRepository(Client::class);
+        $client     = $repository->findOneBy(['clientId' => $clientId]);
 
         if (null === $client) {
-            throw new RuntimeException("No default JWT client created");
+            throw new RuntimeException("No JWT client available");
         }
 
         return $client;
     }
 
-    public function findJWTTokenByToken(string $token): ?OAuth\Jwt
+    public function findLatestClient(): Client
     {
-        return $this->entityManager->getRepository(OAuth\Jwt::class)
-            ->findOneBy([
-                            'token' => $token
-                        ]);
+        $repository = $this->entityManager->getRepository(Client::class);
+        $clients    = $repository->findBy([], ['clientId' => Criteria::ASC], 1);
+
+        if (empty($clients)) {
+            throw new RuntimeException("No JWT client available");
+        }
+
+        return array_pop($clients);
     }
 }

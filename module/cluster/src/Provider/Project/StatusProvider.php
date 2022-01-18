@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Cluster\Provider\Project;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Status;
-use Cluster\Entity;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 
-class StatusProvider
+class StatusProvider implements ProviderInterface
 {
-    public function __construct(private RedisCache $redisCache)
+    public function __construct(private Redis $cache)
     {
     }
 
-    public function generateArray(Status $status): array
+    /**
+     * @param Status $status
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($status): array
     {
         $cacheKey = $status->getResourceId();
 
-        $statusData = $this->redisCache->fetch($cacheKey);
+        $statusData = $this->cache->getItem($cacheKey);
 
-        if (! $statusData) {
+        if (!$statusData) {
             $statusData = [
                 'id'     => $status->getId(),
                 'status' => $status->getStatus(),
             ];
 
-            $this->redisCache->save($cacheKey, $statusData);
+            $this->cache->setItem($cacheKey, $statusData);
         }
 
         return $statusData;

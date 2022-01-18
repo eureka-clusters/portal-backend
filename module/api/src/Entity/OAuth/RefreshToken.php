@@ -8,39 +8,45 @@ use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="oauth_refresh_tokens")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'oauth_refresh_tokens')]
+#[ORM\Entity]
 class RefreshToken extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer",nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /** @ORM\Column(name="refresh_token", length=255, type="string", unique=true) */
+
+    #[ORM\Column(name: 'refresh_token', unique: true)]
     private string $refreshToken;
-    /** @ORM\Column(name="client_id", type="string") */
-    private string $clientId;
-    /**
-     * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthRefreshTokens")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
-    private User $user;
-    /** @ORM\Column(name="expires", type="datetime_immutable") */
+
+    #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'refreshTokens')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    private Client $client;
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'oAuthRefreshTokens')]
+    #[ORM\JoinColumn(name: 'user_id', nullable: true)]
+    private ?User $user = null;
+
+    #[ORM\Column(name: 'expires', type: 'datetime_immutable')]
     private DateTimeImmutable $expires;
-    /** @ORM\Column(name="scope", length=2000, nullable=true) */
+
+    #[ORM\Column(name: 'scope', length: 2000, nullable: true)]
     private ?string $scope = null;
+
+    #[Pure] public function __construct()
+    {
+        $this->client = new Client();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): RefreshToken
+    public function setId(?int $id): RefreshToken
     {
         $this->id = $id;
         return $this;
@@ -57,23 +63,23 @@ class RefreshToken extends AbstractEntity
         return $this;
     }
 
-    public function getClientId(): string
+    public function getClient(): Client
     {
-        return $this->clientId;
+        return $this->client;
     }
 
-    public function setClientId(string $clientId): RefreshToken
+    public function setClient(Client $client): RefreshToken
     {
-        $this->clientId = $clientId;
+        $this->client = $client;
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(User $user): RefreshToken
+    public function setUser(?User $user): RefreshToken
     {
         $this->user = $user;
         return $this;

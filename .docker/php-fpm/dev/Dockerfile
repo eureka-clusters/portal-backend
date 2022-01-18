@@ -1,16 +1,19 @@
-FROM ghcr.io/jield-webdev/docker-repos/php80-dev:latest
+FROM ghcr.io/jield-webdev/docker-repos/php8.0-fpm:dev
+
+LABEL maintainer="Johan van der Heide <info@jield.nl>"
+LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/backend/app"
 
 # Copy composer.lock and composer.json
 COPY composer.json* /var/www/
 
 # Copy existing application directory contents
-COPY ./ /var/www
+COPY .. /var/www
 
 #Copy the global config files in
 COPY ./.docker/app /var/www/config/autoload
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
+COPY --chown=www:www .. /var/www
 
 # Change current user to www
 USER www

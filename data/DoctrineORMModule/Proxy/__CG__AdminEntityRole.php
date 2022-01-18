@@ -238,7 +238,7 @@ class Role extends \Admin\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescription', []);
@@ -249,7 +249,7 @@ class Role extends \Admin\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setDescription(?string $description): \Admin\Entity\Role
+    public function setDescription(string $description): \Admin\Entity\Role
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
@@ -260,7 +260,7 @@ class Role extends \Admin\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUsers(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+    public function getUsers(): \Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsers', []);
@@ -271,7 +271,7 @@ class Role extends \Admin\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setUsers($users): \Admin\Entity\Role
+    public function setUsers(\Doctrine\Common\Collections\Collection $users): \Admin\Entity\Role
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsers', [$users]);

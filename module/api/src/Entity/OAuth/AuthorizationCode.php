@@ -9,42 +9,50 @@ use Application\Entity\AbstractEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="oauth_authorization_codes")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'oauth_authorization_codes')]
+#[ORM\Entity]
 class AuthorizationCode extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer",nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /** @ORM\Column(name="authorization_code", length=255, type="string",unique=true) */
-    private string $authorizationCode;
-    /** @ORM\Column(name="client_id", length=255, type="string") */
-    private string $clientId;
-    /**
-     * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="oAuthAuthorizationCodes")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\Column(name: 'authorization_code', type: 'string', length: 255, unique: true)]
+    private string $authorizationCode = '';
+
+    #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'authorizationCodes')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    private Client $client;
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'oAuthAuthorizationCodes')]
+    #[ORM\JoinColumn(name: 'user_id', nullable: true)]
     private ?User $user = null;
-    /** @ORM\Column(name="expires", type="datetime_immutable") */
+
+    #[ORM\Column(name: 'expires', type: 'datetime_immutable')]
     private DateTimeImmutable $expires;
-    /** @ORM\Column(name="redirect_uri", length=2000, type="string") */
-    private string $redirectUri;
-    /** @ORM\Column(name="scope", length=2000, type="string", nullable=true) */
+
+    #[ORM\Column(name: 'redirect_uri', type: 'string', length: 2000)]
+    private string $redirectUri = '';
+
+    #[ORM\Column(name: 'scope', type: 'string', length: 2000, nullable: true)]
     private ?string $scope = null;
-    /** @ORM\Column(name="id_token", length=2000, type="string", nullable=true) */
+
+    #[ORM\Column(name: 'id_token', type: 'string', length: 2000, nullable: true)]
     private ?string $idToken = null;
+
+    public function __construct()
+    {
+        $this->client  = new Client();
+        $this->expires = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): AuthorizationCode
+    public function setId(?int $id): AuthorizationCode
     {
         $this->id = $id;
         return $this;
@@ -61,14 +69,14 @@ class AuthorizationCode extends AbstractEntity
         return $this;
     }
 
-    public function getClientId(): string
+    public function getClient(): Client
     {
-        return $this->clientId;
+        return $this->client;
     }
 
-    public function setClientId(string $clientId): AuthorizationCode
+    public function setClient(Client $client): AuthorizationCode
     {
-        $this->clientId = $clientId;
+        $this->client = $client;
         return $this;
     }
 
@@ -105,12 +113,12 @@ class AuthorizationCode extends AbstractEntity
         return $this;
     }
 
-    public function getScope(): string
+    public function getScope(): ?string
     {
         return $this->scope;
     }
 
-    public function setScope(string $scope): AuthorizationCode
+    public function setScope(?string $scope): AuthorizationCode
     {
         $this->scope = $scope;
         return $this;

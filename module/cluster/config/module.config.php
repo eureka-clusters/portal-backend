@@ -5,45 +5,44 @@ declare(strict_types=1);
 namespace Cluster;
 
 use Cluster\Provider\ClusterProvider;
-use Cluster\Provider\OrganisationProvider;
+use Cluster\Provider\ContactProvider;
+use Cluster\Provider\CountryProvider;
 use Cluster\Provider\Organisation\TypeProvider;
-use Cluster\Provider\ProjectProvider;
+use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
-use Cluster\Provider\CountryProvider;
+use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ClusterService;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
-use Cluster\Service\ProjectService;
-use Cluster\Service\Project\VersionService;
 use Cluster\Service\Project\PartnerService;
-use Laminas\Stdlib\Glob;
-use Laminas\Stdlib\ArrayUtils;
-use Cluster\Provider\ContactProvider;
+use Cluster\Service\Project\VersionService;
+use Cluster\Service\ProjectService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use Laminas\Stdlib;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\Stdlib\Glob;
 
 $config = [
     'service_manager' => [
         'factories'  => [
-            ClusterProvider::class           => ConfigAbstractFactory::class,
-            OrganisationProvider::class      => ConfigAbstractFactory::class,
-            TypeProvider::class => ConfigAbstractFactory::class,
-            ProjectProvider::class           => ConfigAbstractFactory::class,
-            PartnerProvider::class   => ConfigAbstractFactory::class,
-            StatusProvider::class    => ConfigAbstractFactory::class,
-            VersionProvider::class   => ConfigAbstractFactory::class,
-            Provider\Version\StatusProvider::class    => ConfigAbstractFactory::class,
-            Provider\Version\TypeProvider::class      => ConfigAbstractFactory::class,
-            CountryProvider::class           => ConfigAbstractFactory::class,
-            ClusterService::class             => ConfigAbstractFactory::class,
-            CountryService::class             => ConfigAbstractFactory::class,
-            OrganisationService::class        => ConfigAbstractFactory::class,
-            ProjectService::class             => ConfigAbstractFactory::class,
-            VersionService::class     => ConfigAbstractFactory::class,
-            PartnerService::class     => ConfigAbstractFactory::class,
+            ClusterProvider::class                 => ConfigAbstractFactory::class,
+            OrganisationProvider::class            => ConfigAbstractFactory::class,
+            TypeProvider::class                    => ConfigAbstractFactory::class,
+            ProjectProvider::class                 => ConfigAbstractFactory::class,
+            PartnerProvider::class                 => ConfigAbstractFactory::class,
+            StatusProvider::class                  => ConfigAbstractFactory::class,
+            VersionProvider::class                 => ConfigAbstractFactory::class,
+            Provider\Version\StatusProvider::class => ConfigAbstractFactory::class,
+            Provider\Version\TypeProvider::class   => ConfigAbstractFactory::class,
+            CountryProvider::class                 => ConfigAbstractFactory::class,
+            ClusterService::class                  => ConfigAbstractFactory::class,
+            CountryService::class                  => ConfigAbstractFactory::class,
+            OrganisationService::class             => ConfigAbstractFactory::class,
+            ProjectService::class                  => ConfigAbstractFactory::class,
+            VersionService::class                  => ConfigAbstractFactory::class,
+            PartnerService::class                  => ConfigAbstractFactory::class,
         ],
         'invokables' => [
             ContactProvider::class,

@@ -190,7 +190,29 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getLatestVersion(): ?\Cluster\Entity\Project\Version
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersion', []);
+
+        return parent::getLatestVersion();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCoordinatorPartner(): ?\Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCoordinatorPartner', []);
+
+        return parent::getCoordinatorPartner();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
             return (int)  parent::getId();
@@ -205,7 +227,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): \Cluster\Entity\Project
+    public function setId(?int $id): \Cluster\Entity\Project
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -326,7 +348,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescription', []);
@@ -337,7 +359,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setDescription(string $description): \Cluster\Entity\Project
+    public function setDescription(?string $description): \Cluster\Entity\Project
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
@@ -348,7 +370,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getTechnicalArea(): string
+    public function getTechnicalArea(): ?string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTechnicalArea', []);
@@ -359,7 +381,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setTechnicalArea(string $technicalArea): \Cluster\Entity\Project
+    public function setTechnicalArea(?string $technicalArea): \Cluster\Entity\Project
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTechnicalArea', [$technicalArea]);
@@ -590,7 +612,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getVersions(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+    public function getVersions(): \Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVersions', []);
@@ -601,7 +623,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setVersions($versions): \Cluster\Entity\Project
+    public function setVersions(\Doctrine\Common\Collections\Collection $versions): \Cluster\Entity\Project
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVersions', [$versions]);
@@ -612,29 +634,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getLatestVersion(): ?\Cluster\Entity\Project\Version
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersion', []);
-
-        return parent::getLatestVersion();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCoordinatorPartner(): ?\Cluster\Entity\Project\Partner
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCoordinatorPartner', []);
-
-        return parent::getCoordinatorPartner();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPartners(): \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+    public function getPartners(): \Doctrine\Common\Collections\Collection
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPartners', []);
@@ -645,7 +645,7 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setPartners($partners): \Cluster\Entity\Project
+    public function setPartners(\Doctrine\Common\Collections\Collection $partners): \Cluster\Entity\Project
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPartners', [$partners]);

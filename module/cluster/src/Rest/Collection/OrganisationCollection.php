@@ -6,9 +6,11 @@ namespace Cluster\Rest\Collection;
 
 use Cluster\Entity;
 use Cluster\Provider\OrganisationProvider;
+use JetBrains\PhpStorm\Deprecated;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
+#[Deprecated]
 final class OrganisationCollection extends ArrayAdapter
 {
     #[Pure] public function __construct(array $array, private OrganisationProvider $organisationProvider)

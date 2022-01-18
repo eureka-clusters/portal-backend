@@ -1,17 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource\Results;
 
 use Admin\Service\UserService;
+use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\Project\PartnerProvider;
-use Cluster\Rest\Collection\PartnerCollection;
-use Cluster\Rest\Collection\PartnerYearCollection;
 use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 use function base64_decode;
 
@@ -24,12 +24,12 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($params = [])
+    public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
-            return [];
+            return new Paginator(new ArrayAdapter());
         }
 
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
@@ -38,30 +38,26 @@ final class PartnerListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
 
         if (!empty($arrayFilter['year'])) {
             $partnerYears = [];
             //We need to pepare the parnters so we get results per year
-            foreach ($partners as $partner) {
+            foreach ($partnerQueryBuilder->getQuery()->getResult() as $partner) {
                 foreach ($arrayFilter['year'] as $year) {
                     $partnerYears[] = array_merge(
                         $this->partnerProvider->generateArray($partner),
-                        $this->partnerProvider->generateYearArray($partner, (int) $year)
+                        $this->partnerProvider->generateYearArray($partner, (int)$year)
                     );
                 }
             }
 
-            return (new ArrayAdapter($partnerYears))->getItems(
-                $params->offset,
-                $params->amount ?? 100
-            );
+            return new Paginator(new ArrayAdapter($partnerYears));
         }
 
+        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
+        $doctrineORMAdapter->setProvider($this->partnerProvider);
 
-        return (new PartnerCollection($partners, $this->partnerProvider))->getItems(
-            $params->offset,
-            $params->amount ?? 100
-        );
+        return new Paginator($doctrineORMAdapter);
     }
 }

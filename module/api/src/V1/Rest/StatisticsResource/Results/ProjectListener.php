@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Api\V1\Rest\StatisticsResource\Results;
 
 use Admin\Service\UserService;
+use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Rest\Collection\ProjectCollection;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Json\Json;
 
 use function base64_decode;
 use function json_decode;
@@ -21,25 +24,25 @@ final class ProjectListener extends AbstractResourceListener
     {
     }
 
-    public function fetchAll($params = [])
+    public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int) $this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || ! $user->isFunder()) {
-            return [];
+            return new Paginator(new ArrayAdapter());
         }
 
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string
         $filter      = base64_decode($encodedFilter);
-        $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
+        // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
+        $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $projects = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
+        $doctrineORMAdapter->setProvider($this->projectProvider);
 
-        return (new ProjectCollection($projects, $this->projectProvider))->getItems(
-            $params->offset,
-            $params->amount ?? 100
-        );
+        return new Paginator($doctrineORMAdapter);
     }
 }

@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Application\Controller\OAuth2Controller;
-use Application\Controller\IndexController;
-use Application\Factory\RedisFactory;
-use Laminas\Stdlib\Glob;
-use Laminas\Stdlib\ArrayUtils;
 use Application\Authentication\Factory\PdoAdapterFactory;
-use Application\Factory\ModuleOptionsFactory;
-use Application\Options\ModuleOptions;
-use Doctrine\Common\Cache\RedisCache;
+use Application\Controller\IndexController;
+use Application\Controller\OAuth2Controller;
+use Application\Factory\DoctrineCacheFactory;
+use Application\Factory\LaminasCacheFactory;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
 use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Cache\Storage\Adapter\Redis;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\I18n\Translator\TranslatorServiceFactory;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use Laminas\Stdlib;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\Stdlib\Glob;
 
 $config = [
     'controllers'     => [
@@ -32,14 +30,12 @@ $config = [
         ],
     ],
     'service_manager' => [
-        'aliases'   => [
-            'doctrine.cache.application_cache' => RedisCache::class,
-        ],
         'factories' => [
-            RedisCache::class            => RedisFactory::class,
-            PdoAdapter::class            => PdoAdapterFactory::class,
-            TranslatorInterface::class   => TranslatorServiceFactory::class,
-            AuthenticationService::class => AuthenticationServiceFactory::class,
+            'doctrine.cache.application_cache' => DoctrineCacheFactory::class,
+            Redis::class                       => LaminasCacheFactory::class,
+            PdoAdapter::class                  => PdoAdapterFactory::class,
+            TranslatorInterface::class         => TranslatorServiceFactory::class,
+            AuthenticationService::class       => AuthenticationServiceFactory::class,
         ],
     ],
     'translator'      => [

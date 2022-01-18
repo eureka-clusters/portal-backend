@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace Cluster\Provider;
 
+use Api\Provider\ProviderInterface;
 use Cluster\Entity\Organisation;
-use Cluster\Entity;
 use Cluster\Provider\Organisation\TypeProvider;
-use Doctrine\Common\Cache\RedisCache;
+use Laminas\Cache\Storage\Adapter\Redis;
 
-class OrganisationProvider
+class OrganisationProvider implements ProviderInterface
 {
-    public function __construct(private RedisCache $redisCache, private CountryProvider $countryProvider, private TypeProvider $typeProvider)
-    {
+    public function __construct(
+        private Redis $cache,
+        private CountryProvider $countryProvider,
+        private TypeProvider $typeProvider
+    ) {
     }
 
-    public function generateArray(Organisation $organisation): array
+    /**
+     * @param Organisation $organisation
+     * @return array
+     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     */
+    public function generateArray($organisation): array
     {
         $cacheKey = $organisation->getResourceId();
 
-        $organisationData = $this->redisCache->fetch($cacheKey);
+        $organisationData = $this->cache->getItem($cacheKey);
 
-        if (! $organisationData) {
+        if (!$organisationData) {
             $organisationData = [
                 'id'      => $organisation->getId(),
                 'slug'    => $organisation->getSlug(),
@@ -30,7 +38,7 @@ class OrganisationProvider
                 'type'    => $this->typeProvider->generateArray($organisation->getType()),
             ];
 
-            $this->redisCache->save($cacheKey, $organisationData);
+            $this->cache->setItem($cacheKey, $organisationData);
         }
 
         return $organisationData;

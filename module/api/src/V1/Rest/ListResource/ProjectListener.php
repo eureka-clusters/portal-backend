@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
+use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Rest\Collection\ProjectCollection;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 final class ProjectListener extends AbstractResourceListener
 {
@@ -19,19 +21,19 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($params = [])
+    public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
-            return [];
+            return new Paginator(new ArrayAdapter());
         }
 
-        $projects = $this->projectService->getProjects($user->getFunder(), []);
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), []);
 
-        return (new ProjectCollection($projects, $this->projectProvider))->getItems(
-            $params->offset,
-            $params->amount ?? 100
-        );
+        $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
+        $doctrineORMAdapter->setProvider($this->projectProvider);
+
+        return new Paginator($doctrineORMAdapter);
     }
 }

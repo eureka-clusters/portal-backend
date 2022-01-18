@@ -12,6 +12,7 @@ use Cluster\Repository\ProjectRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use stdClass;
@@ -25,7 +26,7 @@ class ProjectService extends AbstractService
         parent::__construct($entityManager);
     }
 
-    public function getProjects(Funder $funder, array $filter): array
+    public function getProjects(Funder $funder, array $filter): QueryBuilder
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
@@ -33,10 +34,11 @@ class ProjectService extends AbstractService
         return $repository->getProjectsByFunderAndFilter($funder, $filter);
     }
 
-    #[ArrayShape(['countries'         => "array[]",
-                  'organisationTypes' => "array[]",
-                  'projectStatus'     => "array[]",
-                  'primaryClusters'   => "array[]"
+    #[ArrayShape([
+        'countries'         => "array[]",
+        'organisationTypes' => "array[]",
+        'projectStatus'     => "array[]",
+        'primaryClusters'   => "array[]"
     ])] public function generateFacets(Funder $funder, array $filter): array
     {
         /** @var ProjectRepository $repository */

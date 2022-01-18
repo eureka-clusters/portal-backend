@@ -12,7 +12,6 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use function base64_decode;
 use function base64_encode;
-use function json_decode;
 use function ob_get_clean;
 use function ob_start;
 
@@ -26,7 +25,7 @@ final class DownloadListener extends AbstractResourceListener
 
     public function fetch($id = null)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getName());
+        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user || !$user->isFunder()) {
             return [];
@@ -36,7 +35,7 @@ final class DownloadListener extends AbstractResourceListener
 
         //The filter is a base64 encoded serialised json string
         $filter      = base64_decode($encodedFilter);
-        $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
+        $arrayFilter = \Laminas\Json\Json::decode($filter);
 
         $results = [];
 
