@@ -26,12 +26,12 @@ class ProjectService extends AbstractService
         parent::__construct($entityManager);
     }
 
-    public function getProjects(Funder $funder, array $filter): QueryBuilder
+    public function getProjects(Funder $funder, array $filter, string $sort = 'project.name', string $order = 'asc'): QueryBuilder
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
-        return $repository->getProjectsByFunderAndFilter($funder, $filter);
+        return $repository->getProjectsByFunderAndFilter($funder, $filter, $sort, $order);
     }
 
     #[ArrayShape([

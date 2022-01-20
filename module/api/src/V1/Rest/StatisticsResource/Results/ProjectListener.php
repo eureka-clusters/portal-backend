@@ -39,7 +39,13 @@ final class ProjectListener extends AbstractResourceListener
         // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        $defaultorder = 'asc';
+        $defaultSort = 'project.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+
+
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter, $sort, $order);
         $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
         $doctrineORMAdapter->setProvider($this->projectProvider);
 

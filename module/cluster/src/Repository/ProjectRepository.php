@@ -12,20 +12,75 @@ use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Cluster\Entity\Version\Type as VersionType;
 
 use function count;
 
 class ProjectRepository extends EntityRepository
 {
-    public function getProjectsByFunderAndFilter(Funder $funder, array $filter): QueryBuilder
+    public function getProjectsByFunderAndFilter(Funder $funder, array $filter, string $sort = 'project.name', string $order = 'asc'): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('cluster_entity_project');
         $queryBuilder->from(Project::class, 'cluster_entity_project');
 
         $this->applyFilters($filter, $queryBuilder);
+        $this->applySorting($sort, $order, $queryBuilder);
 
         return $queryBuilder;
+    }
+
+    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    {
+        $sortColumn = null;
+
+        switch ($sort) {
+            case 'project.number':
+                $sortColumn = 'cluster_entity_project.number';
+                break;
+            case 'project.name':
+                $sortColumn = 'cluster_entity_project.name';
+                // $queryBuilder->join('project_partner.project', 'project');
+                break;
+            case 'project.primaryCluster.name':
+                $sortColumn = 'primaryCluster.name';
+                $queryBuilder->join('cluster_entity_project.primaryCluster', 'primaryCluster');
+                break;
+            case 'project.secondaryCluster.name':
+                $sortColumn = 'secondaryCluster.name';
+                $queryBuilder->leftJoin('cluster_entity_project.secondaryCluster', 'secondaryCluster');
+                break;
+            case 'project.status.status':
+                $sortColumn = 'projectStatus.status';
+                $queryBuilder->join('cluster_entity_project.status', 'projectStatus');
+                break;
+
+            //todo: if the lastest version column always only displays "latest" then sorting doesn't make sense
+            case 'project.latestVersion.type.type':
+                $sortColumn = 'latestversion_type.type';
+                $queryBuilder->leftJoin('cluster_entity_project.versions', 'latestversion', 'WITH', 'latestversion.type = 3');
+                $queryBuilder->join('latestversion.type', 'latestversion_type');
+                break;
+
+            //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
+            case 'project.latestVersionTotalCosts':
+                $sortColumn = 'latestversion.costs';
+                $queryBuilder->leftJoin('cluster_entity_project.versions', 'latestversion', 'WITH', 'latestversion.type = 3');
+                break;
+            case 'project.latestVersionTotalEffort':
+                $sortColumn = 'latestversion.effort';
+                $queryBuilder->leftJoin('cluster_entity_project.versions', 'latestversion', 'WITH', 'latestversion.type = 3');
+                break;
+        }
+
+        // var_dump($sortColumn);
+        // var_dump($sort);
+        // var_dump($order);
+        // die();
+
+        if (isset($sortColumn)) {
+            $queryBuilder->orderBy($sortColumn, $order);
+        }
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
