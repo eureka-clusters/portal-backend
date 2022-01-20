@@ -38,7 +38,13 @@ final class PartnerListener extends AbstractResourceListener
         $filter      = base64_decode($encodedFilter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+
+        $defaultorder = 'asc';
+        $defaultSort = 'partner.organisation.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+
+        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
 
         if (!empty($arrayFilter['year'])) {
             $partnerYears = [];
@@ -55,74 +61,9 @@ final class PartnerListener extends AbstractResourceListener
             return new Paginator(new ArrayAdapter($partnerYears));
         }
 
-        $defaultorder = 'asc';
-        $defaultSort = 'partner.organisation.name';
-        // $defaultSort = 'partner.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
-        $this->applySorting($partnerQueryBuilder, $sort, $order);
-
-
         $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
         $doctrineORMAdapter->setProvider($this->partnerProvider);
 
         return new Paginator($doctrineORMAdapter);
-    }
-
-    public function applySorting($qb, $sort, $order)
-    {
-        $sortColumn = null;
-
-        switch ($sort) {
-            case 'partner.id':
-                $sortColumn = 'project_partner.id';
-                break;
-            case 'partner.project.name':
-                $sortColumn = 'project.name';
-                $qb->join('project_partner.project', 'project');
-                break;
-            case 'partner.organisation.name':
-                $sortColumn = 'organisation.name';
-                $qb->join('project_partner.organisation', 'organisation');
-                break;
-            case 'partner.organisation.country.country':
-                $sortColumn = 'organisation_country.country';
-                $qb->join('project_partner.organisation', 'organisation');
-                $qb->join('organisation.country', 'organisation_country');
-                break;
-            case 'partner.organisation.type.type':
-                $sortColumn = 'organisation_type.type';
-                $qb->join('project_partner.organisation', 'organisation');
-                $qb->join('organisation.type', 'organisation_type');
-                break;
-
-            //has issues:  Partner has no field or association named latestVersionCosts or latestVersionEffort
-            case 'partner.latestVersionCosts':
-                $sortColumn = 'project_partner.latestVersionCosts';
-                break;
-            case 'partner.latestVersionEffort':
-                $sortColumn = 'project_partner.latestVersionEffort';
-                break;
-
-            // has issues also no field and also no possibility yet to sort for it
-            case 'partner.year':
-                $sortColumn = 'project_partner.year';
-                break;
-            case 'partner.latestVersionTotalCostsInYear':
-                $sortColumn = 'project_partner.latestVersionTotalCostsInYear';
-                break;
-            case 'partner.latestVersionTotalEffortInYear':
-                $sortColumn = 'project_partner.latestVersionTotalEffortInYear';
-                break;
-        }
-
-        // var_dump($sort);
-        // var_dump($order);
-        // var_dump($sortColumn);
-        // die();
-
-        if (isset($sortColumn)) {
-            $qb->orderBy($sortColumn, $order);
-        }
     }
 }

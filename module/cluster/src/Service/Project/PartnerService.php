@@ -44,12 +44,12 @@ class PartnerService extends AbstractService
         return $this->entityManager->getRepository(Partner::class)->findOneBy(['slug' => $slug]);
     }
 
-    public function getPartners(Funder $funder, array $filter): QueryBuilder
+    public function getPartners(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
 
-        return $repository->getPartnersByFunderAndFilter($funder, $filter);
+        return $repository->getPartnersByFunderAndFilter($funder, $filter, $sort, $order);
     }
 
     public function getPartnersByProject(Project $project): QueryBuilder

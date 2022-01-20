@@ -18,15 +18,66 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(Funder $funder, array $filter): QueryBuilder
+    public function getPartnersByFunderAndFilter(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
     {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
 
         $this->applyFilters($filter, $queryBuilder);
+        $this->applySorting($sort, $order, $queryBuilder);
 
         return $queryBuilder;
+    }
+
+    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    {
+        $sortColumn = null;
+
+        switch ($sort) {
+            case 'partner.id':
+                $sortColumn = 'project_partner.id';
+                break;
+            case 'partner.project.name':
+                $sortColumn = 'project.name';
+                $queryBuilder->join('project_partner.project', 'project');
+                break;
+            case 'partner.organisation.name':
+                $sortColumn = 'organisation.name';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                break;
+            case 'partner.organisation.country.country':
+                $sortColumn = 'organisation_country.country';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                $queryBuilder->join('organisation.country', 'organisation_country');
+                break;
+            case 'partner.organisation.type.type':
+                $sortColumn = 'organisation_type.type';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                $queryBuilder->join('organisation.type', 'organisation_type');
+                break;
+
+            //todo:  Partner has no fields or association to select those
+            case 'partner.latestVersionCosts':
+                // $sortColumn = 'project_partner.latestVersionCosts';
+                break;
+            case 'partner.latestVersionEffort':
+                // $sortColumn = 'project_partner.latestVersionEffort';
+                break;
+            case 'partner.year':
+                // $sortColumn = 'project_partner.year';
+                break;
+            case 'partner.latestVersionTotalCostsInYear':
+                // $sortColumn = 'project_partner.latestVersionTotalCostsInYear';
+                break;
+            case 'partner.latestVersionTotalEffortInYear':
+                // $sortColumn = 'project_partner.latestVersionTotalEffortInYear';
+                break;
+        }
+
+        if (isset($sortColumn)) {
+            $queryBuilder->orderBy($sortColumn, $order);
+        }
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
