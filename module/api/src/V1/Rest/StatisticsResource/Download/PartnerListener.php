@@ -58,14 +58,18 @@ final class PartnerListener extends AbstractResourceListener
                 foreach ($arrayFilter['year'] as $year) {
                     $results[] = array_merge(
                         $this->partnerProvider->generateArray($partner),
-                        $this->partnerProvider->generateYearArray($partner, (int) $year)
+                        $this->partnerProvider->generateYearArray($partner, (int) $year),
+                        ['keyfield' => $partner['id']+'_'+ $year]
                     );
                 }
             }
         } else {
             /** @var Partner $partner */
             foreach ($partners as $partner) {
-                $results[] = $this->partnerProvider->generateArray($partner);
+                $results[] = array_merge(
+                    $this->partnerProvider->generateArray($partner),
+                    ['keyfield' => $partner['id']]
+                );
             }
         }
 
