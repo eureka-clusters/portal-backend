@@ -48,6 +48,8 @@ class ApiConfigProvider
                 'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
                     'call',
+                    'sort',
+                    'order',
                 ],
             ],
             OrganisationListener::class                             => [

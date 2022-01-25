@@ -29,7 +29,13 @@ final class ProjectListener extends AbstractResourceListener
             return new Paginator(new ArrayAdapter());
         }
 
-        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), []);
+        $defaultorder = 'asc';
+        $defaultSort = 'project.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+
+
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), [], $sort, $order);
 
         $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
         $doctrineORMAdapter->setProvider($this->projectProvider);
