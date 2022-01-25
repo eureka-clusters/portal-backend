@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
+use Cluster\Entity\Project;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Rest\Collection\ProjectCollection;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -41,11 +41,15 @@ final class ProjectListener extends AbstractResourceListener
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $projects = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
-        $results  = (new ProjectCollection($projects, $this->projectProvider))->getItems(
-            null,
-            null
-        );
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+
+        $projects = $projectQueryBuilder->getQuery()->getResult();
+
+        $results = [];
+        /** @var Project $project */
+        foreach ($projects as $project) {
+            $results[] = $this->projectProvider->generateArray($project);
+        }
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle('Statistics');

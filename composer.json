@@ -17,7 +17,7 @@
     "laminas/laminas-serializer": "^2.13",
     "laminas/laminas-cache-storage-adapter-redis": "^2.1",
     "laminas-api-tools/api-tools": "^1.6.x-dev",
-    "laminas-api-tools/api-tools-documentation": "^1.5",
+    "laminas-api-tools/api-tools-documentation": "^1.6",
     "laminas-api-tools/api-tools-documentation-swagger": "^1.5",
     "phpoffice/phpspreadsheet": "^1.21",
     "lm-commons/lmc-cors": "^1.2",
@@ -43,7 +43,10 @@
   ],
   "config": {
     "vendor-dir": "vendor",
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "autoload": {
     "psr-4": {
