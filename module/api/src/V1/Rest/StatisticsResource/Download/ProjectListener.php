@@ -69,6 +69,7 @@ final class ProjectListener extends AbstractResourceListener
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-primary-cluster'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-secondary-cluster'));
+        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-status'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-latest-version'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-total-costs'));
         $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
@@ -81,6 +82,7 @@ final class ProjectListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['name']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['primaryCluster']['name'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']['name'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['status']['status'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersion']['type']['type'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
             $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
