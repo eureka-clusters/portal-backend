@@ -13,7 +13,6 @@ use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Laminas\Paginator\Adapter\ArrayAdapter;
 
 use function base64_decode;
 use function base64_encode;
@@ -30,7 +29,7 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($filter = null)
+    public function fetch($export_type = 'csv')
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
@@ -39,32 +38,35 @@ final class PartnerListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
+        $filter = $this->getEvent()->getQueryParams()->get('filter');
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $partners = $this->partnerService->getPartners($user->getFunder(), $arrayFilter);
+        $defaultorder = 'asc';
+        $defaultSort = 'partner.organisation.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
 
+        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
+
+        $partners = $partnerQueryBuilder->getQuery()->getResult();
+
+        $results =  [];
         if (!empty($arrayFilter['year'])) {
-            $partnerYears = [];
-            //We need to pepare the parnters so we get results per year
+            /** @var Partner $partner */
             foreach ($partners as $partner) {
                 foreach ($arrayFilter['year'] as $year) {
-                    $partnerYears[] = array_merge(
+                    $results[] = array_merge(
                         $this->partnerProvider->generateArray($partner),
                         $this->partnerProvider->generateYearArray($partner, (int) $year)
                     );
                 }
             }
-
-            $results = (new ArrayAdapter($partnerYears))->getItems(
-                null,
-                null
-            );
         } else {
-            $results = (new PartnerCollection($partners, $this->partnerProvider))->getItems(
-                null,
-                null
-            );
+            /** @var Partner $partner */
+            foreach ($partners as $partner) {
+                $results[] = $this->partnerProvider->generateArray($partner);
+            }
         }
 
         $spreadSheet = new Spreadsheet();

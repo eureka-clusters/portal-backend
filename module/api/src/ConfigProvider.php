@@ -268,7 +268,7 @@ class ConfigProvider
                 Rest\StatisticsResource\Download\ProjectListener::class => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/download/project/[:filter]',
+                        'route'    => '/api/statistics/results/project/download/[:export_type]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
                         ],
@@ -277,7 +277,7 @@ class ConfigProvider
                 Rest\StatisticsResource\Download\PartnerListener::class => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/download/partner/[:filter]',
+                        'route'    => '/api/statistics/results/partner/download/[:export_type]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                         ],

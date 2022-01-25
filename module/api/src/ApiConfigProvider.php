@@ -201,7 +201,7 @@ class ApiConfigProvider
             Rest\StatisticsResource\Download\ProjectListener::class => [
                 'listener'                   => Rest\StatisticsResource\Download\ProjectListener::class,
                 'route_name'                 => Rest\StatisticsResource\Download\ProjectListener::class,
-                'route_identifier_name'      => 'filter',
+                'route_identifier_name'      => 'export_type',
                 'entity_http_methods'        => ['GET'],
                 'collection_name'            => 'projects',
                 'collection_http_methods'    => [],
@@ -214,7 +214,7 @@ class ApiConfigProvider
             Rest\StatisticsResource\Download\PartnerListener::class => [
                 'listener'                   => Rest\StatisticsResource\Download\PartnerListener::class,
                 'route_name'                 => Rest\StatisticsResource\Download\PartnerListener::class,
-                'route_identifier_name'      => 'filter',
+                'route_identifier_name'      => 'export_type',
                 'entity_http_methods'        => ['GET'],
                 'collection_name'            => 'partners',
                 'collection_http_methods'    => [],

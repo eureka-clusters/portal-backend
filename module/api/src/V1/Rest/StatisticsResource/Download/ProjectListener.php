@@ -29,7 +29,7 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($filter = null)
+    public function fetch($export_type = 'csv')
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
@@ -38,10 +38,16 @@ final class ProjectListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
+        $filter = $this->getEvent()->getQueryParams()->get('filter');
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter);
+        $defaultorder = 'asc';
+        $defaultSort = 'project.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+
+        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter, $sort, $order);
 
         $projects = $projectQueryBuilder->getQuery()->getResult();
 
