@@ -64,6 +64,10 @@ class ApiConfigProvider
                 'collection_class'        => Paginator::class,
                 'page_size'               => 25,
                 'page_size_param'         => 'pageSize',
+                'collection_query_whitelist' => [
+                    'sort',
+                    'order',
+                ],
             ],
             PartnerListener::class                                  => [
                 'listener'                   => PartnerListener::class,

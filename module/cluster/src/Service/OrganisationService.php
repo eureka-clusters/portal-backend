@@ -37,9 +37,9 @@ class OrganisationService extends AbstractService
         return $type;
     }
 
-    public function getOrganisations(array $filter): QueryBuilder
+    public function getOrganisations(array $filter, string $sort = 'organisation.name', string $order = 'asc'): QueryBuilder
     {
-        return $this->entityManager->getRepository(Organisation::class)->getOrganisationsByFilter($filter);
+        return $this->entityManager->getRepository(Organisation::class)->getOrganisationsByFilter($filter, $sort, $order);
     }
 
     public function findOrCreateOrganisation(
