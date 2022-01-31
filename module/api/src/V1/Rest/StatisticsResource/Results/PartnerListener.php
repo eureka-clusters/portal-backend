@@ -8,6 +8,7 @@ use Admin\Service\UserService;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Service\Project\PartnerService;
+use Doctrine\Common\Collections\Criteria;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\ArrayAdapter;
@@ -35,14 +36,13 @@ final class PartnerListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter = base64_decode($encodedFilter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
 
-        $defaultorder = 'asc';
         $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+        $sort        = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order       = $this->getEvent()->getQueryParams()->get('order', strtolower(Criteria::ASC));
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
 
@@ -58,6 +58,7 @@ final class PartnerListener extends AbstractResourceListener
                     );
                 }
             }
+
 
             return new Paginator(new ArrayAdapter($partnerYears));
         }
