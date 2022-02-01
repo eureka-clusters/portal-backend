@@ -36,6 +36,7 @@ class UserService extends AbstractService
         if (null === $user) {
             $user = new User();
             $user->setEmail($genericUser->getEmail());
+            $user->setUsername($genericUser->getEmail());
         }
 
         $user->setFirstName($genericUser->getFirstName());
@@ -44,7 +45,7 @@ class UserService extends AbstractService
         $this->save($user);
 
         //Delete the funder object when the user is not a funder
-        if (! $genericUser->isFunder() && $user->isFunder()) {
+        if (!$genericUser->isFunder() && $user->isFunder()) {
             $this->delete($user->getFunder());
         }
 
@@ -87,7 +88,7 @@ class UserService extends AbstractService
 
         // map clusters to each identifier name
         $linkedIdentifierArray = $funderClusters->map(
-            fn (Cluster $cluster) => $cluster->getIdentifier()
+            fn(Cluster $cluster) => $cluster->getIdentifier()
         )->toArray();
 
         // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
@@ -103,7 +104,7 @@ class UserService extends AbstractService
                     'identifier' => $clusterIdentifier,
                 ]
             );
-            if ((null !== $cluster) && ! $funder->getClusters()->contains($cluster)) {
+            if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
                 $funder->getClusters()->add($cluster);
             }
         }
