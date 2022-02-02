@@ -15,10 +15,10 @@ return [
         ],
     ],
     'api-tools-oauth2'   => [
-        'storage'         => \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter::class,
+        'storage'         => \Application\Authentication\Adapter\PdoAdapter::class,
         'options'         => [
             'always_issue_new_refresh_token' => true,
-            'use_jwt_access_tokens'          => true, //If set to TRUE we have only JWT tokens, if set to FALSE we have the regular tokens
+            'use_jwt_access_tokens'          => true,
             'jwt_extra_payload_callable'     => null,
             'auth_code_lifetime'             => 3000,
             'issuer'                         => 'eureka-clusters',
@@ -37,7 +37,7 @@ return [
                 'oauth2_pdo' => [
                     'adapter' => OAuth2Adapter::class,
                     'storage' => [
-                        'storage' => \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter::class
+                        'storage' => \Application\Authentication\Adapter\PdoAdapter::class
                     ]
                 ],
             ],

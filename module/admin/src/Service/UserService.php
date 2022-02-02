@@ -36,7 +36,6 @@ class UserService extends AbstractService
         if (null === $user) {
             $user = new User();
             $user->setEmail($genericUser->getEmail());
-            $user->setUsername($genericUser->getEmail());
         }
 
         $user->setFirstName($genericUser->getFirstName());

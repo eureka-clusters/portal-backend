@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Authentication\Factory;
 
+use Application\Authentication\Adapter\PdoAdapter;
 use Interop\Container\ContainerInterface;
-use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
 
 use function is_array;
 use function sprintf;

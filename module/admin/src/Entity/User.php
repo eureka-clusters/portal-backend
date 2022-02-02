@@ -39,10 +39,6 @@ class User extends AbstractEntity
     /**
      * @ORM\Column(unique=true)
      */
-    private string $username = '';
-    /**
-     * @ORM\Column(unique=true)
-     */
     private string $email = '';
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -143,17 +139,6 @@ class User extends AbstractEntity
     public function setId(?int $id): User
     {
         $this->id = $id;
-        return $this;
-    }
-
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): User
-    {
-        $this->username = $username;
         return $this;
     }
 

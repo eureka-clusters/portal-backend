@@ -31,11 +31,12 @@ $config = [
     ],
     'service_manager' => [
         'factories' => [
-            'doctrine.cache.application_cache' => DoctrineCacheFactory::class,
-            Redis::class                       => LaminasCacheFactory::class,
-            PdoAdapter::class                  => PdoAdapterFactory::class,
-            TranslatorInterface::class         => TranslatorServiceFactory::class,
-            AuthenticationService::class       => AuthenticationServiceFactory::class,
+            'doctrine.cache.application_cache'                    => DoctrineCacheFactory::class,
+            \Application\Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
+            Redis::class                                          => LaminasCacheFactory::class,
+            PdoAdapter::class                                     => PdoAdapterFactory::class,
+            TranslatorInterface::class                            => TranslatorServiceFactory::class,
+            AuthenticationService::class                          => AuthenticationServiceFactory::class,
         ],
     ],
     'translator'      => [
