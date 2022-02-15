@@ -46,7 +46,9 @@ class ProjectService extends AbstractService
 
         $countries         = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        // $clusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        $clusters   = $repository->fetchClusters($funder, $filter);
+
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
 
         $countriesIndexed = array_map(static fn(array $country) => [
@@ -59,10 +61,10 @@ class ProjectService extends AbstractService
             'amount' => $organisationType[1],
         ], $organisationTypes);
 
-        $primaryClustersIndexed = array_map(static fn(array $primaryCluster) => [
-            'name'   => $primaryCluster['name'],
-            'amount' => $primaryCluster[1],
-        ], $primaryClusters);
+        $clustersIndexed = array_map(static fn(array $cluster) => [
+            'name'   => $cluster['name'],
+            'amount' => $cluster[1]+$cluster[2],
+        ], $clusters);
 
         $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
             'name'   => $projectStatus['status'],
@@ -73,7 +75,7 @@ class ProjectService extends AbstractService
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
-            'primaryClusters'   => $primaryClustersIndexed,
+            'clusters'          => $clustersIndexed,
         ];
     }
 

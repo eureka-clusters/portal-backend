@@ -28,7 +28,7 @@ final class PartnerListener extends AbstractResourceListener
                 'countries'         => [],
                 'organisationTypes' => [],
                 'projectStatus'     => [],
-                'primaryClusters'   => [],
+                'clusters'   => [],
                 'years'             => [],
             ];
         }
