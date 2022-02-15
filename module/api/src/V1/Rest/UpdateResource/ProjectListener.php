@@ -71,7 +71,13 @@ final class ProjectListener extends AbstractResourceListener
 
                 $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
 
+                $totalCosts  = 0;
+                $totalEffort = 0;
+
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
+                    $totalCosts  += $costsAndEffortData['costs'];
+                    $totalEffort += $costsAndEffortData['effort'];
+
                     //This data is saved in a costs and effort table
                     $costsAndEffort = new CostsAndEffort();
                     $costsAndEffort->setVersion($version);
@@ -82,6 +88,9 @@ final class ProjectListener extends AbstractResourceListener
 
                     $this->entityManager->persist($costsAndEffort);
                 }
+
+                $partner->setLatestVersionCosts($totalCosts);
+                $partner->setLatestVersionEffort($totalEffort);
             }
             $this->entityManager->flush();
         }

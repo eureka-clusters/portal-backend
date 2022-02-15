@@ -57,6 +57,10 @@ class Partner extends AbstractEntity
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist"}, mappedBy="partner")
      */
     private Collection $costsAndEffort;
+    /** @ORM\Column(type="float") */
+    private float $latestVersionCosts;
+    /** @ORM\Column(type="float") */
+    private float $latestVersionEffort;
 
     public function __construct()
     {
@@ -185,4 +189,28 @@ class Partner extends AbstractEntity
         $this->costsAndEffort = $costsAndEffort;
         return $this;
     }
+
+    public function getLatestVersionCosts(): float
+    {
+        return $this->latestVersionCosts;
+    }
+
+    public function setLatestVersionCosts(float $latestVersionCosts): Partner
+    {
+        $this->latestVersionCosts = $latestVersionCosts;
+        return $this;
+    }
+
+    public function getLatestVersionEffort(): float
+    {
+        return $this->latestVersionEffort;
+    }
+
+    public function setLatestVersionEffort(float $latestVersionEffort): Partner
+    {
+        $this->latestVersionEffort = $latestVersionEffort;
+        return $this;
+    }
+
+
 }

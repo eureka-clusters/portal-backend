@@ -44,8 +44,12 @@ class PartnerService extends AbstractService
         return $this->entityManager->getRepository(Partner::class)->findOneBy(['slug' => $slug]);
     }
 
-    public function getPartners(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
-    {
+    public function getPartners(
+        Funder $funder,
+        array $filter,
+        string $sort = 'partner.organisation.name',
+        string $order = 'asc'
+    ): QueryBuilder {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
 
@@ -68,11 +72,13 @@ class PartnerService extends AbstractService
         return $repository->getPartnersByOrganisation($organisation);
     }
 
-    #[ArrayShape(['countries'         => "array[]",
-                  'organisationTypes' => "array[]",
-                  'projectStatus'     => "array[]",
-                  'primaryClusters'   => "array[]",
-                  'years'             => "array"
+    #[ArrayShape([
+        'countries'         => "array[]",
+        'organisationTypes' => "array[]",
+        'projectStatus'     => "array[]",
+        'primaryClusters'   => "array[]",
+        'programmeCalls'    => "array[]",
+        'years'             => "array"
     ])] public function generateFacets(Funder $funder, array $filter): array
     {
         /** @var PartnerRepository $repository */
@@ -82,6 +88,7 @@ class PartnerService extends AbstractService
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
         $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
+        $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
         $years             = $repository->fetchYears($funder);
 
         $countriesIndexed = array_map(static fn(array $country) => [
@@ -99,6 +106,11 @@ class PartnerService extends AbstractService
             'amount' => $primaryCluster[1],
         ], $primaryClusters);
 
+        $programmeCallIndexed = array_map(static fn(array $programmeCall) => [
+            'name'   => $programmeCall['programmeCall'],
+            'amount' => $programmeCall[1],
+        ], $programmeCalls);
+
         $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
@@ -112,6 +124,7 @@ class PartnerService extends AbstractService
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'primaryClusters'   => $primaryClustersIndexed,
+            'programmeCalls'    => $programmeCallIndexed,
             'years'             => $yearsIndexed,
         ];
     }
@@ -148,6 +161,9 @@ class PartnerService extends AbstractService
             $partner->setIsCoordinator($data->isCoordinator);
             $partner->setIsSelfFunded($data->isSelfFunded);
             $partner->setTechnicalContact($data->technicalContact);
+            $partner->setLatestVersionEffort(0.0); //Create with an initial version
+            $partner->setLatestVersionCosts(0.0); //Create with an initial version
+            $partner->setTechnicalContact($data->technicalContact);
 
             $this->save($partner);
         }
@@ -155,17 +171,7 @@ class PartnerService extends AbstractService
         return $partner;
     }
 
-    public function parseTotalCostsByPartnerAndLatestProjectVersion(
-        Partner $partner,
-        Version $projectVersion
-    ): float {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
-
-        return $repository->parseTotalCostsByPartnerAndLatestProjectVersion($partner, $projectVersion);
-    }
-
-    public function parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
+    public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
         int $year
@@ -173,20 +179,10 @@ class PartnerService extends AbstractService
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(CostsAndEffort::class);
 
-        return $repository->parseTotalCostsByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+        return $repository->findTotalCostsByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
     }
 
-    public function parseTotalEffortByPartnerAndLatestProjectVersion(
-        Partner $partner,
-        Version $projectVersion
-    ): float {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
-
-        return $repository->parseTotalEffortByPartnerAndLatestProjectVersion($partner, $projectVersion);
-    }
-
-    public function parseTotalEffortByPartnerAndLatestProjectVersionAndYear(
+    public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
         int $year
@@ -194,7 +190,7 @@ class PartnerService extends AbstractService
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(CostsAndEffort::class);
 
-        return $repository->parseTotalEffortByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+        return $repository->findTotalEffortByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
     }
 
 }

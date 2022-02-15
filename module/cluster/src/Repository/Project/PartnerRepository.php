@@ -18,8 +18,12 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
-    {
+    public function getPartnersByFunderAndFilter(
+        Funder $funder,
+        array $filter,
+        string $sort = 'partner.organisation.name',
+        string $order = 'asc'
+    ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
@@ -28,56 +32,6 @@ class PartnerRepository extends EntityRepository
         $this->applySorting($sort, $order, $queryBuilder);
 
         return $queryBuilder;
-    }
-
-    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
-    {
-        $sortColumn = null;
-
-        switch ($sort) {
-            case 'partner.id':
-                $sortColumn = 'project_partner.id';
-                break;
-            case 'partner.project.name':
-                $sortColumn = 'project.name';
-                $queryBuilder->join('project_partner.project', 'project');
-                break;
-            case 'partner.organisation.name':
-                $sortColumn = 'organisation.name';
-                $queryBuilder->join('project_partner.organisation', 'organisation');
-                break;
-            case 'partner.organisation.country.country':
-                $sortColumn = 'organisation_country.country';
-                $queryBuilder->join('project_partner.organisation', 'organisation');
-                $queryBuilder->join('organisation.country', 'organisation_country');
-                break;
-            case 'partner.organisation.type.type':
-                $sortColumn = 'organisation_type.type';
-                $queryBuilder->join('project_partner.organisation', 'organisation');
-                $queryBuilder->join('organisation.type', 'organisation_type');
-                break;
-
-            //todo:  Partner has no fields or association to select those
-            case 'partner.latestVersionCosts':
-                // $sortColumn = 'project_partner.latestVersionCosts';
-                break;
-            case 'partner.latestVersionEffort':
-                // $sortColumn = 'project_partner.latestVersionEffort';
-                break;
-            case 'partner.year':
-                // $sortColumn = 'project_partner.year';
-                break;
-            case 'partner.latestVersionTotalCostsInYear':
-                // $sortColumn = 'project_partner.latestVersionTotalCostsInYear';
-                break;
-            case 'partner.latestVersionTotalEffortInYear':
-                // $sortColumn = 'project_partner.latestVersionTotalEffortInYear';
-                break;
-        }
-
-        if (isset($sortColumn)) {
-            $queryBuilder->orderBy($sortColumn, $order);
-        }
     }
 
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
@@ -164,7 +118,7 @@ class PartnerRepository extends EntityRepository
         $primaryClusterFilter = $filter['primary_cluster'] ?? [];
 
         if (!empty($primaryClusterFilter)) {
-            //Find the projects where we have organisations with this type
+            //Find the projects who are in the call
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('project_partner_filter_primary_cluster')
                 ->from(Partner::class, 'project_partner_filter_primary_cluster')
@@ -188,23 +142,88 @@ class PartnerRepository extends EntityRepository
             );
         }
 
-        $yearFilter = $filter['year'] ?? [2021];
+        $programmeCallFilter = $filter['programme_call'] ?? [];
 
-        if (!empty($yearFilter)) {
-            $yearFilterSubSelect = $this->_em->createQueryBuilder()
-                ->select('project_partner_filter_year')
-                ->from(Partner::class, 'project_partner_filter_year')
-                ->join('project_partner_filter_year.costsAndEffort', 'project_partner_filter_year_costs_and_effort')
+        if (!empty($programmeCallFilter)) {
+            //Find the projects who are in the call
+            $programmeCallFilterSubset = $this->_em->createQueryBuilder()
+                ->select('project_partner_filter_programme_call')
+                ->from(Partner::class, 'project_partner_filter_programme_call')
+                ->join(
+                    'project_partner_filter_programme_call.project',
+                    'project_partner_filter_programme_call_project'
+                )
                 ->where(
                     $queryBuilder->expr()->in(
-                        'project_partner_filter_year_costs_and_effort.year',
-                        $yearFilter
+                        'project_partner_filter_programme_call_project.programmeCall',
+                        $programmeCallFilter
                     )
                 );
 
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->in('project_partner', $yearFilterSubSelect->getDQL())
+                $queryBuilder->expr()->in('project_partner', $programmeCallFilterSubset->getDQL())
             );
+        }
+
+        $yearFilter = $filter['year'] ?? [];
+
+        if (!empty($yearFilter)) {
+            $queryBuilder->select('project_partner', 'project_partner_costs_and_effort');
+            //If we have a year, then we join on costs and effort
+            $queryBuilder->join('project_partner.costsAndEffort', 'project_partner_costs_and_effort');
+            $queryBuilder->join('project_partner_costs_and_effort.version', 'project_partner_costs_and_effort_version');
+
+            $queryBuilder->andWhere($queryBuilder->expr()->in('project_partner_costs_and_effort.year', $yearFilter));
+            $queryBuilder->andWhere('project_partner_costs_and_effort_version.type = :type');
+            $queryBuilder->setParameter('type', (new Type())->setId(3));
+        }
+    }
+
+    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    {
+        $sortColumn = null;
+
+        switch ($sort) {
+            case 'partner.id':
+                $sortColumn = 'project_partner.id';
+                break;
+            case 'partner.project.name':
+                $sortColumn = 'project.name';
+                $queryBuilder->join('project_partner.project', 'project');
+                break;
+            case 'partner.organisation.name':
+                $sortColumn = 'organisation.name';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                break;
+            case 'partner.organisation.country.country':
+                $sortColumn = 'organisation_country.country';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                $queryBuilder->join('organisation.country', 'organisation_country');
+                break;
+            case 'partner.organisation.type.type':
+                $sortColumn = 'organisation_type.type';
+                $queryBuilder->join('project_partner.organisation', 'organisation');
+                $queryBuilder->join('organisation.type', 'organisation_type');
+                break;
+            case 'partner.latestVersionCosts':
+                $sortColumn = 'project_partner.latestVersionCosts';
+                break;
+            case 'partner.latestVersionEffort':
+                $sortColumn = 'project_partner.latestVersionEffort';
+                break;
+            case 'partner.year':
+                $sortColumn = 'project_partner_costs_and_effort.year';
+                break;
+            case 'partner.latestVersionCostsInYear':
+                $sortColumn = 'project_partner_costs_and_effort.costs';
+                break;
+            case 'partner.latestVersionEffortInYear':
+                $sortColumn = 'project_partner_costs_and_effort.effort';
+                break;
+        }
+
+        if (isset($sortColumn)) {
+            $queryBuilder->orderBy($sortColumn, $order);
         }
     }
 
@@ -306,6 +325,26 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->groupBy('project_status');
+
+        return $queryBuilder->getQuery()->getArrayResult();
+    }
+
+    public function fetchProgrammeCalls(Funder $funder, $filter): array
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+
+        $queryBuilder->select(
+            'project.programmeCall',
+            $queryBuilder->expr()->count('project_partners.id')
+        );
+
+        $queryBuilder->from(Project::class, 'project');
+        $queryBuilder->join(
+            'project.partners',
+            'project_partners'
+        );
+
+        $queryBuilder->groupBy('project.programmeCall');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

@@ -7,6 +7,7 @@ namespace Api\V1\Rest\StatisticsResource\Results;
 use Admin\Service\UserService;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\Project\PartnerService;
 use Doctrine\Common\Collections\Criteria;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
@@ -21,7 +22,8 @@ final class PartnerListener extends AbstractResourceListener
     public function __construct(
         private PartnerService $partnerService,
         private UserService $userService,
-        private PartnerProvider $partnerProvider
+        private PartnerProvider $partnerProvider,
+        private PartnerYearProvider $partnerYearProvider,
     ) {
     }
 
@@ -36,35 +38,20 @@ final class PartnerListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode($encodedFilter);
+        $filter      = base64_decode($encodedFilter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
 
         $defaultSort = 'partner.organisation.name';
-        $sort        = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order       = $this->getEvent()->getQueryParams()->get('order', strtolower(Criteria::ASC));
+        $sort        = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
+        $order       = $this->getEvent()->getQueryParams()?->get('order', strtolower(Criteria::ASC));
+
+        $hasYears = !empty($arrayFilter['year']);
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
+        $doctrineORMAdapter  = new DoctrineORMAdapter($partnerQueryBuilder);
 
-        if (!empty($arrayFilter['year'])) {
-            $partnerYears = [];
-            //We need to pepare the parnters so we get results per year
-            foreach ($partnerQueryBuilder->getQuery()->getResult() as $partner) {
-                foreach ($arrayFilter['year'] as $year) {
-                    $partnerYears[] = array_merge(
-                        $this->partnerProvider->generateArray($partner),
-                        $this->partnerProvider->generateYearArray($partner, (int)$year),
-                        ['keyfield' => sprintf('%s_%d', $partner->getId(), $year)]
-                    );
-                }
-            }
-
-
-            return new Paginator(new ArrayAdapter($partnerYears));
-        }
-
-        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
-        $doctrineORMAdapter->setProvider($this->partnerProvider);
+        $doctrineORMAdapter->setProvider($hasYears ? $this->partnerYearProvider : $this->partnerProvider);
 
         return new Paginator($doctrineORMAdapter);
     }

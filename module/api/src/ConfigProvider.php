@@ -12,6 +12,7 @@ use Api\V1\Rest\ListResource\ProjectListener;
 use Api\V1\Rest\UserResource\MeListener;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
@@ -133,6 +134,7 @@ class ConfigProvider
                 PartnerService::class,
                 UserService::class,
                 PartnerProvider::class,
+                PartnerYearProvider::class
             ],
             Rest\StatisticsResource\Download\ProjectListener::class => [
                 ProjectService::class,

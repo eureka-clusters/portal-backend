@@ -26,8 +26,12 @@ class ProjectService extends AbstractService
         parent::__construct($entityManager);
     }
 
-    public function getProjects(Funder $funder, array $filter, string $sort = 'project.name', string $order = 'asc'): QueryBuilder
-    {
+    public function getProjects(
+        Funder $funder,
+        array $filter,
+        string $sort = 'project.name',
+        string $order = 'asc'
+    ): QueryBuilder {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
@@ -38,6 +42,7 @@ class ProjectService extends AbstractService
         'countries'         => "array[]",
         'organisationTypes' => "array[]",
         'projectStatus'     => "array[]",
+        'programmeCalls'    => "array[]",
         'primaryClusters'   => "array[]"
     ])] public function generateFacets(Funder $funder, array $filter): array
     {
@@ -47,6 +52,7 @@ class ProjectService extends AbstractService
         $countries         = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
         $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
 
         $countriesIndexed = array_map(static fn(array $country) => [
@@ -64,6 +70,11 @@ class ProjectService extends AbstractService
             'amount' => $primaryCluster[1],
         ], $primaryClusters);
 
+        $programmeCallsIndexed = array_map(static fn(array $programmeCall) => [
+            'name'   => $programmeCall['programmeCall'],
+            'amount' => $programmeCall[1],
+        ], $programmeCalls);
+
         $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
@@ -73,6 +84,7 @@ class ProjectService extends AbstractService
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
+            'programmeCalls'    => $programmeCallsIndexed,
             'primaryClusters'   => $primaryClustersIndexed,
         ];
     }

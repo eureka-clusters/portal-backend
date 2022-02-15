@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Cluster\Entity\Organisation;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\AbstractEntity;
-use Cluster\Entity;
-use Doctrine\Common\Collections;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 

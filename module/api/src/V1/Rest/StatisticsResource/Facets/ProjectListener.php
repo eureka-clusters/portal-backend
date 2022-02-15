@@ -24,6 +24,7 @@ final class ProjectListener extends AbstractResourceListener
                 'countries'         => [],
                 'organisationTypes' => [],
                 'projectStatus'     => [],
+                'programmeCalls'    => [],
                 'primaryClusters'   => [],
             ];
         }

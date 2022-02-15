@@ -38,7 +38,7 @@ class Project extends AbstractEntity
      *
      * @Gedmo\Slug(fields={"name"}, updatable=true)
      */
-    private string $slug = '';
+    private string $slug;
     /**
      * @ORM\Column()
      */

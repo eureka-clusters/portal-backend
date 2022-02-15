@@ -16,4 +16,5 @@ docker exec -i pa-portal-backend-mysql mysql -u root -ppa-portal-root-password p
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:generate-proxies
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:schema-tool:update --dump-sql
+docker compose exec redis redis-cli
 ```

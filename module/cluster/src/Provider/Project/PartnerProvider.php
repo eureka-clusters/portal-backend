@@ -6,10 +6,10 @@ namespace Cluster\Provider\Project;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
-use Cluster\Service\Project\PartnerService;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
 use Laminas\Cache\Storage\Adapter\Redis;
@@ -22,8 +22,7 @@ class PartnerProvider implements ProviderInterface
         private Redis $cache,
         private ProjectProvider $projectProvider,
         private ContactProvider $contactProvider,
-        private OrganisationProvider $organisationProvider,
-        private PartnerService $partnerService
+        private OrganisationProvider $organisationProvider
     ) {
     }
 
@@ -52,11 +51,6 @@ class PartnerProvider implements ProviderInterface
         ];
     }
 
-    /**
-     * @param Partner $partner
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
-     */
     public function generateArray($partner): array
     {
         $cacheKey    = $partner->getResourceId();
@@ -72,45 +66,48 @@ class PartnerProvider implements ProviderInterface
                 'isCoordinator'       => $partner->isCoordinator(),
                 'technicalContact'    => $this->contactProvider->generateArray($partner->getTechnicalContact()),
                 'organisation'        => $this->organisationProvider->generateArray($partner->getOrganisation()),
-                'latestVersionCosts'  => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersion(
-                    $partner,
-                    $partner->getProject()->getLatestVersion()
-                ),
-                'latestVersionEffort' => $this->partnerService->parseTotalEffortByPartnerAndLatestProjectVersion(
-                    $partner,
-                    $partner->getProject()->getLatestVersion()
-                ),
+                'latestVersionCosts'  => number_format($partner->getLatestVersionCosts(), 2),
+                'latestVersionEffort' => number_format($partner->getLatestVersionEffort(), 2),
             ];
-
             $this->cache->setItem($cacheKey, $partnerData);
         }
 
         return $partnerData;
     }
 
-    public function generateYearArray(Partner $partner, int $year): array
-    {
-        $cacheKey    = $partner->getResourceId() . $year;
-        $partnerData = $this->cache->getItem($cacheKey);
+//    public function generateYearArray($partner, $year): array
+//    {
+//        $cacheKey    = sprintf('%s-%d', $partner->getResourceId(), $year);
+//        $partnerData = $this->cache->getItem($cacheKey);
+//
+//        if (!$partnerData) {
+//            /** @var CostsAndEffort $costsAndEffort */
+//            foreach ($partner->getCostsAndEffort() as $costsAndEffort) {
+//                $partnerData = [
+//                    'id'                        => $partner->getId(),
+//                    'slug'                      => $partner->getSlug(),
+//                    'project'                   => $this->projectProvider->generateArray($partner->getProject()),
+//                    'isActive'                  => $partner->isActive(),
+//                    'isSelfFunded'              => $partner->isSelfFunded(),
+//                    'isCoordinator'             => $partner->isCoordinator(),
+//                    'technicalContact'          => $this->contactProvider->generateArray(
+//                        $partner->getTechnicalContact()
+//                    ),
+//                    'organisation'              => $this->organisationProvider->generateArray(
+//                        $partner->getOrganisation()
+//                    ),
+//                    'latestVersionCosts'        => number_format($partner->getLatestVersionCosts(), 2),
+//                    'latestVersionEffort'       => number_format($partner->getLatestVersionEffort(), 2),
+//                    'year'                      => $costsAndEffort->getYear(),
+//                    'latestVersionCostsInYear'  => $costsAndEffort->getCosts(),
+//                    'latestVersionEffortInYear' => $costsAndEffort->getEffort(),
+//                ];
+//            }
+//
+//            $this->cache->setItem($cacheKey, $partnerData);
+//        }
+//
+//        return $partnerData;
+//    }
 
-        if (!$partnerData) {
-            $partnerData = [
-                'year'                           => $year,
-                'latestVersionTotalCostsInYear'  => $this->partnerService->parseTotalCostsByPartnerAndLatestProjectVersionAndYear(
-                    $partner,
-                    $partner->getProject()->getLatestVersion(),
-                    $year
-                ),
-                'latestVersionTotalEffortInYear' => $this->partnerService->parseTotalEffortByPartnerAndLatestProjectVersionAndYear(
-                    $partner,
-                    $partner->getProject()->getLatestVersion(),
-                    $year
-                ),
-            ];
-
-            $this->cache->setItem($cacheKey, $partnerData);
-        }
-
-        return $partnerData;
-    }
 }
