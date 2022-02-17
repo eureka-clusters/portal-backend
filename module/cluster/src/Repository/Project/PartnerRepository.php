@@ -18,8 +18,12 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
-    {
+    public function getPartnersByFunderAndFilter(
+        Funder $funder,
+        array $filter,
+        string $sort = 'partner.organisation.name',
+        string $order = 'asc'
+    ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
@@ -304,23 +308,69 @@ class PartnerRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchPrimaryClusters(Funder $funder, $filter): array
+    public function fetchClusters(Funder $funder, $filter): array
     {
+        // it should be a left join so that all clusters are returned even with 0 projects
         $queryBuilder = $this->_em->createQueryBuilder();
 
+        // select primary
         $queryBuilder->select(
             'cluster.name',
             $queryBuilder->expr()->count('cluster_project_primary_partner.id')
         );
 
         $queryBuilder->from(Cluster::class, 'cluster');
-        $queryBuilder->join('cluster.projectsPrimary', 'cluster_project_primary');
-        $queryBuilder->join(
+        $queryBuilder->leftJoin('cluster.projectsPrimary', 'cluster_project_primary');
+        $queryBuilder->leftJoin(
             'cluster_project_primary.partners',
             'cluster_project_primary_partner'
         );
-
         $queryBuilder->groupBy('cluster');
+        $queryBuilder->orderBy('cluster.name', 'asc');
+
+        $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
+
+        // select secondary
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select(
+            'cluster.name',
+            $queryBuilder->expr()->count('cluster_project_secondary_partner.id')
+        );
+
+        $queryBuilder->from(Cluster::class, 'cluster');
+        $queryBuilder->leftJoin('cluster.projectsSecondary', 'cluster_project_secondary');
+        $queryBuilder->leftJoin(
+            'cluster_project_secondary.partners',
+            'cluster_project_secondary_partner'
+        );
+        $queryBuilder->groupBy('cluster');
+        $queryBuilder->orderBy('cluster.name', 'asc');
+
+        $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
+
+        return array_map(static fn(array $cluster1, $cluster2) => [
+            'name' => $cluster1['name'],
+            '1'    => $cluster1[1],
+            '2'    => $cluster2[1],
+        ], $primaryClusters, $secondaryClusters);
+    }
+
+    public function fetchProgrammeCalls(Funder $funder, $filter): array
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+
+        $queryBuilder->select(
+            'project.programmeCall',
+            $queryBuilder->expr()->count('project_partners.id')
+        );
+
+        $queryBuilder->from(Project::class, 'project');
+        $queryBuilder->join(
+            'project.partners',
+            'project_partners'
+        );
+
+        $queryBuilder->groupBy('project.programmeCall');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

@@ -390,24 +390,6 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchPrimaryClusters(Funder $funder, $filter): array
-    {
-        $queryBuilder = $this->_em->createQueryBuilder();
-
-        $queryBuilder->select(
-            'cluster_entity_cluster.name',
-            $queryBuilder->expr()->count('cluster_entity_cluster_project_primary.id')
-        );
-
-        $queryBuilder->from(Cluster::class, 'cluster_entity_cluster')
-            ->join('cluster_entity_cluster.projectsPrimary', 'cluster_entity_cluster_project_primary')
-            ->groupBy('cluster_entity_cluster');
-
-        $this->applyFunderFilter($queryBuilder, $funder);
-
-        return $queryBuilder->getQuery()->getArrayResult();
-    }
-
     public function fetchProgrammeCalls(Funder $funder, $filter): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();

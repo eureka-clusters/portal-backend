@@ -86,7 +86,7 @@ class PartnerService extends AbstractService
 
         $countries         = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $primaryClusters   = $repository->fetchClusters($funder, $filter);
+        $clusters          = $repository->fetchClusters($funder, $filter);
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
         $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
         $years             = $repository->fetchYears($funder);
