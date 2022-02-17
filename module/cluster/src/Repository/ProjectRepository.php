@@ -347,6 +347,7 @@ class ProjectRepository extends EntityRepository
 
     private function applyFunderFilter(QueryBuilder $queryBuilder, Funder $funder): void
     {
+        return;
         //Find the projects where the country is active
         $funderSubSelect = $this->_em->createQueryBuilder()
             ->select('cluster_entity_project_funder')
