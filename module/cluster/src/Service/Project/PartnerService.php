@@ -76,7 +76,7 @@ class PartnerService extends AbstractService
         'countries'         => "array[]",
         'organisationTypes' => "array[]",
         'projectStatus'     => "array[]",
-        'primaryClusters'   => "array[]",
+        'clusters'          => "array[]",
         'programmeCalls'    => "array[]",
         'years'             => "array"
     ])] public function generateFacets(Funder $funder, array $filter): array
@@ -86,7 +86,7 @@ class PartnerService extends AbstractService
 
         $countries         = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
+        $primaryClusters   = $repository->fetchClusters($funder, $filter);
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
         $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
         $years             = $repository->fetchYears($funder);
@@ -101,10 +101,10 @@ class PartnerService extends AbstractService
             'amount' => $partnerType[1],
         ], $organisationTypes);
 
-        $primaryClustersIndexed = array_map(static fn(array $primaryCluster) => [
-            'name'   => $primaryCluster['name'],
-            'amount' => $primaryCluster[1],
-        ], $primaryClusters);
+        $clustersIndexed = array_map(static fn(array $cluster) => [
+            'name'   => $cluster['name'],
+            'amount' => $cluster[1] + $cluster[2],
+        ], $clusters);
 
         $programmeCallIndexed = array_map(static fn(array $programmeCall) => [
             'name'   => $programmeCall['programmeCall'],
@@ -123,7 +123,7 @@ class PartnerService extends AbstractService
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
-            'primaryClusters'   => $primaryClustersIndexed,
+            'clusters'          => $clustersIndexed,
             'programmeCalls'    => $programmeCallIndexed,
             'years'             => $yearsIndexed,
         ];

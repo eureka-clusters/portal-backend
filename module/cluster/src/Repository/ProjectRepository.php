@@ -10,6 +10,7 @@ use Cluster\Entity\Organisation\Type;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -213,9 +214,8 @@ class ProjectRepository extends EntityRepository
             );
         }
 
-        $primaryClusterFilter = $filter['primary_cluster'] ?? [];
-
-        if (!empty($primaryClusterFilter)) {
+        $clustersFilter = $filter['clusters'] ?? [];
+        if (!empty($clustersFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('cluster_entity_project_filter_primary_cluster')
@@ -227,12 +227,29 @@ class ProjectRepository extends EntityRepository
                 ->where(
                     $queryBuilder->expr()->in(
                         'cluster_entity_project_filter_primary_cluster_primary_cluster.name',
-                        $primaryClusterFilter
+                        $clustersFilter
+                    )
+                );
+
+            $secondaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
+                ->select('cluster_entity_project_filter_secondary_cluster')
+                ->from(Project::class, 'cluster_entity_project_filter_secondary_cluster')
+                ->join(
+                    'cluster_entity_project_filter_secondary_cluster.secondaryCluster',
+                    'cluster_entity_project_filter_secondary_cluster_secondary_cluster'
+                )
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'cluster_entity_project_filter_secondary_cluster_secondary_cluster.name',
+                        $clustersFilter
                     )
                 );
 
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->in('cluster_entity_project', $primaryClusterFilterSubSelect->getDQL())
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->in('cluster_entity_project', $primaryClusterFilterSubSelect->getDQL()),
+                    $queryBuilder->expr()->in('cluster_entity_project', $secondaryClusterFilterSubSelect->getDQL()),
+                )
             );
         }
     }
@@ -330,8 +347,6 @@ class ProjectRepository extends EntityRepository
 
     private function applyFunderFilter(QueryBuilder $queryBuilder, Funder $funder): void
     {
-        return;
-
         //Find the projects where the country is active
         $funderSubSelect = $this->_em->createQueryBuilder()
             ->select('cluster_entity_project_funder')
@@ -408,6 +423,47 @@ class ProjectRepository extends EntityRepository
         $this->applyFunderFilter($queryBuilder, $funder);
 
         return $queryBuilder->getQuery()->getArrayResult();
+    }
+
+    public function fetchClusters(Funder $funder, $filter): array
+    {
+        // it should be a left join so that all clusters are returned even with 0 projects
+        $queryBuilder = $this->_em->createQueryBuilder();
+
+        // select primary
+        $queryBuilder->select(
+            'cluster_entity_cluster.name',
+            $queryBuilder->expr()->count('cluster_entity_cluster_project_primary.id'),
+        );
+
+        $queryBuilder->from(Cluster::class, 'cluster_entity_cluster')
+            ->leftJoin('cluster_entity_cluster.projectsPrimary', 'cluster_entity_cluster_project_primary')
+            ->groupBy('cluster_entity_cluster')
+            ->orderBy('cluster_entity_cluster.name', Criteria::ASC);
+        $this->applyFunderFilter($queryBuilder, $funder);
+        $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
+
+
+        // select secondary
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select(
+            'cluster_entity_cluster.name',
+            $queryBuilder->expr()->count('cluster_entity_cluster_project_secondary.id'),
+        );
+
+        $queryBuilder->from(Cluster::class, 'cluster_entity_cluster')
+            ->leftJoin('cluster_entity_cluster.projectsSecondary', 'cluster_entity_cluster_project_secondary')
+            ->groupBy('cluster_entity_cluster')
+            ->orderBy('cluster_entity_cluster.name', Criteria::ASC);
+        $this->applyFunderFilter($queryBuilder, $funder);
+        $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
+
+
+        return array_map(static fn(array $cluster1, $cluster2) => [
+            'name' => $cluster1['name'],
+            '1'    => $cluster1[1],
+            '2'    => $cluster2[1],
+        ], $primaryClusters, $secondaryClusters);
     }
 
     public function fetchProjectStatuses(Funder $funder, $filter): array

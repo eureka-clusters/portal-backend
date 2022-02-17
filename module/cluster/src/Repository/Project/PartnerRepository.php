@@ -18,12 +18,8 @@ use Doctrine\ORM\QueryBuilder;
 
 class PartnerRepository extends EntityRepository
 {
-    public function getPartnersByFunderAndFilter(
-        Funder $funder,
-        array $filter,
-        string $sort = 'partner.organisation.name',
-        string $order = 'asc'
-    ): QueryBuilder {
+    public function getPartnersByFunderAndFilter(Funder $funder, array $filter, string $sort = 'partner.organisation.name', string $order = 'asc'): QueryBuilder
+    {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
@@ -115,10 +111,10 @@ class PartnerRepository extends EntityRepository
             );
         }
 
-        $primaryClusterFilter = $filter['primary_cluster'] ?? [];
+        $clustersFilter = $filter['clusters'] ?? [];
 
-        if (!empty($primaryClusterFilter)) {
-            //Find the projects who are in the call
+        if (!empty($clustersFilter)) {
+            //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select('project_partner_filter_primary_cluster')
                 ->from(Partner::class, 'project_partner_filter_primary_cluster')
@@ -133,12 +129,33 @@ class PartnerRepository extends EntityRepository
                 ->where(
                     $queryBuilder->expr()->in(
                         'project_partner_filter_primary_cluster_project_primary_cluster.name',
-                        $primaryClusterFilter
+                        $clustersFilter
+                    )
+                );
+
+            $secondaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
+                ->select('project_partner_filter_secondary_cluster')
+                ->from(Partner::class, 'project_partner_filter_secondary_cluster')
+                ->join(
+                    'project_partner_filter_secondary_cluster.project',
+                    'project_partner_filter_secondary_cluster_project'
+                )
+                ->join(
+                    'project_partner_filter_secondary_cluster_project.secondaryCluster',
+                    'project_partner_filter_secondary_cluster_project_secondary_cluster'
+                )
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'project_partner_filter_secondary_cluster_project_secondary_cluster.name',
+                        $clustersFilter
                     )
                 );
 
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->in('project_partner', $primaryClusterFilterSubSelect->getDQL())
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->in('project_partner', $primaryClusterFilterSubSelect->getDQL()),
+                    $queryBuilder->expr()->in('project_partner', $secondaryClusterFilterSubSelect->getDQL()),
+                )
             );
         }
 
@@ -325,26 +342,6 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->groupBy('project_status');
-
-        return $queryBuilder->getQuery()->getArrayResult();
-    }
-
-    public function fetchProgrammeCalls(Funder $funder, $filter): array
-    {
-        $queryBuilder = $this->_em->createQueryBuilder();
-
-        $queryBuilder->select(
-            'project.programmeCall',
-            $queryBuilder->expr()->count('project_partners.id')
-        );
-
-        $queryBuilder->from(Project::class, 'project');
-        $queryBuilder->join(
-            'project.partners',
-            'project_partners'
-        );
-
-        $queryBuilder->groupBy('project.programmeCall');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

@@ -43,7 +43,7 @@ class ProjectService extends AbstractService
         'organisationTypes' => "array[]",
         'projectStatus'     => "array[]",
         'programmeCalls'    => "array[]",
-        'primaryClusters'   => "array[]"
+        'clusters'          => "array[]"
     ])] public function generateFacets(Funder $funder, array $filter): array
     {
         /** @var ProjectRepository $repository */
@@ -51,8 +51,8 @@ class ProjectService extends AbstractService
 
         $countries         = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $primaryClusters   = $repository->fetchPrimaryClusters($funder, $filter);
         $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
+        $clusters          = $repository->fetchClusters($funder, $filter);
         $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
 
         $countriesIndexed = array_map(static fn(array $country) => [
@@ -65,10 +65,10 @@ class ProjectService extends AbstractService
             'amount' => $organisationType[1],
         ], $organisationTypes);
 
-        $primaryClustersIndexed = array_map(static fn(array $primaryCluster) => [
-            'name'   => $primaryCluster['name'],
-            'amount' => $primaryCluster[1],
-        ], $primaryClusters);
+        $clustersIndexed = array_map(static fn(array $cluster) => [
+            'name'   => $cluster['name'],
+            'amount' => $cluster[1] + $cluster[2],
+        ], $clusters);
 
         $programmeCallsIndexed = array_map(static fn(array $programmeCall) => [
             'name'   => $programmeCall['programmeCall'],
@@ -85,7 +85,7 @@ class ProjectService extends AbstractService
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'programmeCalls'    => $programmeCallsIndexed,
-            'primaryClusters'   => $primaryClustersIndexed,
+            'clusters'          => $clustersIndexed,
         ];
     }
 
