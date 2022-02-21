@@ -3524,16 +3524,16 @@
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-redis",
-            "version": "2.1.x-dev",
+            "version": "2.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-redis.git",
-                "reference": "c147cee8a0e1fdb08ac2474572e34ca5de81dbaf"
+                "reference": "289717d10a89755d3f36f799565a3fb9c7e9ab24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-redis/zipball/c147cee8a0e1fdb08ac2474572e34ca5de81dbaf",
-                "reference": "c147cee8a0e1fdb08ac2474572e34ca5de81dbaf",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-redis/zipball/289717d10a89755d3f36f799565a3fb9c7e9ab24",
+                "reference": "289717d10a89755d3f36f799565a3fb9c7e9ab24",
                 "shasum": ""
             },
             "require": {
@@ -3588,7 +3588,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-10-12T22:43:49+00:00"
+            "time": "2022-02-18T12:09:35+00:00"
         },
         {
             "name": "laminas/laminas-cli",
@@ -5318,12 +5318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "08f84caedc73d35d780539e90ba065105cafcdc1"
+                "reference": "57eaf068b524e6ef2cc74be50f2edbbce439d617"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/08f84caedc73d35d780539e90ba065105cafcdc1",
-                "reference": "08f84caedc73d35d780539e90ba065105cafcdc1",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/57eaf068b524e6ef2cc74be50f2edbbce439d617",
+                "reference": "57eaf068b524e6ef2cc74be50f2edbbce439d617",
                 "shasum": ""
             },
             "require": {
@@ -5397,7 +5397,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-02-15T01:50:09+00:00"
+            "time": "2022-02-19T01:10:35+00:00"
         },
         {
             "name": "laminas/laminas-session",
@@ -13415,6 +13415,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "laminas/laminas-cache-storage-adapter-redis": 20,
         "laminas-api-tools/api-tools": 20,
         "league/oauth2-client": 20,
         "roave/security-advisories": 20
@@ -13431,5 +13432,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
