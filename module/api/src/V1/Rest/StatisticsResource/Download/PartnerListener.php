@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
+use Cluster\Entity\Project\Partner;
 use Cluster\Provider\Project\PartnerProvider;
-use Cluster\Rest\Collection\PartnerCollection;
+use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\Project\PartnerService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -25,7 +26,8 @@ final class PartnerListener extends AbstractResourceListener
         private PartnerService $partnerService,
         private UserService $userService,
         private TranslatorInterface $translator,
-        private PartnerProvider $partnerProvider
+        private PartnerProvider $partnerProvider,
+        private PartnerYearProvider $partnerYearProvider
     ) {
     }
 
@@ -38,29 +40,24 @@ final class PartnerListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()->get('filter');
+        $filter      = $this->getEvent()->getQueryParams()->get('filter');
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         $defaultorder = 'asc';
-        $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+        $defaultSort  = 'partner.organisation.name';
+        $sort         = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order        = $this->getEvent()->getQueryParams()->get('order', 'asc');
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
 
         $partners = $partnerQueryBuilder->getQuery()->getResult();
 
-        $results =  [];
+        $results = [];
         if (!empty($arrayFilter['year'])) {
             /** @var Partner $partner */
             foreach ($partners as $partner) {
-                foreach ($arrayFilter['year'] as $year) {
-                    $results[] = array_merge(
-                        $this->partnerProvider->generateArray($partner),
-                        $this->partnerProvider->generateYearArray($partner, (int) $year),
-                    );
-                }
+                $results[] = $this->partnerYearProvider->generateArray($partner);
             }
         } else {
             /** @var Partner $partner */
@@ -101,8 +98,8 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['organisation']['type']['type']);
 
             if (!empty($arrayFilter['year'])) {
-                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCostsInYear']);
-                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalEffortInYear']);
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionCostsInYear']);
+                $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionEffortInYear']);
             } else {
                 $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionCosts']);
                 $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionEffort']);

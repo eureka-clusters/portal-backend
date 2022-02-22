@@ -2,19 +2,11 @@
 
 namespace Api;
 
-use Admin\Entity\User;
 use Api\V1\Rest;
 use Api\V1\Rest\ListResource\OrganisationListener;
 use Api\V1\Rest\ListResource\PartnerListener;
 use Api\V1\Rest\ListResource\ProjectListener;
 use Api\V1\Rest\UserResource\MeListener;
-use Cluster\Entity\Project;
-use Cluster\Entity\Project\Partner;
-use Cluster\Provider\OrganisationProvider;
-use Cluster\Provider\Project\PartnerProvider;
-use Cluster\Provider\ProjectProvider;
-use Cluster\Rest\Collection\PartnerCollection;
-use Laminas\Paginator\Paginator;
 
 class ApiConfigProvider
 {
@@ -49,15 +41,15 @@ class ApiConfigProvider
                 ],
             ],
             OrganisationListener::class                             => [
-                'listener'                => OrganisationListener::class,
-                'route_name'              => OrganisationListener::class,
-                'route_identifier_name'   => '',
-                'entity_http_methods'     => [],
-                'collection_name'         => 'organisations',
-                'collection_http_methods' => ['GET'],
-                'service_name'            => 'list_organisations',
-                'page_size'               => 25,
-                'page_size_param'         => 'pageSize',
+                'listener'                   => OrganisationListener::class,
+                'route_name'                 => OrganisationListener::class,
+                'route_identifier_name'      => '',
+                'entity_http_methods'        => [],
+                'collection_name'            => 'organisations',
+                'collection_http_methods'    => ['GET'],
+                'service_name'               => 'list_organisations',
+                'page_size'                  => 25,
+                'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
                     'sort',
                     'order',

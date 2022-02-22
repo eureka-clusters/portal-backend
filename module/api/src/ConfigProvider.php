@@ -147,6 +147,7 @@ class ConfigProvider
                 UserService::class,
                 TranslatorInterface::class,
                 PartnerProvider::class,
+                PartnerYearProvider::class
             ],
             OAuthService::class                                     => [
                 EntityManager::class,

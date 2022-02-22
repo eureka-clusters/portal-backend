@@ -28,8 +28,12 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
 
+        //We always need a join on project
+        $queryBuilder->join('project_partner.project', 'project');
+
         $this->applyFilters($filter, $queryBuilder);
         $this->applySorting($sort, $order, $queryBuilder);
+        $this->applyFunderFilter($queryBuilder, $funder);
 
         return $queryBuilder;
     }
@@ -210,7 +214,6 @@ class PartnerRepository extends EntityRepository
                 break;
             case 'partner.project.name':
                 $sortColumn = 'project.name';
-                $queryBuilder->join('project_partner.project', 'project');
                 break;
             case 'partner.organisation.name':
                 $sortColumn = 'organisation.name';
@@ -246,6 +249,26 @@ class PartnerRepository extends EntityRepository
         if (isset($sortColumn)) {
             $queryBuilder->orderBy($sortColumn, $order);
         }
+    }
+
+    private function applyFunderFilter(QueryBuilder $queryBuilder, Funder $funder): void
+    {
+        //Find the projects where the country is active
+        $funderSubSelect = $this->_em->createQueryBuilder()
+            ->select('cluster_entity_project_funder')
+            ->from(Project::class, 'cluster_entity_project_funder')
+            ->join('cluster_entity_project_funder.partners', 'cluster_entity_project_funder_partners')
+            ->join(
+                'cluster_entity_project_funder_partners.organisation',
+                'cluster_entity_project_funder_partners_organisation'
+            )
+            ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country');
+
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->in('project', $funderSubSelect->getDQL())
+        );
+        $queryBuilder->setParameter('funder_country', $funder->getCountry());
     }
 
     public function getPartnersByProject(Project $project): QueryBuilder
@@ -288,6 +311,10 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join('organisation.country', 'country');
         $queryBuilder->groupBy('country');
 
+        //Join on partner to have the funder filter
+        $queryBuilder->join('project_partner.project', 'project');
+        $this->applyFunderFilter($queryBuilder, $funder);
+
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
@@ -305,6 +332,10 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join('organisation.partners', 'organisation_partners');
         $queryBuilder->groupBy('organisation_type');
 
+        //Join on partner to have the funder filter
+        $queryBuilder->join('organisation_partners.project', 'project');
+        $this->applyFunderFilter($queryBuilder, $funder);
+
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
@@ -320,15 +351,19 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->from(Cluster::class, 'cluster');
-        $queryBuilder->leftJoin('cluster.projectsPrimary', 'cluster_project_primary');
+        $queryBuilder->leftJoin('cluster.projectsPrimary', 'project');
         $queryBuilder->leftJoin(
-            'cluster_project_primary.partners',
+            'project.partners',
             'cluster_project_primary_partner'
         );
         $queryBuilder->groupBy('cluster');
-        $queryBuilder->orderBy('cluster.name', 'asc');
+        $queryBuilder->orderBy('cluster.name', Criteria::ASC);
+
+        //Filters do not work here
+        //$this->applyFunderFilter($queryBuilder, $funder);
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
+
 
         // select secondary
         $queryBuilder = $this->_em->createQueryBuilder();
@@ -338,13 +373,17 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->from(Cluster::class, 'cluster');
-        $queryBuilder->leftJoin('cluster.projectsSecondary', 'cluster_project_secondary');
+        $queryBuilder->leftJoin('cluster.projectsSecondary', 'project');
         $queryBuilder->leftJoin(
-            'cluster_project_secondary.partners',
+            'project.partners',
             'cluster_project_secondary_partner'
         );
         $queryBuilder->groupBy('cluster');
-        $queryBuilder->orderBy('cluster.name', 'asc');
+        $queryBuilder->orderBy('cluster.name', Criteria::ASC);
+
+        //Join on partner to have the funder filter
+        //        $queryBuilder->join('cluster_project_secondary_partner.project', 'project');
+        //   $this->applyFunderFilter($queryBuilder, $funder);
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
@@ -370,6 +409,8 @@ class PartnerRepository extends EntityRepository
             'project_partners'
         );
 
+        $this->applyFunderFilter($queryBuilder, $funder);
+
         $queryBuilder->groupBy('project.programmeCall');
 
         return $queryBuilder->getQuery()->getArrayResult();
@@ -391,12 +432,16 @@ class PartnerRepository extends EntityRepository
             'project_status_project_partners'
         );
 
+        //Join on partner to have the funder filter
+        $queryBuilder->join('project_status_project_partners.project', 'project');
+        $this->applyFunderFilter($queryBuilder, $funder);
+
         $queryBuilder->groupBy('project_status');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchYears(Funder $funder): array
+    public function fetchYears(): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 

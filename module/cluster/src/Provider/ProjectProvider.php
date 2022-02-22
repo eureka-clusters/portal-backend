@@ -10,6 +10,7 @@ use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
 use Cluster\Service\Project\VersionService;
+use Cluster\Service\ProjectService;
 use DateTimeInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
@@ -17,6 +18,7 @@ class ProjectProvider implements ProviderInterface
 {
     public function __construct(
         private Redis $cache,
+        private ProjectService $projectService,
         private VersionService $versionService,
         private ClusterProvider $clusterProvider,
         private ContactProvider $contactProvider,
@@ -59,7 +61,15 @@ class ProjectProvider implements ProviderInterface
                 ) ? null : $this->clusterProvider->generateArray(
                     $project->getSecondaryCluster()
                 ),
+                'cancelDate'               => $project->getCancelDate()?->format(DateTimeInterface::ATOM),
                 'labelDate'                => $project->getLabelDate()?->format(DateTimeInterface::ATOM),
+                'officialStartDate'        => $project->getOfficialStartDate()?->format(DateTimeInterface::ATOM),
+                'officialEndDate'          => $project->getOfficialEndDate()?->format(DateTimeInterface::ATOM),
+                'duration'                 => [
+                    'years'  => $this->projectService->parseDuration($project, ProjectService::DURATION_YEAR),
+                    'months' => $this->projectService->parseDuration($project, ProjectService::DURATION_MONTH),
+                    'days'   => $this->projectService->parseDuration($project, ProjectService::DURATION_DAYS),
+                ],
                 'status'                   => $this->projectStatusProvider->generateArray($project->getStatus()),
                 'latestVersionTotalCosts'  => $this->versionService->parseTotalCostsByProjectVersion(
                     $project->getLatestVersion()

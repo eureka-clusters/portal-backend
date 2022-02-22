@@ -29,7 +29,7 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($export_type = 'csv')
+    public function fetch($exportType = 'Xlsx'): array
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
@@ -38,14 +38,14 @@ final class ProjectListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()->get('filter');
+        $filter = $this->getEvent()->getQueryParams()?->get('filter');
         $filter      = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         $defaultorder = 'asc';
         $defaultSort = 'project.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
 
         $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter, $sort, $order);
 
@@ -69,8 +69,10 @@ final class ProjectListener extends AbstractResourceListener
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-primary-cluster'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-secondary-cluster'));
+        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-official-start-date'));
+        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-official-end-date'));
+        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-duration-(months)'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-status'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-latest-version'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-total-costs'));
         $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
 
@@ -82,9 +84,11 @@ final class ProjectListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['name']);
             $partnerSheet->getCell($column++ . $row)->setValue($result['primaryCluster']['name'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']['name'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['officialStartDate'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['officialEndDate'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['duration'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['status']['status'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersion']['type']['type'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
+                        $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
             $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
         }
 
