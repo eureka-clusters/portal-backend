@@ -39,6 +39,7 @@ return [
         ],
         ProjectProvider::class                 => [
             Redis::class,
+            ProjectService::class,
             VersionService::class,
             ClusterProvider::class,
             ContactProvider::class,

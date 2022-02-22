@@ -21,6 +21,10 @@ use function array_map;
 
 class ProjectService extends AbstractService
 {
+    public const DURATION_MONTH = 'm';
+    public const DURATION_YEAR  = 'y';
+    public const DURATION_DAYS  = 'd';
+
     #[Pure] public function __construct(EntityManager $entityManager, private ClusterService $clusterService)
     {
         parent::__construct($entityManager);
@@ -169,5 +173,31 @@ class ProjectService extends AbstractService
         return $this->entityManager->getRepository(Project::class)->findOneBy(
             ['slug' => $slug]
         );
+    }
+
+    public function parseDuration(Project $project, string $type = self::DURATION_MONTH): ?int
+    {
+        if (null === $project->getOfficialStartDate() || null === $project->getOfficialEndDate()) {
+            return null;
+        }
+
+        $difference = $project->getOfficialEndDate()->diff($project->getOfficialStartDate());
+
+        return match ($type) {
+            self::DURATION_YEAR => (int)(
+                (int)$difference->format('%' . self::DURATION_YEAR) + ceil(
+                    $difference->format('%' . self::DURATION_MONTH) / 12
+                )
+            ),
+            self::DURATION_MONTH => ((
+                    (int)$difference->format('%' . self::DURATION_YEAR) * 12
+                ) +
+                (int)$difference->format('%' . self::DURATION_MONTH) +
+                ($difference->format('%' . self::DURATION_DAYS) > 0 ? 1
+                    : 0)),
+            default => ($difference->format('%' . self::DURATION_YEAR) * 365) + ($difference->format(
+                        '%' . self::DURATION_MONTH
+                    ) * 12) + (int)$difference->format('%' . self::DURATION_DAYS),
+        };
     }
 }
