@@ -423,7 +423,7 @@ class ProjectRepository extends EntityRepository
             ->leftJoin('cluster_entity_cluster.projectsPrimary', 'cluster_entity_project')
             ->groupBy('cluster_entity_cluster')
             ->orderBy('cluster_entity_cluster.name', Criteria::ASC);
-        $this->applyFunderFilter($queryBuilder, $funder);
+//        $this->applyFunderFilter($queryBuilder, $funder);
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
@@ -439,9 +439,8 @@ class ProjectRepository extends EntityRepository
             ->leftJoin('cluster_entity_cluster.projectsSecondary', 'cluster_entity_project')
             ->groupBy('cluster_entity_cluster')
             ->orderBy('cluster_entity_cluster.name', Criteria::ASC);
-        $this->applyFunderFilter($queryBuilder, $funder);
+//        $this->applyFunderFilter($queryBuilder, $funder);
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
-
 
         return array_map(static fn(array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
