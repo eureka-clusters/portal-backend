@@ -71,8 +71,8 @@ final class ProjectListener extends AbstractResourceListener
 
                 $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
 
-                $totalCosts  = 1;
-                $totalEffort = 1;
+                $totalCosts  = 0;
+                $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
                     $totalCosts  += $costsAndEffortData['costs'];
