@@ -71,10 +71,10 @@ class ProjectProvider implements ProviderInterface
                     'days'   => $this->projectService->parseDuration($project, ProjectService::DURATION_DAYS),
                 ],
                 'status'                   => $this->projectStatusProvider->generateArray($project->getStatus()),
-                'latestVersionTotalCosts'  => $this->versionService->parseTotalCostsByProjectVersion(
+                'latestVersionTotalCosts'  => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalCostsByProjectVersion(
                     $project->getLatestVersion()
                 ),
-                'latestVersionTotalEffort' => $this->versionService->parseTotalEffortByProjectVersion(
+                'latestVersionTotalEffort' => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalEffortByProjectVersion(
                     $project->getLatestVersion()
                 ),
             ];
