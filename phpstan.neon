@@ -3,4 +3,3 @@ parameters:
     level: 1
     paths:
         - module
-    excludePaths:
