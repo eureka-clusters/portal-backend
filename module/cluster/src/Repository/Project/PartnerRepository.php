@@ -276,10 +276,21 @@ class PartnerRepository extends EntityRepository
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
+
+        $queryBuilder->join('project_partner.costsAndEffort', 'project_partner_costs_and_effort');
+        $queryBuilder->join('project_partner_costs_and_effort.version', 'project_partner_costs_and_effort_version');
+        $queryBuilder->join(
+            'project_partner_costs_and_effort_version.type',
+            'project_partner_costs_and_effort_version_type'
+        );
+        $queryBuilder->andWhere('project_partner_costs_and_effort_version_type.type = :type');
+        $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
+
         $queryBuilder->join('project_partner.organisation', 'organisation');
-        $queryBuilder->where('project_partner.project = :project');
+        $queryBuilder->andWhere('project_partner.project = :project');
         $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
+
 
         return $queryBuilder;
     }

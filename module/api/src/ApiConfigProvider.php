@@ -63,7 +63,7 @@ class ApiConfigProvider
                 'collection_name'            => 'partners',
                 'collection_http_methods'    => ['GET'],
                 'service_name'               => 'list_partners',
-                'page_size'                  => 12,
+                'page_size'                  => -1,
                 'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
                     'project',

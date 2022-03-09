@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="cluster_organisation")
@@ -26,7 +27,7 @@ class Organisation extends AbstractEntity
     /**
      * @ORM\Column()
      */
-    private string $name = '';
+    private string $name;
     /**
      * @ORM\Column(unique=true)
      *
@@ -48,7 +49,7 @@ class Organisation extends AbstractEntity
      */
     private Collection $partners;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->country  = new Country();
         $this->type     = new Type();
