@@ -33,7 +33,7 @@ class Organisation extends AbstractEntity
      *
      * @Gedmo\Slug(fields={"name"})
      */
-    private string $slug = '';
+    private string $slug;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", inversedBy="organisations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
