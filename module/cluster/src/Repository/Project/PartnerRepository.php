@@ -277,22 +277,38 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select('project_partner');
         $queryBuilder->from(Partner::class, 'project_partner');
 
-        $queryBuilder->join('project_partner.costsAndEffort', 'project_partner_costs_and_effort');
-        $queryBuilder->join('project_partner_costs_and_effort.version', 'project_partner_costs_and_effort_version');
-        $queryBuilder->join(
-            'project_partner_costs_and_effort_version.type',
-            'project_partner_costs_and_effort_version_type'
-        );
-        $queryBuilder->andWhere('project_partner_costs_and_effort_version_type.type = :type');
-        $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
+        $this->activeInLatestVersionSubselect($queryBuilder, $project);
 
         $queryBuilder->join('project_partner.organisation', 'organisation');
-        $queryBuilder->andWhere('project_partner.project = :project');
-        $queryBuilder->setParameter('project', $project);
         $queryBuilder->addOrderBy('organisation.name');
 
 
         return $queryBuilder;
+    }
+
+    private function activeInLatestVersionSubselect(QueryBuilder $queryBuilder, Project $project): void
+    {
+        $activeInLatestVersionSubSelect = $this->_em->createQueryBuilder();
+        $activeInLatestVersionSubSelect->select('project_partner_subselect');
+        $activeInLatestVersionSubSelect->from(Partner::class, 'project_partner_subselect');
+        $activeInLatestVersionSubSelect->join('project_partner_subselect.project', 'project_partner_subselect_project');
+        $activeInLatestVersionSubSelect->join('project_partner_subselect.costsAndEffort', 'project_partner_subselect_costs_and_effort');
+        $activeInLatestVersionSubSelect->join(
+            'project_partner_subselect_costs_and_effort.version',
+            'project_partner_subselect_costs_and_effort_version'
+        );
+        $activeInLatestVersionSubSelect->join(
+            'project_partner_subselect_costs_and_effort_version.type',
+            'project_partner_subselect_costs_and_effort_version_type'
+        );
+        $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_costs_and_effort_version_type.type = :type');
+        $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_project.id = :projectId');
+
+        $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
+        $queryBuilder->setParameter('projectId', $project->getId());
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->in('project_partner', $activeInLatestVersionSubSelect->getDQL())
+        );
     }
 
     public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder

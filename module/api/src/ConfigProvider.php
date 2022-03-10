@@ -25,7 +25,7 @@ use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
-class ConfigProvider
+final class ConfigProvider
 {
     public function __invoke(): array
     {

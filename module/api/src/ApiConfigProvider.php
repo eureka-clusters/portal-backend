@@ -8,7 +8,7 @@ use Api\V1\Rest\ListResource\PartnerListener;
 use Api\V1\Rest\ListResource\ProjectListener;
 use Api\V1\Rest\UserResource\MeListener;
 
-class ApiConfigProvider
+final class ApiConfigProvider
 {
     public function getApiToolsRestConfig(): array
     {
