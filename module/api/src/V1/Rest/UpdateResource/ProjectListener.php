@@ -71,6 +71,11 @@ final class ProjectListener extends AbstractResourceListener
 
                 $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
 
+                $partner->setIsActive($partnerData->isActive);
+                $partner->setIsCoordinator($partnerData->isCoordinator);
+                $partner->setIsSelfFunded($partnerData->isSelfFunded);
+                $partner->setTechnicalContact($partnerData->technicalContact);
+
                 $totalCosts  = 0;
                 $totalEffort = 0;
 

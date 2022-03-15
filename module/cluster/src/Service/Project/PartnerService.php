@@ -163,7 +163,6 @@ class PartnerService extends AbstractService
             $partner->setTechnicalContact($data->technicalContact);
             $partner->setLatestVersionEffort(0.0); //Create with an initial version
             $partner->setLatestVersionCosts(0.0); //Create with an initial version
-            $partner->setTechnicalContact($data->technicalContact);
 
             $this->save($partner);
         }
