@@ -35,6 +35,17 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder;
     }
 
+    public function getProjectByFunderAndSlug(Funder $funder, string $slug)
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_project');
+        $queryBuilder->from(Project::class, 'cluster_entity_project');
+        $this->applyFunderFilter($queryBuilder, $funder);
+        $queryBuilder->andWhere('cluster_entity_project.slug = :slug')
+        ->setParameter('slug', $slug);
+        return $queryBuilder;
+    }
+
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
     {
         //Filters filters filters

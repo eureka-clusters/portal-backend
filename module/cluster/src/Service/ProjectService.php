@@ -175,6 +175,13 @@ class ProjectService extends AbstractService
         );
     }
 
+    public function findProjectBySlugAndFunder(string $slug, Funder $funder): ?Project
+    {
+        $repository = $this->entityManager->getRepository(Project::class);
+        return $repository->getProjectByFunderAndSlug($funder, $slug)->getQuery()->getOneOrNullResult();
+    }
+
+
     public function parseDuration(Project $project, string $type = self::DURATION_MONTH): ?int
     {
         if (null === $project->getOfficialStartDate() || null === $project->getOfficialEndDate()) {

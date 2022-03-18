@@ -101,6 +101,7 @@ final class ConfigProvider
             ],
             Rest\ViewResource\ProjectListener::class                => [
                 ProjectService::class,
+                UserService::class,
                 ProjectProvider::class,
             ],
             Rest\ViewResource\OrganisationListener::class           => [
