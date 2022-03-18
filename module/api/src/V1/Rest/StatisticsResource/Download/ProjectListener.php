@@ -86,9 +86,9 @@ final class ProjectListener extends AbstractResourceListener
             $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']['name'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['officialStartDate'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['officialEndDate'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['duration'] ?? null);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['duration']['months'] ?? null);
             $partnerSheet->getCell($column++ . $row)->setValue($result['status']['status'] ?? null);
-                        $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
+            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
             $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
         }
 
