@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
+use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class OrganisationRepository extends EntityRepository
 {
-    public function getOrganisationsByFilter(array $filter, string $sort = 'organisation.name', string $order = 'asc'): QueryBuilder
-    {
+    public function getOrganisationsByFilter(
+        array $filter,
+        string $sort = 'organisation.name',
+        string $order = 'asc'
+    ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('cluster_entity_organisation');
         $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
@@ -20,6 +24,10 @@ class OrganisationRepository extends EntityRepository
         $this->applySorting($sort, $order, $queryBuilder);
 
         return $queryBuilder;
+    }
+
+    private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
+    {
     }
 
     private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
@@ -48,7 +56,25 @@ class OrganisationRepository extends EntityRepository
         }
     }
 
-    private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
-    {
+    public function searchOrganisations(
+        Funder $funder,
+        string $query,
+        int $limit
+    ): QueryBuilder {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_organisation');
+        $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('cluster_entity_organisation.name', ':like'),
+            )
+        );
+
+        $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
+
+        $queryBuilder->setMaxResults($limit);
+
+        return $queryBuilder;
     }
 }

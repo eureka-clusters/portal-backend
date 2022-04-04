@@ -42,6 +42,14 @@ class ProjectService extends AbstractService
         return $repository->getProjectsByFunderAndFilter($funder, $filter, $sort, $order);
     }
 
+    public function searchProjects(Funder $funder, string $query, int $limit): array
+    {
+        /** @var ProjectRepository $repository */
+        $repository = $this->entityManager->getRepository(Project::class);
+
+        return $repository->searchProjects($funder, $query, $limit)->getQuery()->getResult();
+    }
+
     #[ArrayShape([
         'countries'         => "array[]",
         'organisationTypes' => "array[]",
@@ -180,7 +188,6 @@ class ProjectService extends AbstractService
         $repository = $this->entityManager->getRepository(Project::class);
         return $repository->getProjectByFunderAndSlug($funder, $slug)->getQuery()->getOneOrNullResult();
     }
-
 
     public function parseDuration(Project $project, string $type = self::DURATION_MONTH): ?int
     {

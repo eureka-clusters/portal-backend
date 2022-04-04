@@ -14,6 +14,7 @@ use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Provider\ProjectProvider;
+use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
@@ -43,6 +44,7 @@ final class ConfigProvider
                 ProjectListener::class                                  => ConfigAbstractFactory::class,
                 OrganisationListener::class                             => ConfigAbstractFactory::class,
                 PartnerListener::class                                  => ConfigAbstractFactory::class,
+                Rest\SearchResource\ResultListener::class               => ConfigAbstractFactory::class,
                 Rest\ViewResource\ProjectListener::class                => ConfigAbstractFactory::class,
                 Rest\ViewResource\OrganisationListener::class           => ConfigAbstractFactory::class,
                 Rest\ViewResource\PartnerListener::class                => ConfigAbstractFactory::class,
@@ -98,6 +100,12 @@ final class ConfigProvider
                 OrganisationService::class,
                 UserService::class,
                 PartnerProvider::class,
+            ],
+            Rest\SearchResource\ResultListener::class               => [
+                ProjectService::class,
+                OrganisationService::class,
+                UserService::class,
+                SearchResultProvider::class,
             ],
             Rest\ViewResource\ProjectListener::class                => [
                 ProjectService::class,
@@ -194,6 +202,15 @@ final class ConfigProvider
                         'route'    => '/api/list/partner',
                         'defaults' => [
                             'controller' => PartnerListener::class,
+                        ],
+                    ],
+                ],
+                Rest\SearchResource\ResultListener::class               => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/api/search/result',
+                        'defaults' => [
+                            'controller' => Rest\SearchResource\ResultListener::class,
                         ],
                     ],
                 ],

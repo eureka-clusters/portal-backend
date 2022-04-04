@@ -70,6 +70,17 @@ final class ApiConfigProvider
                     'organisation',
                 ],
             ],
+            Rest\SearchResource\ResultListener::class               => [
+                'listener'                   => Rest\SearchResource\ResultListener::class,
+                'route_name'                 => Rest\SearchResource\ResultListener::class,
+                'route_identifier_name'      => 'search',
+                'entity_http_methods'        => [],
+                'collection_name'            => 'search',
+                'collection_http_methods'    => ['GET'],
+                'service_name'               => Rest\SearchResource\ResultListener::class,
+                'page_size'                  => 25,
+                'collection_query_whitelist' => ['query'],
+            ],
             Rest\ViewResource\ProjectListener::class                => [
                 'listener'                   => Rest\ViewResource\ProjectListener::class,
                 'route_name'                 => Rest\ViewResource\ProjectListener::class,
@@ -216,6 +227,11 @@ final class ApiConfigProvider
                     ],
                 ],
                 OrganisationListener::class                             => [
+                    'collection' => [
+                        'GET' => true,
+                    ],
+                ],
+                V1\Rest\SearchResource\ResultListener::class            => [
                     'collection' => [
                         'GET' => true,
                     ],

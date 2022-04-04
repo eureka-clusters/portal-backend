@@ -35,17 +35,6 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder;
     }
 
-    public function getProjectByFunderAndSlug(Funder $funder, string $slug)
-    {
-        $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('cluster_entity_project');
-        $queryBuilder->from(Project::class, 'cluster_entity_project');
-        $this->applyFunderFilter($queryBuilder, $funder);
-        $queryBuilder->andWhere('cluster_entity_project.slug = :slug')
-        ->setParameter('slug', $slug);
-        return $queryBuilder;
-    }
-
     private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
     {
         //Filters filters filters
@@ -351,6 +340,44 @@ class ProjectRepository extends EntityRepository
             $queryBuilder->expr()->in('cluster_entity_project', $funderSubSelect->getDQL())
         );
         $queryBuilder->setParameter('funder_country', $funder->getCountry());
+    }
+
+    public function searchProjects(
+        Funder $funder,
+        string $query,
+        int $limit
+    ): QueryBuilder {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_project');
+        $queryBuilder->from(Project::class, 'cluster_entity_project');
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('cluster_entity_project.number', ':like'),
+                $queryBuilder->expr()->like('cluster_entity_project.name', ':like'),
+                $queryBuilder->expr()->like('cluster_entity_project.title', ':like'),
+                $queryBuilder->expr()->like('cluster_entity_project.description', ':like'),
+            )
+        );
+
+        $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
+
+        $this->applyFunderFilter($queryBuilder, $funder);
+
+        $queryBuilder->setMaxResults($limit);
+
+        return $queryBuilder;
+    }
+
+    public function getProjectByFunderAndSlug(Funder $funder, string $slug): QueryBuilder
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('cluster_entity_project');
+        $queryBuilder->from(Project::class, 'cluster_entity_project');
+        $this->applyFunderFilter($queryBuilder, $funder);
+        $queryBuilder->andWhere('cluster_entity_project.slug = :slug')
+            ->setParameter('slug', $slug);
+        return $queryBuilder;
     }
 
     public function fetchOrganisationTypes(Funder $funder, $filter): array

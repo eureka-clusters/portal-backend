@@ -14,6 +14,7 @@ use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
 use Cluster\Provider\ProjectProvider;
+use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\ClusterService;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
@@ -48,6 +49,7 @@ $config = [
         ],
         'invokables' => [
             ContactProvider::class,
+            SearchResultProvider::class
         ],
     ],
     'doctrine'        => [

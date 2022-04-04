@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
+use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Organisation\Type;
 use Cluster\Entity\Country;
 use Application\Service\AbstractService;
 use Cluster\Entity;
+use Cluster\Entity\Project;
+use Cluster\Repository\OrganisationRepository;
+use Cluster\Repository\ProjectRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class OrganisationService extends AbstractService
@@ -21,6 +25,14 @@ class OrganisationService extends AbstractService
     public function findOrganisationBySlug(string $slug): ?Organisation
     {
         return $this->entityManager->getRepository(Organisation::class)->findOneBy(['slug' => $slug]);
+    }
+
+    public function searchOrganisations(Funder $funder, string $query, int $limit): array
+    {
+        /** @var OrganisationRepository $repository */
+        $repository = $this->entityManager->getRepository(Organisation::class);
+
+        return $repository->searchOrganisations($funder, $query, $limit)->getQuery()->getResult();
     }
 
     public function findOrCreateOrganisationType(string $typeName): Type

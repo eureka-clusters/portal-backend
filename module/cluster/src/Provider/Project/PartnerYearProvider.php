@@ -30,7 +30,7 @@ class PartnerYearProvider implements ProviderInterface
         $cacheKey    = sprintf('%s-years', $partner->getResourceId());
         $partnerData = $this->cache->getItem($cacheKey);
 
-        if (true || !$partnerData) {
+        if (!$partnerData) {
             /** @var CostsAndEffort $costsAndEffort */
             foreach ($partner->getCostsAndEffort() as $costsAndEffort) {
                 $partnerData = [
