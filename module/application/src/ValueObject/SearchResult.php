@@ -16,7 +16,7 @@ final class SearchResult
         private ?string $description = null,
         private ?string $organisationType = null,
         private ?string $country = null,
-
+        private ?string $score = null,
     ) {
     }
 
@@ -27,7 +27,8 @@ final class SearchResult
         'title'            => "null|string",
         'description'      => "null|string",
         'organisationType' => "null|string",
-        'country'          => "null|string"
+        'country'          => "null|string",
+        'score'            => "null|float"
     ])] public function toArray(): array
     {
         return [
@@ -38,6 +39,7 @@ final class SearchResult
             'description'      => $this->description,
             'organisationType' => $this->organisationType,
             'country'          => $this->country,
+            'score'            => $this->score,
         ];
     }
 }

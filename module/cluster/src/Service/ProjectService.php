@@ -42,6 +42,13 @@ class ProjectService extends AbstractService
         return $repository->getProjectsByFunderAndFilter($funder, $filter, $sort, $order);
     }
 
+    public function searchTest(Funder $funder, string $query, int $limit)
+    {
+        $repository = $this->entityManager->getRepository(Project::class);
+        return $repository->searchTest($funder, $query, $limit);
+        // return $repository->searchTest($funder, $query, $limit)->getQuery()->getResult(\Doctrine\ORM\Query::HYDRATE_SCALAR);
+    }
+
     public function searchProjects(Funder $funder, string $query, int $limit): array
     {
         /** @var ProjectRepository $repository */

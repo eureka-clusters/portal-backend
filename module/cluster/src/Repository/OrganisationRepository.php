@@ -8,6 +8,7 @@ use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use DoctrineExtensions\Query\Mysql\MatchAgainst;
 
 class OrganisationRepository extends EntityRepository
 {
@@ -61,17 +62,25 @@ class OrganisationRepository extends EntityRepository
         string $query,
         int $limit
     ): QueryBuilder {
+
+        $config = $this->_em->getConfiguration();
+        $config->addCustomStringFunction('match_against', MatchAgainst::class);
+
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('cluster_entity_organisation');
         $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
 
-        $queryBuilder->andWhere(
-            $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->like('cluster_entity_organisation.name', ':like'),
-            )
-        );
+        // $queryBuilder->andWhere(
+        //     $queryBuilder->expr()->orX(
+        //         $queryBuilder->expr()->like('cluster_entity_organisation.name', ':like'),
+        //     )
+        // );
+        // $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
 
-        $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
+
+        $queryBuilder->addSelect('MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score');
+        $queryBuilder->andWhere('MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) > 0');
+        $queryBuilder->setParameter('match', $query);
 
         $queryBuilder->setMaxResults($limit);
 

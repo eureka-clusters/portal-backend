@@ -13,7 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @ORM\Table(name="cluster_organisation")
+ * @ORM\Table(name="cluster_organisation",
+ *     indexes={
+ *      @ORM\Index(flags={"fulltext"}, columns={"name"})
+ * })
  * @ORM\Entity(repositoryClass="Cluster\Repository\OrganisationRepository")
  */
 class Organisation extends AbstractEntity

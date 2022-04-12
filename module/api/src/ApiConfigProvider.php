@@ -79,6 +79,7 @@ final class ApiConfigProvider
                 'collection_http_methods'    => ['GET'],
                 'service_name'               => Rest\SearchResource\ResultListener::class,
                 'page_size'                  => 25,
+                'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => ['query'],
             ],
             Rest\ViewResource\ProjectListener::class                => [

@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Table(name="cluster_project",
  *     indexes={
- *      @ORM\Index(name="identifier_index", columns={"identifier"})
+ *      @ORM\Index(name="identifier_index", columns={"identifier"}),
+ *      @ORM\Index(flags={"fulltext"}, columns={"number", "name", "title", "description"})
  * })
  * @ORM\Entity(repositoryClass="Cluster\Repository\ProjectRepository")
  */
