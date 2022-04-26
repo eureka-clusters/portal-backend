@@ -36,26 +36,18 @@ final class ResultListener extends AbstractResourceListener
             return new Paginator(new ArrayAdapter());
         }
 
-        // $test = $this->projectService->searchTest(
-        //     funder: $user->getFunder(),
-        //     query: $query,
-        //     limit: 20
-        // );
-        // return $test;
-
         $results = [];
 
         $projects = $this->projectService->searchProjects(
             funder: $user->getFunder(),
-            query: $query,
-            limit: 20
+            query:  $query,
+            limit:  20
         );
 
         /** @var Project $project */
-        // foreach ($projects as $project) {
         foreach ($projects as $resultArray) {
             $project = $resultArray[0];
-            $score = $resultArray['score'] ?? null;
+            $score   = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type:        'project',
@@ -77,7 +69,7 @@ final class ResultListener extends AbstractResourceListener
         // foreach ($organisations as $organisation) {
         foreach ($organisations as $resultArray) {
             $organisation = $resultArray[0];
-            $score = $resultArray['score'] ?? null;
+            $score        = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type:             'organisation',
@@ -89,9 +81,12 @@ final class ResultListener extends AbstractResourceListener
             );
         }
 
-        // if results would be a normal array i would have sorted it after the score.
-        // $score = array_column($results, 'score');
-        // array_multisort($score, SORT_DESC, $results);
+        //Sort on score, but therefore we need to iterate over the scores
+        usort(
+            $results,
+            static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore(
+            ) ? 1 : -1
+        );
 
         $doctrineORMAdapter = new CustomAdapter($results);
         $doctrineORMAdapter->setProvider($this->searchResultProvider);

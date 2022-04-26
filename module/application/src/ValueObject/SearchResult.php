@@ -16,7 +16,7 @@ final class SearchResult
         private ?string $description = null,
         private ?string $organisationType = null,
         private ?string $country = null,
-        private ?string $score = null,
+        private ?float $score = null,
     ) {
     }
 
@@ -41,5 +41,10 @@ final class SearchResult
             'country'          => $this->country,
             'score'            => $this->score,
         ];
+    }
+
+    public function getScore(): ?float
+    {
+        return $this->score;
     }
 }
