@@ -146,7 +146,7 @@ final class OAuth2Controller extends AbstractActionController
                     $oAuthClient->getRedirectUri() . '?token=' . $RS256Token
                 );
             } catch (IdentityProviderException) {
-                return $this->redirect()->toRoute('user/login');
+                return $this->redirect()->toRoute('/');
             }
         }
 
