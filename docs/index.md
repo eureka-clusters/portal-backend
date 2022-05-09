@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+# Eureka clusters backend application
 
-You can use the [editor on GitHub](https://github.com/eureka-clusters/portal-backend/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+This application is the backend system for the Eureka Clusters data platform. It can be installed locally using docker
+or installed on a webserver. Front-end code in React is also available
+on [Github](https://github.com/eureka-clusters/pa-portal).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+A dedicated repository where the backend code including frontend and Traefik frontend using LetsEncrypt is also
+available [here](https://github.com/eureka-clusters/website).
 
-### Markdown
+## Data model
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+A detailed overview of the data model can be found [here](model)
 
-```markdown
-Syntax highlighted code block
+## Support or Contact
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/eureka-clusters/portal-backend/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Having trouble using the backend or do you have other questions,
+contact [Johan van der Heide](mailto:johan.van.der.heide@itea4.org) or [Contact Us](mailto:hoft@eurescom.eu).

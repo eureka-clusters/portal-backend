@@ -16,7 +16,6 @@ jobs:
       matrix:
         dependencies:
           - "locked"
-          - "highest"
         php-version:
           - "8.0"
           - "8.1"
