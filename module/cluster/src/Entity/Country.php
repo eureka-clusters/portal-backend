@@ -30,7 +30,7 @@ class Country extends AbstractEntity
     /**
      * @ORM\Column(name="docRef",type="string",unique=true)
      *
-     * @Gedmo\Slug(fields={"country"})§
+     * @Gedmo\Slug(fields={"country"})
      */
     private string $docRef = '';
     /** @ORM\Column(type="string",nullable=true) */
