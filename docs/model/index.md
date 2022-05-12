@@ -2,6 +2,14 @@
 
 The following data model is used to store all project information.
 
+Each cluster has a connection to this backend and sends all projects in [JSON format](import) to this backend
+application which
+stores all information in the database. This import tool will create new projects, organisations or will update existing
+entities if necessary.
+
+The user tables will be populated when users log in the system using their indivudual cluster account (using oAuth).
+Note that in this appplication no new data is generated but all data originates from the individual clusters.
+
 ## Overview tables
 
 First an overview of all tables is given. In the next section for each table all columns will be shown
@@ -41,25 +49,27 @@ Find below an overview of all tables and the content per table.
 
 ### User
 
-In this table an overview of all users in the backend is stored. A user is created upon authetication via the clusters webistes (
+In this table an overview of all users in the backend is stored. A user is created upon authetication via the clusters
+webistes (
 ITEA, Celtic-Next and Xecs)
 
-| Column      | Type     | nullable | Description                                                               |
+| Column      | Type     | Nullable | Description                                                               |
 |-------------|----------|----------|---------------------------------------------------------------------------|
 | id          | int      | no       |                                                                           |
 | password    | string   | yes      | only store hashed password for accounts which are used for data importing |
 | firstName   | string   | no       |                                                                           |
-| lastName    | string   | yes      |                                                                           |
-| email       | string   | yes      |                                                                           |
+| lastName    | string   | no       |                                                                           |
+| email       | string   | no       |                                                                           |
 | dateCreated | dateTime | no       |                                                                           |
 | dateUpdated | dateTime | yes      |                                                                           |
 | dateEnd     | dateTime | yes      | If not null,the date when the user has been deactivated                   |
 
 ### Cluster
 
-In this table an overview of all clusters is given
+In this table an overview of all clusters is given. New entries in this table will be automatically created when data
+from a new cluster is imported
 
-| Column      | Type     | nullable | Description                                                           |
+| Column      | Type     | Nullable | Description                                                           |
 |-------------|----------|----------|-----------------------------------------------------------------------|
 | id          | int      | no       |                                                                       |
 | name        | string   | no       | Name of the cluster                                                   |
@@ -72,7 +82,7 @@ In this table an overview of all clusters is given
 
 In this table an overview of all countries is given
 
-| Column      | Type     | nullable | Description                                                                              |
+| Column      | Type     | Nullable | Description                                                                              |
 |-------------|----------|----------|------------------------------------------------------------------------------------------|
 | id          | int      | no       |                                                                                          |
 | cd          | string   | no       | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code      |
@@ -86,7 +96,7 @@ In this table an overview of all countries is given
 In this table an overview of all possible project statuses is given. These statuses are harmonized statuses of all
 EUREKA clusters
 
-| Column | Type   | nullable | Description |
+| Column | Type   | Nullable | Description |
 |--------|--------|----------|-------------|
 | id     | int    | no       |             |
 | status | string | no       |             |
@@ -98,7 +108,7 @@ Current project statuses are: Completed, Labelled, Running, Stopped
 In this table an overview of all project version types is given. These types are harmonized types of all EUREKA
 clusters
 
-| Column      | Type   | nullable | Description |
+| Column      | Type   | Nullable | Description |
 |-------------|--------|----------|-------------|
 | id          | int    | no       |             |
 | type        | string | no       |             |
@@ -112,7 +122,7 @@ The latest version can be any type, including a change request
 In this table an overview of all project version statuses is given. These statuses are harmonized statuses
 of all EUREKA clusters
 
-| Column | Type   | nullable | Description |
+| Column | Type   | Nullable | Description |
 |--------|--------|----------|-------------|
 | id     | int    | no       |             |
 | status | string | no       |             |
@@ -124,7 +134,7 @@ Current project version statuses are: CR Approved, FPP Approved, Labelled, PO Ap
 In this table an overview of all organisation types is given. These types are harmonized types
 of all EUREKA clusters
 
-| Column | Type   | nullable | Description |
+| Column | Type   | Nullable | Description |
 |--------|--------|----------|-------------|
 | id     | int    | no       |             |
 | type   | string | no       |             |
@@ -137,7 +147,7 @@ Unknown
 This table indicates if a user is a funder (Public Authority). Each record in the table corresponsds to a user and
 country and indicates that the user is Public Authority in that country
 
-| Column     | Type | nullable | Description                       |
+| Column     | Type | Nullable | Description                       |
 |------------|------|----------|-----------------------------------|
 | id         | int  | no       |                                   |
 | user_id    | int  | no       | FK to `id` in [user](#user)       |
@@ -148,7 +158,7 @@ country and indicates that the user is Public Authority in that country
 Not every user in the [funder](#funder) table is funder for all clusters, in this table the funder is connected to the
 cluster to indicate for which cluster the funder is active (currently unused)
 
-| Column     | Type | nullable | Description                       |
+| Column     | Type | Nullable | Description                       |
 |------------|------|----------|-----------------------------------|
 | funder_id  | int  | no       | FK to `id` in [funder](#funder)   |
 | cluster_id | int  | no       | FK to `id` in [cluster](#cluster) |
@@ -157,7 +167,7 @@ cluster to indicate for which cluster the funder is active (currently unused)
 
 In this table an overview of all organisations is given
 
-| Column     | Type   | nullable | Description                                           |
+| Column     | Type   | Nullable | Description                                           |
 |------------|--------|----------|-------------------------------------------------------|
 | id         | int    | no       |                                                       |
 | country_id | int    | no       | FK to `id` in [country](#country)                     |
@@ -169,7 +179,7 @@ In this table an overview of all organisations is given
 
 In this table an overview of all projects is given
 
-| Column              | Type     | nullable | Description                                                         |
+| Column              | Type     | Nullable | Description                                                         |
 |---------------------|----------|----------|---------------------------------------------------------------------|
 | id                  | int      | no       |                                                                     |
 | status_id           | int      | no       | FK to `id` in [Project status](#project-status)                     |
@@ -196,7 +206,7 @@ For each version of a project in [Project](#project) an entry is created in this
 in [Project partner](#project-partner) are linked to the project version to be able to have different project partners
 per version of the project
 
-| Column         | Type     | nullable | Description                                                     |
+| Column         | Type     | Nullable | Description                                                     |
 |----------------|----------|----------|-----------------------------------------------------------------|
 | id             | int      | no       |                                                                 |
 | project_id     | int      | no       | FK to `id` in [Project](#project)                               |
@@ -213,7 +223,7 @@ For each partner in [project version](#project-version) an entry is created in t
 table multiple [costs and effort](#project-version-costs-and-effort) records per year can be found where the costs and
 effort per version is saved
 
-| Column              | Type   | nullable | Description                                             |
+| Column              | Type   | Nullable | Description                                             |
 |---------------------|--------|----------|---------------------------------------------------------|
 | id                  | int    | no       |                                                         |
 | organisation_id     | int    | no       | FK to `id` in [Project status](#project-status)         |
@@ -233,7 +243,7 @@ effort per version is saved
 In this table an overview **per year** of all costs (in Euro) and effort in PY can be found per partner and project
 version
 
-| Column     | Type   | nullable | Description                                       |
+| Column     | Type   | Nullable | Description                                       |
 |------------|--------|----------|---------------------------------------------------|
 | id         | int    | no       |                                                   |
 | partner_id | int    | no       | FK to `id` in [Project partner](#project-partner) |

@@ -43,11 +43,11 @@ final class User extends EntityRepository
             case 'email':
                 $qb->addOrderBy('admin_entity_user.email', $direction);
                 break;
-            case 'add-date':
+            case 'date-created':
                 $qb->addOrderBy('admin_entity_user.dateCreated', $direction);
                 break;
-            case 'last-update':
-                $qb->addOrderBy('admin_entity_user.lastUpdate', $direction);
+            case 'date-updated':
+                $qb->addOrderBy('admin_entity_user.dateUpdated', $direction);
                 break;
             default:
                 $qb->addOrderBy('admin_entity_user.username', $direction);

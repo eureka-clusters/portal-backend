@@ -51,7 +51,7 @@ class User extends AbstractEntity
      *
      * @Gedmo\Timestampable(on="update")
      */
-    private ?DateTime $lastUpdate = null;
+    private ?DateTime $dateUpdated = null;
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -197,14 +197,14 @@ class User extends AbstractEntity
         return $this;
     }
 
-    public function getLastUpdate(): ?DateTime
+    public function getDateUpdated(): ?DateTime
     {
-        return $this->lastUpdate;
+        return $this->dateUpdated;
     }
 
-    public function setLastUpdate(?DateTime $lastUpdate): User
+    public function setDateUpdated(?DateTime $dateUpdated): User
     {
-        $this->lastUpdate = $lastUpdate;
+        $this->dateUpdated = $dateUpdated;
         return $this;
     }
 
