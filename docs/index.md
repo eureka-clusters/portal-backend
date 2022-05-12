@@ -11,7 +11,11 @@ available [here](https://github.com/eureka-clusters/website).
 
 A detailed overview of the data model can be found [here](model)
 
+## Import
+
+Clusters can import their data using the API, find more information [here](model/import.md)
+
 ## Support or Contact
 
 Having trouble using the backend or do you have other questions,
-contact [Johan van der Heide](mailto:johan.van.der.heide@itea4.org) or [Contact Us](mailto:hoft@eurescom.eu).
+contact [Johan van der Heide](mailto:johan.van.der.heide@itea4.org) or [Benjamin Hoft](mailto:hoft@eurescom.eu).
