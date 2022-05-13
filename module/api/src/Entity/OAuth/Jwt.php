@@ -18,7 +18,7 @@ class Jwt extends AbstractEntity
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'jwtTokens')]
-    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false)]
     private Client $client;
 
     #[ORM\Column(name: 'public_key', length: 2000)]

@@ -22,7 +22,7 @@ class AuthorizationCode extends AbstractEntity
     private string $authorizationCode = '';
 
     #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'authorizationCodes')]
-    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false)]
     private Client $client;
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'oAuthAuthorizationCodes')]

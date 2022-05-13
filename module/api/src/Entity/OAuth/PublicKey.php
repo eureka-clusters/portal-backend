@@ -18,7 +18,7 @@ class PublicKey extends AbstractEntity
     private int $id;
 
     #[ORM\OneToOne(inversedBy: 'publicKey', targetEntity: Client::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false)]
     private Client $client;
 
     #[ORM\Column(name: 'public_key', type: 'text')]

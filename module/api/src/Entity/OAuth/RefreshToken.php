@@ -23,7 +23,7 @@ class RefreshToken extends AbstractEntity
     private string $refreshToken;
 
     #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'refreshTokens')]
-    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false, columnDefinition: 'varchar(255)')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'client_id', nullable: false)]
     private Client $client;
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'oAuthRefreshTokens')]
