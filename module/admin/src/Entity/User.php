@@ -74,6 +74,10 @@ class User extends AbstractEntity
      */
     private ?Funder $funder = null;
     /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="user")
+     */
+    private Collection $evaluation;
+    /**
      * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", mappedBy="user", cascade={"persist"})
      */
     private Collection $oAuthAccessTokens;
@@ -95,6 +99,7 @@ class User extends AbstractEntity
         $this->oAuthAccessTokens       = new ArrayCollection();
         $this->oAuthAuthorizationCodes = new ArrayCollection();
         $this->oAuthRefreshTokens      = new ArrayCollection();
+        $this->evaluation      = new ArrayCollection();
     }
 
     public function getRolesAsArray(): array
@@ -273,4 +278,17 @@ class User extends AbstractEntity
         $this->oAuthRefreshTokens = $oAuthRefreshTokens;
         return $this;
     }
+
+    public function getEvaluation(): Collection
+    {
+        return $this->evaluation;
+    }
+
+    public function setEvaluation(Collection $evaluation): User
+    {
+        $this->evaluation = $evaluation;
+        return $this;
+    }
+
+
 }

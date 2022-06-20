@@ -36,7 +36,7 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "rector/rector": "~0.12.7",
-    "iteaoffice/testing": "^3.3"
+    "iteaoffice/testing": "^3.4"
   },
   "bin": [
     "bin/generate_templatemaps"

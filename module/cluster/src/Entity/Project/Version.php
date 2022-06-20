@@ -54,13 +54,22 @@ class Version extends AbstractEntity
     private float $costs = 0.0;
     /** @ORM\Column(type="array") */
     private array $countries = [];
+    /**
+     * @ORM\OneToOne(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="projectVersion")
+     */
+    private ?\Cluster\Entity\Project\Evaluation $evaluation = null;
 
     public function __construct()
     {
-        $this->project        = new Project();
-        $this->type           = new Type();
-        $this->status         = new Status();
+        $this->project = new Project();
+        $this->type = new Type();
+        $this->status = new Status();
         $this->costsAndEffort = new ArrayCollection();
+    }
+
+    public function hasEvaluation(): bool
+    {
+        return null !== $this->evaluation;
     }
 
     public function getId(): ?int
@@ -159,6 +168,17 @@ class Version extends AbstractEntity
     public function setCountries(array $countries): Version
     {
         $this->countries = $countries;
+        return $this;
+    }
+
+    public function getEvaluation(): ?Evaluation
+    {
+        return $this->evaluation;
+    }
+
+    public function setEvaluation(?Evaluation $evaluation): Version
+    {
+        $this->evaluation = $evaluation;
         return $this;
     }
 }

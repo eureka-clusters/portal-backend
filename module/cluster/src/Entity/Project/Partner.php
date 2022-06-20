@@ -61,12 +61,17 @@ class Partner extends AbstractEntity
     private float $latestVersionCosts;
     /** @ORM\Column(type="float") */
     private float $latestVersionEffort;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner\Funding", cascade={"persist"}, mappedBy="partner")
+     */
+    private Collection $funding;
 
     public function __construct()
     {
-        $this->organisation   = new Organisation();
-        $this->project        = new Project();
+        $this->organisation = new Organisation();
+        $this->project = new Project();
         $this->costsAndEffort = new ArrayCollection();
+        $this->funding = new ArrayCollection();
     }
 
     public function getId(): int
@@ -212,5 +217,14 @@ class Partner extends AbstractEntity
         return $this;
     }
 
+    public function getFunding(): Collection
+    {
+        return $this->funding;
+    }
 
+    public function setFunding(Collection $funding): Partner
+    {
+        $this->funding = $funding;
+        return $this;
+    }
 }

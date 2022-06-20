@@ -60,7 +60,6 @@ class Project extends AbstractEntity
      * @ORM\Column(nullable=true)
      */
     private ?string $technicalArea = null;
-
     /**
      * @ORM\Column()
      */
@@ -69,52 +68,61 @@ class Project extends AbstractEntity
      * @ORM\Column()
      */
     private string $programmeCall = '';
-
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsPrimary", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Cluster $primaryCluster;
-
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsSecondary", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Cluster $secondaryCluster = null;
-
-    /** @ORM\Column(type="date", nullable=true) */
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private ?DateTime $labelDate = null;
-    /** @ORM\Column(type="date", nullable=true) */
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private ?DateTime $cancelDate = null;
-    /** @ORM\Column(type="date", nullable=true) */
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private ?DateTime $officialStartDate = null;
-    /** @ORM\Column(type="date", nullable=true) */
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private ?DateTime $officialEndDate = null;
     /**
      * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Status", inversedBy="projects", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Status $status;
-
-    /** @ORM\Column(type="array") */
+    /**
+     * @ORM\Column(type="array")
+     */
     private array $projectLeader = [];
-
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist", "remove"}, mappedBy="project")
      */
     private Collection $versions;
-
     /**
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist", "remove"}, mappedBy="project")
      */
     private Collection $partners;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="project")
+     */
+    private Collection $evaluation;
 
     public function __construct()
     {
         $this->primaryCluster = new Cluster();
-        $this->status         = new Status();
-        $this->versions       = new ArrayCollection();
-        $this->partners       = new ArrayCollection();
+        $this->status = new Status();
+        $this->versions = new ArrayCollection();
+        $this->partners = new ArrayCollection();
+        $this->evaluation = new ArrayCollection();
     }
 
     public function hasSecondaryCluster(): bool
@@ -349,6 +357,17 @@ class Project extends AbstractEntity
     public function setPartners(Collection $partners): Project
     {
         $this->partners = $partners;
+        return $this;
+    }
+
+    public function getEvaluation(): Collection
+    {
+        return $this->evaluation;
+    }
+
+    public function setEvaluation(Collection $evaluation): Project
+    {
+        $this->evaluation = $evaluation;
         return $this;
     }
 }

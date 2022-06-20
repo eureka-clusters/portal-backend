@@ -28,7 +28,7 @@ class Country extends AbstractEntity
     /** @ORM\Column(unique=true) */
     private string $country;
     /**
-     * @ORM\Column(name="docRef",type="string",unique=true)
+     * @ORM\Column(type="string",unique=true)
      *
      * @Gedmo\Slug(fields={"country"})
      */
@@ -45,11 +45,16 @@ class Country extends AbstractEntity
      * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="country")
      */
     private Collection $organisations;
+    /**
+     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="country")
+     */
+    private Collection $evaluation;
 
     #[Pure] public function __construct()
     {
-        $this->funder        = new ArrayCollection();
+        $this->funder = new ArrayCollection();
         $this->organisations = new ArrayCollection();
+        $this->evaluation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,7 +123,7 @@ class Country extends AbstractEntity
         return $this;
     }
 
-    public function getFunder(): ArrayCollection|Collection|array
+    public function getFunder(): Collection
     {
         return $this->funder;
     }
@@ -137,6 +142,17 @@ class Country extends AbstractEntity
     public function setOrganisations($organisations): Country
     {
         $this->organisations = $organisations;
+        return $this;
+    }
+
+    public function getEvaluation(): Collection
+    {
+        return $this->evaluation;
+    }
+
+    public function setEvaluation(Collection $evaluation): Country
+    {
+        $this->evaluation = $evaluation;
         return $this;
     }
 }
