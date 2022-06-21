@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3df12de9b1ee9ca204a99260f0675230",
+    "content-hash": "8275e46721c1e0454b3a50352ded36f8",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -10609,12 +10609,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "758a795cbacb075c7f7dfe6ebf04db3f27db8d0c"
+                "reference": "22765c3f8ff48e4ed1ac151df9b88e40c3e121ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/758a795cbacb075c7f7dfe6ebf04db3f27db8d0c",
-                "reference": "758a795cbacb075c7f7dfe6ebf04db3f27db8d0c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/22765c3f8ff48e4ed1ac151df9b88e40c3e121ff",
+                "reference": "22765c3f8ff48e4ed1ac151df9b88e40c3e121ff",
                 "shasum": ""
             },
             "require": {
@@ -10661,7 +10661,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-20T10:57:13+00:00"
+            "time": "2022-06-21T00:23:43+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11085,21 +11085,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.12.23",
+            "version": "0.13.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb"
+                "reference": "4170aad2943b150149ba9594c34539e06ced6c6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/690b31768b322db886b35845f8452025eba2cacb",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/4170aad2943b150149ba9594c34539e06ced6c6b",
+                "reference": "4170aad2943b150149ba9594c34539e06ced6c6b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.6"
+                "phpstan/phpstan": "^1.7.10"
             },
             "conflict": {
                 "phpstan/phpdoc-parser": "<1.2",
@@ -11118,7 +11118,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.12-dev"
+                    "dev-main": "0.13-dev"
                 }
             },
             "autoload": {
@@ -11133,7 +11133,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.12.23"
+                "source": "https://github.com/rectorphp/rector/tree/0.13.5"
             },
             "funding": [
                 {
@@ -11141,7 +11141,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-01T15:50:16+00:00"
+            "time": "2022-06-09T12:54:02+00:00"
         },
         {
             "name": "roave/security-advisories",
