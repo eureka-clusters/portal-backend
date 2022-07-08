@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3df12de9b1ee9ca204a99260f0675230",
+    "content-hash": "5107cbbbae28da266f37907f19176542",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -10605,16 +10605,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.7.x-dev",
+            "version": "1.8.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "758a795cbacb075c7f7dfe6ebf04db3f27db8d0c"
+                "reference": "90f03a13a11b808bdf5d46f8753c126358000ad2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/758a795cbacb075c7f7dfe6ebf04db3f27db8d0c",
-                "reference": "758a795cbacb075c7f7dfe6ebf04db3f27db8d0c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90f03a13a11b808bdf5d46f8753c126358000ad2",
+                "reference": "90f03a13a11b808bdf5d46f8753c126358000ad2",
                 "shasum": ""
             },
             "require": {
@@ -10641,7 +10641,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.7.x"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.x"
             },
             "funding": [
                 {
@@ -10661,7 +10661,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-20T10:57:13+00:00"
+            "time": "2022-07-05T04:59:53+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11085,24 +11085,24 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.12.23",
+            "version": "0.13.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb"
+                "reference": "6e01478f8239bfe28e003fad98d402589fa6861e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/690b31768b322db886b35845f8452025eba2cacb",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/6e01478f8239bfe28e003fad98d402589fa6861e",
+                "reference": "6e01478f8239bfe28e003fad98d402589fa6861e",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.6"
+                "phpstan/phpstan": "^1.8"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<1.2",
+                "phpstan/phpdoc-parser": "<1.6.2",
                 "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
                 "rector/rector-laravel": "*",
@@ -11118,7 +11118,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.12-dev"
+                    "dev-main": "0.13-dev"
                 }
             },
             "autoload": {
@@ -11133,7 +11133,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.12.23"
+                "source": "https://github.com/rectorphp/rector/tree/0.13.8"
             },
             "funding": [
                 {
@@ -11141,7 +11141,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-01T15:50:16+00:00"
+            "time": "2022-07-07T09:46:05+00:00"
         },
         {
             "name": "roave/security-advisories",
