@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3df12de9b1ee9ca204a99260f0675230",
+    "content-hash": "8eb313526589cf6b5c4279b88ab0f666",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -599,12 +599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "d4d9389288f85a73dd850a537862a1f8ed307bc4"
+                "reference": "dd6c0f91d9d6d3ded0a93a3af530dfe950aa7ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d4d9389288f85a73dd850a537862a1f8ed307bc4",
-                "reference": "d4d9389288f85a73dd850a537862a1f8ed307bc4",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/dd6c0f91d9d6d3ded0a93a3af530dfe950aa7ffb",
+                "reference": "dd6c0f91d9d6d3ded0a93a3af530dfe950aa7ffb",
                 "shasum": ""
             },
             "require": {
@@ -612,21 +612,21 @@
                 "doctrine/cache": "^1.11|^2.0",
                 "doctrine/deprecations": "^0.5.3|^1",
                 "doctrine/event-manager": "^1.0",
-                "php": "^7.3 || ^8.0",
+                "php": "^7.4 || ^8.0",
                 "psr/cache": "^1|^2|^3",
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
                 "doctrine/coding-standard": "9.0.0",
                 "jetbrains/phpstorm-stubs": "2022.1",
-                "phpstan/phpstan": "1.7.13",
+                "phpstan/phpstan": "1.7.15",
                 "phpstan/phpstan-strict-rules": "^1.2",
-                "phpunit/phpunit": "9.5.20",
-                "psalm/plugin-phpunit": "0.16.1",
-                "squizlabs/php_codesniffer": "3.7.0",
+                "phpunit/phpunit": "9.5.21",
+                "psalm/plugin-phpunit": "0.17.0",
+                "squizlabs/php_codesniffer": "3.7.1",
                 "symfony/cache": "^5.2|^6.0",
                 "symfony/console": "^2.7|^3.0|^4.0|^5.0|^6.0",
-                "vimeo/psalm": "4.23.0"
+                "vimeo/psalm": "4.24.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -702,7 +702,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-19T21:12:40+00:00"
+            "time": "2022-07-14T15:54:11+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1407,7 +1407,7 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.5.x-dev",
+            "version": "3.6.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
@@ -1454,7 +1454,6 @@
                 "doctrine/sql-formatter": "Allows to generate formatted SQL with the diff command.",
                 "symfony/yaml": "Allows the use of yaml for migration configuration files."
             },
-            "default-branch": true,
             "bin": [
                 "bin/doctrine-migrations"
             ],
@@ -4028,12 +4027,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-eventmanager.git",
-                "reference": "e45471d047146298c9074c188c149b77970d13b1"
+                "reference": "3f90c39141bcac350ba8ecde155f6e29615442b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/e45471d047146298c9074c188c149b77970d13b1",
-                "reference": "e45471d047146298c9074c188c149b77970d13b1",
+                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/3f90c39141bcac350ba8ecde155f6e29615442b2",
+                "reference": "3f90c39141bcac350ba8ecde155f6e29615442b2",
                 "shasum": ""
             },
             "require": {
@@ -4088,7 +4087,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-04-06T21:05:23+00:00"
+            "time": "2022-07-08T00:11:56+00:00"
         },
         {
             "name": "laminas/laminas-filter",
@@ -4337,16 +4336,16 @@
         },
         {
             "name": "laminas/laminas-hydrator",
-            "version": "4.4.x-dev",
+            "version": "4.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-hydrator.git",
-                "reference": "bb206b06377092982987a018d34243579eed5482"
+                "reference": "38d29dc88fdb090c85780239e5cdf8c5c4905431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/bb206b06377092982987a018d34243579eed5482",
-                "reference": "bb206b06377092982987a018d34243579eed5482",
+                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/38d29dc88fdb090c85780239e5cdf8c5c4905431",
+                "reference": "38d29dc88fdb090c85780239e5cdf8c5c4905431",
                 "shasum": ""
             },
             "require": {
@@ -4367,14 +4366,13 @@
                 "phpunit/phpunit": "~9.5.5",
                 "psalm/plugin-phpunit": "^0.16.1",
                 "psr/cache": "1.0.1",
-                "vimeo/psalm": "^4.20"
+                "vimeo/psalm": "^4.8.1"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "^3.2, to support aggregate hydrator usage",
                 "laminas/laminas-serializer": "^2.9, to use the SerializableStrategy",
                 "laminas/laminas-servicemanager": "^3.3, to support hydrator plugin manager usage"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laminas": {
@@ -4411,7 +4409,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-03-08T15:55:13+00:00"
+            "time": "2021-12-21T10:06:25+00:00"
         },
         {
             "name": "laminas/laminas-i18n",
@@ -5520,12 +5518,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "bba0920ee8ec88d90de77ba4c647f59102ccf3c1"
+                "reference": "698e4a3bc60e3f8c0a9217cd2808a07ead667798"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/bba0920ee8ec88d90de77ba4c647f59102ccf3c1",
-                "reference": "bba0920ee8ec88d90de77ba4c647f59102ccf3c1",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/698e4a3bc60e3f8c0a9217cd2808a07ead667798",
+                "reference": "698e4a3bc60e3f8c0a9217cd2808a07ead667798",
                 "shasum": ""
             },
             "require": {
@@ -5538,7 +5536,7 @@
                 "laminas/laminas-coding-standard": "~2.3.0",
                 "phpbench/phpbench": "^1.0",
                 "phpunit/phpunit": "^9.3.7",
-                "psalm/plugin-phpunit": "^0.16.0",
+                "psalm/plugin-phpunit": "^0.17.0",
                 "vimeo/psalm": "^4.7"
             },
             "default-branch": true,
@@ -5572,7 +5570,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-06-10T14:54:36+00:00"
+            "time": "2022-07-07T15:03:30+00:00"
         },
         {
             "name": "laminas/laminas-uri",
@@ -5833,16 +5831,16 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.6.x-dev",
+            "version": "1.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "581d11fe5691b0b84d1f7f89dd5812d6a58d979f"
+                "reference": "d74d2da21beae5aceff1e8c07b901066b0e1b719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/581d11fe5691b0b84d1f7f89dd5812d6a58d979f",
-                "reference": "581d11fe5691b0b84d1f7f89dd5812d6a58d979f",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/d74d2da21beae5aceff1e8c07b901066b0e1b719",
+                "reference": "d74d2da21beae5aceff1e8c07b901066b0e1b719",
                 "shasum": ""
             },
             "require": {
@@ -5892,7 +5890,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-03-08T15:58:53+00:00"
+            "time": "2022-07-14T16:30:30+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -6653,12 +6651,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253"
+                "reference": "e275e2d67d53964a3f13e056886ecd769edee021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/aa4f89e91c423b516ff226c50dc83f824011c253",
-                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/e275e2d67d53964a3f13e056886ecd769edee021",
+                "reference": "e275e2d67d53964a3f13e056886ecd769edee021",
                 "shasum": ""
             },
             "require": {
@@ -6698,7 +6696,7 @@
             "support": {
                 "source": "https://github.com/php-fig/event-dispatcher/tree/master"
             },
-            "time": "2021-02-08T21:15:39+00:00"
+            "time": "2022-06-29T17:22:39+00:00"
         },
         {
             "name": "psr/http-client",
@@ -7248,12 +7246,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "6187424023fbffcd757789aeb517c9161b1eabee"
+                "reference": "6f62324a7a688870b91e07fe07c7c14eea658834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/6187424023fbffcd757789aeb517c9161b1eabee",
-                "reference": "6187424023fbffcd757789aeb517c9161b1eabee",
+                "url": "https://api.github.com/repos/symfony/console/zipball/6f62324a7a688870b91e07fe07c7c14eea658834",
+                "reference": "6f62324a7a688870b91e07fe07c7c14eea658834",
                 "shasum": ""
             },
             "require": {
@@ -7320,7 +7318,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/6.1"
+                "source": "https://github.com/symfony/console/tree/6.2"
             },
             "funding": [
                 {
@@ -7336,7 +7334,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-08T14:02:09+00:00"
+            "time": "2022-07-11T06:46:48+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -8213,12 +8211,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "24d9dc654b83e91aa59f9d167b131bc3b5bea24c"
+                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/24d9dc654b83e91aa59f9d167b131bc3b5bea24c",
-                "reference": "24d9dc654b83e91aa59f9d167b131bc3b5bea24c",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
+                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
                 "shasum": ""
             },
             "require": {
@@ -8288,7 +8286,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T20:07:29+00:00"
+            "time": "2022-05-30T19:17:29+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -8358,12 +8356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "d3edc75baf9f1d4f94879764dda2e1ac33499529"
+                "reference": "9c4a9a2eacc3edb31ec95c4fb6b189d28406537e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/d3edc75baf9f1d4f94879764dda2e1ac33499529",
-                "reference": "d3edc75baf9f1d4f94879764dda2e1ac33499529",
+                "url": "https://api.github.com/repos/symfony/string/zipball/9c4a9a2eacc3edb31ec95c4fb6b189d28406537e",
+                "reference": "9c4a9a2eacc3edb31ec95c4fb6b189d28406537e",
                 "shasum": ""
             },
             "require": {
@@ -8419,7 +8417,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.1.0"
+                "source": "https://github.com/symfony/string/tree/6.2"
             },
             "funding": [
                 {
@@ -8435,7 +8433,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-22T08:18:23+00:00"
+            "time": "2022-06-26T16:35:21+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -13567,6 +13565,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "league/oauth2-client": 20,
+        "doctrine/migrations": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
