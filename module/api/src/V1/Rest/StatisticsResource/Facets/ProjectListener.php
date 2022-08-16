@@ -11,8 +11,10 @@ use Laminas\Json\Json;
 
 final class ProjectListener extends AbstractResourceListener
 {
-    public function __construct(private ProjectService $projectService, private UserService $userService)
-    {
+    public function __construct(
+        private readonly ProjectService $projectService,
+        private readonly UserService $userService
+    ) {
     }
 
     public function fetch($id)
@@ -21,16 +23,16 @@ final class ProjectListener extends AbstractResourceListener
 
         if (null === $user || !$user->isFunder()) {
             return [
-                'countries'         => [],
+                'countries' => [],
                 'organisationTypes' => [],
-                'projectStatus'     => [],
-                'programmeCalls'    => [],
-                'clusters'          => [],
+                'projectStatus' => [],
+                'programmeCalls' => [],
+                'clusters' => [],
             ];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($id);
+        $filter = base64_decode($id);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!

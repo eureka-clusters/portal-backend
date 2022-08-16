@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
-use Cluster\Entity\Country;
 use Application\Service\AbstractService;
-use Cluster\Entity;
+use Cluster\Entity\Country;
 
 class CountryService extends AbstractService
 {

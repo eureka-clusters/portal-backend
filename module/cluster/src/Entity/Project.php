@@ -5,115 +5,93 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project\Evaluation;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
 use Cluster\Entity\Project\Version;
+use Cluster\Repository\ProjectRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="cluster_project",
- *     indexes={
- *      @ORM\Index(name="identifier_index", columns={"identifier"}),
- *      @ORM\Index(flags={"fulltext"}, columns={"number", "name", "title", "description"})
- * })
- * @ORM\Entity(repositoryClass="Cluster\Repository\ProjectRepository")
- */
+#[ORM\Table(name: 'cluster_project', indexes: [
+    new ORM\Index(columns: ['identifier'], name: 'identifier_index'),
+    new ORM\Index(
+        columns: ['number', 'name', 'title', 'description'], flags: ['fulltext']
+    )
+])]
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(unique=true)
-     */
+
+    #[ORM\Column(unique: true)]
     private string $identifier = '';
-    /**
-     * @ORM\Column(unique=true)
-     *
-     * @Gedmo\Slug(fields={"name"}, updatable=true)
-     */
+
+    #[ORM\Column(unique: true)]
+    #[Gedmo\Slug(fields: ['name'], updatable: true)]
     private string $slug;
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $number = '';
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $name = '';
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $title = '';
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
-    /**
-     * @ORM\Column(nullable=true)
-     */
+
+    #[ORM\Column(nullable: true)]
     private ?string $technicalArea = null;
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $programme = '';
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $programmeCall = '';
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsPrimary", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Cluster::class, cascade: ['persist'], inversedBy: 'projectsPrimary')]
+    #[ORM\JoinColumn(nullable: false)]
     private Cluster $primaryCluster;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Cluster", inversedBy="projectsSecondary", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Cluster::class, cascade: ['persist'], inversedBy: 'projectsSecondary')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Cluster $secondaryCluster = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $labelDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $cancelDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $officialStartDate = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $officialEndDate = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Status", inversedBy="projects", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'], inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
     private Status $status;
-    /**
-     * @ORM\Column(type="array")
-     */
+
+    #[ORM\Column(type: 'array')]
     private array $projectLeader = [];
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist", "remove"}, mappedBy="project")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Version::class, cascade: ['persist', 'remove'])]
     private Collection $versions;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist", "remove"}, mappedBy="project")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Partner::class, cascade: ['persist', 'remove'])]
     private Collection $partners;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="project")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist'])]
     private Collection $evaluation;
 
     public function __construct()

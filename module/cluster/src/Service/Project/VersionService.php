@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cluster\Service\Project;
 
-use Cluster\Entity\Version\Type;
+use Application\Service\AbstractService;
+use Cluster\Entity;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Version;
 use Cluster\Entity\Version\Status;
-use Application\Service\AbstractService;
-use Cluster\Entity;
+use Cluster\Entity\Version\Type;
 use Cluster\Repository\Project\Version\CostsAndEffort;
 use DateTime;
 use DateTimeInterface;

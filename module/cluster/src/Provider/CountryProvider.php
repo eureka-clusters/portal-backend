@@ -6,18 +6,18 @@ namespace Cluster\Provider;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Country;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class CountryProvider implements ProviderInterface
 {
-    public function __construct(private Redis $cache)
+    public function __construct(private readonly Redis $cache)
     {
     }
 
     /**
      * @param Country $country
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($country): array
     {
@@ -27,10 +27,10 @@ class CountryProvider implements ProviderInterface
 
         if (!$countryData) {
             $countryData = [
-                'id'      => $country->getId(),
+                'id' => $country->getId(),
                 'country' => $country->getCountry(),
-                'cd'      => $country->getCd(),
-                'iso3'    => $country->getIso3(),
+                'cd' => $country->getCd(),
+                'iso3' => $country->getIso3(),
             ];
 
             $this->cache->setItem($cacheKey, $countryData);

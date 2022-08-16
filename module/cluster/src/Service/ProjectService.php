@@ -21,11 +21,11 @@ use function array_map;
 
 class ProjectService extends AbstractService
 {
-    public const DURATION_MONTH = 'm';
-    public const DURATION_YEAR  = 'y';
-    public const DURATION_DAYS  = 'd';
+    public final const DURATION_MONTH = 'm';
+    public final const DURATION_YEAR = 'y';
+    public final const DURATION_DAYS = 'd';
 
-    #[Pure] public function __construct(EntityManager $entityManager, private ClusterService $clusterService)
+    #[Pure] public function __construct(EntityManager $entityManager, private readonly ClusterService $clusterService)
     {
         parent::__construct($entityManager);
     }
@@ -58,53 +58,53 @@ class ProjectService extends AbstractService
     }
 
     #[ArrayShape([
-        'countries'         => "array[]",
+        'countries' => "array[]",
         'organisationTypes' => "array[]",
-        'projectStatus'     => "array[]",
-        'programmeCalls'    => "array[]",
-        'clusters'          => "array[]"
+        'projectStatus' => "array[]",
+        'programmeCalls' => "array[]",
+        'clusters' => "array[]"
     ])] public function generateFacets(Funder $funder, array $filter): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
-        $countries         = $repository->fetchCountries($funder, $filter);
+        $countries = $repository->fetchCountries($funder, $filter);
         $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $programmeCalls    = $repository->fetchProgrammeCalls($funder, $filter);
-        $clusters          = $repository->fetchClusters($funder, $filter);
-        $projectStatuses   = $repository->fetchProjectStatuses($funder, $filter);
+        $programmeCalls = $repository->fetchProgrammeCalls($funder, $filter);
+        $clusters = $repository->fetchClusters($funder, $filter);
+        $projectStatuses = $repository->fetchProjectStatuses($funder, $filter);
 
         $countriesIndexed = array_map(static fn(array $country) => [
-            'name'   => $country['country'],
+            'name' => $country['country'],
             'amount' => $country[1],
         ], $countries);
 
         $organisationTypesIndexed = array_map(static fn(array $organisationType) => [
-            'name'   => $organisationType['type'],
+            'name' => $organisationType['type'],
             'amount' => $organisationType[1],
         ], $organisationTypes);
 
         $clustersIndexed = array_map(static fn(array $cluster) => [
-            'name'   => $cluster['name'],
+            'name' => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
         ], $clusters);
 
         $programmeCallsIndexed = array_map(static fn(array $programmeCall) => [
-            'name'   => $programmeCall['programmeCall'],
+            'name' => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], $programmeCalls);
 
         $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
-            'name'   => $projectStatus['status'],
+            'name' => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], $projectStatuses);
 
         return [
-            'countries'         => $countriesIndexed,
+            'countries' => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
-            'projectStatus'     => $projectStatusIndexed,
-            'programmeCalls'    => $programmeCallsIndexed,
-            'clusters'          => $clustersIndexed,
+            'projectStatus' => $projectStatusIndexed,
+            'programmeCalls' => $programmeCallsIndexed,
+            'clusters' => $clustersIndexed,
         ];
     }
 

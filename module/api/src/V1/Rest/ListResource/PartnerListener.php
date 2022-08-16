@@ -19,11 +19,11 @@ use Laminas\Paginator\Paginator;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private PartnerService $partnerService,
-        private ProjectService $projectService,
-        private OrganisationService $organisationService,
-        private UserService $userService,
-        private PartnerProvider $partnerProvider
+        private readonly PartnerService $partnerService,
+        private readonly ProjectService $projectService,
+        private readonly OrganisationService $organisationService,
+        private readonly UserService $userService,
+        private readonly PartnerProvider $partnerProvider
     ) {
     }
 

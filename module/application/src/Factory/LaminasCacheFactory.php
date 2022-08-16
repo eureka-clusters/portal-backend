@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Application\Factory;
 
 use Interop\Container\ContainerInterface;
-use Laminas\Cache\Storage;
+use Laminas\Cache\Storage\Adapter\Redis;
+use Laminas\Cache\Storage\Plugin\ExceptionHandler;
 use Laminas\Cache\Storage\Plugin\Serializer;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -15,8 +16,8 @@ final class LaminasCacheFactory implements FactoryInterface
         ContainerInterface $container,
         $requestedName,
         ?array $options = null
-    ): Storage\Adapter\Redis {
-        $cache = new Storage\Adapter\Redis();
+    ): Redis {
+        $cache = new Redis();
 
         $cache->getOptions()->setTtl(3600);
 
@@ -37,7 +38,7 @@ final class LaminasCacheFactory implements FactoryInterface
             $cache->getOptions()->setPassword($cacheOptions['adapter']['options']['password']);
         }
 
-        $plugin = new Storage\Plugin\ExceptionHandler();
+        $plugin = new ExceptionHandler();
         $plugin->getOptions()->setThrowExceptions(false);
         $cache->addPlugin($plugin);
 

@@ -22,10 +22,10 @@ use function ob_start;
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
-        private ProjectService $projectService,
-        private UserService $userService,
-        private TranslatorInterface $translator,
-        private ProjectProvider $projectProvider
+        private readonly ProjectService $projectService,
+        private readonly UserService $userService,
+        private readonly TranslatorInterface $translator,
+        private readonly ProjectProvider $projectProvider
     ) {
     }
 
@@ -39,7 +39,7 @@ final class ProjectListener extends AbstractResourceListener
 
         //The filter is a base64 encoded serialised json string
         $filter = $this->getEvent()->getQueryParams()?->get('filter');
-        $filter      = base64_decode($filter);
+        $filter = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         $defaultorder = 'asc';
@@ -63,7 +63,7 @@ final class ProjectListener extends AbstractResourceListener
 
         $partnerSheet->setTitle($this->translator->translate('txt-projects'));
 
-        $row    = 1;
+        $row = 1;
         $column = 'A';
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-number'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
@@ -99,7 +99,7 @@ final class ProjectListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

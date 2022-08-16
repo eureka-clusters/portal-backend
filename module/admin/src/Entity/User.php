@@ -4,102 +4,87 @@ declare(strict_types=1);
 
 namespace Admin\Entity;
 
+use Api\Entity\OAuth\AccessToken;
+use Api\Entity\OAuth\AuthorizationCode;
+use Api\Entity\OAuth\RefreshToken;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Funder;
+use Cluster\Entity\Project\Evaluation;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="admin_user")
- * @ORM\Entity(repositoryClass="Admin\Repository\User")
- */
+#[ORM\Table(name: 'admin_user')]
+#[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
 class User extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(nullable=true)
-     */
+
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $firstName = '';
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $lastName = '';
-    /**
-     * @ORM\Column(unique=true)
-     */
+
+    #[ORM\Column(unique: true)]
     private string $email = '';
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateCreated;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Gedmo\Timestampable(on="update")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
     private ?DateTime $dateUpdated = null;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $dateEnd = null;
-    /**
-     * @ORM\ManyToMany(targetEntity="Admin\Entity\Role", inversedBy="users", cascade={"persist"}, fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"description"="ASC"})
-     * @ORM\JoinTable(name="admin_user_role",
-     *      joinColumns={@ORM\JoinColumn(nullable=false)},
-     *      inverseJoinColumns={@ORM\JoinColumn(nullable=false)}
-     * )
-     */
+
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OrderBy(['description' => 'ASC'])]
+    #[ORM\JoinTable(name: 'admin_user_role', joinColumns: [
+        new ORM\JoinColumn(
+            nullable: false
+        )
+    ], inverseJoinColumns: [new ORM\JoinColumn(nullable: false)])]
     private Collection $roles;
-    /**
-     * @ORM\OneToMany(targetEntity="Admin\Entity\Session", mappedBy="user")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Session::class)]
     private Collection $session;
-    /**
-     * @ORM\OneToOne(targetEntity="Cluster\Entity\Funder", mappedBy="user", cascade={"persist", "remove"})
-     */
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Funder::class, cascade: ['persist', 'remove'])]
     private ?Funder $funder = null;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="user")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Evaluation::class, cascade: ['persist'])]
     private Collection $evaluation;
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AccessToken", mappedBy="user", cascade={"persist"})
-     */
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AccessToken::class, cascade: ['persist'])]
     private Collection $oAuthAccessTokens;
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\AuthorizationCode", mappedBy="user", cascade={"persist"})
-     */
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AuthorizationCode::class, cascade: ['persist'])]
     private Collection $oAuthAuthorizationCodes;
-    /**
-     * @ORM\OneToMany(targetEntity="Api\Entity\OAuth\RefreshToken", mappedBy="user", cascade={"persist"})
-     */
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: RefreshToken::class, cascade: ['persist'])]
     private Collection $oAuthRefreshTokens;
 
     public function __construct()
     {
         $this->dateCreated = new DateTime();
 
-        $this->roles                   = new ArrayCollection();
-        $this->session                 = new ArrayCollection();
-        $this->oAuthAccessTokens       = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+        $this->session = new ArrayCollection();
+        $this->oAuthAccessTokens = new ArrayCollection();
         $this->oAuthAuthorizationCodes = new ArrayCollection();
-        $this->oAuthRefreshTokens      = new ArrayCollection();
-        $this->evaluation      = new ArrayCollection();
+        $this->oAuthRefreshTokens = new ArrayCollection();
+        $this->evaluation = new ArrayCollection();
     }
 
     public function getRolesAsArray(): array
@@ -110,6 +95,17 @@ class User extends AbstractEntity
         }
 
         return $roles;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): User
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function hasRole(Role $userRole): bool
@@ -134,17 +130,6 @@ class User extends AbstractEntity
     public function isFunder(): bool
     {
         return null !== $this->funder;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): User
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getPassword(): ?string
@@ -289,6 +274,4 @@ class User extends AbstractEntity
         $this->evaluation = $evaluation;
         return $this;
     }
-
-
 }

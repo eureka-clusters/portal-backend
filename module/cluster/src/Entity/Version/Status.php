@@ -5,28 +5,25 @@ declare(strict_types=1);
 namespace Cluster\Entity\Version;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project\Version;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="cluster_version_status")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'cluster_version_status')]
+#[ORM\Entity]
 class Status extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /** @ORM\Column(unique=true) */
+
+    #[ORM\Column(unique: true)]
     private string $status;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version", cascade={"persist"}, mappedBy="status")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Version::class, cascade: ['persist'])]
     private Collection $versions;
 
     #[Pure] public function __construct()

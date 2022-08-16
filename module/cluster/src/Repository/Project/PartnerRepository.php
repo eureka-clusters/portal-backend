@@ -264,7 +264,6 @@ class PartnerRepository extends EntityRepository
             )
             ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country');
 
-
         $queryBuilder->andWhere(
             $queryBuilder->expr()->in('project', $funderSubSelect->getDQL())
         );
@@ -282,7 +281,6 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join('project_partner.organisation', 'organisation');
         $queryBuilder->addOrderBy('organisation.name');
 
-
         return $queryBuilder;
     }
 
@@ -292,7 +290,10 @@ class PartnerRepository extends EntityRepository
         $activeInLatestVersionSubSelect->select('project_partner_subselect');
         $activeInLatestVersionSubSelect->from(Partner::class, 'project_partner_subselect');
         $activeInLatestVersionSubSelect->join('project_partner_subselect.project', 'project_partner_subselect_project');
-        $activeInLatestVersionSubSelect->join('project_partner_subselect.costsAndEffort', 'project_partner_subselect_costs_and_effort');
+        $activeInLatestVersionSubSelect->join(
+            'project_partner_subselect.costsAndEffort',
+            'project_partner_subselect_costs_and_effort'
+        );
         $activeInLatestVersionSubSelect->join(
             'project_partner_subselect_costs_and_effort.version',
             'project_partner_subselect_costs_and_effort_version'
@@ -301,7 +302,9 @@ class PartnerRepository extends EntityRepository
             'project_partner_subselect_costs_and_effort_version.type',
             'project_partner_subselect_costs_and_effort_version_type'
         );
-        $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_costs_and_effort_version_type.type = :type');
+        $activeInLatestVersionSubSelect->andWhere(
+            'project_partner_subselect_costs_and_effort_version_type.type = :type'
+        );
         $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_project.id = :projectId');
 
         $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
@@ -391,7 +394,6 @@ class PartnerRepository extends EntityRepository
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-
         // select secondary
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(
@@ -416,8 +418,8 @@ class PartnerRepository extends EntityRepository
 
         return array_map(static fn(array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
-            '1'    => $cluster1[1],
-            '2'    => $cluster2[1],
+            '1' => $cluster1[1],
+            '2' => $cluster2[1],
         ], $primaryClusters, $secondaryClusters);
     }
 

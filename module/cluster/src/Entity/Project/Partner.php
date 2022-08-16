@@ -7,63 +7,63 @@ namespace Cluster\Entity\Project;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Partner\Funding;
+use Cluster\Entity\Project\Version\CostsAndEffort;
+use Cluster\Repository\Project\PartnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="cluster_project_partner")
- * @ORM\Entity(repositoryClass="Cluster\Repository\Project\PartnerRepository")
- */
+#[ORM\Table(name: 'cluster_project_partner')]
+#[ORM\Entity(repositoryClass: PartnerRepository::class)]
 class Partner extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation", inversedBy="partners", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Organisation::class, cascade: ['persist'], inversedBy: 'partners')]
+    #[ORM\JoinColumn(nullable: false)]
     private Organisation $organisation;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", inversedBy="partners", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Project::class, cascade: ['persist'], inversedBy: 'partners')]
+    #[ORM\JoinColumn(nullable: false)]
     private Project $project;
-    /**
-     * @ORM\Column(unique=true)
-     *
-     * @Gedmo\Slug(fields={"projectName","organisationName"}, updatable=true)
-     */
+
+    #[ORM\Column(unique: true)]
+    #[Gedmo\Slug(fields: ['projectName', 'organisationName'], updatable: true)]
     private string $slug;
-    /** @ORM\Column() */
+
+    #[ORM\Column]
     private string $organisationName;
-    /** @ORM\Column() */
+
+    #[ORM\Column]
     private string $projectName;
 
-    /** @ORM\Column(type="boolean") */
+    #[ORM\Column(type: 'boolean')]
     private bool $isActive;
-    /** @ORM\Column(type="boolean") */
+
+    #[ORM\Column(type: 'boolean')]
     private bool $isCoordinator;
-    /** @ORM\Column(type="boolean") */
+
+    #[ORM\Column(type: 'boolean')]
     private bool $isSelfFunded;
-    /** @ORM\Column(type="array") */
+
+    #[ORM\Column(type: 'array')]
     private array $technicalContact = [];
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist"}, mappedBy="partner")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'partner', targetEntity: CostsAndEffort::class, cascade: ['persist'])]
     private Collection $costsAndEffort;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $latestVersionCosts;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $latestVersionEffort;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner\Funding", cascade={"persist"}, mappedBy="partner")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Funding::class, cascade: ['persist'])]
     private Collection $funding;
 
     public function __construct()

@@ -21,7 +21,7 @@ final class PdoAdapterFactory
         //Grab the params directly from the Doctrine Params
         $username = $config['doctrine']['connection']['orm_default']['params']['user'] ?? null;
         $password = $config['doctrine']['connection']['orm_default']['params']['password'] ?? null;
-        $options  = $config['doctrine']['connection']['orm_default']['params']['driverOptions'] ?? [];
+        $options = $config['doctrine']['connection']['orm_default']['params']['driverOptions'] ?? [];
 
         $dsn = sprintf(
             'mysql:dbname=%s;host=%s',
@@ -36,14 +36,14 @@ final class PdoAdapterFactory
 
         //Add 2 own options
         $oauth2ServerConfig['bcrypt_cost'] = 14;
-        $oauth2ServerConfig['user_table']  = 'admin_user';
+        $oauth2ServerConfig['user_table'] = 'admin_user';
 
         return new PdoAdapter(
             [
-                'dsn'      => $dsn,
+                'dsn' => $dsn,
                 'username' => $username,
                 'password' => $password,
-                'options'  => $options,
+                'options' => $options,
             ],
             $oauth2ServerConfig
         );

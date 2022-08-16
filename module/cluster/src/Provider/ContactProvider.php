@@ -10,7 +10,6 @@ class ContactProvider implements ProviderInterface
 {
     /**
      * @param array $contact
-     * @return array
      */
     public function generateArray($contact): array
     {

@@ -11,29 +11,38 @@ use function array_intersect;
 
 final class GenericUser
 {
-    private string  $id;
-    private string  $cluster;
-    private array   $clusterPermissions;
-    private string  $firstName;
-    private string  $lastName;
-    private string  $email;
-    private bool    $isFunder;
-    private array   $funder;
-    private array   $address;
-    private ?string $funderCountry;
+    private readonly string $id;
+
+    private readonly string $cluster;
+
+    private readonly array $clusterPermissions;
+
+    private readonly string $firstName;
+
+    private readonly string $lastName;
+
+    private readonly string $email;
+
+    private readonly bool $isFunder;
+
+    private readonly array $funder;
+
+    private readonly array $address;
+
+    private readonly ?string $funderCountry;
 
     public function __construct(stdClass $result)
     {
-        $this->id                 = (string)$result->id;
-        $this->firstName          = $result->firstName;
-        $this->cluster            = $result->cluster;
+        $this->id = (string)$result->id;
+        $this->firstName = $result->firstName;
+        $this->cluster = $result->cluster;
         $this->clusterPermissions = (array)($result->clusterPermissions ?? []);
-        $this->lastName           = $result->lastName;
-        $this->isFunder           = $result->isFunder;
-        $this->funder             = (array)($result->funder ?? []);
-        $this->address            = (array)($result->address ?? []);
-        $this->email              = $result->email;
-        $this->funderCountry      = $result->funderCountry;
+        $this->lastName = $result->lastName;
+        $this->isFunder = $result->isFunder;
+        $this->funder = (array)($result->funder ?? []);
+        $this->address = (array)($result->address ?? []);
+        $this->email = $result->email;
+        $this->funderCountry = $result->funderCountry;
     }
 
     public static function fromJson(string $jsonString, array $allowedClusters): GenericUser

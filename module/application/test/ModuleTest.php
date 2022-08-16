@@ -33,9 +33,9 @@ final class ModuleTest extends AbstractServiceTest
                 if ($dependency === 'Config') {
                     $instantiatedDependencies[] = [
                         'youtrack' => [
-                            'url'      => '',
+                            'url' => '',
                             'username' => '',
-                            'program'  => '',
+                            'program' => '',
                         ],
                     ];
                 } else {

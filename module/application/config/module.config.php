@@ -21,8 +21,8 @@ use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
 
 $config = [
-    'controllers'     => [
-        'factories'  => [
+    'controllers' => [
+        'factories' => [
             OAuth2Controller::class => ConfigAbstractFactory::class,
         ],
         'invokables' => [
@@ -31,56 +31,56 @@ $config = [
     ],
     'service_manager' => [
         'factories' => [
-            'doctrine.cache.application_cache'                    => DoctrineCacheFactory::class,
-            \Application\Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
-            Redis::class                                          => LaminasCacheFactory::class,
-            PdoAdapter::class                                     => PdoAdapterFactory::class,
-            TranslatorInterface::class                            => TranslatorServiceFactory::class,
-            AuthenticationService::class                          => AuthenticationServiceFactory::class,
+            'doctrine.cache.application_cache' => DoctrineCacheFactory::class,
+            Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
+            Redis::class => LaminasCacheFactory::class,
+            PdoAdapter::class => PdoAdapterFactory::class,
+            TranslatorInterface::class => TranslatorServiceFactory::class,
+            AuthenticationService::class => AuthenticationServiceFactory::class,
         ],
     ],
-    'translator'      => [
-        'locale'                    => 'en_GB',
+    'translator' => [
+        'locale' => 'en_GB',
         'translation_file_patterns' => [
             [
-                'type'     => 'gettext',
+                'type' => 'gettext',
                 'base_dir' => __DIR__ . '/../../../style/language',
-                'pattern'  => '%s.mo',
+                'pattern' => '%s.mo',
             ],
         ],
     ],
-    'view_manager'    => [
+    'view_manager' => [
         'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_path_stack'      => [
+        'display_exceptions' => true,
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
+        'template_path_stack' => [
             'application' => __DIR__ . '/../view',
         ],
-        'template_map'             => require __DIR__ . '/../template_map.php',
-        'strategies'               => [
+        'template_map' => require __DIR__ . '/../template_map.php',
+        'strategies' => [
             'ViewJsonStrategy',
         ],
     ],
-    'doctrine'        => [
-        'driver'        => [
+    'doctrine' => [
+        'driver' => [
             'orm_default' => [
                 'class' => MappingDriverChain::class,
             ],
         ],
         'entitymanager' => [
             'orm_default' => [
-                'connection'    => 'orm_default',
+                'connection' => 'orm_default',
                 'configuration' => 'orm_default',
             ],
         ],
         'configuration' => [
             'orm_default' => [
-                'metadata_cache'   => 'application_cache',
-                'query_cache'      => 'application_cache',
-                'result_cache'     => 'application_cache',
-                'hydration_cache'  => 'application_cache',
+                'metadata_cache' => 'application_cache',
+                'query_cache' => 'application_cache',
+                'result_cache' => 'application_cache',
+                'hydration_cache' => 'application_cache',
                 'generate_proxies' => false,
             ],
         ],

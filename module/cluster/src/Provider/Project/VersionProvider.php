@@ -8,21 +8,21 @@ use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Version;
 use Cluster\Provider\Version\StatusProvider;
 use Cluster\Provider\Version\TypeProvider;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class VersionProvider implements ProviderInterface
 {
     public function __construct(
-        private Redis $cache,
-        private TypeProvider $versionTypeProvider,
-        private StatusProvider $versionStatusProvider
+        private readonly Redis $cache,
+        private readonly TypeProvider $versionTypeProvider,
+        private readonly StatusProvider $versionStatusProvider
     ) {
     }
 
     /**
      * @param Version $version
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($version): array
     {
@@ -32,8 +32,8 @@ class VersionProvider implements ProviderInterface
 
         if (!$versionData) {
             $versionData = [
-                'id'     => $version->getId(),
-                'type'   => $this->versionTypeProvider->generateArray($version->getType()),
+                'id' => $version->getId(),
+                'type' => $this->versionTypeProvider->generateArray($version->getType()),
                 'status' => $this->versionStatusProvider->generateArray($version->getStatus()),
             ];
 

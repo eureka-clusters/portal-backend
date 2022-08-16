@@ -7,6 +7,7 @@ namespace Api\V1\Rest\StatisticsResource;
 use Admin\Service\UserService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Json\Json;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -15,12 +16,12 @@ use function base64_encode;
 use function ob_get_clean;
 use function ob_start;
 
-use const JSON_THROW_ON_ERROR;
-
 final class DownloadListener extends AbstractResourceListener
 {
-    public function __construct(private UserService $userService, private TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     public function fetch($id = null)
@@ -30,12 +31,12 @@ final class DownloadListener extends AbstractResourceListener
         if (null === $user || !$user->isFunder()) {
             return [];
         }
-        $output        = (int)$id;
+        $output = (int)$id;
         $encodedFilter = $this->getEvent()->getRouteMatch()->getParam('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
-        $arrayFilter = \Laminas\Json\Json::decode($filter);
+        $filter = base64_decode($encodedFilter);
+        $arrayFilter = Json::decode($filter);
 
         $results = [];
 
@@ -46,7 +47,7 @@ final class DownloadListener extends AbstractResourceListener
         if ($output === 1) {
             $partnerSheet->setTitle($this->translator->translate('txt-projects'));
 
-            $row    = 1;
+            $row = 1;
             $column = 'A';
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-number'));
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
@@ -76,7 +77,7 @@ final class DownloadListener extends AbstractResourceListener
             $partnerSheet = $spreadSheet->getActiveSheet();
             $partnerSheet->setTitle($this->translator->translate('txt-partners'));
 
-            $row    = 1;
+            $row = 1;
             $column = 'A';
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-number'));
             $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
@@ -108,7 +109,7 @@ final class DownloadListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

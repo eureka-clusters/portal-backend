@@ -12,12 +12,6 @@ COPY .. /var/www
 #Copy the global config files in
 COPY ./.docker/app /var/www/config/autoload
 
-# Copy existing application directory permissions
-COPY --chown=www:www .. /var/www
-
-# Change current user to www
-USER www
-
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 

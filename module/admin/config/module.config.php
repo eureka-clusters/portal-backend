@@ -8,36 +8,36 @@ use Admin\Provider\UserProvider;
 use Admin\Service\AdminService;
 use Admin\Service\ApiService;
 use Admin\Service\UserService;
-use Laminas\Stdlib\Glob;
-use Laminas\Stdlib\ArrayUtils;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Gedmo\Sluggable\SluggableListener;
 use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use Laminas\Stdlib;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\Stdlib\Glob;
 
 $config = [
     'service_manager' => [
         'invokables' => [
             UserProvider::class,
         ],
-        'factories'  => [
+        'factories' => [
             AdminService::class => ConfigAbstractFactory::class,
-            ApiService::class   => ConfigAbstractFactory::class,
-            UserService::class  => ConfigAbstractFactory::class,
+            ApiService::class => ConfigAbstractFactory::class,
+            UserService::class => ConfigAbstractFactory::class,
         ],
     ],
-    'doctrine'        => [
-        'driver'       => [
-            'admin_annotation_driver' => [
-                'class' => AnnotationDriver::class,
+    'doctrine' => [
+        'driver' => [
+            'admin_attribute_driver' => [
+                'class' => AttributeDriver::class,
                 'paths' => [
                     __DIR__ . '/../src/Entity/',
                 ],
             ],
-            'orm_default'             => [
+            'orm_default' => [
                 'drivers' => [
-                    'Admin\Entity' => 'admin_annotation_driver',
+                    'Admin\Entity' => 'admin_attribute_driver',
                 ],
             ],
         ],

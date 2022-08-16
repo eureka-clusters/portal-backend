@@ -13,9 +13,9 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
-        private ProjectService $projectService,
-        private UserService $userService,
-        private ProjectProvider $projectProvider
+        private readonly ProjectService $projectService,
+        private readonly UserService $userService,
+        private readonly ProjectProvider $projectProvider
     ) {
     }
 
@@ -27,10 +27,8 @@ final class ProjectListener extends AbstractResourceListener
             return new ApiProblem(404, 'The selected project cannot be found');
         }
 
-
         // $project = $this->projectService->findProjectBySlug($slug);
         $project = $this->projectService->findProjectBySlugAndFunder($slug, $user->getFunder());
-
 
         if (null === $project) {
             return new ApiProblem(404, 'The selected project cannot be found');

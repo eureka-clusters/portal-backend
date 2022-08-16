@@ -12,8 +12,8 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 final class OrganisationListener extends AbstractResourceListener
 {
     public function __construct(
-        private OrganisationService $organisationService,
-        private OrganisationProvider $organisationProvider
+        private readonly OrganisationService $organisationService,
+        private readonly OrganisationProvider $organisationProvider
     ) {
     }
 

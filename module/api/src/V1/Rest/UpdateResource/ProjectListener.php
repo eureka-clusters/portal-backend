@@ -11,16 +11,17 @@ use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
-        private ProjectService $projectService,
-        private VersionService $versionService,
-        private PartnerService $partnerService,
-        private EntityManager $entityManager
+        private readonly ProjectService $projectService,
+        private readonly VersionService $versionService,
+        private readonly PartnerService $partnerService,
+        private readonly EntityManager $entityManager
     ) {
     }
 
@@ -46,7 +47,7 @@ final class ProjectListener extends AbstractResourceListener
             $this->extractDataFromVersion($data->versions, Type::TYPE_LATEST, $project);
 
             $this->entityManager->flush();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
     }
@@ -76,11 +77,11 @@ final class ProjectListener extends AbstractResourceListener
                 $partner->setIsSelfFunded($partnerData->isSelfFunded);
                 $partner->setTechnicalContact($partnerData->technicalContact);
 
-                $totalCosts  = 0;
+                $totalCosts = 0;
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
-                    $totalCosts  += $costsAndEffortData['costs'];
+                    $totalCosts += $costsAndEffortData['costs'];
                     $totalEffort += $costsAndEffortData['effort'];
 
                     //This data is saved in a costs and effort table
@@ -96,7 +97,6 @@ final class ProjectListener extends AbstractResourceListener
 
                 $partner->setLatestVersionCosts($totalCosts);
                 $partner->setLatestVersionEffort($totalEffort);
-
             }
             $this->entityManager->flush();
         }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Application\Controller\OAuth2Controller;
 use Admin\Service\UserService;
 use Api\Service\OAuthService;
+use Application\Controller\OAuth2Controller;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [

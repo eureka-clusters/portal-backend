@@ -6,56 +6,45 @@ namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Organisation\Type;
+use Cluster\Entity\Project\Partner;
+use Cluster\Repository\OrganisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="cluster_organisation",
- *     indexes={
- *      @ORM\Index(flags={"fulltext"}, columns={"name"})
- * })
- * @ORM\Entity(repositoryClass="Cluster\Repository\OrganisationRepository")
- */
+#[ORM\Table(name: 'cluster_organisation', indexes: [new ORM\Index(columns: ['name'], flags: ['fulltext'])])]
+#[ORM\Entity(repositoryClass: OrganisationRepository::class)]
 class Organisation extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $name;
-    /**
-     * @ORM\Column(unique=true)
-     *
-     * @Gedmo\Slug(fields={"name"})
-     */
+
+    #[ORM\Column(unique: true)]
+    #[Gedmo\Slug(fields: ['name'])]
     private string $slug;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", inversedBy="organisations", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Country::class, cascade: ['persist'], inversedBy: 'organisations')]
+    #[ORM\JoinColumn(nullable: false)]
     private Country $country;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Organisation\Type", inversedBy="organisations", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Type::class, cascade: ['persist'], inversedBy: 'organisations')]
+    #[ORM\JoinColumn(nullable: false)]
     private Type $type;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist"}, mappedBy="organisation")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: Partner::class, cascade: ['persist'])]
     private Collection $partners;
 
     #[Pure] public function __construct()
     {
-        $this->country  = new Country();
-        $this->type     = new Type();
+        $this->country = new Country();
+        $this->type = new Type();
         $this->partners = new ArrayCollection();
     }
 

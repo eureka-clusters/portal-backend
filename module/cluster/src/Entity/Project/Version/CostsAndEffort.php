@@ -9,33 +9,30 @@ use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Version;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="cluster_project_version_costs_and_effort")
- * @ORM\Entity(repositoryClass="Cluster\Repository\Project\Version\CostsAndEffort")
- */
+#[ORM\Table(name: 'cluster_project_version_costs_and_effort')]
+#[ORM\Entity(repositoryClass: \Cluster\Repository\Project\Version\CostsAndEffort::class)]
 class CostsAndEffort extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Partner", inversedBy="costsAndEffort", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Partner::class, cascade: ['persist'], inversedBy: 'costsAndEffort')]
+    #[ORM\JoinColumn(nullable: false)]
     private Partner $partner;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Version", inversedBy="costsAndEffort", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Version::class, cascade: ['persist'], inversedBy: 'costsAndEffort')]
+    #[ORM\JoinColumn(nullable: false)]
     private Version $version;
-    /** @ORM\Column(type="integer") */
+
+    #[ORM\Column(type: 'integer')]
     private int $year = 2000;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $effort = 0.0;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $costs = 0.0;
 
     public function __construct()

@@ -23,11 +23,11 @@ use function ob_start;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private PartnerService $partnerService,
-        private UserService $userService,
-        private TranslatorInterface $translator,
-        private PartnerProvider $partnerProvider,
-        private PartnerYearProvider $partnerYearProvider
+        private readonly PartnerService $partnerService,
+        private readonly UserService $userService,
+        private readonly TranslatorInterface $translator,
+        private readonly PartnerProvider $partnerProvider,
+        private readonly PartnerYearProvider $partnerYearProvider
     ) {
     }
 
@@ -40,14 +40,14 @@ final class PartnerListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter      = $this->getEvent()->getQueryParams()->get('filter');
-        $filter      = base64_decode($filter);
+        $filter = $this->getEvent()->getQueryParams()->get('filter');
+        $filter = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         $defaultorder = 'asc';
-        $defaultSort  = 'partner.organisation.name';
-        $sort         = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order        = $this->getEvent()->getQueryParams()->get('order', 'asc');
+        $defaultSort = 'partner.organisation.name';
+        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
 
@@ -71,7 +71,7 @@ final class PartnerListener extends AbstractResourceListener
         $partnerSheet = $spreadSheet->getActiveSheet();
         $partnerSheet->setTitle($this->translator->translate('txt-partners'));
 
-        $row    = 1;
+        $row = 1;
         $column = 'A';
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-number'));
         $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
@@ -113,7 +113,7 @@ final class PartnerListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

@@ -5,64 +5,53 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Repository\ClusterRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="cluster_cluster")
- * @ORM\Entity(repositoryClass="Cluster\Repository\ClusterRepository")
- */
+#[ORM\Table(name: 'cluster_cluster')]
+#[ORM\Entity(repositoryClass: ClusterRepository::class)]
 class Cluster extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(unique=true)
-     */
+
+    #[ORM\Column(unique: true)]
     private string $name = '';
 
-    /** @ORM\Column(unique=true) */
+    #[ORM\Column(unique: true)]
     private string $identifier = '';
 
-    /** @ORM\Column(nullable=true) */
+    #[ORM\Column(nullable: true)]
     private ?string $description = null;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateCreated;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Gedmo\Timestampable(on="update")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
     private ?DateTime $dateUpdated = null;
-    /**
-     * @ORM\ManyToMany(targetEntity="Cluster\Entity\Funder", cascade={"persist"}, mappedBy="clusters")
-     */
+
+    #[ORM\ManyToMany(targetEntity: Funder::class, mappedBy: 'clusters', cascade: ['persist'])]
     private Collection $clusterFunders;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="primaryCluster")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'primaryCluster', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projectsPrimary;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project", cascade={"persist"}, mappedBy="secondaryCluster")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'secondaryCluster', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projectsSecondary;
 
     public function __construct()
     {
-        $this->dateCreated       = new DateTime();
-        $this->clusterFunders    = new ArrayCollection();
-        $this->projectsPrimary   = new ArrayCollection();
+        $this->dateCreated = new DateTime();
+        $this->clusterFunders = new ArrayCollection();
+        $this->projectsPrimary = new ArrayCollection();
         $this->projectsSecondary = new ArrayCollection();
     }
 

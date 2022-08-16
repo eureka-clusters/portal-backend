@@ -15,9 +15,9 @@ use Laminas\Paginator\Paginator;
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
-        private ProjectService $projectService,
-        private UserService $userService,
-        private ProjectProvider $projectProvider
+        private readonly ProjectService $projectService,
+        private readonly UserService $userService,
+        private readonly ProjectProvider $projectProvider
     ) {
     }
 
@@ -33,7 +33,6 @@ final class ProjectListener extends AbstractResourceListener
         $defaultSort = 'project.name';
         $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
         $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
-
 
         $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), [], $sort, $order);
 

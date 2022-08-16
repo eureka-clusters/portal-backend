@@ -6,7 +6,6 @@ namespace Cluster\Provider\Project;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Partner;
-use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
@@ -19,19 +18,19 @@ use function sprintf;
 class PartnerProvider implements ProviderInterface
 {
     public function __construct(
-        private Redis $cache,
-        private ProjectProvider $projectProvider,
-        private ContactProvider $contactProvider,
-        private OrganisationProvider $organisationProvider
+        private readonly Redis $cache,
+        private readonly ProjectProvider $projectProvider,
+        private readonly ContactProvider $contactProvider,
+        private readonly OrganisationProvider $organisationProvider
     ) {
     }
 
     #[ArrayShape([
-        'id'               => "int",
-        'organisation'     => "string",
-        'isActive'         => "bool",
-        'isSelfFunded'     => "bool",
-        'isCoordinator'    => "bool",
+        'id' => "int",
+        'organisation' => "string",
+        'isActive' => "bool",
+        'isSelfFunded' => "bool",
+        'isCoordinator' => "bool",
         'technicalContact' => "array"
     ])] public static function parseCoordinatorArray(Partner $partner): array
     {
@@ -42,31 +41,31 @@ class PartnerProvider implements ProviderInterface
         }
 
         return [
-            'id'               => $partner->getId(),
-            'organisation'     => $partner->getOrganisation()->getName(),
-            'isActive'         => $partner->isActive(),
-            'isSelfFunded'     => $partner->isSelfFunded(),
-            'isCoordinator'    => $partner->isCoordinator(),
+            'id' => $partner->getId(),
+            'organisation' => $partner->getOrganisation()->getName(),
+            'isActive' => $partner->isActive(),
+            'isSelfFunded' => $partner->isSelfFunded(),
+            'isCoordinator' => $partner->isCoordinator(),
             'technicalContact' => $partner->getTechnicalContact(),
         ];
     }
 
     public function generateArray($partner): array
     {
-        $cacheKey    = $partner->getResourceId();
+        $cacheKey = $partner->getResourceId();
         $partnerData = $this->cache->getItem($cacheKey);
 
         if (!$partnerData) {
             $partnerData = [
-                'id'                  => $partner->getId(),
-                'slug'                => $partner->getSlug(),
-                'project'             => $this->projectProvider->generateArray($partner->getProject()),
-                'isActive'            => $partner->isActive(),
-                'isSelfFunded'        => $partner->isSelfFunded(),
-                'isCoordinator'       => $partner->isCoordinator(),
-                'technicalContact'    => $this->contactProvider->generateArray($partner->getTechnicalContact()),
-                'organisation'        => $this->organisationProvider->generateArray($partner->getOrganisation()),
-                'latestVersionCosts'  => number_format($partner->getLatestVersionCosts(), 2),
+                'id' => $partner->getId(),
+                'slug' => $partner->getSlug(),
+                'project' => $this->projectProvider->generateArray($partner->getProject()),
+                'isActive' => $partner->isActive(),
+                'isSelfFunded' => $partner->isSelfFunded(),
+                'isCoordinator' => $partner->isCoordinator(),
+                'technicalContact' => $this->contactProvider->generateArray($partner->getTechnicalContact()),
+                'organisation' => $this->organisationProvider->generateArray($partner->getOrganisation()),
+                'latestVersionCosts' => number_format($partner->getLatestVersionCosts(), 2),
                 'latestVersionEffort' => number_format($partner->getLatestVersionEffort(), 2),
             ];
             $this->cache->setItem($cacheKey, $partnerData);

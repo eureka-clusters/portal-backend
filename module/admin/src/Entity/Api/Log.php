@@ -9,14 +9,12 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="admin_api_log")
- * @ORM\Entity(repositoryClass="Admin\Repository\Api\Log")
- */
+#[ORM\Table(name: 'admin_api_log')]
+#[ORM\Entity(repositoryClass: \Admin\Repository\Api\Log::class)]
 class Log extends AbstractEntity
 {
-    public const TYPE_INCOMING = 1;
-    public const TYPE_OUTGOING = 2;
+    public final const TYPE_INCOMING = 1;
+    public final const TYPE_OUTGOING = 2;
 
     protected static array $typeTemplates
         = [
@@ -24,41 +22,31 @@ class Log extends AbstractEntity
             self::TYPE_OUTGOING => 'txt-type-outgoing',
         ];
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
-    /**
-     * @ORM\Column()
-     */
+
+    #[ORM\Column]
     private string $class = '';
-    /**
-     * @ORM\Column(type="smallint")
-     */
+
+    #[ORM\Column(type: 'smallint')]
     private int $type = self::TYPE_INCOMING;
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateCreated;
-    /**
-     * @ORM\Column(type="text")
-     */
+
+    #[ORM\Column(type: 'text')]
     private string $payload = '';
-    /**
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Column(type: 'integer')]
     private int $statusCode = 0;
-    /**
-     * @ORM\Column(type="text")
-     */
+
+    #[ORM\Column(type: 'text')]
     private string $status = '';
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $response = null;
 
     public function __construct()

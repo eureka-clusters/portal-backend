@@ -37,7 +37,7 @@ class EntityTest extends AbstractEntityTest
     public function testCanCreateEntitiesAndSaveTxtFields(): void
     {
         $this->canCreateEntitiesAndSaveTxtFields(
-            namespace:  $this->namespace,
+            namespace: $this->namespace,
             baseFolder: __DIR__,
         );
     }

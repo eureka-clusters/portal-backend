@@ -12,7 +12,8 @@ use function array_key_exists;
 
 class DoctrineORMAdapter extends Paginator implements AdapterInterface
 {
-    public array              $cache = [];
+    public array $cache = [];
+
     private ProviderInterface $provider;
 
     public function setProvider(ProviderInterface $provider): DoctrineORMAdapter
@@ -25,7 +26,6 @@ class DoctrineORMAdapter extends Paginator implements AdapterInterface
     /**
      * @param int $offset
      * @param int $itemCountPerPage
-     * @return array
      */
     public function getItems($offset, $itemCountPerPage): array
     {

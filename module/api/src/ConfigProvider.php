@@ -9,6 +9,7 @@ use Api\V1\Rest;
 use Api\V1\Rest\ListResource\OrganisationListener;
 use Api\V1\Rest\ListResource\PartnerListener;
 use Api\V1\Rest\ListResource\ProjectListener;
+use Api\V1\Rest\SearchResource\ResultListener;
 use Api\V1\Rest\UserResource\MeListener;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
@@ -39,20 +40,20 @@ final class ConfigProvider
     {
         return [
             'factories' => [
-                OAuthService::class                                     => ConfigAbstractFactory::class,
-                MeListener::class                                       => ConfigAbstractFactory::class,
-                ProjectListener::class                                  => ConfigAbstractFactory::class,
-                OrganisationListener::class                             => ConfigAbstractFactory::class,
-                PartnerListener::class                                  => ConfigAbstractFactory::class,
-                Rest\SearchResource\ResultListener::class               => ConfigAbstractFactory::class,
-                Rest\ViewResource\ProjectListener::class                => ConfigAbstractFactory::class,
-                Rest\ViewResource\OrganisationListener::class           => ConfigAbstractFactory::class,
-                Rest\ViewResource\PartnerListener::class                => ConfigAbstractFactory::class,
-                Rest\UpdateResource\ProjectListener::class              => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Results\ProjectListener::class  => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Results\PartnerListener::class  => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Facets\ProjectListener::class   => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Facets\PartnerListener::class   => ConfigAbstractFactory::class,
+                OAuthService::class => ConfigAbstractFactory::class,
+                MeListener::class => ConfigAbstractFactory::class,
+                ProjectListener::class => ConfigAbstractFactory::class,
+                OrganisationListener::class => ConfigAbstractFactory::class,
+                PartnerListener::class => ConfigAbstractFactory::class,
+                ResultListener::class => ConfigAbstractFactory::class,
+                Rest\ViewResource\ProjectListener::class => ConfigAbstractFactory::class,
+                Rest\ViewResource\OrganisationListener::class => ConfigAbstractFactory::class,
+                Rest\ViewResource\PartnerListener::class => ConfigAbstractFactory::class,
+                Rest\UpdateResource\ProjectListener::class => ConfigAbstractFactory::class,
+                Rest\StatisticsResource\Results\ProjectListener::class => ConfigAbstractFactory::class,
+                Rest\StatisticsResource\Results\PartnerListener::class => ConfigAbstractFactory::class,
+                Rest\StatisticsResource\Facets\ProjectListener::class => ConfigAbstractFactory::class,
+                Rest\StatisticsResource\Facets\PartnerListener::class => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Download\ProjectListener::class => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Download\PartnerListener::class => ConfigAbstractFactory::class,
             ],
@@ -69,7 +70,7 @@ final class ConfigProvider
                         __DIR__ . '/../src/Entity/',
                     ],
                 ],
-                'orm_default'          => [
+                'orm_default' => [
                     'drivers' => [
                         'Api\\Entity' => 'api_attribute_driver',
                     ],
@@ -81,65 +82,65 @@ final class ConfigProvider
     public function getConfigAbstractFactory(): array
     {
         return [
-            MeListener::class                                       => [
+            MeListener::class => [
                 UserService::class,
                 UserProvider::class,
             ],
-            OrganisationListener::class                             => [
+            OrganisationListener::class => [
                 OrganisationService::class,
                 OrganisationProvider::class,
             ],
-            ProjectListener::class                                  => [
+            ProjectListener::class => [
                 ProjectService::class,
                 UserService::class,
                 ProjectProvider::class,
             ],
-            PartnerListener::class                                  => [
+            PartnerListener::class => [
                 PartnerService::class,
                 ProjectService::class,
                 OrganisationService::class,
                 UserService::class,
                 PartnerProvider::class,
             ],
-            Rest\SearchResource\ResultListener::class               => [
+            ResultListener::class => [
                 ProjectService::class,
                 OrganisationService::class,
                 UserService::class,
                 SearchResultProvider::class,
             ],
-            Rest\ViewResource\ProjectListener::class                => [
+            Rest\ViewResource\ProjectListener::class => [
                 ProjectService::class,
                 UserService::class,
                 ProjectProvider::class,
             ],
-            Rest\ViewResource\OrganisationListener::class           => [
+            Rest\ViewResource\OrganisationListener::class => [
                 OrganisationService::class,
                 OrganisationProvider::class,
             ],
-            Rest\ViewResource\PartnerListener::class                => [
+            Rest\ViewResource\PartnerListener::class => [
                 PartnerService::class,
                 PartnerProvider::class,
             ],
-            Rest\UpdateResource\ProjectListener::class              => [
+            Rest\UpdateResource\ProjectListener::class => [
                 ProjectService::class,
                 VersionService::class,
                 PartnerService::class,
                 EntityManager::class,
             ],
-            Rest\StatisticsResource\Facets\ProjectListener::class   => [
+            Rest\StatisticsResource\Facets\ProjectListener::class => [
                 ProjectService::class,
                 UserService::class,
             ],
-            Rest\StatisticsResource\Facets\PartnerListener::class   => [
+            Rest\StatisticsResource\Facets\PartnerListener::class => [
                 PartnerService::class,
                 UserService::class,
             ],
-            Rest\StatisticsResource\Results\ProjectListener::class  => [
+            Rest\StatisticsResource\Results\ProjectListener::class => [
                 ProjectService::class,
                 UserService::class,
                 ProjectProvider::class,
             ],
-            Rest\StatisticsResource\Results\PartnerListener::class  => [
+            Rest\StatisticsResource\Results\PartnerListener::class => [
                 PartnerService::class,
                 UserService::class,
                 PartnerProvider::class,
@@ -158,7 +159,7 @@ final class ConfigProvider
                 PartnerProvider::class,
                 PartnerYearProvider::class
             ],
-            OAuthService::class                                     => [
+            OAuthService::class => [
                 EntityManager::class,
                 TranslatorInterface::class
             ],
@@ -169,136 +170,136 @@ final class ConfigProvider
     {
         return [
             'routes' => [
-                MeListener::class                                       => [
-                    'type'    => Segment::class,
+                MeListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/[:id]',
+                        'route' => '/api/[:id]',
                         'defaults' => [
                             'controller' => MeListener::class,
                         ],
                     ],
                 ],
-                ProjectListener::class                                  => [
-                    'type'    => Literal::class,
+                ProjectListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/list/project',
+                        'route' => '/api/list/project',
                         'defaults' => [
                             'controller' => ProjectListener::class,
                         ],
                     ],
                 ],
-                OrganisationListener::class                             => [
-                    'type'    => Literal::class,
+                OrganisationListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/list/organisation',
+                        'route' => '/api/list/organisation',
                         'defaults' => [
                             'controller' => OrganisationListener::class,
                         ],
                     ],
                 ],
-                PartnerListener::class                                  => [
-                    'type'    => Literal::class,
+                PartnerListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/list/partner',
+                        'route' => '/api/list/partner',
                         'defaults' => [
                             'controller' => PartnerListener::class,
                         ],
                     ],
                 ],
-                Rest\SearchResource\ResultListener::class               => [
-                    'type'    => Literal::class,
+                ResultListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/search/result',
+                        'route' => '/api/search/result',
                         'defaults' => [
-                            'controller' => Rest\SearchResource\ResultListener::class,
+                            'controller' => ResultListener::class,
                         ],
                     ],
                 ],
-                Rest\ViewResource\ProjectListener::class                => [
-                    'type'    => Segment::class,
+                Rest\ViewResource\ProjectListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/view/project/[:slug]',
+                        'route' => '/api/view/project/[:slug]',
                         'defaults' => [
                             'controller' => Rest\ViewResource\ProjectListener::class,
                         ],
                     ],
                 ],
-                Rest\ViewResource\OrganisationListener::class           => [
-                    'type'    => Segment::class,
+                Rest\ViewResource\OrganisationListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/view/organisation/[:slug]',
+                        'route' => '/api/view/organisation/[:slug]',
                         'defaults' => [
                             'controller' => Rest\ViewResource\OrganisationListener::class,
                         ],
                     ],
                 ],
-                Rest\ViewResource\PartnerListener::class                => [
-                    'type'    => Segment::class,
+                Rest\ViewResource\PartnerListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/view/partner/[:slug]',
+                        'route' => '/api/view/partner/[:slug]',
                         'defaults' => [
                             'controller' => Rest\ViewResource\PartnerListener::class,
                         ],
                     ],
                 ],
-                Rest\UpdateResource\ProjectListener::class              => [
-                    'type'    => Literal::class,
+                Rest\UpdateResource\ProjectListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/update/project',
+                        'route' => '/api/update/project',
                         'defaults' => [
                             'controller' => Rest\UpdateResource\ProjectListener::class,
                         ],
                     ],
                 ],
-                Rest\StatisticsResource\Facets\ProjectListener::class   => [
-                    'type'    => Segment::class,
+                Rest\StatisticsResource\Facets\ProjectListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/project/[:id]',
+                        'route' => '/api/statistics/facets/project/[:id]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\ProjectListener::class,
                         ],
                     ],
                 ],
-                Rest\StatisticsResource\Facets\PartnerListener::class   => [
-                    'type'    => Segment::class,
+                Rest\StatisticsResource\Facets\PartnerListener::class => [
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/partner/[:id]',
+                        'route' => '/api/statistics/facets/partner/[:id]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\PartnerListener::class,
                         ],
                     ],
                 ],
-                Rest\StatisticsResource\Results\ProjectListener::class  => [
-                    'type'    => Literal::class,
+                Rest\StatisticsResource\Results\ProjectListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/project',
+                        'route' => '/api/statistics/results/project',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Results\ProjectListener::class,
                         ],
                     ],
                 ],
-                Rest\StatisticsResource\Results\PartnerListener::class  => [
-                    'type'    => Literal::class,
+                Rest\StatisticsResource\Results\PartnerListener::class => [
+                    'type' => Literal::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/partner',
+                        'route' => '/api/statistics/results/partner',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Results\PartnerListener::class,
                         ],
                     ],
                 ],
                 Rest\StatisticsResource\Download\ProjectListener::class => [
-                    'type'    => Segment::class,
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/project/download/[:export_type]',
+                        'route' => '/api/statistics/results/project/download/[:export_type]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
                         ],
                     ],
                 ],
                 Rest\StatisticsResource\Download\PartnerListener::class => [
-                    'type'    => Segment::class,
+                    'type' => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/partner/download/[:export_type]',
+                        'route' => '/api/statistics/results/partner/download/[:export_type]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                         ],

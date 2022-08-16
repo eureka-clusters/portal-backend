@@ -62,7 +62,6 @@ class OrganisationRepository extends EntityRepository
         string $query,
         int $limit
     ): QueryBuilder {
-
         $config = $this->_em->getConfiguration();
         $config->addCustomStringFunction('match_against', MatchAgainst::class);
 
@@ -77,9 +76,12 @@ class OrganisationRepository extends EntityRepository
         // );
         // $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
 
-
-        $queryBuilder->addSelect('MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score');
-        $queryBuilder->andWhere('MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) > 0');
+        $queryBuilder->addSelect(
+            'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score'
+        );
+        $queryBuilder->andWhere(
+            'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) > 0'
+        );
         $queryBuilder->setParameter('match', $query);
 
         $queryBuilder->setMaxResults($limit);

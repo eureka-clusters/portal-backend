@@ -5,28 +5,25 @@ declare(strict_types=1);
 namespace Cluster\Entity\Organisation;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Organisation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Table(name="cluster_organisation_type")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'cluster_organisation_type')]
+#[ORM\Entity]
 class Type extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /** @ORM\Column(unique=true) */
+
+    #[ORM\Column(unique: true)]
     private string $type;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Organisation", cascade={"persist"}, mappedBy="type")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Organisation::class, cascade: ['persist'])]
     private Collection $organisations;
 
     #[Pure] public function __construct()

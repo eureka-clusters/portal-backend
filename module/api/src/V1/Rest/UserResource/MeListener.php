@@ -11,7 +11,7 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class MeListener extends AbstractResourceListener
 {
-    public function __construct(private UserService $userService, private UserProvider $userProvider)
+    public function __construct(private readonly UserService $userService, private readonly UserProvider $userProvider)
     {
     }
 

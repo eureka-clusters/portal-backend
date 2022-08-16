@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Admin\Service;
 
 use Admin\Entity\Api\Log;
-use Admin\Entity;
 use Application\Service\AbstractService;
 
 class ApiService extends AbstractService

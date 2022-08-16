@@ -11,43 +11,36 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="cluster_project_partner_funding", uniqueConstraints={@ORM\UniqueConstraint(name="cluster_project_partner_funding_year",columns={"partner_id","year"})})
- * @ORM\Entity(repositoryClass="Cluster\Repository\Partner\Funding")
- */
+#[ORM\Table(name: 'cluster_project_partner_funding', uniqueConstraints: [
+    new ORM\UniqueConstraint(
+        name: 'cluster_project_partner_funding_year', columns: ['partner_id', 'year']
+    )
+])]
+#[ORM\Entity(repositoryClass: \Cluster\Repository\Partner\Funding::class)]
 class Funding extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer", options={"unsigned":true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(type="smallint", nullable=false)
-     */
+
+    #[ORM\Column(type: 'smallint', nullable: false)]
     private int $year;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     *
-     * @Gedmo\Timestampable(on="update")
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
     private ?DateTime $dateUpdated = null;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?DateTime $dateCreated = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Funding\Status", cascade={"persist"}, inversedBy="funding")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'], inversedBy: 'funding')]
+    #[ORM\JoinColumn(nullable: false)]
     private Status $status;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project\Partner", cascade={"persist"}, inversedBy="funding")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Partner::class, cascade: ['persist'], inversedBy: 'funding')]
+    #[ORM\JoinColumn(nullable: false)]
     private Partner $partner;
 
     public function __construct()

@@ -14,7 +14,7 @@ class OAuthService extends AbstractService
     public function findClientByClientId(string $clientId): Client
     {
         $repository = $this->entityManager->getRepository(Client::class);
-        $client     = $repository->findOneBy(['clientId' => $clientId]);
+        $client = $repository->findOneBy(['clientId' => $clientId]);
 
         if (null === $client) {
             throw new RuntimeException("No JWT client available");
@@ -26,7 +26,7 @@ class OAuthService extends AbstractService
     public function findLatestClient(): Client
     {
         $repository = $this->entityManager->getRepository(Client::class);
-        $clients    = $repository->findBy([], ['clientId' => Criteria::ASC], 1);
+        $clients = $repository->findBy([], ['clientId' => Criteria::ASC], 1);
 
         if (empty($clients)) {
             throw new RuntimeException("No JWT client available");

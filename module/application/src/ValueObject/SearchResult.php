@@ -9,37 +9,37 @@ use JetBrains\PhpStorm\ArrayShape;
 final class SearchResult
 {
     public function __construct(
-        private string $type,
-        private string $slug,
-        private string $name,
-        private ?string $title = null,
-        private ?string $description = null,
-        private ?string $organisationType = null,
-        private ?string $country = null,
-        private ?float $score = null,
+        private readonly string $type,
+        private readonly string $slug,
+        private readonly string $name,
+        private readonly ?string $title = null,
+        private readonly ?string $description = null,
+        private readonly ?string $organisationType = null,
+        private readonly ?string $country = null,
+        private readonly ?float $score = null,
     ) {
     }
 
     #[ArrayShape([
-        'type'             => "string",
-        'slug'             => "string",
-        'name'             => "string",
-        'title'            => "null|string",
-        'description'      => "null|string",
+        'type' => "string",
+        'slug' => "string",
+        'name' => "string",
+        'title' => "null|string",
+        'description' => "null|string",
         'organisationType' => "null|string",
-        'country'          => "null|string",
-        'score'            => "null|float"
+        'country' => "null|string",
+        'score' => "null|float"
     ])] public function toArray(): array
     {
         return [
-            'type'             => $this->type,
-            'slug'             => $this->slug,
-            'name'             => $this->name,
-            'title'            => $this->title,
-            'description'      => $this->description,
+            'type' => $this->type,
+            'slug' => $this->slug,
+            'name' => $this->name,
+            'title' => $this->title,
+            'description' => $this->description,
             'organisationType' => $this->organisationType,
-            'country'          => $this->country,
-            'score'            => $this->score,
+            'country' => $this->country,
+            'score' => $this->score,
         ];
     }
 

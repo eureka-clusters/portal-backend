@@ -9,47 +9,47 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="admin_session",indexes={@ORM\Index(name="session_key_idx", columns={"key"})})
- * @ORM\Entity
- */
+#[ORM\Table(name: 'admin_session', indexes: [new ORM\Index(columns: ['key'], name: 'session_key_idx')])]
+#[ORM\Entity]
 class Session extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
-    /** @ORM\Column(name="`key`") */
+
+    #[ORM\Column(name: '`key`')]
     private string $key;
-    /** @ORM\Column(type="integer") */
+
+    #[ORM\Column(type: 'integer')]
     private int $modified = 0;
-    /** @ORM\Column(type="integer") */
+
+    #[ORM\Column(type: 'integer')]
     private int $lifetime = 0;
-    /** @ORM\Column(type="integer") */
+
+    #[ORM\Column(type: 'integer')]
     private int $hits = 1;
-    /** @ORM\Column(type="text") */
+
+    #[ORM\Column(type: 'text')]
     private string $data = '';
-    /** @ORM\Column() */
+
+    #[ORM\Column]
     private string $name = '';
-    /** @ORM\Column(type="string", length=15, nullable=false) */
+
+    #[ORM\Column(type: 'string', length: 15, nullable: false)]
     private string $ip;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateStart;
-    /**
-     * @ORM\ManyToOne(targetEntity="Admin\Entity\User", inversedBy="session", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'session')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     public function __construct()
     {
-        $this->ip        = $_SERVER['REMOTE_ADDR'] ?? '-';
+        $this->ip = $_SERVER['REMOTE_ADDR'] ?? '-';
         $this->dateStart = new DateTime();
     }
 

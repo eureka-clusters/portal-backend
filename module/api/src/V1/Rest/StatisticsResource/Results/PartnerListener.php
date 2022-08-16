@@ -20,10 +20,10 @@ use function base64_decode;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private PartnerService $partnerService,
-        private UserService $userService,
-        private PartnerProvider $partnerProvider,
-        private PartnerYearProvider $partnerYearProvider,
+        private readonly PartnerService $partnerService,
+        private readonly UserService $userService,
+        private readonly PartnerProvider $partnerProvider,
+        private readonly PartnerYearProvider $partnerYearProvider,
     ) {
     }
 
@@ -38,18 +38,17 @@ final class PartnerListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter      = base64_decode($encodedFilter);
+        $filter = base64_decode($encodedFilter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-
         $defaultSort = 'partner.organisation.name';
-        $sort        = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order       = $this->getEvent()->getQueryParams()?->get('order', strtolower(Criteria::ASC));
+        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get('order', strtolower(Criteria::ASC));
 
         $hasYears = !empty($arrayFilter['year']);
 
         $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
-        $doctrineORMAdapter  = new DoctrineORMAdapter($partnerQueryBuilder);
+        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
 
         $doctrineORMAdapter->setProvider($hasYears ? $this->partnerYearProvider : $this->partnerProvider);
 

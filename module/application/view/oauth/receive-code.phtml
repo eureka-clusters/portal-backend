@@ -3,30 +3,30 @@
 
 
     {% if code %}
-        <p>The authentication code is:<br>
-        <p class="text-monospace">{{ code }}</p>
+    <p>The authentication code is:<br>
+    <p class="text-monospace">{{ code }}</p>
 
-        <p>Use this code to request an access token.</p>
+    <p>Use this code to request an access token.</p>
 
-        <h3 class="pt-3">{{ translate('txt-http') }}</h3>
-        <code>http POST {{ serverUrl() }}/oauth grant_type=authorization_code code={{ code }}
-            redirect_uri=/oauth/receivecode
-            client_id=testclient client_secret=testpass</code>
+    <h3 class="pt-3">{{ translate('txt-http') }}</h3>
+    <code>http POST {{ serverUrl() }}/oauth grant_type=authorization_code code={{ code }}
+        redirect_uri=/oauth/receivecode
+        client_id=testclient client_secret=testpass</code>
 
-        <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
-        <code>curl -u testclient:testpass {{ serverUrl() }}/oauth -d 'grant_type=authorization_code&code={{ code }}
-            &redirect_uri=/oauth/receivecode'</code>",
+    <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
+    <code>curl -u testclient:testpass {{ serverUrl() }}/oauth -d 'grant_type=authorization_code&code={{ code }}
+        &redirect_uri=/oauth/receivecode'</code>",
 
-        <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
-        <code>curl -H "Content-Type: application/json" -X POST -d
-            \'{"redirect_uri":"oauth/receivecode","client_id":"testclient","client_secret":"testpass","code":"{{ code }}
-            ","grant_type":"authorization_code"}\' {{ serverUrl() }}/oauth</code>",
+    <h3 class="pt-3">{{ translate('txt-curl') }}</h3>
+    <code>curl -H "Content-Type: application/json" -X POST -d
+        \'{"redirect_uri":"oauth/receivecode","client_id":"testclient","client_secret":"testpass","code":"{{ code }}
+        ","grant_type":"authorization_code"}\' {{ serverUrl() }}/oauth</code>",
     {% endif %}
 
     {% if not code %}
 
-        <p>The Bearer token is:<br>
-        <p id="access_token" class="text-monospace">{{ code }}</p>
+    <p>The Bearer token is:<br>
+    <p id="access_token" class="text-monospace">{{ code }}</p>
     {% endif %}
 </div>
 

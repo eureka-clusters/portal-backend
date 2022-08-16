@@ -6,18 +6,18 @@ namespace Cluster\Provider\Organisation;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Organisation\Type;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class TypeProvider implements ProviderInterface
 {
-    public function __construct(private Redis $cache)
+    public function __construct(private readonly Redis $cache)
     {
     }
 
     /**
      * @param Type $type
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($type): array
     {
@@ -27,7 +27,7 @@ class TypeProvider implements ProviderInterface
 
         if (!$typeData) {
             $typeData = [
-                'id'   => $type->getId(),
+                'id' => $type->getId(),
                 'type' => $type->getType(),
             ];
 

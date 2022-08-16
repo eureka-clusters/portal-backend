@@ -58,7 +58,7 @@ final class User extends EntityRepository
 
     public function applyUserFilter(QueryBuilder $qb, array $filter): QueryBuilder
     {
-        if (! empty($filter['query'])) {
+        if (!empty($filter['query'])) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->like('admin_entity_user.username', ':like'),

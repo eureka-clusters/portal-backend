@@ -6,18 +6,18 @@ namespace Cluster\Provider\Version;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Version\Status;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class StatusProvider implements ProviderInterface
 {
-    public function __construct(private Redis $cache)
+    public function __construct(private readonly Redis $cache)
     {
     }
 
     /**
      * @param Status $status
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($status): array
     {
@@ -27,7 +27,7 @@ class StatusProvider implements ProviderInterface
 
         if (!$statusData) {
             $statusData = [
-                'id'     => $status->getId(),
+                'id' => $status->getId(),
                 'status' => $status->getStatus(),
             ];
 

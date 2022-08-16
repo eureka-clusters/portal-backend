@@ -6,9 +6,9 @@ namespace ApplicationTest\Entity;
 
 use Application\Entity\AbstractEntity;
 use DateTime;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Driver\AttributeReader;
 use Doctrine\ORM\Mapping\Driver\RepeatableAttributeCollection;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use Laminas\Form\Annotation\AnnotationBuilder;
+use Laminas\Form\Annotation\AttributeBuilder;
 use Laminas\Form\Element;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -29,7 +29,6 @@ use function array_key_exists;
 use function array_unique;
 use function class_exists;
 use function file_put_contents;
-use function get_class;
 use function implode;
 use function is_array;
 use function sprintf;
@@ -44,7 +43,7 @@ abstract class AbstractEntityTest extends TestCase
 
         $labels = [];
         foreach ($entities as $className => $reflectionClass) {
-            $builder      = new AnnotationBuilder();
+            $builder = new AttributeBuilder();
             $dataFieldset = $builder->createForm(new $className());
 
             /** @var Element $element */
@@ -108,7 +107,7 @@ abstract class AbstractEntityTest extends TestCase
             $reflectionClass = $this->getReflectionClassFromFileInfo($namespace, $fileInfo);
 
             if ($reflectionClass->isInstantiable()) {
-                $className            = $this->getClassNameFromFileInfo($namespace, $fileInfo);
+                $className = $this->getClassNameFromFileInfo($namespace, $fileInfo);
                 $entities[$className] = $reflectionClass;
             }
         }
@@ -132,20 +131,19 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseClass(ReflectionClass $class): void
     {
-        $reader                = new AnnotationReader();
-        $classAnnotationsArray = $reader->getClassAnnotations($class);
+        $builder = new AttributeReader();
+        $classAnnotations = $builder->getClassAnnotations($class);
 
-        $classAnnotations = [];
-        foreach ($classAnnotationsArray as $object) {
-            $classAnnotations[get_class($object)] = $object;
-        }
-
-        self::assertArrayHasKey(Table::class, $classAnnotations);
-        self::assertArrayHasKey(Entity::class, $classAnnotations);
+        self::assertArrayHasKey(Table::class, $classAnnotations, sprintf('%s should have a table', $class->getName()));
+        self::assertArrayHasKey(
+            Entity::class,
+            $classAnnotations,
+            sprintf('%s should have an entity', $class->getName())
+        );
 
         //Get the entity annotation
         /** @var Entity $entityAnnotation */
-        $entityAnnotation = (object)$classAnnotations[Entity::class];
+        $entityAnnotation = $classAnnotations[Entity::class];
         if (null !== $entityAnnotation->repositoryClass) {
             self::assertTrue(
                 class_exists($entityAnnotation->repositoryClass),
@@ -160,14 +158,9 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseClassProperty(AbstractEntity $entity, ReflectionProperty $property): void
     {
-        $reader = new AnnotationReader();
+        $builder = new AttributeReader();
         //Try to match the doctrine entities and the class proprety
-        $classAnnotationsArray = $reader->getPropertyAnnotations($property);
-
-        $propertyAnnotations = [];
-        foreach ($classAnnotationsArray as $object) {
-            $propertyAnnotations[get_class($object)] = $object;
-        }
+        $propertyAnnotations = $builder->getPropertyAnnotations($property);
 
         $propertyName = $property->getName();
 
@@ -273,7 +266,7 @@ abstract class AbstractEntityTest extends TestCase
     ): void {
         /** @var OneToOne $oneToOneAnnotation */
         $oneToOneAnnotation = $propertyAnnotations[OneToOne::class];
-        $targetEntity       = $oneToOneAnnotation->targetEntity;
+        $targetEntity = $oneToOneAnnotation->targetEntity;
 
         //This is the owing side
         if ($oneToOneAnnotation->inversedBy) {
@@ -283,33 +276,37 @@ abstract class AbstractEntityTest extends TestCase
                 sprintf("Joincolumn should exists for %s in %s", $propertyName, $entity::class)
             );
             /** @var RepeatableAttributeCollection $repeatableJoinColumnAnnotation */
-            $joinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
+            $repeatableJoinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
 
-            if (!$joinColumnAnnotation->nullable) {
-                self::assertInstanceOf(
-                    $targetEntity,
-                    $entity->$getter(),
-                    sprintf(
-                        'Property %s on %s cannot be null',
-                        $propertyName,
-                        $entity::class,
-                    )
-                );
-            }
+            foreach ($repeatableJoinColumnAnnotation as $joinColumnAnnotation) {
+                //The relelationship is not nullable, and we force initialisation
+                //We we expect to find an entity
+                if (!$joinColumnAnnotation->nullable) {
+                    self::assertInstanceOf(
+                        $targetEntity,
+                        $entity->$getter(),
+                        sprintf(
+                            'Property %s on %s cannot be null',
+                            $propertyName,
+                            $entity::class,
+                        )
+                    );
+                }
 
-            //The relationship is nullable, so we expect to find null, that we can set null and that we can set null
-            if ($joinColumnAnnotation->nullable) {
-                self::assertNull(
-                    $entity->$getter(),
-                    sprintf(
-                        'Property %s on %s should be null, %s found',
-                        $propertyName,
-                        $entity::class,
-                        null === $entity->$getter() ? null : get_class($entity->$getter())
-                    )
-                );
-                $entity->$setter(null);
-                self::assertNull($entity->$getter());
+                //The relationship is nullable, so we expect to find null, that we can set null and that we can set null
+                if ($joinColumnAnnotation->nullable) {
+                    self::assertNull(
+                        $entity->$getter(),
+                        sprintf(
+                            'Property %s on %s should be null, %s found',
+                            $propertyName,
+                            $entity::class,
+                            null === $entity->$getter() ? null : $entity->$getter()::class
+                        )
+                    );
+                    $entity->$setter(null);
+                    self::assertNull($entity->$getter());
+                }
             }
         }
 
@@ -333,38 +330,40 @@ abstract class AbstractEntityTest extends TestCase
     ): void {
         /** @var ManyToOne $manyToOneAnnotation */
         $manyToOneAnnotation = $propertyAnnotations[ManyToOne::class];
-        $targetEntity        = $manyToOneAnnotation->targetEntity;
+        $targetEntity = $manyToOneAnnotation->targetEntity;
 
         /** @var RepeatableAttributeCollection $repeatableJoinColumnAnnotation */
-        $joinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
+        $repeatableJoinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
 
-        //The relelationship is not nullable, and we force initialisation
-        //We we expect to find an entity
-        if (!$joinColumnAnnotation->nullable) {
-            self::assertInstanceOf(
-                $targetEntity,
-                $entity->$getter(),
-                sprintf(
-                    'Property %s on %s cannot be null',
-                    $propertyName,
-                    $entity::class,
-                )
-            );
-        }
+        foreach ($repeatableJoinColumnAnnotation as $joinColumnAnnotation) {
+            //The relelationship is not nullable, and we force initialisation
+            //We we expect to find an entity
+            if (!$joinColumnAnnotation->nullable) {
+                self::assertInstanceOf(
+                    $targetEntity,
+                    $entity->$getter(),
+                    sprintf(
+                        'Property %s on %s cannot be null',
+                        $propertyName,
+                        $entity::class,
+                    )
+                );
+            }
 
-        //The relationship is nullable, so we expect to find null, that we can set null and that we can set null
-        if ($joinColumnAnnotation->nullable) {
-            self::assertNull(
-                $entity->$getter(),
-                sprintf(
-                    'Property %s on %s should be null, %s found',
-                    $propertyName,
-                    $entity::class,
-                    null === $entity->$getter() ? 'null' : get_class($entity->$getter())
-                )
-            );
-            $entity->$setter(null);
-            self::assertNull($entity->$getter());
+            //The relationship is nullable, so we expect to find null, that we can set null and that we can set null
+            if ($joinColumnAnnotation->nullable) {
+                self::assertNull(
+                    $entity->$getter(),
+                    sprintf(
+                        'Property %s on %s should be null, %s found',
+                        $propertyName,
+                        $entity::class,
+                        null === $entity->$getter() ? 'null' : $entity->$getter()::class
+                    )
+                );
+                $entity->$setter(null);
+                self::assertNull($entity->$getter());
+            }
         }
 
         //and we should be able to set the targetentity

@@ -8,7 +8,6 @@ use Cluster\Entity\Cluster;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation\Type;
 use Cluster\Entity\Project;
-use Cluster\Entity\Organisation;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
 use Doctrine\Common\Collections\Criteria;
@@ -466,7 +465,6 @@ class ProjectRepository extends EntityRepository
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-
         // select secondary
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(
@@ -483,8 +481,8 @@ class ProjectRepository extends EntityRepository
 
         return array_map(static fn(array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
-            '1'    => $cluster1[1],
-            '2'    => $cluster2[1],
+            '1' => $cluster1[1],
+            '2' => $cluster2[1],
         ], $primaryClusters, $secondaryClusters);
     }
 

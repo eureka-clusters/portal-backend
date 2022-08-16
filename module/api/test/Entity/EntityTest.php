@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ApiTest\Entity;
 
-use ApplicationTest\Entity\AbstractAttributeEntityTest;
+use ApplicationTest\Entity\AbstractEntityTest;
 
-class EntityTest extends AbstractAttributeEntityTest
+class EntityTest extends AbstractEntityTest
 {
     private string $namespace = 'api';
 

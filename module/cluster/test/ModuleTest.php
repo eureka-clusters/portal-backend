@@ -28,7 +28,7 @@ final class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
-            if (str_contains($service, 'Provider')) {
+            if (str_contains((string)$service, 'Provider')) {
                 continue;
             }
 

@@ -6,18 +6,18 @@ namespace Cluster\Provider;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Cluster;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class ClusterProvider implements ProviderInterface
 {
-    public function __construct(private Redis $cache)
+    public function __construct(private readonly Redis $cache)
     {
     }
 
     /**
      * @param Cluster $cluster
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($cluster): array
     {
@@ -27,8 +27,8 @@ class ClusterProvider implements ProviderInterface
 
         if (!$clusterData) {
             $clusterData = [
-                'id'          => $cluster->getId(),
-                'name'        => $cluster->getName(),
+                'id' => $cluster->getId(),
+                'name' => $cluster->getName(),
                 'description' => $cluster->getDescription(),
             ];
 

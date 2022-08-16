@@ -53,7 +53,7 @@ final class Scope extends EntityRepository
 
     public function applyScopeFilter(QueryBuilder $qb, array $filter): QueryBuilder
     {
-        if (! empty($filter['query'])) {
+        if (!empty($filter['query'])) {
             $qb->andWhere($qb->expr()->like('api_entity_oauth_scope.scope', ':like'));
             $qb->setParameter('like', sprintf('%%%s%%', $filter['query']));
         }

@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
+use Application\Service\AbstractService;
+use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Organisation\Type;
-use Cluster\Entity\Country;
-use Application\Service\AbstractService;
-use Cluster\Entity;
-use Cluster\Entity\Project;
 use Cluster\Repository\OrganisationRepository;
-use Cluster\Repository\ProjectRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class OrganisationService extends AbstractService
@@ -49,9 +46,16 @@ class OrganisationService extends AbstractService
         return $type;
     }
 
-    public function getOrganisations(array $filter, string $sort = 'organisation.name', string $order = 'asc'): QueryBuilder
-    {
-        return $this->entityManager->getRepository(Organisation::class)->getOrganisationsByFilter($filter, $sort, $order);
+    public function getOrganisations(
+        array $filter,
+        string $sort = 'organisation.name',
+        string $order = 'asc'
+    ): QueryBuilder {
+        return $this->entityManager->getRepository(Organisation::class)->getOrganisationsByFilter(
+            $filter,
+            $sort,
+            $order
+        );
     }
 
     public function findOrCreateOrganisation(

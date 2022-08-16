@@ -7,66 +7,56 @@ namespace Cluster\Entity\Project;
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Country;
+use Cluster\Entity\Funding\Status;
 use Cluster\Entity\Project;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Table(name="cluster_project_evaluation")
- * @ORM\Entity()
- */
+#[ORM\Table(name: 'cluster_project_evaluation')]
+#[ORM\Entity]
 class Evaluation extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private string $description = '';
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @Gedmo\Timestampable(on="create")
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateCreated;
+
+    #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'], inversedBy: 'evaluation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Status $status;
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'evaluation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
+
+    #[ORM\ManyToOne(targetEntity: Country::class, cascade: ['persist'], inversedBy: 'evaluation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Country $country;
+
+    #[ORM\ManyToOne(targetEntity: Project::class, cascade: ['persist'], inversedBy: 'evaluation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Project $project;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Funding\Status", cascade={"persist"}, inversedBy="evaluation")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private \Cluster\Entity\Funding\Status $status;
-    /**
-     * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"}, inversedBy="evaluation")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private \Admin\Entity\User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Country", cascade={"persist"}, inversedBy="evaluation")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private \Cluster\Entity\Country $country;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", cascade={"persist"}, inversedBy="evaluation")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private \Cluster\Entity\Project $project;
-    /**
-     * @ORM\OneToOne(targetEntity="\Cluster\Entity\Project\Version", cascade={"persist"}, inversedBy="evaluation")
-     * @ORM\JoinColumn(nullable=true)
-     *
      * If this column is filled we know for which version this evaluation is (PO or FPP)
-     * WHen the column is null then it represents the overal funding status of this country (global PA evaluation)
-     */
-    private ?\Cluster\Entity\Project\Version $projectVersion = null;
+     * WHen the column is null then it represents the overall funding status of this country (global PA evaluation)*/
+    #[ORM\OneToOne(inversedBy: 'evaluation', targetEntity: Version::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Version $projectVersion = null;
 
     public function __construct()
     {
         $this->dateCreated = new DateTime();
 
-        $this->status = new \Cluster\Entity\Funding\Status();
+        $this->status = new Status();
         $this->user = new User();
         $this->country = new Country();
         $this->project = new Project();
@@ -110,12 +100,12 @@ class Evaluation extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): \Cluster\Entity\Funding\Status
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
-    public function setStatus(\Cluster\Entity\Funding\Status $status): Evaluation
+    public function setStatus(Status $status): Evaluation
     {
         $this->status = $status;
         return $this;

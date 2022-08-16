@@ -21,7 +21,7 @@ class Log extends EntityRepository
         $qb->select('admin_entity_log');
         $qb->from(Entity\Log::class, 'admin_entity_log');
 
-        if (! empty($filter['search'])) {
+        if (!empty($filter['search'])) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->like('admin_entity_log.event', ':like'),

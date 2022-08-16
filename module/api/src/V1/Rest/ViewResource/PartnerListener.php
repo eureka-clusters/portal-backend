@@ -11,8 +11,10 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 final class PartnerListener extends AbstractResourceListener
 {
-    public function __construct(private PartnerService $partnerService, private PartnerProvider $partnerProvider)
-    {
+    public function __construct(
+        private readonly PartnerService $partnerService,
+        private readonly PartnerProvider $partnerProvider
+    ) {
     }
 
     public function fetch($slug = null)

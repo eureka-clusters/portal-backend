@@ -57,10 +57,10 @@ class Client extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->jwtTokens          = new ArrayCollection();
-        $this->accessTokens       = new ArrayCollection();
+        $this->jwtTokens = new ArrayCollection();
+        $this->accessTokens = new ArrayCollection();
         $this->authorizationCodes = new ArrayCollection();
-        $this->refreshTokens      = new ArrayCollection();
+        $this->refreshTokens = new ArrayCollection();
 
         $this->scope = new Scope();
     }

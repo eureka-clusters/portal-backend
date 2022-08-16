@@ -26,18 +26,18 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        ClusterProvider::class                 => [
+        ClusterProvider::class => [
             Redis::class,
         ],
-        OrganisationProvider::class            => [
+        OrganisationProvider::class => [
             Redis::class,
             CountryProvider::class,
             TypeProvider::class,
         ],
-        TypeProvider::class                    => [
+        TypeProvider::class => [
             Redis::class,
         ],
-        ProjectProvider::class                 => [
+        ProjectProvider::class => [
             Redis::class,
             ProjectService::class,
             VersionService::class,
@@ -47,22 +47,22 @@ return [
             VersionProvider::class,
             // ,Provider\Project\PartnerProvider::class
         ],
-        PartnerProvider::class                 => [
+        PartnerProvider::class => [
             Redis::class,
             ProjectProvider::class,
             ContactProvider::class,
             OrganisationProvider::class
         ],
-        PartnerYearProvider::class             => [
+        PartnerYearProvider::class => [
             Redis::class,
             ProjectProvider::class,
             ContactProvider::class,
             OrganisationProvider::class
         ],
-        StatusProvider::class                  => [
+        StatusProvider::class => [
             Redis::class,
         ],
-        VersionProvider::class                 => [
+        VersionProvider::class => [
             Redis::class,
             Provider\Version\TypeProvider::class,
             Provider\Version\StatusProvider::class,
@@ -70,31 +70,31 @@ return [
         Provider\Version\StatusProvider::class => [
             Redis::class,
         ],
-        Provider\Version\TypeProvider::class   => [
+        Provider\Version\TypeProvider::class => [
             Redis::class,
         ],
-        CountryProvider::class                 => [
+        CountryProvider::class => [
             Redis::class,
         ],
-        CountryService::class                  => [
+        CountryService::class => [
             EntityManager::class,
         ],
-        ClusterService::class                  => [
+        ClusterService::class => [
             EntityManager::class,
         ],
-        ProjectService::class                  => [
+        ProjectService::class => [
             EntityManager::class,
             ClusterService::class,
         ],
-        OrganisationService::class             => [
+        OrganisationService::class => [
             EntityManager::class,
         ],
-        PartnerService::class                  => [
+        PartnerService::class => [
             EntityManager::class,
             CountryService::class,
             OrganisationService::class,
         ],
-        VersionService::class                  => [
+        VersionService::class => [
             EntityManager::class,
         ],
     ],

@@ -45,7 +45,7 @@ final class Role extends EntityRepository
 
     public function applyRoleFilter(QueryBuilder $qb, array $filter): QueryBuilder
     {
-        if (! empty($filter['query'])) {
+        if (!empty($filter['query'])) {
             $qb->andWhere($qb->expr()->like('admin_entity_role.description', ':like'));
             $qb->setParameter('like', sprintf('%%%s%%', $filter['query']));
         }

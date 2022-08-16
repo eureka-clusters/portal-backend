@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Authentication\Adapter;
 
+use PDO;
+
 final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
 {
     public function getUser($username): array|bool
@@ -11,7 +13,7 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
         $stmt = $this->db->prepare($sql = sprintf('SELECT * from admin_user where email=:email'));
         $stmt->execute(['email' => $username]);
 
-        if (!$userInfo = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        if (!$userInfo = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return false;
         }
 

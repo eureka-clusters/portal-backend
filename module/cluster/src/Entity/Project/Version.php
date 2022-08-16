@@ -6,6 +6,7 @@ namespace Cluster\Entity\Project;
 
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Project;
+use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Entity\Version\Status;
 use Cluster\Entity\Version\Type;
 use DateTime;
@@ -13,51 +14,44 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="cluster_project_version")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'cluster_project_version')]
+#[ORM\Entity]
 class Version extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Project", inversedBy="versions", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Project::class, cascade: ['persist'], inversedBy: 'versions')]
+    #[ORM\JoinColumn(nullable: false)]
     private Project $project;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Version\Type", inversedBy="versions", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Type::class, cascade: ['persist'], inversedBy: 'versions')]
+    #[ORM\JoinColumn(nullable: false)]
     private Type $type;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Version\CostsAndEffort", cascade={"persist", "remove"}, mappedBy="version")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'version', targetEntity: CostsAndEffort::class, cascade: ['persist', 'remove'])]
     private Collection $costsAndEffort;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $submissionDate = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Cluster\Entity\Version\Status", inversedBy="versions", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'], inversedBy: 'versions')]
+    #[ORM\JoinColumn(nullable: false)]
     private Status $status;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $effort = 0.0;
-    /** @ORM\Column(type="float") */
+
+    #[ORM\Column(type: 'float')]
     private float $costs = 0.0;
-    /** @ORM\Column(type="array") */
+
+    #[ORM\Column(type: 'array')]
     private array $countries = [];
-    /**
-     * @ORM\OneToOne(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="projectVersion")
-     */
-    private ?\Cluster\Entity\Project\Evaluation $evaluation = null;
+
+    #[ORM\OneToOne(mappedBy: 'projectVersion', targetEntity: Evaluation::class, cascade: ['persist'])]
+    private ?Evaluation $evaluation = null;
 
     public function __construct()
     {

@@ -5,73 +5,62 @@ declare(strict_types=1);
 namespace Cluster\Entity\Funding;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project\Evaluation;
+use Cluster\Entity\Project\Partner\Funding;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
-use Laminas\Form\Annotation;
 
 /**
  * This table contains the detailed funding status per partner (and is not used yet)
  *
- * @ORM\Table(name="cluster_funding_status")
- * @ORM\Entity
  */
+#[ORM\Table(name: 'cluster_funding_status')]
+#[ORM\Entity]
 class Status extends AbstractEntity
 {
-    public const IS_EVALUATION = 1;
-    public const IS_NOT_EVALUATION = 2;
+    public final const IS_EVALUATION = 1;
+    public final const IS_NOT_EVALUATION = 2;
+    public final const STATUS_ALL_GOOD = 1;
+    public final const STATUS_GOOD = 2;
+    public final const STATUS_BAD = 3;
+    public final const STATUS_FAILED = 4;
+    public final const STATUS_UNCLEAR = 5;
+    public final const STATUS_AVERAGE = 6;
+    public final const STATUS_SELF_FUNDED = 7;
+    public final const STATUS_DEFAULT = 8;
 
-    public const STATUS_ALL_GOOD = 1;
-    public const STATUS_GOOD = 2;
-    public const STATUS_BAD = 3;
-    public const STATUS_FAILED = 4;
-    public const STATUS_UNCLEAR = 5;
-    public const STATUS_AVERAGE = 6;
-    public const STATUS_SELF_FUNDED = 7;
-    public const STATUS_DEFAULT = 8;
-
-    /**
-     * @ORM\Column(type="integer", options={"unsigned":true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
-    /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
-     */
+
+    #[ORM\Column(type: 'string', unique: true, nullable: false)]
     private string $code = '';
-    /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
-     */
+
+    #[ORM\Column(type: 'string', unique: true, nullable: false)]
     private string $status = '';
-    /**
-     * @ORM\Column(type="string", length=7, nullable=false, unique=true)
-     */
+
+    #[ORM\Column(type: 'string', length: 7, unique: true, nullable: false)]
     private string $color = '#FF0000';
-    /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
-     */
+
+    #[ORM\Column(type: 'string', unique: true, nullable: false)]
     private string $statusFunding = '';
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $isEvaluation = true;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $statusEvaluation = null;
-    /**
-     * @ORM\Column(type="smallint", nullable=false)
-     */
+
+    #[ORM\Column(type: 'smallint', nullable: false)]
     private int $sequence = 1;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Evaluation", cascade={"persist"}, mappedBy="status")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Evaluation::class, cascade: ['persist'])]
     private Collection $evaluation;
-    /**
-     * @ORM\OneToMany(targetEntity="Cluster\Entity\Project\Partner\Funding", cascade={"persist"}, mappedBy="status")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Funding::class, cascade: ['persist'])]
     private Collection $funding;
 
     #[Pure] public function __construct()
@@ -199,6 +188,4 @@ class Status extends AbstractEntity
         $this->funding = $funding;
         return $this;
     }
-
-
 }

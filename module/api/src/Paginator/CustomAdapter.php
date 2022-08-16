@@ -21,7 +21,6 @@ class CustomAdapter extends ArrayAdapter
     /**
      * @param int $offset
      * @param int $itemCountPerPage
-     * @return array
      */
     public function getItems($offset, $itemCountPerPage): array
     {

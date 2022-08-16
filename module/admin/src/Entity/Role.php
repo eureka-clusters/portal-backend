@@ -10,21 +10,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation;
-
+use Laminas\Form\Element\Text;
 
 use function in_array;
 
-/**
- * @ORM\Table(name="admin_role")
- * @ORM\Entity(repositoryClass="Admin\Repository\Role")
- *
- * @Annotation\Name("admin_role")
- */
+#[ORM\Table(name: 'admin_role')]
+#[ORM\Entity(repositoryClass: \Admin\Repository\Role::class)]
+#[Annotation\Name('admin_role')]
 class Role extends AbstractEntity
 {
-    public const ROLE_ADMIN  = 1;
-    public const ROLE_USER   = 2;
-    public const ROLE_PUBLIC = 3;
+    public final const ROLE_ADMIN = 1;
+    public final const ROLE_USER = 2;
+    public final const ROLE_PUBLIC = 3;
 
     public static array $lockedRoles
         = [
@@ -33,26 +30,19 @@ class Role extends AbstractEntity
             self::ROLE_PUBLIC,
         ];
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @Annotation\Exclude()
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Annotation\Exclude]
     private ?int $id = null;
-    /**
-     * @ORM\Column(type="string",length=255,nullable=false)
-     *
-     * @Annotation\Type("\Laminas\Form\Element\Text")
-     * @Annotation\Options({"label":"txt-role-description","help-block":"txt-role-description-help-block"})
-     */
+
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Annotation\Type(Text::class)]
+    #[Annotation\Options(['label' => 'txt-role-description', 'help-block' => 'txt-role-description-help-block'])]
     private string $description = '';
-    /**
-     * @ORM\ManyToMany(targetEntity="Admin\Entity\User", mappedBy="roles", cascade={"persist"})
-     *
-     * @Annotation\Exclude()
-     */
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles', cascade: ['persist'])]
+    #[Annotation\Exclude]
     private Collection $users;
 
     #[Pure] public function __construct()

@@ -7,21 +7,21 @@ namespace Cluster\Provider;
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Organisation;
 use Cluster\Provider\Organisation\TypeProvider;
+use Laminas\Cache\Exception\ExceptionInterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 
 class OrganisationProvider implements ProviderInterface
 {
     public function __construct(
-        private Redis $cache,
-        private CountryProvider $countryProvider,
-        private TypeProvider $typeProvider
+        private readonly Redis $cache,
+        private readonly CountryProvider $countryProvider,
+        private readonly TypeProvider $typeProvider
     ) {
     }
 
     /**
      * @param Organisation $organisation
-     * @return array
-     * @throws \Laminas\Cache\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function generateArray($organisation): array
     {
@@ -31,11 +31,11 @@ class OrganisationProvider implements ProviderInterface
 
         if (!$organisationData) {
             $organisationData = [
-                'id'      => $organisation->getId(),
-                'slug'    => $organisation->getSlug(),
-                'name'    => $organisation->getName(),
+                'id' => $organisation->getId(),
+                'slug' => $organisation->getSlug(),
+                'name' => $organisation->getName(),
                 'country' => $this->countryProvider->generateArray($organisation->getCountry()),
-                'type'    => $this->typeProvider->generateArray($organisation->getType()),
+                'type' => $this->typeProvider->generateArray($organisation->getType()),
             ];
 
             $this->cache->setItem($cacheKey, $organisationData);
