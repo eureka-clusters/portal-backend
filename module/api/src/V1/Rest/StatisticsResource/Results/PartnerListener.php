@@ -31,11 +31,11 @@ final class PartnerListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return new Paginator(new ArrayAdapter());
         }
 
-        $encodedFilter = $this->getEvent()->getQueryParams()->get('filter');
+        $encodedFilter = $this->getEvent()->getQueryParams()?->get('filter');
 
         //The filter is a base64 encoded serialised json string
         $filter = base64_decode($encodedFilter);
@@ -47,7 +47,12 @@ final class PartnerListener extends AbstractResourceListener
 
         $hasYears = !empty($arrayFilter['year']);
 
-        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
+        $partnerQueryBuilder = $this->partnerService->getPartners(
+            user: $user,
+            filter: $arrayFilter,
+            sort: $sort,
+            order: $order
+        );
         $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
 
         $doctrineORMAdapter->setProvider($hasYears ? $this->partnerYearProvider : $this->partnerProvider);

@@ -80,7 +80,7 @@ final class OAuth2Controller extends AbstractActionController
 
         if (null !== $authCode) {
             try {
-                //And grab the settings and grab a token to check the backend so we can
+                //And grab the settings and grab a token to check the backend, so we can
                 $oAuthBackendClient = new GenericProvider($session->settings);
 
                 $accessToken = $oAuthBackendClient->getAccessToken(

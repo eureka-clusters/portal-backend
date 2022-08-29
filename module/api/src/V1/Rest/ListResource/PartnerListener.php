@@ -31,7 +31,7 @@ final class PartnerListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return new Paginator(new ArrayAdapter());
         }
 
@@ -57,7 +57,7 @@ final class PartnerListener extends AbstractResourceListener
                 $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation($organisation);
                 break;
             default:
-                $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), []);
+                $partnerQueryBuilder = $this->partnerService->getPartners(user: $user, filter: []);
         }
 
         $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);

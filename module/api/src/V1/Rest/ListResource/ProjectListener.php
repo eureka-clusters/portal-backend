@@ -25,16 +25,16 @@ final class ProjectListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return new Paginator(new ArrayAdapter());
         }
 
-        $defaultorder = 'asc';
         $defaultSort = 'project.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
 
-        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), [], $sort, $order);
+        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
+
+        $projectQueryBuilder = $this->projectService->getProjects(user: $user, filter: [], sort: $sort, order: $order);
 
         $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
         $doctrineORMAdapter->setProvider($this->projectProvider);

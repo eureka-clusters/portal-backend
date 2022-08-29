@@ -43,6 +43,9 @@ class UserService extends AbstractService
 
         $this->save($user);
 
+        //Save the EurekaSecretariatOfficeStaff
+        $user->setIsEurekaSecretariatStaffMember($genericUser->isEurekaSecretariatStaffMember());
+
         //Delete the funder object when the user is not a funder
         if (!$genericUser->isFunder() && $user->isFunder()) {
             $this->delete($user->getFunder());

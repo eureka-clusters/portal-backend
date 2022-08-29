@@ -31,25 +31,29 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($export_type = 'csv')
+    public function fetch($id = 'csv'): array
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return [];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()->get('filter');
+        $filter = $this->getEvent()->getQueryParams()?->get('filter');
         $filter = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $defaultorder = 'asc';
         $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()->get('order', 'asc');
+        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
 
-        $partnerQueryBuilder = $this->partnerService->getPartners($user->getFunder(), $arrayFilter, $sort, $order);
+        $partnerQueryBuilder = $this->partnerService->getPartners(
+            user: $user,
+            filter: $arrayFilter,
+            sort: $sort,
+            order: $order
+        );
 
         $partners = $partnerQueryBuilder->getQuery()->getResult();
 

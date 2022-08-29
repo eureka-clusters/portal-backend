@@ -32,14 +32,14 @@ final class ResultListener extends AbstractResourceListener
 
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return new Paginator(new ArrayAdapter());
         }
 
         $results = [];
 
         $projects = $this->projectService->searchProjects(
-            funder: $user->getFunder(),
+            user: $user,
             query: $query,
             limit: 20
         );

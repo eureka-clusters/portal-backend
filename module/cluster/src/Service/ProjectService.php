@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
+use Admin\Entity\User;
 use Application\Service\AbstractService;
-use Cluster\Entity\Funder;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Status;
 use Cluster\Repository\ProjectRepository;
@@ -25,13 +25,15 @@ class ProjectService extends AbstractService
     public final const DURATION_YEAR = 'y';
     public final const DURATION_DAYS = 'd';
 
-    #[Pure] public function __construct(EntityManager $entityManager, private readonly ClusterService $clusterService)
-    {
+    #[Pure] public function __construct(
+        EntityManager $entityManager,
+        private readonly ClusterService $clusterService
+    ) {
         parent::__construct($entityManager);
     }
 
     public function getProjects(
-        Funder $funder,
+        User $user,
         array $filter,
         string $sort = 'project.name',
         string $order = 'asc'
@@ -39,22 +41,15 @@ class ProjectService extends AbstractService
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
-        return $repository->getProjectsByFunderAndFilter($funder, $filter, $sort, $order);
+        return $repository->getProjectsByUserAndFilter(user: $user, filter: $filter, sort: $sort, order: $order);
     }
 
-    public function searchTest(Funder $funder, string $query, int $limit)
-    {
-        $repository = $this->entityManager->getRepository(Project::class);
-        return $repository->searchTest($funder, $query, $limit);
-        // return $repository->searchTest($funder, $query, $limit)->getQuery()->getResult(\Doctrine\ORM\Query::HYDRATE_SCALAR);
-    }
-
-    public function searchProjects(Funder $funder, string $query, int $limit): array
+    public function searchProjects(User $user, string $query, int $limit): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
-        return $repository->searchProjects($funder, $query, $limit)->getQuery()->getResult();
+        return $repository->searchProjects(user: $user, query: $query, limit: $limit)->getQuery()->getResult();
     }
 
     #[ArrayShape([
@@ -63,16 +58,16 @@ class ProjectService extends AbstractService
         'projectStatus' => "array[]",
         'programmeCalls' => "array[]",
         'clusters' => "array[]"
-    ])] public function generateFacets(Funder $funder, array $filter): array
+    ])] public function generateFacets(User $user, array $filter): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
 
-        $countries = $repository->fetchCountries($funder, $filter);
-        $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $programmeCalls = $repository->fetchProgrammeCalls($funder, $filter);
-        $clusters = $repository->fetchClusters($funder, $filter);
-        $projectStatuses = $repository->fetchProjectStatuses($funder, $filter);
+        $countries = $repository->fetchCountries(user: $user, filter: $filter);
+        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
+        $programmeCalls = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
+        $clusters = $repository->fetchClusters();
+        $projectStatuses = $repository->fetchProjectStatuses(user: $user, filter: $filter);
 
         $countriesIndexed = array_map(static fn(array $country) => [
             'name' => $country['country'],
@@ -190,10 +185,11 @@ class ProjectService extends AbstractService
         );
     }
 
-    public function findProjectBySlugAndFunder(string $slug, Funder $funder): ?Project
+    public function findProjectBySlugAndUser(string $slug, User $user): ?Project
     {
+        /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(Project::class);
-        return $repository->getProjectByFunderAndSlug($funder, $slug)->getQuery()->getOneOrNullResult();
+        return $repository->findProjectBySlugAndUser(slug: $slug, user: $user)->getQuery()->getOneOrNullResult();
     }
 
     public function parseDuration(Project $project, string $type = self::DURATION_MONTH): ?int

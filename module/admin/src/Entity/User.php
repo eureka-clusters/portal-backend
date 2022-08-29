@@ -13,6 +13,7 @@ use Cluster\Entity\Project\Evaluation;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -48,8 +49,11 @@ class User extends AbstractEntity
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $dateEnd = null;
 
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    private bool $isEurekaSecretariatStaffMember = false;
+
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    #[ORM\OrderBy(['description' => 'ASC'])]
+    #[ORM\OrderBy(['description' => Criteria::ASC])]
     #[ORM\JoinTable(name: 'admin_user_role', joinColumns: [
         new ORM\JoinColumn(
             nullable: false
@@ -228,6 +232,17 @@ class User extends AbstractEntity
     public function setFunder(?Funder $funder): User
     {
         $this->funder = $funder;
+        return $this;
+    }
+
+    public function isEurekaSecretariatStaffMember(): bool
+    {
+        return $this->isEurekaSecretariatStaffMember;
+    }
+
+    public function setIsEurekaSecretariatStaffMember(bool $isEurekaSecretariatStaffMember): User
+    {
+        $this->isEurekaSecretariatStaffMember = $isEurekaSecretariatStaffMember;
         return $this;
     }
 

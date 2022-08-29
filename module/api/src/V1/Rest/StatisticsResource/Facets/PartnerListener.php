@@ -23,7 +23,7 @@ final class PartnerListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return [
                 'countries' => [],
                 'organisationTypes' => [],
@@ -38,6 +38,6 @@ final class PartnerListener extends AbstractResourceListener
         $filter = base64_decode($id);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        return $this->partnerService->generateFacets($user->getFunder(), $arrayFilter);
+        return $this->partnerService->generateFacets(user: $user, filter: $arrayFilter);
     }
 }

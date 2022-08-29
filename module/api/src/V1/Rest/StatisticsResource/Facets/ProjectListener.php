@@ -21,7 +21,7 @@ final class ProjectListener extends AbstractResourceListener
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return [
                 'countries' => [],
                 'organisationTypes' => [],
@@ -36,6 +36,6 @@ final class ProjectListener extends AbstractResourceListener
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!
-        return $this->projectService->generateFacets($user->getFunder(), $arrayFilter);
+        return $this->projectService->generateFacets(user: $user, filter: $arrayFilter);
     }
 }

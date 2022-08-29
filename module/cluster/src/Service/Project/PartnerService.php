@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Service\Project;
 
+use Admin\Entity\User;
 use Application\Service\AbstractService;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
@@ -45,7 +46,7 @@ class PartnerService extends AbstractService
     }
 
     public function getPartners(
-        Funder $funder,
+        User $user,
         array $filter,
         string $sort = 'partner.organisation.name',
         string $order = 'asc'
@@ -53,7 +54,7 @@ class PartnerService extends AbstractService
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
 
-        return $repository->getPartnersByFunderAndFilter($funder, $filter, $sort, $order);
+        return $repository->getPartnersByUserAndFilter(user: $user, filter: $filter, sort:  $sort, order: $order);
     }
 
     public function getPartnersByProject(Project $project): QueryBuilder
@@ -79,16 +80,16 @@ class PartnerService extends AbstractService
         'clusters' => "array[]",
         'programmeCalls' => "array[]",
         'years' => "array"
-    ])] public function generateFacets(Funder $funder, array $filter): array
+    ])] public function generateFacets(User $user, array $filter): array
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(Partner::class);
 
-        $countries = $repository->fetchCountries($funder, $filter);
-        $organisationTypes = $repository->fetchOrganisationTypes($funder, $filter);
-        $clusters = $repository->fetchClusters($funder, $filter);
-        $projectStatuses = $repository->fetchProjectStatuses($funder, $filter);
-        $programmeCalls = $repository->fetchProgrammeCalls($funder, $filter);
+        $countries = $repository->fetchCountries(user: $user, filter: $filter);
+        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
+        $clusters = $repository->fetchClusters();
+        $projectStatuses = $repository->fetchProjectStatuses(user: $user, filter: $filter);
+        $programmeCalls = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
         $years = $repository->fetchYears();
 
         $countriesIndexed = array_map(static fn(array $country) => [

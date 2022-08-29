@@ -25,6 +25,8 @@ final class GenericUser
 
     private readonly bool $isFunder;
 
+    private readonly bool $isEurekaSecretariatStaffMember;
+
     private readonly array $funder;
 
     private readonly array $address;
@@ -39,6 +41,10 @@ final class GenericUser
         $this->clusterPermissions = (array)($result->clusterPermissions ?? []);
         $this->lastName = $result->lastName;
         $this->isFunder = $result->isFunder;
+
+        //Take the value from the result, fallback to false in case the setting cannot be found
+        $this->isEurekaSecretariatStaffMember = $result->isEurekaSecretariatStaffMember ?? false;
+
         $this->funder = (array)($result->funder ?? []);
         $this->address = (array)($result->address ?? []);
         $this->email = $result->email;
@@ -87,6 +93,11 @@ final class GenericUser
     public function isFunder(): bool
     {
         return $this->isFunder;
+    }
+
+    public function isEurekaSecretariatStaffMember()
+    {
+        return $this->isEurekaSecretariatStaffMember;
     }
 
     public function getFunder(): array

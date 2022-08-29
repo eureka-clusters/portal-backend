@@ -29,11 +29,11 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($exportType = 'Xlsx'): array
+    public function fetch($id = 'Xlsx'): array
     {
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
+        if (null === $user) {
             return [];
         }
 
@@ -42,12 +42,16 @@ final class ProjectListener extends AbstractResourceListener
         $filter = base64_decode($filter);
         $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
 
-        $defaultorder = 'asc';
         $defaultSort = 'project.name';
         $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
         $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
 
-        $projectQueryBuilder = $this->projectService->getProjects($user->getFunder(), $arrayFilter, $sort, $order);
+        $projectQueryBuilder = $this->projectService->getProjects(
+            user: $user,
+            filter: $arrayFilter,
+            sort: $sort,
+            order: $order
+        );
 
         $projects = $projectQueryBuilder->getQuery()->getResult();
 

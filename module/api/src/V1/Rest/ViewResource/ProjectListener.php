@@ -19,16 +19,17 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($slug = null)
+    public function fetch($id = null)
     {
+        $slug = $id;
+
         $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
-        if (null === $user || !$user->isFunder()) {
-            return new ApiProblem(404, 'The selected project cannot be found');
+        if (null === $user) {
+            return new ApiProblem(404, 'The selected user cannot be found');
         }
 
-        // $project = $this->projectService->findProjectBySlug($slug);
-        $project = $this->projectService->findProjectBySlugAndFunder($slug, $user->getFunder());
+        $project = $this->projectService->findProjectBySlugAndUser(slug: $slug, user: $user);
 
         if (null === $project) {
             return new ApiProblem(404, 'The selected project cannot be found');

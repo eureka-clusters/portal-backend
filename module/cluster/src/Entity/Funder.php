@@ -9,6 +9,7 @@ use Application\Entity\AbstractEntity;
 use Cluster\Repository\FunderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'cluster_funder')]
@@ -29,7 +30,7 @@ class Funder extends AbstractEntity
     private Country $country;
 
     #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'clusterFunders', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    #[ORM\OrderBy(['description' => 'ASC'])]
+    #[ORM\OrderBy(['description' => Criteria::ASC])]
     #[ORM\JoinTable(name: 'cluster_funder_cluster', joinColumns: [
         new ORM\JoinColumn(
             nullable: false

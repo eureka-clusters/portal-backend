@@ -67,10 +67,10 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
     }
 
     /**
@@ -191,6 +191,32 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getId(): ?int
+    {
+        if ($this->__isInitialized__ === false) {
+            return (int)  parent::getId();
+        }
+
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
+
+        return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setId(?int $id): \Admin\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
+
+        return parent::setId($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hasRole(\Admin\Entity\Role $userRole): bool
     {
 
@@ -230,32 +256,6 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isFunder', []);
 
         return parent::isFunder();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getId(): ?int
-    {
-        if ($this->__isInitialized__ === false) {
-            return (int)  parent::getId();
-        }
-
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
-
-        return parent::getId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setId(?int $id): \Admin\Entity\User
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
-
-        return parent::setId($id);
     }
 
     /**
@@ -454,6 +454,28 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFunder', [$funder]);
 
         return parent::setFunder($funder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEurekaSecretariatStaffMember(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isEurekaSecretariatStaffMember', []);
+
+        return parent::isEurekaSecretariatStaffMember();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsEurekaSecretariatStaffMember(bool $isEurekaSecretariatStaffMember): \Admin\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsEurekaSecretariatStaffMember', [$isEurekaSecretariatStaffMember]);
+
+        return parent::setIsEurekaSecretariatStaffMember($isEurekaSecretariatStaffMember);
     }
 
     /**
