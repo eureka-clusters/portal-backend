@@ -349,7 +349,7 @@ class ProjectRepository extends EntityRepository
         );
 
         //Create an empty country to have a valid query
-        $country = new Country();
+        $country = (new Country())->setId(0);
 
         //When the user is a funder we can use the country of the funder
         if ($user->isFunder()) {

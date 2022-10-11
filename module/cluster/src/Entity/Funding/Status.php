@@ -14,7 +14,6 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * This table contains the detailed funding status per partner (and is not used yet)
- *
  */
 #[ORM\Table(name: 'cluster_funding_status')]
 #[ORM\Entity]
