@@ -54,11 +54,9 @@ class User extends AbstractEntity
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy(['description' => Criteria::ASC])]
-    #[ORM\JoinTable(name: 'admin_user_role', joinColumns: [
-        new ORM\JoinColumn(
-            nullable: false
-        )
-    ], inverseJoinColumns: [new ORM\JoinColumn(nullable: false)])]
+    #[ORM\JoinTable(name: 'admin_user_role')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\InverseJoinColumn(nullable: false)]
     private Collection $roles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Session::class)]

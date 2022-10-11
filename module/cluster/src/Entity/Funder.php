@@ -31,11 +31,9 @@ class Funder extends AbstractEntity
 
     #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'clusterFunders', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy(['description' => Criteria::ASC])]
-    #[ORM\JoinTable(name: 'cluster_funder_cluster', joinColumns: [
-        new ORM\JoinColumn(
-            nullable: false
-        )
-    ], inverseJoinColumns: [new ORM\JoinColumn(nullable: false)])]
+    #[ORM\JoinTable(name: 'cluster_funder_cluster')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\InverseJoinColumn(nullable: false)]
     private Collection $clusters;
 
     public function __construct()
