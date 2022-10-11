@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70041a09e8302568bc0d1c765bedd9c1",
+    "content-hash": "db796802c025a57b631d75b4debd7a04",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -10514,16 +10514,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.x-dev",
+            "version": "1.9.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b4fdb4600f687ebfd8c343ae38bffa5a6a8681de"
+                "reference": "b6289ae321a49528e119fddcd7b79952726a19c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b4fdb4600f687ebfd8c343ae38bffa5a6a8681de",
-                "reference": "b4fdb4600f687ebfd8c343ae38bffa5a6a8681de",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b6289ae321a49528e119fddcd7b79952726a19c7",
+                "reference": "b6289ae321a49528e119fddcd7b79952726a19c7",
                 "shasum": ""
             },
             "require": {
@@ -10554,7 +10554,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.x"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.x"
             },
             "funding": [
                 {
@@ -10570,7 +10570,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-29T00:42:55+00:00"
+            "time": "2022-10-11T10:07:08+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10990,31 +10990,29 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.12.23",
+            "version": "0.14.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb"
+                "reference": "f7fd87b2435835f481e6a94ee28e09af412bd3cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/690b31768b322db886b35845f8452025eba2cacb",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/f7fd87b2435835f481e6a94ee28e09af412bd3cc",
+                "reference": "f7fd87b2435835f481e6a94ee28e09af412bd3cc",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.6"
+                "phpstan/phpstan": "^1.8.6"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<1.2",
                 "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
                 "rector/rector-laravel": "*",
-                "rector/rector-nette": "*",
+                "rector/rector-php-parser": "*",
                 "rector/rector-phpoffice": "*",
                 "rector/rector-phpunit": "*",
-                "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
             },
             "bin": [
@@ -11023,7 +11021,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.12-dev"
+                    "dev-main": "0.14-dev"
                 }
             },
             "autoload": {
@@ -11038,7 +11036,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.12.23"
+                "source": "https://github.com/rectorphp/rector/tree/0.14.5"
             },
             "funding": [
                 {
@@ -11046,7 +11044,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-01T15:50:16+00:00"
+            "time": "2022-09-29T11:05:42+00:00"
         },
         {
             "name": "roave/security-advisories",
