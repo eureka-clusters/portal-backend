@@ -3590,21 +3590,21 @@
         },
         {
             "name": "laminas/laminas-cli",
-            "version": "1.6.x-dev",
+            "version": "1.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cli.git",
-                "reference": "a065e816a5ca8df731c3dce47ac6280814e450bf"
+                "reference": "da26bc52aef67f7bc8977269afb3c995102884e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/a065e816a5ca8df731c3dce47ac6280814e450bf",
-                "reference": "a065e816a5ca8df731c3dce47ac6280814e450bf",
+                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/da26bc52aef67f7bc8977269afb3c995102884e6",
+                "reference": "da26bc52aef67f7bc8977269afb3c995102884e6",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0.0",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0 || ^2.0",
                 "symfony/console": "^5.3.7 || ^6.0",
                 "symfony/event-dispatcher": "^5.0 || ^6.0",
@@ -3613,12 +3613,12 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-mvc": "^3.1.1",
-                "laminas/laminas-servicemanager": "^3.15.1",
+                "laminas/laminas-mvc": "^3.3.5",
+                "laminas/laminas-servicemanager": "^3.19",
                 "mikey179/vfsstream": "2.0.x-dev",
-                "phpunit/phpunit": "^9.5.9",
+                "phpunit/phpunit": "^9.5.25",
                 "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.24.0"
+                "vimeo/psalm": "^4.29"
             },
             "default-branch": true,
             "bin": [
@@ -3655,7 +3655,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-08-27T01:48:10+00:00"
+            "time": "2022-10-11T20:47:19+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -7266,12 +7266,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d1b738dd4c02f3d8cf4da69f53c5ed2f97807c53"
+                "reference": "a6967676ca56c6fc4bf68a86412dab7530ea5b48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d1b738dd4c02f3d8cf4da69f53c5ed2f97807c53",
-                "reference": "d1b738dd4c02f3d8cf4da69f53c5ed2f97807c53",
+                "url": "https://api.github.com/repos/symfony/console/zipball/a6967676ca56c6fc4bf68a86412dab7530ea5b48",
+                "reference": "a6967676ca56c6fc4bf68a86412dab7530ea5b48",
                 "shasum": ""
             },
             "require": {
@@ -7354,7 +7354,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-26T15:23:18+00:00"
+            "time": "2022-10-09T22:09:52+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7430,12 +7430,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "11c0c0842f98a143719a92e7622d041dffdd938d"
+                "reference": "e30a4de35c1048b6c4d11fd2f62d5f2fdcffae7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/11c0c0842f98a143719a92e7622d041dffdd938d",
-                "reference": "11c0c0842f98a143719a92e7622d041dffdd938d",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/e30a4de35c1048b6c4d11fd2f62d5f2fdcffae7a",
+                "reference": "e30a4de35c1048b6c4d11fd2f62d5f2fdcffae7a",
                 "shasum": ""
             },
             "require": {
@@ -7505,7 +7505,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-25T15:27:04+00:00"
+            "time": "2022-09-21T18:43:34+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -8376,12 +8376,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "6fbb07a456ddea2755d4dd6953d0b7f0bbf8e2ac"
+                "reference": "a97632a527ba2e699a978bc5d7da3d2320e6a677"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/6fbb07a456ddea2755d4dd6953d0b7f0bbf8e2ac",
-                "reference": "6fbb07a456ddea2755d4dd6953d0b7f0bbf8e2ac",
+                "url": "https://api.github.com/repos/symfony/string/zipball/a97632a527ba2e699a978bc5d7da3d2320e6a677",
+                "reference": "a97632a527ba2e699a978bc5d7da3d2320e6a677",
                 "shasum": ""
             },
             "require": {
@@ -8454,7 +8454,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-25T15:27:04+00:00"
+            "time": "2022-10-10T09:34:55+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -13487,6 +13487,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "laminas/laminas-cli": 20,
         "league/oauth2-client": 20,
         "roave/security-advisories": 20
     },
