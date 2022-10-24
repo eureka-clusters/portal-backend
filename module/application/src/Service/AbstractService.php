@@ -6,9 +6,11 @@ namespace Application\Service;
 
 use Application\Entity\AbstractEntity;
 use Doctrine\ORM\EntityManager;
+use Jield\Authorize\Role\UserAsRoleInterface;
+use Jield\Authorize\Service\HasPermitInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
 
-abstract class AbstractService
+abstract class AbstractService implements HasPermitInterface
 {
     public function __construct(
         protected EntityManager $entityManager,
@@ -51,4 +53,15 @@ abstract class AbstractService
     {
         $this->entityManager->refresh($abstractEntity);
     }
+
+    public function hasPermit(UserAsRoleInterface $user, object $resource, array|string $privilege): bool
+    {
+        return true;
+    }
+
+    public function hasGeneralPermit(UserAsRoleInterface $user, string $className, string $privilege): bool
+    {
+        return true;
+    }
+
 }

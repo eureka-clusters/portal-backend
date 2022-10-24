@@ -24,7 +24,6 @@ return [
                 'type' => 'Literal',
                 'options' => [
                     'route' => '/oauth2',
-                    'priority' => 1000,
                     'defaults' => [
                         'controller' => OAuth2Controller::class,
                         'action' => 'list',

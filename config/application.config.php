@@ -5,6 +5,8 @@ return [
         'Laminas\\Router',
         'Laminas\\InputFilter',
         'Laminas\\Hydrator',
+        'Laminas\\Paginator',
+        'Laminas\\Cache',
 
         'Laminas\\ApiTools',
         'Laminas\\ApiTools\\Documentation',
@@ -19,6 +21,10 @@ return [
         'Laminas\\ApiTools\\Rest',
         'Laminas\\ApiTools\\Rpc',
         'Laminas\\ApiTools\\Versioning',
+
+        'BjyAuthorize',
+        'Jield\\Authorize',
+        
         'LmcCors',
 
         'Api',
@@ -27,7 +33,10 @@ return [
         'DoctrineORMModule',
         'Admin',
         'Cluster',
-        'Application'
+        'Application',
+
+        'ZfcTwig',
+        'LaminasBootstrap5',
     ],
     'module_listener_options' => [
         'config_glob_paths'        => [

@@ -3,8 +3,8 @@
 namespace Api;
 
 use Admin\Provider\UserProvider;
+use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
-use Api\Service\OAuthService;
 use Api\V1\Rest;
 use Api\V1\Rest\ListResource\OrganisationListener;
 use Api\V1\Rest\ListResource\PartnerListener;
@@ -40,7 +40,7 @@ final class ConfigProvider
     {
         return [
             'factories' => [
-                OAuthService::class => ConfigAbstractFactory::class,
+                OAuth2Service::class => ConfigAbstractFactory::class,
                 MeListener::class => ConfigAbstractFactory::class,
                 ProjectListener::class => ConfigAbstractFactory::class,
                 OrganisationListener::class => ConfigAbstractFactory::class,
@@ -159,7 +159,7 @@ final class ConfigProvider
                 PartnerProvider::class,
                 PartnerYearProvider::class
             ],
-            OAuthService::class => [
+            OAuth2Service::class => [
                 EntityManager::class,
                 TranslatorInterface::class
             ],

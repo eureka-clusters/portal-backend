@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Admin\Service\UserService;
-use Api\Service\OAuthService;
-use Application\Controller\OAuth2Controller;
+use Application\Event\SetTitle;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use ZfcTwig\View\TwigRenderer;
 
 return [
     ConfigAbstractFactory::class => [
-        OAuth2Controller::class => [
-            UserService::class,
-            OAuthService::class,
-            'Config'
+
+        SetTitle::class => [
+            TwigRenderer::class
         ],
     ],
 ];

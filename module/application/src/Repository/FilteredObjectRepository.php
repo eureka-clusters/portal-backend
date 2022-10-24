@@ -6,8 +6,9 @@ namespace Application\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
+use Search\ValueObject\SearchFormResult;
 
 interface FilteredObjectRepository extends ObjectRepository
 {
-    public function findFiltered(array $filter = []): QueryBuilder;
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder;
 }

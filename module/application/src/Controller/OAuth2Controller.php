@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Controller;
 
+use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
-use Api\Service\OAuthService;
 use Application\ValueObject\OAuth2\GenericUser;
 use DateInterval;
 use DateTime;
@@ -22,7 +22,7 @@ final class OAuth2Controller extends AbstractActionController
 {
     public function __construct(
         private readonly UserService $userService,
-        private readonly OAuthService $oAuthService,
+        private readonly OAuth2Service $oAuth2Service,
         private readonly array $config
     ) {
     }
@@ -31,61 +31,61 @@ final class OAuth2Controller extends AbstractActionController
     {
         //Find the service
         $service = $this->params('service');
-        $clientId = $this->getRequest()->getQuery('client');
+        $clientId = $this->getRequest()->getQuery(name: 'client');
 
         //And grab the settings
         $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
 
         if (empty($settings) || !isset($settings['settings'])) {
-            return $this->redirect()->toRoute('home');
+            return $this->redirect()->toRoute(route: 'home');
         }
 
-        $oAuthClient = new GenericProvider($settings['settings']);
+        $oAuthClient = new GenericProvider(options: $settings['settings']);
 
         $authUrl = $oAuthClient->getAuthorizationUrl();
 
         //Create a session and keep the important data
-        $session = new Container('session');
+        $session = new Container(name: 'session');
         $session->authState = $oAuthClient->getState();
         $session->service = $service;
         $session->clientId = $clientId;
         $session->settings = $settings['settings'];
         $session->profileUrl = $settings['profileUrl'] ?? null;
 
-        return $this->redirect()->toUrl($authUrl);
+        return $this->redirect()->toUrl(url: $authUrl);
     }
 
     public function callbackAction(): Response
     {
-        $session = new Container('session');
+        $session = new Container(name: 'session');
         $expectedState = $session->authState;
 
-        $providedState = $this->getRequest()->getQuery('state');
+        $providedState = $this->getRequest()->getQuery(name: 'state');
 
         if (null === $expectedState) {
-            return $this->redirect()->toRoute('home');
+            return $this->redirect()->toRoute(route: 'home');
         }
 
         if (null === $providedState || $expectedState !== $providedState) {
-            return $this->redirect()->toRoute('home');
+            return $this->redirect()->toRoute(route: 'home');
         }
 
-        $error = $this->getRequest()->getQuery('error');
+        $error = $this->getRequest()->getQuery(name: 'error');
 
         if ($error !== null) {
             die('error on oauth Authorize');
         }
 
-        $authCode = $this->getRequest()->getQuery('code');
+        $authCode = $this->getRequest()->getQuery(name: 'code');
 
         if (null !== $authCode) {
             try {
                 //And grab the settings and grab a token to check the backend, so we can
-                $oAuthBackendClient = new GenericProvider($session->settings);
+                $oAuthBackendClient = new GenericProvider(options: $session->settings);
 
                 $accessToken = $oAuthBackendClient->getAccessToken(
-                    'authorization_code',
-                    [
+                    grant: 'authorization_code',
+                    options: [
                         'code' => $authCode,
                     ]
                 );
@@ -93,9 +93,9 @@ final class OAuth2Controller extends AbstractActionController
                 //Do a manual Guzzle Request for better debugging
                 $guzzle = new Client();
                 $request = $guzzle->request(
-                    'GET',
-                    $session->profileUrl,
-                    [
+                    method: 'GET',
+                    uri: $session->profileUrl,
+                    options: [
                         RequestOptions::HEADERS => [
                             'Authorization' => 'Bearer ' . $accessToken,
                             'Accept' => 'application/json',
@@ -108,50 +108,30 @@ final class OAuth2Controller extends AbstractActionController
 
                 // get the GenericUser but filter the cluster_permissions with the allowedCluster setting of the oauth2-settings for the used service
                 $genericUser = GenericUser::fromJson(
-                    $request->getBody()->getContents(),
-                    $session->settings['allowedClusters']
+                    jsonString: $request->getBody()->getContents(),
+                    allowedClusters: $session->settings['allowedClusters']
                 );
 
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser(
-                    $genericUser,
-                    $session->settings['allowedClusters']
+                    genericUser: $genericUser,
+                    allowedClusters: $session->settings['allowedClusters']
                 );
 
                 //Find the oAuth client to redirect to the frontend
-                $oAuthClient = $this->oAuthService->findLatestClient();
+                $oAuthClient = $this->oAuth2Service->findLatestClient();
 
-                $jwtHelper = new Jwt();
-
-                $expire = (new DateTime())->add(new DateInterval('P1D'))->getTimestamp();
-
-                $payload = [
-                    'id' => 1,
-                    'jti' => 1,
-                    'iss' => 'eureka-clusters',
-                    'aud' => $oAuthClient->getClientId(),
-                    'sub' => $user->getId(),
-                    'exp' => $expire,
-                    'iat' => time(),
-                    'token_type' => $oAuthClient->getPublicKey()?->getEncryptionAlgorithm(),
-                    'scope' => 'openid'
-                ];
-
-                $RS256Token = $jwtHelper->encode(
-                    $payload,
-                    $oAuthClient->getPublicKey()?->getPrivateKey(),
-                    $oAuthClient->getPublicKey()?->getEncryptionAlgorithm()
-                );
+                $token = $this->oAuth2Service->generateJwtToken(client: $oAuthClient, user: $user);
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    $oAuthClient->getRedirectUri() . '?token=' . $RS256Token
+                    url: $oAuthClient->getRedirectUri() . '?token=' . $token
                 );
             } catch (IdentityProviderException) {
-                return $this->redirect()->toRoute('/');
+                return $this->redirect()->toRoute(route: '/');
             }
         }
 
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute(route: 'home');
     }
 }

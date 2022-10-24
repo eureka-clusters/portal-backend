@@ -12,12 +12,15 @@ use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
 use Exception;
 
+use Jield\Authorize\Role\UserAsRoleInterface;
+use Jield\Authorize\Service\AccessRolesByUserInterface;
+
 use function array_diff;
 use function array_intersect;
 use function array_values;
 use function sprintf;
 
-class UserService extends AbstractService
+class UserService extends AbstractService implements AccessRolesByUserInterface
 {
     public function findUserById(int $id): ?User
     {
@@ -128,4 +131,10 @@ class UserService extends AbstractService
 
         $this->save($funder);
     }
+
+    public function getAccessRolesByUser(UserAsRoleInterface|User $user): array
+    {
+        return $user->getRolesAsArray();
+    }
+
 }

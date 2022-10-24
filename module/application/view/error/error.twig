@@ -1,0 +1,17 @@
+{% do headTitle().append(translate("txt-error-page-title")) %}
+
+<h2>{{ translate("txt-error-page-title") }}</h2>
+<hr>
+<p>{{ lbs5alert().info(translate("txt-error-details-production")) }}</p>
+
+{% if development %}
+    <h3>{{ translate("txt-error-details") }}</h3>
+    {{ message }}
+
+    <br class="clear">
+
+    <div id="error">
+        <h3>{{ translate("txt-exception-details") }}</h3>
+        <pre>{{ error.exception.getTraceAsString() }}</pre>
+    </div>
+{% endif %}

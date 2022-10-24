@@ -1,0 +1,125 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(translate("txt-oauth2-client")) %}
+
+<h1>{{ translate("txt-oauth2-client") }}  {{ oauth2clientlink(client,'edit','button') }}</h1>
+
+<p>{{ translate("txt-oauth2-client-explanation") }}</p>
+
+
+<h2>{{ translate("txt-oauth2-client-information") }}</h2>
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-client-id") }}</dt>
+    <dd>{{ client.clientId }}</dd>
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ client.name }}</dd>
+    <dt>{{ translate("txt-description") }}</dt>
+    <dd>{{ client.description }}</dd>
+    <dt>{{ translate("txt-secret-teaser") }}</dt>
+    <dd>{{ client.clientSecretTeaser }}</dd>
+    <dt>{{ translate("txt-oauth2-client-redirect-url") }}</dt>
+    <dd>{{ client.redirectUri }}</dd>
+    <dt>{{ translate("txt-oauth2-client-scope") }}</dt>
+    <dd>{{ client.scope }}</dd>
+    <dt>{{ translate("txt-oauth2-client-grant-types") }}</dt>
+    <dd>{{ client.grantTypes|default('null') }}</dd>
+</dl>
+
+<h2>{{ translate("txt-public-key") }}</h2>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-public-key") }}</dt>
+    <dd>
+        <pre>{{ client.publicKey.getPublicKey() }}</pre>
+    </dd>
+    <dt>{{ translate("txt-private-key") }}</dt>
+    <dd>
+        <pre>{{ client.publicKey.getPrivateKey() }}</pre>
+    </dd>
+    <dt>{{ translate("txt-public-key-base-64") }}</dt>
+    <dd>
+        <code>{{ base64EncodedPublicKey }}</code>
+    </dd>
+
+    <dt>{{ translate("txt-encryption-algorithm") }}</dt>
+    <dd>{{ client.publicKey.encryptionAlgorithm() }}</dd>
+</dl>
+
+<h2>Notes</h2>
+<ul>
+    <li>To get an idtoken, implicit is required as grant</li>
+    <li>RS256 is used for public/private key encription (<a href="https://stackoverflow.com/a/51329229">Read</a>)</li>
+    <li>HS256 is used for symmetric encription</li>
+    <li>The RS256 and HS256 depends on the client, in oAauth2 server only 1 type is supported by client</li>
+</ul>
+
+<h2>URL</h2>
+<dl>
+    <dt>Request for an ID token</dt>
+    <dd>
+        <a target="_blank"
+           href="{{ serverUrl() }}/oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=id_token&approval_prompt=auto&redirect_uri={{ client.redirectUri|url_encode }}&client_id={{ client.clientId }}&nonce=1234">
+            {{ serverUrl() }}
+            /oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=id_token&approval_prompt=auto&redirect_uri={{ client.redirectUri }}
+            &client_id={{ client.clientId }}&nonce=1234</a>
+    </dd>
+    <dt>Request for an code</dt>
+    <dd>
+        <a target="_blank"
+           href="{{ serverUrl() }}/oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=code&approval_prompt=auto&redirect_uri={{ client.redirectUri|url_encode }}&client_id={{ client.clientId }}&nonce=1234">
+            {{ serverUrl() }}
+            /oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=code&approval_prompt=auto&redirect_uri={{ client.redirectUri }}
+            &client_id={{ client.clientId }}&nonce=1234</a>
+    </dd>
+    <dt>Implicit request</dt>
+    <dd>
+        <a target="_blank"
+           href="{{ serverUrl() }}/oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=token&approval_prompt=auto&redirect_uri={{ client.redirectUri|url_encode }}&client_id={{ client.clientId }}">
+            {{ serverUrl() }}
+            /oauth/authorize?state=b252d3c58a986e5813358b451db48503&scope=openid&response_type=token&approval_prompt=auto&redirect_uri={{ client.redirectUri }}
+            &client_id={{ client.clientId }}&nonce=1234</a>
+    </dd>
+</dl>
+
+<h2>Debug info</h2>
+
+<dl>
+    <dt>New generated Bearer JWT (RS256)</dt>
+    <dd>
+        <code>{{ RS256Token }}</code>
+    </dd>
+    <dt>Decoded token (RS256)</dt>
+    <dd>{{ dump(decodedRS256Token) }}</dd>
+    <dt>New generated JWT (HS256)</dt>
+    <dd>
+        <code>{{ HS256Token }}</code>
+    </dd>
+    <dt>Decoded token (HS256)</dt>
+    <dd>
+        {{ dump(decodedHS256Token) }}
+    </dd>
+</dl>
+
+<h2>Request new token</h2>
+<pre>
+POST {{ serverUrl() }}/oauth
+Accept: application/json
+Content-Type: application/json
+
+{
+    "grant_type": "authorization_code",
+    "redirect_uri": "{{ client.redirectUri }}",
+    "code": "3ce3dd139dcaca86a8075ce669aa042a2a91ec86",
+    "client_id": "{{ client.clientId() }}",
+    "client_secret": "__SECRET__"
+}
+</pre>
+
+<form method="post">
+    <button type="submit" class="btn btn-warning">{{ translate("txt-generate-new-secret") }}</button>
+</form>
+
+{% if secret %}
+    <h2>{{ translate("txt-oauth2-client-secret") }}</h2>
+    <textarea class="mt-3 form-control font-monospace">{{ secret }}</textarea>
+    <small class="text-muted">{{ translate("txt-oauth2-client-secret-explanation") }}</small>
+{% endif %}

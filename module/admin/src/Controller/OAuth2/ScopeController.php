@@ -1,0 +1,173 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Admin\Controller\OAuth2;
+
+use Api\Entity\OAuth\Scope;
+use Admin\Entity\User;
+use Admin\Form;
+use Admin\Service\OAuth2Service;
+use Api\Entity;
+use Application\Controller\Plugin\GetFilter;
+use Application\Controller\Plugin\Preferences;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Laminas\Http\Response;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
+use Laminas\Paginator\Paginator;
+use Laminas\View\Model\ViewModel;
+use Search\Form\SearchFilter;
+
+use function array_merge;
+use function ceil;
+use function urlencode;
+
+/**
+ * @method GetFilter getFilter()
+ * @method Preferences preferences()
+ * @method FlashMessenger flashMessenger()
+ * @method User identity();
+ */
+final class ScopeController extends AbstractActionController
+{
+    public function __construct(
+        private readonly OAuth2Service $oAuth2Service,
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
+    public function listAction(): ViewModel
+    {
+        $filterPlugin = $this->getFilter();
+
+        $form = new SearchFilter();
+
+        $page = $this->params('page');
+
+        $roleQuery = $this->oAuth2Service->findFiltered(Scope::class, $filterPlugin->getFilter());
+
+        $paginator = new Paginator(
+            new PaginatorAdapter(paginator: new ORMPaginator($roleQuery, fetchJoinCollection: false))
+        );
+        $paginator::setDefaultItemCountPerPage($this->preferences()->getItemsPerPage());
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange(ceil($paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+
+        $form->setData($filterPlugin->getFilterFormData());
+
+        return new ViewModel(
+            [
+                'paginator' => $paginator,
+                'form' => $form,
+
+                'order' => $filterPlugin->getOrder(),
+                'direction' => $filterPlugin->getDirection(),
+            ]
+        );
+    }
+
+    public function viewAction(): ViewModel
+    {
+        $scope = $this->oAuth2Service->find(Scope::class, (int)$this->params('id'));
+
+        if (null === $scope) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel(['scope' => $scope]);
+    }
+
+    public function newAction(): Response|ViewModel
+    {
+        $data = $this->getRequest()->getPost()->toArray();
+
+        $form = new Form\OAuth2\Scope();
+        $form->setData($data);
+
+        if ($this->getRequest()->isPost()) {
+            if (isset($data['cancel'])) {
+                return $this->redirect()->toRoute(
+                    'zfcadmin/oauth2/scope/list'
+                );
+            }
+
+            if ($form->isValid()) {
+                $scope = new Scope();
+                $scope->setType($data['type']);
+                $scope->setScope($data['scope']);
+                $scope->setIsDefault($data['is_default'] === '1');
+
+                $this->oAuth2Service->save($scope);
+                $this->flashMessenger()->addSuccessMessage(
+                    $this->translator->translate("txt-user-oauth2-scope-has-been-created-successfully"),
+                );
+
+                return $this->redirect()->toRoute(
+                    'zfcadmin/oauth2/scope/view',
+                    [
+                        'id' => $scope->getId(),
+                    ]
+                );
+            }
+        }
+
+        return new ViewModel(['form' => $form]);
+    }
+
+    public function editAction(): Response|ViewModel
+    {
+        /** @var Entity\OAuth\Scope $scope */
+        $scope = $this->oAuth2Service->find(Scope::class, (int)$this->params('id'));
+
+        if (null === $scope) {
+            return $this->notFoundAction();
+        }
+
+        $data = array_merge(
+            [
+                'type' => $scope->getType(),
+                'scope' => $scope->getScope(),
+                'is_default' => $scope->isDefault(),
+            ],
+            $this->getRequest()->getPost()->toArray()
+        );
+
+        $form = new Form\OAuth2\Scope();
+        $form->setData($data);
+        $form->remove('delete');
+
+        if ($this->getRequest()->isPost()) {
+            if (isset($data['cancel'])) {
+                return $this->redirect()->toRoute(
+                    'zfcadmin/oauth2/scope/view',
+                    [
+                        'id' => $scope->getId(),
+                    ]
+                );
+            }
+
+            if ($form->isValid()) {
+                $scope->setType($data['type']);
+                $scope->setScope($data['scope']);
+                $scope->setIsDefault($data['is_default'] === '1');
+
+                $this->oAuth2Service->save($scope);
+                $this->flashMessenger()->addSuccessMessage(
+                    $this->translator->translate("txt-user-oauth2-scope-has-been-updated-successfully"),
+                );
+
+                return $this->redirect()->toRoute(
+                    'zfcadmin/oauth2/scope/view',
+                    [
+                        'id' => $scope->getId(),
+                    ]
+                );
+            }
+        }
+
+        return new ViewModel(['form' => $form]);
+    }
+}

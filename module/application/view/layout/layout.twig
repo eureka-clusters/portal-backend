@@ -1,0 +1,57 @@
+{{ doctype() }}
+<html class="d-flex flex-column h-100">
+<head>
+    <base href="{{ serverUrl() }}{{ basePath() }}/">
+    {{ headMeta() }}
+    {{ headTitle() }}
+    {{ headLink() }}
+    {{ headStyle() }}
+    {{ headScript() }}
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-light bg-light mb-4" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url('home') }}">
+                <img src="/assets/img/logo.png" alt="Eureka Logo"/>Eureka Clusters Backend
+                Application
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {{ lbs5navigation('Laminas\\Navigation\\Default').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
+
+
+            <ul class="navbar-nav me-2">
+                {% if identity() %}
+                    <li class="nav-item">
+                        {{ identity().parseFullname() }}
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('user/logout') }}">{{ translate("txt-logout") }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url('user/login') }}">{{ translate("txt-login") }}</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+
+        </div>
+    </div>
+</nav>
+<div class="container">
+    {{ content }}
+    <hr>
+    <footer>
+        <p>&copy; <?= date('Y') ?> Eureka Clusters Backend Application</p>
+    </footer>
+</div>
+
+</body>
+</html>

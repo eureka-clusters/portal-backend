@@ -1,0 +1,15 @@
+{% do headTitle().append(translate("txt-oauth")) %}
+{% do headTitle().append(translate("txt-authorize")) %}
+
+<h1>{{ translate("txt-authorize") }}</h1>
+
+<p class="lead">Do You Authorize {{ clientId }}?</p>
+
+<div class="bg-light py-5">
+    <form method="post" class="w-100 my-auto mx-auto">
+        <button type="submit" class="btn btn-primary btn-lg" name="authorized"
+                value="yes">{{ translate("txt-yes") }}</button>
+        <button type="submit" class="btn btn-danger btn-lg" name="authorized"
+                value="no">{{ translate("txt-no") }}</button>
+    </form>
+</div>

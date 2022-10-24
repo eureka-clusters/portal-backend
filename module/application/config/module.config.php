@@ -7,6 +7,7 @@ namespace Application;
 use Application\Authentication\Factory\PdoAdapterFactory;
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
+use Application\Event\SetTitle;
 use Application\Factory\DoctrineCacheFactory;
 use Application\Factory\LaminasCacheFactory;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
@@ -19,6 +20,7 @@ use Laminas\I18n\Translator\TranslatorServiceFactory;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
+use Twig\Extension\DebugExtension;
 
 $config = [
     'controllers' => [
@@ -30,6 +32,9 @@ $config = [
         ],
     ],
     'service_manager' => [
+        'aliases' => [
+            'BjyAuthorize\Cache' => Redis::class, //Map the bjy on the native cache
+        ],
         'factories' => [
             'doctrine.cache.application_cache' => DoctrineCacheFactory::class,
             Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
@@ -37,6 +42,8 @@ $config = [
             PdoAdapter::class => PdoAdapterFactory::class,
             TranslatorInterface::class => TranslatorServiceFactory::class,
             AuthenticationService::class => AuthenticationServiceFactory::class,
+
+            SetTitle::class => ConfigAbstractFactory::class,
         ],
     ],
     'translator' => [
@@ -47,6 +54,15 @@ $config = [
                 'base_dir' => __DIR__ . '/../../../style/language',
                 'pattern' => '%s.mo',
             ],
+        ],
+    ],
+    'zfctwig' => [
+        'disable_zf_model' => false,
+        'extensions' => [
+            DebugExtension::class,
+        ],
+        'environment_options' => [
+            'cache' => __DIR__ . '/../../../data/twig/',
         ],
     ],
     'view_manager' => [

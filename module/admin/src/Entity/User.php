@@ -16,10 +16,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Jield\Authorize\Role\UserAsRoleInterface;
 
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
-class User extends AbstractEntity
+class User extends AbstractEntity implements UserAsRoleInterface
 {
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -88,6 +89,12 @@ class User extends AbstractEntity
         $this->oAuthRefreshTokens = new ArrayCollection();
         $this->evaluation = new ArrayCollection();
     }
+
+    public function getUserId(): string
+    {
+        return 'user' . $this->id;
+    }
+
 
     public function getRolesAsArray(): array
     {
