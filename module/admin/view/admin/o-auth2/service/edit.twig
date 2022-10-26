@@ -1,0 +1,7 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(translate("txt-new-oauth2-service-title")) %}
+
+<h1>{{ translate("txt-new-oauth2-service-title") }}</h1>
+<p>{{ translate("txt-new-oauth2-service-explanation") }}</p>
+
+{% include 'admin/partial/form/oauth2/service' %}

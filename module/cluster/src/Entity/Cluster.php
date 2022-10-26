@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Entity;
 
+use Api\Entity\OAuth\Service;
 use Application\Entity\AbstractEntity;
 use Cluster\Repository\ClusterRepository;
 use DateTime;
@@ -47,12 +48,16 @@ class Cluster extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'secondaryCluster', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projectsSecondary;
 
+    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'allowedClusters', cascade: ['persist'])]
+    private Collection $oauthServices;
+
     public function __construct()
     {
         $this->dateCreated = new DateTime();
         $this->clusterFunders = new ArrayCollection();
         $this->projectsPrimary = new ArrayCollection();
         $this->projectsSecondary = new ArrayCollection();
+        $this->oauthServices = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -156,6 +161,17 @@ class Cluster extends AbstractEntity
     public function setProjectsSecondary($projectsSecondary): Cluster
     {
         $this->projectsSecondary = $projectsSecondary;
+        return $this;
+    }
+
+    public function getOauthServices(): Collection
+    {
+        return $this->oauthServices;
+    }
+
+    public function setOauthServices(Collection $oauthServices): Cluster
+    {
+        $this->oauthServices = $oauthServices;
         return $this;
     }
 }

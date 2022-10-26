@@ -7,6 +7,7 @@ namespace Admin;
 use Admin\Controller\CacheController;
 use Admin\Controller\OAuth2\ClientController;
 use Admin\Controller\OAuth2\ScopeController;
+use Admin\Controller\OAuth2\ServiceController;
 use Admin\Controller\RoleController;
 use Admin\Controller\UserController;
 use Admin\Service\AdminService;
@@ -51,6 +52,11 @@ return [
         ClientController::class => [
             OAuth2Service::class,
             EntityManager::class,
+            TranslatorInterface::class,
+        ],
+        ServiceController::class => [
+            OAuth2Service::class,
+            FormService::class,
             TranslatorInterface::class,
         ],
         ScopeController::class => [

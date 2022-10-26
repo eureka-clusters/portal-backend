@@ -28,12 +28,16 @@ class Scope extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'scope', targetEntity: Client::class, cascade: ['persist'])]
     private Collection $clients;
 
+    #[ORM\OneToMany(mappedBy: 'scope', targetEntity: Service::class, cascade: ['persist'])]
+    private Collection $oAuthServices;
+
     #[ORM\Column(name: 'is_default', type: 'boolean')]
     private bool $isDefault = true;
 
     #[Pure] public function __construct()
     {
         $this->clients = new ArrayCollection();
+        $this->oAuthServices = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -93,6 +97,17 @@ class Scope extends AbstractEntity
     public function setIsDefault(bool $isDefault): Scope
     {
         $this->isDefault = $isDefault;
+        return $this;
+    }
+
+    public function getOAuthServices(): Collection
+    {
+        return $this->oAuthServices;
+    }
+
+    public function setOAuthServices(Collection $oAuthServices): Scope
+    {
+        $this->oAuthServices = $oAuthServices;
         return $this;
     }
 }

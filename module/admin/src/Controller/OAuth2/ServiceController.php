@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Admin\Controller\OAuth2;
 
 use Admin\Entity\User;
-use Admin\Form;
 use Admin\Service\OAuth2Service;
 use Api\Entity;
-use Api\Entity\OAuth\Scope;
+use Api\Entity\OAuth\Service;
 use Application\Controller\Plugin\GetFilter;
 use Application\Form\SearchFilter;
+use Application\Service\FormService;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Laminas\Http\Response;
@@ -20,7 +20,6 @@ use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 
-use function array_merge;
 use function ceil;
 
 /**
@@ -28,10 +27,11 @@ use function ceil;
  * @method FlashMessenger flashMessenger()
  * @method User identity();
  */
-final class ScopeController extends AbstractActionController
+final class ServiceController extends AbstractActionController
 {
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
+        private readonly FormService $formService,
         private readonly TranslatorInterface $translator
     ) {
     }
@@ -44,7 +44,7 @@ final class ScopeController extends AbstractActionController
 
         $page = $this->params('page');
 
-        $roleQuery = $this->oAuth2Service->findFiltered(entity: Scope::class, formResult: $filterPlugin->getFilter());
+        $roleQuery = $this->oAuth2Service->findFiltered(entity: Service::class, formResult: $filterPlugin->getFilter());
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(paginator: new ORMPaginator(query: $roleQuery, fetchJoinCollection: false))
@@ -63,7 +63,6 @@ final class ScopeController extends AbstractActionController
             variables: [
                 'paginator' => $paginator,
                 'form' => $form,
-
                 'order' => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
@@ -72,47 +71,45 @@ final class ScopeController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$this->params('id'));
+        $service = $this->oAuth2Service->find(entity: Service::class, id: (int)$this->params('id'));
 
-        if (null === $scope) {
+        if (null === $service) {
             return $this->notFoundAction();
         }
 
-        return new ViewModel(variables: ['scope' => $scope]);
+        return new ViewModel(variables: ['service' => $service]);
     }
 
     public function newAction(): Response|ViewModel
     {
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form = new Form\OAuth2\Scope();
-        $form->setData($data);
+        $form = $this->formService->prepare(classNameOrEntity: Service::class, data: $data);
         $form->remove('delete');
+        $form->setData($data);
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/scope/list'
+                    route: 'zfcadmin/oauth2/service/list'
                 );
             }
 
             if ($form->isValid()) {
-                $scope = new Scope();
-                $scope->setType(type: $data['type']);
-                $scope->setScope(scope: $data['scope']);
-                $scope->setIsDefault(isDefault: $data['is_default'] === '1');
+                /** @var Service $service */
+                $service = $form->getData();;
 
-                $this->oAuth2Service->save(entity: $scope);
+                $this->oAuth2Service->save(entity: $service);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-user-oauth2-scope-has-been-created-successfully"
+                        message: "txt-user-oauth2-service-has-been-created-successfully"
                     ),
                 );
 
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/scope/view',
+                    route: 'zfcadmin/oauth2/service/view',
                     params: [
-                        'id' => $scope->getId(),
+                        'id' => $service->getId(),
                     ]
                 );
             }
@@ -123,52 +120,42 @@ final class ScopeController extends AbstractActionController
 
     public function editAction(): Response|ViewModel
     {
-        /** @var Entity\OAuth\Scope $scope */
-        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$this->params('id'));
+        /** @var Entity\OAuth\Service $service */
+        $service = $this->oAuth2Service->find(entity: Service::class, id: (int)$this->params('id'));
 
-        if (null === $scope) {
+        if (null === $service) {
             return $this->notFoundAction();
         }
 
-        $data = array_merge(
-            [
-                'type' => $scope->getType(),
-                'scope' => $scope->getScope(),
-                'is_default' => $scope->isDefault(),
-            ],
-            $this->getRequest()->getPost()->toArray()
-        );
-
-        $form = new Form\OAuth2\Scope();
+        $data = $this->getRequest()->getPost()->toArray();
+        $form = $this->formService->prepare(classNameOrEntity: $service, data: $data);
         $form->setData($data);
-        $form->remove('delete');
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/scope/view',
+                    route: 'zfcadmin/oauth2/service/view',
                     params: [
-                        'id' => $scope->getId(),
+                        'id' => $service->getId(),
                     ]
                 );
             }
 
             if ($form->isValid()) {
-                $scope->setType(type: $data['type']);
-                $scope->setScope(scope: $data['scope']);
-                $scope->setIsDefault(isDefault: $data['is_default'] === '1');
+                /** @var Service $service */
+                $service = $form->getData();
 
-                $this->oAuth2Service->save(entity: $scope);
+                $this->oAuth2Service->save(entity: $service);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-user-oauth2-scope-has-been-updated-successfully"
+                        message: "txt-user-oauth2-service-has-been-updated-successfully"
                     ),
                 );
 
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/scope/view',
+                    route: 'zfcadmin/oauth2/service/view',
                     params: [
-                        'id' => $scope->getId(),
+                        'id' => $service->getId(),
                     ]
                 );
             }

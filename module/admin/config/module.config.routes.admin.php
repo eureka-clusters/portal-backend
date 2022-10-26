@@ -240,6 +240,55 @@ return [
                                     ],
                                 ],
                             ],
+                            'service' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/service',
+                                    'defaults' => [
+                                        'controller' => Controller\OAuth2\ServiceController::class,
+                                        'action' => 'list',
+                                    ],
+                                ],
+                                'may_terminate' => true,
+                                'child_routes' => [
+                                    'list' => [
+                                        'type' => Segment::class,
+                                        'options' => [
+                                            'route' => '/list[/f-:encodedFilter][/page-:page].html',
+                                            'defaults' => [
+                                                'action' => 'list',
+                                            ],
+                                        ],
+                                    ],
+                                    'view' => [
+                                        'type' => Segment::class,
+                                        'options' => [
+                                            'route' => '/view/[:id].html',
+                                            'defaults' => [
+                                                'action' => 'view',
+                                            ],
+                                        ],
+                                    ],
+                                    'new' => [
+                                        'type' => Segment::class,
+                                        'options' => [
+                                            'route' => '/new.html',
+                                            'defaults' => [
+                                                'action' => 'new',
+                                            ],
+                                        ],
+                                    ],
+                                    'edit' => [
+                                        'type' => Segment::class,
+                                        'options' => [
+                                            'route' => '/edit/[:id].html',
+                                            'defaults' => [
+                                                'action' => 'edit',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
                 ],

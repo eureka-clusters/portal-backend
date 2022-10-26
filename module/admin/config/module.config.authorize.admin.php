@@ -22,6 +22,11 @@ return [
                 ['route' => 'zfcadmin/oauth2/client/view', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/oauth2/client/edit', 'roles' => [Role::ROLE_ADMIN]],
 
+                ['route' => 'zfcadmin/oauth2/service/list', 'roles' => [Role::ROLE_ADMIN]],
+                ['route' => 'zfcadmin/oauth2/service/new', 'roles' => [Role::ROLE_ADMIN]],
+                ['route' => 'zfcadmin/oauth2/service/view', 'roles' => [Role::ROLE_ADMIN]],
+                ['route' => 'zfcadmin/oauth2/service/edit', 'roles' => [Role::ROLE_ADMIN]],
+
                 ['route' => 'zfcadmin/role/view', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/role/new', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/role/list', 'roles' => [Role::ROLE_ADMIN]],

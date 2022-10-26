@@ -7,10 +7,12 @@ namespace Admin;
 use Admin\Controller\CacheController;
 use Admin\Controller\OAuth2\ClientController;
 use Admin\Controller\OAuth2\ScopeController;
+use Admin\Controller\OAuth2\ServiceController;
 use Admin\Controller\RoleController;
 use Admin\Controller\UserController;
 use Admin\Navigation\Invokable\OAuth2\ClientLabel;
 use Admin\Navigation\Invokable\OAuth2\ScopeLabel;
+use Admin\Navigation\Invokable\OAuth2\ServiceLabel;
 use Admin\Navigation\Invokable\RoleLabel;
 use Admin\Navigation\Invokable\UserLabel;
 use Admin\Provider\UserProvider;
@@ -19,8 +21,11 @@ use Admin\Service\ApiService;
 use Admin\Service\UserService;
 use Admin\View\Helper\OAuth2\ClientLink;
 use Admin\View\Helper\OAuth2\ScopeLink;
+use Admin\View\Helper\OAuth2\ServiceLink;
 use Admin\View\Helper\RoleLink;
 use Admin\View\Helper\UserLink;
+use Api\InputFilter\OAuth\ServiceFilter;
+use Application\Factory\InputFilterFactory;
 use Application\Factory\InvokableFactory;
 use Application\View\Factory\LinkHelperFactory;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
@@ -37,9 +42,9 @@ $config = [
             RoleController::class => ConfigAbstractFactory::class,
             UserController::class => ConfigAbstractFactory::class,
             ScopeController::class => ConfigAbstractFactory::class,
+            ServiceController::class => ConfigAbstractFactory::class,
             ClientController::class => ConfigAbstractFactory::class,
             CacheController::class => ConfigAbstractFactory::class,
-
         ],
     ],
     'service_manager' => [
@@ -50,8 +55,10 @@ $config = [
             AdminService::class => ConfigAbstractFactory::class,
             ApiService::class => ConfigAbstractFactory::class,
             UserService::class => ConfigAbstractFactory::class,
+            ServiceFilter::class => InputFilterFactory::class, //Has to be in Api namespace
             RoleLabel::class => InvokableFactory::class,
             UserLabel::class => InvokableFactory::class,
+            ServiceLabel::class => InvokableFactory::class,
             ClientLabel::class => InvokableFactory::class,
             ScopeLabel::class => InvokableFactory::class,
         ],
@@ -60,8 +67,9 @@ $config = [
         'aliases' => [
             'roleLink' => RoleLink::class,
             'userLink' => UserLink::class,
-            'oauth2clientlink' => ClientLink::class,
-            'oauth2scopelink' => ScopeLink::class,
+            'oauth2ClientLink' => ClientLink::class,
+            'oauth2ScopeLink' => ScopeLink::class,
+            'oauth2ServiceLink' => ServiceLink::class,
 
         ],
         'factories' => [
@@ -69,6 +77,7 @@ $config = [
             UserLink::class => LinkHelperFactory::class,
             ClientLink::class => LinkHelperFactory::class,
             ScopeLink::class => LinkHelperFactory::class,
+            ServiceLink::class => LinkHelperFactory::class,
 
         ],
     ],

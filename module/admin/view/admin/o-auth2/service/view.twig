@@ -1,0 +1,42 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(translate("txt-oauth2-service")) %}
+
+<h1>{{ translate("txt-oauth2-service") }}  {{ oauth2ServiceLink(service,'edit','button') }}</h1>
+
+<p>{{ translate("txt-oauth2-service-explanation") }}</p>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ service.name }}</dd>
+
+    <dt>{{ translate("txt-service-client-id") }}</dt>
+    <dd>{{ service.clientId }}</dd>
+
+    <dt>{{ translate("txt-service-client-secret") }}</dt>
+    <dd class="font-monospace">{{ service.clientSecret[0:3] }}***</dd>
+
+    <dt>{{ translate("txt-service-redirect-url") }}</dt>
+    <dd>{{ service.redirectUrl }}</dd>
+
+    <dt>{{ translate("txt-service-authorization-url") }}</dt>
+    <dd>{{ service.authorizationUrl }}</dd>
+
+    <dt>{{ translate("txt-service-access-token-url") }}</dt>
+    <dd>{{ service.accessTokenUrl }}</dd>
+
+    <dt>{{ translate("txt-service-profile-url") }}</dt>
+    <dd>{{ service.profileUrl }}</dd>
+
+    <dt>{{ translate("txt-service-allowed-clusters") }}</dt>
+    {% for cluster in service.allowedClusters %}
+        <dd>{{ cluster.name }}</dd>
+    {% endfor %}
+
+    <dt>{{ translate("txt-oauth2-service-scope") }}</dt>
+    <dd>{{ oauth2ScopeLink(service.scope,'view') }}</dd>
+</dl>
+
+<form method="post">
+    <button type="submit" class="btn btn-warning">{{ translate("txt-test-access") }}</button>
+</form>
+

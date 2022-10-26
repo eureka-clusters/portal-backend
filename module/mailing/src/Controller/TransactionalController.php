@@ -6,7 +6,6 @@ namespace Mailing\Controller;
 
 use Admin\Entity\User;
 use Application\Controller\Plugin\GetFilter;
-use Application\Controller\Plugin\Preferences;
 use Application\Service\FormService;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
@@ -24,11 +23,9 @@ use Mailing\Service\MailingService;
 
 use function ceil;
 use function sprintf;
-use function urlencode;
 
 /**
  * @method GetFilter getFilter()
- * @method Preferences preferences()
  * @method FlashMessenger flashMessenger()
  * @method User identity()
  */

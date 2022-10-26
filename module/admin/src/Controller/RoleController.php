@@ -4,13 +4,27 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use Admin\Entity;use Admin\Entity\Role;use Admin\Form\RoleFilter;use Admin\Service\AdminService;use Application\Controller\Plugin\GetFilter;use Application\Controller\Plugin\Preferences;use Application\Service\FormService;use Doctrine\Common\Collections\ArrayCollection;use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;use Laminas\Http\Response;use Laminas\I18n\Translator\TranslatorInterface;use Laminas\Mvc\Controller\AbstractActionController;use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;use Laminas\Paginator\Paginator;use Laminas\View\Model\ViewModel;use function ceil;use function sprintf;
+use Admin\Entity;
+use Admin\Entity\Role;
+use Admin\Form\RoleFilter;
+use Admin\Service\AdminService;
+use Application\Controller\Plugin\GetFilter;
+use Application\Service\FormService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Laminas\Http\Response;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
+use Laminas\Paginator\Paginator;
+use Laminas\View\Model\ViewModel;
+
+use function ceil;
+use function sprintf;
 
 /**
- * final class RoleController
- *
  * @method GetFilter getFilter()
- * @method Preferences preferences()
  * @method FlashMessenger flashMessenger()
  */
 final class RoleController extends AbstractActionController
@@ -37,7 +51,11 @@ final class RoleController extends AbstractActionController
         );
         $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
-        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator->setPageRange(
+            pageRange: ceil(
+            num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+        )
+        );
 
         $form->setData($filterPlugin->getFilterFormData());
 

@@ -1,0 +1,28 @@
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% set serviceFieldset = form.get('api_entity_oauth_service') %}
+
+{{ lbs5formelement(serviceFieldset.get('id')) }}
+{{ lbs5formelement(serviceFieldset.get('name')) }}
+{{ lbs5formelement(serviceFieldset.get('clientId')) }}
+{{ lbs5formelement(serviceFieldset.get('clientSecret')) }}
+{{ lbs5formelement(serviceFieldset.get('redirectUrl')) }}
+{{ lbs5formelement(serviceFieldset.get('authorizationUrl')) }}
+{{ lbs5formelement(serviceFieldset.get('accessTokenUrl')) }}
+{{ lbs5formelement(serviceFieldset.get('profileUrl')) }}
+{{ lbs5formelement(serviceFieldset.get('allowedClusters')) }}
+{{ lbs5formelement(serviceFieldset.get('scope')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ lbs5formelement(form.get('submit')) }}
+        {{ lbs5formelement(form.get('cancel')) }}
+        {% if form.has('delete') %}
+            {{ lbs5formelement(form.get('delete')) }}
+        {% endif %}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}

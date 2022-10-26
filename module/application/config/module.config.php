@@ -9,7 +9,6 @@ use Application\Authentication\Storage\AuthenticationStorage;
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
 use Application\Controller\Plugin\GetFilter;
-use Application\Controller\Plugin\Preferences;
 use Application\Event\InjectAclInNavigation;
 use Application\Event\SetTitle;
 use Application\Event\UpdateNavigation;

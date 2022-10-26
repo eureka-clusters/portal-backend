@@ -151,6 +151,42 @@ return [
                             ],
                         ],
                     ],
+                    'oauth2-services' => [
+                        'label' => _('txt-oauth2-services-list'),
+                        'route' => 'zfcadmin/oauth2/service/list',
+                        'pages' => [
+                            'view' => [
+                                'label' => _('txt-oauth2-service'),
+                                'route' => 'zfcadmin/oauth2/service/view',
+                                'params' => [
+                                    'entities' => [
+                                        'id' => \Api\Entity\OAuth\Service::class,
+                                    ],
+                                    'invokables' => [
+                                        \Admin\Navigation\Invokable\OAuth2\ServiceLabel::class,
+                                    ],
+                                ],
+                                'pages' => [
+                                    'edit' => [
+                                        'label' => _('txt-edit-service'),
+                                        'route' => 'zfcadmin/oauth2/service/edit',
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => \Api\Entity\OAuth\Service::class,
+                                            ],
+                                            'invokables' => [
+                                                \Admin\Navigation\Invokable\OAuth2\ServiceLabel::class,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'new' => [
+                                'label' => _("txt-new-oauth2-services"),
+                                'route' => 'zfcadmin/oauth2/service/new',
+                            ],
+                        ],
+                    ],
                 ],
 
             ],

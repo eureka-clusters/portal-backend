@@ -38,11 +38,14 @@ class Role extends AbstractEntity implements RoleInterface
     #[Annotation\Type(Hidden::class)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(unique: true)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'label' => 'txt-role-description',
         'help-block' => 'txt-role-description-help-block'
+    ])]
+    #[Annotation\Attributes(attributes: [
+        'label' => 'txt-role-description',
+        'placeholder' => 'txt-role-description-placeholder'
     ])]
     private string $description = '';
 

@@ -4,19 +4,4 @@
 <h1>{{ translate("txt-new-oauth2-scope-title") }}</h1>
 <p>{{ translate("txt-new-oauth2-scope-explanation") }}</p>
 
-{% do form.prepare() %}
-{{ form().openTag(form)|raw }}
-
-{{ lbs5formelement(form.get('type')) }}
-{{ lbs5formelement(form.get('scope')) }}
-{{ lbs5formelement(form.get('is_default')) }}
-
-<div class="row mb-3">
-    <div class="offset-sm-3 col-sm-9">
-        {{ formelement(form.get('csrf')) }}
-        {{ lbs5formelement(form.get('submit')) }}
-        {{ lbs5formelement(form.get('cancel')) }}
-    </div>
-</div>
-
-{{ form().closeTag()|raw }}
+{% include 'admin/partial/form/oauth2/scope' %}
