@@ -45,11 +45,11 @@ final class PaginationLink
         return sprintf(
             $uri,
             $this->url->__invoke(
-                $this->routeMatch->getMatchedRouteName(),
-                $params,
-                ['query' => $this->request->getQuery()->toArray()]
+                name: $this->routeMatch->getMatchedRouteName(),
+                params: $params,
+                options: ['query' => $this->request->getQuery()->toArray()]
             ),
-            sprintf($this->translator->translate('txt-go-to-page-%s'), $show),
+            sprintf($this->translator->translate(message: 'txt-go-to-page-%s'), $show),
             $show
         );
     }

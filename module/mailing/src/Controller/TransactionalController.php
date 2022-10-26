@@ -51,19 +51,23 @@ final class TransactionalController extends AbstractActionController
         $page = $this->params('page');
 
         $transactionalQuery = $this->mailingService->findFiltered(
-            Transactional::class,
-            $filterPlugin->getFilter()
+            entity: Transactional::class,
+            formResult: $filterPlugin->getFilter()
         );
 
-        $paginator = new Paginator(new PaginatorAdapter(new ORMPaginator($transactionalQuery, false)));
-        $paginator::setDefaultItemCountPerPage($this->preferences()->getItemsPerPage());
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange(ceil($paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator = new Paginator(
+            adapter: new PaginatorAdapter(
+            paginator: new ORMPaginator(
+            query: $transactionalQuery,
+            fetchJoinCollection: false)));
+        $paginator::setDefaultItemCountPerPage(count: $this->preferences()->getItemsPerPage());
+        $paginator->setCurrentPageNumber(pageNumber: $page);
+        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
-        $form->setData($filterPlugin->getFilterFormData());
+        $form->setData(data: $filterPlugin->getFilterFormData());
 
         return new ViewModel(
-            [
+            variables: [
                 'paginator' => $paginator,
                 'form' => $form,
                 
@@ -76,7 +80,7 @@ final class TransactionalController extends AbstractActionController
     public function viewAction(): Response|ViewModel
     {
         /** @var Entity\Transactional $transactional */
-        $transactional = $this->mailingService->find(Transactional::class, (int)$this->params('id'));
+        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int)$this->params('id'));
 
         if (null === $transactional) {
             return $this->notFoundAction();
@@ -84,69 +88,70 @@ final class TransactionalController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $email = $this->emailService->createNewTransactionalEmailBuilder(transactionalOrKey: $transactional);
-            $email->setSender(null, $this->identity());
-            $email->addUserTo($this->identity());
+            $email->setSender(setSender: null, ownerOrLoggedInUser: $this->identity());
+            $email->addUserTo(user: $this->identity());
 
-            if ($this->emailService->send($email)) {
+            if ($this->emailService->send(emailBuilder: $email)) {
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-transactional-email-with-name-%s-has-been-sent-successfully'),
+                    message: sprintf(
+                        $this->translator->translate(
+                            message: 'txt-transactional-email-with-name-%s-has-been-sent-successfully'),
                         $transactional->getName()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/mailing/transactional/view',
-                    [
+                    route: 'zfcadmin/mailing/transactional/view',
+                    params: [
                         'id' => $transactional->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['transactional' => $transactional]);
+        return new ViewModel(variables: ['transactional' => $transactional]);
     }
 
     public function newAction(): Response|ViewModel
     {
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form = $this->formService->prepare(Transactional::class, $data);
-        $form->remove('delete');
+        $form = $this->formService->prepare(classNameOrEntity: Transactional::class, data: $data);
+        $form->remove(elementOrFieldset: 'delete');
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
-                return $this->redirect()->toRoute('zfcadmin/mailing/transactional/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/mailing/transactional/list');
             }
 
             if ($form->isValid()) {
                 /** @var Entity\Transactional $transactional */
                 $transactional = $form->getData();
-                $this->mailingService->save($transactional);
+                $this->mailingService->save(entity: $transactional);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-transactional-%s-has-been-created-successfully'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-transactional-%s-has-been-created-successfully'),
                         $transactional->getName()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/mailing/transactional/view',
-                    [
+                    route: 'zfcadmin/mailing/transactional/view',
+                    params: [
                         'id' => $transactional->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['form' => $form]);
+        return new ViewModel(variables: ['form' => $form]);
     }
 
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Transactional $transactional */
-        $transactional = $this->mailingService->find(Transactional::class, (int)$this->params('id'));
+        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int)$this->params('id'));
 
         if (null === $transactional) {
             return $this->notFoundAction();
@@ -154,26 +159,29 @@ final class TransactionalController extends AbstractActionController
 
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form = $this->formService->prepare($transactional, $data);
+        $form = $this->formService->prepare(classNameOrEntity: $transactional, data: $data);
 
-        if (!$this->mailingService->canDeleteTransactional($transactional)) {
-            $form->remove('delete');
+        if (!$this->mailingService->canDeleteTransactional(transactional: $transactional)) {
+            $form->remove(elementOrFieldset: 'delete');
 
-            $form->get('mailing_entity_transactional')->get('key')->setAttribute('disabled', 'disabled');
-            $form->getInputFilter()->get('mailing_entity_transactional')->get('key')->setRequired(false);
+            $form->get(elementOrFieldset: 'mailing_entity_transactional')->get(elementOrFieldset: 'key')->setAttribute(
+                key: 'disabled',
+                value: 'disabled');
+            $form->getInputFilter()->get(name: 'mailing_entity_transactional')->get(name: 'key')->setRequired(
+                required: false);
         }
 
         if ($this->getRequest()->isPost()) {
-            if (isset($data['delete']) && $this->mailingService->canDeleteTransactional($transactional)) {
-                $this->mailingService->delete($transactional);
+            if (isset($data['delete']) && $this->mailingService->canDeleteTransactional(transactional: $transactional)) {
+                $this->mailingService->delete(abstractEntity: $transactional);
 
-                return $this->redirect()->toRoute('zfcadmin/mailing/transactional/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/mailing/transactional/list');
             }
 
             if (isset($data['cancel'])) {
                 return $this->redirect()->toRoute(
-                    'zfcadmin/mailing/transactional/view',
-                    [
+                    route: 'zfcadmin/mailing/transactional/view',
+                    params: [
                         'id' => $transactional->getId(),
                     ]
                 );
@@ -182,24 +190,24 @@ final class TransactionalController extends AbstractActionController
             if ($form->isValid()) {
                 /** @var Entity\Transactional $transactional */
                 $transactional = $form->getData();
-                $this->mailingService->save($transactional);
+                $this->mailingService->save(entity: $transactional);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-transactional-%s-has-been-updated-successfully'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-transactional-%s-has-been-updated-successfully'),
                         $transactional->getName()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/mailing/transactional/view',
-                    [
+                    route: 'zfcadmin/mailing/transactional/view',
+                    params: [
                         'id' => $transactional->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['form' => $form, 'transactional' => $transactional]);
+        return new ViewModel(variables: ['form' => $form, 'transactional' => $transactional]);
     }
 }

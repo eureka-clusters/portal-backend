@@ -19,12 +19,12 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetch($slug = null)
     {
-        $partner = $this->partnerService->findPartnerBySlug($slug);
+        $partner = $this->partnerService->findPartnerBySlug(slug: $slug);
 
         if (null === $partner) {
-            return new ApiProblem(404, 'The selected partner cannot be found');
+            return new ApiProblem(status: 404, detail: 'The selected partner cannot be found');
         }
 
-        return $this->partnerProvider->generateArray($partner);
+        return $this->partnerProvider->generateArray(partner: $partner);
     }
 }

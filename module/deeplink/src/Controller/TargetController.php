@@ -48,34 +48,36 @@ final class TargetController extends AbstractActionController
                 $this->deeplinkService->deleteInactiveDeeplinks();
 
                 $this->flashMessenger()->addSuccessMessage(
-                    $this->translator->translate('txt-all-expired-deeplinks-have-been-removed-successfully')
+                    message: $this->translator->translate(
+                        message: 'txt-all-expired-deeplinks-have-been-removed-successfully')
                 );
 
-                return $this->redirect()->toRoute('zfcadmin/deeplink/target/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
             }
 
             if (isset($data['deleteTargets'])) {
-                if (isset($data['target']) && is_array($data['target'])) {
+                if (isset($data['target']) && is_array(value: $data['target'])) {
                     foreach ($data['target'] as $targetId) {
                         /** @var Entity\Target $target */
-                        $target = $this->deeplinkService->find(Target::class, (int)$targetId);
-                        $this->deeplinkService->delete($target);
+                        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$targetId);
+                        $this->deeplinkService->delete(abstractEntity: $target);
                     }
 
                     $this->flashMessenger()->addSuccessMessage(
-                        sprintf(
-                            $this->translator->translate('txt-%s-deeplink-targets-have-been-removed-successfully'),
-                            is_countable($data['target']) ? count($data['target']) : 0
+                        message: sprintf(
+                            $this->translator->translate(
+                                message: 'txt-%s-deeplink-targets-have-been-removed-successfully'),
+                            is_countable(value: $data['target']) ? count($data['target']) : 0
                         )
                     );
                 }
 
-                return $this->redirect()->toRoute('zfcadmin/deeplink/target/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
             }
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'targets'         => $targets,
                 'form'            => $form,
                 'deeplinkService' => $this->deeplinkService,
@@ -86,14 +88,14 @@ final class TargetController extends AbstractActionController
     public function viewAction(): ViewModel
     {
         /** @var Entity\Target $target */
-        $target = $this->deeplinkService->find(Target::class, (int)$this->params('id'));
+        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$this->params('id'));
 
         if (null === $target) {
             return $this->notFoundAction();
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'target'          => $target,
                 'router'          => $this->router,
                 'deeplinkService' => $this->deeplinkService,
@@ -104,37 +106,37 @@ final class TargetController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Target $target */
-        $target = $this->deeplinkService->find(Target::class, (int)$this->params('id'));
+        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$this->params('id'));
 
         if (null === $target) {
             return $this->notFoundAction();
         }
 
         $data = $this->getRequest()->getPost()->toArray();
-        $form = $this->formService->prepare($target, $data);
+        $form = $this->formService->prepare(classNameOrEntity: $target, data: $data);
 
-        if (!$this->deeplinkService->targetCanBeDeleted($target)) {
-            $form->remove('delete');
+        if (!$this->deeplinkService->targetCanBeDeleted(target: $target)) {
+            $form->remove(elementOrFieldset: 'delete');
         }
 
         if ($this->getRequest()->isPost()) {
-            if (isset($data['delete']) && $this->deeplinkService->targetCanBeDeleted($target)) {
+            if (isset($data['delete']) && $this->deeplinkService->targetCanBeDeleted(target: $target)) {
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-deeplink-target-%s-has-successfully-been-deleted'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-deeplink-target-%s-has-successfully-been-deleted'),
                         $target->getTarget()
                     )
                 );
 
-                $this->deeplinkService->delete($target);
+                $this->deeplinkService->delete(abstractEntity: $target);
 
-                return $this->redirect()->toRoute('zfcadmin/deeplink/target/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
             }
 
             if (isset($data['cancel'])) {
                 return $this->redirect()->toRoute(
-                    'zfcadmin/deeplink/target/view',
-                    [
+                    route: 'zfcadmin/deeplink/target/view',
+                    params: [
                         'id' => $target->getId(),
                     ]
                 );
@@ -143,61 +145,61 @@ final class TargetController extends AbstractActionController
             if ($form->isValid()) {
                 /** @var Entity\Target $target */
                 $target = $form->getData();
-                $this->deeplinkService->save($target);
+                $this->deeplinkService->save(entity: $target);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-deeplink-target-%s-has-successfully-been-updated'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-deeplink-target-%s-has-successfully-been-updated'),
                         $target->getTarget()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/deeplink/target/view',
-                    [
+                    route: 'zfcadmin/deeplink/target/view',
+                    params: [
                         'id' => $target->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['form' => $form, 'target' => $target]);
+        return new ViewModel(variables: ['form' => $form, 'target' => $target]);
     }
 
     public function newAction(): Response|ViewModel
     {
         $data = $this->getRequest()->getPost()->toArray();
-        $form = $this->formService->prepare(Target::class, $data);
-        $form->remove('delete');
+        $form = $this->formService->prepare(classNameOrEntity: Target::class, data: $data);
+        $form->remove(elementOrFieldset: 'delete');
 
-        $form->setData($data);
+        $form->setData(data: $data);
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
-                return $this->redirect()->toRoute('zfcadmin/deeplink/target/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
             }
 
             if ($form->isValid()) {
                 /** @var Entity\Target $target */
                 $target = $form->getData();
-                $this->deeplinkService->save($target);
+                $this->deeplinkService->save(entity: $target);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-deeplink-target-%s-has-successfully-been-created'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-deeplink-target-%s-has-successfully-been-created'),
                         $target->getTarget()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/deeplink/target/view',
-                    [
+                    route: 'zfcadmin/deeplink/target/view',
+                    params: [
                         'id' => $target->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['form' => $form]);
+        return new ViewModel(variables: ['form' => $form]);
     }
 }

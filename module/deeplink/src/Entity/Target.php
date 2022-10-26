@@ -22,32 +22,32 @@ use Mailing\Entity\Deeplink;
 
 #[ORM\Table(name: 'deeplink_target')]
 #[ORM\Entity(repositoryClass: \Deeplink\Repository\Target::class)]
-#[Hydrator(ObjectPropertyHydrator::class)]
-#[Name('deeplink_target')]
+#[Hydrator(type: ObjectPropertyHydrator::class)]
+#[Name(name: 'deeplink_target')]
 class Target extends AbstractEntity
 {
     #[ORM\Column(type: 'integer')]
-    #[Type(Hidden::class)]
+    #[Type(type: Hidden::class)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
     #[ORM\Column(unique: true)]
-    #[Type(Text::class)]
-    #[Options([
+    #[Type(type: Text::class)]
+    #[Options(options: [
         'label'      => 'txt-deeplink-target-target-label',
         'help-block' => 'txt-deeplink-target-target-help-block',
     ])]
-    #[Attributes(['placeholder' => 'txt-deeplink-target-target-placeholder'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-deeplink-target-target-placeholder'])]
     private ?string $target = null;
 
     #[ORM\Column]
-    #[Type(Text::class)]
-    #[Options([
+    #[Type(type: Text::class)]
+    #[Options(options: [
         'label'      => 'txt-deeplink-target-route-label',
         'help-block' => 'txt-deeplink-target-route-help-block',
     ])]
-    #[Attributes(['placeholder' => 'txt-deeplink-target-route-placeholder'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-deeplink-target-route-placeholder'])]
     private string $route = '';
 
     #[ORM\OneToMany(mappedBy: 'target', targetEntity: \Deeplink\Entity\Deeplink::class, cascade: ['persist', 'remove'])]

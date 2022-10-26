@@ -28,14 +28,14 @@ final class Recipient
 
         $emailValidator = new EmailAddress();
 
-        if (!$emailValidator->isValid($this->email)) {
+        if (!$emailValidator->isValid(value: $this->email)) {
             $invalidReasons[] = sprintf('Email address (%s) is invalid', $this->email);
         }
 
         return $invalidReasons;
     }
 
-    #[ArrayShape(['Email' => "string", 'Name' => "string"])] public function toArray(): array
+    #[ArrayShape(shape: ['Email' => "string", 'Name' => "string"])] public function toArray(): array
     {
         return [
             'Email' => $this->email,
@@ -45,6 +45,6 @@ final class Recipient
 
     public function toAddress(): Address
     {
-        return new Address($this->email, $this->name);
+        return new Address(email: $this->email, name: $this->name);
     }
 }

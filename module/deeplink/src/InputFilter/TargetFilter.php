@@ -18,14 +18,14 @@ final class TargetFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'target',
                 'required'   => true,
                 'validators' => [
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Target::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Target::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => ['target'],
@@ -36,7 +36,7 @@ final class TargetFilter extends InputFilter
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'route',
                 'required'   => true,
                 'validators' => [
@@ -51,7 +51,7 @@ final class TargetFilter extends InputFilter
                                  * Try to assemble a route and if it succeeds return true
                                  */
                                 try {
-                                    $routeStack->assemble([], ['name' => $value]);
+                                    $routeStack->assemble(params: [], options: ['name' => $value]);
 
                                     return true;
                                 } catch (RuntimeException) {
@@ -64,6 +64,6 @@ final class TargetFilter extends InputFilter
             ]
         );
 
-        $this->add($inputFilter, 'deeplink_entity_target');
+        $this->add(input: $inputFilter, name: 'deeplink_entity_target');
     }
 }

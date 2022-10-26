@@ -23,25 +23,28 @@ abstract class AbstractService implements HasPermitInterface
 
     public function findAll(string $entity): array
     {
-        return $this->entityManager->getRepository($entity)->findAll();
+        return $this->entityManager->getRepository(entityName: $entity)->findAll();
     }
 
     public function find(string $entity, int $id): ?AbstractEntity
     {
-        return $this->entityManager->getRepository($entity)->find($id);
+        return $this->entityManager->getRepository(entityName: $entity)->find(id: $id);
     }
 
     public function findByName(string $entity, string $column, string $name): ?AbstractEntity
     {
-        return $this->entityManager->getRepository($entity)->findOneBy([$column => $name]);
+        return $this->entityManager->getRepository(entityName: $entity)->findOneBy(criteria: [$column => $name]);
     }
 
     public function findFiltered(string $entity, SearchFormResult $formResult): QueryBuilder
     {
         /** @var FilteredObjectRepository $repository */
-        $repository = $this->entityManager->getRepository($entity);
+        $repository = $this->entityManager->getRepository(entityName: $entity);
 
-        if (!in_array(FilteredObjectRepository::class, class_implements($repository), true)) {
+        if (!in_array(
+            needle: FilteredObjectRepository::class,
+            haystack: class_implements(object_or_class: $repository),
+            strict: true)) {
             throw new \InvalidArgumentException(
                 message: sprintf(
                     'The repository of %s should implement %s',
@@ -51,14 +54,14 @@ abstract class AbstractService implements HasPermitInterface
             );
         }
 
-        return $repository->findFiltered($formResult);
+        return $repository->findFiltered(searchFormResult: $formResult);
     }
 
 
     public function save(AbstractEntity $entity): AbstractEntity
     {
-        if (!$this->entityManager->contains($entity)) {
-            $this->entityManager->persist($entity);
+        if (!$this->entityManager->contains(entity: $entity)) {
+            $this->entityManager->persist(entity: $entity);
         }
         $this->entityManager->flush();
 
@@ -67,13 +70,13 @@ abstract class AbstractService implements HasPermitInterface
 
     public function delete(AbstractEntity $abstractEntity): void
     {
-        $this->entityManager->remove($abstractEntity);
+        $this->entityManager->remove(entity: $abstractEntity);
         $this->entityManager->flush();
     }
 
     public function refresh(AbstractEntity $abstractEntity): void
     {
-        $this->entityManager->refresh($abstractEntity);
+        $this->entityManager->refresh(entity: $abstractEntity);
     }
 
     public function hasPermit(UserAsRoleInterface $user, object $resource, array|string $privilege): bool

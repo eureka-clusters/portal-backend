@@ -60,9 +60,9 @@ class SetTitle extends AbstractListenerAggregate
 
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadLink(...), 1000);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadMeta(...), 1000);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadScript(...), 1000);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadTitle(...), 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadLink(...), priority: 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadMeta(...), priority: 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadScript(...), priority: 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadTitle(...), priority: 1000);
     }
 }

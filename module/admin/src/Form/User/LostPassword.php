@@ -18,11 +18,11 @@ final class LostPassword extends Form implements InputFilterProviderInterface
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('action', '');
-        $this->setAttribute('class', 'form-horizontal');
+        $this->setAttribute(key: 'action', value: '');
+        $this->setAttribute(key: 'class', value: 'form-horizontal');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'email',
                 'type' => Email::class,
                 'options' => [
@@ -36,7 +36,7 @@ final class LostPassword extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
                 'options' => [
@@ -47,7 +47,7 @@ final class LostPassword extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => 'submit',
                 'attributes' => [
@@ -57,7 +57,7 @@ final class LostPassword extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => 'cancel',
                 'attributes' => [

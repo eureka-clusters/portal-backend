@@ -22,7 +22,7 @@ use function sprintf;
 
 #[ORM\Table(name: 'mailing_sender')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\Sender::class)]
-#[Name('mailing_sender')]
+#[Name(name: 'mailing_sender')]
 class Sender extends AbstractEntity
 {
     final public const SENDER_OWNER = 1;
@@ -32,19 +32,19 @@ class Sender extends AbstractEntity
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Type(Hidden::class)]
+    #[Type(type: Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-sender-name-help-block'])]
-    #[Attributes(['label' => 'txt-sender-name-label', 'placeholder' => 'txt-sender-name-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-sender-name-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-sender-name-label', 'placeholder' => 'txt-sender-name-placeholder'])]
     private string $sender = '';
 
     #[ORM\Column]
-    #[Type(Email::class)]
-    #[Options(['help-block' => 'txt-sender-email-help-block'])]
-    #[Attributes(['label' => 'txt-sender-email-label', 'placeholder' => 'txt-sender-email-placeholder'])]
+    #[Type(type: Email::class)]
+    #[Options(options: ['help-block' => 'txt-sender-email-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-sender-email-label', 'placeholder' => 'txt-sender-email-placeholder'])]
     private string $email = '';
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Transactional::class, cascade: ['persist'])]

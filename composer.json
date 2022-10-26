@@ -61,7 +61,9 @@
       "Admin\\": "module/admin/src/",
       "Api\\": "module/api/src/",
       "Application\\": "module/application/src/",
-      "Cluster\\": "module/cluster/src/"
+      "Cluster\\": "module/cluster/src/",
+      "Deeplink\\": "module/deeplink/src/",
+      "Mailing\\": "module/mailing/src/"
     }
   },
   "autoload-dev": {
@@ -69,7 +71,9 @@
       "AdminTest\\": "module/admin/test",
       "ApiTest\\": "module/api/test",
       "ApplicationTest\\": "module/application/test",
-      "ClusterTest\\": "module/cluster/test"
+      "ClusterTest\\": "module/cluster/test",
+      "DeeplinkTest\\": "module/deeplink/test",
+      "MailingTest\\": "module/mailing/test"
     }
   },
   "extra": {

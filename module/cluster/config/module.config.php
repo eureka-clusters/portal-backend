@@ -67,7 +67,7 @@ $config = [
         ],
     ],
 ];
-foreach (Glob::glob(__DIR__ . '/module.config.{,*}.php', Glob::GLOB_BRACE) as $file) {
-    $config = ArrayUtils::merge($config, include $file);
+foreach (Glob::glob(pattern: __DIR__ . '/module.config.{,*}.php', flags: Glob::GLOB_BRACE) as $file) {
+    $config = ArrayUtils::merge(a: $config, b: include $file);
 }
 return $config;

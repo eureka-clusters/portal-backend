@@ -17,7 +17,7 @@ final class CanAssemble extends AbstractHelper
     public function __invoke(string $route): bool
     {
         try {
-            $this->router->assemble([], ['name' => $route]);
+            $this->router->assemble(params: [], options: ['name' => $route]);
 
             return true;
         } catch (RuntimeException) {

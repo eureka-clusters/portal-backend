@@ -33,7 +33,7 @@ final class ClientLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/oauth2/client/new',
-                    'text'  => $this->translator->translate('txt-new-oauth2-client'),
+                    'text'  => $this->translator->translate(message: 'txt-new-oauth2-client'),
                 ];
                 break;
             case 'view':
@@ -47,7 +47,7 @@ final class ClientLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/oauth2/client/edit',
-                    'text'  => $this->translator->translate('txt-edit-oauth2-client'),
+                    'text'  => $this->translator->translate(message: 'txt-edit-oauth2-client'),
                 ];
                 break;
         }
@@ -56,6 +56,6 @@ final class ClientLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

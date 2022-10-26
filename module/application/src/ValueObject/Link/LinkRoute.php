@@ -16,18 +16,18 @@ final class LinkRoute
     #[Pure] public static function fromArray(array $params): LinkRoute
     {
         return new self(
-            $params['route'] ?? '',
-            $params['routeParams'] ?? [],
-            $params['queryParams'] ?? null,
-            $params['fragment'] ?? null
+            route: $params['route'] ?? '',
+            routeParams: $params['routeParams'] ?? [],
+            queryParams: $params['queryParams'] ?? null,
+            fragment: $params['fragment'] ?? null
         );
     }
 
     public function parse(RouteStackInterface $router, string $serverUrl = ''): string
     {
         return $serverUrl . $router->assemble(
-            $this->routeParams,
-            ['name' => $this->route, 'query' => $this->queryParams, 'fragment' => $this->fragment]
+            params: $this->routeParams,
+                options: ['name' => $this->route, 'query' => $this->queryParams, 'fragment' => $this->fragment]
         );
     }
 }

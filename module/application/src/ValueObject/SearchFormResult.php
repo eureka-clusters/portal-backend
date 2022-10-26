@@ -37,7 +37,7 @@ final class SearchFormResult
     public function updateFromEncodedFilter(string $encodedFilter): SearchFormResult
     {
         $filter = (array)Json\Json::decode(
-            encodedValue: base64_decode($encodedFilter),
+            encodedValue: base64_decode(string: $encodedFilter),
             objectDecodeType: Json\Json::TYPE_ARRAY
         );
 
@@ -61,7 +61,7 @@ final class SearchFormResult
 
     public function getHash(): string
     {
-        return base64_encode(Json\Json::encode($this->toArray()));
+        return base64_encode(string: Json\Json::encode(valueToEncode: $this->toArray()));
     }
 
     public function toArray(): array
@@ -87,7 +87,7 @@ final class SearchFormResult
     public function setFilterByKey(string $key, mixed $value, bool $force = false): SearchFormResult
     {
         //Only set the value when we force it or when it does not exist
-        if ($force || !array_key_exists($key, $this->filter)) {
+        if ($force || !array_key_exists(key: $key, array: $this->filter)) {
             $this->filter[$key] = $value;
         }
 
@@ -96,7 +96,7 @@ final class SearchFormResult
 
     public function hasFilterByKey(string $key): bool
     {
-        return array_key_exists($key, $this->filter) && '' !== $this->filter[$key] && !empty($this->filter[$key]);
+        return array_key_exists(key: $key, array: $this->filter) && '' !== $this->filter[$key] && !empty($this->filter[$key]);
     }
 
     public function hasQuery(): bool
@@ -111,7 +111,7 @@ final class SearchFormResult
 
     public function setDirection(string $direction): SearchFormResult
     {
-        $this->direction = strtoupper($direction);
+        $this->direction = strtoupper(string: $direction);
         return $this;
     }
 
@@ -123,9 +123,9 @@ final class SearchFormResult
 
     public function getDirection(): string
     {
-        $direction = strtoupper($this->direction);
+        $direction = strtoupper(string: $this->direction);
 
-        if (!in_array($direction, [Criteria::ASC, Criteria::DESC], true)) {
+        if (!in_array(needle: $direction, haystack: [Criteria::ASC, Criteria::DESC], strict: true)) {
             return Criteria::DESC;
         }
 
@@ -135,7 +135,7 @@ final class SearchFormResult
     public function addFilters(array $filters): SearchFormResult
     {
         foreach ($filters as $key => $value) {
-            $this->addFilter($key, $value);
+            $this->addFilter(key: $key, value: $value);
         }
 
         return $this;
@@ -143,7 +143,7 @@ final class SearchFormResult
 
     public function addFilter(string $key, mixed $value): SearchFormResult
     {
-        if (array_key_exists($key, $this->filter)) {
+        if (array_key_exists(key: $key, array: $this->filter)) {
             $this->filter[$key] += $value;
         } else {
             $this->filter[$key] = $value;

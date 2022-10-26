@@ -31,6 +31,6 @@ abstract class AbstractNavigationInvokable implements NavigationInvokableInterfa
 
     protected function translate(string $string): string
     {
-        return $this->translator->translate($string);
+        return $this->translator->translate(message: $string);
     }
 }

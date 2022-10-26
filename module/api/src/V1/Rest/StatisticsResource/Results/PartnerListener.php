@@ -29,21 +29,21 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new Paginator(new ArrayAdapter());
+            return new Paginator(adapter: new ArrayAdapter());
         }
 
-        $encodedFilter = $this->getEvent()->getQueryParams()?->get('filter');
+        $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode($encodedFilter);
-        $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
+        $filter = base64_decode(string: $encodedFilter);
+        $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get('order', strtolower(Criteria::ASC));
+        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: strtolower(string: Criteria::ASC));
 
         $hasYears = !empty($arrayFilter['year']);
 
@@ -53,10 +53,10 @@ final class PartnerListener extends AbstractResourceListener
             sort: $sort,
             order: $order
         );
-        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
 
-        $doctrineORMAdapter->setProvider($hasYears ? $this->partnerYearProvider : $this->partnerProvider);
+        $doctrineORMAdapter->setProvider(provider: $hasYears ? $this->partnerYearProvider : $this->partnerProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

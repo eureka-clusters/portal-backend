@@ -20,8 +20,8 @@ class ModuleTest extends AbstractServiceTest
         $module = new Module();
         $config = $module->getConfig();
 
-        $this->assertArrayHasKey('service_manager', $config);
-        $this->assertArrayHasKey(ConfigAbstractFactory::class, $config);
+        $this->assertArrayHasKey(key: 'service_manager', array: $config);
+        $this->assertArrayHasKey(key: ConfigAbstractFactory::class, array: $config);
     }
 
     public function testInstantiationOfConfigAbstractFactories(): void
@@ -32,7 +32,7 @@ class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
-            if (str_contains((string) $service, 'Filter')) {
+            if (str_contains(haystack: (string) $service, needle: 'Filter')) {
                 continue;
             }
 
@@ -53,14 +53,14 @@ class ModuleTest extends AbstractServiceTest
                     $dependency = PluginManager::class;
                 }
 
-                $instantiateDependency = $this->getMockBuilder($dependency)->disableOriginalConstructor()->getMock();
+                $instantiateDependency = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
 
                 $instantiatedDependencies[] = $instantiateDependency;
             }
 
             $instance = new $service(...$instantiatedDependencies);
 
-            $this->assertInstanceOf($service, $instance);
+            $this->assertInstanceOf(expected: $service, actual: $instance);
         }
     }
 }

@@ -34,7 +34,7 @@ final class SenderController extends MailingAbstractController
         $page         = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
         $senderFilter    = $this->mailingService
-            ->findFiltered(Sender::class, $filterPlugin->getFilter());
+            ->findFiltered(entity: Sender::class, formResult: $filterPlugin->getFilter());
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(

@@ -16,16 +16,16 @@ final class Deeplink extends EntityRepository
     public function findActiveDeeplinksByTarget(Target $target): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('deeplink_entity_deeplink');
-        $qb->from(Entity\Deeplink::class, 'deeplink_entity_deeplink');
+        $qb->select(select: 'deeplink_entity_deeplink');
+        $qb->from(from: Entity\Deeplink::class, alias: 'deeplink_entity_deeplink');
 
         $qb->andWhere('deeplink_entity_deeplink.endDate >= :today');
-        $qb->setParameter('today', new DateTime(), Types::DATETIME_MUTABLE);
+        $qb->setParameter(key: 'today', value: new DateTime(), type: Types::DATETIME_MUTABLE);
 
         $qb->andWhere('deeplink_entity_deeplink.target = :target');
-        $qb->setParameter('target', $target);
+        $qb->setParameter(key: 'target', value: $target);
 
-        $qb->addOrderBy('deeplink_entity_deeplink.dateCreated', Criteria::ASC);
+        $qb->addOrderBy(sort: 'deeplink_entity_deeplink.dateCreated', order: Criteria::ASC);
 
         return $qb->getQuery()->getResult();
     }
@@ -33,9 +33,9 @@ final class Deeplink extends EntityRepository
     public function deleteInactiveDeeplinks(): void
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->delete(Entity\Deeplink::class, 'deeplink_entity_deeplink');
+        $qb->delete(delete: Entity\Deeplink::class, alias: 'deeplink_entity_deeplink');
         $qb->andWhere('deeplink_entity_deeplink.endDate < :today');
-        $qb->setParameter('today', new DateTime(), Types::DATETIME_MUTABLE);
+        $qb->setParameter(key: 'today', value: new DateTime(), type: Types::DATETIME_MUTABLE);
         $qb->getQuery()->execute();
     }
 }

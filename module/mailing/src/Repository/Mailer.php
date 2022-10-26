@@ -16,20 +16,20 @@ final class Mailer extends EntityRepository implements FilteredObjectRepository
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('mailing_entity_mailer');
-        $qb->from(Entity\Mailer::class, 'mailing_entity_mailer');
+        $qb->select(select: 'mailing_entity_mailer');
+        $qb->from(from: Entity\Mailer::class, alias: 'mailing_entity_mailer');
 
         $direction = $searchFormResult->getDirection();
 
         switch ($searchFormResult->getOrder()) {
             case 'service':
-                $qb->addOrderBy('mailing_entity_mailer.service', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_mailer.service', order: $direction);
                 break;
             case 'name':
-                $qb->addOrderBy('mailing_entity_mailer.name', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: $direction);
                 break;
             default:
-                $qb->addOrderBy('mailing_entity_mailer.name', Criteria::ASC);
+                $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: Criteria::ASC);
         }
 
         return $qb;

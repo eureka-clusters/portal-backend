@@ -35,22 +35,26 @@ final class MailerController extends MailingAbstractController
 
     public function listAction(): ViewModel
     {
-        $page = $this->params()->fromRoute('page', 1);
+        $page = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
         $userQuery = $this->mailerService
-            ->findFiltered(Mailer::class, $filterPlugin->getFilter());
+            ->findFiltered(entity: Mailer::class, formResult: $filterPlugin->getFilter());
 
-        $paginator = new Paginator(new PaginatorAdapter(new ORMPaginator($userQuery, false)));
-        $paginator::setDefaultItemCountPerPage($page === 'all' ? PHP_INT_MAX : 20);
-        $paginator->setCurrentPageNumber((int)$page);
-        $paginator->setPageRange((int)ceil($paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator = new Paginator(
+            adapter: new PaginatorAdapter(
+            paginator: new ORMPaginator(
+            query: $userQuery,
+            fetchJoinCollection: false)));
+        $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
+        $paginator->setCurrentPageNumber(pageNumber: (int)$page);
+        $paginator->setPageRange(pageRange: (int)ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
         $form = new MailerFilter();
 
-        $form->setData($filterPlugin->getFilterFormData());
+        $form->setData(data: $filterPlugin->getFilterFormData());
 
         return new ViewModel(
-            [
+            variables: [
                 'paginator' => $paginator,
                 'form' => $form,
                 'order' => $filterPlugin->getOrder(),
@@ -62,7 +66,7 @@ final class MailerController extends MailingAbstractController
 
     public function viewAction(): ViewModel|Response
     {
-        $mailer = $this->mailerService->findMailerById((int)$this->params('id'));
+        $mailer = $this->mailerService->findMailerById(id: (int)$this->params('id'));
 
         if (null === $mailer) {
             return $this->notFoundAction();
@@ -70,30 +74,32 @@ final class MailerController extends MailingAbstractController
 
         if ($this->getRequest()->isPost()) {
             try {
-                $testEmail = $this->emailService->createNewCustomEmailBuilder($mailer);
-                $testEmail->addUserTo($this->identity());
-                $testEmail->setBody('This is a test');
-                $testEmail->setSubject('This is a test subject');
+                $testEmail = $this->emailService->createNewCustomEmailBuilder(mailer: $mailer);
+                $testEmail->addUserTo(user: $this->identity());
+                $testEmail->setBody(body: 'This is a test');
+                $testEmail->setSubject(subject: 'This is a test subject');
 
-                if ($this->emailService->send($testEmail)) {
+                if ($this->emailService->send(emailBuilder: $testEmail)) {
                     $this->flashMessenger()->addSuccessMessage(
-                        $this->translator->translate('txt-test-mail-sent-successfully')
+                        message: $this->translator->translate(message: 'txt-test-mail-sent-successfully')
                     );
                 } else {
-                    $this->flashMessenger()->addErrorMessage($this->translator->translate('txt-test-mail-failed'));
+                    $this->flashMessenger()->addErrorMessage(
+                        message: $this->translator->translate(
+                        message: 'txt-test-mail-failed'));
                 }
             } catch (Exception $e) {
                 $this->flashMessenger()->addErrorMessage(
-                    sprintf($this->translator->translate('txt-test-mail-failed-reason-%s'), $e->getMessage())
+                    message: sprintf($this->translator->translate(message: 'txt-test-mail-failed-reason-%s'), $e->getMessage())
                 );
             }
 
             return $this->redirect()
-                ->toRoute('zfcadmin/mailing/mailer/view', ['id' => $mailer->getId()]);
+                ->toRoute(route: 'zfcadmin/mailing/mailer/view', params: ['id' => $mailer->getId()]);
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'mailer' => $mailer,
             ]
         );
@@ -102,53 +108,55 @@ final class MailerController extends MailingAbstractController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Mailer $mailer */
-        $mailer = $this->mailerService->findMailerById((int)$this->params('id'));
+        $mailer = $this->mailerService->findMailerById(id: (int)$this->params('id'));
         $data = $this->getRequest()->getPost()->toArray();
-        $form = $this->formService->prepare($mailer, $data);
+        $form = $this->formService->prepare(classNameOrEntity: $mailer, data: $data);
 
-        if (!$this->mailerService->canDeleteMailer($mailer)) {
-            $form->remove('delete');
+        if (!$this->mailerService->canDeleteMailer(mailer: $mailer)) {
+            $form->remove(elementOrFieldset: 'delete');
         }
 
-        foreach ($this->mailerService->getRequiredFormFieldsByService($mailer->getService()) as $requiredFormField) {
-            $form->getInputFilter()->get('mailing_entity_mailer')->get($requiredFormField)->setRequired(true);
+        foreach ($this->mailerService->getRequiredFormFieldsByService(
+            service: $mailer->getService()) as $requiredFormField) {
+            $form->getInputFilter()->get(name: 'mailing_entity_mailer')->get(name: $requiredFormField)->setRequired(
+                required: true);
         }
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
                 return $this->redirect()
-                    ->toRoute('zfcadmin/mailing/mailer/view', ['id' => $mailer->getId()]);
+                    ->toRoute(route: 'zfcadmin/mailing/mailer/view', params: ['id' => $mailer->getId()]);
             }
 
-            if (isset($data['delete']) && $this->mailerService->canDeleteMailer($mailer)) {
-                $this->mailerService->delete($mailer);
+            if (isset($data['delete']) && $this->mailerService->canDeleteMailer(mailer: $mailer)) {
+                $this->mailerService->delete(abstractEntity: $mailer);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-mailer-%s-has-successfully-been-deleted'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-mailer-%s-has-successfully-been-deleted'),
                         $mailer->getName()
                     )
                 );
 
-                return $this->redirect()->toRoute('zfcadmin/mailing/mailer/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/mailing/mailer/list');
             }
 
             if ($form->isValid()) {
                 /** @var Entity\Mailer $mailer */
                 $mailer = $form->getData();
-                $this->mailerService->save($mailer);
+                $this->mailerService->save(entity: $mailer);
 
                 return $this->redirect()
-                    ->toRoute('zfcadmin/mailing/mailer/view', ['id' => $mailer->getId()]);
+                    ->toRoute(route: 'zfcadmin/mailing/mailer/view', params: ['id' => $mailer->getId()]);
             }
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'form' => $form,
                 'mailer' => $mailer,
                 'serviceName' => $mailer->getServiceText(),
-                'formFields' => $this->mailerService->getFormFieldsByService($mailer->getService())
+                'formFields' => $this->mailerService->getFormFieldsByService(service: $mailer->getService())
             ]
         );
     }
@@ -158,42 +166,43 @@ final class MailerController extends MailingAbstractController
         $service = (int)$this->params('service');
 
         $data = $this->getRequest()->getPost()->toArray();
-        $form = $this->formService->prepare(Mailer::class, $data);
-        $form->remove('delete');
+        $form = $this->formService->prepare(classNameOrEntity: Mailer::class, data: $data);
+        $form->remove(elementOrFieldset: 'delete');
 
-        foreach ($this->mailerService->getRequiredFormFieldsByService($service) as $requiredFormField) {
-            $form->getInputFilter()->get('mailing_entity_mailer')->get($requiredFormField)->setRequired(true);
+        foreach ($this->mailerService->getRequiredFormFieldsByService(service: $service) as $requiredFormField) {
+            $form->getInputFilter()->get(name: 'mailing_entity_mailer')->get(name: $requiredFormField)->setRequired(
+                required: true);
         }
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
-                return $this->redirect()->toRoute('zfcadmin/mailing/mailer/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/mailing/mailer/list');
             }
 
             if ($form->isValid()) {
                 /** @var Entity\Mailer $mailer */
                 $mailer = $form->getData();
-                $mailer->setService($service);
-                $this->mailerService->save($mailer);
+                $mailer->setService(service: $service);
+                $this->mailerService->save(entity: $mailer);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate('txt-mailer-%s-has-successfully-been-created'),
+                    message: sprintf(
+                        $this->translator->translate(message: 'txt-mailer-%s-has-successfully-been-created'),
                         $mailer->getName()
                     )
                 );
 
                 return $this->redirect()
-                    ->toRoute('zfcadmin/mailing/mailer/view', ['id' => $mailer->getId()]);
+                    ->toRoute(route: 'zfcadmin/mailing/mailer/view', params: ['id' => $mailer->getId()]);
             }
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'form' => $form,
                 'service' => $service,
                 'serviceName' => Mailer::getServicesArray()[$service] ?? '',
-                'formFields' => $this->mailerService->getFormFieldsByService($service)
+                'formFields' => $this->mailerService->getFormFieldsByService(service: $service)
             ]
         );
     }

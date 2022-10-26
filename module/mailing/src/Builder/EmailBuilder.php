@@ -88,8 +88,8 @@ abstract class EmailBuilder
     ) {
         $this->templateVariables = new ArrayCollection();
 
-        $this->setSender($mailingService->findDefaultSender());
-        $this->setTemplate($mailingService->findDefaultTemplate());
+        $this->setSender(setSender: $mailingService->findDefaultSender());
+        $this->setTemplate(template: $mailingService->findDefaultTemplate());
 
         if (null !== $deeplinkService) {
             $this->deeplinkService = $deeplinkService;
@@ -116,15 +116,15 @@ abstract class EmailBuilder
             case $sender->isOwner():
                 if (null !== $ownerOrLoggedInUser) {
                     $this->setTemplateVariables(
-                        [
+                        variables: [
                             'sender_email' => $ownerOrLoggedInUser->getEmail(),
                             'sender_name' => $ownerOrLoggedInUser->getDisplayName(),
                         ]
                     );
 
                     $this->from = new Recipient(
-                        $ownerOrLoggedInUser->getDisplayName(),
-                        $ownerOrLoggedInUser->getEmail()
+                        name: $ownerOrLoggedInUser->getDisplayName(),
+                        email: $ownerOrLoggedInUser->getEmail()
                     );
                 }
 
@@ -132,13 +132,13 @@ abstract class EmailBuilder
             case null:
             default:
                 $this->setTemplateVariables(
-                    [
+                    variables: [
                         'sender_email' => $sender->getEmail(),
                         'sender_name' => $sender->getSender(),
                     ]
                 );
 
-                $this->from = new Recipient($sender->getSender(), $sender->getEmail());
+                $this->from = new Recipient(name: $sender->getSender(), email: $sender->getEmail());
                 break;
         }
 
@@ -150,26 +150,26 @@ abstract class EmailBuilder
         $messages = [];
 
         $message = new Email(
-            $this->from->toArray(),
-            $this->getTo(),
-            $this->getCC(),
-            $this->getBCC(),
-            $this->subject,
-            $this->textPart,
-            $this->htmlPart,
-            $identifier,
-            '',
-            $this->getReplyTo(),
-            'enabled',
-            'enabled',
-            $this->emailCampaign,
-            $this->getAttachments(),
-            $this->getInlinedAttachments(),
-            $this->getHeaders()
+            from: $this->from->toArray(),
+            to: $this->getTo(),
+            cc: $this->getCC(),
+            bcc: $this->getBCC(),
+            subject: $this->subject,
+            textPart: $this->textPart,
+            htmlPart: $this->htmlPart,
+            customID: $identifier,
+            eventPayload: '',
+            replyTo: $this->getReplyTo(),
+            trackOpens: 'enabled',
+            trackClicks: 'enabled',
+            customCampaign: $this->emailCampaign,
+            attachments: $this->getAttachments(),
+            inlinedAttachments: $this->getInlinedAttachments(),
+            headers: $this->getHeaders()
         );
         $messages[] = $message->toArray();
 
-        return new Body($messages);
+        return new Body(messages: $messages);
     }
 
     #[Pure] public function getTo(): array
@@ -213,7 +213,7 @@ abstract class EmailBuilder
 
     public function setReplyTo(string $replyToName, string $replyToEmail): EmailBuilder
     {
-        $this->replyTo = new Recipient($replyToName, $replyToEmail);
+        $this->replyTo = new Recipient(name: $replyToName, email: $replyToEmail);
 
         return $this;
     }
@@ -250,7 +250,7 @@ abstract class EmailBuilder
 
     public function setReplyToUser(User $user): EmailBuilder
     {
-        $this->setReplyTo($user->parseFullName(), $user->getEmail());
+        $this->setReplyTo(replyToName: $user->parseFullName(), replyToEmail: $user->getEmail());
 
         return $this;
     }
@@ -263,10 +263,10 @@ abstract class EmailBuilder
     public function addAttachment(string $contentType, string $fileName, string $content): void
     {
         $this->attachments[] = new Attachment(
-            $contentType,
-            $fileName,
-            base64_encode($content),
-            $content
+            contentType: $contentType,
+            fileName: $fileName,
+            base64Content: base64_encode(string: $content),
+            rawContent: $content
         );
     }
 
@@ -279,12 +279,12 @@ abstract class EmailBuilder
         User $organiser
     ): void {
         $this->attachments[] = new Ical(
-            $startDate,
-            $endDate,
-            $title,
-            $summary,
-            $location,
-            $organiser
+            startDate: $startDate,
+            endDate: $endDate,
+            title: $title,
+            summary: $summary,
+            location: $location,
+            organiser: $organiser
         );
     }
 
@@ -294,7 +294,7 @@ abstract class EmailBuilder
         //Only extract user details when mailing is personal
         if ($this->personal) {
             $this->setTemplateVariables(
-                [
+                variables: [
                     'firstname' => $user->getFirstName(),
                     'lastname' => $user->getLastName(),
                     'fullname' => $user->getDisplayName(),
@@ -303,7 +303,7 @@ abstract class EmailBuilder
             );
         }
 
-        $this->addTo($user->parseFullName(), $user->getEmail());
+        $this->addTo(name: $user->parseFullName(), email: $user->getEmail());
 
         return $this;
     }
@@ -311,7 +311,7 @@ abstract class EmailBuilder
     public function setTemplateVariables(array $variables): EmailBuilder
     {
         foreach ($variables as $key => $value) {
-            $this->setTemplateVariable($key, $value);
+            $this->setTemplateVariable(key: $key, value: $value);
         }
 
         return $this;
@@ -319,7 +319,7 @@ abstract class EmailBuilder
 
     public function setTemplateVariable($key, $value): EmailBuilder
     {
-        $this->templateVariables->set($key, $value);
+        $this->templateVariables->set(key: $key, value: $value);
 
         return $this;
     }
@@ -327,10 +327,10 @@ abstract class EmailBuilder
     public function addTo(string $name, string $email): EmailBuilder
     {
         if ($this->personal && count($this->to) > 0) {
-            throw new InvalidArgumentException('Impossible to add more recipients to an personal email');
+            throw new InvalidArgumentException(message: 'Impossible to add more recipients to an personal email');
         }
 
-        $to = new Recipient($name, $email);
+        $to = new Recipient(name: $name, email: $email);
 
         if ($to->isValid()) {
             $this->to[] = $to;
@@ -341,7 +341,7 @@ abstract class EmailBuilder
 
     public function addUserCC(User $user): EmailBuilder
     {
-        $this->addCC($user->parseFullName(), $user->getEmail());
+        $this->addCC(name: $user->parseFullName(), email: $user->getEmail());
 
         return $this;
     }
@@ -349,10 +349,10 @@ abstract class EmailBuilder
     public function addCC(string $name, string $email): EmailBuilder
     {
         if ($this->personal) {
-            throw new InvalidArgumentException('Impossible to add CC recipients to an personal email');
+            throw new InvalidArgumentException(message: 'Impossible to add CC recipients to an personal email');
         }
 
-        $cc = new Recipient($name, $email);
+        $cc = new Recipient(name: $name, email: $email);
 
         if ($cc->isValid()) {
             $this->cc[] = $cc;
@@ -363,7 +363,7 @@ abstract class EmailBuilder
 
     public function addUserBCC(User $user): EmailBuilder
     {
-        $this->addBCC($user->parseFullName(), $user->getEmail());
+        $this->addBCC(name: $user->parseFullName(), email: $user->getEmail());
 
         return $this;
     }
@@ -371,10 +371,10 @@ abstract class EmailBuilder
     public function addBCC(string $name, string $email): EmailBuilder
     {
         if ($this->personal) {
-            throw  new InvalidArgumentException('Impossible to add BCC recipients to an personal email');
+            throw  new InvalidArgumentException(message: 'Impossible to add BCC recipients to an personal email');
         }
 
-        $bcc = new Recipient($name, $email);
+        $bcc = new Recipient(name: $name, email: $email);
 
         if ($bcc->isValid()) {
             $this->bcc[] = $bcc;
@@ -423,22 +423,22 @@ abstract class EmailBuilder
     public function setDeeplink(string $route, User $user, int|string $key = null): void
     {
         if (!$this->personal) {
-            throw new InvalidArgumentException('It is not possible to add a deeplink for a non-personal email');
+            throw new InvalidArgumentException(message: 'It is not possible to add a deeplink for a non-personal email');
         }
         //Create a target
-        $target = $this->deeplinkService->createTargetFromRoute($route);
+        $target = $this->deeplinkService->createTargetFromRoute(route: $route);
 
         $deeplink = $this->deeplinkService->createDeeplink(
-            $target,
-            $user,
-            $key
+            target: $target,
+            user: $user,
+            keyId: $key
         );
 
         $this->setTemplateVariable(
-            'deeplink',
-            $this->deeplinkService->parseDeeplinkUrl(
-                $deeplink,
-                LinkDecoration::SHOW_RAW
+            key: 'deeplink',
+            value: $this->deeplinkService->parseDeeplinkUrl(
+                deeplink: $deeplink,
+                show: LinkDecoration::SHOW_RAW
             )
         );
     }
@@ -448,49 +448,49 @@ abstract class EmailBuilder
     public function getMessage(): Message
     {
         $message = new Message();
-        $message->setFrom($this->from->toAddress());
+        $message->setFrom(emailOrAddressList: $this->from->toAddress());
 
-        $message->setTo($this->getToAsAddressList());
-        $message->setCc($this->getCCAsAddressList());
-        $message->setBcc($this->getBccAsAddressList());
+        $message->setTo(emailOrAddressList: $this->getToAsAddressList());
+        $message->setCc(emailOrAddressList: $this->getCCAsAddressList());
+        $message->setBcc(emailOrAddressList: $this->getBccAsAddressList());
 
         if (null !== $this->replyTo) {
-            $message->setReplyTo($this->replyTo->toAddress());
+            $message->setReplyTo(emailOrAddressList: $this->replyTo->toAddress());
         }
 
-        $message->setSubject($this->subject);
+        $message->setSubject(subject: $this->subject);
 
-        $html = new Part($this->htmlPart);
-        $html->setType(Mime\Mime::TYPE_HTML);
-        $html->setCharset('utf-8');
-        $html->setEncoding(Mime\Mime::ENCODING_QUOTEDPRINTABLE);
+        $html = new Part(content: $this->htmlPart);
+        $html->setType(type: Mime\Mime::TYPE_HTML);
+        $html->setCharset(charset: 'utf-8');
+        $html->setEncoding(encoding: Mime\Mime::ENCODING_QUOTEDPRINTABLE);
 
-        $plain = new Part('TEXT' . $this->textPart);
-        $plain->setCharset('utf-8');
-        $plain->setType(Mime\Mime::TYPE_TEXT);
-        $plain->setEncoding(Mime\Mime::ENCODING_QUOTEDPRINTABLE);
+        $plain = new Part(content: 'TEXT' . $this->textPart);
+        $plain->setCharset(charset: 'utf-8');
+        $plain->setType(type: Mime\Mime::TYPE_TEXT);
+        $plain->setEncoding(encoding: Mime\Mime::ENCODING_QUOTEDPRINTABLE);
 
         $content = new Mime\Message();
         $content->setParts(
-            [
+            parts: [
                 $plain,
                 $html,
             ]
         );
 
         if (!$this->hasMultiParts()) {
-            $message->setBody($content);
-            $contentTypeHeader = $message->getHeaders()->get('Content-Type');
+            $message->setBody(body: $content);
+            $contentTypeHeader = $message->getHeaders()->get(name: 'Content-Type');
             /** @phpstan-ignore-next-line */
-            $contentTypeHeader->setType(Mime\Mime::MULTIPART_ALTERNATIVE);
+            $contentTypeHeader->setType(type: Mime\Mime::MULTIPART_ALTERNATIVE);
 
             return $message;
         }
 
         $multiParts = [];
-        $contentPart = new Part($content->generateMessage());
-        $contentPart->setType(Mime\Mime::MULTIPART_ALTERNATIVE);
-        $contentPart->setBoundary($content->getMime()->boundary());
+        $contentPart = new Part(content: $content->generateMessage());
+        $contentPart->setType(type: Mime\Mime::MULTIPART_ALTERNATIVE);
+        $contentPart->setBoundary(boundary: $content->getMime()->boundary());
 
         $multiParts[] = $contentPart;
         foreach ($this->attachments as $attachment) {
@@ -498,7 +498,7 @@ abstract class EmailBuilder
         }
 
         foreach ($this->inlinedAttachments as $attachment) {
-            $multiParts[] = $attachment->toMimePart(true);
+            $multiParts[] = $attachment->toMimePart(inline: true);
         }
 
         foreach ($this->invitations as $invitation) {
@@ -506,13 +506,13 @@ abstract class EmailBuilder
         }
 
         $body = new Mime\Message();
-        $body->setParts($multiParts);
+        $body->setParts(parts: $multiParts);
 
-        $message->setBody($body);
+        $message->setBody(body: $body);
 
-        $contentTypeHeader = $message->getHeaders()->get('Content-Type');
+        $contentTypeHeader = $message->getHeaders()->get(name: 'Content-Type');
         /** @phpstan-ignore-next-line */
-        $contentTypeHeader->setType(Mime\Mime::MULTIPART_RELATED);
+        $contentTypeHeader->setType(type: Mime\Mime::MULTIPART_RELATED);
 
         return $message;
     }
@@ -521,7 +521,7 @@ abstract class EmailBuilder
     {
         $to = new AddressList();
         foreach ($this->to as $singleTo) {
-            $to->add($singleTo->toAddress());
+            $to->add(emailOrAddress: $singleTo->toAddress());
         }
 
         return $to;
@@ -531,7 +531,7 @@ abstract class EmailBuilder
     {
         $cc = new AddressList();
         foreach ($this->cc as $singleCC) {
-            $cc->add($singleCC->toAddress());
+            $cc->add(emailOrAddress: $singleCC->toAddress());
         }
 
         return $cc;
@@ -541,7 +541,7 @@ abstract class EmailBuilder
     {
         $bcc = new AddressList();
         foreach ($this->bcc as $singleBCC) {
-            $bcc->add($singleBCC->toAddress());
+            $bcc->add(emailOrAddress: $singleBCC->toAddress());
         }
 
         return $bcc;
@@ -577,23 +577,23 @@ abstract class EmailBuilder
         try {
             //Create a Twig Template on the fly with the template source content
             $subjectTemplate = new Environment(
-                new ArrayLoader(
-                    ['template_subject' => $this->template->getSubject()]
+                loader: new ArrayLoader(
+                    templates: ['template_subject' => $this->template->getSubject()]
                 )
             );
             //Create a second template in which the content of the email is parsed and render the content in
             $mailSubject = (new Environment(
-                new ArrayLoader(
-                    ['email_subject' => $mailSubject]
+                loader: new ArrayLoader(
+                    templates: ['email_subject' => $mailSubject]
                 )
-            ))->render('email_subject', $this->templateVariables->toArray());
+            ))->render(name: 'email_subject', context: $this->templateVariables->toArray());
 
-            $this->setTemplateVariable('subject', $mailSubject);
+            $this->setTemplateVariable(key: 'subject', value: $mailSubject);
 
             //Render the $mailBody in the content of the main template
             $this->subject = $subjectTemplate->render(
-                'template_subject',
-                $this->templateVariables->toArray()
+                name: 'template_subject',
+                context: $this->templateVariables->toArray()
             );
         } catch (Exception $e) {
             $this->subject = sprintf(
@@ -613,26 +613,26 @@ abstract class EmailBuilder
         try {
             //Create a Twig Template on the fly with the template source content
             $htmlTemplate = new Environment(
-                new ArrayLoader(
-                    [$this->template->parseName() => $this->template->parseSourceContent()]
+                loader: new ArrayLoader(
+                    templates: [$this->template->parseName() => $this->template->parseSourceContent()]
                 )
             );
 
             //Create a second template in which the content of the email is parsed and render the content in
             $mailBody = (new Environment(
-                new ArrayLoader(
-                    ['email_content' => $bodyText]
+                loader: new ArrayLoader(
+                    templates: ['email_content' => $bodyText]
                 )
-            ))->render('email_content', $this->templateVariables->toArray());
+            ))->render(name: 'email_content', context: $this->templateVariables->toArray());
 
-            $this->setTemplateVariable('content', $mailBody);
+            $this->setTemplateVariable(key: 'content', value: $mailBody);
 
             //Render the $mailBody in the content of the main template
             $this->htmlPart = $htmlTemplate->render(
-                $this->template->parseName(),
-                $this->templateVariables->toArray()
+                name: $this->template->parseName(),
+                context: $this->templateVariables->toArray()
             );
-            $this->textPart = strip_tags($mailBody);
+            $this->textPart = strip_tags(string: $mailBody);
         } catch (Exception $e) {
             $this->htmlPart = $this->textPart = sprintf(
                 'Something went wrong with the merge of the body text. Error message: %s',

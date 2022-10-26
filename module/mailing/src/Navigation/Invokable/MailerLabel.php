@@ -14,14 +14,14 @@ final class MailerLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-mailer');
+        $label = $this->translate(string: 'txt-nav-mailer');
 
-        if ($this->getEntities()->containsKey(Mailer::class)) {
+        if ($this->getEntities()->containsKey(key: Mailer::class)) {
             /** @var Mailer $mailer */
-            $mailer = $this->getEntities()->get(Mailer::class);
+            $mailer = $this->getEntities()->get(key: Mailer::class);
 
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $mailer->getId(),
@@ -32,7 +32,7 @@ final class MailerLabel extends AbstractNavigationInvokable
         }
 
         if (null === $page->getLabel()) {
-            $page->set('label', $label);
+            $page->set(property: 'label', value: $label);
         }
     }
 }

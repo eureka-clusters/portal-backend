@@ -14,17 +14,17 @@ final class AdminFunctions extends Form
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('action', '');
+        $this->setAttribute(key: 'method', value: 'post');
+        $this->setAttribute(key: 'action', value: '');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => self::ACTION_CLEANUP_FILE_CACHE,
                 'attributes' => [
@@ -35,7 +35,7 @@ final class AdminFunctions extends Form
         );
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => self::ACTION_FLUSH_REDIS_CACHE,
                 'attributes' => [

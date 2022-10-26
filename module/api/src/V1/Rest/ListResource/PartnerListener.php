@@ -29,40 +29,40 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new Paginator(new ArrayAdapter());
+            return new Paginator(adapter: new ArrayAdapter());
         }
 
         switch (true) {
             case isset($params->project):
                 /** @var Project $project */
-                $project = $this->projectService->findProjectBySlug($params->project);
+                $project = $this->projectService->findProjectBySlug(slug: $params->project);
 
                 if (null === $project) {
-                    return new Paginator(new ArrayAdapter());
+                    return new Paginator(adapter: new ArrayAdapter());
                 }
 
-                $partnerQueryBuilder = $this->partnerService->getPartnersByProject($project);
+                $partnerQueryBuilder = $this->partnerService->getPartnersByProject(project: $project);
                 break;
             case isset($params->organisation):
                 /** @var Organisation $organisation */
-                $organisation = $this->organisationService->findOrganisationBySlug($params->organisation);
+                $organisation = $this->organisationService->findOrganisationBySlug(slug: $params->organisation);
 
                 if (null === $organisation) {
-                    return new Paginator(new ArrayAdapter());
+                    return new Paginator(adapter: new ArrayAdapter());
                 }
 
-                $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation($organisation);
+                $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(organisation: $organisation);
                 break;
             default:
                 $partnerQueryBuilder = $this->partnerService->getPartners(user: $user, filter: []);
         }
 
-        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
-        $doctrineORMAdapter->setProvider($this->partnerProvider);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
+        $doctrineORMAdapter->setProvider(provider: $this->partnerProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

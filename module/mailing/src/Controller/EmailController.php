@@ -26,20 +26,24 @@ final class EmailController extends MailingAbstractController
 
     public function listAction(): ViewModel
     {
-        $page         = $this->params()->fromRoute('page', 1);
+        $page         = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
-        $query        = $this->mailingService->findFiltered(EmailMessage::class, $filterPlugin->getFilter());
+        $query        = $this->mailingService->findFiltered(entity: EmailMessage::class, formResult: $filterPlugin->getFilter());
 
-        $paginator = new Paginator(new PaginatorAdapter(new ORMPaginator($query, false)));
-        $paginator::setDefaultItemCountPerPage($page === 'all' ? PHP_INT_MAX : 20);
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange(ceil($paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator = new Paginator(
+            adapter: new PaginatorAdapter(
+            paginator: new ORMPaginator(
+            query: $query,
+            fetchJoinCollection: false)));
+        $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
+        $paginator->setCurrentPageNumber(pageNumber: $page);
+        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
         $form = new SearchFilter();
         $form->setData($filterPlugin->getFilterFormData());
 
         return new ViewModel(
-            [
+            variables: [
                 'paginator'     => $paginator,
                 'form'          => $form,
                 
@@ -51,11 +55,11 @@ final class EmailController extends MailingAbstractController
 
     public function viewAction(): ViewModel
     {
-        $emailMessage = $this->mailingService->find(EmailMessage::class, (int) $this->params('id'));
+        $emailMessage = $this->mailingService->find(entity: EmailMessage::class, id: (int) $this->params('id'));
         if (null === $emailMessage) {
             return $this->notFoundAction();
         }
 
-        return new ViewModel(['emailMessage' => $emailMessage]);
+        return new ViewModel(variables: ['emailMessage' => $emailMessage]);
     }
 }

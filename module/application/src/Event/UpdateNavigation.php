@@ -40,7 +40,7 @@ class UpdateNavigation extends AbstractListenerAggregate
 
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->onRoute(...), -1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->onRoute(...), priority: -1000);
     }
 
     public function onRoute(MvcEvent $event): void
@@ -48,26 +48,26 @@ class UpdateNavigation extends AbstractListenerAggregate
         $this->routeMatch = $event->getRouteMatch();
 
         /** @var Mvc $page */
-        $page = $this->navigation->findOneBy('route', $this->routeMatch->getMatchedRouteName());
+        $page = $this->navigation->findOneBy(property: 'route', value: $this->routeMatch->getMatchedRouteName());
 
         if ($page instanceof Mvc) {
             // Set active
-            $page->setActive(true);
+            $page->setActive(active: true);
 
             // Merge all route params with navigation params
             $routeParams = $this->routeMatch->getParams();
-            $page->setParams(array_merge($page->getParams(), $routeParams));
+            $page->setParams(params: array_merge($page->getParams(), $routeParams));
 
             // Custom navigation params from module.config.navigation.php
-            $pageCustomParams = $page->get('params');
+            $pageCustomParams = $page->get(property: 'params');
 
-            if (isset($pageCustomParams['entities']) && is_array($pageCustomParams['entities'])) {
+            if (isset($pageCustomParams['entities']) && is_array(value: $pageCustomParams['entities'])) {
                 foreach ($pageCustomParams['entities'] as $routeParam => $entityClass) {
                     // The routeParam can be aliased
                     $routeParamKey = $routeParam;
                     if (isset($pageCustomParams['routeParam']) && array_key_exists(
-                            $routeParam,
-                            $pageCustomParams['routeParam']
+                            key: $routeParam,
+                            array: $pageCustomParams['routeParam']
                         )) {
                         $routeParamKey = $pageCustomParams['routeParam'][$routeParam];
                     }
@@ -77,16 +77,16 @@ class UpdateNavigation extends AbstractListenerAggregate
                         $routeParam = $pageCustomParams['property'];
                     }
 
-                    if (null !== $entityClass && class_exists($entityClass)) {
-                        $repository = $this->entityManager->getRepository($entityClass);
+                    if (null !== $entityClass && class_exists(class: $entityClass)) {
+                        $repository = $this->entityManager->getRepository(entityName: $entityClass);
 
                         $entity = $repository->findOneBy(
-                            [$routeParam => $this->routeMatch->getParam($routeParamKey)]
+                            criteria: [$routeParam => $this->routeMatch->getParam(name: $routeParamKey)]
                         );
 
                         if (null === $entity) {
                             if (
-                                defined('NAVELA_ENVIRONMENT')
+                                defined(constant_name: 'NAVELA_ENVIRONMENT')
                                 && (NAVELA_ENVIRONMENT === 'development')
                             ) {
                                 print sprintf(
@@ -94,17 +94,17 @@ class UpdateNavigation extends AbstractListenerAggregate
                                     $entityClass,
                                     $routeParam,
                                     $routeParamKey,
-                                    $this->routeMatch->getParam($routeParamKey)
+                                    $this->routeMatch->getParam(name: $routeParamKey)
                                 );
                             }
                         } else {
-                            $this->entities->set($entityClass, $entity);
+                            $this->entities->set(key: $entityClass, value: $entity);
                         }
                     }
                 }
             }
 
-            $this->updateNavigation($page);
+            $this->updateNavigation(page: $page);
         }
     }
 
@@ -115,23 +115,23 @@ class UpdateNavigation extends AbstractListenerAggregate
 
     protected function updateNavigation(Mvc $page): void
     {
-        $page->setVisible(true);
-        $pageCustomParams = $page->get('params');
+        $page->setVisible(visible: true);
+        $pageCustomParams = $page->get(property: 'params');
 
         // Provide the setter callables with the entity and route params
-        if (isset($pageCustomParams['invokables']) && is_array($pageCustomParams['invokables'])) {
+        if (isset($pageCustomParams['invokables']) && is_array(value: $pageCustomParams['invokables'])) {
             foreach ($pageCustomParams['invokables'] as $invokable) {
                 // Get the invokable from the service locator
                 if ($this->container->has($invokable)) {
                     $instance = $this->container->get($invokable);
                     if ($instance instanceof NavigationInvokableInterface) {
-                        $instance($page);
+                        $instance(page: $page);
                     } else {
-                        throw new InvalidArgumentException('Can\'t invoke callable ' . $invokable);
+                        throw new InvalidArgumentException(message: 'Can\'t invoke callable ' . $invokable);
                     }
                     // Not found
                 } else {
-                    throw new InvalidArgumentException('Servicelocator can\'t find invokable ' . $invokable);
+                    throw new InvalidArgumentException(message: 'Servicelocator can\'t find invokable ' . $invokable);
                 }
             }
         }
@@ -140,14 +140,14 @@ class UpdateNavigation extends AbstractListenerAggregate
         $parentPage = $page->getParent();
         if ($parentPage instanceof Mvc) {
             $routeParams = $this->routeMatch->getParams();
-            $parentPage->setParams(array_merge($parentPage->getParams(), $routeParams));
-            $this->updateNavigation($parentPage);
+            $parentPage->setParams(params: array_merge($parentPage->getParams(), $routeParams));
+            $this->updateNavigation(page: $parentPage);
         }
     }
 
     protected function translate(string $string): string
     {
-        return $this->translator->translate($string);
+        return $this->translator->translate(message: $string);
     }
 
 }

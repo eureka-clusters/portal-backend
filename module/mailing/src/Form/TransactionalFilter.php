@@ -16,10 +16,10 @@ final class TransactionalFilter extends SearchFilter
     {
         parent::__construct();
 
-        $filterFieldset = new Fieldset('filter');
+        $filterFieldset = new Fieldset(name: 'filter');
 
         $filterFieldset->add(
-            [
+            elementOrFieldset: [
                 'type' => MultiCheckbox::class,
                 'name' => 'locked',
                 'options' => [
@@ -31,6 +31,6 @@ final class TransactionalFilter extends SearchFilter
             ]
         );
 
-        $this->add($filterFieldset);
+        $this->add(elementOrFieldset: $filterFieldset);
     }
 }

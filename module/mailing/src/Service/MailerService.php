@@ -14,7 +14,7 @@ class MailerService extends AbstractService
 {
     public function findMailerById(int $id): ?Mailer
     {
-        return $this->entityManager->getRepository(Mailer::class)->find($id);
+        return $this->entityManager->getRepository(entityName: Mailer::class)->find(id: $id);
     }
 
     public function canDeleteMailer(Mailer $mailer): bool

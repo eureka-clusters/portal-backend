@@ -42,7 +42,7 @@ class Funding extends AbstractEntity
 
     public function __construct()
     {
-        $this->year = (int)date('Y');
+        $this->year = (int)date(format: 'Y');
         $this->status = new Status();
         $this->partner = new Partner();
     }

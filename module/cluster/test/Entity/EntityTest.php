@@ -15,10 +15,10 @@ class EntityTest extends AbstractEntityTest
         $entities = $this->getEntities(namespace: $this->namespace, baseFolder: __DIR__);
 
         foreach ($entities as $className => $reflectionClass) {
-            $this->analyseClass($reflectionClass);
+            $this->analyseClass(class: $reflectionClass);
 
             foreach ($reflectionClass->getProperties() as $property) {
-                $this->analyseClassProperty(new $className(), $property);
+                $this->analyseClassProperty(entity: new $className(), property: $property);
             }
         }
     }
@@ -30,7 +30,7 @@ class EntityTest extends AbstractEntityTest
         foreach ($entities as $className => $reflectionClass) {
             $class = new $className();
             $class->setId(1);
-            self::assertIsString((string)$class);
+            self::assertIsString(actual: (string)$class);
         }
     }
 }

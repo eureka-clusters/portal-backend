@@ -15,11 +15,11 @@ class OAuth2Service extends AbstractService
 {
     public function findClientByClientId(string $clientId): Client
     {
-        $repository = $this->entityManager->getRepository(Client::class);
-        $client = $repository->findOneBy(['clientId' => $clientId]);
+        $repository = $this->entityManager->getRepository(entityName: Client::class);
+        $client = $repository->findOneBy(criteria: ['clientId' => $clientId]);
 
         if (null === $client) {
-            throw new RuntimeException("No JWT client available");
+            throw new RuntimeException(message: "No JWT client available");
         }
 
         return $client;
@@ -27,14 +27,14 @@ class OAuth2Service extends AbstractService
 
     public function findLatestClient(): Client
     {
-        $repository = $this->entityManager->getRepository(Client::class);
+        $repository = $this->entityManager->getRepository(entityName: Client::class);
         $clients = $repository->findBy(criteria: [], orderBy: ['clientId' => Criteria::ASC], limit: 1);
 
         if (empty($clients)) {
-            throw new RuntimeException("No JWT client available");
+            throw new RuntimeException(message: "No JWT client available");
         }
 
-        return array_pop($clients);
+        return array_pop(array: $clients);
     }
 
     public function generateJwtToken(Client $client, User $user): string
@@ -45,7 +45,7 @@ class OAuth2Service extends AbstractService
             'iss' => 'eureka-clusters',
             'aud' => $client->getClientId(),
             'sub' => $user->getId(),
-            'exp' => (new \DateTime())->add(new \DateInterval('P1D'))->getTimestamp(),
+            'exp' => (new \DateTime())->add(interval: new \DateInterval(duration: 'P1D'))->getTimestamp(),
             'iat' => time(),
             'token_type' => $client->getPublicKey()?->getEncryptionAlgorithm(),
             'scope' => 'openid'

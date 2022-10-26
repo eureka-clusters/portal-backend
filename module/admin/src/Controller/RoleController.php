@@ -30,19 +30,19 @@ final class RoleController extends AbstractActionController
 
         $page = $this->params('page');
 
-        $roleQuery = $this->adminService->findFiltered(Role::class, $filterPlugin->getFilter());
+        $roleQuery = $this->adminService->findFiltered(entity: Role::class, formResult: $filterPlugin->getFilter());
 
         $paginator = new Paginator(
-            new PaginatorAdapter(paginator: new ORMPaginator($roleQuery, fetchJoinCollection: false))
+            adapter: new PaginatorAdapter(paginator: new ORMPaginator(query: $roleQuery, fetchJoinCollection: false))
         );
-        $paginator::setDefaultItemCountPerPage($this->preferences()->getItemsPerPage());
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange(ceil($paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator::setDefaultItemCountPerPage(count: $this->preferences()->getItemsPerPage());
+        $paginator->setCurrentPageNumber(pageNumber: $page);
+        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
         $form->setData($filterPlugin->getFilterFormData());
 
         return new ViewModel(
-            [
+            variables: [
                 'paginator' => $paginator,
                 'form' => $form,
 
@@ -54,49 +54,49 @@ final class RoleController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $role = $this->adminService->find(Role::class, (int)$this->params('id'));
+        $role = $this->adminService->find(entity: Role::class, id: (int)$this->params('id'));
 
         if (null === $role) {
             return $this->notFoundAction();
         }
 
-        return new ViewModel(['role' => $role, 'adminService' => $this->adminService]);
+        return new ViewModel(variables: ['role' => $role, 'adminService' => $this->adminService]);
     }
 
     public function newAction(): Response|ViewModel
     {
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form = $this->formService->prepare(Role::class, $data);
-        $form->remove('delete');
+        $form = $this->formService->prepare(classNameOrEntity: Role::class, data: $data);
+        $form->remove(elementOrFieldset: 'delete');
 
         if ($this->getRequest()->isPost() && $form->isValid()) {
             /** @var Entity\Role $role */
             $role = $form->getData();
-            $this->adminService->save($role);
+            $this->adminService->save(entity: $role);
 
             $this->flashMessenger()->addSuccessMessage(
-                sprintf(
-                    $this->translator->translate("txt-user-role-%s-has-been-created-successfully"),
+                message: sprintf(
+                    $this->translator->translate(message: "txt-user-role-%s-has-been-created-successfully"),
                     $role->getDescription()
                 )
             );
 
             return $this->redirect()->toRoute(
-                'zfcadmin/role/view',
-                [
+                route: 'zfcadmin/role/view',
+                params: [
                     'id' => $role->getId(),
                 ]
             );
         }
 
-        return new ViewModel(['form' => $form]);
+        return new ViewModel(variables: ['form' => $form]);
     }
 
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Role $role */
-        $role = $this->adminService->find(Role::class, (int)$this->params('id'));
+        $role = $this->adminService->find(entity: Role::class, id: (int)$this->params('id'));
 
         if (null === $role) {
             return $this->notFoundAction();
@@ -104,28 +104,28 @@ final class RoleController extends AbstractActionController
 
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form = $this->formService->prepare($role, $data);
+        $form = $this->formService->prepare(classNameOrEntity: $role, data: $data);
 
         if (!$this->adminService->canDeleteRole($role)) {
-            $form->remove('delete');
+            $form->remove(elementOrFieldset: 'delete');
         }
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
-                return $this->redirect()->toRoute('zfcadmin/role/view', ['id' => $role->getId()]);
+                return $this->redirect()->toRoute(route: 'zfcadmin/role/view', params: ['id' => $role->getId()]);
             }
 
             if (isset($data['delete']) && $this->adminService->canDeleteRole($role)) {
-                $this->adminService->delete($role);
+                $this->adminService->delete(abstractEntity: $role);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate("txt-user-role-%s-has-been-deleted-successfully"),
+                    message: sprintf(
+                        $this->translator->translate(message: "txt-user-role-%s-has-been-deleted-successfully"),
                         $role->getDescription()
                     )
                 );
 
-                return $this->redirect()->toRoute('zfcadmin/role/list');
+                return $this->redirect()->toRoute(route: 'zfcadmin/role/list');
             }
             if ($form->isValid()) {
                 /** @var Entity\Role $role */
@@ -135,24 +135,24 @@ final class RoleController extends AbstractActionController
                     $role->setSelection(new ArrayCollection());
                 }
 
-                $this->adminService->save($role);
+                $this->adminService->save(entity: $role);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    sprintf(
-                        $this->translator->translate("txt-user-role-%s-has-been-updated-successfully"),
+                    message: sprintf(
+                        $this->translator->translate(message: "txt-user-role-%s-has-been-updated-successfully"),
                         $role->getDescription()
                     )
                 );
 
                 return $this->redirect()->toRoute(
-                    'zfcadmin/role/view',
-                    [
+                    route: 'zfcadmin/role/view',
+                    params: [
                         'id' => $role->getId(),
                     ]
                 );
             }
         }
 
-        return new ViewModel(['form' => $form, 'role' => $role]);
+        return new ViewModel(variables: ['form' => $form, 'role' => $role]);
     }
 }

@@ -20,11 +20,11 @@ final class Password extends Form implements InputFilterProviderInterface
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('action', '');
-        $this->setAttribute('class', 'form-horizontal');
+        $this->setAttribute(key: 'action', value: '');
+        $this->setAttribute(key: 'class', value: 'form-horizontal');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => \Laminas\Form\Element\Password::class,
                 'name' => 'password',
                 'options' => [
@@ -37,7 +37,7 @@ final class Password extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => \Laminas\Form\Element\Password::class,
                 'name' => 'passwordVerify',
                 'options' => [
@@ -50,7 +50,7 @@ final class Password extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
                 'options' => [
@@ -61,7 +61,7 @@ final class Password extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => 'submit',
                 'attributes' => [
@@ -71,7 +71,7 @@ final class Password extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Submit::class,
                 'name' => 'cancel',
                 'attributes' => [
@@ -82,7 +82,7 @@ final class Password extends Form implements InputFilterProviderInterface
         );
     }
 
-    #[ArrayShape(['password' => "array", 'passwordVerify' => "array"])]
+    #[ArrayShape(shape: ['password' => "array", 'passwordVerify' => "array"])]
     public function getInputFilterSpecification(): array
     {
         return [
@@ -102,7 +102,7 @@ final class Password extends Form implements InputFilterProviderInterface
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 UPPERCASE character, none found',
                             ],
-                            'callback' => static fn($value) => preg_match('@[A-Z]@', (string)$value),
+                            'callback' => static fn($value) => preg_match(pattern: '@[A-Z]@', subject: (string)$value),
                         ],
                     ],
                     [
@@ -112,7 +112,7 @@ final class Password extends Form implements InputFilterProviderInterface
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 lowercase character, none found',
                             ],
-                            'callback' => static fn($value) => preg_match('@[a-z]@', (string)$value),
+                            'callback' => static fn($value) => preg_match(pattern: '@[a-z]@', subject: (string)$value),
                         ],
                     ],
                     [
@@ -121,7 +121,7 @@ final class Password extends Form implements InputFilterProviderInterface
                             'messages' => [
                                 Callback::INVALID_VALUE => 'The password requires at least 1 number, none found',
                             ],
-                            'callback' => static fn($value) => preg_match('@[\d]@', (string)$value),
+                            'callback' => static fn($value) => preg_match(pattern: '@[\d]@', subject: (string)$value),
                         ],
                     ],
                 ],

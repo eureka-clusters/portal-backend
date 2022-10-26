@@ -31,20 +31,20 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetch($id = 'Xlsx'): array
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return [];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()?->get('filter');
-        $filter = base64_decode($filter);
-        $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
+        $filter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
+        $filter = base64_decode(string: $filter);
+        $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'project.name';
-        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
+        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
         $projectQueryBuilder = $this->projectService->getProjects(
             user: $user,
@@ -58,52 +58,82 @@ final class ProjectListener extends AbstractResourceListener
         $results = [];
         /** @var Project $project */
         foreach ($projects as $project) {
-            $results[] = $this->projectProvider->generateArray($project);
+            $results[] = $this->projectProvider->generateArray(project: $project);
         }
 
         $spreadSheet = new Spreadsheet();
-        $spreadSheet->getProperties()->setTitle('Statistics');
+        $spreadSheet->getProperties()->setTitle(title: 'Statistics');
         $partnerSheet = $spreadSheet->getActiveSheet();
 
-        $partnerSheet->setTitle($this->translator->translate('txt-projects'));
+        $partnerSheet->setTitle(title: $this->translator->translate(message: 'txt-projects'));
 
         $row = 1;
         $column = 'A';
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-number'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-name'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-primary-cluster'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-secondary-cluster'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-official-start-date'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-official-end-date'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-duration-(months)'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-project-status'));
-        $partnerSheet->setCellValue($column++ . $row, $this->translator->translate('txt-total-costs'));
-        $partnerSheet->setCellValue($column . $row, $this->translator->translate('txt-total-effort'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-project-number'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-project-name'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-primary-cluster'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-secondary-cluster'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-official-start-date'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-official-end-date'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-duration-(months)'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-project-status'));
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+            message: 'txt-total-costs'));
+        $partnerSheet->setCellValue(
+            coordinate: $column . $row,
+            value: $this->translator->translate(
+            message: 'txt-total-effort'));
 
         foreach ($results as $result) {
             $column = 'A';
             $row++;
 
-            $partnerSheet->getCell($column++ . $row)->setValue($result['number']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['name']);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['primaryCluster']['name'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['secondaryCluster']['name'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['officialStartDate'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['officialEndDate'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['duration']['months'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['status']['status'] ?? null);
-            $partnerSheet->getCell($column++ . $row)->setValue($result['latestVersionTotalCosts']);
-            $partnerSheet->getCell($column . $row)->setValue($result['latestVersionTotalEffort']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['number']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['name']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['primaryCluster']['name'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['secondaryCluster']['name'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['duration']['months'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
+            $partnerSheet->getCell(coordinate: $column . $row)->setValue(value: $result['latestVersionTotalEffort']);
         }
 
-        $excelWriter = IOFactory::createWriter($spreadSheet, 'Xlsx');
+        $excelWriter = IOFactory::createWriter(spreadsheet: $spreadSheet, writerType: 'Xlsx');
 
         ob_start();
-        $excelWriter->save('php://output');
+        $excelWriter->save(filename: 'php://output');
         $file = ob_get_clean();
 
         $extension = '.xlsx';
         $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        return ['download' => base64_encode($file), 'extension' => $extension, 'mimetype' => $mimetype];
+        return ['download' => base64_encode(string: $file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

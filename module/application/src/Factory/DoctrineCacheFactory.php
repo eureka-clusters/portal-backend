@@ -16,6 +16,6 @@ final class DoctrineCacheFactory implements FactoryInterface
     {
         $laminasCache = $container->get(Redis::class);
 
-        return new LaminasStorageCache($laminasCache);
+        return new LaminasStorageCache(storage: $laminasCache);
     }
 }

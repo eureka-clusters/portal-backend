@@ -14,12 +14,12 @@ final class RoleLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-view');
+        $label = $this->translate(string: 'txt-nav-view');
 
-        if ($this->getEntities()->containsKey(Role::class)) {
-            $entity = $this->getEntities()->get(Role::class);
+        if ($this->getEntities()->containsKey(key: Role::class)) {
+            $entity = $this->getEntities()->get(key: Role::class);
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $entity->getId(),
@@ -28,6 +28,6 @@ final class RoleLabel extends AbstractNavigationInvokable
             );
             $label = (string) $entity;
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

@@ -16,6 +16,7 @@ use Exception;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\AccessRolesByUserInterface;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
+use Laminas\Crypt\Password\Bcrypt;
 use Mailing\Service\EmailService;
 
 use function array_diff;
@@ -166,7 +167,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
     public function findUserByEmail(string $email): ?User
     {
-        return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        return $this->entityManager->getRepository(entityName: User::class)->findOneBy(criteria: ['email' => $email]);
     }
 
     public function lostPassword(string $emailAddress): void
@@ -190,10 +191,10 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     public function updatePasswordForUser(string $password, User $user): bool
     {
         $Bcrypt = new Bcrypt();
-        $Bcrypt->setCost(14);
-        $pass = $Bcrypt->create($password);
-        $user->setPassword($pass);
-        $this->save($user);
+        $Bcrypt->setCost(cost: 14);
+        $pass = $Bcrypt->create(password: $password);
+        $user->setPassword(password: $pass);
+        $this->save(entity: $user);
 
         return true;
     }

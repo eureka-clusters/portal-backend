@@ -28,39 +28,41 @@ final class GetFilter extends AbstractPlugin
     {
         /** @var Application $application */
         $application = $this->container->get('application');
-        $encodedFilter = urldecode((string)$application->getMvcEvent()->getRouteMatch()->getParam('encodedFilter'));
+        $encodedFilter = urldecode(
+            string: (string)$application->getMvcEvent()->getRouteMatch()->getParam(
+            name: 'encodedFilter'));
         /** @var Request $request */
         $request = $application->getMvcEvent()->getRequest();
 
         //Initiate the filter
         $this->filter = new SearchFormResult(
-            order: $request->getQuery('order', 'default'),
-            direction: $request->getQuery('direction', Criteria::ASC)
+            order: $request->getQuery(name: 'order', default: 'default'),
+            direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
         );
 
         if (!empty($encodedFilter)) {
-            $this->filter->updateFromEncodedFilter($encodedFilter);
+            $this->filter->updateFromEncodedFilter(encodedFilter: $encodedFilter);
         }
 
         // If the form is submitted, refresh the URL
-        if ($request->getQuery('query') !== null) {
-            $this->filter->setQuery($request->getQuery('query'));
-            $this->filter->setFilter($request->getQuery('filter', []));
+        if ($request->getQuery(name: 'query') !== null) {
+            $this->filter->setQuery(query: $request->getQuery(name: 'query'));
+            $this->filter->setFilter(filter: $request->getQuery(name: 'filter', default: []));
         }
 
-        if (null !== $request->getQuery('order')) {
-            $this->filter->setOrder($request->getQuery('order'));
+        if (null !== $request->getQuery(name: 'order')) {
+            $this->filter->setOrder(order: $request->getQuery(name: 'order'));
         }
 
-        if (null !== $request->getQuery('direction')) {
-            $this->filter->setDirection($request->getQuery('direction'));
+        if (null !== $request->getQuery(name: 'direction')) {
+            $this->filter->setDirection(direction: $request->getQuery(name: 'direction'));
         }
 
         // If the form is submitted, refresh the URL
-        if ($request->getQuery('reset') !== null) {
+        if ($request->getQuery(name: 'reset') !== null) {
             $this->filter = new SearchFormResult(
-                order: $request->getQuery('order', 'default'),
-                direction: $request->getQuery('direction', Criteria::ASC)
+                order: $request->getQuery(name: 'order', default: 'default'),
+                direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
             );
         }
 
@@ -84,10 +86,10 @@ final class GetFilter extends AbstractPlugin
 
     public function getEncodedFilter(): ?string
     {
-        return urlencode($this->filter->getHash());
+        return urlencode(string: $this->filter->getHash());
     }
 
-    #[Pure] #[ArrayShape([
+    #[Pure] #[ArrayShape(shape: [
         'filter' => "array",
         'query' => "null|string"
     ])] public function getFilterFormData(): array

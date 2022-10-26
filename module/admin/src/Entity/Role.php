@@ -17,7 +17,7 @@ use function in_array;
 
 #[ORM\Table(name: 'admin_role')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\Role::class)]
-#[Annotation\Name('admin_role')]
+#[Annotation\Name(name: 'admin_role')]
 class Role extends AbstractEntity implements RoleInterface
 {
     public final const ROLE_ADMIN = 1;
@@ -38,8 +38,8 @@ class Role extends AbstractEntity implements RoleInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
-    #[Annotation\Type(Text::class)]
-    #[Annotation\Options(['label' => 'txt-role-description', 'help-block' => 'txt-role-description-help-block'])]
+    #[Annotation\Type(type: Text::class)]
+    #[Annotation\Options(options: ['label' => 'txt-role-description', 'help-block' => 'txt-role-description-help-block'])]
     private string $description = '';
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles', cascade: ['persist'])]
@@ -48,7 +48,7 @@ class Role extends AbstractEntity implements RoleInterface
 
     public function getRoleId(): string
     {
-        return strtolower((string)$this->id);
+        return strtolower(string: (string)$this->id);
     }
 
     #[Pure] public function __construct()
@@ -58,7 +58,7 @@ class Role extends AbstractEntity implements RoleInterface
 
     public function isLocked(): bool
     {
-        return in_array($this->id, self::$lockedRoles, true);
+        return in_array(needle: $this->id, haystack: self::$lockedRoles, strict: true);
     }
 
     public function isUser(): bool

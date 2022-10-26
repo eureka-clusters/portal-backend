@@ -18,39 +18,39 @@ class Log extends EntityRepository
     public function findFiltered(array $filter): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('admin_entity_api_log');
-        $qb->from(Entity\Api\Log::class, 'admin_entity_api_log');
+        $qb->select(select: 'admin_entity_api_log');
+        $qb->from(from: Entity\Api\Log::class, alias: 'admin_entity_api_log');
 
         if (!empty($filter['search'])) {
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('admin_entity_api_log.payload', ':like'),
-                    $qb->expr()->like('admin_entity_api_log.response', ':like'),
+                    $qb->expr()->like(x: 'admin_entity_api_log.payload', y: ':like'),
+                    $qb->expr()->like(x: 'admin_entity_api_log.response', y: ':like'),
                 )
             );
-            $qb->setParameter('like', sprintf('%%%s%%', $filter['search']));
+            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $filter['search']));
         }
 
         $direction = 'DESC';
         if (
             isset($filter['direction'])
-            && in_array(strtoupper($filter['direction']), ['ASC', 'DESC'], true)
+            && in_array(needle: strtoupper(string: $filter['direction']), haystack: ['ASC', 'DESC'], strict: true)
         ) {
-            $direction = strtoupper($filter['direction']);
+            $direction = strtoupper(string: $filter['direction']);
         }
 
         switch ($filter['order']) {
             case 'id':
-                $qb->addOrderBy('admin_entity_api_log.id', $direction);
+                $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: $direction);
                 break;
             case 'date':
-                $qb->addOrderBy('admin_entity_api_log.dateCreated', $direction);
+                $qb->addOrderBy(sort: 'admin_entity_api_log.dateCreated', order: $direction);
                 break;
             case 'type':
-                $qb->addOrderBy('admin_entity_api_log.type', $direction);
+                $qb->addOrderBy(sort: 'admin_entity_api_log.type', order: $direction);
                 break;
             default:
-                $qb->addOrderBy('admin_entity_api_log.id', Criteria::DESC);
+                $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: Criteria::DESC);
         }
 
         return $qb;

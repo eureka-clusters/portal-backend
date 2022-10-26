@@ -18,13 +18,13 @@ class ApiService extends AbstractService
         ?string $response
     ): void {
         $log = new Log();
-        $log->setClass($class);
-        $log->setType($type);
-        $log->setPayload($payload);
-        $log->setStatusCode($statusCode);
-        $log->setStatus($status);
-        $log->setResponse($response);
+        $log->setClass(class: $class);
+        $log->setType(type: $type);
+        $log->setPayload(payload: $payload);
+        $log->setStatusCode(statusCode: $statusCode);
+        $log->setStatus(status: $status);
+        $log->setResponse(response: $response);
 
-        $this->save($log);
+        $this->save(entity: $log);
     }
 }

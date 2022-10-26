@@ -19,7 +19,7 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetch($id)
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return [
@@ -32,8 +32,8 @@ final class ProjectListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode($id);
-        $arrayFilter = Json::decode($filter, Json::TYPE_ARRAY);
+        $filter = base64_decode(string: $id);
+        $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!
         return $this->projectService->generateFacets(user: $user, filter: $arrayFilter);

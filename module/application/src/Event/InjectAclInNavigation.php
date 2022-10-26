@@ -18,12 +18,12 @@ class InjectAclInNavigation extends AbstractListenerAggregate
 
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->onRender(...), -1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->onRender(...), priority: -1000);
     }
 
     public function onRender(MvcEvent $event): void
     {
-        Navigation::setDefaultAcl($this->authorizeService->getAcl());
-        Navigation::setDefaultRole($this->authorizeService->getIdentityAsRole());
+        Navigation::setDefaultAcl(acl: $this->authorizeService->getAcl());
+        Navigation::setDefaultRole(role: $this->authorizeService->getIdentityAsRole());
     }
 }

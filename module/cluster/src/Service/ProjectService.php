@@ -29,7 +29,7 @@ class ProjectService extends AbstractService
         EntityManager $entityManager,
         private readonly ClusterService $clusterService
     ) {
-        parent::__construct($entityManager);
+        parent::__construct(entityManager: $entityManager);
     }
 
     public function getProjects(
@@ -39,7 +39,7 @@ class ProjectService extends AbstractService
         string $order = 'asc'
     ): QueryBuilder {
         /** @var ProjectRepository $repository */
-        $repository = $this->entityManager->getRepository(Project::class);
+        $repository = $this->entityManager->getRepository(entityName: Project::class);
 
         return $repository->getProjectsByUserAndFilter(user: $user, filter: $filter, sort: $sort, order: $order);
     }
@@ -47,12 +47,12 @@ class ProjectService extends AbstractService
     public function searchProjects(User $user, string $query, int $limit): array
     {
         /** @var ProjectRepository $repository */
-        $repository = $this->entityManager->getRepository(Project::class);
+        $repository = $this->entityManager->getRepository(entityName: Project::class);
 
         return $repository->searchProjects(user: $user, query: $query, limit: $limit)->getQuery()->getResult();
     }
 
-    #[ArrayShape([
+    #[ArrayShape(shape: [
         'countries' => "array[]",
         'organisationTypes' => "array[]",
         'projectStatus' => "array[]",
@@ -61,7 +61,7 @@ class ProjectService extends AbstractService
     ])] public function generateFacets(User $user, array $filter): array
     {
         /** @var ProjectRepository $repository */
-        $repository = $this->entityManager->getRepository(Project::class);
+        $repository = $this->entityManager->getRepository(entityName: Project::class);
 
         $countries = $repository->fetchCountries(user: $user, filter: $filter);
         $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
@@ -69,30 +69,30 @@ class ProjectService extends AbstractService
         $clusters = $repository->fetchClusters();
         $projectStatuses = $repository->fetchProjectStatuses(user: $user, filter: $filter);
 
-        $countriesIndexed = array_map(static fn(array $country) => [
+        $countriesIndexed = array_map(callback: static fn(array $country) => [
             'name' => $country['country'],
             'amount' => $country[1],
-        ], $countries);
+        ], array: $countries);
 
-        $organisationTypesIndexed = array_map(static fn(array $organisationType) => [
+        $organisationTypesIndexed = array_map(callback: static fn(array $organisationType) => [
             'name' => $organisationType['type'],
             'amount' => $organisationType[1],
-        ], $organisationTypes);
+        ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(static fn(array $cluster) => [
+        $clustersIndexed = array_map(callback: static fn(array $cluster) => [
             'name' => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
-        ], $clusters);
+        ], array: $clusters);
 
-        $programmeCallsIndexed = array_map(static fn(array $programmeCall) => [
+        $programmeCallsIndexed = array_map(callback: static fn(array $programmeCall) => [
             'name' => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
-        ], $programmeCalls);
+        ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
             'name' => $projectStatus['status'],
             'amount' => $projectStatus[1],
-        ], $projectStatuses);
+        ], array: $projectStatuses);
 
         return [
             'countries' => $countriesIndexed,
@@ -105,90 +105,90 @@ class ProjectService extends AbstractService
 
     public function findOrCreateProject(stdClass $data): Project
     {
-        $project = $this->findProjectByIdentifier($data->internalIdentifier);
+        $project = $this->findProjectByIdentifier(identifier: $data->internalIdentifier);
 
         //If we cannot find the project we create a new one. Only set the identifier as we will later overwrite/update the properties
         if (null === $project) {
             $project = new Project();
-            $project->setIdentifier($data->internalIdentifier);
+            $project->setIdentifier(identifier: $data->internalIdentifier);
         }
 
-        $project->setNumber($data->number);
-        $project->setName($data->name);
-        $project->setTitle($data->title);
-        $project->setDescription($data->description);
-        $project->setProgramme($data->programme);
-        $project->setProgrammeCall($data->programmeCall);
+        $project->setNumber(number: $data->number);
+        $project->setName(name: $data->name);
+        $project->setTitle(title: $data->title);
+        $project->setDescription(description: $data->description);
+        $project->setProgramme(programme: $data->programme);
+        $project->setProgrammeCall(programmeCall: $data->programmeCall);
 
-        $project->setProjectLeader($data->projectLeader);
-        $project->setTechnicalArea($data->technicalArea);
+        $project->setProjectLeader(projectLeader: $data->projectLeader);
+        $project->setTechnicalArea(technicalArea: $data->technicalArea);
 
         //Find or create the primary cluster
-        $primaryCluster = $this->clusterService->findOrCreateCluster($data->primaryCluster);
+        $primaryCluster = $this->clusterService->findOrCreateCluster(clusterData: $data->primaryCluster);
 
-        $project->setPrimaryCluster($primaryCluster);
+        $project->setPrimaryCluster(primaryCluster: $primaryCluster);
 
         if (isset($data->secondaryCluster)) {
-            $secondaryCluster = $this->clusterService->findOrCreateCluster($data->secondaryCluster);
-            $project->setSecondaryCluster($secondaryCluster);
+            $secondaryCluster = $this->clusterService->findOrCreateCluster(clusterData: $data->secondaryCluster);
+            $project->setSecondaryCluster(secondaryCluster: $secondaryCluster);
         }
 
         //Find the status
-        $status = $this->entityManager->getRepository(Status::class)->findOneBy(
-            ['status' => $data->projectStatus]
+        $status = $this->entityManager->getRepository(entityName: Status::class)->findOneBy(
+            criteria: ['status' => $data->projectStatus]
         );
 
         //If we cannot find the status, we create a new one
         if (null === $status) {
             $status = new Status();
-            $status->setStatus($data->projectStatus);
+            $status->setStatus(status: $data->projectStatus);
         }
 
-        $project->setStatus($status);
+        $project->setStatus(status: $status);
 
         //Handle the dates
         if ($data->officialStartDate) {
-            $officialStartDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->officialStartDate);
-            $project->setOfficialStartDate($officialStartDate ?: null);
+            $officialStartDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->officialStartDate);
+            $project->setOfficialStartDate(officialStartDate: $officialStartDate ?: null);
         }
 
         if ($data->officialEndDate) {
-            $officialEndDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->officialEndDate);
-            $project->setOfficialEndDate($officialEndDate ?: null);
+            $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->officialEndDate);
+            $project->setOfficialEndDate(officialEndDate: $officialEndDate ?: null);
         }
 
         if ($data->labelDate) {
-            $labelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, $data->labelDate);
-            $project->setLabelDate($labelDate ?: null);
+            $labelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->labelDate);
+            $project->setLabelDate(labelDate: $labelDate ?: null);
         }
 
         if ($data->cancelDate) {
-            $cancelDate = DateTime::createFromFormat(DateTimeInterface::ATOM, (string)$data->cancelDate);
-            $project->setCancelDate($cancelDate ?: null);
+            $cancelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: (string)$data->cancelDate);
+            $project->setCancelDate(cancelDate: $cancelDate ?: null);
         }
 
-        $this->save($project);
+        $this->save(entity: $project);
         return $project;
     }
 
     public function findProjectByIdentifier(string $identifier): ?Project
     {
-        return $this->entityManager->getRepository(Project::class)->findOneBy(
-            ['identifier' => $identifier]
+        return $this->entityManager->getRepository(entityName: Project::class)->findOneBy(
+            criteria: ['identifier' => $identifier]
         );
     }
 
     public function findProjectBySlug(string $slug): ?Project
     {
-        return $this->entityManager->getRepository(Project::class)->findOneBy(
-            ['slug' => $slug]
+        return $this->entityManager->getRepository(entityName: Project::class)->findOneBy(
+            criteria: ['slug' => $slug]
         );
     }
 
     public function findProjectBySlugAndUser(string $slug, User $user): ?Project
     {
         /** @var ProjectRepository $repository */
-        $repository = $this->entityManager->getRepository(Project::class);
+        $repository = $this->entityManager->getRepository(entityName: Project::class);
         return $repository->findProjectBySlugAndUser(slug: $slug, user: $user)->getQuery()->getOneOrNullResult();
     }
 
@@ -198,23 +198,23 @@ class ProjectService extends AbstractService
             return null;
         }
 
-        $difference = $project->getOfficialEndDate()->diff($project->getOfficialStartDate());
+        $difference = $project->getOfficialEndDate()->diff(targetObject: $project->getOfficialStartDate());
 
         return match ($type) {
             self::DURATION_YEAR => (int)(
-                (int)$difference->format('%' . self::DURATION_YEAR) + ceil(
-                    $difference->format('%' . self::DURATION_MONTH) / 12
+                (int)$difference->format(format: '%' . self::DURATION_YEAR) + ceil(
+                    num: $difference->format(format: '%' . self::DURATION_MONTH) / 12
                 )
             ),
             self::DURATION_MONTH => ((
-                    (int)$difference->format('%' . self::DURATION_YEAR) * 12
+                    (int)$difference->format(format: '%' . self::DURATION_YEAR) * 12
                 ) +
-                (int)$difference->format('%' . self::DURATION_MONTH) +
-                ($difference->format('%' . self::DURATION_DAYS) > 0 ? 1
+                (int)$difference->format(format: '%' . self::DURATION_MONTH) +
+                ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
                     : 0)),
-            default => ($difference->format('%' . self::DURATION_YEAR) * 365) + ($difference->format(
-                        '%' . self::DURATION_MONTH
-                    ) * 12) + (int)$difference->format('%' . self::DURATION_DAYS),
+            default => ($difference->format(format: '%' . self::DURATION_YEAR) * 365) + ($difference->format(
+                        format: '%' . self::DURATION_MONTH
+                    ) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
         };
     }
 }

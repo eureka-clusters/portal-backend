@@ -17,14 +17,13 @@ use Doctrine\ORM\EntityManager;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Mailing\Service\EmailService;
 
 return [
     ConfigAbstractFactory::class => [
         UserService::class => [
             EntityManager::class,
-            TranslatorInterface::class,
-            AdminService::class,
-            'ControllerPluginManager',
+            EmailService::class,
         ],
         AdminService::class => [
             EntityManager::class,

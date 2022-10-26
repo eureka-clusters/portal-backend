@@ -26,24 +26,24 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new Paginator(new ArrayAdapter());
+            return new Paginator(adapter: new ArrayAdapter());
         }
 
-        $encodedFilter = $this->getEvent()->getQueryParams()?->get('filter');
+        $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode($encodedFilter);
+        $filter = base64_decode(string: $encodedFilter);
         // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultOrder = 'asc';
         $defaultSort = 'project.name';
 
-        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get('order', $defaultOrder);
+        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: $defaultOrder);
 
         $projectQueryBuilder = $this->projectService->getProjects(
             user: $user,
@@ -51,9 +51,9 @@ final class ProjectListener extends AbstractResourceListener
             sort: $sort,
             order: $order
         );
-        $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
-        $doctrineORMAdapter->setProvider($this->projectProvider);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectQueryBuilder);
+        $doctrineORMAdapter->setProvider(provider: $this->projectProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

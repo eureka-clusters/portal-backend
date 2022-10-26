@@ -14,12 +14,12 @@ final class UserLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-user');
+        $label = $this->translate(string: 'txt-nav-user');
 
-        if ($this->getEntities()->containsKey(User::class)) {
-            $entity = $this->getEntities()->get(User::class);
+        if ($this->getEntities()->containsKey(key: User::class)) {
+            $entity = $this->getEntities()->get(key: User::class);
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $entity->getId(),
@@ -28,6 +28,6 @@ final class UserLabel extends AbstractNavigationInvokable
             );
             $label = (string) $entity;
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

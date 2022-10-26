@@ -25,10 +25,10 @@ final class TransactionalEmailBuilder extends EmailBuilder
             deeplinkService: $deeplinkService
         );
 
-        $this->setSender($transactional->getSender());
+        $this->setSender(setSender: $transactional->getSender());
 
         if ($authenticationService->hasIdentity()) {
-            $this->setReplyToUser($authenticationService->getIdentity());
+            $this->setReplyToUser(user: $authenticationService->getIdentity());
         }
 
         $this->transactional = $transactional;
@@ -39,14 +39,14 @@ final class TransactionalEmailBuilder extends EmailBuilder
         $this->emailCampaign = $this->transactional->getKey();
         $this->template = $this->transactional->getTemplate();
 
-        $this->renderSubject($this->transactional->getMailSubject());
-        $this->renderBody($this->transactional->getMailHtml());
+        $this->renderSubject(mailSubject: $this->transactional->getMailSubject());
+        $this->renderBody(bodyText: $this->transactional->getMailHtml());
     }
 
     public function setDistributionListUser(User $distributionListUser): TransactionalEmailBuilder
     {
         $this->distributionListUser = $distributionListUser;
-        $this->addUserTo($distributionListUser->getUser());
+        $this->addUserTo(user: $distributionListUser->getUser());
 
         return $this;
     }

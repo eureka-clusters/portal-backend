@@ -121,7 +121,7 @@ UserController extends AbstractActionController
         if ($this->getRequest()->isPost() && $form->isValid()) {
             $formData = $form->getData();
             if (
-                $this->userService->updatePasswordForUser($formData['password'], $this->identity())
+                $this->userService->updatePasswordForUser(password: $formData['password'], user: $this->identity())
             ) {
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(message: "txt-password-successfully-been-updated")

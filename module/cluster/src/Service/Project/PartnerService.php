@@ -32,17 +32,17 @@ class PartnerService extends AbstractService
         private readonly CountryService $countryService,
         private readonly OrganisationService $organisationService
     ) {
-        parent::__construct($entityManager);
+        parent::__construct(entityManager: $entityManager);
     }
 
     public function findPartnerById(int $id): ?Partner
     {
-        return $this->entityManager->getRepository(Partner::class)->find($id);
+        return $this->entityManager->getRepository(entityName: Partner::class)->find(id: $id);
     }
 
     public function findPartnerBySlug(string $slug): ?Partner
     {
-        return $this->entityManager->getRepository(Partner::class)->findOneBy(['slug' => $slug]);
+        return $this->entityManager->getRepository(entityName: Partner::class)->findOneBy(criteria: ['slug' => $slug]);
     }
 
     public function getPartners(
@@ -52,7 +52,7 @@ class PartnerService extends AbstractService
         string $order = 'asc'
     ): QueryBuilder {
         /** @var PartnerRepository $repository */
-        $repository = $this->entityManager->getRepository(Partner::class);
+        $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         return $repository->getPartnersByUserAndFilter(user: $user, filter: $filter, sort:  $sort, order: $order);
     }
@@ -60,20 +60,20 @@ class PartnerService extends AbstractService
     public function getPartnersByProject(Project $project): QueryBuilder
     {
         /** @var PartnerRepository $repository */
-        $repository = $this->entityManager->getRepository(Partner::class);
+        $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByProject($project);
+        return $repository->getPartnersByProject(project: $project);
     }
 
     public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder
     {
         /** @var PartnerRepository $repository */
-        $repository = $this->entityManager->getRepository(Partner::class);
+        $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByOrganisation($organisation);
+        return $repository->getPartnersByOrganisation(organisation: $organisation);
     }
 
-    #[ArrayShape([
+    #[ArrayShape(shape: [
         'countries' => "array[]",
         'organisationTypes' => "array[]",
         'projectStatus' => "array[]",
@@ -83,7 +83,7 @@ class PartnerService extends AbstractService
     ])] public function generateFacets(User $user, array $filter): array
     {
         /** @var PartnerRepository $repository */
-        $repository = $this->entityManager->getRepository(Partner::class);
+        $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         $countries = $repository->fetchCountries(user: $user, filter: $filter);
         $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
@@ -92,32 +92,32 @@ class PartnerService extends AbstractService
         $programmeCalls = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
         $years = $repository->fetchYears();
 
-        $countriesIndexed = array_map(static fn(array $country) => [
+        $countriesIndexed = array_map(callback: static fn(array $country) => [
             'name' => $country['country'],
             'amount' => $country[1],
-        ], $countries);
+        ], array: $countries);
 
-        $organisationTypesIndexed = array_map(static fn(array $partnerType) => [
+        $organisationTypesIndexed = array_map(callback: static fn(array $partnerType) => [
             'name' => $partnerType['type'],
             'amount' => $partnerType[1],
-        ], $organisationTypes);
+        ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(static fn(array $cluster) => [
+        $clustersIndexed = array_map(callback: static fn(array $cluster) => [
             'name' => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
-        ], $clusters);
+        ], array: $clusters);
 
-        $programmeCallIndexed = array_map(static fn(array $programmeCall) => [
+        $programmeCallIndexed = array_map(callback: static fn(array $programmeCall) => [
             'name' => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
-        ], $programmeCalls);
+        ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(static fn(array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
             'name' => $projectStatus['status'],
             'amount' => $projectStatus[1],
-        ], $projectStatuses);
+        ], array: $projectStatuses);
 
-        $yearsIndexed = array_map(static fn(array $years) => $years['year'], $years);
+        $yearsIndexed = array_map(callback: static fn(array $years) => $years['year'], array: $years);
 
         return [
             'countries' => $countriesIndexed,
@@ -132,39 +132,42 @@ class PartnerService extends AbstractService
     public function findOrCreatePartner(stdClass $data, Project $project): Partner
     {
         //Find the country first
-        $country = $this->countryService->findCountryByCd($data->country);
+        $country = $this->countryService->findCountryByCd(cd: $data->country);
 
         if (null === $country) {
-            throw new InvalidArgumentException(sprintf("Country with code %s cannot be found", $data->country));
+            throw new InvalidArgumentException(message: sprintf("Country with code %s cannot be found", $data->country));
         }
 
         //Find the type
-        $type = $this->organisationService->findOrCreateOrganisationType($data->type);
+        $type = $this->organisationService->findOrCreateOrganisationType(typeName: $data->type);
 
-        $organisation = $this->organisationService->findOrCreateOrganisation($data->partner, $country, $type);
+        $organisation = $this->organisationService->findOrCreateOrganisation(
+            name: $data->partner,
+            country: $country,
+            type: $type);
 
         //Check if we already have this partner
-        $partner = $this->entityManager->getRepository(Partner::class)->findOneBy(
-            ['project' => $project, 'organisation' => $organisation]
+        $partner = $this->entityManager->getRepository(entityName: Partner::class)->findOneBy(
+            criteria: ['project' => $project, 'organisation' => $organisation]
         );
 
         if (null === $partner) {
             $partner = new Partner();
-            $partner->setOrganisation($organisation);
+            $partner->setOrganisation(organisation: $organisation);
 
             //Save the projectName and PartnerName for slug creation
-            $partner->setProjectName($project->getName());
-            $partner->setOrganisationName($organisation->getName());
+            $partner->setProjectName(projectName: $project->getName());
+            $partner->setOrganisationName(organisationName: $organisation->getName());
 
-            $partner->setProject($project);
-            $partner->setIsActive($data->isActive);
-            $partner->setIsCoordinator($data->isCoordinator);
-            $partner->setIsSelfFunded($data->isSelfFunded);
-            $partner->setTechnicalContact($data->technicalContact);
-            $partner->setLatestVersionEffort(0.0); //Create with an initial version
-            $partner->setLatestVersionCosts(0.0); //Create with an initial version
+            $partner->setProject(project: $project);
+            $partner->setIsActive(isActive: $data->isActive);
+            $partner->setIsCoordinator(isCoordinator: $data->isCoordinator);
+            $partner->setIsSelfFunded(isSelfFunded: $data->isSelfFunded);
+            $partner->setTechnicalContact(technicalContact: $data->technicalContact);
+            $partner->setLatestVersionEffort(latestVersionEffort: 0.0); //Create with an initial version
+            $partner->setLatestVersionCosts(latestVersionCosts: 0.0); //Create with an initial version
 
-            $this->save($partner);
+            $this->save(entity: $partner);
         }
 
         return $partner;
@@ -176,9 +179,12 @@ class PartnerService extends AbstractService
         int $year
     ): float {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
+        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
-        return $repository->findTotalCostsByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+        return $repository->findTotalCostsByPartnerAndLatestProjectVersionAndYear(
+            partner: $partner,
+            projectVersion: $projectVersion,
+            year: $year);
     }
 
     public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
@@ -187,9 +193,12 @@ class PartnerService extends AbstractService
         int $year
     ): float {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(CostsAndEffort::class);
+        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
-        return $repository->findTotalEffortByPartnerAndLatestProjectVersionAndYear($partner, $projectVersion, $year);
+        return $repository->findTotalEffortByPartnerAndLatestProjectVersionAndYear(
+            partner: $partner,
+            projectVersion: $projectVersion,
+            year: $year);
     }
 
 }

@@ -21,28 +21,28 @@ final class DatabaseAdapter implements AdapterInterface
 
     public function authenticate(): Result
     {
-        $user = $this->userService->findUserByEmail($this->username);
+        $user = $this->userService->findUserByEmail(email: $this->username);
 
         if (null === $user) {
             return new Result(
-                Result::FAILURE_IDENTITY_NOT_FOUND,
-                null,
-                ['A record with the supplied identity could not be found.']
+                code: Result::FAILURE_IDENTITY_NOT_FOUND,
+                identity: null,
+                messages: ['A record with the supplied identity could not be found.']
             );
         }
 
-        if (!$this->validateCredential($user, $this->password)) {
-            return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Supplied credential is not valid']);
+        if (!$this->validateCredential(user: $user, credential: $this->password)) {
+            return new Result(code: Result::FAILURE_CREDENTIAL_INVALID, identity: null, messages: ['Supplied credential is not valid']);
         }
 
-        return new Result(Result::SUCCESS, $user, ['Authentication successful']);
+        return new Result(code: Result::SUCCESS, identity: $user, messages: ['Authentication successful']);
     }
 
     private function validateCredential(User $user, $credential): bool
     {
         $bcrypt = new Bcrypt();
-        $bcrypt->setCost(14);
+        $bcrypt->setCost(cost: 14);
 
-        return $bcrypt->verify((string)$credential, $user->getPassword());
+        return $bcrypt->verify(password: (string)$credential, hash: $user->getPassword());
     }
 }

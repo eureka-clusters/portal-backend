@@ -23,22 +23,22 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new Paginator(new ArrayAdapter());
+            return new Paginator(adapter: new ArrayAdapter());
         }
 
         $defaultSort = 'project.name';
 
-        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
+        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
         $projectQueryBuilder = $this->projectService->getProjects(user: $user, filter: [], sort: $sort, order: $order);
 
-        $doctrineORMAdapter = new DoctrineORMAdapter($projectQueryBuilder);
-        $doctrineORMAdapter->setProvider($this->projectProvider);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectQueryBuilder);
+        $doctrineORMAdapter->setProvider(provider: $this->projectProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

@@ -13,7 +13,7 @@ final class CustomEmailBuilder extends EmailBuilder
 
     public function __construct(MailingService $mailingService)
     {
-        parent::__construct($mailingService);
+        parent::__construct(mailingService: $mailingService);
     }
 
     public function renderEmail(): void
@@ -21,10 +21,10 @@ final class CustomEmailBuilder extends EmailBuilder
         $this->emailCampaign = 'Custom email';
 
         if (null !== $this->customSubject) {
-            $this->renderSubject($this->customSubject);
+            $this->renderSubject(mailSubject: $this->customSubject);
         }
         if (null !== $this->customBody) {
-            $this->renderBody($this->customBody);
+            $this->renderBody(bodyText: $this->customBody);
         }
     }
 

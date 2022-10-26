@@ -26,7 +26,7 @@ final class DeeplinkController extends AbstractActionController
 
     public function deeplinkAction(): Response|ViewModel
     {
-        $deeplink = $this->deeplinkService->findDeeplinkByHash((string)$this->params('hash'));
+        $deeplink = $this->deeplinkService->findDeeplinkByHash(hash: (string)$this->params('hash'));
 
         if (null === $deeplink) {
             return $this->notFoundAction();
@@ -36,18 +36,18 @@ final class DeeplinkController extends AbstractActionController
         }
 
         $user = $deeplink->getUser();
-        $this->authenticationService->getStorage()->write($user);
+        $this->authenticationService->getStorage()->write(contents: $user);
 
-        $deeplink->setDateAccess(new DateTime());
-        $this->deeplinkService->save($deeplink);
+        $deeplink->setDateAccess(dateAccess: new DateTime());
+        $this->deeplinkService->save(entity: $deeplink);
 
         //Flush the permissions
         $user->setTriggerUpdate(true);
-        $this->adminService->save($user);
+        $this->adminService->save(entity: $user);
 
         return $this->redirect()->toRoute(
-            $deeplink->getTarget()->getRoute(),
-            [
+            route: $deeplink->getTarget()->getRoute(),
+            params: [
                 'id'     => $deeplink->getKeyId(),
                 'docRef' => $deeplink->getKeyId(),
             ]

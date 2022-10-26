@@ -30,8 +30,8 @@ class MailingService extends AbstractService
 {
     public function findTransactionalByKey(string $key): ?Transactional
     {
-        return $this->entityManager->getRepository(Transactional::class)->findOneBy(
-            [
+        return $this->entityManager->getRepository(entityName: Transactional::class)->findOneBy(
+            criteria: [
                 'key' => $key,
             ]
         );
@@ -41,22 +41,22 @@ class MailingService extends AbstractService
 
     public function findDefaultSender(): Sender
     {
-        return $this->entityManager->find(Sender::class, Sender::SENDER_DEFAULT);
+        return $this->entityManager->find(className: Sender::class, id: Sender::SENDER_DEFAULT);
     }
 
     public function findLoggedInUserSender(): Sender
     {
-        return $this->entityManager->find(Sender::class, Sender::SENDER_LOGGED_IN_USER);
+        return $this->entityManager->find(className: Sender::class, id: Sender::SENDER_LOGGED_IN_USER);
     }
 
     public function findOwnerSender(): Sender
     {
-        return $this->entityManager->find(Sender::class, Sender::SENDER_OWNER);
+        return $this->entityManager->find(className: Sender::class, id: Sender::SENDER_OWNER);
     }
 
     public function findDefaultTemplate(): Template
     {
-        return $this->entityManager->find(Template::class, Template::TEMPLATE_DEFAULT);
+        return $this->entityManager->find(className: Template::class, id: Template::TEMPLATE_DEFAULT);
     }
 
     public function canDeleteTransactional(Transactional $transactional): bool
@@ -121,7 +121,7 @@ class MailingService extends AbstractService
 
     public function findEmailMessageByIdentifier(string $identifier): ?EmailMessage
     {
-        return $this->entityManager->getRepository(EmailMessage::class)
-            ->findOneBy(['identifier' => $identifier]);
+        return $this->entityManager->getRepository(entityName: EmailMessage::class)
+            ->findOneBy(criteria: ['identifier' => $identifier]);
     }
 }

@@ -21,8 +21,8 @@ final class StringDateExtension extends AbstractExtension
     {
         return [
             new TwigFilter(
-                self::FILTER_NAME,
-                $this->processFilter(...)
+                name: self::FILTER_NAME,
+                callable: $this->processFilter(...)
             ),
         ];
     }
@@ -34,35 +34,77 @@ final class StringDateExtension extends AbstractExtension
         }
 
         $datetime       = $date->getTimestamp();
-        $lastWeek       = mktime(0, 0, 0, (int) date('m'), (int) date('d') - 6, (int) date('Y'));
-        $yesterdayStart = mktime(0, 0, 0, (int) date('m'), (int) date('d') - 1, (int) date('Y'));
-        $todayStart     = mktime(0, 0, 0, (int) date('m'), (int) date('d'), (int) date('Y'));
-        $todayEnd       = mktime(0, 0, 0, (int) date('m'), (int) date('d') + 1, (int) date('Y'));
-        $tomorrowEnd    = mktime(0, 0, 0, (int) date('m'), (int) date('d') + 2, (int) date('Y'));
-        $nextWeek       = mktime(0, 0, 0, (int) date('m'), (int) date('d') + 7, (int) date('Y'));
-        $hasTime        = date('Hi', $datetime) !== '0000';
+        $lastWeek       = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+                format: 'd') - 6,
+            year: (int) date(format: 'Y'));
+        $yesterdayStart = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+                format: 'd') - 1,
+            year: (int) date(format: 'Y'));
+        $todayStart     = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+            format: 'd'),
+            year: (int) date(format: 'Y'));
+        $todayEnd       = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+                format: 'd') + 1,
+            year: (int) date(format: 'Y'));
+        $tomorrowEnd    = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+                format: 'd') + 2,
+            year: (int) date(format: 'Y'));
+        $nextWeek       = mktime(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            month: (int) date(format: 'm'),
+            day: (int) date(
+                format: 'd') + 7,
+            year: (int) date(format: 'Y'));
+        $hasTime        = date(format: 'Hi', timestamp: $datetime) !== '0000';
 
         if ($datetime < $lastWeek) {
             //IT LONGER THEN A WEEK AGO
-            $out = date($format, $datetime);
+            $out = date(format: $format, timestamp: $datetime);
         } elseif ($datetime < $yesterdayStart) {
             // LESS THEN A WEEK AGO
-            $out = floor(($todayStart - $datetime) / (3600 * 24)) . ' days ago';
+            $out = floor(num: ($todayStart - $datetime) / (3600 * 24)) . ' days ago';
         } elseif ($datetime < $todayStart) {
             // YESTERDAY
-            $out = 'Yesterday' . ($hasTime ? ' ' . date('H\hi', $datetime) : '');
+            $out = 'Yesterday' . ($hasTime ? ' ' . date(format: 'H\hi', timestamp: $datetime) : '');
         } elseif ($datetime < $todayEnd) {
             // TODAY
-            $out = 'Today' . ($hasTime ? ' ' . date('H:i', $datetime) : '');
+            $out = 'Today' . ($hasTime ? ' ' . date(format: 'H:i', timestamp: $datetime) : '');
         } elseif ($datetime < $tomorrowEnd) {
             // TOMORROW
-            $out = 'Tomorrow ' . ($hasTime ? ' ' . date('H:i', $datetime) : '');
+            $out = 'Tomorrow ' . ($hasTime ? ' ' . date(format: 'H:i', timestamp: $datetime) : '');
         } elseif ($datetime < $nextWeek) {
             // NEXT WEEK
-            $out = 'In ' . ceil(($datetime - $todayEnd) / (3600 * 24)) . ' days';
+            $out = 'In ' . ceil(num: ($datetime - $todayEnd) / (3600 * 24)) . ' days';
         } else {
             // FURTHER AWAY
-            $out = date($format, $datetime);
+            $out = date(format: $format, timestamp: $datetime);
         }
 
         return $out;

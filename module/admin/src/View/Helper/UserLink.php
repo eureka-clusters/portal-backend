@@ -18,7 +18,7 @@ final class UserLink extends AbstractLink
         $linkParams = [];
         $user ??= new User();
 
-        if (! $this->hasAccess($user, Acl\Assertion\User::class, $action)) {
+        if (! $this->hasAccess(entity: $user, assertionName: Acl\Assertion\User::class, action: $action)) {
             if ($action === 'view' && $show === 'initials') {
                 return $user->parseInitials();
             }
@@ -52,7 +52,7 @@ final class UserLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'user/edit',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-edit-profile'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-profile'),
                 ];
                 break;
             case 'view-admin':
@@ -60,7 +60,7 @@ final class UserLink extends AbstractLink
                     'icon'  => 'fa-user-circle-o',
                     'route' => 'zfcadmin/user/view',
                     'text'  => $showOptions[$show] ?? sprintf(
-                        $this->translator->translate('txt-view-user-%s-in-admin'),
+                        $this->translator->translate(message: 'txt-view-user-%s-in-admin'),
                         $user->parseFullName()
                     ),
                 ];
@@ -69,21 +69,21 @@ final class UserLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/user/new',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-create-user'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-create-user'),
                 ];
                 break;
             case 'edit':
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/user/edit',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-edit-user'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-user'),
                 ];
                 break;
             case 'impersonate':
                 $linkParams = [
                     'icon'  => 'fa-user-secret',
                     'route' => 'zfcadmin/user/impersonate',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-impersonate'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-impersonate'),
                 ];
                 break;
         }
@@ -92,6 +92,6 @@ final class UserLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

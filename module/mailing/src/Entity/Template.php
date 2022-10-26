@@ -23,7 +23,7 @@ use Laminas\Form\Element\Textarea;
 
 #[ORM\Table(name: 'mailing_template')]
 #[ORM\Entity]
-#[Name('mailing_template')]
+#[Name(name: 'mailing_template')]
 class Template extends AbstractEntity implements TemplateInterface
 {
     final public const TEMPLATE_DEFAULT = 1;
@@ -31,28 +31,28 @@ class Template extends AbstractEntity implements TemplateInterface
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Type(Hidden::class)]
+    #[Type(type: Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Type(Text::class)]
-    #[Options(['label' => 'txt-mailing-template-name-label', 'help-block' => 'txt-mailing-template-name-help-block'])]
-    #[Attributes(['placeholder' => 'txt-mailing-template-name-help-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['label' => 'txt-mailing-template-name-label', 'help-block' => 'txt-mailing-template-name-help-block'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-mailing-template-name-help-placeholder'])]
     private string $name = '';
 
     #[ORM\Column]
-    #[Type(Text::class)]
-    #[Options([
+    #[Type(type: Text::class)]
+    #[Options(options: [
         'label' => 'txt-mailing-template-subject-label',
         'help-block' => 'txt-mailing-template-subject-help-block',
     ])]
-    #[Attributes(['placeholder' => 'txt-mailing-template-subject-help-placeholder'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-mailing-template-subject-help-placeholder'])]
     private string $subject = '';
 
     #[ORM\Column(type: 'text')]
-    #[Type(Textarea::class)]
-    #[Attributes(['rows' => '20', 'placeholder' => 'txt-mailing-template-body-placeholder'])]
-    #[Options(['label' => 'txt-mailing-template-body-label', 'help-block' => 'txt-mailing-template-body-help-block'])]
+    #[Type(type: Textarea::class)]
+    #[Attributes(attributes: ['rows' => '20', 'placeholder' => 'txt-mailing-template-body-placeholder'])]
+    #[Options(options: ['label' => 'txt-mailing-template-body-label', 'help-block' => 'txt-mailing-template-body-help-block'])]
     private string $body = '';
 
     #[ORM\Column(type: 'datetime')]

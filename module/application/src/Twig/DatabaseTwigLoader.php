@@ -22,24 +22,24 @@ class DatabaseTwigLoader implements LoaderInterface
     public function getSourceContext($name): Source
     {
         /** @var Template|\Mailing\Entity\Template $template */
-        $template = $template = $this->getTemplate($name);
+        $template = $template = $this->getTemplate(template: $name);
 
         if (null === $template) {
-            throw new LoaderError(sprintf('Template "%s" does not exist.', $name));
+            throw new LoaderError(message: sprintf('Template "%s" does not exist.', $name));
         }
 
         if ($template instanceof TemplateInterface) {
-            throw new LoaderError(sprintf('Template "%s" should implement %s', $name, TemplateInterface::class));
+            throw new LoaderError(message: sprintf('Template "%s" should implement %s', $name, TemplateInterface::class));
         }
 
-        return new Source($template->parseSourceContent(), $template->parseName());
+        return new Source(code: $template->parseSourceContent(), name: $template->parseName());
     }
 
     protected function getTemplate(string $template): ?Template
     {
         /** @var Template $template */
-        $template = $this->entityManager->getRepository(Template::class)->findOneBy(
-            [
+        $template = $this->entityManager->getRepository(entityName: Template::class)->findOneBy(
+            criteria: [
                 'template' => $template,
             ]
         );
@@ -49,7 +49,7 @@ class DatabaseTwigLoader implements LoaderInterface
 
     public function exists($template): bool
     {
-        return null !== $this->getTemplate($template);
+        return null !== $this->getTemplate(template: $template);
     }
 
     public function getCacheKey($name): string
@@ -59,7 +59,7 @@ class DatabaseTwigLoader implements LoaderInterface
 
     public function isFresh($name, $time): bool
     {
-        $template = $this->getTemplate($name);
+        $template = $this->getTemplate(template: $name);
 
         if (null === $template) {
             return false;
@@ -71,7 +71,7 @@ class DatabaseTwigLoader implements LoaderInterface
             return false;
         }
         $date = new DateTime();
-        $date->setTimestamp($time);
+        $date->setTimestamp(timestamp: $time);
 
         return $lastModified <= $date;
     }

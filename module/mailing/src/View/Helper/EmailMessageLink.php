@@ -25,6 +25,6 @@ final class EmailMessageLink extends AbstractLink
         $linkParams['show']        = 'text';
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

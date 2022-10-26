@@ -14,14 +14,14 @@ final class Funding extends EntityRepository
         int $year
     ): ?Partner\Funding {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('cluster_partner_funding');
-        $qb->from(Partner\Funding::class, 'cluster_partner_funding');
+        $qb->select(select: 'cluster_partner_funding');
+        $qb->from(from: Partner\Funding::class, alias: 'cluster_partner_funding');
 
         $qb->andWhere('cluster_partner_funding.year = :year');
         $qb->andWhere('cluster_partner_funding.partner = :partner');
 
-        $qb->setParameter('partner', $partner);
-        $qb->setParameter('year', $year);
+        $qb->setParameter(key: 'partner', value: $partner);
+        $qb->setParameter(key: 'year', value: $year);
 
         return $qb->getQuery()->getOneOrNullResult();
     }

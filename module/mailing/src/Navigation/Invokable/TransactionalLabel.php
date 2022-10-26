@@ -14,14 +14,14 @@ final class TransactionalLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-transactional-email');
+        $label = $this->translate(string: 'txt-nav-transactional-email');
 
-        if ($this->getEntities()->containsKey(Transactional::class)) {
+        if ($this->getEntities()->containsKey(key: Transactional::class)) {
             /** @var Transactional $transactional */
-            $transactional = $this->getEntities()->get(Transactional::class);
+            $transactional = $this->getEntities()->get(key: Transactional::class);
 
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $transactional->getId(),
@@ -30,6 +30,6 @@ final class TransactionalLabel extends AbstractNavigationInvokable
             );
             $label = $transactional->getName();
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

@@ -18,11 +18,11 @@ class OrganisationRepository extends EntityRepository
         string $order = 'asc'
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('cluster_entity_organisation');
-        $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
+        $queryBuilder->select(select: 'cluster_entity_organisation');
+        $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
 
-        $this->applyFilters($filter, $queryBuilder);
-        $this->applySorting($sort, $order, $queryBuilder);
+        $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
+        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
 
         return $queryBuilder;
     }
@@ -44,16 +44,16 @@ class OrganisationRepository extends EntityRepository
                 break;
             case 'organisation.country.country':
                 $sortColumn = 'organisation_country.country';
-                $queryBuilder->join('cluster_entity_organisation.country', 'organisation_country');
+                $queryBuilder->join(join: 'cluster_entity_organisation.country', alias: 'organisation_country');
                 break;
             case 'organisation.type.type':
                 $sortColumn = 'organisation_type.type';
-                $queryBuilder->join('cluster_entity_organisation.type', 'organisation_type');
+                $queryBuilder->join(join: 'cluster_entity_organisation.type', alias: 'organisation_type');
                 break;
         }
 
         if (isset($sortColumn)) {
-            $queryBuilder->orderBy($sortColumn, $order);
+            $queryBuilder->orderBy(sort: $sortColumn, order: $order);
         }
     }
 
@@ -63,11 +63,11 @@ class OrganisationRepository extends EntityRepository
         int $limit
     ): QueryBuilder {
         $config = $this->_em->getConfiguration();
-        $config->addCustomStringFunction('match_against', MatchAgainst::class);
+        $config->addCustomStringFunction(name: 'match_against', className: MatchAgainst::class);
 
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('cluster_entity_organisation');
-        $queryBuilder->from(Organisation::class, 'cluster_entity_organisation');
+        $queryBuilder->select(select: 'cluster_entity_organisation');
+        $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
 
         // $queryBuilder->andWhere(
         //     $queryBuilder->expr()->orX(
@@ -77,14 +77,14 @@ class OrganisationRepository extends EntityRepository
         // $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
 
         $queryBuilder->addSelect(
-            'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score'
+            select: 'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score'
         );
         $queryBuilder->andWhere(
             'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) > 0'
         );
-        $queryBuilder->setParameter('match', $query);
+        $queryBuilder->setParameter(key: 'match', value: $query);
 
-        $queryBuilder->setMaxResults($limit);
+        $queryBuilder->setMaxResults(maxResults: $limit);
 
         return $queryBuilder;
     }

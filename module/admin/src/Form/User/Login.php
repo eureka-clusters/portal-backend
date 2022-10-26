@@ -20,11 +20,11 @@ final class Login extends Form implements InputFilterProviderInterface
     {
         parent::__construct();
 
-        $this->setAttribute('action', '');
-        $this->setAttribute('class', 'form-horizontal');
+        $this->setAttribute(key: 'action', value: '');
+        $this->setAttribute(key: 'class', value: 'form-horizontal');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'username',
                 'type' => Email::class,
                 'options' => [
@@ -37,7 +37,7 @@ final class Login extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'password',
                 'type' => Password::class,
                 'options' => [
@@ -50,7 +50,7 @@ final class Login extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
                 'options' => [
@@ -61,7 +61,7 @@ final class Login extends Form implements InputFilterProviderInterface
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'submit',
                 'type' => Submit::class,
                 'attributes' => [

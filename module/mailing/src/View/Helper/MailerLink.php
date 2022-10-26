@@ -39,8 +39,8 @@ final class MailerLink extends AbstractLink
                     'icon' => 'fa-plus',
                     'route' => 'zfcadmin/mailing/mailer/new',
                     'text' => $showOptions[$show] ?? sprintf(
-                            $this->translator->translate('txt-new-mailer-of-type-%s'),
-                            $this->translator->translate($serviceName)
+                            $this->translator->translate(message: 'txt-new-mailer-of-type-%s'),
+                            $this->translator->translate(message: $serviceName)
                         ),
                 ];
                 break;
@@ -48,14 +48,14 @@ final class MailerLink extends AbstractLink
                 $linkParams = [
                     'icon' => 'fa-link',
                     'route' => 'zfcadmin/mailing/mailer/view',
-                    'text' => $showOptions[$show] ?? $this->translator->translate('txt-view-mailer'),
+                    'text' => $showOptions[$show] ?? $this->translator->translate(message: 'txt-view-mailer'),
                 ];
                 break;
             case 'edit':
                 $linkParams = [
                     'icon' => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/mailing/mailer/edit',
-                    'text' => $showOptions[$show] ?? $this->translator->translate('txt-edit-mailer'),
+                    'text' => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-mailer'),
                 ];
                 break;
         }
@@ -64,6 +64,6 @@ final class MailerLink extends AbstractLink
         $linkParams['show'] = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

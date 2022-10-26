@@ -33,11 +33,11 @@ final class Ical
 
     public function toMimePart(): Part
     {
-        $part = new Part($this->getCalendar());
-        $part->setType('text/calendar');
-        $part->setDisposition(Mime::DISPOSITION_ATTACHMENT);
-        $part->setEncoding(Mime::ENCODING_BASE64);
-        $part->setFileName('meeting.ics');
+        $part = new Part(content: $this->getCalendar());
+        $part->setType(type: 'text/calendar');
+        $part->setDisposition(disposition: Mime::DISPOSITION_ATTACHMENT);
+        $part->setEncoding(encoding: Mime::ENCODING_BASE64);
+        $part->setFileName(fileName: 'meeting.ics');
 
         return $part;
     }
@@ -77,7 +77,7 @@ final class Ical
         return (string) $calendarComponent;
     }
 
-    #[ArrayShape([
+    #[ArrayShape(shape: [
         'ContentType'   => "string",
         'Filename'      => "string",
         'Base64Content' => "string",
@@ -86,7 +86,7 @@ final class Ical
         return [
             'ContentType'   => 'text/calendar',
             'Filename'      => 'meeting.ics',
-            'Base64Content' => base64_encode($this->getCalendar()),
+            'Base64Content' => base64_encode(string: $this->getCalendar()),
         ];
     }
 }

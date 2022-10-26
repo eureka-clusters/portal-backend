@@ -18,17 +18,17 @@ final class CostsAndEffort extends EntityRepository
         int $year
     ): float {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('cluster_entity_project_version_costs_and_effort.costs');
+        $queryBuilder->select(select: 'cluster_entity_project_version_costs_and_effort.costs');
         $queryBuilder->from(
-            Entity\Project\Version\CostsAndEffort::class,
-            'cluster_entity_project_version_costs_and_effort'
+            from: Entity\Project\Version\CostsAndEffort::class,
+            alias: 'cluster_entity_project_version_costs_and_effort'
         );
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.partner = :partner');
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.year = :year');
-        $queryBuilder->setParameter('partner', $partner);
-        $queryBuilder->setParameter('projectVersion', $projectVersion);
-        $queryBuilder->setParameter('year', $year);
+        $queryBuilder->setParameter(key: 'partner', value: $partner);
+        $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setParameter(key: 'year', value: $year);
 
         return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
         )->getSingleScalarResult();
@@ -40,17 +40,17 @@ final class CostsAndEffort extends EntityRepository
         int $year
     ): float {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('cluster_entity_project_version_costs_and_effort.effort');
+        $queryBuilder->select(select: 'cluster_entity_project_version_costs_and_effort.effort');
         $queryBuilder->from(
-            Entity\Project\Version\CostsAndEffort::class,
-            'cluster_entity_project_version_costs_and_effort'
+            from: Entity\Project\Version\CostsAndEffort::class,
+            alias: 'cluster_entity_project_version_costs_and_effort'
         );
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.partner = :partner');
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.year = :year');
-        $queryBuilder->setParameter('partner', $partner);
-        $queryBuilder->setParameter('projectVersion', $projectVersion);
-        $queryBuilder->setParameter('year', $year);
+        $queryBuilder->setParameter(key: 'partner', value: $partner);
+        $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setParameter(key: 'year', value: $year);
 
         return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
         )->getSingleScalarResult();
@@ -59,14 +59,14 @@ final class CostsAndEffort extends EntityRepository
     public function parseTotalCostsByProjectVersion(Version $projectVersion): float
     {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('SUM(cluster_entity_project_version_costs_and_effort.costs)');
+        $queryBuilder->select(select: 'SUM(cluster_entity_project_version_costs_and_effort.costs)');
         $queryBuilder->from(
-            Entity\Project\Version\CostsAndEffort::class,
-            'cluster_entity_project_version_costs_and_effort'
+            from: Entity\Project\Version\CostsAndEffort::class,
+            alias: 'cluster_entity_project_version_costs_and_effort'
         );
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
-        $queryBuilder->setParameter('projectVersion', $projectVersion);
-        $queryBuilder->setMaxResults(1);
+        $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setMaxResults(maxResults: 1);
 
         return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
         )->getSingleScalarResult();
@@ -75,14 +75,14 @@ final class CostsAndEffort extends EntityRepository
     public function parseTotalEffortByProjectVersion(Version $projectVersion): float
     {
         $queryBuilder = $this->_em->createQueryBuilder();
-        $queryBuilder->select('SUM(cluster_entity_project_version_costs_and_effort.effort)');
+        $queryBuilder->select(select: 'SUM(cluster_entity_project_version_costs_and_effort.effort)');
         $queryBuilder->from(
-            Entity\Project\Version\CostsAndEffort::class,
-            'cluster_entity_project_version_costs_and_effort'
+            from: Entity\Project\Version\CostsAndEffort::class,
+            alias: 'cluster_entity_project_version_costs_and_effort'
         );
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
-        $queryBuilder->setParameter('projectVersion', $projectVersion);
-        $queryBuilder->setMaxResults(1);
+        $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setMaxResults(maxResults: 1);
 
         return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
         )->getSingleScalarResult();

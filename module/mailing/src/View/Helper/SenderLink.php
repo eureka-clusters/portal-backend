@@ -31,21 +31,21 @@ final class SenderLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/mailing/sender/new',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-new-sender'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-new-sender'),
                 ];
                 break;
             case 'view':
                 $linkParams = [
                     'icon'  => 'fa-link',
                     'route' => 'zfcadmin/mailing/sender/view',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-view-sender'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-view-sender'),
                 ];
                 break;
             case 'edit':
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/mailing/sender/edit',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-edit-sender'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-sender'),
                 ];
                 break;
         }
@@ -54,6 +54,6 @@ final class SenderLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

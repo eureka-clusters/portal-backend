@@ -17,7 +17,7 @@ final class TransactionalFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'name',
                 'required'   => true,
                 'validators' => [
@@ -33,7 +33,7 @@ final class TransactionalFilter extends InputFilter
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'key',
                 'required'   => false,
                 'validators' => [
@@ -48,7 +48,7 @@ final class TransactionalFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Transactional::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Transactional::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => ['key'],
@@ -58,7 +58,7 @@ final class TransactionalFilter extends InputFilter
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'mailSubject',
                 'required' => true,
                 'filters'  => [
@@ -68,24 +68,24 @@ final class TransactionalFilter extends InputFilter
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'mailHtml',
                 'required' => true,
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'template',
                 'required' => true,
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'sender',
                 'required' => true,
             ]
         );
 
-        $this->add($inputFilter, 'mailing_entity_transactional');
+        $this->add(input: $inputFilter, name: 'mailing_entity_transactional');
     }
 }

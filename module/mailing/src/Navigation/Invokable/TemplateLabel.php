@@ -14,14 +14,14 @@ final class TemplateLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-email-template');
+        $label = $this->translate(string: 'txt-nav-email-template');
 
-        if ($this->getEntities()->containsKey(Template::class)) {
+        if ($this->getEntities()->containsKey(key: Template::class)) {
             /** @var Template $template */
-            $template = $this->getEntities()->get(Template::class);
+            $template = $this->getEntities()->get(key: Template::class);
 
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $template->getId(),
@@ -30,6 +30,6 @@ final class TemplateLabel extends AbstractNavigationInvokable
             );
             $label = $template->getName();
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

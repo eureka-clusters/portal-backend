@@ -28,7 +28,7 @@ class PartnerYearProvider implements ProviderInterface
         $partner = $entity;
 
         $cacheKey = sprintf('%s-years', $partner->getResourceId());
-        $partnerData = $this->cache->getItem($cacheKey);
+        $partnerData = $this->cache->getItem(key: $cacheKey);
 
         if (!$partnerData) {
             /** @var CostsAndEffort $costsAndEffort */
@@ -36,25 +36,25 @@ class PartnerYearProvider implements ProviderInterface
                 $partnerData = [
                     'id' => $partner->getId(),
                     'slug' => $partner->getSlug(),
-                    'project' => $this->projectProvider->generateArray($partner->getProject()),
+                    'project' => $this->projectProvider->generateArray(project: $partner->getProject()),
                     'isActive' => $partner->isActive(),
                     'isSelfFunded' => $partner->isSelfFunded(),
                     'isCoordinator' => $partner->isCoordinator(),
                     'technicalContact' => $this->contactProvider->generateArray(
-                        $partner->getTechnicalContact()
+                        contact: $partner->getTechnicalContact()
                     ),
                     'organisation' => $this->organisationProvider->generateArray(
-                        $partner->getOrganisation()
+                        organisation: $partner->getOrganisation()
                     ),
-                    'latestVersionCosts' => number_format($partner->getLatestVersionCosts(), 2),
-                    'latestVersionEffort' => number_format($partner->getLatestVersionEffort(), 2),
+                    'latestVersionCosts' => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
+                    'latestVersionEffort' => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
                     'year' => $costsAndEffort->getYear(),
-                    'latestVersionCostsInYear' => number_format($costsAndEffort->getCosts(), 2),
-                    'latestVersionEffortInYear' => number_format($costsAndEffort->getEffort(), 2),
+                    'latestVersionCostsInYear' => number_format(num: $costsAndEffort->getCosts(), decimals: 2),
+                    'latestVersionEffortInYear' => number_format(num: $costsAndEffort->getEffort(), decimals: 2),
                 ];
             }
 
-            $this->cache->setItem($cacheKey, $partnerData);
+            $this->cache->setItem(key: $cacheKey, value: $partnerData);
         }
 
         return $partnerData;

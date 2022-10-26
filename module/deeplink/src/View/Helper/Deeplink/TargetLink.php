@@ -32,7 +32,7 @@ final class TargetLink extends AbstractLink
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/deeplink/target/new',
                     'text'  => $showOptions[$show]
-                        ?? $this->translator->translate('txt-new-target'),
+                        ?? $this->translator->translate(message: 'txt-new-target'),
                 ];
                 break;
             case 'edit':
@@ -40,7 +40,7 @@ final class TargetLink extends AbstractLink
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/deeplink/target/edit',
                     'text'  => $showOptions[$show]
-                        ?? $this->translator->translate('txt-edit-target'),
+                        ?? $this->translator->translate(message: 'txt-edit-target'),
                 ];
                 break;
             case 'view':
@@ -56,6 +56,6 @@ final class TargetLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

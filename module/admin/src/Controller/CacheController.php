@@ -32,9 +32,9 @@ final class CacheController extends AbstractActionController
     public function indexAction(): Response|ViewModel
     {
         $form = new AdminFunctions();
-        $form->setData($this->params()->fromPost());
+        $form->setData(data: $this->params()->fromPost());
 
-        set_time_limit(0);
+        set_time_limit(seconds: 0);
 
         if ($this->getRequest()->isPost() && $form->isValid()) {
             if (null !== $form->getData()[AdminFunctions::ACTION_CLEANUP_FILE_CACHE]) {
@@ -44,35 +44,35 @@ final class CacheController extends AbstractActionController
                 $rootPath = __DIR__ . '/../../../../';
 
                 $cacheFolder = $rootPath . "data/twig/";
-                if (file_exists($cacheFolder)) {
+                if (file_exists(filename: $cacheFolder)) {
                     foreach (
                         new RecursiveIteratorIterator(
-                            new RecursiveDirectoryIterator($cacheFolder),
-                            RecursiveIteratorIterator::LEAVES_ONLY
+                            iterator: new RecursiveDirectoryIterator(directory: $cacheFolder),
+                            mode: RecursiveIteratorIterator::LEAVES_ONLY
                         ) as $file
                     ) {
                         if ($file->isFile()) {
-                            unlink($file->getPathname());
+                            unlink(filename: $file->getPathname());
                         }
                     }
                 }
 
-                array_map('unlink', glob($rootPath . "data/cache/*"));
+                array_map(callback: 'unlink', array: glob(pattern: $rootPath . "data/cache/*"));
 
-                $this->flashMessenger()->addInfoMessage("Flush of File-cache successful");
+                $this->flashMessenger()->addInfoMessage(message: "Flush of File-cache successful");
 
-                return $this->redirect()->toRoute('zfcadmin/cache/index');
+                return $this->redirect()->toRoute(route: 'zfcadmin/cache/index');
             }
 
             if ((null !== $form->getData()[AdminFunctions::ACTION_FLUSH_REDIS_CACHE]) && $this->cache->flush()) {
-                $this->flashMessenger()->addInfoMessage("Flush of Redis cache successful");
+                $this->flashMessenger()->addInfoMessage(message: "Flush of Redis cache successful");
 
-                return $this->redirect()->toRoute('zfcadmin/cache/index');
+                return $this->redirect()->toRoute(route: 'zfcadmin/cache/index');
             }
         }
 
         return new ViewModel(
-            [
+            variables: [
                 'form' => $form,
                 'host' => $this->getRequest()->getServer()->get('SERVER_NAME'),
             ]

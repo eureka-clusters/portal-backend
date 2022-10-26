@@ -19,12 +19,12 @@ final class OrganisationListener extends AbstractResourceListener
 
     public function fetch($slug = null)
     {
-        $organisation = $this->organisationService->findOrganisationBySlug($slug);
+        $organisation = $this->organisationService->findOrganisationBySlug(slug: $slug);
 
         if (null === $organisation) {
-            return new ApiProblem(404, 'The selected organisation cannot be found');
+            return new ApiProblem(status: 404, detail: 'The selected organisation cannot be found');
         }
 
-        return $this->organisationProvider->generateArray($organisation);
+        return $this->organisationProvider->generateArray(organisation: $organisation);
     }
 }

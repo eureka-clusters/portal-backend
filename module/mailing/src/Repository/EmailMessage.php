@@ -18,33 +18,33 @@ final class EmailMessage extends EntityRepository implements FilteredObjectRepos
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('mailing_entity_email_message');
-        $qb->from(Entity\EmailMessage::class, 'mailing_entity_email_message');
-        $qb->leftJoin('mailing_entity_email_message.user', 'admin_entity_user');
+        $qb->select(select: 'mailing_entity_email_message');
+        $qb->from(from: Entity\EmailMessage::class, alias: 'mailing_entity_email_message');
+        $qb->leftJoin(join: 'mailing_entity_email_message.user', alias: 'admin_entity_user');
 
         if ($searchFormResult->hasQuery()) {
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('admin_entity_user.firstName', ':like'),
-                    $qb->expr()->like('admin_entity_user.lastName', ':like'),
-                    $qb->expr()->like('admin_entity_user.email', ':like'),
-                    $qb->expr()->like('mailing_entity_email_message.emailAddress', ':like')
+                    $qb->expr()->like(x: 'admin_entity_user.firstName', y: ':like'),
+                    $qb->expr()->like(x: 'admin_entity_user.lastName', y: ':like'),
+                    $qb->expr()->like(x: 'admin_entity_user.email', y: ':like'),
+                    $qb->expr()->like(x: 'mailing_entity_email_message.emailAddress', y: ':like')
                 )
             );
-            $qb->setParameter('like', sprintf('%%%s%%', $searchFormResult->getQuery()));
+            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 
         $direction = $searchFormResult->getDirection();
 
         switch ($searchFormResult->getOrder()) {
             case 'id':
-                $qb->addOrderBy('mailing_entity_email_message.id', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: $direction);
                 break;
             case 'subject':
-                $qb->addOrderBy('mailing_entity_email_message.subject', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_email_message.subject', order: $direction);
                 break;
             default:
-                $qb->addOrderBy('mailing_entity_email_message.id', Criteria::DESC);
+                $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: Criteria::DESC);
         }
 
         return $qb;

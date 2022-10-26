@@ -20,7 +20,7 @@ final class SearchResult
     ) {
     }
 
-    #[ArrayShape([
+    #[ArrayShape(shape: [
         'type' => "string",
         'slug' => "string",
         'name' => "string",

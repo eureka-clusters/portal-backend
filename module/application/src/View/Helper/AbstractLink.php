@@ -25,12 +25,12 @@ abstract class AbstractLink
 
     protected function parse(?Link $link): string
     {
-        return $link === null ? '' : $link->parse($this->router, $this->moduleOptions->getServerUrl());
+        return $link === null ? '' : $link->parse(router: $this->router, serverUrl: $this->moduleOptions->getServerUrl());
     }
 
     protected function hasAccess(AbstractEntity $entity, string $assertionName, string $action): bool
     {
-        $this->assertionService->addResource($entity, $assertionName);
-        return $this->authorizeService->isAllowed($entity, $action);
+        $this->assertionService->addResource(entity: $entity, assertion: $assertionName);
+        return $this->authorizeService->isAllowed(resource: $entity, privilege: $action);
     }
 }

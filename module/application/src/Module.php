@@ -20,18 +20,18 @@ final class Module implements ConfigProviderInterface
 
     public function onBootstrap(EventInterface $e): void
     {
-        $app = $e->getParam('application');
+        $app = $e->getParam(name: 'application');
 
         /** @var ServiceManager $sm */
         $sm = $app->getServiceManager();
 
-        $injectAclInNavigation = $sm->get(InjectAclInNavigation::class);
-        $injectAclInNavigation->attach($app->getEventManager());
+        $injectAclInNavigation = $sm->get(name: InjectAclInNavigation::class);
+        $injectAclInNavigation->attach(events: $app->getEventManager());
 
-        $updateNavigation = $sm->get(UpdateNavigation::class);
-        $updateNavigation->attach($app->getEventManager());
+        $updateNavigation = $sm->get(name: UpdateNavigation::class);
+        $updateNavigation->attach(events: $app->getEventManager());
 
-        $setTitle = $sm->get(SetTitle::class);
-        $setTitle->attach($app->getEventManager());
+        $setTitle = $sm->get(name: SetTitle::class);
+        $setTitle->attach(events: $app->getEventManager());
     }
 }

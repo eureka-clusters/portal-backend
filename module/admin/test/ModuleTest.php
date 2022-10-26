@@ -16,8 +16,8 @@ class ModuleTest extends AbstractServiceTest
         $module = new Module();
         $config = $module->getConfig();
 
-        self::assertArrayHasKey('service_manager', $config);
-        self::assertArrayHasKey(ConfigAbstractFactory::class, $config);
+        self::assertArrayHasKey(key: 'service_manager', array: $config);
+        self::assertArrayHasKey(key: ConfigAbstractFactory::class, array: $config);
     }
 
     public function testInstantiationOfConfigAbstractFactories(): void
@@ -34,21 +34,21 @@ class ModuleTest extends AbstractServiceTest
                     $instantiatedDependencies[] = [];
                 } elseif ($dependency === 'ControllerPluginManager') {
                     $instantiatedDependencies[] = $this->getMockBuilder(
-                        PluginManager::class
+                        className: PluginManager::class
                     )->disableOriginalConstructor()->getMock();
                 } elseif ($dependency === 'ViewHelperManager') {
                     $instantiatedDependencies[] = $this->getMockBuilder(
-                        \Laminas\View\Helper\Navigation\PluginManager::class
+                        className: \Laminas\View\Helper\Navigation\PluginManager::class
                     )->disableOriginalConstructor()->getMock();
                 } else {
                     $instantiatedDependencies[]
-                        = $this->getMockBuilder($dependency)->disableOriginalConstructor()->getMock();
+                        = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
                 }
             }
 
             $instance = new $service(...$instantiatedDependencies);
 
-            self::assertInstanceOf($service, $instance);
+            self::assertInstanceOf(expected: $service, actual: $instance);
         }
     }
 }

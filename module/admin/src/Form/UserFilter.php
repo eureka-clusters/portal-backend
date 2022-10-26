@@ -21,10 +21,10 @@ final class UserFilter extends SearchFilter
     {
         parent::__construct();
 
-        $filterFieldset = new Fieldset('filter');
+        $filterFieldset = new Fieldset(name: 'filter');
 
         $filterFieldset->add(
-            [
+            elementOrFieldset: [
                 'type' => EntityMultiCheckbox::class,
                 'name' => 'roles',
                 'attributes' => [
@@ -59,6 +59,6 @@ final class UserFilter extends SearchFilter
 //            ]
 //        );
 
-        $this->add($filterFieldset);
+        $this->add(elementOrFieldset: $filterFieldset);
     }
 }

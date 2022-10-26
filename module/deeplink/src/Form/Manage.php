@@ -15,16 +15,16 @@ final class Manage extends Form
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('action', '');
+        $this->setAttribute(key: 'method', value: 'post');
+        $this->setAttribute(key: 'action', value: '');
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'deleteInactiveDeeplinks',
                 'attributes' => [
@@ -35,7 +35,7 @@ final class Manage extends Form
         );
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'deleteTargets',
                 'attributes' => [

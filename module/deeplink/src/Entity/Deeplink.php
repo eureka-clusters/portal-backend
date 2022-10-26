@@ -52,10 +52,10 @@ class Deeplink extends AbstractEntity
     public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->endDate     = (new DateTime())->add(new DateInterval(sprintf('P%dD', self::EXPIRATION_DAYS_DEFAULT)));
+        $this->endDate     = (new DateTime())->add(interval: new DateInterval(duration: sprintf('P%dD', self::EXPIRATION_DAYS_DEFAULT)));
         $this->user        = new User();
         $this->target      = new Target();
-        $this->hash        = substr(sha1(Rand::getString(255)), 0, 15);
+        $this->hash        = substr(string: sha1(string: Rand::getString(length: 255)), offset: 0, length: 15);
     }
 
     public function getId(): ?int

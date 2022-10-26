@@ -23,7 +23,7 @@ class CountryProvider implements ProviderInterface
     {
         $cacheKey = $country->getResourceId();
 
-        $countryData = $this->cache->getItem($cacheKey);
+        $countryData = $this->cache->getItem(key: $cacheKey);
 
         if (!$countryData) {
             $countryData = [
@@ -33,7 +33,7 @@ class CountryProvider implements ProviderInterface
                 'iso3' => $country->getIso3(),
             ];
 
-            $this->cache->setItem($cacheKey, $countryData);
+            $this->cache->setItem(key: $cacheKey, value: $countryData);
         }
 
         return $countryData;

@@ -33,9 +33,9 @@ final class LinkText
     #[Pure] public static function fromArray(array $params): LinkText
     {
         return new self(
-            $params['text'] ?? null,
-            $params['title'] ?? null,
-            $params['maxLength'] ?? null
+            text: $params['text'] ?? null,
+            title: $params['title'] ?? null,
+            maxLength: $params['maxLength'] ?? null
         );
     }
 
@@ -51,8 +51,8 @@ final class LinkText
 
     public function parse(): string
     {
-        return mb_strlen($this->text) > $this->maxLength
-            ? trim(mb_substr($this->text, 0, $this->maxLength)) . '&hellip;'
+        return mb_strlen(string: $this->text) > $this->maxLength
+            ? trim(string: mb_substr(string: $this->text, start: 0, length: $this->maxLength)) . '&hellip;'
             : $this->text;
     }
 }

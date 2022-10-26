@@ -23,7 +23,7 @@ class StatusProvider implements ProviderInterface
     {
         $cacheKey = $status->getResourceId();
 
-        $statusData = $this->cache->getItem($cacheKey);
+        $statusData = $this->cache->getItem(key: $cacheKey);
 
         if (!$statusData) {
             $statusData = [
@@ -31,7 +31,7 @@ class StatusProvider implements ProviderInterface
                 'status' => $status->getStatus(),
             ];
 
-            $this->cache->setItem($cacheKey, $statusData);
+            $this->cache->setItem(key: $cacheKey, value: $statusData);
         }
 
         return $statusData;

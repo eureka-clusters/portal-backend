@@ -26,11 +26,11 @@ final class Register extends Form
 
     public function init(): void
     {
-        $this->setAttribute('id', 'recaptcha-form');
-        $this->setAttribute('action', '');
+        $this->setAttribute(key: 'id', value: 'recaptcha-form');
+        $this->setAttribute(key: 'action', value: '');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'firstName',
                 'type' => Text::class,
                 'options' => [
@@ -42,7 +42,7 @@ final class Register extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'middleName',
                 'type' => Text::class,
                 'options' => [
@@ -54,7 +54,7 @@ final class Register extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'lastName',
                 'type' => Text::class,
                 'options' => [
@@ -66,7 +66,7 @@ final class Register extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'email',
                 'type' => Email::class,
                 'options' => [
@@ -78,7 +78,7 @@ final class Register extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => EntityMultiCheckbox::class,
                 'name' => 'optIn',
                 'options' => [
@@ -106,19 +106,19 @@ final class Register extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'g-recaptcha-response',
                 'type' => Recaptcha::class,
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'csrf',
                 'type' => Csrf::class,
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'name' => 'submit',
                 'type' => 'submit',
                 'attributes' => [

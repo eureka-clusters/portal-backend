@@ -17,7 +17,7 @@ final class TemplateFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'name',
                 'required'   => true,
                 'validators' => [
@@ -32,7 +32,7 @@ final class TemplateFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Template::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Template::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => ['name'],
@@ -42,7 +42,7 @@ final class TemplateFilter extends InputFilter
             ]
         );
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'subject',
                 'required' => true,
                 'filters'  => [
@@ -52,6 +52,6 @@ final class TemplateFilter extends InputFilter
             ]
         );
 
-        $this->add($inputFilter, 'mailing_entity_template');
+        $this->add(input: $inputFilter, name: 'mailing_entity_template');
     }
 }

@@ -31,23 +31,23 @@ class FormService
             $classNameOrEntity = new $classNameOrEntity();
         }
 
-        $form = $this->getForm($classNameOrEntity, $options);
-        $form->setData($data);
+        $form = $this->getForm(class: $classNameOrEntity, options: $options);
+        $form->setData(data: $data);
 
         return $form;
     }
 
     private function getForm(AbstractEntity $class, array $options = []): Form
     {
-        $formName = $class->get('entity_form_name');
-        $filterName = $class->get('entity_inputfilter_name');
+        $formName = $class->get(switch: 'entity_form_name');
+        $filterName = $class->get(switch: 'entity_inputfilter_name');
 
         /**
          * The filter and the form can dynamically be created by pulling the form from the serviceManager
          * if the form or filter is not give in the serviceManager we will create it by default
          */
         if (!$this->container->has($formName)) {
-            $form = new CreateObject($this->entityManager, $class, $this->container);
+            $form = new CreateObject(entityManager: $this->entityManager, object: $class, container: $this->container);
         } else {
             $form = $this->container->get($formName);
         }
@@ -55,15 +55,15 @@ class FormService
         if ($this->container->has($filterName)) {
             /** @var InputFilter $filter */
             $filter = $this->container->get($filterName);
-            $form->setInputFilter($filter);
-        } elseif (class_exists($filterName)) {
-            $form->setInputFilter(new $filterName($this->entityManager, $class));
+            $form->setInputFilter(inputFilter: $filter);
+        } elseif (class_exists(class: $filterName)) {
+            $form->setInputFilter(inputFilter: new $filterName($this->entityManager, $class));
         }
 
-        $form->bind($class);
+        $form->bind(object: $class);
 
-        $form->setAttribute('class', 'form-horizontal');
-        $form->setAttribute('action', '');
+        $form->setAttribute(key: 'class', value: 'form-horizontal');
+        $form->setAttribute(key: 'action', value: '');
 
         return $form;
     }

@@ -31,7 +31,7 @@ final class TemplateLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/mailing/template/new',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-new-mailing-template'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-new-mailing-template'),
                 ];
                 break;
             case 'view':
@@ -45,7 +45,7 @@ final class TemplateLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/mailing/template/edit',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate('txt-edit-mailing-template'),
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-mailing-template'),
                 ];
                 break;
         }
@@ -54,6 +54,6 @@ final class TemplateLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

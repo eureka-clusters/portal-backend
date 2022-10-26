@@ -14,14 +14,14 @@ final class SenderLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-sender');
+        $label = $this->translate(string: 'txt-nav-sender');
 
-        if ($this->getEntities()->containsKey(Sender::class)) {
+        if ($this->getEntities()->containsKey(key: Sender::class)) {
             /** @var Sender $sender */
-            $sender = $this->getEntities()->get(Sender::class);
+            $sender = $this->getEntities()->get(key: Sender::class);
 
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $sender->getId(),
@@ -30,6 +30,6 @@ final class SenderLabel extends AbstractNavigationInvokable
             );
             $label = $sender->getSender();
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

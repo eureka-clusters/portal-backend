@@ -19,33 +19,33 @@ final class LaminasCacheFactory implements FactoryInterface
     ): Redis {
         $cache = new Redis();
 
-        $cache->getOptions()->setTtl(3600);
+        $cache->getOptions()->setTtl(ttl: 3600);
 
         $cacheOptions = $container->get('Config')['cache'];
 
         $cache->getOptions()->setServer(
-            [
+            server: [
                 'host' => $cacheOptions['adapter']['options']['server']['host'],
                 'port' => $cacheOptions['adapter']['options']['server']['host'],
                 'timeout' => 0.3
             ]
         );
 
-        $cache->getOptions()->setDatabase($cacheOptions['adapter']['options']['database']);
-        $cache->getOptions()->setNamespace($cacheOptions['adapter']['options']['namespace']);
+        $cache->getOptions()->setDatabase(database: $cacheOptions['adapter']['options']['database']);
+        $cache->getOptions()->setNamespace(namespace: $cacheOptions['adapter']['options']['namespace']);
 
         if (isset($cacheOptions['adapter']['options']['password']) && $cacheOptions['adapter']['options']['password']) {
-            $cache->getOptions()->setPassword($cacheOptions['adapter']['options']['password']);
+            $cache->getOptions()->setPassword(password: $cacheOptions['adapter']['options']['password']);
         }
 
         $plugin = new ExceptionHandler();
-        $plugin->getOptions()->setThrowExceptions(false);
-        $cache->addPlugin($plugin);
+        $plugin->getOptions()->setThrowExceptions(throwExceptions: false);
+        $cache->addPlugin(plugin: $plugin);
 
         //Add the serializer
         $plugin = new Serializer();
-        $plugin->getOptions()->setThrowExceptions(false);
-        $cache->addPlugin($plugin);
+        $plugin->getOptions()->setThrowExceptions(throwExceptions: false);
+        $cache->addPlugin(plugin: $plugin);
 
         return $cache;
     }

@@ -30,21 +30,21 @@ final class ScopeLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/oauth2/scope/new',
-                    'text'  => $this->translator->translate('txt-new-oauth2-scope'),
+                    'text'  => $this->translator->translate(message: 'txt-new-oauth2-scope'),
                 ];
                 break;
             case 'view':
                 $linkParams = [
                     'icon'  => 'fa-link',
                     'route' => 'zfcadmin/oauth2/scope/view',
-                    'text'  => $this->translator->translate('txt-view-oauth2-scope'),
+                    'text'  => $this->translator->translate(message: 'txt-view-oauth2-scope'),
                 ];
                 break;
             case 'edit':
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/oauth2/scope/edit',
-                    'text'  => $this->translator->translate('txt-edit-oauth2-scope'),
+                    'text'  => $this->translator->translate(message: 'txt-edit-oauth2-scope'),
                 ];
                 break;
         }
@@ -53,6 +53,6 @@ final class ScopeLink extends AbstractLink
         $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
-        return $this->parse(Link::fromArray($linkParams));
+        return $this->parse(link: Link::fromArray(params: $linkParams));
     }
 }

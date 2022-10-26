@@ -23,7 +23,7 @@ class ClusterProvider implements ProviderInterface
     {
         $cacheKey = $cluster->getResourceId();
 
-        $clusterData = $this->cache->getItem($cacheKey);
+        $clusterData = $this->cache->getItem(key: $cacheKey);
 
         if (!$clusterData) {
             $clusterData = [
@@ -32,7 +32,7 @@ class ClusterProvider implements ProviderInterface
                 'description' => $cluster->getDescription(),
             ];
 
-            $this->cache->setItem($cacheKey, $clusterData);
+            $this->cache->setItem(key: $cacheKey, value: $clusterData);
         }
 
         return $clusterData;

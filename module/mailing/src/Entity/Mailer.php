@@ -21,7 +21,7 @@ use Laminas\Form\Element\Text;
 
 #[ORM\Table(name: 'mailing_mailer')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\Mailer::class)]
-#[Name('mailing_mailer')]
+#[Name(name: 'mailing_mailer')]
 class Mailer extends AbstractEntity
 {
     final public const MAILER_SERVICE_SMTP = 1;
@@ -39,13 +39,13 @@ class Mailer extends AbstractEntity
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Type(Hidden::class)]
+    #[Type(type: Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column(unique: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-service-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-service-label', 'placeholder' => 'txt-mailer-service-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-service-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-service-label', 'placeholder' => 'txt-mailer-service-placeholder'])]
     private string $name = '';
 
     #[ORM\Column(type: 'smallint')]
@@ -53,39 +53,39 @@ class Mailer extends AbstractEntity
     private int $service = self::MAILER_SERVICE_SMTP;
 
     #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-hostname-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-hostname-label', 'placeholder' => 'txt-mailer-hostname-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-hostname-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-hostname-label', 'placeholder' => 'txt-mailer-hostname-placeholder'])]
     private ?string $hostname = null;
 
     #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-username-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-username-label', 'placeholder' => 'txt-mailer-username-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-username-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-username-label', 'placeholder' => 'txt-mailer-username-placeholder'])]
     private ?string $username = null;
 
     #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-password-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-password-label', 'placeholder' => 'txt-mailer-password-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-password-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-password-label', 'placeholder' => 'txt-mailer-password-placeholder'])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'smallint', nullable: true)]
-    #[Type(Number::class)]
-    #[Options(['help-block' => 'txt-mailer-port-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-port-label', 'placeholder' => 'txt-mailer-port-placeholder'])]
+    #[Type(type: Number::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-port-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-port-label', 'placeholder' => 'txt-mailer-port-placeholder'])]
     private ?int $port = null;
 
     #[ORM\Column(name: '`ssl`', nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-ssl-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-ssl-label', 'placeholder' => 'txt-mailer-ssl-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-ssl-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-ssl-label', 'placeholder' => 'txt-mailer-ssl-placeholder'])]
     private ?string $ssl = null;
 
     #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-sendgrid-api-key-help-block'])]
-    #[Attributes([
+    #[Type(type: Text::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-sendgrid-api-key-help-block'])]
+    #[Attributes(attributes: [
         'label' => 'txt-mailer-sendgrid-api-key-label',
         'placeholder' => 'txt-mailer-sendgrid-api-key-placeholder'
     ])]
@@ -93,15 +93,15 @@ class Mailer extends AbstractEntity
     
 
     #[ORM\Column(type: 'boolean')]
-    #[Type(Checkbox::class)]
-    #[Options(['help-block' => 'txt-mailer-is-development-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-is-development-label'])]
+    #[Type(type: Checkbox::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-is-development-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-is-development-label'])]
     private bool $isDevelopment = false;
 
     #[ORM\Column(type: 'boolean')]
-    #[Type(Checkbox::class)]
-    #[Options(['help-block' => 'txt-mailer-is-active-help-block'])]
-    #[Attributes(['label' => 'txt-mailer-is-active-label'])]
+    #[Type(type: Checkbox::class)]
+    #[Options(options: ['help-block' => 'txt-mailer-is-active-help-block'])]
+    #[Attributes(attributes: ['label' => 'txt-mailer-is-active-label'])]
     private bool $isActive = true;
 
     #[ORM\OneToMany(mappedBy: 'mailer', targetEntity: Transactional::class, cascade: ['persist'])]

@@ -72,7 +72,7 @@ class Client extends AbstractEntity
 
     public function setId(string|int $clientId): Client
     {
-        $this->setClientId((string)$clientId);
+        $this->setClientId(clientId: (string)$clientId);
 
         return $this;
     }

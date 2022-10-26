@@ -45,10 +45,10 @@ final class LinkDecoration
     public static function fromArray(array $params): LinkDecoration
     {
         return new self(
-            $params['show'] ?? self::SHOW_TEXT,
-            LinkText::fromArray($params),
-            $params['action'] ?? null,
-            $params['icon'] ?? null
+            show: $params['show'] ?? self::SHOW_TEXT,
+            linkText: LinkText::fromArray(params: $params),
+            action: $params['action'] ?? null,
+            icon: $params['icon'] ?? null
         );
     }
 
@@ -93,10 +93,10 @@ final class LinkDecoration
             self::$linkTemplate,
             empty($this->linkText->getTitle()) ? '' : sprintf(
                 ' title="%s"',
-                str_replace('%', '&#37;', $this->linkText->getTitle())
+                str_replace(search: '%', replace: '&#37;', subject: $this->linkText->getTitle())
             ),
-            empty($classes) ? '' : sprintf(' class="%s"', implode(' ', $classes)),
-            str_replace('%', '&#37;', implode($content))
+            empty($classes) ? '' : sprintf(' class="%s"', implode(separator: ' ', array: $classes)),
+            str_replace(search: '%', replace: '&#37;', subject: implode(separator: $content))
         );
     }
 }

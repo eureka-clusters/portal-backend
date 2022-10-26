@@ -36,7 +36,7 @@ class ProjectProvider implements ProviderInterface
     {
         $cacheKey = $project->getResourceId();
 
-        $projectData = $this->cache->getItem($cacheKey);
+        $projectData = $this->cache->getItem(key: $cacheKey);
 
         if (!$projectData) {
             $projectData = [
@@ -48,38 +48,38 @@ class ProjectProvider implements ProviderInterface
                 'description' => $project->getDescription(),
                 'technicalArea' => $project->getTechnicalArea(),
                 'coordinator' => null === $project->getCoordinatorPartner(
-                ) ? null : PartnerProvider::parseCoordinatorArray($project->getCoordinatorPartner()),
-                'projectLeader' => $this->contactProvider->generateArray($project->getProjectLeader()),
+                ) ? null : PartnerProvider::parseCoordinatorArray(partner: $project->getCoordinatorPartner()),
+                'projectLeader' => $this->contactProvider->generateArray(contact: $project->getProjectLeader()),
                 'latestVersion' => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
-                    $project->getLatestVersion()
+                    version: $project->getLatestVersion()
                 ),
                 'programme' => $project->getProgramme(),
                 'programmeCall' => $project->getProgrammeCall(),
-                'primaryCluster' => $this->clusterProvider->generateArray($project->getPrimaryCluster()),
+                'primaryCluster' => $this->clusterProvider->generateArray(cluster: $project->getPrimaryCluster()),
                 'secondaryCluster' => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
-                    $project->getSecondaryCluster()
+                    cluster: $project->getSecondaryCluster()
                 ),
-                'cancelDate' => $project->getCancelDate()?->format(DateTimeInterface::ATOM),
-                'labelDate' => $project->getLabelDate()?->format(DateTimeInterface::ATOM),
-                'officialStartDate' => $project->getOfficialStartDate()?->format(DateTimeInterface::ATOM),
-                'officialEndDate' => $project->getOfficialEndDate()?->format(DateTimeInterface::ATOM),
+                'cancelDate' => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
+                'labelDate' => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
+                'officialStartDate' => $project->getOfficialStartDate()?->format(format: DateTimeInterface::ATOM),
+                'officialEndDate' => $project->getOfficialEndDate()?->format(format: DateTimeInterface::ATOM),
                 'duration' => [
-                    'years' => $this->projectService->parseDuration($project, ProjectService::DURATION_YEAR),
-                    'months' => $this->projectService->parseDuration($project, ProjectService::DURATION_MONTH),
-                    'days' => $this->projectService->parseDuration($project, ProjectService::DURATION_DAYS),
+                    'years' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_YEAR),
+                    'months' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_MONTH),
+                    'days' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_DAYS),
                 ],
-                'status' => $this->projectStatusProvider->generateArray($project->getStatus()),
+                'status' => $this->projectStatusProvider->generateArray(status: $project->getStatus()),
                 'latestVersionTotalCosts' => null === $project->getLatestVersion(
                 ) ? null : $this->versionService->parseTotalCostsByProjectVersion(
-                    $project->getLatestVersion()
+                    projectVersion: $project->getLatestVersion()
                 ),
                 'latestVersionTotalEffort' => null === $project->getLatestVersion(
                 ) ? null : $this->versionService->parseTotalEffortByProjectVersion(
-                    $project->getLatestVersion()
+                    projectVersion: $project->getLatestVersion()
                 ),
             ];
 
-            $this->cache->setItem($cacheKey, $projectData);
+            $this->cache->setItem(key: $cacheKey, value: $projectData);
         }
 
         return $projectData;

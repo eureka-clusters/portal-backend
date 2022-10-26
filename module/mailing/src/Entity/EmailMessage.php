@@ -82,7 +82,7 @@ class EmailMessage extends AbstractEntity
         $this->sender = new Sender();
         $this->template = new Template();
         $this->mailer = new Mailer();
-        $this->identifier = sha1(Rand::getString(30));
+        $this->identifier = sha1(string: Rand::getString(length: 30));
         $this->event = new ArrayCollection();
     }
 

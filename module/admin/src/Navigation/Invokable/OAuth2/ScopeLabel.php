@@ -14,12 +14,12 @@ final class ScopeLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translator->translate('txt-nav-view');
+        $label = $this->translator->translate(message: 'txt-nav-view');
 
-        if ($this->getEntities()->containsKey(Scope::class)) {
-            $entity = $this->getEntities()->get(Scope::class);
+        if ($this->getEntities()->containsKey(key: Scope::class)) {
+            $entity = $this->getEntities()->get(key: Scope::class);
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $entity->getId(),
@@ -30,7 +30,7 @@ final class ScopeLabel extends AbstractNavigationInvokable
         }
 
         if (null === $page->getLabel()) {
-            $page->set('label', $label);
+            $page->set(property: 'label', value: $label);
         }
     }
 }

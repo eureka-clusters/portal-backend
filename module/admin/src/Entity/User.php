@@ -57,7 +57,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
     private bool $isEurekaSecretariatStaffMember = false;
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    #[ORM\OrderBy(['description' => Criteria::ASC])]
+    #[ORM\OrderBy(value: ['description' => Criteria::ASC])]
     #[ORM\JoinTable(name: 'admin_user_role')]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\InverseJoinColumn(nullable: false)]
@@ -134,7 +134,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
     {
         return null !== $this->getRoles()
             && $this->getRoles()->exists(
-                static fn($key, Role $role) => $role->getId() === $userRole->getId()
+                p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
             );
     }
 

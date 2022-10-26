@@ -54,10 +54,10 @@ final class GenericUser
     public static function fromJson(string $jsonString, array $allowedClusters): GenericUser
     {
         // decode as array to be able to use the filter
-        $data = Json::decode($jsonString, Json::TYPE_ARRAY);
+        $data = Json::decode(encodedValue: $jsonString, objectDecodeType: Json::TYPE_ARRAY);
         // filter the cluster permissions
         $data['clusterPermissions'] = array_intersect($data['clusterPermissions'] ?? [], $allowedClusters);
-        return new self((object)$data);
+        return new self(result: (object)$data);
     }
 
     public function getId(): string

@@ -14,12 +14,12 @@ final class ClientLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translator->translate('txt-nav-view');
+        $label = $this->translator->translate(message: 'txt-nav-view');
 
-        if ($this->getEntities()->containsKey(Client::class)) {
-            $entity = $this->getEntities()->get(Client::class);
+        if ($this->getEntities()->containsKey(key: Client::class)) {
+            $entity = $this->getEntities()->get(key: Client::class);
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $entity->getId(),
@@ -30,7 +30,7 @@ final class ClientLabel extends AbstractNavigationInvokable
         }
 
         if (null === $page->getLabel()) {
-            $page->set('label', $label);
+            $page->set(property: 'label', value: $label);
         }
     }
 }

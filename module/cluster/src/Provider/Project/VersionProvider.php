@@ -28,16 +28,16 @@ class VersionProvider implements ProviderInterface
     {
         $cacheKey = $version->getResourceId();
 
-        $versionData = $this->cache->getItem($cacheKey);
+        $versionData = $this->cache->getItem(key: $cacheKey);
 
         if (!$versionData) {
             $versionData = [
                 'id' => $version->getId(),
-                'type' => $this->versionTypeProvider->generateArray($version->getType()),
-                'status' => $this->versionStatusProvider->generateArray($version->getStatus()),
+                'type' => $this->versionTypeProvider->generateArray(type: $version->getType()),
+                'status' => $this->versionStatusProvider->generateArray(status: $version->getStatus()),
             ];
 
-            $this->cache->setItem($cacheKey, $versionData);
+            $this->cache->setItem(key: $cacheKey, value: $versionData);
         }
 
         return $versionData;

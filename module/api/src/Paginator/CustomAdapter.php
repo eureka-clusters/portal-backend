@@ -28,6 +28,6 @@ class CustomAdapter extends ArrayAdapter
             $item = $this->provider->generateArray($item);
         }
 
-        return parent::getItems($offset, $itemCountPerPage);
+        return parent::getItems(offset: $offset, itemCountPerPage: $itemCountPerPage);
     }
 }

@@ -30,7 +30,7 @@ class Funder extends AbstractEntity
     private Country $country;
 
     #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'clusterFunders', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    #[ORM\OrderBy(['description' => Criteria::ASC])]
+    #[ORM\OrderBy(value: ['description' => Criteria::ASC])]
     #[ORM\JoinTable(name: 'cluster_funder_cluster')]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\InverseJoinColumn(nullable: false)]

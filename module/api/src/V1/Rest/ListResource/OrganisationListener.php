@@ -21,14 +21,14 @@ final class OrganisationListener extends AbstractResourceListener
     public function fetchAll($params = []): Paginator
     {
         $defaultSort = 'organisation.name';
-        $sort = $this->getEvent()->getQueryParams()?->get('sort', $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get('order', 'asc');
+        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
-        $partnerQueryBuilder = $this->organisationService->getOrganisations([], $sort, $order);
+        $partnerQueryBuilder = $this->organisationService->getOrganisations(filter: [], sort: $sort, order: $order);
 
-        $doctrineORMAdapter = new DoctrineORMAdapter($partnerQueryBuilder);
-        $doctrineORMAdapter->setProvider($this->organisationProvider);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
+        $doctrineORMAdapter->setProvider(provider: $this->organisationProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

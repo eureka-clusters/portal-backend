@@ -27,18 +27,18 @@ class OrganisationProvider implements ProviderInterface
     {
         $cacheKey = $organisation->getResourceId();
 
-        $organisationData = $this->cache->getItem($cacheKey);
+        $organisationData = $this->cache->getItem(key: $cacheKey);
 
         if (!$organisationData) {
             $organisationData = [
                 'id' => $organisation->getId(),
                 'slug' => $organisation->getSlug(),
                 'name' => $organisation->getName(),
-                'country' => $this->countryProvider->generateArray($organisation->getCountry()),
-                'type' => $this->typeProvider->generateArray($organisation->getType()),
+                'country' => $this->countryProvider->generateArray(country: $organisation->getCountry()),
+                'type' => $this->typeProvider->generateArray(type: $organisation->getType()),
             ];
 
-            $this->cache->setItem($cacheKey, $organisationData);
+            $this->cache->setItem(key: $cacheKey, value: $organisationData);
         }
 
         return $organisationData;

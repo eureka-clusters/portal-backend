@@ -44,12 +44,12 @@ class EmailService
         /** @var MailingService $mailingService */
         $mailingService = $this->container->get(MailingService::class);
 
-        if (is_string($transactionalOrKey)) {
-            $transactional = $mailingService->findTransactionalByKey($transactionalOrKey);
+        if (is_string(value: $transactionalOrKey)) {
+            $transactional = $mailingService->findTransactionalByKey(key: $transactionalOrKey);
 
             if (null === $transactional) {
                 throw new InvalidArgumentException(
-                    sprintf('Transactional email with key "%s" cannot be found', $transactionalOrKey)
+                    message: sprintf('Transactional email with key "%s" cannot be found', $transactionalOrKey)
                 );
             }
         } else {
@@ -59,10 +59,10 @@ class EmailService
         $this->mailer = $transactional->getMailer();
 
         return new TransactionalEmailBuilder(
-            $transactional,
-            $mailingService,
-            $this->container->get(DeeplinkService::class),
-            $this->container->get(AuthenticationService::class)
+            transactional: $transactional,
+            mailingService: $mailingService,
+            deeplinkService: $this->container->get(DeeplinkService::class),
+            authenticationService: $this->container->get(AuthenticationService::class)
         );
     }
 
@@ -79,7 +79,7 @@ class EmailService
     {
         $emailBuilder->renderEmail();
 
-        $validator = new EmailValidator($emailBuilder);
+        $validator = new EmailValidator(emailBuilder: $emailBuilder);
 
         if (!$validator->isValid()) {
             return null;
@@ -92,7 +92,7 @@ class EmailService
         $emailMessage = $this->registerEmailMessage(emailBuilder: $emailBuilder, mailer: $this->mailer);
 
         $emailMessageEvent = new EmailMessageEvent();
-        $emailMessageEvent->setEmailMessage($emailMessage);
+        $emailMessageEvent->setEmailMessage(emailMessage: $emailMessage);
 
         if (!$this->mailer->isDevelopment()) {
             switch (true) {
@@ -125,7 +125,7 @@ class EmailService
                     );
                     break;
                 default:
-                    throw new \InvalidArgumentException('The selected service does not exist');
+                    throw new \InvalidArgumentException(message: 'The selected service does not exist');
             }
         }
 
@@ -133,15 +133,15 @@ class EmailService
             $result = 'sending_virtually_done_via_' . $this->mailer->getName();
 
             //Update the email message
-            $emailMessage->setLatestEvent($result);
-            $emailMessageEvent->setEvent($result);
+            $emailMessage->setLatestEvent(latestEvent: $result);
+            $emailMessageEvent->setEvent(event: $result);
 
-            $emailMessage->setDateLatestEvent(new DateTime());
+            $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
-            $emailMessageEvent->setTime(new DateTime());
-            $emailMessageEvent->setMessageId(0);
+            $emailMessageEvent->setTime(time: new DateTime());
+            $emailMessageEvent->setMessageId(messageId: 0);
 
-            $this->entityManager->persist($emailMessageEvent);
+            $this->entityManager->persist(entity: $emailMessageEvent);
         }
 
         $this->entityManager->flush();
@@ -152,29 +152,29 @@ class EmailService
     private function registerEmailMessage(EmailBuilder $emailBuilder, Mailer $mailer): EmailMessage
     {
         $emailMessage = new EmailMessage();
-        $emailMessage->setMailer($mailer); //Inject the mailer here, otherwise the persist will create an empty version
-        $emailMessage->setEmailAddress($emailBuilder->getSender()->getEmail());
-        $emailMessage->setSubject($emailBuilder->getSubject());
-        $emailMessage->setMessage($emailBuilder->getHtmlPart());
-        $emailMessage->setAmountOfAttachments($emailBuilder->getAmountOfAttachments());
+        $emailMessage->setMailer(mailer: $mailer); //Inject the mailer here, otherwise the persist will create an empty version
+        $emailMessage->setEmailAddress(emailAddress: $emailBuilder->getSender()->getEmail());
+        $emailMessage->setSubject(subject: $emailBuilder->getSubject());
+        $emailMessage->setMessage(message: $emailBuilder->getHtmlPart());
+        $emailMessage->setAmountOfAttachments(amountOfAttachments: $emailBuilder->getAmountOfAttachments());
 
-        $emailMessage->setSender($emailBuilder->getSender());
-        $emailMessage->setTemplate($emailBuilder->getTemplate());
-        $emailMessage->setTo($emailBuilder->getTo());
-        $emailMessage->setCc($emailBuilder->getCC());
-        $emailMessage->setBcc($emailBuilder->getBCC());
+        $emailMessage->setSender(sender: $emailBuilder->getSender());
+        $emailMessage->setTemplate(template: $emailBuilder->getTemplate());
+        $emailMessage->setTo(to: $emailBuilder->getTo());
+        $emailMessage->setCc(cc: $emailBuilder->getCC());
+        $emailMessage->setBcc(bcc: $emailBuilder->getBCC());
 
         if ($emailBuilder->hasMailingUser()) {
             $emailMessage->setMailingUser($emailBuilder->getMailingUser());
-            $emailMessage->setUser($emailBuilder->getMailingUser()?->getUser());
+            $emailMessage->setUser(user: $emailBuilder->getMailingUser()?->getUser());
         }
 
         if ($emailBuilder->hasDistributionListUser()) {
             $emailMessage->setDistributionListUser($emailBuilder->getDistributionListUser());
-            $emailMessage->setUser($emailBuilder->getDistributionListUser()?->getUser());
+            $emailMessage->setUser(user: $emailBuilder->getDistributionListUser()?->getUser());
         }
 
-        $this->entityManager->persist($emailMessage);
+        $this->entityManager->persist(entity: $emailMessage);
 
         return $emailMessage;
     }
@@ -215,26 +215,26 @@ class EmailService
             );
         }
 
-        $sendgrid = new SendGrid($this->mailer->getSendGridApiKey());
+        $sendgrid = new SendGrid(apiKey: $this->mailer->getSendGridApiKey());
         try {
-            $response = $sendgrid->send($email);
+            $response = $sendgrid->send(email: $email);
 
             //Update the email message
-            $emailMessage->setLatestEvent('sent_to_sendgriddd');
-            $emailMessageEvent->setEvent('sent_to_sendgrid');
-            $emailMessageEvent->setSmtpReply($response->body());
+            $emailMessage->setLatestEvent(latestEvent: 'sent_to_sendgriddd');
+            $emailMessageEvent->setEvent(event: 'sent_to_sendgrid');
+            $emailMessageEvent->setSmtpReply(smtpReply: $response->body());
         } catch (Exception $e) {
             //Update the email message
-            $emailMessage->setLatestEvent('sending_failed');
-            $emailMessageEvent->setEvent('sending_failed');
-            $emailMessageEvent->setError($e->getMessage());
+            $emailMessage->setLatestEvent(latestEvent: 'sending_failed');
+            $emailMessageEvent->setEvent(event: 'sending_failed');
+            $emailMessageEvent->setError(error: $e->getMessage());
         }
 
-        $emailMessage->setDateLatestEvent(new DateTime());
+        $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
-        $emailMessageEvent->setTime(new DateTime());
-        $emailMessageEvent->setMessageId(0);
-        $this->entityManager->persist($emailMessageEvent);
+        $emailMessageEvent->setTime(time: new DateTime());
+        $emailMessageEvent->setMessageId(messageId: 0);
+        $this->entityManager->persist(entity: $emailMessageEvent);
     }
 
     private function sendEmailViaSendmail(
@@ -244,19 +244,19 @@ class EmailService
     ): void {
         $transport = new Sendmail();
 
-        $transport->send($emailBuilder->getMessage());
+        $transport->send(message: $emailBuilder->getMessage());
         $result = 'sent_via_sendmail';
 
         //Update the email message
-        $emailMessage->setLatestEvent($result);
-        $emailMessageEvent->setEvent($result);
+        $emailMessage->setLatestEvent(latestEvent: $result);
+        $emailMessageEvent->setEvent(event: $result);
 
-        $emailMessage->setDateLatestEvent(new DateTime());
+        $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
-        $emailMessageEvent->setTime(new DateTime());
-        $emailMessageEvent->setMessageId(0);
+        $emailMessageEvent->setTime(time: new DateTime());
+        $emailMessageEvent->setMessageId(messageId: 0);
 
-        $this->entityManager->persist($emailMessageEvent);
+        $this->entityManager->persist(entity: $emailMessageEvent);
     }
 
     private function sendEmailViaMailjet(
@@ -272,28 +272,28 @@ class EmailService
         );
 
         $response = $client->post(
-            Resources::$Email,
-            ['body' => $emailBuilder->getMailjetBody($emailMessage->getIdentifier())->toArray()]
+            resource: Resources::$Email,
+            args: ['body' => $emailBuilder->getMailjetBody(identifier: $emailMessage->getIdentifier())->toArray()]
         );
 
         if (!$response->success()) {
             //Update the email message
-            $emailMessage->setLatestEvent('sending_failed');
-            $emailMessageEvent->setEvent('sending_failed');
+            $emailMessage->setLatestEvent(latestEvent: 'sending_failed');
+            $emailMessageEvent->setEvent(event: 'sending_failed');
         }
 
         if ($response->success()) {
             //Update the email message
-            $emailMessage->setLatestEvent('sent_to_mailjet');
-            $emailMessageEvent->setEvent('sent_to_mailjet');
+            $emailMessage->setLatestEvent(latestEvent: 'sent_to_mailjet');
+            $emailMessageEvent->setEvent(event: 'sent_to_mailjet');
         }
 
-        $emailMessage->setDateLatestEvent(new DateTime());
+        $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
-        $emailMessageEvent->setTime(new DateTime());
-        $emailMessageEvent->setMessageId(0);
-        $emailMessageEvent->setError($response->getReasonPhrase());
-        $this->entityManager->persist($emailMessageEvent);
+        $emailMessageEvent->setTime(time: new DateTime());
+        $emailMessageEvent->setMessageId(messageId: 0);
+        $emailMessageEvent->setError(error: $response->getReasonPhrase());
+        $this->entityManager->persist(entity: $emailMessageEvent);
     }
 
     private function sendEmailViaSmtp(
@@ -319,20 +319,20 @@ class EmailService
             $transportConfig['connection_config']['password'] = $this->mailer->getPassword();
         }
 
-        $smtpOptions = new SmtpOptions($transportConfig);
-        $transport->setOptions($smtpOptions);
-        $transport->send($emailBuilder->getMessage());
+        $smtpOptions = new SmtpOptions(options: $transportConfig);
+        $transport->setOptions(options: $smtpOptions);
+        $transport->send(message: $emailBuilder->getMessage());
         $result = $transport->getConnection()?->getResponse()[0] ?? 'sent_with_smtp';
 
         //Update the email message
-        $emailMessage->setLatestEvent($result);
-        $emailMessageEvent->setEvent($result);
+        $emailMessage->setLatestEvent(latestEvent: $result);
+        $emailMessageEvent->setEvent(event: $result);
 
-        $emailMessage->setDateLatestEvent(new DateTime());
+        $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
-        $emailMessageEvent->setTime(new DateTime());
-        $emailMessageEvent->setMessageId(0);
+        $emailMessageEvent->setTime(time: new DateTime());
+        $emailMessageEvent->setMessageId(messageId: 0);
 
-        $this->entityManager->persist($emailMessageEvent);
+        $this->entityManager->persist(entity: $emailMessageEvent);
     }
 }

@@ -29,26 +29,26 @@ final class ProjectListener extends AbstractResourceListener
     {
         try {
             //Collect all projects from the data
-            $project = $this->projectService->findOrCreateProject((object)$data);
+            $project = $this->projectService->findOrCreateProject(data: (object)$data);
 
             //Delete the versions
             foreach ($project->getVersions() as $version) {
-                $this->projectService->delete($version);
+                $this->projectService->delete(abstractEntity: $version);
             }
 
             //Delete the partners
             foreach ($project->getPartners() as $partner) {
-                $this->projectService->delete($partner);
+                $this->projectService->delete(abstractEntity: $partner);
             }
 
             //Collect an array of partners and specify the unique elements of these partners
-            $this->extractDataFromVersion($data->versions, Type::TYPE_PO, $project);
-            $this->extractDataFromVersion($data->versions, Type::TYPE_FPP, $project);
-            $this->extractDataFromVersion($data->versions, Type::TYPE_LATEST, $project);
+            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_PO, project: $project);
+            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_FPP, project: $project);
+            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_LATEST, project: $project);
 
             $this->entityManager->flush();
         } catch (Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
+            return new ApiProblem(status: 500, detail: $e->getMessage());
         }
     }
 
@@ -56,13 +56,13 @@ final class ProjectListener extends AbstractResourceListener
     {
         if (isset($data[$versionTypeName])) {
             //Find the version type
-            $versionType = $this->versionService->findVersionType($versionTypeName);
+            $versionType = $this->versionService->findVersionType(typeName: $versionTypeName);
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                (object)$data[$versionTypeName],
-                $versionType,
-                $project
+                data: (object)$data[$versionTypeName],
+                type: $versionType,
+                project: $project
             );
 
             //Now we go over the partners and collect these and save the costs and effort
@@ -70,12 +70,12 @@ final class ProjectListener extends AbstractResourceListener
                 //Cast to an object
                 $partnerData = (object)$partnerData;
 
-                $partner = $this->partnerService->findOrCreatePartner($partnerData, $project);
+                $partner = $this->partnerService->findOrCreatePartner(data: $partnerData, project: $project);
 
-                $partner->setIsActive($partnerData->isActive);
-                $partner->setIsCoordinator($partnerData->isCoordinator);
-                $partner->setIsSelfFunded($partnerData->isSelfFunded);
-                $partner->setTechnicalContact($partnerData->technicalContact);
+                $partner->setIsActive(isActive: $partnerData->isActive);
+                $partner->setIsCoordinator(isCoordinator: $partnerData->isCoordinator);
+                $partner->setIsSelfFunded(isSelfFunded: $partnerData->isSelfFunded);
+                $partner->setTechnicalContact(technicalContact: $partnerData->technicalContact);
 
                 $totalCosts = 0;
                 $totalEffort = 0;
@@ -86,17 +86,17 @@ final class ProjectListener extends AbstractResourceListener
 
                     //This data is saved in a costs and effort table
                     $costsAndEffort = new CostsAndEffort();
-                    $costsAndEffort->setVersion($version);
-                    $costsAndEffort->setPartner($partner);
-                    $costsAndEffort->setYear($year);
-                    $costsAndEffort->setCosts($costsAndEffortData['costs']);
-                    $costsAndEffort->setEffort($costsAndEffortData['effort']);
+                    $costsAndEffort->setVersion(version: $version);
+                    $costsAndEffort->setPartner(partner: $partner);
+                    $costsAndEffort->setYear(year: $year);
+                    $costsAndEffort->setCosts(costs: $costsAndEffortData['costs']);
+                    $costsAndEffort->setEffort(effort: $costsAndEffortData['effort']);
 
-                    $this->entityManager->persist($costsAndEffort);
+                    $this->entityManager->persist(entity: $costsAndEffort);
                 }
 
-                $partner->setLatestVersionCosts($totalCosts);
-                $partner->setLatestVersionEffort($totalEffort);
+                $partner->setLatestVersionCosts(latestVersionCosts: $totalCosts);
+                $partner->setLatestVersionEffort(latestVersionEffort: $totalEffort);
             }
             $this->entityManager->flush();
         }

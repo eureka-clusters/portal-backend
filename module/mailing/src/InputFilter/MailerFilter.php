@@ -16,7 +16,7 @@ final class MailerFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name' => 'name',
                 'required' => true,
                 'validators' => [
@@ -31,7 +31,7 @@ final class MailerFilter extends InputFilter
                     [
                         'name' => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Mailer::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Mailer::class),
                             'object_manager' => $entityManager,
                             'use_context' => true,
                             'fields' => ['name'],
@@ -42,12 +42,12 @@ final class MailerFilter extends InputFilter
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name' => 'port',
                 'required' => false,
             ]
         );
 
-        $this->add($inputFilter, 'mailing_entity_mailer');
+        $this->add(input: $inputFilter, name: 'mailing_entity_mailer');
     }
 }

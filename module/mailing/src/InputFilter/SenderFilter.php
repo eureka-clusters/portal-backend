@@ -16,7 +16,7 @@ final class SenderFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'sender',
                 'required'   => true,
                 'validators' => [
@@ -31,7 +31,7 @@ final class SenderFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Sender::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Sender::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => ['sender'],
@@ -42,7 +42,7 @@ final class SenderFilter extends InputFilter
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'email',
                 'required'   => true,
                 'validators' => [
@@ -53,6 +53,6 @@ final class SenderFilter extends InputFilter
             ]
         );
 
-        $this->add($inputFilter, 'mailing_entity_sender');
+        $this->add(input: $inputFilter, name: 'mailing_entity_sender');
     }
 }

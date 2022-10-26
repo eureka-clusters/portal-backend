@@ -21,7 +21,7 @@ class CreateObject extends Form
         AbstractEntity $object,
         ContainerInterface $container
     ) {
-        parent::__construct($object->get("entity_name"));
+        parent::__construct(name: $object->get(switch: "entity_name"));
 
         /**
          * There is an option to drag the fieldset from the container,
@@ -29,31 +29,31 @@ class CreateObject extends Form
          * If not we will use the default ObjectFieldset
          */
 
-        $objectSpecificFieldset = $object->get('entity_fieldset_name');
+        $objectSpecificFieldset = $object->get(switch: 'entity_fieldset_name');
         /**
          * Load a specific fieldSet when present
          */
         if ($container->has($objectSpecificFieldset)) {
             $objectFieldset = $container->get($objectSpecificFieldset);
-        } elseif (class_exists($objectSpecificFieldset)) {
+        } elseif (class_exists(class: $objectSpecificFieldset)) {
             $objectFieldset = new $objectSpecificFieldset($entityManager, $object);
         } else {
-            $objectFieldset = new ObjectFieldset($entityManager, $object);
+            $objectFieldset = new ObjectFieldset(entityManager: $entityManager, object: $object);
         }
-        $objectFieldset->setUseAsBaseFieldset(true);
-        $this->add($objectFieldset);
+        $objectFieldset->setUseAsBaseFieldset(useAsBaseFieldset: true);
+        $this->add(elementOrFieldset: $objectFieldset);
 
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('class', 'form-horizontal');
+        $this->setAttribute(key: 'method', value: 'post');
+        $this->setAttribute(key: 'class', value: 'form-horizontal');
 
         $this->add(
-            [
+            elementOrFieldset: [
                 'type' => Csrf::class,
                 'name' => 'csrf',
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'submit',
                 'attributes' => [
@@ -63,7 +63,7 @@ class CreateObject extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'cancel',
                 'attributes' => [
@@ -73,7 +73,7 @@ class CreateObject extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'delete',
                 'attributes' => [
@@ -83,7 +83,7 @@ class CreateObject extends Form
             ]
         );
         $this->add(
-            [
+            elementOrFieldset: [
                 'type'       => Submit::class,
                 'name'       => 'restore',
                 'attributes' => [

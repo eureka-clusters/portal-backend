@@ -25,7 +25,7 @@ use Scheduler\Entity\MailingEntity;
 
 #[ORM\Table(name: 'mailing_transactional')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\Transactional::class)]
-#[Name('mailing_transactional')]
+#[Name(name: 'mailing_transactional')]
 class Transactional extends AbstractEntity implements TemplateInterface
 {
     final public const TRANSACTIONAL_MAILING_QUEUE_START = 'mailing:queue:start';
@@ -40,19 +40,19 @@ class Transactional extends AbstractEntity implements TemplateInterface
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Type(Hidden::class)]
+    #[Type(type: Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column(unique: true)]
-    #[Type(Text::class)]
-    #[Options(['label' => 'txt-transactional-name-label', 'help-block' => 'txt-transactional-name-help-block'])]
-    #[Attributes(['placeholder' => 'txt-transactional-name-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['label' => 'txt-transactional-name-label', 'help-block' => 'txt-transactional-name-help-block'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-transactional-name-placeholder'])]
     private string $name = '';
 
     #[ORM\Column(name: 'unique_key', unique: true)]
-    #[Type(Text::class)]
-    #[Options(['label' => 'txt-transactional-key-label', 'help-block' => 'txt-transactional-key-help-block'])]
-    #[Attributes(['placeholder' => 'txt-transactional-key-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['label' => 'txt-transactional-key-label', 'help-block' => 'txt-transactional-key-help-block'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-transactional-key-placeholder'])]
     private string $key = '';
 
     #[ORM\Column(type: 'datetime')]
@@ -65,36 +65,36 @@ class Transactional extends AbstractEntity implements TemplateInterface
     #[Exclude]
     private ?DateTime $lastUpdate = null;
     #[ORM\Column(type: 'text')]
-    #[Type(Textarea::class)]
-    #[Options([
+    #[Type(type: Textarea::class)]
+    #[Options(options: [
         'label' => 'txt-transactional-mail-html-label',
         'help-block' => 'txt-transactional-mail-html-help-block',
     ])]
-    #[Attributes(['rows' => 30, 'id' => 'mailHtml'])]
+    #[Attributes(attributes: ['rows' => 30, 'id' => 'mailHtml'])]
     private string $mailHtml = '';
 
     #[ORM\Column]
-    #[Type(Text::class)]
-    #[Options(['label' => 'txt-mailing-mail-subject-label', 'help-block' => 'txt-mailing-mail-subject-help-block'])]
-    #[Attributes(['placeholder' => 'txt-mailing-mail-subject-placeholder'])]
+    #[Type(type: Text::class)]
+    #[Options(options: ['label' => 'txt-mailing-mail-subject-label', 'help-block' => 'txt-mailing-mail-subject-help-block'])]
+    #[Attributes(attributes: ['placeholder' => 'txt-mailing-mail-subject-placeholder'])]
     private string $mailSubject = '';
 
     #[ORM\ManyToOne(targetEntity: Template::class, cascade: ['persist'], inversedBy: 'transactional')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Type(EntitySelect::class)]
-    #[Options([
+    #[Type(type: EntitySelect::class)]
+    #[Options(options: [
         'help-block' => 'txt-mailing-transactional-template-help-block',
         'empty_option' => '— Select a mailing template',
         'target_class' => Template::class,
         'find_method' => ['name' => 'findBy', 'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]],
     ])]
-    #[Attributes(['label' => 'txt-mailing-transactional-template-label'])]
+    #[Attributes(attributes: ['label' => 'txt-mailing-transactional-template-label'])]
     private Template $template;
 
     #[ORM\ManyToOne(targetEntity: Sender::class, cascade: ['persist'], inversedBy: 'transactional')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Type(EntitySelect::class)]
-    #[Options([
+    #[Type(type: EntitySelect::class)]
+    #[Options(options: [
         'help-block' => 'txt-mailing-transactional-sender-help-block',
         'empty_option' => '— Select a sender',
         'target_class' => Sender::class,
@@ -103,13 +103,13 @@ class Transactional extends AbstractEntity implements TemplateInterface
             'params' => ['criteria' => [], 'orderBy' => ['sender' => Criteria::ASC]]
         ],
     ])]
-    #[Attributes(['label' => 'txt-mailing-transactional-sender-label'])]
+    #[Attributes(attributes: ['label' => 'txt-mailing-transactional-sender-label'])]
     private Sender $sender;
 
     #[ORM\ManyToOne(targetEntity: Mailer::class, cascade: ['persist'], inversedBy: 'transactional')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Type(EntitySelect::class)]
-    #[Options([
+    #[Type(type: EntitySelect::class)]
+    #[Options(options: [
         'help-block' => 'txt-mailing-transactional-mailer-help-block',
         'empty_option' => '— Select a mailer',
         'target_class' => Mailer::class,
@@ -121,7 +121,7 @@ class Transactional extends AbstractEntity implements TemplateInterface
             ]
         ],
     ])]
-    #[Attributes(['label' => 'txt-mailing-transactional-mailer-label'])]
+    #[Attributes(attributes: ['label' => 'txt-mailing-transactional-mailer-label'])]
     private Mailer $mailer;
 
 
@@ -145,7 +145,7 @@ class Transactional extends AbstractEntity implements TemplateInterface
 
     public function isLocked(): bool
     {
-        return array_key_exists($this->key, self::$lockedKeys) ;
+        return array_key_exists(key: $this->key, array: self::$lockedKeys) ;
     }
 
     public function __toString(): string

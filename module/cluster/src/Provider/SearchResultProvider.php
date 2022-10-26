@@ -14,7 +14,7 @@ class SearchResultProvider implements ProviderInterface
     /**
      * @param SearchResult $entity
      */
-    #[ArrayShape([
+    #[ArrayShape(shape: [
         'type' => "string",
         'slug' => "string",
         'name' => "string",

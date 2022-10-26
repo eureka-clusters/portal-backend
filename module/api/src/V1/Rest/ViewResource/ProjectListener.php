@@ -23,18 +23,18 @@ final class ProjectListener extends AbstractResourceListener
     {
         $slug = $id;
 
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new ApiProblem(404, 'The selected user cannot be found');
+            return new ApiProblem(status: 404, detail: 'The selected user cannot be found');
         }
 
         $project = $this->projectService->findProjectBySlugAndUser(slug: $slug, user: $user);
 
         if (null === $project) {
-            return new ApiProblem(404, 'The selected project cannot be found');
+            return new ApiProblem(status: 404, detail: 'The selected project cannot be found');
         }
 
-        return $this->projectProvider->generateArray($project);
+        return $this->projectProvider->generateArray(project: $project);
     }
 }

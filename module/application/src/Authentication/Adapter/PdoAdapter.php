@@ -10,10 +10,10 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
 {
     public function getUser($username): array|bool
     {
-        $stmt = $this->db->prepare($sql = sprintf('SELECT * from admin_user where email=:email'));
-        $stmt->execute(['email' => $username]);
+        $stmt = $this->db->prepare(query: $sql = sprintf(format: 'SELECT * from admin_user where email=:email'));
+        $stmt->execute(params: ['email' => $username]);
 
-        if (!$userInfo = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!$userInfo = $stmt->fetch(mode: PDO::FETCH_ASSOC)) {
             return false;
         }
 
@@ -23,6 +23,6 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
 
     protected function checkPassword($user, $password): bool
     {
-        return $this->getBcrypt()->verify($password, $user['password']);
+        return $this->getBcrypt()->verify(password: $password, hash: $user['password']);
     }
 }

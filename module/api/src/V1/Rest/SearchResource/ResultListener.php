@@ -28,12 +28,12 @@ final class ResultListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $query = $this->getEvent()->getQueryParam('query');
+        $query = $this->getEvent()->getQueryParam(name: 'query');
 
-        $user = $this->userService->findUserById((int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
-            return new Paginator(new ArrayAdapter());
+            return new Paginator(adapter: new ArrayAdapter());
         }
 
         $results = [];
@@ -83,14 +83,14 @@ final class ResultListener extends AbstractResourceListener
 
         //Sort on score, but therefore we need to iterate over the scores
         usort(
-            $results,
-            static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore(
+            array: $results,
+            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore(
             ) ? 1 : -1
         );
 
-        $doctrineORMAdapter = new CustomAdapter($results);
-        $doctrineORMAdapter->setProvider($this->searchResultProvider);
+        $doctrineORMAdapter = new CustomAdapter(array: $results);
+        $doctrineORMAdapter->setProvider(provider: $this->searchResultProvider);
 
-        return new Paginator($doctrineORMAdapter);
+        return new Paginator(adapter: $doctrineORMAdapter);
     }
 }

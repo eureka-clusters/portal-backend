@@ -14,10 +14,10 @@ class TargetLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        if ($this->getEntities()->containsKey(Target::class)) {
-            $deeplink = $this->getEntities()->get(Target::class);
+        if ($this->getEntities()->containsKey(key: Target::class)) {
+            $deeplink = $this->getEntities()->get(key: Target::class);
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     [
                         'id' => $deeplink->getId(),
@@ -26,8 +26,8 @@ class TargetLabel extends AbstractNavigationInvokable
             );
             $label = (string) $deeplink;
         } else {
-            $label = $this->translator->translate('txt-nav-view');
+            $label = $this->translator->translate(message: 'txt-nav-view');
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

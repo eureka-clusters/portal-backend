@@ -29,11 +29,11 @@ final class Attachment
 
     public function toMimePart(bool $inline = false): Part
     {
-        $mimePart = new Part($this->rawContent);
-        $mimePart->setType($this->contentType);
-        $mimePart->setFileName($this->fileName);
-        $mimePart->setDisposition($inline ? Mime::DISPOSITION_INLINE : Mime::DISPOSITION_ATTACHMENT);
-        $mimePart->setEncoding(Mime::ENCODING_BASE64);
+        $mimePart = new Part(content: $this->rawContent);
+        $mimePart->setType(type: $this->contentType);
+        $mimePart->setFileName(fileName: $this->fileName);
+        $mimePart->setDisposition(disposition: $inline ? Mime::DISPOSITION_INLINE : Mime::DISPOSITION_ATTACHMENT);
+        $mimePart->setEncoding(encoding: Mime::ENCODING_BASE64);
 
         return $mimePart;
     }

@@ -14,20 +14,20 @@ final class EmailMessageLabel extends AbstractNavigationInvokable
 {
     public function __invoke(Mvc $page): void
     {
-        $label = $this->translate('txt-nav-view');
+        $label = $this->translate(string: 'txt-nav-view');
 
-        if ($this->getEntities()->containsKey(EmailMessage::class)) {
+        if ($this->getEntities()->containsKey(key: EmailMessage::class)) {
             /** @var EmailMessage $emailMessage */
-            $emailMessage = $this->getEntities()->get(EmailMessage::class);
+            $emailMessage = $this->getEntities()->get(key: EmailMessage::class);
 
             $page->setParams(
-                array_merge(
+                params: array_merge(
                     $page->getParams(),
                     ['id' => $emailMessage->getId()]
                 )
             );
             $label = $emailMessage->getSubject();
         }
-        $page->set('label', $label);
+        $page->set(property: 'label', value: $label);
     }
 }

@@ -23,7 +23,7 @@ class TypeProvider implements ProviderInterface
     {
         $cacheKey = $type->getResourceId();
 
-        $typeData = $this->cache->getItem($cacheKey);
+        $typeData = $this->cache->getItem(key: $cacheKey);
 
         if (!$typeData) {
             $typeData = [
@@ -31,7 +31,7 @@ class TypeProvider implements ProviderInterface
                 'type' => $type->getType(),
             ];
 
-            $this->cache->setItem($cacheKey, $typeData);
+            $this->cache->setItem(key: $cacheKey, value: $typeData);
         }
 
         return $typeData;

@@ -16,23 +16,23 @@ final class Sender extends EntityRepository implements FilteredObjectRepository
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('mailing_entity_sender');
-        $qb->from(Entity\Sender::class, 'mailing_entity_sender');
+        $qb->select(select: 'mailing_entity_sender');
+        $qb->from(from: Entity\Sender::class, alias: 'mailing_entity_sender');
 
         $direction = $searchFormResult->getDirection();
 
         switch ($searchFormResult->getOrder()) {
             case 'sender':
-                $qb->addOrderBy('mailing_entity_sender.sender', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_sender.sender', order: $direction);
                 break;
             case 'email':
-                $qb->addOrderBy('mailing_entity_sender.email', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_sender.email', order: $direction);
                 break;
             case 'personal':
-                $qb->addOrderBy('mailing_entity_sender.personal', $direction);
+                $qb->addOrderBy(sort: 'mailing_entity_sender.personal', order: $direction);
                 break;
             default:
-                $qb->addOrderBy('mailing_entity_sender.sender', Criteria::ASC);
+                $qb->addOrderBy(sort: 'mailing_entity_sender.sender', order: Criteria::ASC);
         }
 
         return $qb;

@@ -16,13 +16,13 @@ final class MailerFilter extends SearchFilter
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('method', 'get');
-        $this->setAttribute('action', '');
+        $this->setAttribute(key: 'method', value: 'get');
+        $this->setAttribute(key: 'action', value: '');
 
-        $filterFieldset = new Fieldset('filter');
+        $filterFieldset = new Fieldset(name: 'filter');
 
         $filterFieldset->add(
-            [
+            elementOrFieldset: [
                 'type' => MultiCheckbox::class,
                 'name' => 'isActive',
                 'options' => [
@@ -36,7 +36,7 @@ final class MailerFilter extends SearchFilter
         );
 
         $filterFieldset->add(
-            [
+            elementOrFieldset: [
                 'type' => MultiCheckbox::class,
                 'name' => 'tags',
                 'options' => [
@@ -50,6 +50,6 @@ final class MailerFilter extends SearchFilter
         );
 
 
-        $this->add($filterFieldset);
+        $this->add(elementOrFieldset: $filterFieldset);
     }
 }
