@@ -7,9 +7,13 @@ namespace Application;
 use Application\Authentication\Factory\PdoAdapterFactory;
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
+use Application\Event\InjectAclInNavigation;
 use Application\Event\SetTitle;
+use Application\Event\UpdateNavigation;
 use Application\Factory\DoctrineCacheFactory;
+use Application\Factory\InvokableFactory;
 use Application\Factory\LaminasCacheFactory;
+use Application\View\Helper\PaginationLink;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
 use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
@@ -17,6 +21,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\I18n\Translator\TranslatorServiceFactory;
+use Laminas\I18n\View\Helper\Translate;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
@@ -43,7 +48,20 @@ $config = [
             TranslatorInterface::class => TranslatorServiceFactory::class,
             AuthenticationService::class => AuthenticationServiceFactory::class,
 
+            InjectAclInNavigation::class => ConfigAbstractFactory::class,
             SetTitle::class => ConfigAbstractFactory::class,
+            UpdateNavigation::class => InvokableFactory::class,
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            'translate' => Translate::class,
+        ],
+        'aliases' => [
+            'paginationLink' => PaginationLink::class,
+        ],
+        'factories' => [
+            PaginationLink::class => InvokableFactory::class,
         ],
     ],
     'translator' => [
@@ -70,7 +88,7 @@ $config = [
         'display_exceptions' => true,
         'doctype' => 'HTML5',
         'not_found_template' => 'error/404',
-        'exception_template' => 'error/index',
+        'exception_template' => 'error/500',
         'template_path_stack' => [
             'application' => __DIR__ . '/../view',
         ],

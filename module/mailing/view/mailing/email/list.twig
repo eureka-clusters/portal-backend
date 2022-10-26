@@ -1,0 +1,53 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-email-message-list")) %}
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+<h1>{{ translate("txt-email-message-list") }}</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <p class="lead">{{ translate("txt-email-message-list-explanation") }}</p>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            {{ formelement(form.get('query')) }}
+            {{ formelement(form.get('search')) }}
+            {{ formelement(form.get('reset')) }}
+        </div>
+    </div>
+</div>
+
+{% if paginator.pageRange > 0 %}
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/email/list', 'criteria': 'subject', 'text': translate("txt-name")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/email/list', 'criteria': 'id', 'text': translate("txt-date-send")} %}</th>
+            <th>{{ translate("txt-user") }}</th>
+            <th>{{ translate("txt-distribution-list") }}</th>
+            <th>{{ translate("txt-mailing") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for emailMessage in paginator.getCurrentItems() %}
+            <tr>
+                <td class="ellipsis"
+                    title="{{ emailMessage.identifier }}">{{ emailMessageLink(emailMessage,'view', 'subject') }}</td>
+                <td>{{ emailMessage.dateCreated|string_date }}</td>
+                <td>{% for to in emailMessage.to %}{{ to.Name }} ({{ to.Email }}){% if not loop.last %}
+                        <br>{% endif %}{% endfor %}</td>
+                <td>{% if emailMessage.distributionListUser %}{{ distributionListLink(emailMessage.distributionListUser.distributionList,'view','name') }} {{ distributionListUserLink(emailMessage.distributionListUser,'view','icon') }}{% endif %}</td>
+                <td>{% if emailMessage.mailingUser %}{{ mailingLink(emailMessage.mailingUser.mailing,'view','name') }} {{ mailingUserLink(emailMessage.mailingUser,'view','icon') }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'application/partial/pagination-control' %}
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-emails-could-be-found"))|raw }}
+{% endif %}
+
+{{ form().closeTag()|raw }}
+

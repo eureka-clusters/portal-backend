@@ -1,0 +1,40 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-mailer-list")) %}
+
+<h1>{{ translate("txt-mailer-list") }} </h1>
+
+{% if paginator.pageRange > 0 %}
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-id") }}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/mailer/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/mailer/list', 'criteria': 'service', 'text': translate("txt-service")} %}</th>
+            <th>{{ translate("txt-is-active") }}</th>
+            <th>{{ translate("txt-is-development") }}</th>
+            <th>{{ translate("txt-mailings") }}</th>
+            <th>{{ translate("txt-transactional") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mailer in paginator.getCurrentItems() %}
+            <tr {% if not mailer.isActive() %}class="table-danger"{% endif %}>
+                <td><small class="text-muted">{{ mailer.id }}</small></td>
+                <td>{{ mailerLink(mailer,'view', 'name') }} {{ mailerLink(mailer,'edit', 'icon') }}</td>
+                <td>{{ translate(mailer.getServiceText()) }}</td>
+                <td>{% if mailer.isActive() %}<i class="fa fa-check text-success"></i>{% endif %}</td>
+                <td>{% if mailer.isDevelopment() %}<i class="fa fa-check text-success"></i>{% endif %}</td>
+                <td>{{ mailer.mailing.count() }}</td>
+                <td>{{ mailer.transactional.count() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'application/partial/pagination-control' with {'paginator': paginator} %}
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-mailers-found"))|raw }}
+{% endif %}
+
+<p class="mt-3">
+    <br>
+{% for key, service in services %}{{ mailerLink(null,'new', 'button', key) }}&nbsp;{% endfor %}

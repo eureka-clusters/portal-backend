@@ -6,16 +6,9 @@ namespace Admin;
 
 use Admin\Controller;
 use Admin\Controller\CacheController;
-use Admin\Controller\LogController;
 use Admin\Controller\OAuth2\ClientController;
 use Admin\Controller\OAuth2\ScopeController;
-use Admin\Controller\PermitController;
-use Admin\Controller\QueueController;
 use Admin\Controller\RoleController;
-use Admin\Controller\SelectionController;
-use Admin\Controller\StatisticsController;
-use Admin\Controller\SupportController;
-use Admin\Controller\User\AdminController;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 
@@ -26,9 +19,6 @@ return [
                 'type' => Literal::class,
                 'options' => [
                     'route' => '/admin',
-                    'defaults' => [
-                        'layout' => 'layout/admin',
-                    ],
                 ],
                 'may_terminate' => false,
                 'child_routes' => [

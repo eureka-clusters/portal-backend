@@ -1,0 +1,15 @@
+<h1>{{ translate("txt-access-denied") }}</h1>
+
+{% if error == 'error-unauthorized-controller' %}
+    <small>
+        {{ translate("txt-internal-identification-no-access-to-controller-%s-with-action:-%s")|format(controller,action)|raw }}
+    </small>
+{% elseif error == 'error-unauthorized-route' %}
+    <small>
+        {{ translate("txt-internal-identification-no-access-to-route:-%s")|format(route)|raw }}
+    </small>
+{% else %}
+    <small>
+        {{ translate("txt-internal-error") }}
+    </small>
+{% endif %}

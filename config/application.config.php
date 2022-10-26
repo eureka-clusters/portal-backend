@@ -3,10 +3,13 @@
 return [
     'modules'                 => [
         'Laminas\\Router',
+        'Laminas\\Form',
         'Laminas\\InputFilter',
+        'Laminas\\Navigation',
         'Laminas\\Hydrator',
         'Laminas\\Paginator',
         'Laminas\\Cache',
+
 
         'Laminas\\ApiTools',
         'Laminas\\ApiTools\\Documentation',
@@ -22,6 +25,7 @@ return [
         'Laminas\\ApiTools\\Rpc',
         'Laminas\\ApiTools\\Versioning',
 
+        'ZfcTwig',
         'BjyAuthorize',
         'Jield\\Authorize',
         
@@ -34,8 +38,9 @@ return [
         'Admin',
         'Cluster',
         'Application',
+        'Deeplink',
 
-        'ZfcTwig',
+
         'LaminasBootstrap5',
     ],
     'module_listener_options' => [

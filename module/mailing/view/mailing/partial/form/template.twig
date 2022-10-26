@@ -1,0 +1,61 @@
+{% do form.prepare() %}
+
+{{ form().openTag(form)|raw }}
+
+{% set template = form.get('mailing_entity_template') %}
+
+{{ lbs5formelement(template.get('id')) }}
+{{ lbs5formelement(template.get('name')) }}
+{{ lbs5formelement(template.get('subject')) }}
+{{ formelement(template.get('body')) }}
+
+
+<div class="row mb-3">
+    <label class="col-md-3 col-form-label">{{ translate("txt-body-text") }}</label>
+
+    <div class="col-md-9" id="body"></div>
+    <div class="offset-sm-3 col-sm-9">
+        <p class="help-block">{{ translate("txt-mailing-body-text-explanation") }}</p>
+    </div>
+</div>
+
+{{ formelement(form.get('csrf')) }}
+
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ formelement(form.get('submit')) }}
+        {% if form.has('delete') %}
+            {{ formelement(form.get('delete')) }}
+        {% endif %}
+        {{ formelement(form.get('cancel')) }}
+    </div>
+</div>
+
+<style type="text/css">
+    #body {
+
+        /**/
+        height: 400px;
+    }
+</style>
+
+{{ form().closeTag()|raw }}
+
+<style type="text/css">
+    textarea {
+        font-family: "Courier New";
+    }
+</style>
+
+<script src="//cdn.jsdelivr.net/ace/1.2.3/min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("body");
+    var textarea = $('textarea[name="mailing_entity_template[body]"]').hide();
+    editor.getSession().setValue(textarea.val());
+    editor.getSession().setMode("ace/mode/html");
+    editor.getSession().on('change', function () {
+        textarea.val(editor.getSession().getValue());
+    });
+</script>

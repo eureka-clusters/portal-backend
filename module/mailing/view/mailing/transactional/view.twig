@@ -1,0 +1,37 @@
+{% do headScript().appendFile('assets/codemirror/highlight.pack.js', 'text/javascript') %}
+{% do headLink().appendStylesheet('assets/codemirror/github-gist.css') %}
+{% do inlineScript().appendScript("hljs.initHighlightingOnLoad();",'text/javascript') %}
+
+{% do headTitle().append(translate("txt-mailing") ) %}
+{% do headTitle().append(translate("txt-transactional") ) %}
+{% do headTitle().append(transactional.transactional) %}
+
+<h1>{{ transactional.name }} {{ transactionalLink(transactional,'edit','button') }}</h1>
+
+<p>{{ translate("txt-detailed-overview-of-transactional") }}</p>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-transactional-name") }}</dt>
+    <dd>{{ transactional.name }}</dd>
+    <dt>{{ translate("txt-transactional-key") }}</dt>
+    <dd class="text-monospace">{{ transactional.key }}</dd>
+    <dt>{{ translate("txt-mail-template") }}</dt>
+    <dd>{{ mailingTemplateLink(transactional.template, 'view','name') }}</dd>
+    <dt>{{ translate("txt-sender") }}</dt>
+    <dd>{{ senderLink(transactional.sender, 'view','name') }}</dd>
+    <dt>{{ translate("txt-mailer") }}</dt>
+    <dd>{{ mailerLink(transactional.mailer,'view','name') }}</dd>
+    <dt>{{ translate("txt-mail-subject") }}</dt>
+    <dd>{{ transactional.mailSubject }}</dd>
+    {% if transactional.lastUpdate %}
+        <dt>{{ translate("txt-last-update") }}</dt>
+        <dd>{{ transactional.lastUpdate|date('d-m-Y H:i:s') }}</dd>
+    {% endif %}
+</dl>
+
+<h2>{{ translate("txt-content") }}</h2>
+<pre><code class="twig">{{ transactional.mailHtml }}</code></pre>
+
+<form method="post">
+    <input type="submit" class="btn btn-outline-primary" value="Send">
+</form>

@@ -1,0 +1,30 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-mailing-template-list")) %}
+
+<h1>{{ translate("txt-mailing-template-list") }} {{ mailingTemplateLink(null,'new', 'button') }}</h1>
+
+{% if paginator.pageRange > 0 %}
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-id") }}</th>
+            <th>{{ translate("txt-template") }}</th>
+            <th>{{ translate("txt-subject") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for template in paginator.getCurrentItems() %}
+            <tr>
+                <td><small class="text-muted">{{ template.id }}</small></td>
+                <td>{{ mailingTemplateLink(template,'view', 'name') }} {{ mailingTemplateLink(template,'edit', 'icon') }}
+                    {% if template.isDefault() %}<span
+                            class="badge bg-info">{{ translate("txt-default-template") }}</span>{% endif %}</td>
+                <td>{{ template.subject }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'application/partial/pagination-control' with {'paginator': paginator} %}
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-templates-found"))|raw }}
+{% endif %}

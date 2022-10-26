@@ -11,13 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation;
 use Laminas\Form\Element\Text;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
 use function in_array;
 
 #[ORM\Table(name: 'admin_role')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\Role::class)]
 #[Annotation\Name('admin_role')]
-class Role extends AbstractEntity
+class Role extends AbstractEntity implements RoleInterface
 {
     public final const ROLE_ADMIN = 1;
     public final const ROLE_USER = 2;
@@ -44,6 +45,11 @@ class Role extends AbstractEntity
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles', cascade: ['persist'])]
     #[Annotation\Exclude]
     private Collection $users;
+
+    public function getRoleId(): string
+    {
+        return strtolower((string)$this->id);
+    }
 
     #[Pure] public function __construct()
     {

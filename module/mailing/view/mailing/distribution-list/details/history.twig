@@ -1,0 +1,25 @@
+{% include 'mailing/distribution-list/details/tabs' %}
+
+<h2 class="py-3">{{ translate("txt-history") }}</h2>
+
+{% if not distributionList.distributionListSent.isEmpty() %}
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{ translate("txt-date-sent") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sent in distributionList.distributionListSent %}
+            <tr>
+                <td><small class="text-muted">{{ loop.index }}</small></td>
+                <td>{{ sent.dateSent|date('d-m-Y H:i') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-emails-have-been-sent-from-this-distribution-list"))|raw }}
+
+{% endif %}

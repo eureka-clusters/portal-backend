@@ -1,0 +1,7 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-edit-mailer-%s")|format(mailer)) %}
+
+<h1>{{ translate("txt-edit-mailer-%s")|format(mailer) }}</h1>
+
+{% include 'mailing/partial/form/mailer' %}
+

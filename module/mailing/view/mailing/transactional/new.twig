@@ -1,0 +1,6 @@
+{% do headTitle().append(translate("txt-mailing") ) %}
+{% do headTitle().append(translate("txt-new-transactional")) %}
+
+<h1>{{ translate("txt-new-transactional") }}</h1>
+
+{% include 'mailing/partial/form/transactional' %}

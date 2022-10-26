@@ -1,0 +1,305 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-send-mailing")) %}
+<h1>{{ mailing }}</h1>
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for showOption in mailingService.getShowOptions() %}
+        <li class="nav-item {% if showOption == show %}active{% endif %}"><a
+                    class="nav-link {% if showOption == show %}active{% endif %}"
+                    role="tab"
+                    href="{{ url('zfcadmin/mailing/send',{'id': mailing.id, 'show': showOption}) }}">{{ showOption|capitalize }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active">
+        <br>
+        {% if show == 'grouped' or paginator.getTotalItemCount() > 0 %}
+            <form method="post" action="">
+                <table class="table table-striped table-sm table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th><i class="fa fa-unlock"></i></th>
+                        <th>{{ translate("txt-name") }}</th>
+                        <th>{{ translate("txt-email") }}</th>
+                        <th>{{ translate("txt-sent") }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if show == 'grouped' %}
+                        {% for mailingUser in unsend %}
+                            {% if loop.first %}
+                                <tr class="warning header-toggle" data-type="unsentNotBlocked">
+                                    <th colspan="7"><i class="fa fa-caret-down"></i> {{ translate("txt-unsend") }}
+                                        ({{ unsend|length }})
+                                    </th>
+                                </tr>
+                            {% endif %}
+                            {% include 'mailing/partial/send-user-row'with {'type':'unsentNotBlocked'} %}
+
+                            {% if loop.last %}
+                                <tr>
+                                    <td colspan="7">
+                                        <button class="btn btn-sm btn btn-outline-secondary checkAll"
+                                                data-type="unsentNotBlocked"
+                                                onclick="return false;">{{ translate("txt-check-unsend") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary checkNone"
+                                                data-type="unsentNotBlocked"
+                                                onclick="return false;">{{ translate("txt-uncheck-unsend") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary blockAll"
+                                                data-type="unsentNotBlocked"
+                                                onclick="return false;"><i
+                                                    class="fa fa-lock"></i> {{ translate("txt-block-unsend") }}
+                                        </button>
+                                        <button class="btn btn-sm btn btn-outline-secondary unBlockAll"
+                                                onclick="return false;"
+                                                data-type="unsentNotBlocked"><i
+                                                    class="fa fa-unlock"></i> {{ translate("txt-unblock-unsend") }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for mailingUser in send %}
+                            {% if loop.first %}
+                                <tr class="default header-toggle" data-type="sentNotBlocked">
+                                    <th colspan="7"><i class="fa fa-caret-right"></i> {{ translate("txt-sent") }}
+                                        ({{ send|length }})
+                                    </th>
+                                </tr>
+                            {% endif %}
+                            {% include 'mailing/partial/send-user-row' with {'type':'sentNotBlocked'} %}
+                            {% if loop.last %}
+                                <tr>
+                                    <td colspan="7">
+                                        <button class="btn btn-sm btn btn-outline-secondary checkAll"
+                                                data-type="sentNotBlocked"
+                                                onclick="return false;">{{ translate("txt-check-sent") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary checkNone"
+                                                data-type="sentNotBlocked"
+                                                onclick="return false;">{{ translate("txt-uncheck-sent") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary blockAll"
+                                                data-type="sentNotBlocked"
+                                                onclick="return false;"><i
+                                                    class="fa fa-lock"></i> {{ translate("txt-block-sent") }}
+                                        </button>
+                                        <button class="btn btn-sm btn btn-outline-secondary unBlockAll"
+                                                onclick="return false;"
+                                                data-type="sentNotBlocked">
+                                            <i
+                                                    class="fa fa-unlock"></i> {{ translate("txt-unblock-sent") }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for mailingUser in blocked %}
+                            {% if loop.first %}
+                                <tr class="info header-toggle" data-type="blocked">
+                                    <th colspan="7"><i class="fa fa-caret-right"></i> {{ translate("txt-blocked") }}
+                                        ({{ blocked|length }})
+                                    </th>
+                                </tr>
+                            {% endif %}
+                            {% include 'mailing/partial/send-user-row' with {'type':'blocked'} %}
+                            {% if loop.last %}
+                                <tr>
+                                    <td colspan="7">
+                                        <button class="btn btn-sm btn btn-outline-secondary checkAll"
+                                                data-type="blocked"
+                                                onclick="return false;">{{ translate("txt-check-blocked") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary checkNone"
+                                                data-type="blocked"
+                                                onclick="return false;">{{ translate("txt-uncheck-blocked") }}</button>
+                                        <button class="btn btn-sm btn btn-outline-secondary blockAll"
+                                                data-type="blocked"
+                                                onclick="return false;"><i
+                                                    class="fa fa-lock"></i> {{ translate("txt-block-blocked") }}
+                                        </button>
+                                        <button class="btn btn-sm btn btn-outline-secondary unBlockAll"
+                                                onclick="return false;"
+                                                data-type="blocked"><i
+                                                    class="fa fa-unlock"></i> {{ translate("txt-unblock-blocked") }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for mailingUser in paginator.getCurrentItems() %}
+                            {% include 'mailing/partial/send-user-row' %}
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+
+                <div class="row mb-3">
+                    <div class="offset-sm-3 col-sm-9">
+                        <input type="submit" class="btn btn-primary" name="submit" value="{{ translate("txt-send") }}">
+                        <input type="submit" class="btn btn-info" name="queue"
+                               value="{{ translate("txt-send-queued") }}">
+                        <input type="submit" class="btn btn-danger" name="flush-queue"
+                               value="{{ translate("txt-flush-queue") }}">
+                        <input type="submit" class="btn btn-warning" name="cancel"
+                               value="{{ translate("txt-cancel") }}">
+                    </div>
+                </div>
+            </form>
+        {% else %}
+            {{ lbs5alert().info(translate("txt-no-users-could-be-found"))|raw }}
+        {% endif %}
+    </div>
+</div>
+
+<style type="text/css">
+    i.toggleAllBlock, i.toggleBlock {
+        cursor: pointer;
+    }
+
+    i.toggleAllBlock:hover, i.toggleBlock:hover {
+        color: #00a651;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(".header-toggle").click(function () {
+        var $headerType = $(this).data('type');
+
+        $('.mailing-user').each(function () {
+            if ($(this).data('type') === $headerType) {
+                $(this).toggle();
+            }
+        });
+
+        var labelImage = $(this).find('i');
+        labelImage.toggleClass('fa-caret-down fa-caret-right');
+    });
+
+    $(".checkAll").click(function () {
+        var $headerType = $(this).data('type');
+        $('input:checkbox:not(:disabled)').each(function () {
+            if ($(this).data('type') === $headerType) {
+                $(this).prop('checked', true);
+            }
+        });
+    });
+
+    $(".checkNone").click(function () {
+        var $headerType = $(this).data('type');
+        $('input:checkbox:not(:disabled)').each(function () {
+            if ($(this).data('type') === $headerType) {
+                $(this).prop('checked', false);
+            }
+        });
+
+    });
+
+    $(".checkUnsent").click(function () {
+        $('input:checkbox:not(:disabled)').each(function () {
+            if (!$(this).hasClass('sent')) {
+                $(this).prop('checked', true);
+            } else {
+                $(this).prop('checked', false);
+            }
+        });
+    });
+
+    $(".toggleBlock").click(function () {
+        var element = $(this);
+
+        var $mailingUserId = element.data('mailing-user');
+
+        $.ajax({
+            url: '{{ serverUrl() }}{{ url('json/mailing/toggle-block') }}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'mailingUserId': $mailingUserId,
+            },
+            success: function (response) {
+                if (response.blocked) {
+                    element.removeClass('fa-unlock');
+                    element.addClass('fa-lock');
+
+                    $("#select-" + $mailingUserId).prop("disabled", true);
+                } else {
+                    element.removeClass('fa-lock');
+                    element.addClass('fa-unlock');
+
+                    $("#select-" + $mailingUserId).prop("disabled", false);
+                }
+
+            },
+        });
+
+    });
+
+    $(".blockAll").click(function () {
+        var $this = $(this);
+        var $headerType = $(this).data('type');
+
+        var arr = [];
+        $('tr').each(function () {
+            var $this = $(this);
+            if ($this.data('type') === $headerType && undefined !== $this.data('id')) {
+                arr.push($this.data('id'));
+            }
+        });
+
+        $.ajax({
+            url: '{{ serverUrl() }}{{ url('json/mailing/update-block') }}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'mc': arr,
+                'block': '{{ constant("Mailing\\Entity\\User::BLOCKED") }}'
+            },
+            success: function (response) {
+                $('input:checkbox').each(function () {
+                    if ($(this).data('type') === $headerType) {
+                        $(this).prop('disabled', true);
+                        $(this).parent().parent().find('.toggleBlock').removeClass('fa-unlock').addClass('fa-lock');
+                    }
+                });
+            }
+        });
+    });
+
+    $(".unBlockAll").click(function () {
+        var $this = $(this);
+        var $headerType = $(this).data('type');
+
+        var arr = [];
+        $('tr').each(function () {
+            var $this = $(this);
+            if ($this.data('type') === $headerType && undefined !== $this.data('id')) {
+                arr.push($this.data('id'));
+            }
+        });
+
+
+        $.ajax({
+            url: '{{ serverUrl() }}{{ url('json/mailing/update-block') }}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'mc': arr,
+                'block': '{{ constant("Mailing\\Entity\\User::NOT_BLOCKED") }}'
+            },
+            success: function (response) {
+                $('input:checkbox').each(function () {
+                    if ($(this).data('type') === $headerType) {
+                        $(this).prop('disabled', false);
+                        $(this).parent().parent().find('.toggleBlock').removeClass('fa-lock').addClass('fa-unlock');
+                    }
+                });
+            },
+        });
+    });
+
+</script>

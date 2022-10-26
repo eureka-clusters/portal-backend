@@ -1,0 +1,57 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-deeplink-target-list")) %}
+
+<h1>{{ translate("txt-deeplink-target-list") }}</h1>
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% if targets|length > 0 %}
+    <table class="table table-striped table-sm table-sm table-hover">
+        <thead>
+        <tr>
+            <th colspan="2">{{ translate("txt-target-id") }}</th>
+            <th>{{ translate("txt-target-name") }}</th>
+            <th>{{ translate("txt-target-route") }}</th>
+            <th>{{ translate("txt-valid") }}</th>
+            <th>{{ translate("txt-deeplinks") }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for targetData in targets %}
+
+            {% set target = targetData.target %}
+            {% set deeplinks = targetData.deeplink %}
+            {% set inactiveDeeplinks = targetData.inactiveDeeplink %}
+
+            <tr {% if not target.route or not canAssemble(target.route) %}class="table-danger"{% endif %}>
+                <td>{% if deeplinkService.targetCanBeDeleted(target) %}<input type="checkbox" name="target[]"
+                                                                              value="{{ target.id }}">{% endif %}</td>
+                <td><small class="text-muted">{{ target.id }}</small></td>
+                <td>{{ deeplinkTargetLink(target,'view', 'target') }} {{ deeplinkTargetLink(target, 'edit', 'icon') }}</td>
+                <td class="text-monospace">{{ target.route }}</td>
+                <td>{% if not target.route or not canAssemble(target.route) %}<i
+                            class="fa fa-exclamation-triangle error" aria-hidden="true"
+                            title="{{ translate("txt-the-given-route-is-incorrect") }}"></i>
+                    {% else %}
+                    <i
+                            class="fa fa-check text-success" aria-hidden="true"
+                            title="{{ translate("txt-the-given-route-is-correct") }}">
+                        {% endif %}
+                </td>
+                <td>{{ deeplinks }}</td>
+                <td>{{ inactiveDeeplinks }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ lbs5formelement(form.get('deleteTargets')) }}
+    {{ lbs5formelement(form.get('deleteInactiveDeeplinks')) }}
+
+    {{ form().closeTag()|raw }}
+
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-targets-can-be-found"))|raw }}
+{% endif %}

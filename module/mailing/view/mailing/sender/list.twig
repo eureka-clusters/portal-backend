@@ -1,0 +1,41 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-sender-list")) %}
+
+<h1>{{ translate("txt-sender-list") }} {{ senderLink(null,'new', 'button') }}</h1>
+
+{% if paginator.pageRange > 0 %}
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-id") }}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/sender/list', 'criteria': 'sender', 'text': translate("txt-sender")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/sender/list', 'criteria': 'email', 'text': translate("txt-email")} %}</th>
+            <th>{{ translate("txt-mailings") }}</th>
+            <th>{{ translate("txt-transactional") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sender in paginator.getCurrentItems() %}
+            <tr>
+
+                <td><small class="text-muted">{{ sender.id }}</small></td>
+                <td>{{ senderLink(sender,'view', 'name') }} {{ senderLink(sender,'edit', 'icon') }}
+                    {% if sender.isOwner() %}<span
+                            class="badge bg-info">{{ translate("txt-owner") }}</span>{% endif %}
+                    {% if sender.isLoggedInUser() %}<span
+                            class="badge bg-info">{{ translate("txt-logged-in-user") }}</span>{% endif %}
+                    {% if sender.isDefault() %}<span
+                            class="badge bg-info">{{ translate("txt-default-sender") }}</span>{% endif %}
+
+                </td>
+                <td>{{ sender.email }}</td>
+                <td>{{ sender.mailing.count() }}</td>
+                <td>{{ sender.transactional.count() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'application/partial/pagination-control' with {'paginator': paginator} %}
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-senders-found"))|raw }}
+{% endif %}

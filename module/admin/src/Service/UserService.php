@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin\Service;
 
+use Admin\Entity\Role;
 use Admin\Entity\User;
 use Application\Service\AbstractService;
 use Application\ValueObject\OAuth2\GenericUser;
@@ -11,9 +12,9 @@ use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
 use Exception;
-
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\AccessRolesByUserInterface;
+use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
 
 use function array_diff;
 use function array_intersect;
@@ -132,9 +133,39 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         $this->save($funder);
     }
 
-    public function getAccessRolesByUser(UserAsRoleInterface|User $user): array
+    public function getAccessRolesByUser(UserAsRoleInterface|User|GuestIdentity $user): array
     {
+        if ($user instanceof GuestIdentity) {
+            return [Role::ROLE_PUBLIC];
+        }
+
         return $user->getRolesAsArray();
     }
 
+    public function lostPassword(string $emailAddress): void
+    {
+        //Find the contact
+        $contact = $this->contactService->findContactByEmail($emailAddress);
+        if (null === $contact) {
+            return;
+        }
+
+        if (!$contact->isActive()) {
+            $contact->setDateEnd(null);
+            $this->contactService->save($contact);
+
+            $this->contactService->addNoteToContact(
+                'Account reactivated by requesting new password',
+                'Account creation',
+                $contact
+            );
+        }
+
+        //Send the email
+        $email = $this->emailService->createNewWebInfoEmailBuilder('/auth/forgotpassword:mail');
+        $email->addContactTo($contact);
+        $email->addDeeplink('community/contact/change-password', 'url', $contact);
+
+        $this->emailService->sendBuilder($email);
+    }
 }

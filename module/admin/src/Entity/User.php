@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Jield\Authorize\Role\UserAsRoleInterface;
+use Laminas\Form\Annotation\Exclude;
 
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
@@ -78,6 +79,10 @@ class User extends AbstractEntity implements UserAsRoleInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: RefreshToken::class, cascade: ['persist'])]
     private Collection $oAuthRefreshTokens;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: \Deeplink\Entity\Deeplink::class, cascade: ['persist', 'remove'])]
+    #[Exclude]
+    private Collection $deeplink;
+
     public function __construct()
     {
         $this->dateCreated = new DateTime();
@@ -88,6 +93,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
         $this->oAuthAuthorizationCodes = new ArrayCollection();
         $this->oAuthRefreshTokens = new ArrayCollection();
         $this->evaluation = new ArrayCollection();
+        $this->deeplink = new ArrayCollection();
     }
 
     public function getUserId(): string

@@ -5,31 +5,27 @@ declare(strict_types=1);
 namespace Admin\Repository;
 
 use Admin\Entity;
+use Application\Repository\FilteredObjectRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Search\ValueObject\SearchFormResult;
 
-use function in_array;
 use function sprintf;
-use function strtoupper;
 
-final class Role extends EntityRepository
+final class Role extends EntityRepository implements FilteredObjectRepository
 {
-    public function findFiltered(array $filter): QueryBuilder
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('admin_entity_role');
         $qb->from(Entity\Role::class, 'admin_entity_role');
 
-        if (null !== $filter) {
-            $qb = $this->applyRoleFilter($qb, $filter);
-        }
+        $qb = $this->applyRoleFilter($qb, $searchFormResult);
 
-        $direction = 'ASC';
-        if (isset($filter['direction']) && in_array(strtoupper($filter['direction']), ['ASC', 'DESC'], true)) {
-            $direction = strtoupper($filter['direction']);
-        }
+        $direction = $searchFormResult->getDirection();
 
-        switch ($filter['order']) {
+        switch ($searchFormResult->getOrder()) {
             case 'id':
                 $qb->addOrderBy('admin_entity_role.id', $direction);
                 break;
@@ -37,20 +33,20 @@ final class Role extends EntityRepository
                 $qb->addOrderBy('admin_entity_role.description', $direction);
                 break;
             default:
-                $qb->addOrderBy('admin_entity_role.description', $direction);
+                $qb->addOrderBy('admin_entity_role.description', Criteria::ASC);
         }
 
         return $qb;
     }
 
-    public function applyRoleFilter(QueryBuilder $qb, array $filter): QueryBuilder
+    public function applyRoleFilter(QueryBuilder $qb, SearchFormResult $searchFormResult): QueryBuilder
     {
-        if (!empty($filter['query'])) {
+        if ($searchFormResult->hasQuery()) {
             $qb->andWhere($qb->expr()->like('admin_entity_role.description', ':like'));
-            $qb->setParameter('like', sprintf('%%%s%%', $filter['query']));
+            $qb->setParameter('like', sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 
-        if (isset($filter['filter']['locked'])) {
+        if ($searchFormResult->hasFilterByKey('locked')) {
             $qb->andWhere($qb->expr()->in('admin_entity_role.id', Entity\Role::$lockedRoles));
         }
 

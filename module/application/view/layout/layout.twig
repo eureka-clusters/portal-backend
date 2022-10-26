@@ -22,11 +22,13 @@
             </a>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {{ lbs5navigation('Laminas\\Navigation\\Default').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
+            {{ lbs5navigation('navigation').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
 
 
             <ul class="navbar-nav me-2">
-                {% if identity() %}
+
+
+                {% if not isAllowed('route/user/login') %}
                     <li class="nav-item">
                         {{ identity().parseFullname() }}
                     </li>
@@ -46,10 +48,11 @@
     </div>
 </nav>
 <div class="container">
-    {{ content }}
+    {{ content|raw }}
+
     <hr>
     <footer>
-        <p>&copy; <?= date('Y') ?> Eureka Clusters Backend Application</p>
+        <p>&copy; {{ now|date('Y') }} Eureka Clusters Backend Application</p>
     </footer>
 </div>
 

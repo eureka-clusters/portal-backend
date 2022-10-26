@@ -4,5 +4,8 @@ return [
     'oauth/authorize' => __DIR__ . '/./view/oauth/authorize.twig',
     'layout/layout' => __DIR__ . '/./view/layout/layout.twig',
     'application/index/index' => __DIR__ . '/./view/application/index/index.twig',
-    'error/error' => __DIR__ . '/./view/error/error.twig',
+    'error/index' => __DIR__ . '/./view/error/index.twig',
+    'error/403' => __DIR__ . '/./view/error/403.twig',
+    'error/500' => __DIR__ . '/./view/error/500.twig',
+    'error/404' => __DIR__ . '/./view/error/404.twig',
 ];

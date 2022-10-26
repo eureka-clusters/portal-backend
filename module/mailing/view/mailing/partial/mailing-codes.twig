@@ -1,0 +1,46 @@
+<h3 class="pt-3">{{ translate("txt-mailing-codes") }}</h3>
+
+<p>{{ translate("txt-mailing-codes-explanation") }}</p>
+
+{% set user = identity() %}
+
+<table class="table table-hover table-striped table-sm">
+    <thead>
+    <tr>
+        <th>{{ translate("txt-code") }}</th>
+        <th>{{ translate("txt-preview") }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ '{{ ' }}firstname{{ ' }}' }}</td>
+        <td>{{ user.firstname }}</td>
+    </tr>
+    <tr>
+        <td>{{ '{{ ' }}lastname{{ ' }}' }}</td>
+        <td>{{ "%s"|format(user.lastName)|trim }}</td>
+    </tr>
+    <tr>
+        <td>{{ '{{ ' }}fullname{{ ' }}' }}</td>
+        <td>{{ user.getDisplayName }}</td>
+    </tr>
+    <tr>
+        <td>{{ '{{ ' }}email{{ ' }}' }}</td>
+        <td>{{ user.email }}</td>
+    </tr>
+    {% if mailing.hasDeeplink() %}
+        <tr>
+            <td>{{ '{{ ' }}deeplink{{ ' }}' }}</td>
+            <td>{{ mailing.deeplink.target }}</td>
+        </tr>
+    {% endif %}
+    <tr>
+        <td>{{ '{{ ' }}sender_email{{ ' }}' }}</td>
+        <td>{{ mailing.sender.email }}</td>
+    </tr>
+    <tr>
+        <td>{{ '{{ ' }}sender_name{{ ' }}' }}</td>
+        <td>{{ mailing.sender.sender }}</td>
+    </tr>
+    </tbody>
+</table>

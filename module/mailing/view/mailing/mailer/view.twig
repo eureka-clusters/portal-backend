@@ -1,0 +1,28 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-view-mailer")) %}
+
+<h1>{{ mailer }} {{ mailerLink( mailer,'edit','button') }}</h1>
+
+{% if not mailer.isActive() %}
+    {{ lbs5alert().danger(translate("txt-this-mailer-is-not-active-and-cannot-be-selected-in-transactional-emails-or-mailings"))|raw }}
+{% endif %}
+
+{% if mailer.isDevelopment() %}
+    {{ lbs5alert().danger(translate("txt-this-mailer-is-set-to-development-and-mails-will-only-be-sent-virtually"))|raw }}
+{% endif %}
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ mailer.name }}</dd>
+    <dt>{{ translate("txt-service") }}</dt>
+    <dd>{{ translate(mailer.getServiceText()) }}</dd>
+    <dt>{{ translate("txt-is-active") }}</dt>
+    <dd>{% if mailer.isActive() %}{{ translate("txt-yes") }}{% else %}{{ translate("txt-no") }}{% endif %}</dd>
+    <dt>{{ translate("txt-is-development") }}</dt>
+    <dd>{% if mailer.isDevelopment() %}{{ translate("txt-yes") }}{% else %}{{ translate("txt-no") }}{% endif %}</dd>
+
+</dl>
+
+<form method="post">
+    <input type="submit" class="btn btn-success" value="{{ translate("txt-send-test-email") }}">
+</form>

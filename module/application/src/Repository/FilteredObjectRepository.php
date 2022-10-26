@@ -6,7 +6,7 @@ namespace Application\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
-use Search\ValueObject\SearchFormResult;
+use Application\ValueObject\SearchFormResult;
 
 interface FilteredObjectRepository extends ObjectRepository
 {

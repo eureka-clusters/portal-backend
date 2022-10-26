@@ -1,0 +1,81 @@
+{% do headLink().appendStylesheet(
+    '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.min.css'
+) %}
+
+{% do form.prepare() %}
+
+{{ form().openTag(form)|raw }}
+
+{% set mailingForm = form.get('mailing_entity_mailing') %}
+
+<fieldset>
+    <legend>{{ translate("txt-mailing-options") }}</legend>
+    {{ lbs5formelement(mailingForm.get('id')) }}
+    {{ lbs5formelement(mailingForm.get('mailing')) }}
+    {{ lbs5formelement(mailingForm.get('mailSubject')) }}
+    {{ lbs5formelement(mailingForm.get('tag')) }}
+    {{ lbs5formelement(mailingForm.get('sender')) }}
+    {{ lbs5formelement(mailingForm.get('mailer')) }}
+    {{ userformelement(mailingForm.get('user')) }}
+    {{ lbs5formelement(mailingForm.get('template')) }}
+</fieldset>
+
+<fieldset>
+    <legend>{{ translate("txt-recipients") }}</legend>
+    {{ selectionformelement(mailingForm.get('selection'),'horizontal') }}
+</fieldset>
+
+<fieldset>
+    <legend>{{ translate("txt-deeplink-options") }}</legend>
+
+    {{ lbs5formelement(mailingForm.get('deeplinkTarget')) }}
+    {{ lbs5formelement(mailingForm.get('keyId')) }}
+    {{ lbs5formelement(mailingForm.get('dateExpiration')) }}
+</fieldset>
+
+{{ formelement(form.get('csrf')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ formelement(form.get('submit')) }}
+        {{ formelement(form.get('cancel')) }}
+        {% if form.has('delete') %}
+            {{ formelement(form.get('delete')) }}
+        {% endif %}
+        {% if form.has('restore') %}
+            {{ formelement(form.get('restore')) }}
+        {% endif %}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}
+
+<script type="text/javascript">
+    $(document).on('click', '.removeSelection', function (e) {
+        const id = $(this).attr('rel');
+        $("#hidden-" + id).remove();
+    });
+
+    $(document).on('change', '#add-selection', function (e) {
+        const value = $(this).val();
+        const text = $("#add-selection option:selected").text();
+
+        $('.selection-add').append(
+            '<div id="hidden-' + value + '">' +
+            '<input type="hidden" name="mailing_entity_mailing[selection][]" value="' + value + '">' +
+            ' <p class="form-control-plaintext">' + text + '<i class="fa fa-trash-o removeSelection" rel="' + value + '">' +
+            '</i></p></div>');
+    });
+
+    $('input[type=date]').datepicker({
+        sliderAccessArgs: {touchonly: false},
+        dateFormat: 'yy-mm-dd'
+    });
+</script>
+
+<style type="text/css">
+    .removeSelection {
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,48 @@
+{% do headScript().appendFile('assets/codemirror/codemirror.js', 'text/javascript') %}
+{% do headScript().appendFile('assets/codemirror/css.js', 'text/javascript') %}
+{% do headScript().appendFile('assets/codemirror/htmlmixed.js', 'text/javascript') %}
+{% do headScript().appendFile('assets/codemirror/javascript.js', 'text/javascript') %}
+{% do headScript().appendFile('assets/codemirror/xml.js', 'text/javascript') %}
+{% do headScript().appendFile('assets/codemirror/selection-pointer.js', 'text/javascript') %}
+
+{% do headLink().appendStylesheet('assets/codemirror/codemirror.css') %}
+
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% set transactional = form.get('mailing_entity_transactional') %}
+
+{{ lbs5formelement(transactional.get('id')) }}
+{{ lbs5formelement(transactional.get('key')) }}
+{{ lbs5formelement(transactional.get('name')) }}
+{{ lbs5formelement(transactional.get('template')) }}
+{{ lbs5formelement(transactional.get('sender')) }}
+{{ lbs5formelement(transactional.get('mailer')) }}
+{{ lbs5formelement(transactional.get('mailSubject')) }}
+{{ lbs5formelement(transactional.get('mailHtml')) }}
+
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ lbs5formelement(form.get('submit')) }}
+        {{ lbs5formelement(form.get('cancel')) }}
+        {% if form.has('delete') %}
+            {{ lbs5formelement(form.get('delete')) }}
+        {% endif %}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}
+
+<script type="text/javascript">
+    var htmlEditor = CodeMirror.fromTextArea(document.getElementById("mailHtml"), {
+        mode: "text/html",
+        lineNumbers: true,
+        selectionPointer: true,
+        lineWrapping: true,
+        matchBrackets: true
+    });
+    htmlEditor.setSize(null, 600);
+</script>

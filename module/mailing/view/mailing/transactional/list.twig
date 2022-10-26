@@ -1,0 +1,72 @@
+{% do headTitle().append(translate("txt-mailing") ) %}
+{% do headTitle().append(translate("txt-transactional-list") ) %}
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% set filter = form.get('filter') %}
+
+<div class="row">
+
+    <div class="col-md-10">
+
+        <h1>{{ translate("txt-transactionals") }} {{ transactionalLink(null, 'new','button') }}</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <p>{{ translate("txt-transactional-list-explanation") }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    {{ formelement(form.get('query')) }}
+                    {{ formelement(form.get('search')) }}
+                    {{ formelement(form.get('reset')) }}
+                </div>
+            </div>
+        </div>
+
+        {% if paginator.pageRange > 0 %}
+            <table class="table table-striped table-sm table-hover">
+                <thead>
+                <tr>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'id', 'text': translate("txt-transactional-id")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'name', 'text': translate("txt-key")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'sender', 'text': translate("txt-sender")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'template', 'text': translate("txt-template")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'mailer', 'text': translate("txt-mailer")} %}</th>
+                    <th>{{ translate("txt-locked") }}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/mailing/transactional/list', 'criteria': 'last-update', 'text': translate("txt-last-update")} %}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for transactional in paginator.getCurrentItems() %}
+                    <tr>
+                        <td><small class="text-muted">{{ transactional.id }}</small></td>
+                        <td>{{ transactionalLink(transactional,'view','name') }} {{ transactionalLink(transactional,'edit', 'icon') }}</td>
+                        <td>{{ transactionalLink(transactional,'view','key') }}</td>
+                        <td>{{ senderLink(transactional.sender,'view','name') }}</td>
+                        <td>{{ mailingTemplateLink(transactional.template,'view','name') }}</td>
+                        <td>{{ mailerLink(transactional.mailer,'view','name') }}</td>
+                        <td>{% if transactional.isLocked() %}<i class="fa fa-lock"
+                                                                title="{{ translate("txt-this-transactional-is-locked-and-cannot-be-deleted") }}"></i>{% endif %}
+                        </td>
+                        <td>{% if transactional.lastUpdate %}{{ transactional.lastUpdate|date('d-m-Y H:i:s') }}{% endif %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include 'application/partial/pagination-control' %}
+        {% else %}
+            {{ lbs5alert().info(translate("txt-no-transactional-emails-found"))|raw }}
+        {% endif %}
+    </div>
+    <div class="col-md-2">
+        {{ lbs5formelement(filter.get('locked'), 'default') }}
+        {{ lbs5formelement(form.get('search')) }}
+        {{ lbs5formelement(form.get('reset')) }}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}

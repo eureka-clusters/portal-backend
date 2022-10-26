@@ -1,0 +1,41 @@
+{% do headLink().appendStylesheet(
+    '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.min.css'
+) %}
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% set distributionListForm = form.get('mailing_entity_distributionlist') %}
+
+    {{ lbs5formelement(distributionListForm.get('id')) }}
+    {{ lbs5formelement(distributionListForm.get('name')) }}
+    {{ lbs5formelement(distributionListForm.get('description')) }}
+    {{ lbs5formelement(distributionListForm.get('transactional')) }}
+    {{ lbs5formelement(distributionListForm.get('isActive')) }}
+    {{ lbs5formelement(distributionListForm.get('isAutomatic')) }}
+    {{ lbs5formelement(distributionListForm.get('hour')) }}
+    {{ lbs5formelement(distributionListForm.get('dayOfWeek')) }}
+    {{ lbs5formelement(distributionListForm.get('trigger')) }}
+    {{ selectionformelement(distributionListForm.get('selection'),'horizontal') }}
+
+{{ formelement(form.get('csrf')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ formelement(form.get('submit')) }}
+        {{ formelement(form.get('cancel')) }}
+        {% if form.has('delete') %}
+            {{ formelement(form.get('delete')) }}
+        {% endif %}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}
+
+<script>
+    $('input[type=date]').datepicker({
+        sliderAccessArgs: {touchonly: false},
+        dateFormat: 'yy-mm-dd'
+    });
+</script>

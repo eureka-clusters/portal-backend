@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Application\Service;
 
 use Application\Entity\AbstractEntity;
+use Application\Repository\FilteredObjectRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\HasPermitInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
+use Application\ValueObject\SearchFormResult;
 
 abstract class AbstractService implements HasPermitInterface
 {
@@ -32,6 +35,25 @@ abstract class AbstractService implements HasPermitInterface
     {
         return $this->entityManager->getRepository($entity)->findOneBy([$column => $name]);
     }
+
+    public function findFiltered(string $entity, SearchFormResult $formResult): QueryBuilder
+    {
+        /** @var FilteredObjectRepository $repository */
+        $repository = $this->entityManager->getRepository($entity);
+
+        if (!in_array(FilteredObjectRepository::class, class_implements($repository), true)) {
+            throw new \InvalidArgumentException(
+                message: sprintf(
+                    'The repository of %s should implement %s',
+                    $entity,
+                    FilteredObjectRepository::class
+                )
+            );
+        }
+
+        return $repository->findFiltered($formResult);
+    }
+
 
     public function save(AbstractEntity $entity): AbstractEntity
     {

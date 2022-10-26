@@ -1,0 +1,48 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-deeplink-target-%s")|format(target)) %}
+
+
+<h1>{{ target.target }} {{ deeplinkTargetLink(target,'edit','button') }}</h1>
+
+{% if not target.route or not canAssemble(target.route) %}
+    {{ lbs5alert().info(translate("txt-the-current-route-%s-does-not-exist")|format(target.route))|raw }}
+{% endif %}
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-target-name") }}</dt>
+    <dd>{{ deeplinkTargetLink(target,'view', 'target') }}</dd>
+    <dt>{{ translate("txt-valid-deeplinks") }}</dt>
+    <dd>{{ deeplinkService.findActiveDeeplinksByTarget(target)|length }}</dd>
+    {% if target.route %}
+        <dt>{{ translate("txt-target-route") }}</dt>
+        <dd>{{ target.route }}</dd>
+    {% endif %}
+</dl>
+
+{% if target.deeplink[0:20]|length > 0 %}
+    <h3>{{ translate("txt-latest-20-deeplinks") }}</h3>
+    <table class="table table-striped table-sm table-hover table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-deeplink-id") }}</th>
+            <th>{{ translate("txt-deeplink") }}</th>
+            <th>{{ translate("txt-contact") }}</th>
+            <th>{{ translate("txt-key") }}</th>
+            <th>{{ translate("txt-expire") }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for deeplink in target.deeplink[0:20] %}
+            <tr {% if deeplink.endDate|date('Y-m-d') < "now"|date('Y-m-d') %}class="table-danger"
+                title="{{ translate("txt-expired") }}"{% endif %}>
+                <td><small class="text-muted">{{ deeplink.id }}</small></td>
+                <td>{{ deeplinkLink(deeplink,'view', 'target') }}</td>
+                <td>{% if deeplink.deeplinkUser.user %}{{ userLink(deeplink.deeplinkUser.user,'view-admin','name') }}{% endif %}</td>
+                <td class="text-monospace">{{ deeplink.keyId }}</td>
+                <td>{{ deeplink.endDate|date('d-m-Y h:m') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
