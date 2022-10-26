@@ -11,6 +11,7 @@ use Application\Entity\AbstractEntity;
 use Cluster\Entity\Funder;
 use Cluster\Entity\Project\Evaluation;
 use DateTime;
+use Deeplink\Entity\Deeplink;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -18,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Laminas\Form\Annotation\Exclude;
+use Mailing\Entity\EmailMessage;
 
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
@@ -79,9 +81,13 @@ class User extends AbstractEntity implements UserAsRoleInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: RefreshToken::class, cascade: ['persist'])]
     private Collection $oAuthRefreshTokens;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: \Deeplink\Entity\Deeplink::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Deeplink::class, cascade: ['persist', 'remove'])]
     #[Exclude]
     private Collection $deeplink;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: EmailMessage::class, cascade: ['persist', 'remove'])]
+    #[Exclude]
+    private Collection $emailMessage;
 
     public function __construct()
     {
@@ -94,6 +100,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
         $this->oAuthRefreshTokens = new ArrayCollection();
         $this->evaluation = new ArrayCollection();
         $this->deeplink = new ArrayCollection();
+        $this->emailMessage = new ArrayCollection();
     }
 
     public function getUserId(): string
@@ -298,6 +305,28 @@ class User extends AbstractEntity implements UserAsRoleInterface
     public function setEvaluation(Collection $evaluation): User
     {
         $this->evaluation = $evaluation;
+        return $this;
+    }
+
+    public function getDeeplink(): Collection
+    {
+        return $this->deeplink;
+    }
+
+    public function setDeeplink(Collection $deeplink): User
+    {
+        $this->deeplink = $deeplink;
+        return $this;
+    }
+
+    public function getEmailMessage(): Collection
+    {
+        return $this->emailMessage;
+    }
+
+    public function setEmailMessage(Collection $emailMessage): User
+    {
+        $this->emailMessage = $emailMessage;
         return $this;
     }
 }

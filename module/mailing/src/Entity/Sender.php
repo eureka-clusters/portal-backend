@@ -47,10 +47,6 @@ class Sender extends AbstractEntity
     #[Attributes(['label' => 'txt-sender-email-label', 'placeholder' => 'txt-sender-email-placeholder'])]
     private string $email = '';
 
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Mailing::class, cascade: ['persist'])]
-    #[Exclude]
-    private Collection $mailing;
-
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Transactional::class, cascade: ['persist'])]
     #[Exclude]
     private Collection $transactional;
@@ -61,7 +57,6 @@ class Sender extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->mailing = new ArrayCollection();
         $this->transactional = new ArrayCollection();
         $this->emailMessage = new ArrayCollection();
     }
@@ -116,17 +111,6 @@ class Sender extends AbstractEntity
     public function setEmail(string $email): Sender
     {
         $this->email = $email;
-        return $this;
-    }
-
-    public function getMailing(): Collection
-    {
-        return $this->mailing;
-    }
-
-    public function setMailing($mailing): Sender
-    {
-        $this->mailing = $mailing;
         return $this;
     }
 

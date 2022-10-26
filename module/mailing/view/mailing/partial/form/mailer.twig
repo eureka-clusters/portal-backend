@@ -34,15 +34,6 @@
 {% if 'sendGridApiKey' in formFields %}
     {{ lbs5formelement(mailer.get('sendGridApiKey')) }}
 {% endif %}
-{% if 'graphTenantId' in formFields %}
-    {{ lbs5formelement(mailer.get('graphTenantId')) }}
-{% endif %}
-{% if 'graphClientId' in formFields %}
-    {{ lbs5formelement(mailer.get('graphClientId')) }}
-{% endif %}
-{% if 'graphClientSecret' in formFields %}
-    {{ lbs5formelement(mailer.get('graphClientSecret')) }}
-{% endif %}
 
 {{ lbs5formelement(mailer.get('isActive')) }}
 {{ lbs5formelement(mailer.get('isDevelopment')) }}

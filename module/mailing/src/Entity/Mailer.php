@@ -26,14 +26,12 @@ class Mailer extends AbstractEntity
 {
     final public const MAILER_SERVICE_SMTP = 1;
     final public const MAILER_SERVICE_SENDMAIL = 2;
-    final public const MAILER_SERVICE_GRAPH = 3;
-    final public const MAILER_SERVICE_MAILJET = 4;
-    final public const MAILER_SERVICE_SENDGRID = 5;
+    final public const MAILER_SERVICE_MAILJET = 3;
+    final public const MAILER_SERVICE_SENDGRID = 4;
 
     public static array $servicesArray = [
         self::MAILER_SERVICE_SMTP => 'txt-mailer-service-smtp',
         self::MAILER_SERVICE_SENDMAIL => 'txt-mailer-service-sendmail',
-        self::MAILER_SERVICE_GRAPH => 'txt-mailer-service-graph',
         self::MAILER_SERVICE_MAILJET => 'txt-mailer-service-mailjet',
         self::MAILER_SERVICE_SENDGRID => 'txt-mailer-service-sendgrid',
     ];
@@ -92,33 +90,7 @@ class Mailer extends AbstractEntity
         'placeholder' => 'txt-mailer-sendgrid-api-key-placeholder'
     ])]
     private ?string $sendGridApiKey = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-graph-tenant-id-help-block'])]
-    #[Attributes([
-        'label' => 'txt-mailer-graph-tenant-id-label',
-        'placeholder' => 'txt-mailer-graph-tenant-id-placeholder'
-    ])]
-    private ?string $graphTenantId = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-graph-client-id-help-block'])]
-    #[Attributes([
-        'label' => 'txt-mailer-graph-client-id-label',
-        'placeholder' => 'txt-mailer-graph-client-id-placeholder'
-    ])]
-    private ?string $graphClientId = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Type(Text::class)]
-    #[Options(['help-block' => 'txt-mailer-graph-client-secret-help-block'])]
-    #[Attributes([
-        'label' => 'txt-mailer-graph-client-secret-label',
-        'placeholder' => 'txt-mailer-graph-client-secret-placeholder'
-    ])]
-    private ?string $graphClientSecret = null;
+    
 
     #[ORM\Column(type: 'boolean')]
     #[Type(Checkbox::class)]
@@ -132,10 +104,6 @@ class Mailer extends AbstractEntity
     #[Attributes(['label' => 'txt-mailer-is-active-label'])]
     private bool $isActive = true;
 
-    #[ORM\OneToMany(mappedBy: 'mailer', targetEntity: Mailing::class, cascade: ['persist'])]
-    #[Exclude]
-    private Collection $mailing;
-
     #[ORM\OneToMany(mappedBy: 'mailer', targetEntity: Transactional::class, cascade: ['persist'])]
     #[Exclude]
     private Collection $transactional;
@@ -146,7 +114,6 @@ class Mailer extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->mailing = new ArrayCollection();
         $this->transactional = new ArrayCollection();
         $this->emailMessage = new ArrayCollection();
     }
@@ -181,11 +148,6 @@ class Mailer extends AbstractEntity
         return $this->service === self::MAILER_SERVICE_SENDMAIL;
     }
 
-    public function isGraph(): bool
-    {
-        return $this->service === self::MAILER_SERVICE_GRAPH;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -216,66 +178,6 @@ class Mailer extends AbstractEntity
     public function setService(int $service): Mailer
     {
         $this->service = $service;
-        return $this;
-    }
-
-    public function getServiceText(): string
-    {
-        return self::$servicesArray[$this->service] ?? '';
-    }
-
-    public function isDevelopment(): bool
-    {
-        return $this->isDevelopment;
-    }
-
-    public function setIsDevelopment(bool $isDevelopment): Mailer
-    {
-        $this->isDevelopment = $isDevelopment;
-        return $this;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(bool $isActive): Mailer
-    {
-        $this->isActive = $isActive;
-        return $this;
-    }
-
-    public function getMailing(): Collection
-    {
-        return $this->mailing;
-    }
-
-    public function setMailing(Collection $mailing): Mailer
-    {
-        $this->mailing = $mailing;
-        return $this;
-    }
-
-    public function getTransactional(): Collection
-    {
-        return $this->transactional;
-    }
-
-    public function setTransactional(Collection $transactional): Mailer
-    {
-        $this->transactional = $transactional;
-        return $this;
-    }
-
-    public function getEmailMessage(): Collection
-    {
-        return $this->emailMessage;
-    }
-
-    public function setEmailMessage(Collection $emailMessage): Mailer
-    {
-        $this->emailMessage = $emailMessage;
         return $this;
     }
 
@@ -345,38 +247,51 @@ class Mailer extends AbstractEntity
         return $this;
     }
 
-    public function getGraphTenantId(): ?string
+    public function isDevelopment(): bool
     {
-        return $this->graphTenantId;
+        return $this->isDevelopment;
     }
 
-    public function setGraphTenantId(?string $graphTenantId): Mailer
+    public function setIsDevelopment(bool $isDevelopment): Mailer
     {
-        $this->graphTenantId = $graphTenantId;
+        $this->isDevelopment = $isDevelopment;
         return $this;
     }
 
-    public function getGraphClientId(): ?string
+    public function isActive(): bool
     {
-        return $this->graphClientId;
+        return $this->isActive;
     }
 
-    public function setGraphClientId(?string $graphClientId): Mailer
+    public function setIsActive(bool $isActive): Mailer
     {
-        $this->graphClientId = $graphClientId;
+        $this->isActive = $isActive;
         return $this;
     }
 
-    public function getGraphClientSecret(): ?string
+    public function getTransactional(): Collection
     {
-        return $this->graphClientSecret;
+        return $this->transactional;
     }
 
-    public function setGraphClientSecret(?string $graphClientSecret): Mailer
+    public function setTransactional(Collection $transactional): Mailer
     {
-        $this->graphClientSecret = $graphClientSecret;
+        $this->transactional = $transactional;
         return $this;
     }
 
+    public function getEmailMessage(): Collection
+    {
+        return $this->emailMessage;
+    }
+
+    public function setEmailMessage(Collection $emailMessage): Mailer
+    {
+        $this->emailMessage = $emailMessage;
+        return $this;
+    }
+
+
+  
 
 }

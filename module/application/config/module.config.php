@@ -7,12 +7,16 @@ namespace Application;
 use Application\Authentication\Factory\PdoAdapterFactory;
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
+use Application\Controller\Plugin\GetFilter;
+use Application\Controller\Plugin\Preferences;
 use Application\Event\InjectAclInNavigation;
 use Application\Event\SetTitle;
 use Application\Event\UpdateNavigation;
 use Application\Factory\DoctrineCacheFactory;
 use Application\Factory\InvokableFactory;
 use Application\Factory\LaminasCacheFactory;
+use Application\Twig\DatabaseTwigLoader;
+use Application\Twig\StringDateExtension;
 use Application\View\Helper\PaginationLink;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
@@ -36,6 +40,14 @@ $config = [
             IndexController::class,
         ],
     ],
+    'controller_plugins' => [
+        'aliases' => [
+            'getFilter' => GetFilter::class,
+        ],
+        'factories' => [
+            GetFilter::class => InvokableFactory::class,
+        ],
+    ],
     'service_manager' => [
         'aliases' => [
             'BjyAuthorize\Cache' => Redis::class, //Map the bjy on the native cache
@@ -51,6 +63,8 @@ $config = [
             InjectAclInNavigation::class => ConfigAbstractFactory::class,
             SetTitle::class => ConfigAbstractFactory::class,
             UpdateNavigation::class => InvokableFactory::class,
+
+            DatabaseTwigLoader::class => ConfigAbstractFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -78,6 +92,10 @@ $config = [
         'disable_zf_model' => false,
         'extensions' => [
             DebugExtension::class,
+            StringDateExtension::class
+        ],
+        'loader_chain' => [
+            DatabaseTwigLoader::class,
         ],
         'environment_options' => [
             'cache' => __DIR__ . '/../../../data/twig/',

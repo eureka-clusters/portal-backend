@@ -11,10 +11,12 @@ use Application\ValueObject\OAuth2\GenericUser;
 use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
+use Doctrine\ORM\EntityManager;
 use Exception;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\AccessRolesByUserInterface;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
+use Mailing\Service\EmailService;
 
 use function array_diff;
 use function array_intersect;
@@ -23,36 +25,46 @@ use function sprintf;
 
 class UserService extends AbstractService implements AccessRolesByUserInterface
 {
+    public function __construct(
+        protected EntityManager $entityManager,
+        private readonly EmailService $emailService
+
+    ) {
+        parent::__construct(entityManager: $entityManager);
+    }
+
     public function findUserById(int $id): ?User
     {
-        return $this->entityManager->find(User::class, $id);
+        return $this->entityManager->find(className: User::class, id: $id);
     }
 
     public function findOrCreateUserFromGenericUser(GenericUser $genericUser, array $allowedClusters = []): User
     {
         //Try to see if we already have the user
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(
-            [
+        $user = $this->entityManager->getRepository(entityName: User::class)->findOneBy(
+            criteria: [
                 'email' => $genericUser->getEmail(),
             ]
         );
 
         if (null === $user) {
             $user = new User();
-            $user->setEmail($genericUser->getEmail());
+            $user->setEmail(email: $genericUser->getEmail());
         }
 
-        $user->setFirstName($genericUser->getFirstName());
-        $user->setLastName($genericUser->getLastName());
+        $user->setFirstName(firstName: $genericUser->getFirstName());
+        $user->setLastName(lastName: $genericUser->getLastName());
 
-        $this->save($user);
+        $this->save(entity: $user);
 
         //Save the EurekaSecretariatOfficeStaff
-        $user->setIsEurekaSecretariatStaffMember($genericUser->isEurekaSecretariatStaffMember());
+        $user->setIsEurekaSecretariatStaffMember(
+            isEurekaSecretariatStaffMember: $genericUser->isEurekaSecretariatStaffMember()
+        );
 
         //Delete the funder object when the user is not a funder
         if (!$genericUser->isFunder() && $user->isFunder()) {
-            $this->delete($user->getFunder());
+            $this->delete(abstractEntity: $user->getFunder());
         }
 
         if ($genericUser->isFunder()) {
@@ -60,33 +72,43 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
             $funder = $user->getFunder();
 
-            $country = $this->entityManager->getRepository(Country::class)->findOneBy(
-                [
+            $country = $this->entityManager->getRepository(entityName: Country::class)->findOneBy(
+                criteria: [
                     'cd' => $genericUser->getFunderCountry(),
                 ]
             );
             if (null === $country) {
                 throw new Exception(
-                    sprintf('Error Country with Alpha 2 code "%s" not found', $genericUser->getFunderCountry()),
-                    1
+                    message: sprintf(
+                        'Error Country with Alpha 2 code "%s" not found',
+                        $genericUser->getFunderCountry()
+                    ),
+                    code: 1
                 );
             }
 
             if (null === $funder) {
                 $funder = new Funder();
-                $funder->setUser($user);
-                $funder->setCountry($country);
+                $funder->setUser(user: $user);
+                $funder->setCountry(country: $country);
             }
-            $this->save($funder);
+            $this->save(entity: $funder);
 
-            $this->updateClusterPermissions($funder, $genericUser, $allowedClusters);
+            $this->updateClusterPermissions(
+                funder: $funder,
+                genericUser: $genericUser,
+                allowedClusters: $allowedClusters
+            );
         }
 
         return $user;
     }
 
-    protected function updateClusterPermissions(Funder $funder, GenericUser $genericUser, array $allowedClusters = [])
-    {
+    protected function updateClusterPermissions(
+        Funder $funder,
+        GenericUser $genericUser,
+        array $allowedClusters = []
+    ): void {
         // get the ClusterPermissions from generic User
         $clusterPermissions = $genericUser->getClusterPermissions();
 
@@ -94,43 +116,43 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
         // map clusters to each identifier name
         $linkedIdentifierArray = $funderClusters->map(
-            fn(Cluster $cluster) => $cluster->getIdentifier()
+            func: fn(Cluster $cluster) => $cluster->getIdentifier()
         )->toArray();
 
         // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
         $linkedIdentifierArray = array_intersect($linkedIdentifierArray, $allowedClusters);
 
         // get the clusters to add
-        $identifiersToAdd = array_values(array_diff($clusterPermissions, $linkedIdentifierArray));
+        $identifiersToAdd = array_values(array: array_diff($clusterPermissions, $linkedIdentifierArray));
 
         // add the clusters which permission was added
         foreach ($identifiersToAdd as $clusterIdentifier) {
-            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
-                [
+            $cluster = $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(
+                criteria: [
                     'identifier' => $clusterIdentifier,
                 ]
             );
-            if ((null !== $cluster) && !$funder->getClusters()->contains($cluster)) {
-                $funder->getClusters()->add($cluster);
+            if ((null !== $cluster) && !$funder->getClusters()->contains(element: $cluster)) {
+                $funder->getClusters()->add(element: $cluster);
             }
         }
 
         // which clusters should be removed given by its identifier
-        $identifiersToRemove = array_values(array_diff($linkedIdentifierArray, $clusterPermissions));
+        $identifiersToRemove = array_values(array: array_diff($linkedIdentifierArray, $clusterPermissions));
 
         // remove the clusters which permission was revoked
         foreach ($identifiersToRemove as $clusterIdentifier) {
-            $cluster = $this->entityManager->getRepository(Cluster::class)->findOneBy(
-                [
+            $cluster = $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(
+                criteria: [
                     'identifier' => $clusterIdentifier,
                 ]
             );
-            if ((null !== $cluster) && $funder->getClusters()->contains($cluster)) {
-                $funder->getClusters()->removeElement($cluster);
+            if ((null !== $cluster) && $funder->getClusters()->contains(element: $cluster)) {
+                $funder->getClusters()->removeElement(element: $cluster);
             }
         }
 
-        $this->save($funder);
+        $this->save(entity: $funder);
     }
 
     public function getAccessRolesByUser(UserAsRoleInterface|User|GuestIdentity $user): array
@@ -142,30 +164,38 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         return $user->getRolesAsArray();
     }
 
+    public function findUserByEmail(string $email): ?User
+    {
+        return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+    }
+
     public function lostPassword(string $emailAddress): void
     {
-        //Find the contact
-        $contact = $this->contactService->findContactByEmail($emailAddress);
-        if (null === $contact) {
+        //Find the user
+        $user = $this->findUserByEmail(email: $emailAddress);
+        if (null === $user) {
             return;
         }
 
-        if (!$contact->isActive()) {
-            $contact->setDateEnd(null);
-            $this->contactService->save($contact);
-
-            $this->contactService->addNoteToContact(
-                'Account reactivated by requesting new password',
-                'Account creation',
-                $contact
-            );
-        }
-
         //Send the email
-        $email = $this->emailService->createNewWebInfoEmailBuilder('/auth/forgotpassword:mail');
-        $email->addContactTo($contact);
-        $email->addDeeplink('community/contact/change-password', 'url', $contact);
+        $emailBuilder = $this->emailService->createNewTransactionalEmailBuilder(
+            transactionalOrKey: '/user/lost-password'
+        );
+        $emailBuilder->addUserTo(user: $user);
+        $emailBuilder->setDeeplink(route: 'user/change-password', user: $user);
 
-        $this->emailService->sendBuilder($email);
+        $this->emailService->send(emailBuilder: $emailBuilder);
     }
+
+    public function updatePasswordForUser(string $password, User $user): bool
+    {
+        $Bcrypt = new Bcrypt();
+        $Bcrypt->setCost(14);
+        $pass = $Bcrypt->create($password);
+        $user->setPassword($pass);
+        $this->save($user);
+
+        return true;
+    }
+
 }

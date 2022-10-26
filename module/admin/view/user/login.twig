@@ -1,0 +1,64 @@
+{% if isoAuthLogin %}
+
+    <h1>{{ translate("txt-authenticate") }}</h1>
+
+    {% do form.prepare() %}
+    {{ form().openTag(form)|raw }}
+
+    {{ lbs5formelement(form.get('username'),'floating_label') }}
+    {{ lbs5formelement(form.get('password'),'floating_label') }}
+    {{ lbs5formelement(form.get('csrf')) }}
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-9">
+
+            {{ lbs5formelement(form.get('submit')) }}
+
+            {% for key, service in oauth2Settings.services %}
+                <a class="btn btn-primary"
+                   href="{{ url('oauth2/login',{'service':key}) }}">{{ translate("txt-login-via-%s")|format(service.name) }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ form().closeTag()|raw }}
+
+{% else %}
+    {% do headTitle().append(translate("txt-sign-in")) %}
+
+
+    <h1>{{ translate("txt-sign-in") }}</h1>
+
+    {% if redirect and redirect != '/' %}
+        {{ lbs5alert().info("You have been forwarded form a direct link, use the form or button below to authenticate")|raw }}
+    {% endif %}
+
+    <p>{{ translate("txt-sign-in-explanation") }}</p>
+
+    {% do form.prepare() %}
+    {{ form().openTag(form)|raw }}
+    {{ lbs5formelement(form.get('username')) }}
+    {{ lbs5formelement(form.get('password')) }}
+    {{ lbs5formelement(form.get('csrf')) }}
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-9">
+
+            {{ lbs5formelement(form.get('submit')) }}
+            {% if isAllowed('route/user/lost-password') %}
+                <a class="btn btn-primary"
+                   href="{{ url('user/lost-password') }}">{{ translate("txt-lost-password") }}</a>
+            {% endif %}
+
+            {% for key, service in oauth2Settings.services %}
+                <a class="btn btn-primary"
+                   href="{{ url('oauth2/login',{'service':key}) }}">{{ translate("txt-login-via-%s")|format(service.name) }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ form().closeTag()|raw }}
+
+    {{ translate("txt-view-demo-solodb") }}
+{% endif %}
+

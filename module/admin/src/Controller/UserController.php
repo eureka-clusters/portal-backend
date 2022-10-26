@@ -11,6 +11,7 @@ use Admin\Form\User\Password;
 use Admin\Form\UserFilter;
 use Admin\Service\AdminService;
 use Admin\Service\UserService;
+use Application\Controller\Plugin\GetFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
@@ -50,10 +51,9 @@ UserController extends AbstractActionController
         $page = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
 
-        $userQuery = $this->adminService->findFilteredByUser(
-            User::class,
-            $filterPlugin->getFilter(),
-            $this->identity()
+        $userQuery = $this->adminService->findFiltered(
+            entity: User::class,
+            formResult: $filterPlugin->getFilter()
         );
 
         $paginator = new Paginator(
@@ -64,13 +64,12 @@ UserController extends AbstractActionController
         $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
         $form = new UserFilter(entityManager: $this->entityManager);
-        $form->setData($filterPlugin->getFilterFormData());
+        $form->setData(data: $filterPlugin->getFilterFormData());
 
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
                 'form' => $form,
-
                 'order' => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
@@ -88,7 +87,7 @@ UserController extends AbstractActionController
         $form = new LostPassword();
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form->setData($data);
+        $form->setData(data: $data);
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
@@ -97,7 +96,7 @@ UserController extends AbstractActionController
 
             if ($form->isValid()) {
                 $formData = $form->getData();
-                $this->userService->lostPassword($formData['email']);
+                $this->userService->lostPassword(emailAddress: $formData['email']);
                 $this->flashMessenger()
                     ->addSuccessMessage(
                         message: sprintf(
@@ -118,7 +117,7 @@ UserController extends AbstractActionController
         $form = new Password();
         $data = $this->getRequest()->getPost()->toArray();
 
-        $form->setData($data);
+        $form->setData(data: $data);
         if ($this->getRequest()->isPost() && $form->isValid()) {
             $formData = $form->getData();
             if (
@@ -149,12 +148,12 @@ UserController extends AbstractActionController
             $isoAuthLogin = true;
         }
 
-        $form->setData($data);
+        $form->setData(data: $data);
 
         if ($this->getRequest()->isPost() && $form->isValid()) {
             //Grab the filtered values from the input filter
-            $username = $form->getInputFilter()->getValue('username');
-            $password = $form->getInputFilter()->getValue('password');
+            $username = $form->getInputFilter()->getValue(name: 'username');
+            $password = $form->getInputFilter()->getValue(name: 'password');
 
             $authAdapter = new DatabaseAdapter($this->userService, $username, $password);
             $authenticate = $this->authenticationService->authenticate(adapter: $authAdapter);
@@ -170,7 +169,7 @@ UserController extends AbstractActionController
                 return $this->redirect()->toRoute(route: 'home');
             }
 
-            $form->get('password')->setMessages($authenticate->getMessages());
+            $form->get(elementOrFieldset: 'password')->setMessages(messages: $authenticate->getMessages());
         }
 
         if ($isoAuthLogin) {

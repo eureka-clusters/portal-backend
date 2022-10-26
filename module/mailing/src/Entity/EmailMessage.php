@@ -34,14 +34,6 @@ class EmailMessage extends AbstractEntity
     #[ORM\JoinColumn(nullable: true)]
     private ?\Admin\Entity\User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'emailMessage')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?User $mailingUser = null;
-
-    #[ORM\ManyToOne(targetEntity: \Mailing\Entity\DistributionList\User::class, cascade: ['persist'], inversedBy: 'emailMessage')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?\Mailing\Entity\DistributionList\User $distributionListUser = null;
-
     #[ORM\ManyToOne(targetEntity: Template::class, cascade: ['persist'], inversedBy: 'emailMessage')]
     #[ORM\JoinColumn(nullable: false)]
     private Template $template;
@@ -104,7 +96,7 @@ class EmailMessage extends AbstractEntity
         return $this->id;
     }
 
-    public function setId(?int $id): EmailMessage
+    public function setId(int $id): EmailMessage
     {
         $this->id = $id;
         return $this;
@@ -143,17 +135,6 @@ class EmailMessage extends AbstractEntity
         return $this;
     }
 
-    public function getMailingUser(): ?User
-    {
-        return $this->mailingUser;
-    }
-
-    public function setMailingUser(?User $mailingUser): EmailMessage
-    {
-        $this->mailingUser = $mailingUser;
-        return $this;
-    }
-
     public function getTemplate(): Template
     {
         return $this->template;
@@ -162,6 +143,17 @@ class EmailMessage extends AbstractEntity
     public function setTemplate(Template $template): EmailMessage
     {
         $this->template = $template;
+        return $this;
+    }
+
+    public function getMailer(): Mailer
+    {
+        return $this->mailer;
+    }
+
+    public function setMailer(Mailer $mailer): EmailMessage
+    {
+        $this->mailer = $mailer;
         return $this;
     }
 
@@ -286,25 +278,5 @@ class EmailMessage extends AbstractEntity
         return $this;
     }
 
-    public function getDistributionListUser(): ?DistributionList\User
-    {
-        return $this->distributionListUser;
-    }
 
-    public function setDistributionListUser(?DistributionList\User $distributionListUser): EmailMessage
-    {
-        $this->distributionListUser = $distributionListUser;
-        return $this;
-    }
-
-    public function getMailer(): Mailer
-    {
-        return $this->mailer;
-    }
-
-    public function setMailer(Mailer $mailer): EmailMessage
-    {
-        $this->mailer = $mailer;
-        return $this;
-    }
 }

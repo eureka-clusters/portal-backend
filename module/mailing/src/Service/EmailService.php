@@ -32,13 +32,11 @@ use SendGrid\Mail\Mail;
 class EmailService
 {
     private readonly EntityManager $entityManager;
-    private readonly GraphMailService $graphMailService;
     private ?Mailer $mailer = null;
 
     public function __construct(private readonly ContainerInterface $container)
     {
         $this->entityManager = $container->get(EntityManager::class);
-        $this->graphMailService = $this->container->get(GraphMailService::class);
     }
 
     public function createNewTransactionalEmailBuilder(string|Transactional $transactionalOrKey
@@ -63,18 +61,6 @@ class EmailService
         return new TransactionalEmailBuilder(
             $transactional,
             $mailingService,
-            $this->container->get(DeeplinkService::class),
-            $this->container->get(AuthenticationService::class)
-        );
-    }
-
-    public function createNewMailingMailBuilder(Mailing $mailing): MailingEmailBuilder
-    {
-        $this->mailer = $mailing->getMailer();
-
-        return new MailingEmailBuilder(
-            $mailing,
-            $this->container->get(MailingService::class),
             $this->container->get(DeeplinkService::class),
             $this->container->get(AuthenticationService::class)
         );
@@ -110,13 +96,6 @@ class EmailService
 
         if (!$this->mailer->isDevelopment()) {
             switch (true) {
-                case $this->mailer->isGraph():
-                    $this->sendEmailViaGraph(
-                        emailBuilder: $emailBuilder,
-                        emailMessage: $emailMessage,
-                        emailMessageEvent: $emailMessageEvent
-                    );
-                    break;
                 case $this->mailer->isSendGrid():
                     $this->sendEmailViaSendGrid(
                         emailBuilder: $emailBuilder,
@@ -198,27 +177,6 @@ class EmailService
         $this->entityManager->persist($emailMessage);
 
         return $emailMessage;
-    }
-
-    private function sendEmailViaGraph(
-        EmailBuilder $emailBuilder,
-        EmailMessage $emailMessage,
-        EmailMessageEvent $emailMessageEvent
-    ): void {
-        $this->graphMailService->testSendMail($emailBuilder);
-
-        $result = 'sent_with_azure';
-
-        //Update the email message
-        $emailMessage->setLatestEvent($result);
-        $emailMessageEvent->setEvent($result);
-
-        $emailMessage->setDateLatestEvent(new DateTime());
-
-        $emailMessageEvent->setTime(new DateTime());
-        $emailMessageEvent->setMessageId(0);
-
-        $this->entityManager->persist($emailMessageEvent);
     }
 
     private function sendEmailViaSendGrid(

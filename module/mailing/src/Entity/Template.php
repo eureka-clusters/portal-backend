@@ -27,11 +27,12 @@ use Laminas\Form\Element\Textarea;
 class Template extends AbstractEntity implements TemplateInterface
 {
     final public const TEMPLATE_DEFAULT = 1;
+
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[Type(Hidden::class)]
-    private ?int $id              = null;
+    private ?int $id = null;
 
     #[ORM\Column]
     #[Type(Text::class)]
@@ -42,7 +43,7 @@ class Template extends AbstractEntity implements TemplateInterface
     #[ORM\Column]
     #[Type(Text::class)]
     #[Options([
-        'label'      => 'txt-mailing-template-subject-label',
+        'label' => 'txt-mailing-template-subject-label',
         'help-block' => 'txt-mailing-template-subject-help-block',
     ])]
     #[Attributes(['placeholder' => 'txt-mailing-template-subject-help-placeholder'])]
@@ -78,10 +79,10 @@ class Template extends AbstractEntity implements TemplateInterface
 
     #[Pure] public function __construct()
     {
-        $this->dateCreated   = new DateTime();
-        $this->mailing       = new ArrayCollection();
+        $this->dateCreated = new DateTime();
+        $this->mailing = new ArrayCollection();
         $this->transactional = new ArrayCollection();
-        $this->emailMessage  = new ArrayCollection();
+        $this->emailMessage = new ArrayCollection();
     }
 
     public function isDefault(): bool

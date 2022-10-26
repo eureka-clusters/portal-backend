@@ -26,7 +26,6 @@ use Mailing\Navigation\Invokable\SenderLabel;
 use Mailing\Navigation\Invokable\TemplateLabel;
 use Mailing\Navigation\Invokable\TransactionalLabel;
 use Mailing\Service\EmailService;
-use Mailing\Service\GraphMailService;
 use Mailing\Service\MailerService;
 use Mailing\Service\MailingService;
 use Mailing\View\Helper\EmailMessageEventIcon;
@@ -62,7 +61,6 @@ $config = [
             SenderLabel::class => InvokableFactory::class,
             TemplateLabel::class => InvokableFactory::class,
             EmailService::class => InvokableFactory::class,
-            GraphMailService::class => ConfigAbstractFactory::class,
         ],
     ],
     'view_manager' => [

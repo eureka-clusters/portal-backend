@@ -445,22 +445,6 @@ abstract class EmailBuilder
 
     abstract public function renderEmail(): void;
 
-    public function renderTwigTemplate(string $template): ?string
-    {
-        try {
-            //Create a second template in which the content of the email is parsed and render the content in
-            (new Environment(
-                new ArrayLoader(
-                    ['rendered_content' => $template]
-                )
-            ))->render('rendered_content', $this->templateVariables->toArray());
-
-            return null;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
     public function getMessage(): Message
     {
         $message = new Message();

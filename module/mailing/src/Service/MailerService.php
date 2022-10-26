@@ -24,13 +24,6 @@ class MailerService extends AbstractService
         if (!$mailer->getTransactional()->isEmpty()) {
             $cannotDeleteMailer[] = 'This mailer email has transactional mailings';
         }
-        if (!$mailer->getMailing()->isEmpty()) {
-            $cannotDeleteMailer[] = 'This mailer email has mailings';
-        }
-
-//        if (!$mailer->getEmailMessage()->isEmpty()) {
-//            $cannotDeleteMailer[] = 'This mailer email has email messages';
-//        }
 
         return count($cannotDeleteMailer) === 0;
     }
@@ -39,7 +32,6 @@ class MailerService extends AbstractService
     {
         return match ($service) {
             Mailer::MAILER_SERVICE_SMTP => ['hostname', 'username', 'password', 'port', 'ssl'],
-            Mailer::MAILER_SERVICE_GRAPH => ['graphTenantId', 'graphClientId', 'graphClientSecret'],
             Mailer::MAILER_SERVICE_MAILJET => ['username', 'password'],
             Mailer::MAILER_SERVICE_SENDGRID => ['sendGridApiKey'],
             default => [],
@@ -50,7 +42,6 @@ class MailerService extends AbstractService
     {
         return match ($service) {
             Mailer::MAILER_SERVICE_SMTP => ['hostname', 'port'],
-            Mailer::MAILER_SERVICE_GRAPH => ['graphTenantId', 'graphClientId', 'graphClientSecret'],
             Mailer::MAILER_SERVICE_MAILJET => ['username', 'password'],
             Mailer::MAILER_SERVICE_SENDGRID => ['sendGridApiKey'],
             default => [],
