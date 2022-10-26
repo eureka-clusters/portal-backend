@@ -45,7 +45,10 @@ class Mailer extends AbstractEntity
     #[ORM\Column(unique: true)]
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-service-help-block'])]
-    #[Attributes(attributes: ['label' => 'txt-mailer-service-label', 'placeholder' => 'txt-mailer-service-placeholder'])]
+    #[Attributes(attributes: [
+        'label' => 'txt-mailer-service-label',
+        'placeholder' => 'txt-mailer-service-placeholder'
+    ])]
     private string $name = '';
 
     #[ORM\Column(type: 'smallint')]
@@ -55,19 +58,28 @@ class Mailer extends AbstractEntity
     #[ORM\Column(nullable: true)]
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-hostname-help-block'])]
-    #[Attributes(attributes: ['label' => 'txt-mailer-hostname-label', 'placeholder' => 'txt-mailer-hostname-placeholder'])]
+    #[Attributes(attributes: [
+        'label' => 'txt-mailer-hostname-label',
+        'placeholder' => 'txt-mailer-hostname-placeholder'
+    ])]
     private ?string $hostname = null;
 
     #[ORM\Column(nullable: true)]
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-username-help-block'])]
-    #[Attributes(attributes: ['label' => 'txt-mailer-username-label', 'placeholder' => 'txt-mailer-username-placeholder'])]
+    #[Attributes(attributes: [
+        'label' => 'txt-mailer-username-label',
+        'placeholder' => 'txt-mailer-username-placeholder'
+    ])]
     private ?string $username = null;
 
     #[ORM\Column(nullable: true)]
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-password-help-block'])]
-    #[Attributes(attributes: ['label' => 'txt-mailer-password-label', 'placeholder' => 'txt-mailer-password-placeholder'])]
+    #[Attributes(attributes: [
+        'label' => 'txt-mailer-password-label',
+        'placeholder' => 'txt-mailer-password-placeholder'
+    ])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'smallint', nullable: true)]
@@ -90,7 +102,6 @@ class Mailer extends AbstractEntity
         'placeholder' => 'txt-mailer-sendgrid-api-key-placeholder'
     ])]
     private ?string $sendGridApiKey = null;
-    
 
     #[ORM\Column(type: 'boolean')]
     #[Type(type: Checkbox::class)]
@@ -291,7 +302,8 @@ class Mailer extends AbstractEntity
         return $this;
     }
 
-
-  
-
+    public function getServiceText(): string
+    {
+        return self::$servicesArray[$this->service] ?? '';
+    }
 }

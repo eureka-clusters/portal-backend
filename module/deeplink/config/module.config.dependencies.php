@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deeplink;
 
-use Admin\Service\AdminService;
 use Application\Service\FormService;
 use Deeplink\Controller\DeeplinkController;
 use Deeplink\Controller\TargetController;
@@ -22,24 +21,23 @@ return [
         // Controllers
         DeeplinkController::class => [
             DeeplinkService::class,
-            AuthenticationService::class,
-            AdminService::class,
+            AuthenticationService::class
         ],
-        TargetController::class   => [
+        TargetController::class => [
             DeeplinkService::class,
             FormService::class,
             TreeRouteStack::class,
             TranslatorInterface::class,
         ],
-        DeeplinkService::class    => [
+        DeeplinkService::class => [
             EntityManager::class,
             'ViewHelperManager',
         ],
-        TargetFilter::class       => [
+        TargetFilter::class => [
             EntityManager::class,
             TreeRouteStack::class,
         ],
-        CanAssemble::class        => [
+        CanAssemble::class => [
             'Router',
         ],
     ],

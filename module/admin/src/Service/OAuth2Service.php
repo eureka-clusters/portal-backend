@@ -6,8 +6,11 @@ namespace Admin\Service;
 
 use Admin\Entity\User;
 use Api\Entity\OAuth\Client;
+use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
 use Doctrine\Common\Collections\Criteria;
+use GuzzleHttp\RequestOptions;
+use Laminas\Json\Json;
 use OAuth2\Encryption\Jwt;
 use RuntimeException;
 
@@ -25,6 +28,11 @@ class OAuth2Service extends AbstractService
         return $client;
     }
 
+    public function findServiceById(int $id): ?Service
+    {
+        return $this->entityManager->find(Service::class, $id);
+    }
+
     public function findLatestClient(): Client
     {
         $repository = $this->entityManager->getRepository(entityName: Client::class);
@@ -35,6 +43,36 @@ class OAuth2Service extends AbstractService
         }
 
         return array_pop(array: $clients);
+    }
+
+    public function fetchAccessTokenFromService(Service $service)
+    {
+        $guzzle = new \GuzzleHttp\Client();
+
+        $response = $guzzle->request(
+            'POST',
+            $service->getAccessTokenUrl(),
+            [
+                RequestOptions::HEADERS => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ],
+                RequestOptions::DEBUG => false,
+                RequestOptions::HTTP_ERRORS => true,
+                RequestOptions::JSON => [
+                    'grant_type' => 'client_credentials',
+                    'redirect_uri' => $service->getRedirectUrl(),
+                    'client_id' => $service->getClientId(),
+                    'client_secret' => $service->getClientSecret(),
+                    'scope' => $service->getScope()->getScope()
+                ]
+            ]
+        );
+
+        $responseData = $response->getBody()->getContents();
+        $responseData = Json::decode($responseData);
+
+        return $responseData->access_token;
     }
 
     public function generateJwtToken(Client $client, User $user): string
@@ -65,6 +103,14 @@ class OAuth2Service extends AbstractService
             payload: $payload,
             key: $client->getPublicKey()?->getPublicKey(),
             algo: 'HS256'
+        );
+    }
+
+    public function findAllService(): array
+    {
+        return $this->entityManager->getRepository(entityName: Service::class)->findBy(
+            criteria: [],
+            orderBy: ['name' => Criteria::ASC]
         );
     }
 }

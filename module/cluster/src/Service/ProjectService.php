@@ -148,12 +148,18 @@ class ProjectService extends AbstractService
 
         //Handle the dates
         if ($data->officialStartDate) {
-            $officialStartDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->officialStartDate);
+            $officialStartDate = DateTime::createFromFormat(
+                format: DateTimeInterface::ATOM,
+                datetime: $data->officialStartDate
+            );
             $project->setOfficialStartDate(officialStartDate: $officialStartDate ?: null);
         }
 
         if ($data->officialEndDate) {
-            $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->officialEndDate);
+            $officialEndDate = DateTime::createFromFormat(
+                format: DateTimeInterface::ATOM,
+                datetime: $data->officialEndDate
+            );
             $project->setOfficialEndDate(officialEndDate: $officialEndDate ?: null);
         }
 
@@ -163,7 +169,10 @@ class ProjectService extends AbstractService
         }
 
         if ($data->cancelDate) {
-            $cancelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: (string)$data->cancelDate);
+            $cancelDate = DateTime::createFromFormat(
+                format: DateTimeInterface::ATOM,
+                datetime: (string)$data->cancelDate
+            );
             $project->setCancelDate(cancelDate: $cancelDate ?: null);
         }
 
@@ -203,18 +212,20 @@ class ProjectService extends AbstractService
         return match ($type) {
             self::DURATION_YEAR => (int)(
                 (int)$difference->format(format: '%' . self::DURATION_YEAR) + ceil(
-                    num: $difference->format(format: '%' . self::DURATION_MONTH) / 12
+                    num: (int)($difference->format(format: '%' . self::DURATION_MONTH)) / 12
                 )
             ),
             self::DURATION_MONTH => ((
-                    (int)$difference->format(format: '%' . self::DURATION_YEAR) * 12
+                    (int)($difference->format(format: '%' . self::DURATION_YEAR)) * 12
                 ) +
                 (int)$difference->format(format: '%' . self::DURATION_MONTH) +
                 ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
                     : 0)),
-            default => ($difference->format(format: '%' . self::DURATION_YEAR) * 365) + ($difference->format(
+            default => ((int)($difference->format(
+                        format: '%' . self::DURATION_YEAR
+                    ) * 365)) + ((int)($difference->format(
                         format: '%' . self::DURATION_MONTH
-                    ) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
+                    )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
         };
     }
 }

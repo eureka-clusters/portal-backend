@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
 use Application\Authentication\Storage\AuthenticationStorage;
+use Application\Controller\IndexController;
+use Application\Controller\OAuth2Controller;
 use Application\Event\InjectAclInNavigation;
 use Application\Event\SetTitle;
 use Application\Session\SaveHandler\DoctrineGateway;
@@ -16,6 +19,14 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
+        IndexController::class => [
+            OAuth2Service::class,
+        ],
+        OAuth2Controller::class => [
+            UserService::class,
+            OAuth2Service::class,
+            'Config'
+        ],
         InjectAclInNavigation::class => [
             AuthorizeService::class,
             'Config',
@@ -23,14 +34,14 @@ return [
         SetTitle::class => [
             'ViewRenderer'
         ],
-        AuthenticationService::class                        => [
+        AuthenticationService::class => [
             AuthenticationStorage::class,
         ],
         AuthenticationStorage::class => [
             DoctrineGateway::class,
             UserService::class,
         ],
-        DoctrineGateway::class          => [
+        DoctrineGateway::class => [
             EntityManager::class,
             'Config',
         ],

@@ -34,7 +34,7 @@ return [
                     'login' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/login/via/[:service].html',
+                            'route' => '/login/via/[:id]/[:name].html',
                             'defaults' => [
                                 'action' => 'login',
                             ],

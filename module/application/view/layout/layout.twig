@@ -25,15 +25,15 @@
 
             <ul class="navbar-nav me-2">
                 {% if not isAllowed('route/user/login') %}
-                    <li class="nav-item">
+                    <span class="navbar-text">
                         {{ identity().parseFullname() }}
-                    </li>
+                    </span>
                     <li class="nav-item">
-                        <a href="{{ url('user/logout') }}">{{ translate("txt-logout") }}</a>
+                        <a class="nav-link" href="{{ url('user/logout') }}">{{ translate("txt-logout") }}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="{{ url('user/login') }}">{{ translate("txt-login") }}</a>
+                        <a class="nav-link" href="{{ url('user/login') }}">{{ translate("txt-admin-login") }}</a>
                     </li>
                 {% endif %}
 

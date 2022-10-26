@@ -2,6 +2,11 @@
     <h1 class="display-4">Welcome to<br>Eureka Clusters Backend</h1>
 </div>
 
-<a class="btn btn-primary btn-lg" href="/oauth2/login/via/itea.html">Login via ITEA Office</a>
-<a class="btn btn-primary btn-lg" href="/oauth2/login/via/celtic.html">Login via Celtic</a>
-<a class="btn btn-primary btn-lg" href="/oauth2/login/via/xecs.html">Login via Xecs</a>
+
+<p class="lead">{{ translate("txt-choose-one-of-the-services") }}</p>
+
+{% for service in services %}
+    <a class="btn btn-primary btn-lg"
+       href="{{ url('oauth2/login',{'id':service.id,'name':service.name}) }}">{{ translate("txt-login-via-%s")|format(service.name) }}</a>
+
+{% endfor %}

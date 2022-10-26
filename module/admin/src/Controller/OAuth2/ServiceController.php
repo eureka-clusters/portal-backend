@@ -13,6 +13,7 @@ use Application\Form\SearchFilter;
 use Application\Service\FormService;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use GuzzleHttp\Exception\RequestException;
 use Laminas\Http\Response;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -71,13 +72,38 @@ final class ServiceController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
+        /** @var Service $service */
         $service = $this->oAuth2Service->find(entity: Service::class, id: (int)$this->params('id'));
 
         if (null === $service) {
             return $this->notFoundAction();
         }
 
-        return new ViewModel(variables: ['service' => $service]);
+        $accessToken = null;
+        $error = null;
+        $hasTest = false;
+        $success = false;
+
+        if ($this->getRequest()->isPost()) {
+            //Do a request with the service
+            $hasTest = true;
+
+            try {
+                $accessToken = $this->oAuth2Service->fetchAccessTokenFromService(service: $service);
+
+                $success = true;
+            } catch (RequestException $e) {
+                $error = $e->getMessage();
+            }
+        }
+
+        return new ViewModel(variables: [
+            'service' => $service,
+            'hasTest' => $hasTest,
+            'success' => $success,
+            'error' => $error,
+            'accessToken' => $accessToken,
+        ]);
     }
 
     public function newAction(): Response|ViewModel

@@ -7,8 +7,6 @@ namespace Api\V1\Rest\SearchResource;
 use Admin\Service\UserService;
 use Api\Paginator\CustomAdapter;
 use Application\ValueObject\SearchResult;
-use Cluster\Entity\Organisation;
-use Cluster\Entity\Project;
 use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
@@ -30,7 +28,9 @@ final class ResultListener extends AbstractResourceListener
     {
         $query = $this->getEvent()->getQueryParam(name: 'query');
 
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
@@ -44,7 +44,6 @@ final class ResultListener extends AbstractResourceListener
             limit: 20
         );
 
-        /** @var Project $project */
         foreach ($projects as $resultArray) {
             $project = $resultArray[0];
             $score = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
@@ -65,8 +64,6 @@ final class ResultListener extends AbstractResourceListener
             limit: 20
         );
 
-        /** @var Organisation $organisation */
-        // foreach ($organisations as $organisation) {
         foreach ($organisations as $resultArray) {
             $organisation = $resultArray[0];
             $score = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
@@ -84,8 +81,8 @@ final class ResultListener extends AbstractResourceListener
         //Sort on score, but therefore we need to iterate over the scores
         usort(
             array: $results,
-            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore(
-            ) ? 1 : -1
+            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore(
+            ) < $result2->getScore() ? 1 : -1
         );
 
         $doctrineORMAdapter = new CustomAdapter(array: $results);

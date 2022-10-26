@@ -6,17 +6,16 @@ namespace Application\Controller;
 
 use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
+use Api\Entity\OAuth\Service;
 use Application\ValueObject\OAuth2\GenericUser;
-use DateInterval;
-use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
+use Laminas\View\Model\ViewModel;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
-use OAuth2\Encryption\Jwt;
 
 final class OAuth2Controller extends AbstractActionController
 {
@@ -27,30 +26,24 @@ final class OAuth2Controller extends AbstractActionController
     ) {
     }
 
-    public function loginAction(): Response
+    public function loginAction(): Response|ViewModel
     {
         //Find the service
-        $service = $this->params('service');
-        $clientId = $this->getRequest()->getQuery(name: 'client');
+        $id = (int)$this->params('id');
+        $service = $this->oAuth2Service->findServiceById(id: $id);
 
-        //And grab the settings
-        $settings = $this->config['oauth2-settings']['services'][$service] ?? [];
-
-        if (empty($settings) || !isset($settings['settings'])) {
-            return $this->redirect()->toRoute(route: 'home');
+        if (null === $service) {
+            return $this->notFoundAction();
         }
 
-        $oAuthClient = new GenericProvider(options: $settings['settings']);
+        $oAuthClient = new GenericProvider(options: $service->parseOptions());
 
         $authUrl = $oAuthClient->getAuthorizationUrl();
 
         //Create a session and keep the important data
         $session = new Container(name: 'session');
         $session->authState = $oAuthClient->getState();
-        $session->service = $service;
-        $session->clientId = $clientId;
-        $session->settings = $settings['settings'];
-        $session->profileUrl = $settings['profileUrl'] ?? null;
+        $session->serviceId = $service->getId();
 
         return $this->redirect()->toUrl(url: $authUrl);
     }
@@ -78,10 +71,13 @@ final class OAuth2Controller extends AbstractActionController
 
         $authCode = $this->getRequest()->getQuery(name: 'code');
 
+        /** @var Service $service */
+        $service = $this->oAuth2Service->findServiceById(id: $session->serviceId);
+
         if (null !== $authCode) {
             try {
                 //And grab the settings and grab a token to check the backend, so we can
-                $oAuthBackendClient = new GenericProvider(options: $session->settings);
+                $oAuthBackendClient = new GenericProvider(options: $service->parseOptions());
 
                 $accessToken = $oAuthBackendClient->getAccessToken(
                     grant: 'authorization_code',
@@ -94,7 +90,7 @@ final class OAuth2Controller extends AbstractActionController
                 $guzzle = new Client();
                 $request = $guzzle->request(
                     method: 'GET',
-                    uri: $session->profileUrl,
+                    uri: $service->getProfileUrl(),
                     options: [
                         RequestOptions::HEADERS => [
                             'Authorization' => 'Bearer ' . $accessToken,
@@ -109,13 +105,17 @@ final class OAuth2Controller extends AbstractActionController
                 // get the GenericUser but filter the cluster_permissions with the allowedCluster setting of the oauth2-settings for the used service
                 $genericUser = GenericUser::fromJson(
                     jsonString: $request->getBody()->getContents(),
-                    allowedClusters: $session->settings['allowedClusters']
+                    allowedClusters: $service->getAllowedClusters()->map(
+                        fn($cluster) => $cluster->getName()
+                    )->toArray()
                 );
 
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser(
                     genericUser: $genericUser,
-                    allowedClusters: $session->settings['allowedClusters']
+                    allowedClusters: $service->getAllowedClusters()->map(
+                        fn($cluster) => $cluster->getName()
+                    )->toArray()
                 );
 
                 //Find the oAuth client to redirect to the frontend

@@ -158,6 +158,16 @@ class Service extends AbstractEntity
         }
     }
 
+    public function parseOptions(): array
+    {
+        return
+            [
+                'urlAuthorize' => $this->authorizationUrl,
+                'urlAccessToken' => $this->accessTokenUrl,
+                'urlResourceOwnerDetails' => $this->allowedClusters->first()->getName()
+            ];
+    }
+
     public function getId(): ?int
     {
         return $this->id;

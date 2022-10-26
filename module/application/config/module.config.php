@@ -39,9 +39,7 @@ $config = [
     'controllers' => [
         'factories' => [
             OAuth2Controller::class => ConfigAbstractFactory::class,
-        ],
-        'invokables' => [
-            IndexController::class,
+            IndexController::class => ConfigAbstractFactory::class
         ],
     ],
     'controller_plugins' => [

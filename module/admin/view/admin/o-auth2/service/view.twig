@@ -1,14 +1,20 @@
 {% do headTitle().append(translate("txt-admin") ) %}
 {% do headTitle().append(translate("txt-oauth2-service")) %}
 
-<h1>{{ translate("txt-oauth2-service") }}  {{ oauth2ServiceLink(service,'edit','button') }}</h1>
+<h1>{{ service.name }} {{ oauth2ServiceLink(service,'edit','button') }}</h1>
 
-<p>{{ translate("txt-oauth2-service-explanation") }}</p>
+{% if hasTest %}
+    {% if success %}
+        {{ lbs5alert().success(translate("txt-access-token-has-been-received-successfully-the-token-is-%s")|format(accessToken))|raw }}
+    {% else %}
+        {{ lbs5alert().danger(translate("txt-an-error-occurred-while-requesting-the-token-error-%s")|format(error))|raw }}
+    {% endif %}
+{% endif %}
+
+
+<p class="lead">{{ translate("txt-oauth2-service-explanation") }}</p>
 
 <dl class="dl-horizontal">
-    <dt>{{ translate("txt-name") }}</dt>
-    <dd>{{ service.name }}</dd>
-
     <dt>{{ translate("txt-service-client-id") }}</dt>
     <dd>{{ service.clientId }}</dd>
 

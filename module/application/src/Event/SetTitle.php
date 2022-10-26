@@ -56,13 +56,9 @@ class SetTitle extends AbstractListenerAggregate
 
     public function setHeadTitle(): void
     {
-        /**
-         * @phpstan-ignore-next-line
-         */
+        /** @phpstang-ignore-next-line */
         $this->renderer->headTitle()->setSeparator(' - ');
-        /**
-         * @phpstan-ignore-next-line
-         */
+        /** @phpstang-ignore-next-line */
         $this->renderer->headTitle()->append('Eureka Clusters Backend Application');
     }
 

@@ -23,21 +23,21 @@
     <table class="table table-striped table-sm table-hover">
         <thead>
         <tr>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/oauth2/service/list', 'criteria': 'id', 'text': translate("txt-service-id")} %}</th>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/oauth2/service/list', 'criteria': 'service', 'text': translate("txt-service-name")} %}</th>
-            <th>{{ translate("txt-description") }}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/oauth2/service/list', 'criteria': 'id', 'text': translate("txt-id")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/oauth2/service/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+            <th>{{ translate("txt-client-id") }}</th>
             <th>{{ translate("txt-scope") }}</th>
-            <th>{{ translate("txt-grant-types") }}</th>
+            <th>{{ translate("txt-clusters") }}</th>
         </tr>
         </thead>
         <tbody>
         {% for service in paginator.getCurrentItems() %}
             <tr>
-                <td>{{ oauth2ServiceLink(service, 'view', 'serviceId') }}</td>
+                <td><small class="text-muted">{{ service.id }}</small></td>
                 <td>{{ oauth2ServiceLink(service, 'view', 'name') }} {{ oauth2ServiceLink(service, 'edit', 'icon') }}</td>
-                <td>{{ service.description }}</td>
-                <td>{{ service.scope }}</td>
-                <td>{{ service.grantTypes }}</td>
+                <td>{{ service.clientId }}</td>
+                <td>{{ oauth2ScopeLink(service.scope) }}</td>
+                <td>{% for cluster in service.allowedClusters %}{{ cluster }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</td>
             </tr>
         {% endfor %}
         </tbody>

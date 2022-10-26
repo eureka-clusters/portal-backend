@@ -10,7 +10,6 @@ use Admin\Form\RoleFilter;
 use Admin\Service\AdminService;
 use Application\Controller\Plugin\GetFilter;
 use Application\Service\FormService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Laminas\Http\Response;
@@ -53,8 +52,8 @@ final class RoleController extends AbstractActionController
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(
             pageRange: ceil(
-            num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
-        )
+                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+            )
         );
 
         $form->setData($filterPlugin->getFilterFormData());
@@ -148,11 +147,6 @@ final class RoleController extends AbstractActionController
             if ($form->isValid()) {
                 /** @var Entity\Role $role */
                 $role = $form->getData();
-
-                if (!isset($data['admin_entity_role']['selection'])) {
-                    $role->setSelection(new ArrayCollection());
-                }
-
                 $this->adminService->save(entity: $role);
 
                 $this->flashMessenger()->addSuccessMessage(

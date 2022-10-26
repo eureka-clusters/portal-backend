@@ -1,5 +1,13 @@
 # phpstan.neon
+includes:
+        - vendor/phpstan/phpstan-doctrine/extension.neon
+        - vendor/phpstan/phpstan-doctrine/rules.neon
 parameters:
     level: 2
     paths:
         - module
+    ignoreErrors:
+    	- '#Call to an undefined method Laminas\\Stdlib\\RequestInterface::[a-zA-Z]+\(\)#'
+    	- '#Call to an undefined method Laminas\\Form\\ElementInterface::[a-zA-Z]+\(\)#'
+    	- '#Call to an undefined method Jield\\Authorize\\Role\\UserAsRoleInterface::[a-zA-Z]+\(\)#'
+    	- '#Access to an undefined property Laminas\\Session\\Container::\$[a-zA-Z]+#'

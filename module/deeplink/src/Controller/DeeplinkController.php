@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deeplink\Controller;
 
-use Admin\Service\AdminService;
 use DateTime;
 use Deeplink\Service\DeeplinkService;
 use Laminas\Authentication\AuthenticationService;
@@ -20,7 +19,6 @@ final class DeeplinkController extends AbstractActionController
     public function __construct(
         private readonly DeeplinkService $deeplinkService,
         private readonly AuthenticationService $authenticationService,
-        private readonly AdminService $adminService
     ) {
     }
 
@@ -41,14 +39,10 @@ final class DeeplinkController extends AbstractActionController
         $deeplink->setDateAccess(dateAccess: new DateTime());
         $this->deeplinkService->save(entity: $deeplink);
 
-        //Flush the permissions
-        $user->setTriggerUpdate(true);
-        $this->adminService->save(entity: $user);
-
         return $this->redirect()->toRoute(
             route: $deeplink->getTarget()->getRoute(),
             params: [
-                'id'     => $deeplink->getKeyId(),
+                'id' => $deeplink->getKeyId(),
                 'docRef' => $deeplink->getKeyId(),
             ]
         );

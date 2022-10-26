@@ -9,10 +9,15 @@
          processIsolation="false"
          backupGlobals="false"
 >
+    <extensions>
+        <extension class="\ApplicationTest\ByPassFinalHook"/>
+    </extensions>
     <testsuites>
         <testsuite name="ClusterBackend">
             <directory>./module/admin/test</directory>
             <directory>./module/cluster/test</directory>
+            <directory>./module/deeplink/test</directory>
+            <directory>./module/mailing/test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
