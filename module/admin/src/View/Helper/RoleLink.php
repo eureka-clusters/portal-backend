@@ -21,37 +21,37 @@ final class RoleLink extends AbstractLink
         $routeParams = [];
         $showOptions = [];
 
-        if (! $role->isEmpty()) {
-            $routeParams['id']   = $role->getId();
-            $showOptions['name'] = $role->getName();
+        if (!$role->isEmpty()) {
+            $routeParams['id'] = $role->getId();
+            $showOptions['description'] = $role->getDescription();
         }
 
         switch ($action) {
             case 'new':
                 $linkParams = [
-                    'icon'  => 'fa-plus',
+                    'icon' => 'fa-plus',
                     'route' => 'zfcadmin/role/new',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-new-role'),
+                    'text' => $showOptions[$show] ?? $this->translator->translate(message: 'txt-new-role'),
                 ];
                 break;
             case 'view':
                 $linkParams = [
-                    'icon'  => 'fa-link',
+                    'icon' => 'fa-link',
                     'route' => 'zfcadmin/role/view',
-                    'text'  => $showOptions[$show] ?? $role->getName(),
+                    'text' => $showOptions[$show] ?? $role->getDescription(),
                 ];
                 break;
             case 'edit':
                 $linkParams = [
-                    'icon'  => 'fa-pencil-square-o',
+                    'icon' => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/role/edit',
-                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-role'),
+                    'text' => $showOptions[$show] ?? $this->translator->translate(message: 'txt-edit-role'),
                 ];
                 break;
         }
 
-        $linkParams['action']      = $action;
-        $linkParams['show']        = $show;
+        $linkParams['action'] = $action;
+        $linkParams['show'] = $show;
         $linkParams['routeParams'] = $routeParams;
 
         return $this->parse(link: Link::fromArray(params: $linkParams));

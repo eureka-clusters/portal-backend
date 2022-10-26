@@ -164,16 +164,6 @@ class EmailService
         $emailMessage->setCc(cc: $emailBuilder->getCC());
         $emailMessage->setBcc(bcc: $emailBuilder->getBCC());
 
-        if ($emailBuilder->hasMailingUser()) {
-            $emailMessage->setMailingUser($emailBuilder->getMailingUser());
-            $emailMessage->setUser(user: $emailBuilder->getMailingUser()?->getUser());
-        }
-
-        if ($emailBuilder->hasDistributionListUser()) {
-            $emailMessage->setDistributionListUser($emailBuilder->getDistributionListUser());
-            $emailMessage->setUser(user: $emailBuilder->getDistributionListUser()?->getUser());
-        }
-
         $this->entityManager->persist(entity: $emailMessage);
 
         return $emailMessage;

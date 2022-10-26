@@ -25,9 +25,9 @@ use function sprintf;
 #[Name(name: 'mailing_sender')]
 class Sender extends AbstractEntity
 {
-    final public const SENDER_OWNER = 1;
-    final public const SENDER_LOGGED_IN_USER = 2;
-    final public const SENDER_DEFAULT = 3;
+    final public const SENDER_DEFAULT = 1;
+    final public const SENDER_OWNER = 2;
+    final public const SENDER_LOGGED_IN_USER = 3;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]

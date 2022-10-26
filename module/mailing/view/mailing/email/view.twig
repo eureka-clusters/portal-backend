@@ -46,11 +46,6 @@
         {% endfor %}
     {% endif %}
 
-    {% if emailMessage.mailingUser %}
-        <dt>{{ translate("txt-mailing") }}</dt>
-        <dd>{{ mailingLink(emailMessage.mailingUser.mailing,'view','name') }} {{ mailingUserLink(emailMessage.mailingUser,'view','icon') }}</dd>
-    {% endif %}
-
     <dt>{{ translate("txt-email-message-subject") }}</dt>
     <dd>{{ emailMessage.subject }}</dd>
 

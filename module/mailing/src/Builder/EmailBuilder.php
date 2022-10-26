@@ -35,8 +35,6 @@ use function strip_tags;
 
 abstract class EmailBuilder
 {
-    protected ?\Mailing\Entity\DistributionList\User $distributionListUser = null;
-
     protected ?string $subject = null;
 
     protected ?string $emailCampaign = null;
@@ -48,8 +46,6 @@ abstract class EmailBuilder
     protected ?string $htmlPart = null;
 
     protected Template $template;
-
-    protected ?\Mailing\Entity\User $mailingUser = null;
 
     private Sender $sender;
 
@@ -118,18 +114,17 @@ abstract class EmailBuilder
                     $this->setTemplateVariables(
                         variables: [
                             'sender_email' => $ownerOrLoggedInUser->getEmail(),
-                            'sender_name' => $ownerOrLoggedInUser->getDisplayName(),
+                            'sender_name' => $ownerOrLoggedInUser->parseFullName(),
                         ]
                     );
 
                     $this->from = new Recipient(
-                        name: $ownerOrLoggedInUser->getDisplayName(),
+                        name: $ownerOrLoggedInUser->parseFullName(),
                         email: $ownerOrLoggedInUser->getEmail()
                     );
                 }
 
                 break;
-            case null:
             default:
                 $this->setTemplateVariables(
                     variables: [
@@ -204,11 +199,7 @@ abstract class EmailBuilder
 
     #[Pure] public function getReplyTo(): ?array
     {
-        if (null === $this->replyTo) {
-            return null;
-        }
-
-        return $this->replyTo->toArray();
+        return $this->replyTo?->toArray();
     }
 
     public function setReplyTo(string $replyToName, string $replyToEmail): EmailBuilder
@@ -297,7 +288,7 @@ abstract class EmailBuilder
                 variables: [
                     'firstname' => $user->getFirstName(),
                     'lastname' => $user->getLastName(),
-                    'fullname' => $user->getDisplayName(),
+                    'fullname' => $user->parseFullName(),
                     'email' => $user->getEmail(),
                 ]
             );
@@ -552,25 +543,7 @@ abstract class EmailBuilder
         return count($this->attachments) > 0 || count($this->invitations) > 0;
     }
 
-    public function hasMailingUser(): bool
-    {
-        return null !== $this->mailingUser;
-    }
 
-    public function getMailingUser(): ?\Mailing\Entity\User
-    {
-        return $this->mailingUser;
-    }
-
-    public function hasdistributionListUser(): bool
-    {
-        return null !== $this->distributionListUser;
-    }
-
-    public function getdistributionListUser(): ?\Mailing\Entity\DistributionList\User
-    {
-        return $this->distributionListUser;
-    }
 
     protected function renderSubject(string $mailSubject): void
     {

@@ -6,7 +6,6 @@ namespace Mailing\Builder;
 
 use Deeplink\Service\DeeplinkService;
 use Laminas\Authentication\AuthenticationService;
-use Mailing\Entity\DistributionList\User;
 use Mailing\Entity\Transactional;
 use Mailing\Service\MailingService;
 
@@ -42,13 +41,4 @@ final class TransactionalEmailBuilder extends EmailBuilder
         $this->renderSubject(mailSubject: $this->transactional->getMailSubject());
         $this->renderBody(bodyText: $this->transactional->getMailHtml());
     }
-
-    public function setDistributionListUser(User $distributionListUser): TransactionalEmailBuilder
-    {
-        $this->distributionListUser = $distributionListUser;
-        $this->addUserTo(user: $distributionListUser->getUser());
-
-        return $this;
-    }
-
 }

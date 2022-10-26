@@ -76,10 +76,6 @@ class MailingService extends AbstractService
     {
         $cannotDeleteSenderReasons = [];
 
-        if (!$sender->getMailing()->isEmpty()) {
-            $cannotDeleteSenderReasons[] = 'Sender has mailings';
-        }
-
         if ($sender->isDefault()) {
             $cannotDeleteSenderReasons[] = 'This sender is default';
         }
@@ -102,10 +98,6 @@ class MailingService extends AbstractService
     public function canDeleteTemplate(Template $template): bool
     {
         $cannotDeleteTemplateReasons = [];
-
-        if (!$template->getMailing()->isEmpty()) {
-            $cannotDeleteTemplateReasons[] = 'Template has mailings';
-        }
 
         if ($template->isDefault()) {
             $cannotDeleteTemplateReasons[] = 'This template is default';

@@ -30,13 +30,9 @@
                 <thead>
                 <tr>
                     <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/role/list', 'criteria': 'id', 'text': translate('txt-role-id')} %}</th>
-                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/role/list', 'criteria': 'name', 'text': translate('txt-name')} %}</th>
-                    <th>{{ translate('txt-description') }}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/role/list', 'criteria': 'description', 'text': translate('txt-description')} %}</th>
                     <th>{{ translate('txt-locked') }}</th>
-                    <th>{{ translate('txt-selections') }}</th>
                     <th>{{ translate("txt-users") }}</th>
-                    <th>{{ translate("txt-support") }}</th>
-                    <th>{{ translate("txt-permit-role") }}</th>
                 </tr>
                 </thead>
 
@@ -45,14 +41,10 @@
                     <tr>
                         <td><small class="text-muted">{{ role.id }}</small></td>
                         <td>{{ roleLink(role, 'view', 'name') }} {{ roleLink(role, 'edit', 'icon') }}</td>
-                        <td>{{ role.description }}</td>
                         <td>{% if role.isLocked() %}<i class="fa fa-lock"
                                                        title="{{ translate("txt-this-role-is-locked-and-cannot-be-deleted") }}"></i>{% endif %}
                         </td>
-                        <td>{{ role.selection.count }}</td>
                         <td>{{ role.users.count }}</td>
-                        <td>{{ role.support.count }}</td>
-                        <td>{{ role.permitRole.count }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

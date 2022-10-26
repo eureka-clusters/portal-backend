@@ -8,32 +8,6 @@
 <dl class="dl-horizontal">
     <dt>{{ translate("txt-role") }}</dt>
     <dd>{{ role.name }}</dd>
-
-    <dt>{{ translate("txt-description") }}</dt>
-    <dd>{{ role.description }}</dd>
-
-    <dt>{{ translate("txt-selections") }}</dt>
-    {% for selection in role.selection %}
-        <dd>{{ selectionLink(selection) }}</dd>
-    {% else %}
-        <dd>{{ translate("txt-no-selections-found") }}</dd>
-    {% endfor %}
-
-    <dt>{{ translate("txt-support-groups") }}</dt>
-    {% for support in role.support %}
-        <dd>{{ supportLink(support) }}</dd>
-    {% else %}
-        <dd>{{ translate("txt-no-support-groups") }}</dd>
-    {% endfor %}
-
-    <dt>{{ translate("txt-permission-roles") }}</dt>
-    {% for role in role.permitRole %}
-        <dd>{{ translate("txt-%s-in-%s")|format(role.role, permitEntityLink(role.entity,'view'))|raw }}</dd>
-    {% else %}
-        <dd>{{ translate("txt-no-permission-roles") }}</dd>
-    {% endfor %}
-    <dt>{{ translate("txt-amount-of-users-based-on-role") }}</dt>
-    <dd>{{ role.users.count() }}
 </dl>
 
 <hr>

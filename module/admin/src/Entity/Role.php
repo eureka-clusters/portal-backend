@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation;
+use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
@@ -34,12 +35,15 @@ class Role extends AbstractEntity implements RoleInterface
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Annotation\Exclude]
+    #[Annotation\Type(Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     #[Annotation\Type(type: Text::class)]
-    #[Annotation\Options(options: ['label' => 'txt-role-description', 'help-block' => 'txt-role-description-help-block'])]
+    #[Annotation\Options(options: [
+        'label' => 'txt-role-description',
+        'help-block' => 'txt-role-description-help-block'
+    ])]
     private string $description = '';
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles', cascade: ['persist'])]

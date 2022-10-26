@@ -28,7 +28,7 @@ use Laminas\Paginator\Paginator;
 use Laminas\View\Helper\Identity;
 use Laminas\View\Model\ViewModel;
 use OAuth2\Encryption\Jwt;
-use Search\Form\SearchFilter;
+use Application\Form\SearchFilter;
 
 use function array_merge;
 use function ceil;
@@ -123,7 +123,7 @@ final class ClientController extends AbstractActionController
         $payload = [
             'id' => 1, // for BC (see #591)
             'jti' => 1,
-            'iss' => 'solodb',
+            'iss' => 'portal-backend',
             'aud' => $client->getClientId(),
             'sub' => $this->identity()->getId(),
             'exp' => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
@@ -141,7 +141,7 @@ final class ClientController extends AbstractActionController
         $payload = [
             'id' => 1, // for BC (see #591)
             'jti' => 1,
-            'iss' => 'solodb',
+            'iss' => 'portal-backend',
             'aud' => $client->getClientId(),
             'sub' => $this->identity()->getId(),
             'exp' => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),

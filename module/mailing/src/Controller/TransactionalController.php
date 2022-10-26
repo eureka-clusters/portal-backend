@@ -60,7 +60,7 @@ final class TransactionalController extends AbstractActionController
             paginator: new ORMPaginator(
             query: $transactionalQuery,
             fetchJoinCollection: false)));
-        $paginator::setDefaultItemCountPerPage(count: $this->preferences()->getItemsPerPage());
+        $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 

@@ -10,6 +10,9 @@ return [
         'Laminas\\Paginator',
         'Laminas\\Cache',
 
+        'Laminas\\Mvc\\Plugin\\FlashMessenger',
+        'Laminas\\Mvc\\Plugin\\Identity',
+
         'Laminas\\ApiTools',
         'Laminas\\ApiTools\\Documentation',
         'Laminas\\ApiTools\\Documentation\\Swagger',

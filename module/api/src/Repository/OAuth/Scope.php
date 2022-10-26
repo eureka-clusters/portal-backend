@@ -5,57 +5,38 @@ declare(strict_types=1);
 namespace Api\Repository\OAuth;
 
 use Api\Entity;
+use Application\Repository\FilteredObjectRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Application\ValueObject\SearchFormResult;
 
-use function in_array;
 use function sprintf;
-use function strtoupper;
 
-final class Scope extends EntityRepository
+final class Scope extends EntityRepository implements FilteredObjectRepository
 {
-    public function findFiltered(array $filter): QueryBuilder
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select(select: 'api_entity_oauth_scope');
-        $qb->from(from: Entity\OAuth\Scope::class, alias: 'api_entity_oauth_scope');
+        $qb->select('api_entity_oauth_scope');
+        $qb->from(Entity\OAuth\Scope::class, 'api_entity_oauth_scope');
 
-        $qb = $this->applyScopeFilter(qb: $qb, filter: $filter);
-
-        $direction = Criteria::ASC;
-        if (
-            isset($filter['direction']) && in_array(
-                needle: strtoupper(string: $filter['direction']),
-                haystack: [
-                    Criteria::ASC,
-                    Criteria::DESC,
-                ],
-                strict: true
-            )
-        ) {
-            $direction = strtoupper(string: $filter['direction']);
+        if ($searchFormResult->hasQuery()) {
+            $qb->andWhere($qb->expr()->like('api_entity_oauth_scope.scope', ':like'));
+            $qb->setParameter('like', sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 
-        switch ($filter['order']) {
+        $direction = $searchFormResult->getDirection();
+
+        switch ($searchFormResult->getOrder()) {
             case 'id':
-                $qb->addOrderBy(sort: 'api_entity_oauth_scope.id', order: $direction);
+                $qb->addOrderBy('api_entity_oauth_scope.id', $direction);
                 break;
             case 'scope':
-                $qb->addOrderBy(sort: 'api_entity_oauth_scope.scope', order: $direction);
+                $qb->addOrderBy('api_entity_oauth_scope.scope', $direction);
                 break;
             default:
-                $qb->addOrderBy(sort: 'api_entity_oauth_scope.id', order: $direction);
-        }
-
-        return $qb;
-    }
-
-    public function applyScopeFilter(QueryBuilder $qb, array $filter): QueryBuilder
-    {
-        if (!empty($filter['query'])) {
-            $qb->andWhere($qb->expr()->like(x: 'api_entity_oauth_scope.scope', y: ':like'));
-            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $filter['query']));
+                $qb->addOrderBy('api_entity_oauth_scope.scope', Criteria::ASC);
         }
 
         return $qb;

@@ -15,8 +15,11 @@ use function class_exists;
 
 class FormService
 {
-    public function __construct(protected ContainerInterface $container, protected EntityManager $entityManager)
+    private readonly EntityManager $entityManager;
+
+    public function __construct(protected ContainerInterface $container)
     {
+        $this->entityManager = $this->container->get(EntityManager::class);
     }
 
     public function prepare($classNameOrEntity, array $data = [], array $options = []): Form

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f993b3705ba932f0347af4ca7212b96",
+    "content-hash": "2970a8e96eec860e62fcf5dc891b0a15",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -2170,12 +2170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "e58dd2094726f8f6601023cd2e6b1f3f2002ac2c"
+                "reference": "67c26b443f348a51926030c83481b85718457d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e58dd2094726f8f6601023cd2e6b1f3f2002ac2c",
-                "reference": "e58dd2094726f8f6601023cd2e6b1f3f2002ac2c",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/67c26b443f348a51926030c83481b85718457d3d",
+                "reference": "67c26b443f348a51926030c83481b85718457d3d",
                 "shasum": ""
             },
             "require": {
@@ -2266,7 +2266,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/master"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.3"
             },
             "funding": [
                 {
@@ -2282,7 +2282,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-26T14:00:31+00:00"
+            "time": "2022-10-26T14:07:24+00:00"
         },
         {
             "name": "jield-webdev/jield-authorize",
@@ -5556,6 +5556,74 @@
             "time": "2022-10-23T00:55:31+00:00"
         },
         {
+            "name": "laminas/laminas-mvc-plugin-identity",
+            "version": "1.6.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-mvc-plugin-identity.git",
+                "reference": "362035bc191be806052666d8aa790ff860b394a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-mvc-plugin-identity/zipball/362035bc191be806052666d8aa790ff860b394a9",
+                "reference": "362035bc191be806052666d8aa790ff860b394a9",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-authentication": "^2.11.0",
+                "laminas/laminas-mvc": "^3.3.3",
+                "laminas/laminas-servicemanager": "^3.15.1",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "conflict": {
+                "laminas/laminas-mvc": "<3.0.0",
+                "zendframework/zend-mvc-plugin-identity": "*"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "phpunit/phpunit": "^9.5",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.29"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "Laminas\\Mvc\\Plugin\\Identity"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Mvc\\Plugin\\Identity\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Plugin for retrieving the current authenticated identity within laminas-mvc controllers",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "mvc"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-mvc-plugin-identity/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-mvc-plugin-identity/issues",
+                "rss": "https://github.com/laminas/laminas-mvc-plugin-identity/releases.atom",
+                "source": "https://github.com/laminas/laminas-mvc-plugin-identity"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2022-10-24T08:16:59+00:00"
+        },
+        {
             "name": "laminas/laminas-navigation",
             "version": "2.17.x-dev",
             "source": {
@@ -5991,12 +6059,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "a54c36e6fd81ba10c94f123e307c4cefd94b1d72"
+                "reference": "7240f3d35c73de6aebc3c32ab569363911981cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/a54c36e6fd81ba10c94f123e307c4cefd94b1d72",
-                "reference": "a54c36e6fd81ba10c94f123e307c4cefd94b1d72",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/7240f3d35c73de6aebc3c32ab569363911981cca",
+                "reference": "7240f3d35c73de6aebc3c32ab569363911981cca",
                 "shasum": ""
             },
             "require": {
@@ -6074,7 +6142,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-16T00:20:06+00:00"
+            "time": "2022-10-26T14:22:28+00:00"
         },
         {
             "name": "laminas/laminas-session",

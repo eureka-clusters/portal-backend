@@ -5,54 +5,42 @@ declare(strict_types=1);
 namespace Api\Repository\OAuth;
 
 use Api\Entity;
+use Application\Repository\FilteredObjectRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-use function in_array;
-use function sprintf;
-use function strtoupper;
+use Application\ValueObject\SearchFormResult;
 
-final class Client extends EntityRepository //implements ClientCredentialsInterface
+use function sprintf;
+
+final class Client extends EntityRepository implements FilteredObjectRepository
 {
-    public function findFiltered(array $filter): QueryBuilder
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select(select: 'api_entity_oauth_clients');
-        $qb->from(from: Entity\OAuth\Client::class, alias: 'api_entity_oauth_clients');
+        $qb->select('api_entity_oauth_client');
+        $qb->from(Entity\OAuth\Client::class, 'api_entity_oauth_client');
 
-        $qb = $this->applyRoleFilter(qb: $qb, filter: $filter);
-
-        $direction = Criteria::ASC;
-        if (
-            isset($filter['direction']) && in_array(
-                needle: strtoupper(string: $filter['direction']),
-                haystack: [
-                    Criteria::ASC,
-                    Criteria::DESC,
-                ],
-                strict: true
-            )
-        ) {
-            $direction = strtoupper(string: $filter['direction']);
+        if ($searchFormResult->hasQuery()) {
+            $qb->andWhere($qb->expr()->like('api_entity_oauth_client.client', ':like'));
+            $qb->setParameter('like', sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 
-        switch ($filter['order']) {
+        $direction = $searchFormResult->getDirection();
+
+        switch ($searchFormResult->getOrder()) {
             case 'id':
-                $qb->addOrderBy(sort: 'api_entity_oauth_clients.id', order: $direction);
+                $qb->addOrderBy('api_entity_oauth_client.clientId', $direction);
+                break;
+            case 'name':
+                $qb->addOrderBy('api_entity_oauth_client.name', $direction);
+                break;
+            case 'description':
+                $qb->addOrderBy('api_entity_oauth_client.description', $direction);
                 break;
             default:
-                $qb->addOrderBy(sort: 'api_entity_oauth_clients.id', order: $direction);
-        }
-
-        return $qb;
-    }
-
-    public function applyRoleFilter(QueryBuilder $qb, array $filter): QueryBuilder
-    {
-        if (!empty($filter['query'])) {
-            $qb->andWhere($qb->expr()->like(x: 'api_entity_oauth_clients.client', y: ':like'));
-            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $filter['query']));
+                $qb->addOrderBy('api_entity_oauth_client.clientId', Criteria::ASC);
         }
 
         return $qb;

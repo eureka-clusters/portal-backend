@@ -18,6 +18,7 @@ use Application\Factory\InvokableFactory;
 use Application\Factory\LaminasCacheFactory;
 use Application\Factory\ModuleOptionsFactory;
 use Application\Options\ModuleOptions;
+use Application\Service\FormService;
 use Application\Session\SaveHandler\DoctrineGateway;
 use Application\Twig\StringDateExtension;
 use Application\View\Helper\PaginationLink;
@@ -63,6 +64,7 @@ $config = [
             PdoAdapter::class => PdoAdapterFactory::class,
             TranslatorInterface::class => TranslatorServiceFactory::class,
             ModuleOptions::class => ModuleOptionsFactory::class,
+            FormService::class => InvokableFactory::class,
 
             InjectAclInNavigation::class => ConfigAbstractFactory::class,
             SetTitle::class => ConfigAbstractFactory::class,

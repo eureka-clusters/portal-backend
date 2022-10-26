@@ -6,7 +6,7 @@ namespace Admin\Form;
 
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
-use Search\Form\SearchFilter;
+use Application\Form\SearchFilter;
 
 use function _;
 

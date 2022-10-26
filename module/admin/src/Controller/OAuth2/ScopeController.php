@@ -19,7 +19,7 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
-use Search\Form\SearchFilter;
+use Application\Form\SearchFilter;
 
 use function array_merge;
 use function ceil;
@@ -52,7 +52,7 @@ final class ScopeController extends AbstractActionController
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(paginator: new ORMPaginator(query: $roleQuery, fetchJoinCollection: false))
         );
-        $paginator::setDefaultItemCountPerPage(count: $this->preferences()->getItemsPerPage());
+        $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 

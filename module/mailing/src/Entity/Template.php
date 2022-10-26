@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mailing\Entity;
 
 use Application\Entity\AbstractEntity;
+use Application\Twig\TemplateInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +23,7 @@ use Laminas\Form\Element\Textarea;
 #[ORM\Table(name: 'mailing_template')]
 #[ORM\Entity]
 #[Name(name: 'mailing_template')]
-class Template extends AbstractEntity
+class Template extends AbstractEntity implements TemplateInterface
 {
     final public const TEMPLATE_DEFAULT = 1;
 
@@ -83,6 +84,17 @@ class Template extends AbstractEntity
         return $this->id === self::TEMPLATE_DEFAULT;
     }
 
+
+    public function parseName(): string
+    {
+        return $this->name;
+    }
+
+    public function parseSourceContent(): string
+    {
+        return $this->body;
+    }
+
     public function __toString(): string
     {
         return $this->name;
@@ -98,11 +110,6 @@ class Template extends AbstractEntity
         $this->body = $body;
 
         return $this;
-    }
-
-    public function parseName(): string
-    {
-        return $this->name;
     }
 
     public function getId(): ?int

@@ -11,7 +11,7 @@ use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use Mailing\Entity\EmailMessage;
 use Mailing\Service\MailingService;
-use Search\Form\SearchFilter;
+use Application\Form\SearchFilter;
 
 use function ceil;
 use function urlencode;

@@ -16,18 +16,14 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('home') }}">
-                <img src="/assets/img/logo.png" alt="Eureka Logo"/>Eureka Clusters Backend
-                Application
-            </a>
+            <a class="navbar-brand" href="{{ url('home') }}"><img src="/assets/img/logo.png" alt="Eureka Logo"/>Eureka
+                Clusters Backend</a>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {{ lbs5navigation('navigation').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
 
 
             <ul class="navbar-nav me-2">
-
-
                 {% if not isAllowed('route/user/login') %}
                     <li class="nav-item">
                         {{ identity().parseFullname() }}
@@ -48,6 +44,11 @@
     </div>
 </nav>
 <div class="container">
+
+    {{ lbs5navigation('navigation').breadcrumbs().setPartial('application/partial/breadcrumbs')|raw }}
+
+    {% include 'application/partial/flashmessenger' %}
+
     {{ content|raw }}
 
     <hr>

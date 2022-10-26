@@ -29,10 +29,8 @@
                 <thead>
                 <tr>
                     <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/user/list', 'criteria': 'id', 'text': translate("txt-user-id")} %}</th>
-                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/user/list', 'criteria': 'username', 'text': translate("txt-username")} %}</th>
-                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/user/list', 'criteria': 'last-name', 'text': translate("txt-name")} %}</th>
-                    <th>{{ translate("txt-initials") }}</th>
-                    <th>{{ translate("txt-status") }}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/user/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+                    <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/user/list', 'criteria': 'email', 'text': translate("txt-email")} %}</th>
                     <th>{{ translate("txt-roles") }}</th>
                 </tr>
                 </thead>
@@ -41,10 +39,8 @@
                 {% for user in paginator.getCurrentItems() %}
                     <tr>
                         <td><small class="text-muted">{{ user.id }}</small></td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ userLink(user, 'view-admin', 'name') }} {{ userLink(user, 'edit', 'icon') }}</td>
-                        <td>{{ user.parseInitials }}</td>
-                        <td>{{ translate(user.getStatusText()) }}</td>
+                        <td>{{ userLink(user, 'view-admin', 'name') }}</td>
+                        <td>{{ user.email }}</td>
                         <td>{% for role in user.getRoles() %}{{ roleLink(role,'view','name') }}{% if not loop.last %}, {% endif %}{% endfor %}
                         </td>
                     </tr>
@@ -58,7 +54,7 @@
     </div>
     <div class="col-md-2">
         {{ lbs5formelement(filter.get('roles'), 'default') }}
-        {{ lbs5formelement(filter.get('status'), 'default') }}
+        {#        {{ lbs5formelement(filter.get('status'), 'default') }} #}
 
         {{ lbs5formelement(form.get('search')) }}
         {{ lbs5formelement(form.get('reset')) }}

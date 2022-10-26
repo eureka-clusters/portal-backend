@@ -1,0 +1,14 @@
+{% set flash = flashMessenger() %}
+{% do flash.setMessageOpenFormat('<br><div%s role="alert">') %}
+{% do flash.setMessageSeparatorString('<br>') %}
+{% do flash.setMessageCloseString('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>') %}
+
+{{ flash.renderCurrent('error',   ['alert', 'alert-dismissible', 'alert-danger'], false)|raw }}
+{{ flash.renderCurrent('info',    ['alert', 'alert-dismissible', 'alert-info'], false)|raw }}
+{{ flash.renderCurrent('default', ['alert', 'alert-dismissible', 'alert-warning'], false)|raw }}
+{{ flash.renderCurrent('success', ['alert', 'alert-dismissible', 'alert-success'], false)|raw }}
+{% do flash.getPluginFlashMessenger().clearCurrentMessagesFromContainer() %}
+{{ flash.render('error',   ['alert', 'alert-dismissible', 'alert-danger'], false)|raw }}
+{{ flash.render('info',    ['alert', 'alert-dismissible', 'alert-info'], false)|raw }}
+{{ flash.render('default', ['alert', 'alert-dismissible', 'alert-warning'], false)|raw }}
+{{ flash.render('success', ['alert', 'alert-dismissible', 'alert-success'], false)|raw }}

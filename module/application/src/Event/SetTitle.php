@@ -30,6 +30,14 @@ class SetTitle extends AbstractListenerAggregate
             ['rel' => 'icon', 'type' => 'image/vnd.microsoft.icon', 'href' => 'favicon.ico'],
             AbstractContainer::PREPEND
         );
+
+        $this->renderer->headLink()->appendStylesheet(
+            'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+            'all',
+            null,
+            null
+        );
+
     }
 
     public function setHeadMeta(): void
