@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deeplink\Entity;
 
-use DateInterval;
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
+use DateInterval;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -20,6 +20,7 @@ use function substr;
 class Deeplink extends AbstractEntity
 {
     final public const EXPIRATION_DAYS_DEFAULT = 100;
+
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,17 +46,24 @@ class Deeplink extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private Target $target;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'deeplinks')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'deeplink')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
     public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->endDate     = (new DateTime())->add(interval: new DateInterval(duration: sprintf('P%dD', self::EXPIRATION_DAYS_DEFAULT)));
-        $this->user        = new User();
-        $this->target      = new Target();
-        $this->hash        = substr(string: sha1(string: Rand::getString(length: 255)), offset: 0, length: 15);
+        $this->endDate = (new DateTime())->add(
+            interval: new DateInterval(
+            duration: sprintf(
+            'P%dD',
+            self::EXPIRATION_DAYS_DEFAULT
+        )
+        )
+        );
+        $this->user = new User();
+        $this->target = new Target();
+        $this->hash = substr(string: sha1(string: Rand::getString(length: 255)), offset: 0, length: 15);
     }
 
     public function getId(): ?int

@@ -103,11 +103,15 @@ class User extends AbstractEntity implements UserAsRoleInterface
         $this->emailMessage = new ArrayCollection();
     }
 
+    public function parseFullName(): string
+    {
+        return sprintf('%s %s', $this->firstName, $this->lastName);
+    }
+
     public function getUserId(): string
     {
         return 'user' . $this->id;
     }
-
 
     public function getRolesAsArray(): array
     {

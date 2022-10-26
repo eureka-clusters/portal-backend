@@ -54,7 +54,7 @@ $config = [
                     __DIR__ . '/../src/Entity/',
                 ],
             ],
-            'orm_default_chain'         => [
+            'orm_default'         => [
                 'drivers' => [
                     'Deeplink\Entity' => 'deeplink_attribute_driver',
                 ],

@@ -1,0 +1,27 @@
+{% do headTitle().append(translate("txt-cache-management")) %}
+<h1>{{ translate("txt-cache-management") }}</h1>
+
+<p><code>{{ translate("txt-current-host-is-%s")|format(host) }}</code>
+
+
+    {% do form.prepare() %}
+    {% do form.setAttribute('class','form-horizontal') %}
+
+    {{ form().openTag(form)|raw }}
+
+<table class="table table-striped table-sm table-hover">
+    <tbody>
+    <tr>
+        <td>{{ lbs5formelement(form.get(constant("Admin\\Form\\AdminFunctions::ACTION_CLEANUP_FILE_CACHE"))) }}</td>
+        <td>{{ translate("txt-cache-cleanup-file-cache-explanation") }}</td>
+    </tr>
+    <tr>
+        <td>{{ lbs5formelement(form.get(constant("Admin\\Form\\AdminFunctions::ACTION_FLUSH_REDIS_CACHE"))) }}</td>
+        <td>{{ translate("txt-cache-cleanup-flush-redis-cache-explanation") }}</td>
+    </tr>
+    </tbody>
+</table>
+
+{{ formelement(form.get('csrf')) }}
+
+{{ form().closeTag()|raw }}

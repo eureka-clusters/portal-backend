@@ -2,16 +2,14 @@
 {% do headTitle().append(translate("txt-user-list") ) %}
 
 {% do form.prepare() %}
-
 {{ form().openTag(form)|raw }}
 
 {% set filter = form.get('filter') %}
 
-
 <div class="row">
     <div class="col-md-10">
 
-        <h1>{{ translate("txt-user-list") }} {{ userLink(null,'new','button') }}</h1>
+        <h1>{{ translate("txt-user-list") }}</h1>
 
         <div class="row">
             <div class="col-md-6">

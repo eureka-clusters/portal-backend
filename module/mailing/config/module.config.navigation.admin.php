@@ -16,8 +16,10 @@ use Mailing\Navigation\Invokable\TransactionalLabel;
 return [
     'navigation' => [
         'default' => [
-            'config' => [
+            'mailing' => [
                 'label' => _('txt-emails'),
+                'resource' => 'route/zfcadmin/mailing/email/list',
+                'privilege' => 'list',
                 'uri' => '#',
                 'pages' => [
                     // And finally, here is where we define our page hierarchy

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75449d5c909c2dd6b865e3245e63b8fc",
+    "content-hash": "1f993b3705ba932f0347af4ca7212b96",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -2170,12 +2170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa"
+                "reference": "e58dd2094726f8f6601023cd2e6b1f3f2002ac2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/3148458748274be1546f8f2809a6c09fe66f44aa",
-                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e58dd2094726f8f6601023cd2e6b1f3f2002ac2c",
+                "reference": "e58dd2094726f8f6601023cd2e6b1f3f2002ac2c",
                 "shasum": ""
             },
             "require": {
@@ -2266,7 +2266,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.2"
+                "source": "https://github.com/guzzle/psr7/tree/master"
             },
             "funding": [
                 {
@@ -2282,7 +2282,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-25T13:49:28+00:00"
+            "time": "2022-10-26T14:00:31+00:00"
         },
         {
             "name": "jield-webdev/jield-authorize",
@@ -11572,12 +11572,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "65ec3125d272fbe7bcca9fbb9a42a71a303ab3f2"
+                "reference": "6a7518b29fe1ab480676eeef7c72ad1960fc07b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/65ec3125d272fbe7bcca9fbb9a42a71a303ab3f2",
-                "reference": "65ec3125d272fbe7bcca9fbb9a42a71a303ab3f2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6a7518b29fe1ab480676eeef7c72ad1960fc07b8",
+                "reference": "6a7518b29fe1ab480676eeef7c72ad1960fc07b8",
                 "shasum": ""
             },
             "require": {
@@ -11624,7 +11624,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-26T13:07:29+00:00"
+            "time": "2022-10-26T13:51:38+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

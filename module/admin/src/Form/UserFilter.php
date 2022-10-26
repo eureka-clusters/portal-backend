@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Admin\Form;
 
 use Admin\Entity\Role;
-use Admin\Entity\User;
 use Application\Form\SearchFilter;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
-use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
 
 use function _;
@@ -38,7 +36,7 @@ final class UserFilter extends SearchFilter
                         'params' => [
                             'criteria' => [],
                             'orderBy' => [
-                                'name' => Criteria::ASC,
+                                'description' => Criteria::ASC,
                             ],
                         ],
                     ],

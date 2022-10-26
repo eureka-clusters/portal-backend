@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'modules'                 => [
+    'modules' => [
         'Laminas\\Router',
         'Laminas\\Form',
         'Laminas\\InputFilter',
@@ -9,7 +9,6 @@ return [
         'Laminas\\Hydrator',
         'Laminas\\Paginator',
         'Laminas\\Cache',
-
 
         'Laminas\\ApiTools',
         'Laminas\\ApiTools\\Documentation',
@@ -28,7 +27,7 @@ return [
         'ZfcTwig',
         'BjyAuthorize',
         'Jield\\Authorize',
-        
+
         'LmcCors',
 
         'Api',
@@ -39,27 +38,27 @@ return [
         'Cluster',
         'Application',
         'Deeplink',
-
+        'Mailing',
 
         'LaminasBootstrap5',
     ],
     'module_listener_options' => [
-        'config_glob_paths'        => [
+        'config_glob_paths' => [
             'config/autoload/{,*.}{global,local}.php',
         ],
-        'config_cache_enabled'     => !(!defined('PORTAL_ENVIRONMENT')
+        'config_cache_enabled' => !(!defined('PORTAL_ENVIRONMENT')
             || 'development' === PORTAL_ENVIRONMENT),
-        'config_cache_key'         => 'ecp-backend',
+        'config_cache_key' => 'ecp-backend',
         'module_map_cache_enabled' => !(!defined('PORTAL_ENVIRONMENT')
             || 'development' === PORTAL_ENVIRONMENT),
-        'cache_dir'                => 'data/cache',
-        'module_paths'             => [
+        'cache_dir' => 'data/cache',
+        'module_paths' => [
             './module',
             './vendor',
         ],
     ],
-    'service_manager'         => [
+    'service_manager' => [
         'use_defaults' => true,
-        'factories'    => [],
+        'factories' => [],
     ],
 ];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application;
 
 use Application\Authentication\Factory\PdoAdapterFactory;
+use Application\Authentication\Storage\AuthenticationStorage;
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
 use Application\Controller\Plugin\GetFilter;
@@ -15,11 +16,14 @@ use Application\Event\UpdateNavigation;
 use Application\Factory\DoctrineCacheFactory;
 use Application\Factory\InvokableFactory;
 use Application\Factory\LaminasCacheFactory;
-use Application\Twig\DatabaseTwigLoader;
+use Application\Factory\ModuleOptionsFactory;
+use Application\Options\ModuleOptions;
+use Application\Session\SaveHandler\DoctrineGateway;
 use Application\Twig\StringDateExtension;
 use Application\View\Helper\PaginationLink;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
-use Laminas\ApiTools\MvcAuth\Factory\AuthenticationServiceFactory;
+use Gedmo\Sluggable\SluggableListener;
+use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
@@ -58,13 +62,15 @@ $config = [
             Redis::class => LaminasCacheFactory::class,
             PdoAdapter::class => PdoAdapterFactory::class,
             TranslatorInterface::class => TranslatorServiceFactory::class,
-            AuthenticationService::class => AuthenticationServiceFactory::class,
+            ModuleOptions::class => ModuleOptionsFactory::class,
 
             InjectAclInNavigation::class => ConfigAbstractFactory::class,
             SetTitle::class => ConfigAbstractFactory::class,
             UpdateNavigation::class => InvokableFactory::class,
 
-            DatabaseTwigLoader::class => ConfigAbstractFactory::class,
+            AuthenticationService::class => ConfigAbstractFactory::class,
+            AuthenticationStorage::class => ConfigAbstractFactory::class,
+            DoctrineGateway::class => ConfigAbstractFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -94,9 +100,6 @@ $config = [
             DebugExtension::class,
             StringDateExtension::class
         ],
-        'loader_chain' => [
-            DatabaseTwigLoader::class,
-        ],
         'environment_options' => [
             'cache' => __DIR__ . '/../../../data/twig/',
         ],
@@ -125,6 +128,14 @@ $config = [
             'orm_default' => [
                 'connection' => 'orm_default',
                 'configuration' => 'orm_default',
+            ],
+        ],
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    TimestampableListener::class,
+                    SluggableListener::class,
+                ],
             ],
         ],
         'configuration' => [

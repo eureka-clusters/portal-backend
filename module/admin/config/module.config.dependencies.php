@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin;
 
+use Admin\Controller\CacheController;
 use Admin\Controller\OAuth2\ClientController;
 use Admin\Controller\OAuth2\ScopeController;
 use Admin\Controller\RoleController;
@@ -15,6 +16,7 @@ use Admin\Service\UserService;
 use Application\Service\FormService;
 use Doctrine\ORM\EntityManager;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Cache\Storage\Adapter\Redis;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Mailing\Service\EmailService;
@@ -54,6 +56,9 @@ return [
         ScopeController::class => [
             OAuth2Service::class,
             TranslatorInterface::class,
+        ],
+        CacheController::class => [
+            Redis::class,
         ],
     ],
 ];

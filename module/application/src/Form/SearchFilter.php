@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Form;
 
-use Laminas\Form\Element\Search;
 use Laminas\Form\Element\Checkbox;
+use Laminas\Form\Element\Search;
 use Laminas\Form\Element\Submit;
-use Laminas\Form\Element;
 use Laminas\Form\Form;
 
 use function _;
@@ -22,10 +21,10 @@ class SearchFilter extends Form
 
         $this->add(
             elementOrFieldset: [
-                'type'       => Search::class,
-                'name'       => 'query',
+                'type' => Search::class,
+                'name' => 'query',
                 'attributes' => [
-                    'class'       => 'form-control',
+                    'class' => 'form-control',
                     'placeholder' => _('txt-search'),
                 ],
             ]
@@ -40,10 +39,10 @@ class SearchFilter extends Form
 
         $this->add(
             elementOrFieldset: [
-                'type'       => Submit::class,
-                'name'       => 'search',
+                'type' => Submit::class,
+                'name' => 'search',
                 'attributes' => [
-                    'id'    => 'search',
+                    'id' => 'search',
                     'class' => 'btn btn-primary submitButton',
                     'value' => _('txt-search'),
                 ],
@@ -52,10 +51,10 @@ class SearchFilter extends Form
 
         $this->add(
             elementOrFieldset: [
-                'type'       => Submit::class,
-                'name'       => 'submit',
+                'type' => Submit::class,
+                'name' => 'submit',
                 'attributes' => [
-                    'id'    => 'search',
+                    'id' => 'search',
                     'class' => 'btn btn-primary submitButton',
                     'value' => _('txt-search'),
                 ],
@@ -64,10 +63,10 @@ class SearchFilter extends Form
 
         $this->add(
             elementOrFieldset: [
-                'type'       => Submit::class,
-                'name'       => 'reset',
+                'type' => Submit::class,
+                'name' => 'reset',
                 'attributes' => [
-                    'id'    => 'resetButton',
+                    'id' => 'resetButton',
                     'class' => 'btn btn-warning resetButton',
                     'value' => _('txt-reset'),
                 ],

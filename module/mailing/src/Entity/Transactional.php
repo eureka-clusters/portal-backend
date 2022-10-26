@@ -21,12 +21,11 @@ use Laminas\Form\Annotation\Type;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Element\Textarea;
-use Scheduler\Entity\MailingEntity;
 
 #[ORM\Table(name: 'mailing_transactional')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\Transactional::class)]
 #[Name(name: 'mailing_transactional')]
-class Transactional extends AbstractEntity implements TemplateInterface
+class Transactional extends AbstractEntity
 {
     final public const TRANSACTIONAL_MAILING_QUEUE_START = 'mailing:queue:start';
     final public const TRANSACTIONAL_MAILING_QUEUE_END = 'mailing:queue:end';

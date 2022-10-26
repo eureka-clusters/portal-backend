@@ -26,9 +26,6 @@ final class User extends EntityRepository implements FilteredObjectRepository
         $direction = $searchFormResult->getDirection();
 
         switch ($searchFormResult->getOrder()) {
-            case 'name':
-                $qb->addOrderBy(sort: 'admin_entity_user.username', order: $direction);
-                break;
             case 'firstname':
                 $qb->addOrderBy(sort: 'admin_entity_user.firstName', order: $direction);
                 break;
@@ -56,7 +53,6 @@ final class User extends EntityRepository implements FilteredObjectRepository
         if ($searchFormResult->hasQuery()) {
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like(x: 'admin_entity_user.username', y: ':like'),
                     $qb->expr()->like(x: 'admin_entity_user.firstName', y: ':like'),
                     $qb->expr()->like(x: 'admin_entity_user.lastName', y: ':like'),
                     $qb->expr()->like(x: 'admin_entity_user.email', y: ':like')

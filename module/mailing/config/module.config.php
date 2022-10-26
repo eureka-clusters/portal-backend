@@ -94,7 +94,7 @@ $config = [
                     __DIR__ . '/../src/Entity/',
                 ],
             ],
-            'orm_default_chain' => [
+            'orm_default' => [
                 'drivers' => [
                     'Mailing\Entity' => 'mailing_attribute_driver',
                 ],

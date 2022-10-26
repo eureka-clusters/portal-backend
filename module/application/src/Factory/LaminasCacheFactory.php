@@ -25,17 +25,17 @@ final class LaminasCacheFactory implements FactoryInterface
 
         $cache->getOptions()->setServer(
             server: [
-                'host' => $cacheOptions['adapter']['options']['server']['host'],
-                'port' => $cacheOptions['adapter']['options']['server']['host'],
+                'host' => $cacheOptions['options']['server']['host'],
+                'port' => $cacheOptions['options']['server']['host'],
                 'timeout' => 0.3
             ]
         );
 
-        $cache->getOptions()->setDatabase(database: $cacheOptions['adapter']['options']['database']);
-        $cache->getOptions()->setNamespace(namespace: $cacheOptions['adapter']['options']['namespace']);
+        $cache->getOptions()->setDatabase(database: $cacheOptions['options']['database']);
+        $cache->getOptions()->setNamespace(namespace: $cacheOptions['options']['namespace']);
 
-        if (isset($cacheOptions['adapter']['options']['password']) && $cacheOptions['adapter']['options']['password']) {
-            $cache->getOptions()->setPassword(password: $cacheOptions['adapter']['options']['password']);
+        if (isset($cacheOptions['options']['password']) && $cacheOptions['options']['password']) {
+            $cache->getOptions()->setPassword(password: $cacheOptions['options']['password']);
         }
 
         $plugin = new ExceptionHandler();

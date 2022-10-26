@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Admin;
 
+use Admin\Controller\CacheController;
 use Admin\Controller\OAuth2\ClientController;
 use Admin\Controller\OAuth2\ScopeController;
 use Admin\Controller\RoleController;
@@ -23,8 +24,6 @@ use Admin\View\Helper\UserLink;
 use Application\Factory\InvokableFactory;
 use Application\View\Factory\LinkHelperFactory;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Gedmo\Sluggable\SluggableListener;
-use Gedmo\Timestampable\TimestampableListener;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
@@ -39,6 +38,7 @@ $config = [
             UserController::class => ConfigAbstractFactory::class,
             ScopeController::class => ConfigAbstractFactory::class,
             ClientController::class => ConfigAbstractFactory::class,
+            CacheController::class => ConfigAbstractFactory::class,
 
         ],
     ],
@@ -86,14 +86,6 @@ $config = [
             'orm_default' => [
                 'drivers' => [
                     'Admin\Entity' => 'admin_attribute_driver',
-                ],
-            ],
-        ],
-        'eventmanager' => [
-            'orm_default' => [
-                'subscribers' => [
-                    TimestampableListener::class,
-                    SluggableListener::class,
                 ],
             ],
         ],

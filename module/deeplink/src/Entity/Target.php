@@ -54,14 +54,9 @@ class Target extends AbstractEntity
     #[Exclude]
     private Collection $deeplink;
 
-    #[ORM\OneToMany(mappedBy: 'target', targetEntity: Deeplink::class, cascade: ['persist'])]
-    #[Exclude]
-    private Collection $mailingDeeplink;
-
     #[Pure] public function __construct()
     {
         $this->deeplink        = new ArrayCollection();
-        $this->mailingDeeplink = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -110,17 +105,6 @@ class Target extends AbstractEntity
     public function setDeeplink(ArrayCollection|Collection $deeplink): Target
     {
         $this->deeplink = $deeplink;
-        return $this;
-    }
-
-    public function getMailingDeeplink(): ArrayCollection|Collection
-    {
-        return $this->mailingDeeplink;
-    }
-
-    public function setMailingDeeplink(ArrayCollection|Collection $mailingDeeplink): Target
-    {
-        $this->mailingDeeplink = $mailingDeeplink;
         return $this;
     }
 }

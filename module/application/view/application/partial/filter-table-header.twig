@@ -1,0 +1,9 @@
+{% if order == criteria %}{{ direction|lower == 'desc' ? '<i class="fa fa-sort-alpha-desc"></i>' : '<i class="fa fa-sort-alpha-asc"></i>' }}{% endif %}
+
+{% if params %}
+    {% set params = {'encodedFilter': encodedFilter}|merge(params) %}
+{% else %}
+    {% set params = {'encodedFilter': encodedFilter} %}
+{% endif %}
+
+<a href="{{ url(route,params) }}?order={{ criteria }}&direction={{ direction|lower == 'desc' ? 'asc' : 'desc' }}">{{ text }}</a>

@@ -1,0 +1,17 @@
+<?php
+
+$elements = [];
+foreach ($this->pages as $page) {
+    if ($page->getHref() === '#') {
+        $elements[] = '<li class="breadcrumb-item">' . $this->translate($page->getLabel()) . '</li>';
+    } else {
+        $elements[] = sprintf(
+            '<li class="breadcrumb-item"><a href="%s">%s</a></li>',
+            $page->getHref(),
+            $this->translate($page->getLabel())
+        );
+    }
+}
+if (count($elements) > 0) {
+    print sprintf('<ol class="my-2 breadcrumb">%s</ol>', implode($elements));
+}

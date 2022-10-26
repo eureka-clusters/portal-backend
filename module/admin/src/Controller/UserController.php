@@ -11,6 +11,7 @@ use Admin\Form\User\Password;
 use Admin\Form\UserFilter;
 use Admin\Service\AdminService;
 use Admin\Service\UserService;
+use Application\Authentication\Adapter\DatabaseAdapter;
 use Application\Controller\Plugin\GetFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
@@ -24,9 +25,9 @@ use Laminas\Paginator\Paginator;
 use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
 
-use function str_starts_with;
 use function ceil;
 use function sprintf;
+use function str_starts_with;
 
 /**
  * @method GetFilter getFilter()
@@ -61,7 +62,11 @@ UserController extends AbstractActionController
         );
         $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
-        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator->setPageRange(
+            pageRange: ceil(
+                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+            )
+        );
 
         $form = new UserFilter(entityManager: $this->entityManager);
         $form->setData(data: $filterPlugin->getFilterFormData());
@@ -155,7 +160,9 @@ UserController extends AbstractActionController
             $username = $form->getInputFilter()->getValue(name: 'username');
             $password = $form->getInputFilter()->getValue(name: 'password');
 
-            $authAdapter = new DatabaseAdapter($this->userService, $username, $password);
+            $authAdapter = new DatabaseAdapter(
+                userService: $this->userService, username: $username, password: $password
+            );
             $authenticate = $this->authenticationService->authenticate(adapter: $authAdapter);
 
             if ($authenticate->isValid()) {

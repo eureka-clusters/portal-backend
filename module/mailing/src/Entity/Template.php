@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Mailing\Entity;
 
 use Application\Entity\AbstractEntity;
-use Application\Twig\TemplateInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation\Attributes;
 use Laminas\Form\Annotation\Exclude;
 use Laminas\Form\Annotation\Name;
@@ -24,7 +22,7 @@ use Laminas\Form\Element\Textarea;
 #[ORM\Table(name: 'mailing_template')]
 #[ORM\Entity]
 #[Name(name: 'mailing_template')]
-class Template extends AbstractEntity implements TemplateInterface
+class Template extends AbstractEntity
 {
     final public const TEMPLATE_DEFAULT = 1;
 
@@ -65,10 +63,6 @@ class Template extends AbstractEntity implements TemplateInterface
     #[Exclude]
     private ?DateTime $lastUpdate = null;
 
-    #[ORM\OneToMany(mappedBy: 'template', targetEntity: Mailing::class, cascade: ['persist'])]
-    #[Exclude]
-    private Collection $mailing;
-
     #[ORM\OneToMany(mappedBy: 'template', targetEntity: Transactional::class, cascade: ['persist'])]
     #[Exclude]
     private Collection $transactional;
@@ -77,10 +71,9 @@ class Template extends AbstractEntity implements TemplateInterface
     #[Exclude]
     private Collection $emailMessage;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->mailing = new ArrayCollection();
         $this->transactional = new ArrayCollection();
         $this->emailMessage = new ArrayCollection();
     }
@@ -112,11 +105,6 @@ class Template extends AbstractEntity implements TemplateInterface
         return $this->name;
     }
 
-    public function parseSourceContent(): string
-    {
-        return $this->body;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -125,18 +113,6 @@ class Template extends AbstractEntity implements TemplateInterface
     public function setId($id): Template
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getMailing(): Collection
-    {
-        return $this->mailing;
-    }
-
-    public function setMailing($mailing): Template
-    {
-        $this->mailing = $mailing;
 
         return $this;
     }
