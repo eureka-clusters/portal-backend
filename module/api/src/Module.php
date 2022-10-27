@@ -20,6 +20,7 @@ final class Module implements ApiToolsProviderInterface, ConfigProviderInterface
             'service_manager' => $configProvider->getDependencyConfig(),
             'doctrine' => $configProvider->getDoctrineConfig(),
             'router' => $configProvider->getRouteConfig(),
+            'bjyauthorize' => $configProvider->getGuardConfig(),
             'api-tools-rest' => $apiConfigProvider->getApiToolsRestConfig(),
             'api-tools-mvc-auth' => $apiConfigProvider->getApiToolsMvcConfig(),
             'api-tools-content-validation' => $apiConfigProvider->getApiToolsContentValidationConfig(),

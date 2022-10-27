@@ -25,7 +25,7 @@ class Country extends AbstractEntity
     private string $cd;
 
     #[ORM\Column(unique: true)]
-    private string $country;
+    private string $country = '';
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Gedmo\Slug(fields: ['country'])]

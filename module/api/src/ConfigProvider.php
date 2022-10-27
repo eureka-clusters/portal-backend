@@ -5,12 +5,15 @@ namespace Api;
 use Admin\Provider\UserProvider;
 use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
+use Api\Provider\OAuth\ServiceProvider;
 use Api\V1\Rest;
 use Api\V1\Rest\ListResource\OrganisationListener;
 use Api\V1\Rest\ListResource\PartnerListener;
 use Api\V1\Rest\ListResource\ProjectListener;
 use Api\V1\Rest\SearchResource\ResultListener;
 use Api\V1\Rest\UserResource\MeListener;
+use Application\Options\ModuleOptions;
+use BjyAuthorize\Guard\Route;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
@@ -42,6 +45,7 @@ final class ConfigProvider
             'factories' => [
                 OAuth2Service::class => ConfigAbstractFactory::class,
                 MeListener::class => ConfigAbstractFactory::class,
+                Rest\ListResource\ServiceListener::class => ConfigAbstractFactory::class,
                 ProjectListener::class => ConfigAbstractFactory::class,
                 OrganisationListener::class => ConfigAbstractFactory::class,
                 PartnerListener::class => ConfigAbstractFactory::class,
@@ -56,6 +60,7 @@ final class ConfigProvider
                 Rest\StatisticsResource\Facets\PartnerListener::class => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Download\ProjectListener::class => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Download\PartnerListener::class => ConfigAbstractFactory::class,
+                ServiceProvider::class => ConfigAbstractFactory::class,
             ],
         ];
     }
@@ -85,6 +90,10 @@ final class ConfigProvider
             MeListener::class => [
                 UserService::class,
                 UserProvider::class,
+            ],
+            Rest\ListResource\ServiceListener::class => [
+                OAuth2Service::class,
+                ServiceProvider::class,
             ],
             OrganisationListener::class => [
                 OrganisationService::class,
@@ -163,6 +172,36 @@ final class ConfigProvider
                 EntityManager::class,
                 TranslatorInterface::class
             ],
+            ServiceProvider::class => [
+                'ViewHelperManager',
+                ModuleOptions::class
+            ],
+        ];
+    }
+
+    public function getGuardConfig(): array
+    {
+        return [
+            'guards' => [
+                Route::class => [
+                    ['route' => MeListener::class, 'roles' => []],
+                    ['route' => Rest\ListResource\ServiceListener::class, 'roles' => []],
+                    ['route' => ProjectListener::class, 'roles' => []],
+                    ['route' => OrganisationListener::class, 'roles' => []],
+                    ['route' => PartnerListener::class, 'roles' => []],
+                    ['route' => ResultListener::class, 'roles' => []],
+                    ['route' => Rest\ViewResource\ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\ViewResource\OrganisationListener::class, 'roles' => []],
+                    ['route' => Rest\ViewResource\PartnerListener::class, 'roles' => []],
+                    ['route' => Rest\UpdateResource\ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Results\ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Results\PartnerListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Facets\ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Facets\PartnerListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Download\ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\StatisticsResource\Download\PartnerListener::class, 'roles' => []],
+                ],
+            ],
         ];
     }
 
@@ -176,6 +215,15 @@ final class ConfigProvider
                         'route' => '/api/[:id]',
                         'defaults' => [
                             'controller' => MeListener::class,
+                        ],
+                    ],
+                ],
+                Rest\ListResource\ServiceListener::class => [
+                    'type' => Literal::class,
+                    'options' => [
+                        'route' => '/api/list/service',
+                        'defaults' => [
+                            'controller' => Rest\ListResource\ServiceListener::class,
                         ],
                     ],
                 ],

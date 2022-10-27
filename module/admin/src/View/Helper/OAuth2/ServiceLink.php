@@ -23,6 +23,7 @@ final class ServiceLink extends AbstractLink
 
         if (!$service->isEmpty()) {
             $routeParams['id'] = $service->getId();
+            $routeParams['name'] = $service->getName();
         }
 
         switch ($action) {
@@ -44,6 +45,13 @@ final class ServiceLink extends AbstractLink
                 $linkParams = [
                     'icon' => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/oauth2/service/edit',
+                    'text' => $this->translator->translate(message: 'txt-edit-oauth2-service'),
+                ];
+                break;
+            case 'login':
+                $linkParams = [
+                    'icon' => 'fa-pencil-square-o',
+                    'route' => 'zfcadmin/oauth2/service/login',
                     'text' => $this->translator->translate(message: 'txt-edit-oauth2-service'),
                 ];
                 break;

@@ -30,7 +30,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(from: Partner::class, alias: 'project_partner');
 
         //We always need a join on project
-        $queryBuilder->join(join: 'project_partner.project', alias: 'project');
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
         $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);

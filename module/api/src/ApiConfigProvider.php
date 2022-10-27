@@ -25,6 +25,18 @@ final class ApiConfigProvider
                 'page_size' => 25,
                 'collection_query_whitelist' => [],
             ],
+            Rest\ListResource\ServiceListener::class => [
+                'listener' => Rest\ListResource\ServiceListener::class,
+                'route_name' => Rest\ListResource\ServiceListener::class,
+                'route_identifier_name' => '',
+                'entity_http_methods' => [],
+                'collection_name' => 'services',
+                'collection_http_methods' => ['GET'],
+                'service_name' => 'list_services',
+                'page_size_param' => 'pageSize',
+                'page_size' => 25,
+                'collection_query_whitelist' => [],
+            ],
             ProjectListener::class => [
                 'listener' => ProjectListener::class,
                 'route_name' => ProjectListener::class,
@@ -216,6 +228,11 @@ final class ApiConfigProvider
                 MeListener::class => [
                     'entity' => [
                         'GET' => true,
+                    ],
+                ],
+                Rest\ListResource\ServiceListener::class => [
+                    'collection' => [
+                        'GET' => false,
                     ],
                 ],
                 ProjectListener::class => [

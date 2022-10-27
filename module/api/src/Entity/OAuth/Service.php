@@ -181,6 +181,9 @@ class Service extends AbstractEntity
             [
                 'urlAuthorize' => $this->authorizationUrl,
                 'urlAccessToken' => $this->accessTokenUrl,
+                'clientId' => $this->clientId,
+                'clientSecret' => $this->clientSecret,
+                'redirectUri' => $this->redirectUrl,
                 'urlResourceOwnerDetails' => $this->allowedClusters->first()->getName()
             ];
     }
