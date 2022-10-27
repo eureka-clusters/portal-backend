@@ -88,7 +88,7 @@ $config = [
         'translation_file_patterns' => [
             [
                 'type' => 'gettext',
-                'base_dir' => __DIR__ . '/../../../style/language',
+                'base_dir' => __DIR__ . '/../language/language',
                 'pattern' => '%s.mo',
             ],
         ],

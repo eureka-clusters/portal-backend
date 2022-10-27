@@ -30,18 +30,8 @@ final class ModuleTest extends AbstractServiceTest
         foreach ($abstractFactories as $service => $dependencies) {
             $instantiatedDependencies = [];
             foreach ($dependencies as $dependency) {
-                if ($dependency === 'Config') {
-                    $instantiatedDependencies[] = [
-                        'youtrack' => [
-                            'url' => '',
-                            'username' => '',
-                            'program' => '',
-                        ],
-                    ];
-                } else {
-                    $instantiatedDependencies[]
-                        = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
-                }
+                $instantiatedDependencies[]
+                    = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
             }
 
             $instance = new $service(...$instantiatedDependencies);

@@ -8,54 +8,64 @@
     {{ headStyle() }}
     {{ headScript() }}
 </head>
-<body>
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-4" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url('home') }}"><img src="/assets/img/logo.png" alt="Eureka Logo"/>Eureka
-                Clusters Backend</a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {{ lbs5navigation('navigation').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
+<body class="d-flex flex-column h-100">
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url('home') }}"><img src="/assets/img/logo.png" alt="Eureka Logo"/>Eureka
+                    Clusters Backend</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {{ lbs5navigation('navigation').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
 
 
-            <ul class="navbar-nav me-2">
-                {% if not isAllowed('route/user/login') %}
-                    <span class="navbar-text">
+                <ul class="navbar-nav me-2">
+                    {% if not isAllowed('route/user/login') %}
+                        <span class="navbar-text">
                         {{ identity().parseFullname() }}
                     </span>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('user/logout') }}">{{ translate("txt-logout") }}</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('user/login') }}">{{ translate("txt-admin-login") }}</a>
-                    </li>
-                {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('user/logout') }}">{{ translate("txt-logout") }}</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('user/login') }}">{{ translate("txt-admin-login") }}</a>
+                        </li>
+                    {% endif %}
 
-            </ul>
+                </ul>
 
 
+            </div>
         </div>
+    </nav>
+</header>
+
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+
+        {{ lbs5navigation('navigation').breadcrumbs().setPartial('application/partial/breadcrumbs')|raw }}
+
+        {% include 'application/partial/flashmessenger' %}
+
+        {{ content|raw }}
     </div>
-</nav>
-<div class="container">
+</main>
 
-    {{ lbs5navigation('navigation').breadcrumbs().setPartial('application/partial/breadcrumbs')|raw }}
-
-    {% include 'application/partial/flashmessenger' %}
-
-    {{ content|raw }}
-
-    <hr>
-    <footer>
-        <p>&copy; {{ now|date('Y') }} Eureka Clusters Backend Application</p>
-    </footer>
-</div>
+<footer class="bg-light footer mt-auto py-2">
+    <div class="container">
+        <span class="text-muted">
+            {{ translate("txt-footer-%s-%s")|format(constant("\\Application\\Version\\Version::VERSION"), "now"|date("Y"))|raw }}
+        </span>
+    </div>
+</footer>
+{{ inlineScript()|raw }}
 
 </body>
 </html>
