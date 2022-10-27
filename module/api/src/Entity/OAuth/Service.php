@@ -148,7 +148,7 @@ class Service extends AbstractEntity
         'help-block' => 'txt-oauth-service-client-help-block',
         'find_method' => [
             'name' => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['client' => Criteria::ASC]]
+            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]
         ]
 
     ])]
