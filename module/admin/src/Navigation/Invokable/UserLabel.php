@@ -17,6 +17,7 @@ final class UserLabel extends AbstractNavigationInvokable
         $label = $this->translate(string: 'txt-nav-user');
 
         if ($this->getEntities()->containsKey(key: User::class)) {
+            /** @var User $entity */
             $entity = $this->getEntities()->get(key: User::class);
             $page->setParams(
                 params: array_merge(
@@ -26,7 +27,7 @@ final class UserLabel extends AbstractNavigationInvokable
                     ]
                 )
             );
-            $label = (string) $entity;
+            $label = (string)$entity->parseFullName();
         }
         $page->set(property: 'label', value: $label);
     }

@@ -81,6 +81,17 @@ UserController extends AbstractActionController
         );
     }
 
+    public function viewAction(): ViewModel
+    {
+        $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
+
+        if (null === $user) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel(variables: ['user' => $user]);
+    }
+
     public function lostPasswordAction(): Response|ViewModel
     {
         // if the user is logged in, we don't need to require a new password

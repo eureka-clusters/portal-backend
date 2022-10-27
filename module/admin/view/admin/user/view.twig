@@ -1,25 +1,36 @@
 {% do headTitle().append(translate("txt-admin") ) %}
 {% do headTitle().append(translate("txt-user") ) %}
 
+<h1>{{ user.parseFullName() }}</h1>
 
 <p>{{ translate("txt-detailed-overview-of-user") }}</p>
 
 <dl class="dl-horizontal">
-    <dt>{{ translate("txt-user-name") }}</dt>
-    <dd>{{ user.userName }}</dd>
-    <dt>{{ translate("txt-email") }}</dt>
-    <dd>{{ user.email|default(translate("txt-not-provided")) }}</dd>
-    <dt>{{ translate("txt-user-principal-name") }}</dt>
-    <dd>{{ user.userPrincipalName|default(translate("txt-user-principal-name-unknown")) }}</dd>
     <dt>{{ translate("txt-first-name") }}</dt>
     <dd>{{ user.firstName }}</dd>
     <dt>{{ translate("txt-last-name") }}</dt>
-    <dd>{{ user.lastName }}</dd>
+    <dd>{{ user.firstName }}</dd>
+    <dt>{{ translate("txt-email") }}</dt>
+    <dd>{{ user.email|default(translate("txt-not-provided")) }}</dd>
     <dt>{{ translate("txt-roles") }}</dt>
     {% for role in user.getRoles() %}
         <dd>{{ roleLink(role,'view','name') }}</dd>
     {% else %}
-        <dd>{{ translate("txt-no-dedicated-solodb-role") }}</dd>
+        <dd>{{ translate("txt-no-roles") }}</dd>
     {% endfor %}
+    <dt>{{ translate("txt-is-funder") }}</dt>
+    {% if user.isFunder() %}
+        <dd>{{ translate("txt-yes") }} ({{ user.funder.country }})</dd>
+    {% else %}
+        <dd>{{ translate("txt-no") }}</dd>
+    {% endif %}
+
+    <dt>{{ translate("txt-is-eureka-secretariat-staff-member") }}</dt>
+    {% if user.isEurekaSecretariatStaffMember() %}
+        <dd>{{ translate("txt-yes") }}</dd>
+    {% else %}
+        <dd>{{ translate("txt-no") }}</dd>
+    {% endif %}
+
 
 </dl>
