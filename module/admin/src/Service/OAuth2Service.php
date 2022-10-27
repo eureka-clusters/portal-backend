@@ -33,18 +33,6 @@ class OAuth2Service extends AbstractService
         return $this->entityManager->find(Service::class, $id);
     }
 
-    public function findLatestClient(): Client
-    {
-        $repository = $this->entityManager->getRepository(entityName: Client::class);
-        $clients = $repository->findBy(criteria: [], orderBy: ['clientId' => Criteria::ASC], limit: 1);
-
-        if (empty($clients)) {
-            throw new RuntimeException(message: "No JWT client available");
-        }
-
-        return array_pop(array: $clients);
-    }
-
     public function fetchAccessTokenFromService(Service $service)
     {
         $guzzle = new \GuzzleHttp\Client();

@@ -55,12 +55,16 @@ class Client extends AbstractEntity
     #[ORM\OneToOne(mappedBy: 'client', targetEntity: PublicKey::class, cascade: ['persist'])]
     private ?PublicKey $publicKey = null; //Cannot initiate here so nullable is needed
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Service::class, cascade: ['persist'])]
+    private Collection $oAuthServices;
+
     #[Pure] public function __construct()
     {
         $this->jwtTokens = new ArrayCollection();
         $this->accessTokens = new ArrayCollection();
         $this->authorizationCodes = new ArrayCollection();
         $this->refreshTokens = new ArrayCollection();
+        $this->oAuthServices = new ArrayCollection();
 
         $this->scope = new Scope();
     }
@@ -217,6 +221,17 @@ class Client extends AbstractEntity
     public function setPublicKey(?PublicKey $publicKey): Client
     {
         $this->publicKey = $publicKey;
+        return $this;
+    }
+
+    public function getOAuthServices(): Collection
+    {
+        return $this->oAuthServices;
+    }
+
+    public function setOAuthServices(Collection $oAuthServices): Client
+    {
+        $this->oAuthServices = $oAuthServices;
         return $this;
     }
 }

@@ -180,6 +180,17 @@ class Role extends \Admin\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getRoleId(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoleId', []);
+
+        return parent::getRoleId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function isLocked(): bool
     {
 

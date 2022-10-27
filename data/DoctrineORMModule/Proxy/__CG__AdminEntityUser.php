@@ -67,10 +67,10 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+            return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'deeplink', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'emailMessage'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens'];
+        return ['__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'firstName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'lastName', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateCreated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateUpdated', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'dateEnd', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isEurekaSecretariatStaffMember', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'roles', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'session', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'funder', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'evaluation', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAccessTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthAuthorizationCodes', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'oAuthRefreshTokens', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'deeplink', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'emailMessage'];
     }
 
     /**
@@ -177,6 +177,28 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function parseFullName(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'parseFullName', []);
+
+        return parent::parseFullName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserId(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUserId', []);
+
+        return parent::getUserId();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -564,6 +586,50 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvaluation', [$evaluation]);
 
         return parent::setEvaluation($evaluation);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDeeplink(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDeeplink', []);
+
+        return parent::getDeeplink();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDeeplink(\Doctrine\Common\Collections\Collection $deeplink): \Admin\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDeeplink', [$deeplink]);
+
+        return parent::setDeeplink($deeplink);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmailMessage(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmailMessage', []);
+
+        return parent::getEmailMessage();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEmailMessage(\Doctrine\Common\Collections\Collection $emailMessage): \Admin\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmailMessage', [$emailMessage]);
+
+        return parent::setEmailMessage($emailMessage);
     }
 
     /**

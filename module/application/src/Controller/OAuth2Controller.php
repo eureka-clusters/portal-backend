@@ -118,14 +118,11 @@ final class OAuth2Controller extends AbstractActionController
                     )->toArray()
                 );
 
-                //Find the oAuth client to redirect to the frontend
-                $oAuthClient = $this->oAuth2Service->findLatestClient();
-
-                $token = $this->oAuth2Service->generateJwtToken(client: $oAuthClient, user: $user);
+                $token = $this->oAuth2Service->generateJwtToken(client: $service->getClient(), user: $user);
 
                 //Redirect to frontend
                 return $this->redirect()->toUrl(
-                    url: $oAuthClient->getRedirectUri() . '?token=' . $token
+                    url: $service->getClient()->getRedirectUri() . '?token=' . $token
                 );
             } catch (IdentityProviderException) {
                 return $this->redirect()->toRoute(route: '/');

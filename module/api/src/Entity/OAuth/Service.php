@@ -138,10 +138,27 @@ class Service extends AbstractEntity
     ])]
     private Scope $scope;
 
+    #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'oAuthServices')]
+    #[ORM\JoinColumn(referencedColumnName: 'client_id', nullable: false)]
+    #[Annotation\Type(EntitySelect::class)]
+    #[Annotation\Options([
+        'target_class' => Client::class,
+        'empty_option' => '— Select a client',
+        'label' => 'txt-oauth-service-client-label',
+        'help-block' => 'txt-oauth-service-client-help-block',
+        'find_method' => [
+            'name' => 'findBy',
+            'params' => ['criteria' => [], 'orderBy' => ['client' => Criteria::ASC]]
+        ]
+
+    ])]
+    private Client $client;
+
     #[Pure] public function __construct()
     {
         $this->allowedClusters = new ArrayCollection();
         $this->scope = new Scope();
+        $this->client = new Client();
     }
 
     public function addAllowedClusters(Collection $allowedClustersCollection): void
@@ -275,6 +292,17 @@ class Service extends AbstractEntity
     public function setScope(Scope $scope): Service
     {
         $this->scope = $scope;
+        return $this;
+    }
+
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(Client $client): Service
+    {
+        $this->client = $client;
         return $this;
     }
 }

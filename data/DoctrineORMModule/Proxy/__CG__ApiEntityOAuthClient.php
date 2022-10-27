@@ -67,10 +67,10 @@ class Client extends \Api\Entity\OAuth\Client implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'accessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'authorizationCodes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'refreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'publicKey'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'accessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'authorizationCodes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'refreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'publicKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'oAuthServices'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'accessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'authorizationCodes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'refreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'publicKey'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecret', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'clientsecretTeaser', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'grantTypes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'jwtTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'accessTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'authorizationCodes', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'refreshTokens', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'publicKey', '' . "\0" . 'Api\\Entity\\OAuth\\Client' . "\0" . 'oAuthServices'];
     }
 
     /**
@@ -487,6 +487,28 @@ class Client extends \Api\Entity\OAuth\Client implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublicKey', [$publicKey]);
 
         return parent::setPublicKey($publicKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOAuthServices(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOAuthServices', []);
+
+        return parent::getOAuthServices();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOAuthServices(\Doctrine\Common\Collections\Collection $oAuthServices): \Api\Entity\OAuth\Client
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOAuthServices', [$oAuthServices]);
+
+        return parent::setOAuthServices($oAuthServices);
     }
 
     /**
