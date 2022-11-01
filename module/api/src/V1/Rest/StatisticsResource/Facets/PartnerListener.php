@@ -21,7 +21,9 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetch($id)
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return [

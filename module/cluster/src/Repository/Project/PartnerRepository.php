@@ -67,7 +67,7 @@ class PartnerRepository extends EntityRepository
             );
         }
 
-        $organisationTypeFilter = $filter['organisation_type'] ?? [];
+        $organisationTypeFilter = $filter['organisationType'] ?? [];
 
         if (!empty($organisationTypeFilter)) {
             //Find the projects where we have organisations with this type
@@ -94,7 +94,7 @@ class PartnerRepository extends EntityRepository
             );
         }
 
-        $projectStatusFilter = $filter['project_status'] ?? [];
+        $projectStatusFilter = $filter['projectStatus'] ?? [];
 
         if (!empty($projectStatusFilter)) {
             //Find the projects where we have organisations with this type
@@ -169,7 +169,7 @@ class PartnerRepository extends EntityRepository
             );
         }
 
-        $programmeCallFilter = $filter['programme_call'] ?? [];
+        $programmeCallFilter = $filter['programmeCall'] ?? [];
 
         if (!empty($programmeCallFilter)) {
             //Find the projects who are in the call
@@ -217,7 +217,7 @@ class PartnerRepository extends EntityRepository
                 $sortColumn = 'project_partner.id';
                 break;
             case 'partner.project.name':
-                $sortColumn = 'project.name';
+                $sortColumn = 'cluster_entity_project.name';
                 break;
             case 'partner.organisation.name':
                 $sortColumn = 'organisation.name';
@@ -362,7 +362,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->groupBy(groupBy: 'country');
 
         //Join on partner to have the funder filter
-        $queryBuilder->join(join: 'project_partner.project', alias: 'project');
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         return $queryBuilder->getQuery()->getArrayResult();
@@ -383,7 +383,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->groupBy(groupBy: 'organisation_type');
 
         //Join on partner to have the funder filter
-        $queryBuilder->join(join: 'organisation_partners.project', alias: 'project');
+        $queryBuilder->join(join: 'organisation_partners.project', alias: 'cluster_entity_project');
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
@@ -402,9 +402,9 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->from(from: Cluster::class, alias: 'cluster');
-        $queryBuilder->leftJoin(join: 'cluster.projectsPrimary', alias: 'project');
+        $queryBuilder->leftJoin(join: 'cluster.projectsPrimary', alias: 'cluster_entity_project');
         $queryBuilder->leftJoin(
-            join: 'project.partners',
+            join: 'cluster_entity_project.partners',
             alias: 'cluster_project_primary_partner'
         );
         $queryBuilder->groupBy(groupBy: 'cluster');
@@ -420,9 +420,9 @@ class PartnerRepository extends EntityRepository
         );
 
         $queryBuilder->from(from: Cluster::class, alias: 'cluster');
-        $queryBuilder->leftJoin(join: 'cluster.projectsSecondary', alias: 'project');
+        $queryBuilder->leftJoin(join: 'cluster.projectsSecondary', alias: 'cluster_entity_project');
         $queryBuilder->leftJoin(
-            join: 'project.partners',
+            join: 'cluster_entity_project.partners',
             alias: 'cluster_project_secondary_partner'
         );
         $queryBuilder->groupBy(groupBy: 'cluster');
@@ -442,19 +442,21 @@ class PartnerRepository extends EntityRepository
         $queryBuilder = $this->_em->createQueryBuilder();
 
         $queryBuilder->select(
-            'project.programmeCall',
+            'cluster_entity_project.programmeCall',
             $queryBuilder->expr()->count(x: 'project_partners.id')
         );
 
-        $queryBuilder->from(from: Project::class, alias: 'project');
+        $queryBuilder->from(from: Project::class, alias: 'cluster_entity_project');
         $queryBuilder->join(
-            join: 'project.partners',
+            join: 'cluster_entity_project.partners',
             alias: 'project_partners'
         );
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
-        $queryBuilder->groupBy(groupBy: 'project.programmeCall');
+        $queryBuilder->groupBy(groupBy: 'cluster_entity_project.programmeCall');
+        $queryBuilder->orderBy('cluster_entity_project.programmeCall', Criteria::ASC);
+
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
@@ -476,7 +478,7 @@ class PartnerRepository extends EntityRepository
         );
 
         //Join on partner to have the funder filter
-        $queryBuilder->join(join: 'project_status_project_partners.project', alias: 'project');
+        $queryBuilder->join(join: 'project_status_project_partners.project', alias: 'cluster_entity_project');
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         $queryBuilder->groupBy(groupBy: 'project_status');

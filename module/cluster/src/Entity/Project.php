@@ -16,12 +16,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Table(name: 'cluster_project', indexes: [
-    new ORM\Index(columns: ['identifier'], name: 'identifier_index'),
-    new ORM\Index(
-        columns: ['number', 'name', 'title', 'description'], flags: ['fulltext']
-    )
-])]
+#[ORM\Table(name: 'cluster_project')]
+#[ORM\Index(columns: ['identifier'], name: 'identifier_index')]
+#[ORM\Index(columns: ['number', 'name', 'title', 'description'], flags: ['FULLTEXT'])]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project extends AbstractEntity
 {

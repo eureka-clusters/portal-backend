@@ -94,9 +94,6 @@ abstract class AbstractEntityTest extends TestCase
         );
     }
 
-    /**
-     * @return array
-     */
     protected function getEntities(string $namespace, string $baseFolder): array
     {
         $scanFolder = $baseFolder . '/../../src/Entity';
@@ -131,6 +128,7 @@ abstract class AbstractEntityTest extends TestCase
         return ucfirst(string: $namespace) . '\Entity\\' . str_replace(
                 search: ['/', '.php'],
                 replace: ['\\', ''],
+                /** @phpstan-ignore-next-line */
                 subject: $fileInfo->getRelativePathname()
             );
     }

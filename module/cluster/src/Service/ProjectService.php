@@ -223,7 +223,7 @@ class ProjectService extends AbstractService
                     : 0)),
             default => ((int)($difference->format(
                         format: '%' . self::DURATION_YEAR
-                    ) * 365)) + ((int)($difference->format(
+                    )) * 365) + ((int)($difference->format(
                         format: '%' . self::DURATION_MONTH
                     )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
         };

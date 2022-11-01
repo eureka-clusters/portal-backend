@@ -19,7 +19,7 @@ final class ServiceListener extends AbstractResourceListener
 
     public function fetchAll($params = [])
     {
-        return array_map(fn(Service $service) => $this->serviceProvider->generateArray(service: $service),
+        return array_map(fn(Service $service) => $this->serviceProvider->generateArray($service),
             $this->OAuth2Service->findAllService());
     }
 }

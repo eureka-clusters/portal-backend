@@ -9,7 +9,8 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Table(name: 'admin_session', indexes: [new ORM\Index(columns: ['key'], name: 'session_key_idx')])]
+#[ORM\Table(name: 'admin_session')]
+#[ORM\Index(columns: ['key'], name: 'session_key_idx')]
 #[ORM\Entity]
 class Session extends AbstractEntity
 {

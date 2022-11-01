@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
 
-#[ORM\Table(name: 'cluster_organisation', indexes: [new ORM\Index(columns: ['name'], flags: ['fulltext'])])]
+#[ORM\Table(name: 'cluster_organisation')]
+#[ORM\Index(columns: ['name'], flags: ['fulltext'])]
 #[ORM\Entity(repositoryClass: OrganisationRepository::class)]
 class Organisation extends AbstractEntity
 {
