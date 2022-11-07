@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PA Portal\n"
+"Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 08:57+0200\n"
+"POT-Creation-Date: 2022-11-07 16:09+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: translate;_;label\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/config/language.php:5
@@ -49,9 +49,8 @@ msgid "txt-type-outgoing"
 msgstr "Outgoing"
 
 #: admin/config/module.config.navigation.admin.php:18
-#, fuzzy
 msgid "txt-user-and-roles"
-msgstr "Role"
+msgstr "User and roles"
 
 #: admin/config/module.config.navigation.admin.php:24
 #: admin/view/admin/user/list.twig:2 admin/view/admin/user/list.twig:12
@@ -77,10 +76,8 @@ msgid "txt-add-role"
 msgstr "New role"
 
 #: admin/config/module.config.navigation.admin.php:78
-#, fuzzy
-#| msgid "txt-oauth2-jwt"
 msgid "txt-oauth2"
-msgstr "JWT"
+msgstr "oAuth2"
 
 #: admin/config/module.config.navigation.admin.php:84
 msgid "txt-oauth2-scopes-list"
@@ -120,29 +117,23 @@ msgid "txt-new-oauth2-clients"
 msgstr "New oAuth2 client"
 
 #: admin/config/module.config.navigation.admin.php:155
-#, fuzzy
-#| msgid "txt-oauth2-scopes-list"
-msgid "txt-oauth2-services-list"
-msgstr "oAuth2 scopes"
+#: admin/view/admin/o-auth2/service/list.twig:2
+#: admin/view/admin/o-auth2/service/list.twig:7
+msgid "txt-oauth2-service-list"
+msgstr "oAuth2 Services"
 
 #: admin/config/module.config.navigation.admin.php:159
 #: admin/view/admin/o-auth2/service/view.twig:2
-#, fuzzy
-#| msgid "txt-oauth2-scope"
 msgid "txt-oauth2-service"
-msgstr "Scope"
+msgstr "oAuth2 service"
 
 #: admin/config/module.config.navigation.admin.php:171
-#, fuzzy
-#| msgid "txt-service"
 msgid "txt-edit-service"
-msgstr "Service"
+msgstr "Edit service"
 
 #: admin/config/module.config.navigation.admin.php:185
-#, fuzzy
-#| msgid "txt-new-oauth2-scopes"
 msgid "txt-new-oauth2-services"
-msgstr "New oAuth2 scope"
+msgstr "oAuth2 services"
 
 #: admin/config/module.config.navigation.admin.php:195
 #: admin/view/admin/cache/index.twig:1 admin/view/admin/cache/index.twig:2
@@ -166,16 +157,12 @@ msgid "txt-user-oauth2-scope-has-been-updated-successfully"
 msgstr "oAuth2 scope has been updated successfully"
 
 #: admin/src/Controller/OAuth2/ServiceController.php:131
-#, fuzzy
-#| msgid "txt-user-oauth2-scope-has-been-created-successfully"
 msgid "txt-user-oauth2-service-has-been-created-successfully"
-msgstr "oAuth2 scope has been created successfully"
+msgstr "oAuth2 service has been created successfully"
 
 #: admin/src/Controller/OAuth2/ServiceController.php:177
-#, fuzzy
-#| msgid "txt-user-oauth2-scope-has-been-updated-successfully"
 msgid "txt-user-oauth2-service-has-been-updated-successfully"
-msgstr "oAuth2 scope has been updated successfully"
+msgstr "oAuth2 service has been updated successfully"
 
 #: admin/src/Controller/RoleController.php:97
 #, php-format
@@ -354,8 +341,6 @@ msgid "txt-new-password"
 msgstr "New password"
 
 #: admin/src/Form/User/Password.php:44
-#, fuzzy
-#| msgid "txt-new-password-form-help"
 msgid "txt-new-password-verify-form-help"
 msgstr ""
 "The password should be at least 12 characters long and should contain at "
@@ -394,15 +379,14 @@ msgstr "Edit oAuth2 client"
 msgid "txt-new-oauth2-scope"
 msgstr "New oAuth2 scope"
 
-#: admin/src/View/Helper/OAuth2/ServiceLink.php:33
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:34
 msgid "txt-new-oauth2-service"
 msgstr "New service"
 
-#: admin/src/View/Helper/OAuth2/ServiceLink.php:47
-#, fuzzy
-#| msgid "txt-edit-oauth2-scope"
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:48
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:55
 msgid "txt-edit-oauth2-service"
-msgstr "Edit oAuth2 scope"
+msgstr "Edit oAuth2 service"
 
 #: admin/src/View/Helper/RoleLink.php:34 admin/view/admin/role/new.twig:2
 msgid "txt-new-role"
@@ -428,6 +412,119 @@ msgstr "Edit user"
 #: admin/src/View/Helper/UserLink.php:72
 msgid "txt-impersonate"
 msgstr "Impersonate"
+
+#: api/config/language.php:5
+msgid "txt-oauth-service-name-label"
+msgstr "Name"
+
+#: api/config/language.php:6
+msgid "txt-oauth-service-name-placeholder"
+msgstr "Name of the service"
+
+#: api/config/language.php:7
+msgid "txt-oauth-service-name-help-block"
+msgstr "Name of the service"
+
+#: api/config/language.php:8
+msgid "txt-oauth-service-client-id-label"
+msgstr "Client ID"
+
+#: api/config/language.php:9
+msgid "txt-oauth-service-client-id-placeholder"
+msgstr "Cluster platform Client ID"
+
+#: api/config/language.php:10
+msgid "txt-oauth-service-client-id-help-block"
+msgstr "Client ID of the client in the Eureka Cluster platform"
+
+#: api/config/language.php:11
+msgid "txt-oauth-service-client-secret-label"
+msgstr "Client secret"
+
+#: api/config/language.php:12
+msgid "txt-oauth-service-client-secret-placeholder"
+msgstr "Cluster platform Client secret"
+
+#: api/config/language.php:13
+msgid "txt-oauth-service-client-secret-help-block"
+msgstr "Client Secret of the client in the Eureka Cluster platform"
+
+#: api/config/language.php:14
+msgid "txt-oauth-service-redirect-url-label"
+msgstr "Redirect Uri"
+
+#: api/config/language.php:15
+msgid "txt-oauth-service-redirect-url-placeholder"
+msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
+
+#: api/config/language.php:16
+msgid "txt-oauth-service-redirect-url-help-block"
+msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
+
+#: api/config/language.php:17
+msgid "txt-oauth-service-authorization-url-label"
+msgstr "Authorization Uri"
+
+#: api/config/language.php:18
+msgid "txt-oauth-service-authorization-url-placeholder"
+msgstr "Uri the service uses to set up the authorization"
+
+#: api/config/language.php:19
+msgid "txt-oauth-service-authorization-url-help-block"
+msgstr "Uri the service uses to set up the authorization"
+
+#: api/config/language.php:20
+msgid "txt-oauth-service-access-token-url-label"
+msgstr "Access token uri"
+
+#: api/config/language.php:21
+msgid "txt-oauth-service-access-token-url-placeholder"
+msgstr "Uri to obtain the access token"
+
+#: api/config/language.php:22
+msgid "txt-oauth-service-access-token-url-help-block"
+msgstr "Uri the service uses to obtain the access token"
+
+#: api/config/language.php:23
+msgid "txt-oauth-service-profile-url-label"
+msgstr "Profile Uri"
+
+#: api/config/language.php:24
+msgid "txt-oauth-service-profile-url-placeholder"
+msgstr "Uri to obtain the user profile information"
+
+#: api/config/language.php:25
+msgid "txt-oauth-service-profile-url-help-block"
+msgstr "Uri to obtain the user profile"
+
+#: api/config/language.php:26
+msgid "txt-oauth-service-allowed-clusters-label"
+msgstr "Allowed clusters"
+
+#: api/config/language.php:27
+msgid "txt-oauth-service-allowed-clusters-help-block"
+msgstr ""
+"Select for which cluster this service grants access for Public Authorities"
+
+#: api/config/language.php:28
+msgid "txt-oauth-service-scope-label"
+msgstr "Scope"
+
+#: api/config/language.php:29
+msgid "txt-oauth-service-scope-help-block"
+msgstr ""
+"Applied scope for this service, should match the scope in the Eureka Cluster "
+"Platform"
+
+#: api/config/language.php:30
+msgid "txt-oauth-service-client-label"
+msgstr "Label"
+
+#: api/config/language.php:31
+msgid "txt-oauth-service-client-help-block"
+msgstr ""
+"Select here the internal client which is used for key transfer between the "
+"backend and the React frontend"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:76
 msgid "txt-partners"
@@ -456,16 +553,12 @@ msgid "txt-partner-type"
 msgstr "Partner type"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:105
-#, fuzzy
-#| msgid "txt-partner-costs"
 msgid "txt-partner-costs-in-year"
-msgstr "Partner costs"
+msgstr "Partner costs in year"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:109
-#, fuzzy
-#| msgid "txt-partner-effort"
 msgid "txt-partner-effort-in-year"
-msgstr "Partner effort"
+msgstr "Partner effort in year"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:114
 msgid "txt-partner-costs"
@@ -496,10 +589,8 @@ msgid "txt-official-end-date"
 msgstr "Official end date"
 
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:99
-#, fuzzy
-#| msgid "txt-duration"
 msgid "txt-duration-(months)"
-msgstr "Duration"
+msgstr "Duration (months)"
 
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:103
 msgid "txt-project-status"
@@ -921,10 +1012,8 @@ msgstr ""
 "taken don't forget to make the sender \"Personal\""
 
 #: mailing/config/module.config.navigation.admin.php:20
-#, fuzzy
-#| msgid "txt-email"
 msgid "txt-emails"
-msgstr "Email"
+msgstr "Emails"
 
 #: mailing/config/module.config.navigation.admin.php:27
 msgid "txt-nav-email-list"
@@ -1286,10 +1375,8 @@ msgid "txt-oauth2-scope-explanation"
 msgstr "Give the scope"
 
 #: admin/view/admin/o-auth2/scope/list.twig:26
-#, fuzzy
-#| msgid "txt-scope"
 msgid "txt-scope-id"
-msgstr "Scope"
+msgstr "Scope Id"
 
 #: admin/view/admin/o-auth2/scope/list.twig:27
 msgid "txt-scope-name"
@@ -1352,41 +1439,33 @@ msgstr "No"
 #: admin/view/admin/o-auth2/service/edit.twig:4
 #: admin/view/admin/o-auth2/service/new.twig:2
 #: admin/view/admin/o-auth2/service/new.twig:4
-#, fuzzy
-#| msgid "txt-new-oauth2-scope-title"
 msgid "txt-new-oauth2-service-title"
 msgstr "Title"
 
 #: admin/view/admin/o-auth2/service/edit.twig:5
 #: admin/view/admin/o-auth2/service/new.twig:5
-#, fuzzy
-#| msgid "txt-new-oauth2-scope-explanation"
 msgid "txt-new-oauth2-service-explanation"
-msgstr "Create new oAuth2 scope"
-
-#: admin/view/admin/o-auth2/service/list.twig:2
-#: admin/view/admin/o-auth2/service/list.twig:7
-#, fuzzy
-#| msgid "txt-oauth2-scope-list"
-msgid "txt-oauth2-service-list"
-msgstr "oAuth2 scopes"
+msgstr ""
+"Use the form below to add a new oAuth2 service. These services are needed to "
+"setup authentication via one of the Eureka Cluster portals. The information "
+"in these services correspond to the Client settings in the Eureka cluster "
+"portal"
 
 #: admin/view/admin/o-auth2/service/list.twig:11
-#: admin/view/admin/o-auth2/service/view.twig:15
-#, fuzzy
-#| msgid "txt-oauth2-scope-explanation"
-msgid "txt-oauth2-service-explanation"
-msgstr "Give the scope"
+msgid "txt-oauth2-service-list-explanation"
+msgstr ""
+"Find below a list of all oAuth2 services. These services are needed to setup "
+"authentication via one of the Eureka Cluster portals. The information in "
+"these services correspond to the Client settings in the corresponding Eureka "
+"cluster portal"
 
 #: admin/view/admin/o-auth2/service/list.twig:30
 msgid "txt-clusters"
 msgstr "Clusters"
 
 #: admin/view/admin/o-auth2/service/list.twig:47
-#, fuzzy
-#| msgid "txt-no-oauth2-scopes-found"
 msgid "txt-no-oauth2-services-found"
-msgstr "No oAuth2 scopes could be found"
+msgstr "No oAuth2 services could be found"
 
 #: admin/view/admin/o-auth2/service/view.twig:8
 #, php-format
@@ -1399,65 +1478,53 @@ msgstr ""
 msgid "txt-an-error-occurred-while-requesting-the-token-error-%s"
 msgstr "An error occurred while requesting the Bearer token:<p><code>%s</code>"
 
+#: admin/view/admin/o-auth2/service/view.twig:15
+msgid "txt-oauth2-service-explanation"
+msgstr ""
+"Use the form below to add a new oAuth2 service. These services are needed to "
+"setup authentication via one of the Eureka Cluster portals. The information "
+"in these services correspond to the Client settings in the Eureka cluster "
+"portal"
+
 #: admin/view/admin/o-auth2/service/view.twig:18
-#, fuzzy
-#| msgid "txt-client-id"
 msgid "txt-service-client-id"
-msgstr "Client ID"
+msgstr "Client Id"
 
 #: admin/view/admin/o-auth2/service/view.twig:21
-#, fuzzy
-#| msgid "txt-client-secret"
 msgid "txt-service-client-secret"
 msgstr "Client secret"
 
 #: admin/view/admin/o-auth2/service/view.twig:24
-#, fuzzy
-#| msgid "txt-redirect-url"
 msgid "txt-service-redirect-url"
-msgstr "Redirect URL"
+msgstr "Redirect Uri"
 
 #: admin/view/admin/o-auth2/service/view.twig:27
-#, fuzzy
-#| msgid "txt-view-publication"
 msgid "txt-service-authorization-url"
-msgstr "View publication"
+msgstr "Authorization Uri"
 
 #: admin/view/admin/o-auth2/service/view.twig:30
-#, fuzzy
-#| msgid "txt-access-token"
 msgid "txt-service-access-token-url"
-msgstr "Access token"
+msgstr "Access token Uri"
 
 #: admin/view/admin/o-auth2/service/view.twig:33
-#, fuzzy
-#| msgid "txt-view-profile"
 msgid "txt-service-profile-url"
-msgstr "Profile"
+msgstr "Profile Uri"
 
 #: admin/view/admin/o-auth2/service/view.twig:36
-#, fuzzy
-#| msgid "txt-overview-of-cluster-calls"
 msgid "txt-service-allowed-clusters"
-msgstr "Cluster Programme Calls"
+msgstr "Allowed clusters"
 
 #: admin/view/admin/o-auth2/service/view.twig:41
-#, fuzzy
-#| msgid "txt-oauth2-scope-scope"
 msgid "txt-oauth2-service-scope"
 msgstr "Scope"
 
 #: admin/view/admin/o-auth2/service/view.twig:44
-#, fuzzy
-#| msgid "txt-oauth2-client"
 msgid "txt-oauth2-service-client"
-msgstr "oAuth2 client"
+msgstr "Client"
 
 #: admin/view/admin/o-auth2/service/view.twig:49
-#, fuzzy
-#| msgid "txt-edit-access"
 msgid "txt-test-access"
-msgstr "Edit access"
+msgstr "Test access"
 
 #: admin/view/admin/role/edit.twig:2 admin/view/admin/role/edit.twig:4
 #, php-format
@@ -1628,20 +1695,16 @@ msgid "txt-not-provided"
 msgstr "Not provided"
 
 #: admin/view/admin/user/view.twig:19
-#, fuzzy
-#| msgid "txt-roles"
 msgid "txt-no-roles"
-msgstr "Roles"
+msgstr "No roles"
 
 #: admin/view/admin/user/view.twig:21
 msgid "txt-is-funder"
 msgstr "Is funder"
 
 #: admin/view/admin/user/view.twig:28
-#, fuzzy
-#| msgid "txt-eureka-secretariat-staff-member"
 msgid "txt-is-eureka-secretariat-staff-member"
-msgstr "ESE Staff member"
+msgstr "Is ESE Staff member"
 
 #: application/view/application/index/index.twig:6
 msgid "txt-choose-one-of-the-services"
@@ -1709,12 +1772,10 @@ msgid "txt-logout"
 msgstr "Logout"
 
 #: application/view/layout/layout.twig:38
-#, fuzzy
-#| msgid "txt-admin-index"
 msgid "txt-admin-login"
-msgstr "Welcome to the admin (a.k.a. Office)"
+msgstr "Admin login"
 
-#: application/view/layout/layout.twig:64
+#: application/view/layout/layout.twig:62
 #, php-format
 msgid "txt-footer-%s-%s"
 msgstr ""
@@ -2183,6 +2244,11 @@ msgstr "Mail subject"
 #: mailing/view/mailing/transactional/view.twig:32
 msgid "txt-content"
 msgstr "Content"
+
+#, fuzzy
+#~| msgid "txt-oauth2-scopes-list"
+#~ msgid "txt-oauth2-services-list"
+#~ msgstr "oAuth2 scopes"
 
 #~ msgid "txt-user-name"
 #~ msgstr "User name"
@@ -4248,9 +4314,6 @@ msgstr "Content"
 
 #~ msgid "txt-cluster-platform-exchange-redirect-url-label"
 #~ msgstr "oAuth2 redirect URL"
-
-#~ msgid "txt-cluster-platform-exchange-redirect-url-placeholder"
-#~ msgstr "Redirect URL for oAuth2 login in exchange"
 
 #~ msgid "txt-cluster-platform-exchange-redirect-url-help-block"
 #~ msgstr "Give the redirect URL for oAuth2 login"
@@ -33296,9 +33359,6 @@ msgstr "Content"
 
 #~ msgid "txt-oauth2-scope-is-jwt-label"
 #~ msgstr "Is JWT"
-
-#~ msgid "txt-oauth2-scope-type-help-block"
-#~ msgstr "Give the scope type"
 
 #~ msgid "txt-view-oauth2-client"
 #~ msgstr "oAuth2 client"

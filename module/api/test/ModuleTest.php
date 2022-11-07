@@ -7,6 +7,7 @@ namespace ApiTest;
 use Api\Module;
 use Laminas\Mvc\Application;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Laminas\View\HelperPluginManager;
 use Testing\Util\AbstractServiceTest;
 
 use function is_string;
@@ -27,21 +28,26 @@ class ModuleTest extends AbstractServiceTest
         $module = new Module();
         $config = $module->getConfig();
 
-        $abstractFacories = $config[ConfigAbstractFactory::class] ?? [];
+        $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
-        foreach ($abstractFacories as $service => $dependencies) {
+        foreach ($abstractFactories as $service => $dependencies) {
             //Skip the Filters
             $instantiatedDependencies = [];
             foreach ($dependencies as $dependency) {
                 if ($dependency === 'Application') {
                     $dependency = Application::class;
                 }
+                if ($dependency === 'ViewHelperManager') {
+                    $dependency = HelperPluginManager::class;
+                }
                 if ($dependency === 'Config') {
                     $dependency = [];
                 }
 
                 if (is_string(value: $dependency)) {
-                    $instantiatedDependencies[] = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()
+                    $instantiatedDependencies[] = $this->getMockBuilder(
+                        className: $dependency
+                    )->disableOriginalConstructor()
                         ->getMock();
                 } else {
                     $instantiatedDependencies[] = [];

@@ -152,7 +152,7 @@ return [
                         ],
                     ],
                     'oauth2-services' => [
-                        'label' => _('txt-oauth2-services-list'),
+                        'label' => _('txt-oauth2-service-list'),
                         'route' => 'zfcadmin/oauth2/service/list',
                         'pages' => [
                             'view' => [

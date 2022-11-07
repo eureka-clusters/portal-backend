@@ -33,4 +33,12 @@ class EntityTest extends AbstractEntityTest
             self::assertIsString(actual: (string)$class);
         }
     }
+
+    public function testCanCreateEntitiesAndSaveTxtFields(): void
+    {
+        $this->canCreateEntitiesAndSaveTxtFields(
+            namespace: $this->namespace,
+            baseFolder: __DIR__,
+        );
+    }
 }
