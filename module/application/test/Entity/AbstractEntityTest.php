@@ -136,7 +136,7 @@ abstract class AbstractEntityTest extends TestCase
     protected function analyseClass(ReflectionClass $class): void
     {
         $builder = new AttributeReader();
-        $classAnnotations = $builder->getClassAnnotations(class: $class);
+        $classAnnotations = $builder->getClassAttributes(class: $class);
 
         self::assertArrayHasKey(key: Table::class, array: $classAnnotations, message: sprintf('%s should have a table', $class->getName()));
         self::assertArrayHasKey(
@@ -164,7 +164,7 @@ abstract class AbstractEntityTest extends TestCase
     {
         $builder = new AttributeReader();
         //Try to match the doctrine entities and the class proprety
-        $propertyAnnotations = $builder->getPropertyAnnotations(property: $property);
+        $propertyAnnotations = $builder->getPropertyAttributes(property: $property);
 
         $propertyName = $property->getName();
 
