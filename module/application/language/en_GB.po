@@ -1778,9 +1778,7 @@ msgstr "Admin login"
 #: application/view/layout/layout.twig:62
 #, php-format
 msgid "txt-footer-%s-%s"
-msgstr ""
-"ANELVA %s &middot; &copy; %s &middot; Developed by <a href=\"https://jield.nl"
-"\">Jield B.V.</a>"
+msgstr "PA Portal backend %s &middot; &copy; %s"
 
 #: application/view/oauth/authorize.twig:1
 msgid "txt-oauth"
