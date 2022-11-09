@@ -27,6 +27,9 @@ return [
         'Laminas\\ApiTools\\Rpc',
         'Laminas\\ApiTools\\Versioning',
 
+        'AssetManager',
+        'LaminasBootstrap5',
+
         'ZfcTwig',
         'BjyAuthorize',
         'Jield\\Authorize',
@@ -43,7 +46,7 @@ return [
         'Deeplink',
         'Mailing',
 
-        'LaminasBootstrap5',
+
     ],
     'module_listener_options' => [
         'config_glob_paths' => [

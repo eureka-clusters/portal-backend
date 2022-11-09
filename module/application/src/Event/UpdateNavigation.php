@@ -25,7 +25,7 @@ class UpdateNavigation extends AbstractListenerAggregate
 
     private readonly Navigation $navigation;
 
-    private RouteMatch $routeMatch;
+    private ?RouteMatch $routeMatch = null;
 
     private readonly EntityManager $entityManager;
 

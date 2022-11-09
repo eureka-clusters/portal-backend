@@ -2740,12 +2740,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jield-webdev/laminas-bootstrap5.git",
-                "reference": "00335dc42cc57cd8400bbb6e26ee2f458f9f79cb"
+                "reference": "57ecb15eb719aca24ffb6d24c66bc1de8b60a77b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jield-webdev/laminas-bootstrap5/zipball/00335dc42cc57cd8400bbb6e26ee2f458f9f79cb",
-                "reference": "00335dc42cc57cd8400bbb6e26ee2f458f9f79cb",
+                "url": "https://api.github.com/repos/jield-webdev/laminas-bootstrap5/zipball/57ecb15eb719aca24ffb6d24c66bc1de8b60a77b",
+                "reference": "57ecb15eb719aca24ffb6d24c66bc1de8b60a77b",
                 "shasum": ""
             },
             "require": {
@@ -2800,7 +2800,7 @@
                 "issues": "https://github.com/jield-webdev/laminas-bootstrap5/issues",
                 "source": "https://github.com/jield-webdev/laminas-bootstrap5/tree/main"
             },
-            "time": "2022-11-09T10:26:01+00:00"
+            "time": "2022-11-09T11:05:09+00:00"
         },
         {
             "name": "kokspflanze/bjy-authorize",
