@@ -46,9 +46,9 @@ final class UserLink extends AbstractLink
                     'icon' => 'fa-user-circle-o',
                     'route' => 'zfcadmin/user/view',
                     'text' => $showOptions[$show] ?? sprintf(
-                            $this->translator->translate(message: 'txt-view-user-%s-in-admin'),
-                            $user->parseFullName()
-                        ),
+                        $this->translator->translate(message: 'txt-view-user-%s-in-admin'),
+                        $user->parseFullName()
+                    ),
                 ];
                 break;
             case 'new':

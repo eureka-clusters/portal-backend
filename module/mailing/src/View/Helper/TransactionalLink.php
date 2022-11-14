@@ -35,7 +35,8 @@ final class TransactionalLink extends AbstractLink
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/mailing/transactional/new',
                     'text'  => $showOptions[$show] ?? $this->translator->translate(
-                            message: 'txt-new-transactional-email'),
+                        message: 'txt-new-transactional-email'
+                    ),
                 ];
                 break;
             case 'view':
@@ -50,7 +51,8 @@ final class TransactionalLink extends AbstractLink
                     'icon'  => 'fa-pencil-square-o',
                     'route' => 'zfcadmin/mailing/transactional/edit',
                     'text'  => $showOptions[$show] ?? $this->translator->translate(
-                            message: 'txt-edit-transactional-email'),
+                        message: 'txt-edit-transactional-email'
+                    ),
                 ];
                 break;
         }

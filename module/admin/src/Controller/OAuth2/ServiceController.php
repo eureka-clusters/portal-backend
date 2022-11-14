@@ -123,7 +123,8 @@ final class ServiceController extends AbstractActionController
 
             if ($form->isValid()) {
                 /** @var Service $service */
-                $service = $form->getData();;
+                $service = $form->getData();
+                ;
 
                 $this->oAuth2Service->save(entity: $service);
                 $this->flashMessenger()->addSuccessMessage(

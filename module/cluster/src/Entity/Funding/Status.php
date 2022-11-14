@@ -19,16 +19,16 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity]
 class Status extends AbstractEntity
 {
-    public final const IS_EVALUATION = 1;
-    public final const IS_NOT_EVALUATION = 2;
-    public final const STATUS_ALL_GOOD = 1;
-    public final const STATUS_GOOD = 2;
-    public final const STATUS_BAD = 3;
-    public final const STATUS_FAILED = 4;
-    public final const STATUS_UNCLEAR = 5;
-    public final const STATUS_AVERAGE = 6;
-    public final const STATUS_SELF_FUNDED = 7;
-    public final const STATUS_DEFAULT = 8;
+    final public const IS_EVALUATION = 1;
+    final public const IS_NOT_EVALUATION = 2;
+    final public const STATUS_ALL_GOOD = 1;
+    final public const STATUS_GOOD = 2;
+    final public const STATUS_BAD = 3;
+    final public const STATUS_FAILED = 4;
+    final public const STATUS_UNCLEAR = 5;
+    final public const STATUS_AVERAGE = 6;
+    final public const STATUS_SELF_FUNDED = 7;
+    final public const STATUS_DEFAULT = 8;
 
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[ORM\Id]

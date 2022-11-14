@@ -1,4 +1,5 @@
 <?php
+
 return [
     'deeplink/target/view' => __DIR__ . '/./view/deeplink/target/view.twig',
     'deeplink/target/edit' => __DIR__ . '/./view/deeplink/target/edit.twig',

@@ -15,9 +15,9 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity]
 class Type extends AbstractEntity
 {
-    public final const TYPE_PO = 'po';
-    public final const TYPE_FPP = 'fpp';
-    public final const TYPE_LATEST = 'latest';
+    final public const TYPE_PO = 'po';
+    final public const TYPE_FPP = 'fpp';
+    final public const TYPE_LATEST = 'latest';
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]

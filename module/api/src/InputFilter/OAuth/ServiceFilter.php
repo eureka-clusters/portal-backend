@@ -9,8 +9,7 @@ use Doctrine\ORM\EntityManager;
 use DoctrineModule\Validator\UniqueObject;
 use Laminas\InputFilter\InputFilter;
 
-final class
-ServiceFilter extends InputFilter
+final class ServiceFilter extends InputFilter
 {
     public function __construct(EntityManager $entityManager)
     {

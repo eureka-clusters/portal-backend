@@ -138,7 +138,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
     {
         return null !== $this->getRoles()
             && $this->getRoles()->exists(
-                p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
+                p: static fn ($key, Role $role) => $role->getId() === $userRole->getId()
             );
     }
 

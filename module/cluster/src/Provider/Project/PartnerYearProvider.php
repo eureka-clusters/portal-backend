@@ -59,5 +59,4 @@ class PartnerYearProvider implements ProviderInterface
 
         return $partnerData;
     }
-
 }

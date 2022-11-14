@@ -21,9 +21,9 @@ use function in_array;
 #[Annotation\Name(name: 'admin_role')]
 class Role extends AbstractEntity implements RoleInterface
 {
-    public final const ROLE_ADMIN = 1;
-    public final const ROLE_USER = 2;
-    public final const ROLE_PUBLIC = 3;
+    final public const ROLE_ADMIN = 1;
+    final public const ROLE_USER = 2;
+    final public const ROLE_PUBLIC = 3;
 
     public static array $lockedRoles
         = [

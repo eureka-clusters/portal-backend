@@ -38,9 +38,12 @@ final class SenderController extends MailingAbstractController
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(
-            paginator: new ORMPaginator(
-            query: $senderFilter,
-            fetchJoinCollection: false)));
+                paginator: new ORMPaginator(
+                    query: $senderFilter,
+                    fetchJoinCollection: false
+                )
+            )
+        );
         $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
         $paginator->setCurrentPageNumber(pageNumber: (int) $page);
         $paginator->setPageRange(pageRange: (int) ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));

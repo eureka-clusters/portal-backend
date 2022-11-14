@@ -42,9 +42,12 @@ final class MailerController extends MailingAbstractController
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(
-            paginator: new ORMPaginator(
-            query: $userQuery,
-            fetchJoinCollection: false)));
+                paginator: new ORMPaginator(
+                    query: $userQuery,
+                    fetchJoinCollection: false
+                )
+            )
+        );
         $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
         $paginator->setCurrentPageNumber(pageNumber: (int)$page);
         $paginator->setPageRange(pageRange: (int)ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
@@ -86,7 +89,9 @@ final class MailerController extends MailingAbstractController
                 } else {
                     $this->flashMessenger()->addErrorMessage(
                         message: $this->translator->translate(
-                        message: 'txt-test-mail-failed'));
+                            message: 'txt-test-mail-failed'
+                        )
+                    );
                 }
             } catch (Exception $e) {
                 $this->flashMessenger()->addErrorMessage(
@@ -117,9 +122,11 @@ final class MailerController extends MailingAbstractController
         }
 
         foreach ($this->mailerService->getRequiredFormFieldsByService(
-            service: $mailer->getService()) as $requiredFormField) {
+            service: $mailer->getService()
+        ) as $requiredFormField) {
             $form->getInputFilter()->get(name: 'mailing_entity_mailer')->get(name: $requiredFormField)->setRequired(
-                required: true);
+                required: true
+            );
         }
 
         if ($this->getRequest()->isPost()) {
@@ -171,7 +178,8 @@ final class MailerController extends MailingAbstractController
 
         foreach ($this->mailerService->getRequiredFormFieldsByService(service: $service) as $requiredFormField) {
             $form->getInputFilter()->get(name: 'mailing_entity_mailer')->get(name: $requiredFormField)->setRequired(
-                required: true);
+                required: true
+            );
         }
 
         if ($this->getRequest()->isPost()) {

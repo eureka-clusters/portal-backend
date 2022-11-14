@@ -90,7 +90,9 @@ abstract class AbstractEntityTest extends TestCase
             data: "<?php\n\ndeclare(strict_types=1);\n\n_('" . implode(
                 separator: "');\n_('",
                 array: array_unique(
-                array: $labels)) . "');\n"
+                    array: $labels
+                )
+            ) . "');\n"
         );
     }
 
@@ -119,18 +121,20 @@ abstract class AbstractEntityTest extends TestCase
     {
         return new ReflectionClass(
             objectOrClass: $this->getClassNameFromFileInfo(
-            namespace: $namespace,
-            fileInfo: $fileInfo));
+                namespace: $namespace,
+                fileInfo: $fileInfo
+            )
+        );
     }
 
     protected function getClassNameFromFileInfo(string $namespace, SplFileInfo $fileInfo): string
     {
         return ucfirst(string: $namespace) . '\Entity\\' . str_replace(
-                search: ['/', '.php'],
-                replace: ['\\', ''],
-                /** @phpstan-ignore-next-line */
-                subject: $fileInfo->getRelativePathname()
-            );
+            search: ['/', '.php'],
+            replace: ['\\', ''],
+            /** @phpstan-ignore-next-line */
+            subject: $fileInfo->getRelativePathname()
+        );
     }
 
     protected function analyseClass(ReflectionClass $class): void
@@ -179,7 +183,8 @@ abstract class AbstractEntityTest extends TestCase
                     propertyName: $propertyName,
                     getter: $getter,
                     setter: $setter,
-                    annotationProperties: $propertyAnnotations);
+                    annotationProperties: $propertyAnnotations
+                );
                 break;
             case array_key_exists(key: OneToMany::class, array: $propertyAnnotations):
                 $this->analyseOneToManyMapping(
@@ -187,7 +192,8 @@ abstract class AbstractEntityTest extends TestCase
                     propertyName: $propertyName,
                     getter: $getter,
                     setter: $setter,
-                    propertyAnnotations: $propertyAnnotations);
+                    propertyAnnotations: $propertyAnnotations
+                );
                 break;
             case array_key_exists(key: OneToOne::class, array: $propertyAnnotations):
                 $this->analyseOneToOneMapping(
@@ -195,7 +201,8 @@ abstract class AbstractEntityTest extends TestCase
                     propertyName: $propertyName,
                     getter: $getter,
                     setter: $setter,
-                    propertyAnnotations: $propertyAnnotations);
+                    propertyAnnotations: $propertyAnnotations
+                );
                 break;
             case array_key_exists(key: ManyToOne::class, array: $propertyAnnotations):
                 $this->analyseManyToOneMapping(
@@ -203,7 +210,8 @@ abstract class AbstractEntityTest extends TestCase
                     propertyName: $propertyName,
                     getter: $getter,
                     setter: $setter,
-                    propertyAnnotations: $propertyAnnotations);
+                    propertyAnnotations: $propertyAnnotations
+                );
                 break;
             case array_key_exists(key: ManyToMany::class, array: $propertyAnnotations):
                 $this->analyseManyToManyMapping(
@@ -211,7 +219,8 @@ abstract class AbstractEntityTest extends TestCase
                     propertyName: $propertyName,
                     getter: $getter,
                     setter: $setter,
-                    propertyAnnotations: $propertyAnnotations);
+                    propertyAnnotations: $propertyAnnotations
+                );
                 break;
         }
     }

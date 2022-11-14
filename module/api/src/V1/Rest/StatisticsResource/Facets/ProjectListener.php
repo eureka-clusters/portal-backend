@@ -32,7 +32,7 @@ final class ProjectListener extends AbstractResourceListener
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $id);
+        $filter = base64_decode(string: $id, true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!

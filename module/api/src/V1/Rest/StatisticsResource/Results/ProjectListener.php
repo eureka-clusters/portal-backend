@@ -35,7 +35,7 @@ final class ProjectListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $encodedFilter);
+        $filter = base64_decode(string: $encodedFilter, true);
         // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 

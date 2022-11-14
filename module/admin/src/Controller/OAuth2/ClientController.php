@@ -221,7 +221,8 @@ final class ClientController extends AbstractActionController
                 $this->oAuth2Service->save(entity: $client);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-contact-oauth2-client-has-been-created-successfully"),
+                        message: "txt-contact-oauth2-client-has-been-created-successfully"
+                    ),
                 );
 
                 return $this->redirect()->toRoute(
@@ -286,7 +287,8 @@ final class ClientController extends AbstractActionController
                 $this->oAuth2Service->save(entity: $client);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-contact-oauth2-client-has-been-updated-successfully"),
+                        message: "txt-contact-oauth2-client-has-been-updated-successfully"
+                    ),
                 );
 
                 return $this->redirect()->toRoute(

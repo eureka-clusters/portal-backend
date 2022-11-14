@@ -1,4 +1,5 @@
 <?php
+
 return [
     'admin/role/view' => __DIR__ . '/./view/admin/role/view.twig',
     'admin/role/edit' => __DIR__ . '/./view/admin/role/edit.twig',

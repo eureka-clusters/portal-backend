@@ -54,9 +54,12 @@ final class TransactionalController extends AbstractActionController
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(
-            paginator: new ORMPaginator(
-            query: $transactionalQuery,
-            fetchJoinCollection: false)));
+                paginator: new ORMPaginator(
+                    query: $transactionalQuery,
+                    fetchJoinCollection: false
+                )
+            )
+        );
         $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
@@ -67,7 +70,7 @@ final class TransactionalController extends AbstractActionController
             variables: [
                 'paginator' => $paginator,
                 'form' => $form,
-                
+
                 'order' => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
@@ -92,7 +95,8 @@ final class TransactionalController extends AbstractActionController
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
                         $this->translator->translate(
-                            message: 'txt-transactional-email-with-name-%s-has-been-sent-successfully'),
+                            message: 'txt-transactional-email-with-name-%s-has-been-sent-successfully'
+                        ),
                         $transactional->getName()
                     )
                 );
@@ -163,9 +167,11 @@ final class TransactionalController extends AbstractActionController
 
             $form->get(elementOrFieldset: 'mailing_entity_transactional')->get(elementOrFieldset: 'key')->setAttribute(
                 key: 'disabled',
-                value: 'disabled');
+                value: 'disabled'
+            );
             $form->getInputFilter()->get(name: 'mailing_entity_transactional')->get(name: 'key')->setRequired(
-                required: false);
+                required: false
+            );
         }
 
         if ($this->getRequest()->isPost()) {

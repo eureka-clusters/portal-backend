@@ -34,8 +34,7 @@ use function str_starts_with;
  * @method User identity()
  * @method FlashMessenger flashMessenger()
  */
-final class
-UserController extends AbstractActionController
+final class UserController extends AbstractActionController
 {
     public function __construct(
         private readonly AdminService $adminService,
@@ -172,7 +171,9 @@ UserController extends AbstractActionController
             $password = $form->getInputFilter()->getValue(name: 'password');
 
             $authAdapter = new DatabaseAdapter(
-                userService: $this->userService, username: $username, password: $password
+                userService: $this->userService,
+                username: $username,
+                password: $password
             );
             $authenticate = $this->authenticationService->authenticate(adapter: $authAdapter);
 

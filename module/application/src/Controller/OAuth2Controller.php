@@ -106,7 +106,7 @@ final class OAuth2Controller extends AbstractActionController
                 $genericUser = GenericUser::fromJson(
                     jsonString: $request->getBody()->getContents(),
                     allowedClusters: $service->getAllowedClusters()->map(
-                        fn($cluster) => $cluster->getName()
+                        fn ($cluster) => $cluster->getName()
                     )->toArray()
                 );
 
@@ -114,7 +114,7 @@ final class OAuth2Controller extends AbstractActionController
                 $user = $this->userService->findOrCreateUserFromGenericUser(
                     genericUser: $genericUser,
                     allowedClusters: $service->getAllowedClusters()->map(
-                        fn($cluster) => $cluster->getName()
+                        fn ($cluster) => $cluster->getName()
                     )->toArray()
                 );
 

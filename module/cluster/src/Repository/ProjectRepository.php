@@ -73,10 +73,10 @@ class ProjectRepository extends EntityRepository
                         ) //Add an id so we don't get all group by statements
                         ->having(
                             having: 'COUNT(DISTINCT cluster_entity_country) > ' . ((is_countable(
-                                    value: $countryFilter
-                                ) ? count(
-                                    $countryFilter
-                                ) : 0) - 1)
+                                value: $countryFilter
+                            ) ? count(
+                                $countryFilter
+                            ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -146,10 +146,10 @@ class ProjectRepository extends EntityRepository
                         ->addGroupBy(groupBy: 'cluster_entity_project_filter_organisation_type.id')
                         ->having(
                             having: 'COUNT(DISTINCT cluster_entity_organisation_type) > ' . ((is_countable(
-                                    value: $organisationTypeFilter
-                                ) ? count(
-                                    $organisationTypeFilter
-                                ) : 0) - 1)
+                                value: $organisationTypeFilter
+                            ) ? count(
+                                $organisationTypeFilter
+                            ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -293,7 +293,7 @@ class ProjectRepository extends EntityRepository
                 $queryBuilder->join(join: 'cluster_entity_project.status', alias: 'projectStatus');
                 break;
 
-            //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
+                //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
             case 'project.latestVersion.type.type':
                 $sortColumn = 'latestversion_type.type';
                 $queryBuilder->leftJoin(
@@ -305,7 +305,7 @@ class ProjectRepository extends EntityRepository
                 $queryBuilder->join(join: 'latestversion.type', alias: 'latestversion_type');
                 break;
 
-            //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
+                //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
             case 'project.latestVersionTotalCosts':
                 $sortColumn = 'latestversion.costs';
                 $queryBuilder->leftJoin(
@@ -518,7 +518,7 @@ class ProjectRepository extends EntityRepository
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-        return array_map(static fn(array $cluster1, $cluster2) => [
+        return array_map(static fn (array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
             '1' => $cluster1[1],
             '2' => $cluster2[1],

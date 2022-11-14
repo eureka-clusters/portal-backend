@@ -39,9 +39,9 @@ final class MailerLink extends AbstractLink
                     'icon' => 'fa-plus',
                     'route' => 'zfcadmin/mailing/mailer/new',
                     'text' => $showOptions[$show] ?? sprintf(
-                            $this->translator->translate(message: 'txt-new-mailer-of-type-%s'),
-                            $this->translator->translate(message: $serviceName)
-                        ),
+                        $this->translator->translate(message: 'txt-new-mailer-of-type-%s'),
+                        $this->translator->translate(message: $serviceName)
+                    ),
                 ];
                 break;
             case 'view':

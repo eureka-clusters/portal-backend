@@ -1,4 +1,5 @@
 <?php
+
 return [
     'oauth/receive-code' => __DIR__ . '/./view/oauth/receive-code.twig',
     'oauth/authorize' => __DIR__ . '/./view/oauth/authorize.twig',

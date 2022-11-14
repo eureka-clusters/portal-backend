@@ -39,7 +39,7 @@ final class ProjectListener extends AbstractResourceListener
 
         //The filter is a base64 encoded serialised json string
         $filter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
-        $filter = base64_decode(string: $filter);
+        $filter = base64_decode(string: $filter, true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'project.name';
@@ -72,43 +72,63 @@ final class ProjectListener extends AbstractResourceListener
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-project-number'));
+                message: 'txt-project-number'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-project-name'));
+                message: 'txt-project-name'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-primary-cluster'));
+                message: 'txt-primary-cluster'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-secondary-cluster'));
+                message: 'txt-secondary-cluster'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-official-start-date'));
+                message: 'txt-official-start-date'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-official-end-date'));
+                message: 'txt-official-end-date'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-duration-(months)'));
+                message: 'txt-duration-(months)'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-project-status'));
+                message: 'txt-project-status'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-            message: 'txt-total-costs'));
+                message: 'txt-total-costs'
+            )
+        );
         $partnerSheet->setCellValue(
             coordinate: $column . $row,
             value: $this->translator->translate(
-            message: 'txt-total-effort'));
+                message: 'txt-total-effort'
+            )
+        );
 
         foreach ($results as $result) {
             $column = 'A';

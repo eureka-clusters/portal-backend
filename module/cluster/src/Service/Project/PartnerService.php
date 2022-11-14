@@ -92,32 +92,32 @@ class PartnerService extends AbstractService
         $programmeCalls = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
         $years = $repository->fetchYears();
 
-        $countriesIndexed = array_map(callback: static fn(array $country) => [
+        $countriesIndexed = array_map(callback: static fn (array $country) => [
             'name' => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
-        $organisationTypesIndexed = array_map(callback: static fn(array $partnerType) => [
+        $organisationTypesIndexed = array_map(callback: static fn (array $partnerType) => [
             'name' => $partnerType['type'],
             'amount' => $partnerType[1],
         ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(callback: static fn(array $cluster) => [
+        $clustersIndexed = array_map(callback: static fn (array $cluster) => [
             'name' => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
         ], array: $clusters);
 
-        $programmeCallIndexed = array_map(callback: static fn(array $programmeCall) => [
+        $programmeCallIndexed = array_map(callback: static fn (array $programmeCall) => [
             'name' => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
             'name' => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
 
-        $yearsIndexed = array_map(callback: static fn(array $years) => $years['year'], array: $years);
+        $yearsIndexed = array_map(callback: static fn (array $years) => $years['year'], array: $years);
 
         return [
             'countries' => $countriesIndexed,
@@ -144,7 +144,8 @@ class PartnerService extends AbstractService
         $organisation = $this->organisationService->findOrCreateOrganisation(
             name: $data->partner,
             country: $country,
-            type: $type);
+            type: $type
+        );
 
         //Check if we already have this partner
         $partner = $this->entityManager->getRepository(entityName: Partner::class)->findOneBy(
@@ -184,7 +185,8 @@ class PartnerService extends AbstractService
         return $repository->findTotalCostsByPartnerAndLatestProjectVersionAndYear(
             partner: $partner,
             projectVersion: $projectVersion,
-            year: $year);
+            year: $year
+        );
     }
 
     public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
@@ -198,7 +200,7 @@ class PartnerService extends AbstractService
         return $repository->findTotalEffortByPartnerAndLatestProjectVersionAndYear(
             partner: $partner,
             projectVersion: $projectVersion,
-            year: $year);
+            year: $year
+        );
     }
-
 }

@@ -49,7 +49,8 @@ final class TargetController extends AbstractActionController
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: 'txt-all-expired-deeplinks-have-been-removed-successfully')
+                        message: 'txt-all-expired-deeplinks-have-been-removed-successfully'
+                    )
                 );
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
@@ -66,7 +67,8 @@ final class TargetController extends AbstractActionController
                     $this->flashMessenger()->addSuccessMessage(
                         message: sprintf(
                             $this->translator->translate(
-                                message: 'txt-%s-deeplink-targets-have-been-removed-successfully'),
+                                message: 'txt-%s-deeplink-targets-have-been-removed-successfully'
+                            ),
                             is_countable(value: $data['target']) ? count($data['target']) : 0
                         )
                     );

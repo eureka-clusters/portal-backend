@@ -37,7 +37,6 @@ class SetTitle extends AbstractListenerAggregate
             null,
             null
         );
-
     }
 
     public function setHeadMeta(): void

@@ -37,7 +37,7 @@ final class SearchFormResult
     public function updateFromEncodedFilter(string $encodedFilter): SearchFormResult
     {
         $filter = (array)Json\Json::decode(
-            encodedValue: base64_decode(string: $encodedFilter),
+            encodedValue: base64_decode(string: $encodedFilter, true),
             objectDecodeType: Json\Json::TYPE_ARRAY
         );
 

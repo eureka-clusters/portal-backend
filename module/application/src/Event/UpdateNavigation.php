@@ -66,9 +66,9 @@ class UpdateNavigation extends AbstractListenerAggregate
                     // The routeParam can be aliased
                     $routeParamKey = $routeParam;
                     if (isset($pageCustomParams['routeParam']) && array_key_exists(
-                            key: $routeParam,
-                            array: $pageCustomParams['routeParam']
-                        )) {
+                        key: $routeParam,
+                        array: $pageCustomParams['routeParam']
+                    )) {
                         $routeParamKey = $pageCustomParams['routeParam'][$routeParam];
                     }
 
@@ -129,7 +129,7 @@ class UpdateNavigation extends AbstractListenerAggregate
                     } else {
                         throw new InvalidArgumentException(message: 'Can\'t invoke callable ' . $invokable);
                     }
-                    // Not found
+                // Not found
                 } else {
                     throw new InvalidArgumentException(message: 'Servicelocator can\'t find invokable ' . $invokable);
                 }
@@ -149,5 +149,4 @@ class UpdateNavigation extends AbstractListenerAggregate
     {
         return $this->translator->translate(message: $string);
     }
-
 }

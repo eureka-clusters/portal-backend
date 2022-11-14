@@ -277,6 +277,4 @@ class EmailMessage extends AbstractEntity
         $this->dateLatestEvent = $dateLatestEvent;
         return $this;
     }
-
-
 }

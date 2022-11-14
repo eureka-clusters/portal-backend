@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource\Results;
 
@@ -38,7 +38,7 @@ final class PartnerListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $encodedFilter);
+        $filter = base64_decode(string: $encodedFilter, true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'partner.organisation.name';

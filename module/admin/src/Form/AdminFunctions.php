@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Admin\Form;
 
-use Laminas\Form\Element\Csrf;use Laminas\Form\Element\Submit;use Laminas\Form\Form;use function _;
+use Laminas\Form\Element\Csrf;
+use Laminas\Form\Element\Submit;
+use Laminas\Form\Form;
+
+use function _;
 
 final class AdminFunctions extends Form
 {

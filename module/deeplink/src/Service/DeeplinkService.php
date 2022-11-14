@@ -55,7 +55,8 @@ class DeeplinkService extends AbstractService
     public function findActiveDeeplinksByTarget(Target $target): array
     {
         return $this->entityManager->getRepository(entityName: Deeplink::class)->findActiveDeeplinksByTarget(
-            target: $target);
+            target: $target
+        );
     }
 
     public function createDeeplink(

@@ -44,7 +44,8 @@ abstract class AbstractService implements HasPermitInterface
         if (!in_array(
             needle: FilteredObjectRepository::class,
             haystack: class_implements(object_or_class: $repository),
-            strict: true)) {
+            strict: true
+        )) {
             throw new \InvalidArgumentException(
                 message: sprintf(
                     'The repository of %s should implement %s',
@@ -88,5 +89,4 @@ abstract class AbstractService implements HasPermitInterface
     {
         return true;
     }
-
 }

@@ -81,7 +81,7 @@ final class ResultListener extends AbstractResourceListener
         //Sort on score, but therefore we need to iterate over the scores
         usort(
             array: $results,
-            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore(
+            callback: static fn (SearchResult $result1, SearchResult $result2) => $result1->getScore(
             ) < $result2->getScore() ? 1 : -1
         );
 

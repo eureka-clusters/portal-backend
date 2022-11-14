@@ -8,5 +8,4 @@ use Doctrine\ORM\EntityRepository;
 
 final class RefreshToken extends EntityRepository //implements RefreshTokenInterface
 {
-
 }

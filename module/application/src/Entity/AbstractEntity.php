@@ -36,36 +36,51 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface, Str
             'class_name', 'full_entity_name' => str_replace(
                 search: 'DoctrineORMModule\Proxy\__CG__\\',
                 replace: '',
-                subject: static::class),
+                subject: static::class
+            ),
             'namespace' => implode(
                 separator: '',
                 array: array_slice(
-                array: explode(
-                separator: '\\',
-                string: $this->get(
-                switch: 'class_name')),
-                offset: 0,
-                length: 1)),
+                    array: explode(
+                        separator: '\\',
+                        string: $this->get(
+                            switch: 'class_name'
+                        )
+                    ),
+                    offset: 0,
+                    length: 1
+                )
+            ),
             'entity_name' => implode(
                 separator: '',
                 array: array_slice(
-                array: explode(
-                separator: '\\',
-                string: $this->get(
-                switch: 'class_name')),
-                offset: -1)),
+                    array: explode(
+                        separator: '\\',
+                        string: $this->get(
+                            switch: 'class_name'
+                        )
+                    ),
+                    offset: -1
+                )
+            ),
             'underscore_entity_name' => strtolower(
                 string: implode(
-                separator: '_',
-                array: explode(
-                separator: '\\',
-                string: $this->get(switch: 'class_name')))),
+                    separator: '_',
+                    array: explode(
+                        separator: '\\',
+                        string: $this->get(switch: 'class_name')
+                    )
+                )
+            ),
             'entity_fieldset_name' => sprintf(
                 '%sFieldset',
-                str_replace(search: ['Entity\\', 'Entity'],
+                str_replace(
+                    search: ['Entity\\', 'Entity'],
                     replace: ['Form\\', ''],
                     subject: $this->get(
-                        switch: 'class_name'))
+                        switch: 'class_name'
+                    )
+                )
             ),
             'entity_form_name' => sprintf(
                 '%sForm',
@@ -73,10 +88,13 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface, Str
             ),
             'entity_inputfilter_name' => sprintf(
                 '%sFilter',
-                str_replace(search: ['Entity\\', 'Entity'],
+                str_replace(
+                    search: ['Entity\\', 'Entity'],
                     replace: ['InputFilter\\', ''],
                     subject: $this->get(
-                        switch: 'class_name'))
+                        switch: 'class_name'
+                    )
+                )
             ),
             default => throw new InvalidArgumentException(message: sprintf('Unknown option %s for get entity name', $switch)),
         };

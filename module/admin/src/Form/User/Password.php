@@ -102,7 +102,7 @@ final class Password extends Form implements InputFilterProviderInterface
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 UPPERCASE character, none found',
                             ],
-                            'callback' => static fn($value) => preg_match(pattern: '@[A-Z]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[A-Z]@', subject: (string)$value),
                         ],
                     ],
                     [
@@ -112,7 +112,7 @@ final class Password extends Form implements InputFilterProviderInterface
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 lowercase character, none found',
                             ],
-                            'callback' => static fn($value) => preg_match(pattern: '@[a-z]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[a-z]@', subject: (string)$value),
                         ],
                     ],
                     [
@@ -121,7 +121,7 @@ final class Password extends Form implements InputFilterProviderInterface
                             'messages' => [
                                 Callback::INVALID_VALUE => 'The password requires at least 1 number, none found',
                             ],
-                            'callback' => static fn($value) => preg_match(pattern: '@[\d]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[\d]@', subject: (string)$value),
                         ],
                     ],
                 ],

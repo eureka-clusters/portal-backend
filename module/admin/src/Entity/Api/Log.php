@@ -13,8 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: \Admin\Repository\Api\Log::class)]
 class Log extends AbstractEntity
 {
-    public final const TYPE_INCOMING = 1;
-    public final const TYPE_OUTGOING = 2;
+    final public const TYPE_INCOMING = 1;
+    final public const TYPE_OUTGOING = 2;
 
     protected static array $typeTemplates
         = [

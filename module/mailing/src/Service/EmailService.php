@@ -39,7 +39,8 @@ class EmailService
         $this->entityManager = $container->get(EntityManager::class);
     }
 
-    public function createNewTransactionalEmailBuilder(string|Transactional $transactionalOrKey
+    public function createNewTransactionalEmailBuilder(
+        string|Transactional $transactionalOrKey
     ): TransactionalEmailBuilder {
         /** @var MailingService $mailingService */
         $mailingService = $this->container->get(MailingService::class);

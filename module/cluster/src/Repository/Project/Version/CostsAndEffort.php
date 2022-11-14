@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityRepository;
 
 final class CostsAndEffort extends EntityRepository
 {
-
     public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,

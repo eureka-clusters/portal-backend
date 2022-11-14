@@ -21,9 +21,9 @@ use function array_map;
 
 class ProjectService extends AbstractService
 {
-    public final const DURATION_MONTH = 'm';
-    public final const DURATION_YEAR = 'y';
-    public final const DURATION_DAYS = 'd';
+    final public const DURATION_MONTH = 'm';
+    final public const DURATION_YEAR = 'y';
+    final public const DURATION_DAYS = 'd';
 
     #[Pure] public function __construct(
         EntityManager $entityManager,
@@ -69,27 +69,27 @@ class ProjectService extends AbstractService
         $clusters = $repository->fetchClusters();
         $projectStatuses = $repository->fetchProjectStatuses(user: $user, filter: $filter);
 
-        $countriesIndexed = array_map(callback: static fn(array $country) => [
+        $countriesIndexed = array_map(callback: static fn (array $country) => [
             'name' => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
-        $organisationTypesIndexed = array_map(callback: static fn(array $organisationType) => [
+        $organisationTypesIndexed = array_map(callback: static fn (array $organisationType) => [
             'name' => $organisationType['type'],
             'amount' => $organisationType[1],
         ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(callback: static fn(array $cluster) => [
+        $clustersIndexed = array_map(callback: static fn (array $cluster) => [
             'name' => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
         ], array: $clusters);
 
-        $programmeCallsIndexed = array_map(callback: static fn(array $programmeCall) => [
+        $programmeCallsIndexed = array_map(callback: static fn (array $programmeCall) => [
             'name' => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
             'name' => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
@@ -216,16 +216,16 @@ class ProjectService extends AbstractService
                 )
             ),
             self::DURATION_MONTH => ((
-                    (int)($difference->format(format: '%' . self::DURATION_YEAR)) * 12
-                ) +
-                (int)$difference->format(format: '%' . self::DURATION_MONTH) +
-                ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
-                    : 0)),
+                (int)($difference->format(format: '%' . self::DURATION_YEAR)) * 12
+            ) +
+            (int)$difference->format(format: '%' . self::DURATION_MONTH) +
+            ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
+                : 0)),
             default => ((int)($difference->format(
-                        format: '%' . self::DURATION_YEAR
-                    )) * 365) + ((int)($difference->format(
-                        format: '%' . self::DURATION_MONTH
-                    )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
+                format: '%' . self::DURATION_YEAR
+            )) * 365) + ((int)($difference->format(
+                format: '%' . self::DURATION_MONTH
+            )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
         };
     }
 }

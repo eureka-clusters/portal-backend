@@ -32,9 +32,12 @@ final class EmailController extends MailingAbstractController
 
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(
-            paginator: new ORMPaginator(
-            query: $query,
-            fetchJoinCollection: false)));
+                paginator: new ORMPaginator(
+                    query: $query,
+                    fetchJoinCollection: false
+                )
+            )
+        );
         $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
@@ -46,7 +49,7 @@ final class EmailController extends MailingAbstractController
             variables: [
                 'paginator'     => $paginator,
                 'form'          => $form,
-                
+
                 'order'         => $filterPlugin->getOrder(),
                 'direction'     => $filterPlugin->getDirection(),
             ]

@@ -40,48 +40,60 @@ final class StringDateExtension extends AbstractExtension
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-                format: 'd') - 6,
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ) - 6,
+            year: (int) date(format: 'Y')
+        );
         $yesterdayStart = mktime(
             hour: 0,
             minute: 0,
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-                format: 'd') - 1,
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ) - 1,
+            year: (int) date(format: 'Y')
+        );
         $todayStart     = mktime(
             hour: 0,
             minute: 0,
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-            format: 'd'),
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ),
+            year: (int) date(format: 'Y')
+        );
         $todayEnd       = mktime(
             hour: 0,
             minute: 0,
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-                format: 'd') + 1,
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ) + 1,
+            year: (int) date(format: 'Y')
+        );
         $tomorrowEnd    = mktime(
             hour: 0,
             minute: 0,
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-                format: 'd') + 2,
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ) + 2,
+            year: (int) date(format: 'Y')
+        );
         $nextWeek       = mktime(
             hour: 0,
             minute: 0,
             second: 0,
             month: (int) date(format: 'm'),
             day: (int) date(
-                format: 'd') + 7,
-            year: (int) date(format: 'Y'));
+                format: 'd'
+            ) + 7,
+            year: (int) date(format: 'Y')
+        );
         $hasTime        = date(format: 'Hi', timestamp: $datetime) !== '0000';
 
         if ($datetime < $lastWeek) {

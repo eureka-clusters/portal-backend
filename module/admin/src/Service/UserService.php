@@ -29,7 +29,6 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     public function __construct(
         protected EntityManager $entityManager,
         private readonly EmailService $emailService
-
     ) {
         parent::__construct(entityManager: $entityManager);
     }
@@ -117,7 +116,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
         // map clusters to each identifier name
         $linkedIdentifierArray = $funderClusters->map(
-            func: fn(Cluster $cluster) => $cluster->getIdentifier()
+            func: fn (Cluster $cluster) => $cluster->getIdentifier()
         )->toArray();
 
         // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
@@ -198,5 +197,4 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
         return true;
     }
-
 }

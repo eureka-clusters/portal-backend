@@ -1,4 +1,5 @@
 <?php
+
 return [
     'mailing/partial/form/mailer' => __DIR__ . '/./view/mailing/partial/form/mailer.twig',
     'mailing/partial/form/sender' => __DIR__ . '/./view/mailing/partial/form/sender.twig',

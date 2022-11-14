@@ -200,7 +200,8 @@ class PartnerRepository extends EntityRepository
             $queryBuilder->join(join: 'project_partner.costsAndEffort', alias: 'project_partner_costs_and_effort');
             $queryBuilder->join(
                 join: 'project_partner_costs_and_effort.version',
-                alias: 'project_partner_costs_and_effort_version');
+                alias: 'project_partner_costs_and_effort_version'
+            );
 
             $queryBuilder->andWhere($queryBuilder->expr()->in(x: 'project_partner_costs_and_effort.year', y: $yearFilter));
             $queryBuilder->andWhere('project_partner_costs_and_effort_version.type = :type');
@@ -309,7 +310,8 @@ class PartnerRepository extends EntityRepository
         $activeInLatestVersionSubSelect->from(from: Partner::class, alias: 'project_partner_subselect');
         $activeInLatestVersionSubSelect->join(
             join: 'project_partner_subselect.project',
-            alias: 'project_partner_subselect_project');
+            alias: 'project_partner_subselect_project'
+        );
         $activeInLatestVersionSubSelect->join(
             join: 'project_partner_subselect.costsAndEffort',
             alias: 'project_partner_subselect_costs_and_effort'
@@ -430,7 +432,7 @@ class PartnerRepository extends EntityRepository
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-        return array_map(static fn(array $cluster1, $cluster2) => [
+        return array_map(static fn (array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
             '1' => $cluster1[1],
             '2' => $cluster2[1],

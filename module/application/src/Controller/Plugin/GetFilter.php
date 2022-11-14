@@ -30,7 +30,9 @@ final class GetFilter extends AbstractPlugin
         $application = $this->container->get('application');
         $encodedFilter = urldecode(
             string: (string)$application->getMvcEvent()->getRouteMatch()->getParam(
-            name: 'encodedFilter'));
+                name: 'encodedFilter'
+            )
+        );
         /** @var Request $request */
         $request = $application->getMvcEvent()->getRequest();
 

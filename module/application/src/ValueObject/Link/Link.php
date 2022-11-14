@@ -17,8 +17,11 @@ final class Link
     public static function fromArray(array $params): Link
     {
         return new self(
-            linkRoute: LinkRoute::fromArray(params: $params), linkDecoration: LinkDecoration::fromArray(
-            params: $params));
+            linkRoute: LinkRoute::fromArray(params: $params),
+            linkDecoration: LinkDecoration::fromArray(
+                params: $params
+            )
+        );
     }
 
     public function parse(RouteStackInterface $router, string $serverUrl = ''): string

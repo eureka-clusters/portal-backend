@@ -27,7 +27,7 @@ final class LinkRoute
     {
         return $serverUrl . $router->assemble(
             params: $this->routeParams,
-                options: ['name' => $this->route, 'query' => $this->queryParams, 'fragment' => $this->fragment]
+            options: ['name' => $this->route, 'query' => $this->queryParams, 'fragment' => $this->fragment]
         );
     }
 }
