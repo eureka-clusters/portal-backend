@@ -60,11 +60,11 @@ class Client extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->jwtTokens = new ArrayCollection();
-        $this->accessTokens = new ArrayCollection();
+        $this->jwtTokens          = new ArrayCollection();
+        $this->accessTokens       = new ArrayCollection();
         $this->authorizationCodes = new ArrayCollection();
-        $this->refreshTokens = new ArrayCollection();
-        $this->oAuthServices = new ArrayCollection();
+        $this->refreshTokens      = new ArrayCollection();
+        $this->oAuthServices      = new ArrayCollection();
 
         $this->scope = new Scope();
     }
@@ -81,7 +81,7 @@ class Client extends AbstractEntity
 
     public function setId(string|int $clientId): Client
     {
-        $this->setClientId(clientId: (string)$clientId);
+        $this->setClientId(clientId: (string) $clientId);
 
         return $this;
     }

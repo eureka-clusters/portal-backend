@@ -14,6 +14,7 @@ use function implode;
 use function is_array;
 use function method_exists;
 use function sprintf;
+use function str_contains;
 use function str_replace;
 use function strtolower;
 use function ucfirst;
@@ -27,7 +28,7 @@ abstract class AbstractEntity implements EntityInterface, ResourceInterface, Str
 
     public function getResourceId(): string
     {
-        return sprintf('%s-%s', $this->get(switch: 'underscore_entity_name'), (string)$this->getId());
+        return sprintf('%s-%s', $this->get(switch: 'underscore_entity_name'), (string) $this->getId());
     }
 
     public function get(string $switch): string

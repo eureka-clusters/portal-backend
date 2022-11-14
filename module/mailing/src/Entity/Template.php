@@ -42,7 +42,7 @@ class Template extends AbstractEntity implements TemplateInterface
     #[ORM\Column]
     #[Type(type: Text::class)]
     #[Options(options: [
-        'label' => 'txt-mailing-template-subject-label',
+        'label'      => 'txt-mailing-template-subject-label',
         'help-block' => 'txt-mailing-template-subject-help-block',
     ])]
     #[Attributes(attributes: ['placeholder' => 'txt-mailing-template-subject-help-placeholder'])]
@@ -74,16 +74,15 @@ class Template extends AbstractEntity implements TemplateInterface
 
     public function __construct()
     {
-        $this->dateCreated = new DateTime();
+        $this->dateCreated   = new DateTime();
         $this->transactional = new ArrayCollection();
-        $this->emailMessage = new ArrayCollection();
+        $this->emailMessage  = new ArrayCollection();
     }
 
     public function isDefault(): bool
     {
         return $this->id === self::TEMPLATE_DEFAULT;
     }
-
 
     public function parseName(): string
     {

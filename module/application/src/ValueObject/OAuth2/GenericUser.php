@@ -35,19 +35,19 @@ final class GenericUser
 
     public function __construct(stdClass $result)
     {
-        $this->id = (string)$result->id;
-        $this->firstName = $result->firstName;
-        $this->cluster = $result->cluster;
-        $this->clusterPermissions = (array)($result->clusterPermissions ?? []);
-        $this->lastName = $result->lastName;
-        $this->isFunder = $result->isFunder;
+        $this->id                 = (string) $result->id;
+        $this->firstName          = $result->firstName;
+        $this->cluster            = $result->cluster;
+        $this->clusterPermissions = (array) ($result->clusterPermissions ?? []);
+        $this->lastName           = $result->lastName;
+        $this->isFunder           = $result->isFunder;
 
         //Take the value from the result, fallback to false in case the setting cannot be found
         $this->isEurekaSecretariatStaffMember = $result->isEurekaSecretariatStaffMember ?? false;
 
-        $this->funder = (array)($result->funder ?? []);
-        $this->address = (array)($result->address ?? []);
-        $this->email = $result->email;
+        $this->funder        = (array) ($result->funder ?? []);
+        $this->address       = (array) ($result->address ?? []);
+        $this->email         = $result->email;
         $this->funderCountry = $result->funderCountry;
     }
 
@@ -57,7 +57,7 @@ final class GenericUser
         $data = Json::decode(encodedValue: $jsonString, objectDecodeType: Json::TYPE_ARRAY);
         // filter the cluster permissions
         $data['clusterPermissions'] = array_intersect($data['clusterPermissions'] ?? [], $allowedClusters);
-        return new self(result: (object)$data);
+        return new self(result: (object) $data);
     }
 
     public function getId(): string

@@ -6,10 +6,10 @@ namespace Api\Repository\OAuth;
 
 use Api\Entity;
 use Application\Repository\FilteredObjectRepository;
+use Application\ValueObject\SearchFormResult;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Application\ValueObject\SearchFormResult;
 
 use function sprintf;
 

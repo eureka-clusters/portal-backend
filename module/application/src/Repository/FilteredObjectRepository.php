@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
+use Application\ValueObject\SearchFormResult;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
-use Application\ValueObject\SearchFormResult;
 
 interface FilteredObjectRepository extends ObjectRepository
 {

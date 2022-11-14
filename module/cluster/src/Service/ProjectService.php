@@ -18,12 +18,13 @@ use JetBrains\PhpStorm\Pure;
 use stdClass;
 
 use function array_map;
+use function ceil;
 
 class ProjectService extends AbstractService
 {
     final public const DURATION_MONTH = 'm';
-    final public const DURATION_YEAR = 'y';
-    final public const DURATION_DAYS = 'd';
+    final public const DURATION_YEAR  = 'y';
+    final public const DURATION_DAYS  = 'd';
 
     #[Pure] public function __construct(
         EntityManager $entityManager,
@@ -53,53 +54,53 @@ class ProjectService extends AbstractService
     }
 
     #[ArrayShape(shape: [
-        'countries' => "array[]",
+        'countries'         => "array[]",
         'organisationTypes' => "array[]",
-        'projectStatus' => "array[]",
-        'programmeCalls' => "array[]",
-        'clusters' => "array[]"
+        'projectStatus'     => "array[]",
+        'programmeCalls'    => "array[]",
+        'clusters'          => "array[]",
     ])] public function generateFacets(User $user, array $filter): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Project::class);
 
-        $countries = $repository->fetchCountries(user: $user, filter: $filter);
+        $countries         = $repository->fetchCountries(user: $user, filter: $filter);
         $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
-        $programmeCalls = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
-        $clusters = $repository->fetchClusters();
-        $projectStatuses = $repository->fetchProjectStatuses(user: $user, filter: $filter);
+        $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
+        $clusters          = $repository->fetchClusters();
+        $projectStatuses   = $repository->fetchProjectStatuses(user: $user, filter: $filter);
 
         $countriesIndexed = array_map(callback: static fn (array $country) => [
-            'name' => $country['country'],
+            'name'   => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
         $organisationTypesIndexed = array_map(callback: static fn (array $organisationType) => [
-            'name' => $organisationType['type'],
+            'name'   => $organisationType['type'],
             'amount' => $organisationType[1],
         ], array: $organisationTypes);
 
         $clustersIndexed = array_map(callback: static fn (array $cluster) => [
-            'name' => $cluster['name'],
+            'name'   => $cluster['name'],
             'amount' => $cluster[1] + $cluster[2],
         ], array: $clusters);
 
         $programmeCallsIndexed = array_map(callback: static fn (array $programmeCall) => [
-            'name' => $programmeCall['programmeCall'],
+            'name'   => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
         $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
-            'name' => $projectStatus['status'],
+            'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
 
         return [
-            'countries' => $countriesIndexed,
+            'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
-            'projectStatus' => $projectStatusIndexed,
-            'programmeCalls' => $programmeCallsIndexed,
-            'clusters' => $clustersIndexed,
+            'projectStatus'     => $projectStatusIndexed,
+            'programmeCalls'    => $programmeCallsIndexed,
+            'clusters'          => $clustersIndexed,
         ];
     }
 
@@ -171,7 +172,7 @@ class ProjectService extends AbstractService
         if ($data->cancelDate) {
             $cancelDate = DateTime::createFromFormat(
                 format: DateTimeInterface::ATOM,
-                datetime: (string)$data->cancelDate
+                datetime: (string) $data->cancelDate
             );
             $project->setCancelDate(cancelDate: $cancelDate ?: null);
         }
@@ -210,22 +211,22 @@ class ProjectService extends AbstractService
         $difference = $project->getOfficialEndDate()->diff(targetObject: $project->getOfficialStartDate());
 
         return match ($type) {
-            self::DURATION_YEAR => (int)(
-                (int)$difference->format(format: '%' . self::DURATION_YEAR) + ceil(
-                    num: (int)($difference->format(format: '%' . self::DURATION_MONTH)) / 12
+            self::DURATION_YEAR => (int) (
+                (int) $difference->format(format: '%' . self::DURATION_YEAR) + ceil(
+                    num: (int) ($difference->format(format: '%' . self::DURATION_MONTH)) / 12
                 )
             ),
-            self::DURATION_MONTH => ((
-                (int)($difference->format(format: '%' . self::DURATION_YEAR)) * 12
+            self::DURATION_MONTH => (
+                (int) ($difference->format(format: '%' . self::DURATION_YEAR)) * 12
             ) +
-            (int)$difference->format(format: '%' . self::DURATION_MONTH) +
+            (int) $difference->format(format: '%' . self::DURATION_MONTH) +
             ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
-                : 0)),
-            default => ((int)($difference->format(
+                : 0),
+            default => ((int) ($difference->format(
                 format: '%' . self::DURATION_YEAR
-            )) * 365) + ((int)($difference->format(
+            )) * 365) + ((int) ($difference->format(
                 format: '%' . self::DURATION_MONTH
-            )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
+            )) * 12) + (int) $difference->format(format: '%' . self::DURATION_DAYS),
         };
     }
 }

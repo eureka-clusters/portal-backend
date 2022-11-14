@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Admin\Form;
 
+use Application\Form\SearchFilter;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
-use Application\Form\SearchFilter;
 
 use function _;
 

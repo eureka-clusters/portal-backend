@@ -21,6 +21,8 @@ use Jield\Authorize\Role\UserAsRoleInterface;
 use Laminas\Form\Annotation\Exclude;
 use Mailing\Entity\EmailMessage;
 
+use function sprintf;
+
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
 class User extends AbstractEntity implements UserAsRoleInterface
@@ -93,14 +95,14 @@ class User extends AbstractEntity implements UserAsRoleInterface
     {
         $this->dateCreated = new DateTime();
 
-        $this->roles = new ArrayCollection();
-        $this->session = new ArrayCollection();
-        $this->oAuthAccessTokens = new ArrayCollection();
+        $this->roles                   = new ArrayCollection();
+        $this->session                 = new ArrayCollection();
+        $this->oAuthAccessTokens       = new ArrayCollection();
         $this->oAuthAuthorizationCodes = new ArrayCollection();
-        $this->oAuthRefreshTokens = new ArrayCollection();
-        $this->evaluation = new ArrayCollection();
-        $this->deeplink = new ArrayCollection();
-        $this->emailMessage = new ArrayCollection();
+        $this->oAuthRefreshTokens      = new ArrayCollection();
+        $this->evaluation              = new ArrayCollection();
+        $this->deeplink                = new ArrayCollection();
+        $this->emailMessage            = new ArrayCollection();
     }
 
     public function parseFullName(): string

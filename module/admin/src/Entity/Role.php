@@ -15,14 +15,15 @@ use Laminas\Form\Element\Text;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 use function in_array;
+use function strtolower;
 
 #[ORM\Table(name: 'admin_role')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\Role::class)]
 #[Annotation\Name(name: 'admin_role')]
 class Role extends AbstractEntity implements RoleInterface
 {
-    final public const ROLE_ADMIN = 1;
-    final public const ROLE_USER = 2;
+    final public const ROLE_ADMIN  = 1;
+    final public const ROLE_USER   = 2;
     final public const ROLE_PUBLIC = 3;
 
     public static array $lockedRoles
@@ -41,11 +42,11 @@ class Role extends AbstractEntity implements RoleInterface
     #[ORM\Column(unique: true)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-role-description-help-block'
+        'help-block' => 'txt-role-description-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-role-description',
-        'placeholder' => 'txt-role-description-placeholder'
+        'label'       => 'txt-role-description',
+        'placeholder' => 'txt-role-description-placeholder',
     ])]
     private string $description = '';
 
@@ -55,7 +56,7 @@ class Role extends AbstractEntity implements RoleInterface
 
     public function getRoleId(): string
     {
-        return strtolower(string: (string)$this->id);
+        return strtolower(string: (string) $this->id);
     }
 
     #[Pure] public function __construct()

@@ -36,7 +36,7 @@ class Scope extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->clients = new ArrayCollection();
+        $this->clients       = new ArrayCollection();
         $this->oAuthServices = new ArrayCollection();
     }
 

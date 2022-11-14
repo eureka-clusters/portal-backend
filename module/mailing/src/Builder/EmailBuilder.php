@@ -114,7 +114,7 @@ abstract class EmailBuilder
                     $this->setTemplateVariables(
                         variables: [
                             'sender_email' => $ownerOrLoggedInUser->getEmail(),
-                            'sender_name' => $ownerOrLoggedInUser->parseFullName(),
+                            'sender_name'  => $ownerOrLoggedInUser->parseFullName(),
                         ]
                     );
 
@@ -129,7 +129,7 @@ abstract class EmailBuilder
                 $this->setTemplateVariables(
                     variables: [
                         'sender_email' => $sender->getEmail(),
-                        'sender_name' => $sender->getSender(),
+                        'sender_name'  => $sender->getSender(),
                     ]
                 );
 
@@ -144,7 +144,7 @@ abstract class EmailBuilder
     {
         $messages = [];
 
-        $message = new Email(
+        $message    = new Email(
             from: $this->from->toArray(),
             to: $this->getTo(),
             cc: $this->getCC(),
@@ -287,9 +287,9 @@ abstract class EmailBuilder
             $this->setTemplateVariables(
                 variables: [
                     'firstname' => $user->getFirstName(),
-                    'lastname' => $user->getLastName(),
-                    'fullname' => $user->parseFullName(),
-                    'email' => $user->getEmail(),
+                    'lastname'  => $user->getLastName(),
+                    'fullname'  => $user->parseFullName(),
+                    'email'     => $user->getEmail(),
                 ]
             );
         }
@@ -411,9 +411,9 @@ abstract class EmailBuilder
         return $this;
     }
 
-    public function setDeeplink(string $route, User $user, int|string $key = null): void
+    public function setDeeplink(string $route, User $user, int|string|null $key = null): void
     {
-        if (!$this->personal) {
+        if (! $this->personal) {
             throw new InvalidArgumentException(message: 'It is not possible to add a deeplink for a non-personal email');
         }
         //Create a target
@@ -469,7 +469,7 @@ abstract class EmailBuilder
             ]
         );
 
-        if (!$this->hasMultiParts()) {
+        if (! $this->hasMultiParts()) {
             $message->setBody(body: $content);
             $contentTypeHeader = $message->getHeaders()->get(name: 'Content-Type');
             /** @phpstan-ignore-next-line */
@@ -478,7 +478,7 @@ abstract class EmailBuilder
             return $message;
         }
 
-        $multiParts = [];
+        $multiParts  = [];
         $contentPart = new Part(content: $content->generateMessage());
         $contentPart->setType(type: Mime\Mime::MULTIPART_ALTERNATIVE);
         $contentPart->setBoundary(boundary: $content->getMime()->boundary());
@@ -542,8 +542,6 @@ abstract class EmailBuilder
     {
         return count($this->attachments) > 0 || count($this->invitations) > 0;
     }
-
-
 
     protected function renderSubject(string $mailSubject): void
     {

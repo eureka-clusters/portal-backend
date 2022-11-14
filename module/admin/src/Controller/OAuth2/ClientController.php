@@ -12,7 +12,7 @@ use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\PublicKey;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
-use Contact\Entity\Contact;
+use Application\Form\SearchFilter;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -28,12 +28,16 @@ use Laminas\Paginator\Paginator;
 use Laminas\View\Helper\Identity;
 use Laminas\View\Model\ViewModel;
 use OAuth2\Encryption\Jwt;
-use Application\Form\SearchFilter;
 
 use function array_merge;
+use function base64_encode;
 use function ceil;
+use function openssl_pkey_export;
+use function openssl_pkey_get_details;
+use function openssl_pkey_new;
 use function sha1;
 use function substr;
+use function time;
 
 /**
  * @method GetFilter getFilter()
@@ -70,8 +74,8 @@ final class ClientController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -90,8 +94,8 @@ final class ClientController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             //Create a secret
-            $secret = Rand::getString(length: 255);
-            $bCrypt = new Bcrypt();
+            $secret         = Rand::getString(length: 255);
+            $bCrypt         = new Bcrypt();
             $bCryptedSecret = $bCrypt->create(password: $secret);
 
             $client->setClientSecret(clientsecret: $bCryptedSecret);
@@ -105,7 +109,7 @@ final class ClientController extends AbstractActionController
                 $publicKey->setClient(client: $client);
             }
 
-            $privateKey = openssl_pkey_new();
+            $privateKey   = openssl_pkey_new();
             $publicKeyPem = openssl_pkey_get_details(key: $privateKey)['key'];
             openssl_pkey_export(key: $privateKey, output: $privateKeyPrem);
 
@@ -121,15 +125,15 @@ final class ClientController extends AbstractActionController
         $jwtHelper = new Jwt();
 
         $payload = [
-            'id' => 1, // for BC (see #591)
-            'jti' => 1,
-            'iss' => 'portal-backend',
-            'aud' => $client->getClientId(),
-            'sub' => $this->identity()->getId(),
-            'exp' => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
-            'iat' => time(),
+            'id'         => 1, // for BC (see #591)
+            'jti'        => 1,
+            'iss'        => 'portal-backend',
+            'aud'        => $client->getClientId(),
+            'sub'        => $this->identity()->getId(),
+            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
+            'iat'        => time(),
             'token_type' => 'HS256',
-            'scope' => 'openid'
+            'scope'      => 'openid',
         ];
 
         $HS256Token = $jwtHelper->encode(
@@ -139,15 +143,15 @@ final class ClientController extends AbstractActionController
         );
 
         $payload = [
-            'id' => 1, // for BC (see #591)
-            'jti' => 1,
-            'iss' => 'portal-backend',
-            'aud' => $client->getClientId(),
-            'sub' => $this->identity()->getId(),
-            'exp' => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
-            'iat' => time(),
+            'id'         => 1, // for BC (see #591)
+            'jti'        => 1,
+            'iss'        => 'portal-backend',
+            'aud'        => $client->getClientId(),
+            'sub'        => $this->identity()->getId(),
+            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
+            'iat'        => time(),
             'token_type' => 'RS256',
-            'scope' => 'openid'
+            'scope'      => 'openid',
         ];
 
         $RS256Token = $jwtHelper->encode(
@@ -158,13 +162,13 @@ final class ClientController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                'client' => $client,
-                'secret' => $secret,
+                'client'                 => $client,
+                'secret'                 => $secret,
                 'base64EncodedPublicKey' => base64_encode(string: $client->getPublicKey()->getPublicKey()),
-                'RS256Token' => $RS256Token,
-                'HS256Token' => $HS256Token,
-                'decodedRS256Token' => $jwtHelper->decode(jwt: $RS256Token, key: $client->getPublicKey()?->getPublicKey()),
-                'decodedHS256Token' => $jwtHelper->decode(jwt: $HS256Token, key: $client->getPublicKey()?->getPublicKey())
+                'RS256Token'             => $RS256Token,
+                'HS256Token'             => $HS256Token,
+                'decodedRS256Token'      => $jwtHelper->decode(jwt: $RS256Token, key: $client->getPublicKey()?->getPublicKey()),
+                'decodedHS256Token'      => $jwtHelper->decode(jwt: $HS256Token, key: $client->getPublicKey()?->getPublicKey()),
             ]
         );
     }
@@ -187,8 +191,8 @@ final class ClientController extends AbstractActionController
                 $client->setClientId(clientId: sha1(string: Rand::getString(length: 255)));
 
                 //Create a secret
-                $secret = Rand::getString(length: 255);
-                $bCrypt = new Bcrypt();
+                $secret         = Rand::getString(length: 255);
+                $bCrypt         = new Bcrypt();
                 $bCryptedSecret = $bCrypt->create(password: $secret);
 
                 $client->setClientSecret(clientsecret: $bCryptedSecret);
@@ -198,7 +202,7 @@ final class ClientController extends AbstractActionController
                 $client->setGrantTypes(grantTypes: $data['grantTypes']);
 
                 /** @var Entity\OAuth\Scope $scope */
-                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$data['scope']);
+                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $data['scope']);
 
                 $client->setScope(scope: $scope);
                 $client->setRedirectUri(redirectUri: $data['redirectUri']);
@@ -228,7 +232,7 @@ final class ClientController extends AbstractActionController
                 return $this->redirect()->toRoute(
                     route: 'zfcadmin/oauth2/client/view',
                     params: [
-                        'id' => $client->getId(),
+                        'id'     => $client->getId(),
                         'secret' => $secret,
                     ]
                 );
@@ -250,10 +254,10 @@ final class ClientController extends AbstractActionController
         $data = array_merge(
             [
                 'redirectUri' => $client->getRedirectUri(),
-                'name' => $client->getName(),
+                'name'        => $client->getName(),
                 'description' => $client->getDescription(),
-                'scope' => $client->getScope(),
-                'grantTypes' => $client->getGrantTypes(),
+                'scope'       => $client->getScope(),
+                'grantTypes'  => $client->getGrantTypes(),
             ],
             $this->getRequest()->getPost()->toArray()
         );
@@ -276,7 +280,7 @@ final class ClientController extends AbstractActionController
                 $client->setGrantTypes(grantTypes: null);
 
                 /** @var Entity\OAuth\Scope $scope */
-                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$data['scope']);
+                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $data['scope']);
 
                 $client->setScope(scope: $scope);
                 $client->setName(name: $data['name']);

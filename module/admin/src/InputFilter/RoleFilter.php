@@ -44,7 +44,6 @@ final class RoleFilter extends InputFilter
             ]
         );
 
-
         $this->add($inputFilter, 'admin_entity_role');
     }
 }

@@ -29,7 +29,7 @@ final class OAuth2Controller extends AbstractActionController
     public function loginAction(): Response|ViewModel
     {
         //Find the service
-        $id = (int)$this->params('id');
+        $id      = (int) $this->params('id');
         $service = $this->oAuth2Service->findServiceById(id: $id);
 
         if (null === $service) {
@@ -41,7 +41,7 @@ final class OAuth2Controller extends AbstractActionController
         $authUrl = $oAuthClient->getAuthorizationUrl();
 
         //Create a session and keep the important data
-        $session = new Container(name: 'session');
+        $session            = new Container(name: 'session');
         $session->authState = $oAuthClient->getState();
         $session->serviceId = $service->getId();
 
@@ -50,7 +50,7 @@ final class OAuth2Controller extends AbstractActionController
 
     public function callbackAction(): Response
     {
-        $session = new Container(name: 'session');
+        $session       = new Container(name: 'session');
         $expectedState = $session->authState;
 
         $providedState = $this->getRequest()->getQuery(name: 'state');
@@ -87,17 +87,17 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 //Do a manual Guzzle Request for better debugging
-                $guzzle = new Client();
+                $guzzle  = new Client();
                 $request = $guzzle->request(
                     method: 'GET',
                     uri: $service->getProfileUrl(),
                     options: [
-                        RequestOptions::HEADERS => [
+                        RequestOptions::HEADERS     => [
                             'Authorization' => 'Bearer ' . $accessToken,
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
+                            'Accept'        => 'application/json',
+                            'Content-Type'  => 'application/json',
                         ],
-                        RequestOptions::DEBUG => false,
+                        RequestOptions::DEBUG       => false,
                         RequestOptions::HTTP_ERRORS => true,
                     ]
                 );

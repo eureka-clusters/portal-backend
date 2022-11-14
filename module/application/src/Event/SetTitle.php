@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Event;
 
-use Application\Version\Version as ApplicationVersion;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Mvc\MvcEvent;

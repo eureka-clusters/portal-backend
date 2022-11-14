@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Mailing\Service;
 
-use Mailing\Entity\Mailer;
 use Application\Service\AbstractService;
-use Mailing\Entity;
+use Mailing\Entity\Mailer;
 
 use function count;
 
@@ -21,7 +20,7 @@ class MailerService extends AbstractService
     {
         $cannotDeleteMailer = [];
 
-        if (!$mailer->getTransactional()->isEmpty()) {
+        if (! $mailer->getTransactional()->isEmpty()) {
             $cannotDeleteMailer[] = 'This mailer email has transactional mailings';
         }
 

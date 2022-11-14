@@ -18,23 +18,23 @@ final class UserFilter extends InputFilter
 
         $inputFilter->add(
             [
-                'name' => 'firstName',
+                'name'     => 'firstName',
                 'required' => true,
             ]
         );
 
         $inputFilter->add(
             [
-                'name' => 'lastName',
+                'name'     => 'lastName',
                 'required' => true,
             ]
         );
 
         $inputFilter->add(
             [
-                'name' => 'email',
-                'required' => true,
-                'filters' => [
+                'name'       => 'email',
+                'required'   => true,
+                'filters'    => [
                     ['name' => 'StripTags'],
                     ['name' => 'StringTrim'],
                 ],
@@ -43,12 +43,12 @@ final class UserFilter extends InputFilter
                         'name' => EmailAddress::class,
                     ],
                     [
-                        'name' => UniqueObject::class,
+                        'name'    => UniqueObject::class,
                         'options' => [
                             'object_repository' => $entityManager->getRepository(User::class),
-                            'object_manager' => $entityManager,
-                            'use_context' => true,
-                            'fields' => 'email',
+                            'object_manager'    => $entityManager,
+                            'use_context'       => true,
+                            'fields'            => 'email',
                         ],
                     ],
                 ],
@@ -57,7 +57,7 @@ final class UserFilter extends InputFilter
 
         $inputFilter->add(
             [
-                'name' => 'roles',
+                'name'     => 'roles',
                 'required' => false,
             ]
         );

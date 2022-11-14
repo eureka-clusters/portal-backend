@@ -36,13 +36,13 @@ final class SearchFormResult
 
     public function updateFromEncodedFilter(string $encodedFilter): SearchFormResult
     {
-        $filter = (array)Json\Json::decode(
-            encodedValue: base64_decode(string: $encodedFilter, true),
+        $filter = (array) Json\Json::decode(
+            encodedValue: base64_decode(string: $encodedFilter, strict: true),
             objectDecodeType: Json\Json::TYPE_ARRAY
         );
 
-        $this->filter = (array)($filter['filter'] ?? []);
-        $this->query = $filter['query'] ?? null;
+        $this->filter = (array) ($filter['filter'] ?? []);
+        $this->query  = $filter['query'] ?? null;
 
         return $this;
     }
@@ -67,10 +67,10 @@ final class SearchFormResult
     public function toArray(): array
     {
         return [
-            'order' => $this->order,
+            'order'     => $this->order,
             'direction' => $this->direction,
-            'query' => $this->query,
-            'filter' => $this->filter
+            'query'     => $this->query,
+            'filter'    => $this->filter,
         ];
     }
 
@@ -87,7 +87,7 @@ final class SearchFormResult
     public function setFilterByKey(string $key, mixed $value, bool $force = false): SearchFormResult
     {
         //Only set the value when we force it or when it does not exist
-        if ($force || !array_key_exists(key: $key, array: $this->filter)) {
+        if ($force || ! array_key_exists(key: $key, array: $this->filter)) {
             $this->filter[$key] = $value;
         }
 
@@ -96,12 +96,12 @@ final class SearchFormResult
 
     public function hasFilterByKey(string $key): bool
     {
-        return array_key_exists(key: $key, array: $this->filter) && '' !== $this->filter[$key] && !empty($this->filter[$key]);
+        return array_key_exists(key: $key, array: $this->filter) && '' !== $this->filter[$key] && ! empty($this->filter[$key]);
     }
 
     public function hasQuery(): bool
     {
-        return !empty($this->query);
+        return ! empty($this->query);
     }
 
     public function getOrder(): string
@@ -125,7 +125,7 @@ final class SearchFormResult
     {
         $direction = strtoupper(string: $this->direction);
 
-        if (!in_array(needle: $direction, haystack: [Criteria::ASC, Criteria::DESC], strict: true)) {
+        if (! in_array(needle: $direction, haystack: [Criteria::ASC, Criteria::DESC], strict: true)) {
             return Criteria::DESC;
         }
 

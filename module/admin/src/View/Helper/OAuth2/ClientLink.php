@@ -17,12 +17,12 @@ final class ClientLink extends AbstractLink
         string $show = LinkDecoration::SHOW_TEXT
     ): string {
         $linkParams = [];
-        $client     ??= new Client();
+        $client   ??= new Client();
 
         $routeParams = [];
         $showOptions = [];
 
-        if (!$client->isEmpty()) {
+        if (! $client->isEmpty()) {
             $routeParams['id']       = $client->getId();
             $showOptions['clientId'] = $client->getClientId();
             $showOptions['name']     = $client->getName();

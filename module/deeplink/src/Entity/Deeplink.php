@@ -13,6 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Laminas\Math\Rand;
 
 use function sha1;
+use function sprintf;
 use function substr;
 
 #[ORM\Table(name: 'deeplink')]
@@ -40,7 +41,7 @@ class Deeplink extends AbstractEntity
     private ?DateTime $dateAccess = null;
 
     #[ORM\Column(type: 'string', length: 9, nullable: true)]
-    private null|string|int $keyId = null;
+    private null|string|int $keyId;
 
     #[ORM\ManyToOne(targetEntity: Target::class, cascade: ['persist'], inversedBy: 'deeplink')]
     #[ORM\JoinColumn(nullable: false)]

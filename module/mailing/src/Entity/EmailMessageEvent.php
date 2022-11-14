@@ -60,7 +60,7 @@ class EmailMessageEvent extends AbstractEntity
     public function __construct()
     {
         $this->emailMessage = new EmailMessage();
-        $this->time = new DateTime();
+        $this->time         = new DateTime();
     }
 
     public function getId(): int

@@ -48,9 +48,9 @@ class Country extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->funder = new ArrayCollection();
+        $this->funder        = new ArrayCollection();
         $this->organisations = new ArrayCollection();
-        $this->evaluation = new ArrayCollection();
+        $this->evaluation    = new ArrayCollection();
     }
 
     public function __toString(): string

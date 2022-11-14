@@ -26,7 +26,7 @@ final class ServiceLabel extends AbstractNavigationInvokable
                     ]
                 )
             );
-            $label = (string)$entity;
+            $label = (string) $entity;
         }
 
         if (null === $page->getLabel()) {

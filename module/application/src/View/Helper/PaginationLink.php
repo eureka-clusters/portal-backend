@@ -26,8 +26,8 @@ final class PaginationLink
     public function __construct(ContainerInterface $container)
     {
         $this->routeMatch = $container->get('application')->getMvcEvent()->getRouteMatch();
-        $this->url = $container->get('ViewHelperManager')->get(Url::class);
-        $this->request = $container->get('Request');
+        $this->url        = $container->get('ViewHelperManager')->get(Url::class);
+        $this->request    = $container->get('Request');
         $this->translator = $container->get(TranslatorInterface::class);
     }
 

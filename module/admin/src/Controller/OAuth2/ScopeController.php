@@ -62,9 +62,8 @@ final class ScopeController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -72,7 +71,7 @@ final class ScopeController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$this->params('id'));
+        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $this->params('id'));
 
         if (null === $scope) {
             return $this->notFoundAction();
@@ -124,7 +123,7 @@ final class ScopeController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\OAuth\Scope $scope */
-        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$this->params('id'));
+        $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $this->params('id'));
 
         if (null === $scope) {
             return $this->notFoundAction();
@@ -132,8 +131,8 @@ final class ScopeController extends AbstractActionController
 
         $data = array_merge(
             [
-                'type' => $scope->getType(),
-                'scope' => $scope->getScope(),
+                'type'       => $scope->getType(),
+                'scope'      => $scope->getScope(),
                 'is_default' => $scope->isDefault(),
             ],
             $this->getRequest()->getPost()->toArray()

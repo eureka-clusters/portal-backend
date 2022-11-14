@@ -11,6 +11,7 @@ use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
 use Laminas\Cache\Storage\Adapter\Redis;
 
+use function number_format;
 use function sprintf;
 
 class PartnerYearProvider implements ProviderInterface
@@ -27,29 +28,29 @@ class PartnerYearProvider implements ProviderInterface
     {
         $partner = $entity;
 
-        $cacheKey = sprintf('%s-years', $partner->getResourceId());
+        $cacheKey    = sprintf('%s-years', $partner->getResourceId());
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$partnerData) {
+        if (! $partnerData) {
             /** @var CostsAndEffort $costsAndEffort */
             foreach ($partner->getCostsAndEffort() as $costsAndEffort) {
                 $partnerData = [
-                    'id' => $partner->getId(),
-                    'slug' => $partner->getSlug(),
-                    'project' => $this->projectProvider->generateArray(project: $partner->getProject()),
-                    'isActive' => $partner->isActive(),
-                    'isSelfFunded' => $partner->isSelfFunded(),
-                    'isCoordinator' => $partner->isCoordinator(),
-                    'technicalContact' => $this->contactProvider->generateArray(
+                    'id'                        => $partner->getId(),
+                    'slug'                      => $partner->getSlug(),
+                    'project'                   => $this->projectProvider->generateArray(project: $partner->getProject()),
+                    'isActive'                  => $partner->isActive(),
+                    'isSelfFunded'              => $partner->isSelfFunded(),
+                    'isCoordinator'             => $partner->isCoordinator(),
+                    'technicalContact'          => $this->contactProvider->generateArray(
                         contact: $partner->getTechnicalContact()
                     ),
-                    'organisation' => $this->organisationProvider->generateArray(
+                    'organisation'              => $this->organisationProvider->generateArray(
                         organisation: $partner->getOrganisation()
                     ),
-                    'latestVersionCosts' => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
-                    'latestVersionEffort' => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
-                    'year' => $costsAndEffort->getYear(),
-                    'latestVersionCostsInYear' => number_format(num: $costsAndEffort->getCosts(), decimals: 2),
+                    'latestVersionCosts'        => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
+                    'latestVersionEffort'       => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
+                    'year'                      => $costsAndEffort->getYear(),
+                    'latestVersionCostsInYear'  => number_format(num: $costsAndEffort->getCosts(), decimals: 2),
                     'latestVersionEffortInYear' => number_format(num: $costsAndEffort->getEffort(), decimals: 2),
                 ];
             }

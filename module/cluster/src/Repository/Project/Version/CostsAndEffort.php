@@ -29,7 +29,7 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setParameter(key: 'year', value: $year);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
         )->getSingleScalarResult();
     }
 
@@ -51,7 +51,7 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setParameter(key: 'year', value: $year);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
         )->getSingleScalarResult();
     }
 
@@ -67,7 +67,7 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setMaxResults(maxResults: 1);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
         )->getSingleScalarResult();
     }
 
@@ -83,7 +83,7 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setMaxResults(maxResults: 1);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery(
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
         )->getSingleScalarResult();
     }
 }

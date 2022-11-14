@@ -9,7 +9,7 @@ use Mailing\Service\MailingService;
 final class CustomEmailBuilder extends EmailBuilder
 {
     private ?string $customSubject = null;
-    private ?string $customBody = null;
+    private ?string $customBody    = null;
 
     public function __construct(MailingService $mailingService)
     {

@@ -23,7 +23,7 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
@@ -31,7 +31,7 @@ final class ProjectListener extends AbstractResourceListener
 
         $defaultSort = 'project.name';
 
-        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $sort  = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
         $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
         $projectQueryBuilder = $this->projectService->getProjects(user: $user, filter: [], sort: $sort, order: $order);

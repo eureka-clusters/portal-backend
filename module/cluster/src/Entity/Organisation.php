@@ -44,8 +44,8 @@ class Organisation extends AbstractEntity
 
     #[Pure] public function __construct()
     {
-        $this->country = new Country();
-        $this->type = new Type();
+        $this->country  = new Country();
+        $this->type     = new Type();
         $this->partners = new ArrayCollection();
     }
 

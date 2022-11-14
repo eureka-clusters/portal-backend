@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deeplink\Entity;
 
 use Application\Entity\AbstractEntity;
+use Deeplink\Entity\Deeplink;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +19,6 @@ use Laminas\Form\Annotation\Type;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Hydrator\ObjectPropertyHydrator;
-use Mailing\Entity\Deeplink;
 
 #[ORM\Table(name: 'deeplink_target')]
 #[ORM\Entity(repositoryClass: \Deeplink\Repository\Target::class)]
@@ -50,13 +50,13 @@ class Target extends AbstractEntity
     #[Attributes(attributes: ['placeholder' => 'txt-deeplink-target-route-placeholder'])]
     private string $route = '';
 
-    #[ORM\OneToMany(mappedBy: 'target', targetEntity: \Deeplink\Entity\Deeplink::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'target', targetEntity: Deeplink::class, cascade: ['persist', 'remove'])]
     #[Exclude]
     private Collection $deeplink;
 
     #[Pure] public function __construct()
     {
-        $this->deeplink        = new ArrayCollection();
+        $this->deeplink = new ArrayCollection();
     }
 
     public function __toString(): string

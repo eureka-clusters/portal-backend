@@ -20,9 +20,9 @@ final class TransactionalFilter extends SearchFilter
 
         $filterFieldset->add(
             elementOrFieldset: [
-                'type' => MultiCheckbox::class,
-                'name' => 'locked',
-                'options' => [
+                'type'       => MultiCheckbox::class,
+                'name'       => 'locked',
+                'options'    => [
                     'value_options' => [1 => 'locked'],
                 ],
                 'attributes' => [

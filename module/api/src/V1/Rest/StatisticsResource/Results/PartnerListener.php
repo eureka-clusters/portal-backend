@@ -16,6 +16,7 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
 use function base64_decode;
+use function strtolower;
 
 final class PartnerListener extends AbstractResourceListener
 {
@@ -29,7 +30,7 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
@@ -38,14 +39,14 @@ final class PartnerListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $encodedFilter, true);
+        $filter      = base64_decode(string: $encodedFilter, strict: true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: strtolower(string: Criteria::ASC));
+        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: strtolower(string: Criteria::ASC));
 
-        $hasYears = !empty($arrayFilter['year']);
+        $hasYears = ! empty($arrayFilter['year']);
 
         $partnerQueryBuilder = $this->partnerService->getPartners(
             user: $user,
@@ -53,7 +54,7 @@ final class PartnerListener extends AbstractResourceListener
             sort: $sort,
             order: $order
         );
-        $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
+        $doctrineORMAdapter  = new DoctrineORMAdapter(query: $partnerQueryBuilder);
 
         $doctrineORMAdapter->setProvider(provider: $hasYears ? $this->partnerYearProvider : $this->partnerProvider);
 

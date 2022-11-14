@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Mailing\Form;
 
+use Application\Form\SearchFilter;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
 use Mailing\Entity\Mailer;
-use Application\Form\SearchFilter;
 
 use function _;
 
@@ -23,11 +23,11 @@ final class MailerFilter extends SearchFilter
 
         $filterFieldset->add(
             elementOrFieldset: [
-                'type' => MultiCheckbox::class,
-                'name' => 'isActive',
-                'options' => [
+                'type'       => MultiCheckbox::class,
+                'name'       => 'isActive',
+                'options'    => [
                     'value_options' => [1 => _('txt-only-inactive')],
-                    'inline' => true,
+                    'inline'        => true,
                 ],
                 'attributes' => [
                     'label' => _('txt-include-deleted'),
@@ -37,18 +37,17 @@ final class MailerFilter extends SearchFilter
 
         $filterFieldset->add(
             elementOrFieldset: [
-                'type' => MultiCheckbox::class,
-                'name' => 'tags',
-                'options' => [
+                'type'       => MultiCheckbox::class,
+                'name'       => 'tags',
+                'options'    => [
                     'value_options' => Mailer::getServicesArray(),
-                    'inline' => true,
+                    'inline'        => true,
                 ],
                 'attributes' => [
                     'label' => _('txt-filter-on-tags'),
                 ],
             ]
         );
-
 
         $this->add(elementOrFieldset: $filterFieldset);
     }

@@ -23,19 +23,19 @@ final class UserFilter extends SearchFilter
 
         $filterFieldset->add(
             elementOrFieldset: [
-                'type' => EntityMultiCheckbox::class,
-                'name' => 'roles',
+                'type'       => EntityMultiCheckbox::class,
+                'name'       => 'roles',
                 'attributes' => [
                     'label' => _("txt-filter-on-role"),
                 ],
-                'options' => [
+                'options'    => [
                     'object_manager' => $entityManager,
-                    'target_class' => Role::class,
-                    'find_method' => [
-                        'name' => 'findBy',
+                    'target_class'   => Role::class,
+                    'find_method'    => [
+                        'name'   => 'findBy',
                         'params' => [
                             'criteria' => [],
-                            'orderBy' => [
+                            'orderBy'  => [
                                 'description' => Criteria::ASC,
                             ],
                         ],

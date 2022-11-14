@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Admin\Form\OAuth2;
 
-use Laminas\Form\Element\Url;
-use Laminas\Form\Element\Text;
-use Laminas\Form\Element\Textarea;
 use Api\Entity\OAuth\Scope;
-use Laminas\Form\Element\Csrf;
-use Laminas\Form\Element\Submit;
-use Api\Entity;
 use Doctrine\ORM\EntityManager;
 use DoctrineORMModule\Form\Element\EntitySelect;
-use Laminas\Form\Element;
+use Laminas\Form\Element\Csrf;
+use Laminas\Form\Element\Submit;
+use Laminas\Form\Element\Text;
+use Laminas\Form\Element\Textarea;
+use Laminas\Form\Element\Url;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilterProviderInterface;
 

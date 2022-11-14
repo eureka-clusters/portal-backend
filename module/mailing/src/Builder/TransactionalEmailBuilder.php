@@ -36,7 +36,7 @@ final class TransactionalEmailBuilder extends EmailBuilder
     public function renderEmail(): void
     {
         $this->emailCampaign = $this->transactional->getKey();
-        $this->template = $this->transactional->getTemplate();
+        $this->template      = $this->transactional->getTemplate();
 
         $this->renderSubject(mailSubject: $this->transactional->getMailSubject());
         $this->renderBody(bodyText: $this->transactional->getMailHtml());

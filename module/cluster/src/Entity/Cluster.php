@@ -53,11 +53,11 @@ class Cluster extends AbstractEntity
 
     public function __construct()
     {
-        $this->dateCreated = new DateTime();
-        $this->clusterFunders = new ArrayCollection();
-        $this->projectsPrimary = new ArrayCollection();
+        $this->dateCreated       = new DateTime();
+        $this->clusterFunders    = new ArrayCollection();
+        $this->projectsPrimary   = new ArrayCollection();
         $this->projectsSecondary = new ArrayCollection();
-        $this->oauthServices = new ArrayCollection();
+        $this->oauthServices     = new ArrayCollection();
     }
 
     public function __toString(): string

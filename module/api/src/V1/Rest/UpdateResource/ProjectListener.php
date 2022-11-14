@@ -29,7 +29,7 @@ final class ProjectListener extends AbstractResourceListener
     {
         try {
             //Collect all projects from the data
-            $project = $this->projectService->findOrCreateProject(data: (object)$data);
+            $project = $this->projectService->findOrCreateProject(data: (object) $data);
 
             //Delete the versions
             foreach ($project->getVersions() as $version) {
@@ -60,7 +60,7 @@ final class ProjectListener extends AbstractResourceListener
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                data: (object)$data[$versionTypeName],
+                data: (object) $data[$versionTypeName],
                 type: $versionType,
                 project: $project
             );
@@ -68,7 +68,7 @@ final class ProjectListener extends AbstractResourceListener
             //Now we go over the partners and collect these and save the costs and effort
             foreach ($data[$versionTypeName]['partners'] as $partnerData) {
                 //Cast to an object
-                $partnerData = (object)$partnerData;
+                $partnerData = (object) $partnerData;
 
                 $partner = $this->partnerService->findOrCreatePartner(data: $partnerData, project: $project);
 
@@ -77,11 +77,11 @@ final class ProjectListener extends AbstractResourceListener
                 $partner->setIsSelfFunded(isSelfFunded: $partnerData->isSelfFunded);
                 $partner->setTechnicalContact(technicalContact: $partnerData->technicalContact);
 
-                $totalCosts = 0;
+                $totalCosts  = 0;
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
-                    $totalCosts += $costsAndEffortData['costs'];
+                    $totalCosts  += $costsAndEffortData['costs'];
                     $totalEffort += $costsAndEffortData['effort'];
 
                     //This data is saved in a costs and effort table

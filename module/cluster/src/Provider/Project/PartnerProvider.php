@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
 use Laminas\Cache\Storage\Adapter\Redis;
 
+use function number_format;
 use function sprintf;
 
 class PartnerProvider implements ProviderInterface
@@ -26,46 +27,46 @@ class PartnerProvider implements ProviderInterface
     }
 
     #[ArrayShape(shape: [
-        'id' => "int",
-        'organisation' => "string",
-        'isActive' => "bool",
-        'isSelfFunded' => "bool",
-        'isCoordinator' => "bool",
-        'technicalContact' => "array"
+        'id'               => "int",
+        'organisation'     => "string",
+        'isActive'         => "bool",
+        'isSelfFunded'     => "bool",
+        'isCoordinator'    => "bool",
+        'technicalContact' => "array",
     ])] public static function parseCoordinatorArray(Partner $partner): array
     {
-        if (!$partner->isCoordinator()) {
+        if (! $partner->isCoordinator()) {
             throw new InvalidArgumentException(
                 message: sprintf("%s in %s is no coordinator", $partner->getOrganisation(), $partner->getProject())
             );
         }
 
         return [
-            'id' => $partner->getId(),
-            'organisation' => $partner->getOrganisation()->getName(),
-            'isActive' => $partner->isActive(),
-            'isSelfFunded' => $partner->isSelfFunded(),
-            'isCoordinator' => $partner->isCoordinator(),
+            'id'               => $partner->getId(),
+            'organisation'     => $partner->getOrganisation()->getName(),
+            'isActive'         => $partner->isActive(),
+            'isSelfFunded'     => $partner->isSelfFunded(),
+            'isCoordinator'    => $partner->isCoordinator(),
             'technicalContact' => $partner->getTechnicalContact(),
         ];
     }
 
     public function generateArray($partner): array
     {
-        $cacheKey = $partner->getResourceId();
+        $cacheKey    = $partner->getResourceId();
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$partnerData) {
+        if (! $partnerData) {
             $partnerData = [
-                'id' => $partner->getId(),
-                'slug' => $partner->getSlug(),
-                'project' => $this->projectProvider->generateArray(project: $partner->getProject()),
-                'isActive' => $partner->isActive(),
-                'isSelfFunded' => $partner->isSelfFunded(),
-                'isCoordinator' => $partner->isCoordinator(),
-                'technicalContact' => $this->contactProvider->generateArray(contact: $partner->getTechnicalContact()),
-                'organisation' => $this->organisationProvider->generateArray(organisation: $partner->getOrganisation()),
-                'latestVersionCosts' => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
+                'id'                  => $partner->getId(),
+                'slug'                => $partner->getSlug(),
+                'project'             => $this->projectProvider->generateArray(project: $partner->getProject()),
+                'isActive'            => $partner->isActive(),
+                'isSelfFunded'        => $partner->isSelfFunded(),
+                'isCoordinator'       => $partner->isCoordinator(),
+                'technicalContact'    => $this->contactProvider->generateArray(contact: $partner->getTechnicalContact()),
+                'organisation'        => $this->organisationProvider->generateArray(organisation: $partner->getOrganisation()),
+                'latestVersionCosts'  => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
                 'latestVersionEffort' => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
             ];
             $this->cache->setItem(key: $cacheKey, value: $partnerData);

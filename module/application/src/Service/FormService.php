@@ -30,7 +30,7 @@ class FormService
          *
          * But if the class a class is injected, we will change it into the className but hint the user to use a string
          */
-        if (!$classNameOrEntity instanceof AbstractEntity) {
+        if (! $classNameOrEntity instanceof AbstractEntity) {
             $classNameOrEntity = new $classNameOrEntity();
         }
 
@@ -42,14 +42,14 @@ class FormService
 
     private function getForm(AbstractEntity $class, array $options = []): Form
     {
-        $formName = $class->get(switch: 'entity_form_name');
+        $formName   = $class->get(switch: 'entity_form_name');
         $filterName = $class->get(switch: 'entity_inputfilter_name');
 
         /**
          * The filter and the form can dynamically be created by pulling the form from the serviceManager
          * if the form or filter is not give in the serviceManager we will create it by default
          */
-        if (!$this->container->has($formName)) {
+        if (! $this->container->has($formName)) {
             $form = new CreateObject(entityManager: $this->entityManager, object: $class, container: $this->container);
         } else {
             $form = $this->container->get($formName);

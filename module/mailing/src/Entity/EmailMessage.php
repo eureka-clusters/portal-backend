@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mailing\Entity;
 
+use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,9 +31,9 @@ class EmailMessage extends AbstractEntity
     #[Gedmo\Timestampable(on: 'create')]
     private DateTime $dateCreated;
 
-    #[ORM\ManyToOne(targetEntity: \Admin\Entity\User::class, cascade: ['persist'], inversedBy: 'emailMessage')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'emailMessage')]
     #[ORM\JoinColumn(nullable: true)]
-    private ?\Admin\Entity\User $user = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Template::class, cascade: ['persist'], inversedBy: 'emailMessage')]
     #[ORM\JoinColumn(nullable: false)]
@@ -79,11 +80,11 @@ class EmailMessage extends AbstractEntity
     public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->sender = new Sender();
-        $this->template = new Template();
-        $this->mailer = new Mailer();
-        $this->identifier = sha1(string: Rand::getString(length: 30));
-        $this->event = new ArrayCollection();
+        $this->sender      = new Sender();
+        $this->template    = new Template();
+        $this->mailer      = new Mailer();
+        $this->identifier  = sha1(string: Rand::getString(length: 30));
+        $this->event       = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -124,12 +125,12 @@ class EmailMessage extends AbstractEntity
         return $this;
     }
 
-    public function getUser(): ?\Admin\Entity\User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?\Admin\Entity\User $user): EmailMessage
+    public function setUser(?User $user): EmailMessage
     {
         $this->user = $user;
         return $this;

@@ -13,7 +13,6 @@ return [
                 ['route' => 'user/logout', 'roles' => []],
                 ['route' => 'user/lost-password', 'roles' => [Role::ROLE_PUBLIC]],
                 ['route' => 'user/change-password', 'roles' => [Role::ROLE_USER]],
-
             ],
         ],
     ],

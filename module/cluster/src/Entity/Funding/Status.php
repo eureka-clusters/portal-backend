@@ -19,16 +19,16 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity]
 class Status extends AbstractEntity
 {
-    final public const IS_EVALUATION = 1;
-    final public const IS_NOT_EVALUATION = 2;
-    final public const STATUS_ALL_GOOD = 1;
-    final public const STATUS_GOOD = 2;
-    final public const STATUS_BAD = 3;
-    final public const STATUS_FAILED = 4;
-    final public const STATUS_UNCLEAR = 5;
-    final public const STATUS_AVERAGE = 6;
+    final public const IS_EVALUATION      = 1;
+    final public const IS_NOT_EVALUATION  = 2;
+    final public const STATUS_ALL_GOOD    = 1;
+    final public const STATUS_GOOD        = 2;
+    final public const STATUS_BAD         = 3;
+    final public const STATUS_FAILED      = 4;
+    final public const STATUS_UNCLEAR     = 5;
+    final public const STATUS_AVERAGE     = 6;
     final public const STATUS_SELF_FUNDED = 7;
-    final public const STATUS_DEFAULT = 8;
+    final public const STATUS_DEFAULT     = 8;
 
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[ORM\Id]
@@ -65,12 +65,12 @@ class Status extends AbstractEntity
     #[Pure] public function __construct()
     {
         $this->evaluation = new ArrayCollection();
-        $this->funding = new ArrayCollection();
+        $this->funding    = new ArrayCollection();
     }
 
     public function __toString(): string
     {
-        return (string)$this->statusEvaluation;
+        return (string) $this->statusEvaluation;
     }
 
     public function parseStyle(): string

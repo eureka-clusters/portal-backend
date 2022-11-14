@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Mailing\Repository;
 
 use Application\Repository\FilteredObjectRepository;
+use Application\ValueObject\SearchFormResult;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Mailing\Entity;
-use Application\ValueObject\SearchFormResult;
 
 final class Sender extends EntityRepository implements FilteredObjectRepository
 {

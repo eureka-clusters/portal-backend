@@ -36,57 +36,55 @@ use Mailing\View\Helper\TemplateLink;
 use Mailing\View\Helper\TransactionalLink;
 
 $config = [
-    'controllers' => [
+    'controllers'     => [
         'factories' => [
-            EmailController::class => ConfigAbstractFactory::class,
-            SenderController::class => ConfigAbstractFactory::class,
-            MailerController::class => ConfigAbstractFactory::class,
-            TemplateController::class => ConfigAbstractFactory::class,
+            EmailController::class         => ConfigAbstractFactory::class,
+            SenderController::class        => ConfigAbstractFactory::class,
+            MailerController::class        => ConfigAbstractFactory::class,
+            TemplateController::class      => ConfigAbstractFactory::class,
             TransactionalController::class => ConfigAbstractFactory::class,
         ],
     ],
     'service_manager' => [
         'factories' => [
-            MailingService::class => ConfigAbstractFactory::class,
-            MailerService::class => ConfigAbstractFactory::class,
-
-            TemplateFilter::class => InputFilterFactory::class,
-            MailerFilter::class => InputFilterFactory::class,
-            SenderFilter::class => InputFilterFactory::class,
+            MailingService::class      => ConfigAbstractFactory::class,
+            MailerService::class       => ConfigAbstractFactory::class,
+            TemplateFilter::class      => InputFilterFactory::class,
+            MailerFilter::class        => InputFilterFactory::class,
+            SenderFilter::class        => InputFilterFactory::class,
             TransactionalFilter::class => InputFilterFactory::class,
-
-            EmailMessageLabel::class => InvokableFactory::class,
-            TransactionalLabel::class => InvokableFactory::class,
-            MailerLabel::class => InvokableFactory::class,
-            SenderLabel::class => InvokableFactory::class,
-            TemplateLabel::class => InvokableFactory::class,
-            EmailService::class => InvokableFactory::class,
+            EmailMessageLabel::class   => InvokableFactory::class,
+            TransactionalLabel::class  => InvokableFactory::class,
+            MailerLabel::class         => InvokableFactory::class,
+            SenderLabel::class         => InvokableFactory::class,
+            TemplateLabel::class       => InvokableFactory::class,
+            EmailService::class        => InvokableFactory::class,
         ],
     ],
-    'view_manager' => [
+    'view_manager'    => [
         'template_map' => include __DIR__ . '/../template_map.php',
     ],
-    'view_helpers' => [
-        'aliases' => [
-            'mailerLink' => MailerLink::class,
-            'transactionalLink' => TransactionalLink::class,
-            'mailingTemplateLink' => TemplateLink::class,
-            'senderLink' => SenderLink::class,
-            'emailMessageLink' => EmailMessageLink::class,
+    'view_helpers'    => [
+        'aliases'    => [
+            'mailerLink'            => MailerLink::class,
+            'transactionalLink'     => TransactionalLink::class,
+            'mailingTemplateLink'   => TemplateLink::class,
+            'senderLink'            => SenderLink::class,
+            'emailMessageLink'      => EmailMessageLink::class,
             'emailMessageEventIcon' => EmailMessageEventIcon::class,
         ],
         'invokables' => [
             EmailMessageEventIcon::class,
         ],
-        'factories' => [
-            MailerLink::class => LinkHelperFactory::class,
+        'factories'  => [
+            MailerLink::class        => LinkHelperFactory::class,
             TransactionalLink::class => LinkHelperFactory::class,
-            TemplateLink::class => LinkHelperFactory::class,
-            SenderLink::class => LinkHelperFactory::class,
-            EmailMessageLink::class => LinkHelperFactory::class,
+            TemplateLink::class      => LinkHelperFactory::class,
+            SenderLink::class        => LinkHelperFactory::class,
+            EmailMessageLink::class  => LinkHelperFactory::class,
         ],
     ],
-    'doctrine' => [
+    'doctrine'        => [
         'driver' => [
             'mailing_attribute_driver' => [
                 'class' => AttributeDriver::class,
@@ -94,7 +92,7 @@ $config = [
                     __DIR__ . '/../src/Entity/',
                 ],
             ],
-            'orm_default' => [
+            'orm_default'              => [
                 'drivers' => [
                     'Mailing\Entity' => 'mailing_attribute_driver',
                 ],

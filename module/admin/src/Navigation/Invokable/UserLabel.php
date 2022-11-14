@@ -27,7 +27,7 @@ final class UserLabel extends AbstractNavigationInvokable
                     ]
                 )
             );
-            $label = (string)$entity->parseFullName();
+            $label = (string) $entity->parseFullName();
         }
         $page->set(property: 'label', value: $label);
     }

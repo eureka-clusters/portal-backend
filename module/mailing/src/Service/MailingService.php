@@ -4,27 +4,13 @@ declare(strict_types=1);
 
 namespace Mailing\Service;
 
-use Admin\Service\SelectionUserService;
 use Application\Service\AbstractService;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
-use Mailing\Entity;
 use Mailing\Entity\EmailMessage;
 use Mailing\Entity\Sender;
 use Mailing\Entity\Template;
 use Mailing\Entity\Transactional;
-use Mailing\Repository\Mailing;
-use Mailing\Repository\Queue;
-use Mailing\Repository\User;
 
-use function array_diff;
-use function array_unique;
 use function count;
-use function set_time_limit;
 
 class MailingService extends AbstractService
 {
@@ -36,8 +22,6 @@ class MailingService extends AbstractService
             ]
         );
     }
-
-
 
     public function findDefaultSender(): Sender
     {
@@ -70,8 +54,6 @@ class MailingService extends AbstractService
         return count($cannotDeleteTransactional) === 0;
     }
 
-
-
     public function canDeleteSender(Sender $sender): bool
     {
         $cannotDeleteSenderReasons = [];
@@ -88,7 +70,7 @@ class MailingService extends AbstractService
             $cannotDeleteSenderReasons[] = 'This sender is for the logged in user';
         }
 
-        if (!$sender->getTransactional()->isEmpty()) {
+        if (! $sender->getTransactional()->isEmpty()) {
             $cannotDeleteSenderReasons[] = 'Sender has transactional emails';
         }
 
@@ -103,13 +85,12 @@ class MailingService extends AbstractService
             $cannotDeleteTemplateReasons[] = 'This template is default';
         }
 
-        if (!$template->getTransactional()->isEmpty()) {
+        if (! $template->getTransactional()->isEmpty()) {
             $cannotDeleteTemplateReasons[] = 'Template has transactional emails';
         }
 
         return count($cannotDeleteTemplateReasons) === 0;
     }
-
 
     public function findEmailMessageByIdentifier(string $identifier): ?EmailMessage
     {

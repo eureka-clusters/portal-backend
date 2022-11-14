@@ -39,7 +39,7 @@ class DoctrineORMAdapter extends Paginator implements AdapterInterface
         $this->getQuery()->setFirstResult(firstResult: $offset);
         $this->getQuery()->setMaxResults(maxResults: $itemCountPerPage);
 
-        if (!array_key_exists(key: $offset, array: $this->cache)) {
+        if (! array_key_exists(key: $offset, array: $this->cache)) {
             $this->cache[$offset] = [];
         }
 

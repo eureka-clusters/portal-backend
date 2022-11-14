@@ -14,12 +14,10 @@ use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use Mailing\Entity;
 use Mailing\Entity\Sender;
-use Mailing\Form\MailingFilter;
 use Mailing\Service\MailingService;
 
 use function ceil;
 use function sprintf;
-use function urlencode;
 
 use const PHP_INT_MAX;
 
@@ -33,7 +31,7 @@ final class SenderController extends MailingAbstractController
     {
         $page         = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
-        $senderFilter    = $this->mailingService
+        $senderFilter = $this->mailingService
             ->findFiltered(entity: Sender::class, formResult: $filterPlugin->getFilter());
 
         $paginator = new Paginator(
@@ -54,10 +52,10 @@ final class SenderController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'paginator'     => $paginator,
-                'form'          => $form,
-                'order'         => $filterPlugin->getOrder(),
-                'direction'     => $filterPlugin->getDirection(),
+                'paginator' => $paginator,
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
+                'direction' => $filterPlugin->getDirection(),
             ]
         );
     }

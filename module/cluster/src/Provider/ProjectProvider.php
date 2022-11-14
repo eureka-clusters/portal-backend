@@ -38,38 +38,38 @@ class ProjectProvider implements ProviderInterface
 
         $projectData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$projectData) {
+        if (! $projectData) {
             $projectData = [
-                'slug' => $project->getSlug(),
-                'identifier' => $project->getIdentifier(),
-                'number' => $project->getNumber(),
-                'name' => $project->getName(),
-                'title' => $project->getTitle(),
-                'description' => $project->getDescription(),
-                'technicalArea' => $project->getTechnicalArea(),
-                'coordinator' => null === $project->getCoordinatorPartner(
+                'slug'                     => $project->getSlug(),
+                'identifier'               => $project->getIdentifier(),
+                'number'                   => $project->getNumber(),
+                'name'                     => $project->getName(),
+                'title'                    => $project->getTitle(),
+                'description'              => $project->getDescription(),
+                'technicalArea'            => $project->getTechnicalArea(),
+                'coordinator'              => null === $project->getCoordinatorPartner(
                 ) ? null : PartnerProvider::parseCoordinatorArray(partner: $project->getCoordinatorPartner()),
-                'projectLeader' => $this->contactProvider->generateArray(contact: $project->getProjectLeader()),
-                'latestVersion' => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
+                'projectLeader'            => $this->contactProvider->generateArray(contact: $project->getProjectLeader()),
+                'latestVersion'            => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
                     version: $project->getLatestVersion()
                 ),
-                'programme' => $project->getProgramme(),
-                'programmeCall' => $project->getProgrammeCall(),
-                'primaryCluster' => $this->clusterProvider->generateArray(cluster: $project->getPrimaryCluster()),
-                'secondaryCluster' => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
+                'programme'                => $project->getProgramme(),
+                'programmeCall'            => $project->getProgrammeCall(),
+                'primaryCluster'           => $this->clusterProvider->generateArray(cluster: $project->getPrimaryCluster()),
+                'secondaryCluster'         => ! $project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
                     cluster: $project->getSecondaryCluster()
                 ),
-                'cancelDate' => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
-                'labelDate' => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
-                'officialStartDate' => $project->getOfficialStartDate()?->format(format: DateTimeInterface::ATOM),
-                'officialEndDate' => $project->getOfficialEndDate()?->format(format: DateTimeInterface::ATOM),
-                'duration' => [
-                    'years' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_YEAR),
+                'cancelDate'               => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
+                'labelDate'                => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
+                'officialStartDate'        => $project->getOfficialStartDate()?->format(format: DateTimeInterface::ATOM),
+                'officialEndDate'          => $project->getOfficialEndDate()?->format(format: DateTimeInterface::ATOM),
+                'duration'                 => [
+                    'years'  => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_YEAR),
                     'months' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_MONTH),
-                    'days' => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_DAYS),
+                    'days'   => $this->projectService->parseDuration(project: $project, type: ProjectService::DURATION_DAYS),
                 ],
-                'status' => $this->projectStatusProvider->generateArray(status: $project->getStatus()),
-                'latestVersionTotalCosts' => null === $project->getLatestVersion(
+                'status'                   => $this->projectStatusProvider->generateArray(status: $project->getStatus()),
+                'latestVersionTotalCosts'  => null === $project->getLatestVersion(
                 ) ? null : $this->versionService->parseTotalCostsByProjectVersion(
                     projectVersion: $project->getLatestVersion()
                 ),

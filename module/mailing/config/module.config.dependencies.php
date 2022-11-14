@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Mailing;
 
-use Admin\Service\UserService;
 use Application\Service\FormService;
-use Deeplink\Service\DeeplinkService;
 use Doctrine\ORM\EntityManager;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
@@ -21,21 +19,21 @@ use Mailing\Service\MailingService;
 
 return [
     ConfigAbstractFactory::class => [
-        EmailController::class => [
+        EmailController::class         => [
             MailingService::class,
             EntityManager::class,
         ],
-        SenderController::class => [
+        SenderController::class        => [
             MailingService::class,
             FormService::class,
             TranslatorInterface::class,
         ],
-        TemplateController::class => [
+        TemplateController::class      => [
             MailingService::class,
             FormService::class,
             TranslatorInterface::class,
         ],
-        MailerController::class => [
+        MailerController::class        => [
             MailerService::class,
             EmailService::class,
             FormService::class,
@@ -47,10 +45,10 @@ return [
             FormService::class,
             TranslatorInterface::class,
         ],
-        MailingService::class => [
-            EntityManager::class
+        MailingService::class          => [
+            EntityManager::class,
         ],
-        MailerService::class => [
+        MailerService::class           => [
             EntityManager::class,
         ],
     ],

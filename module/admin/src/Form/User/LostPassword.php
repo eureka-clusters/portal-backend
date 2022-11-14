@@ -23,22 +23,22 @@ final class LostPassword extends Form implements InputFilterProviderInterface
 
         $this->add(
             elementOrFieldset: [
-                'name' => 'email',
-                'type' => Email::class,
-                'options' => [
-                    'label' => _('txt-company-email-address'),
+                'name'       => 'email',
+                'type'       => Email::class,
+                'options'    => [
+                    'label'      => _('txt-company-email-address'),
                     'help-block' => _('txt-lost-password-help-block'),
                 ],
                 'attributes' => [
                     'placeholder' => _('txt-company-email-address'),
-                    'class' => 'form-control',
+                    'class'       => 'form-control',
                 ],
             ]
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Csrf::class,
-                'name' => 'csrf',
+                'type'    => Csrf::class,
+                'name'    => 'csrf',
                 'options' => [
                     'csrf_options' => [
                         'timeout' => 1200,
@@ -48,8 +48,8 @@ final class LostPassword extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Submit::class,
-                'name' => 'submit',
+                'type'       => Submit::class,
+                'name'       => 'submit',
                 'attributes' => [
                     'class' => 'btn btn-primary',
                     'value' => _('txt-reset-password'),
@@ -58,8 +58,8 @@ final class LostPassword extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Submit::class,
-                'name' => 'cancel',
+                'type'       => Submit::class,
+                'name'       => 'cancel',
                 'attributes' => [
                     'class' => 'btn btn-warning',
                     'value' => _('txt-cancel'),
@@ -72,8 +72,8 @@ final class LostPassword extends Form implements InputFilterProviderInterface
     {
         return [
             'email' => [
-                'required' => true,
-                'filters' => [
+                'required'   => true,
+                'filters'    => [
                     [
                         'name' => StringTrim::class,
                     ],

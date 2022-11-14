@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Mailing\Service;
 
-use Exception;
 use DateTime;
 use Deeplink\Service\DeeplinkService;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use InvalidArgumentException;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Mail\Transport\Sendmail;
@@ -15,12 +15,10 @@ use Laminas\Mail\Transport\Smtp;
 use Laminas\Mail\Transport\SmtpOptions;
 use Mailing\Builder\CustomEmailBuilder;
 use Mailing\Builder\EmailBuilder;
-use Mailing\Builder\MailingEmailBuilder;
 use Mailing\Builder\TransactionalEmailBuilder;
 use Mailing\Entity\EmailMessage;
 use Mailing\Entity\EmailMessageEvent;
 use Mailing\Entity\Mailer;
-use Mailing\Entity\Mailing;
 use Mailing\Entity\Transactional;
 use Mailing\Validator\EmailValidator;
 use Mailjet\Client;
@@ -28,6 +26,9 @@ use Mailjet\Resources;
 use Psr\Container\ContainerInterface;
 use SendGrid;
 use SendGrid\Mail\Mail;
+
+use function is_string;
+use function sprintf;
 
 class EmailService
 {
@@ -82,11 +83,11 @@ class EmailService
 
         $validator = new EmailValidator(emailBuilder: $emailBuilder);
 
-        if (!$validator->isValid()) {
+        if (! $validator->isValid()) {
             return null;
         }
 
-        if (!$this->mailer->isActive()) {
+        if (! $this->mailer->isActive()) {
             return null;
         }
 
@@ -95,7 +96,7 @@ class EmailService
         $emailMessageEvent = new EmailMessageEvent();
         $emailMessageEvent->setEmailMessage(emailMessage: $emailMessage);
 
-        if (!$this->mailer->isDevelopment()) {
+        if (! $this->mailer->isDevelopment()) {
             switch (true) {
                 case $this->mailer->isSendGrid():
                     $this->sendEmailViaSendGrid(
@@ -126,7 +127,7 @@ class EmailService
                     );
                     break;
                 default:
-                    throw new \InvalidArgumentException(message: 'The selected service does not exist');
+                    throw new InvalidArgumentException(message: 'The selected service does not exist');
             }
         }
 
@@ -267,7 +268,7 @@ class EmailService
             args: ['body' => $emailBuilder->getMailjetBody(identifier: $emailMessage->getIdentifier())->toArray()]
         );
 
-        if (!$response->success()) {
+        if (! $response->success()) {
             //Update the email message
             $emailMessage->setLatestEvent(latestEvent: 'sending_failed');
             $emailMessageEvent->setEvent(event: 'sending_failed');
@@ -292,7 +293,7 @@ class EmailService
         EmailMessage $emailMessage,
         EmailMessageEvent $emailMessageEvent
     ): void {
-        $transport = new Smtp();
+        $transport       = new Smtp();
         $transportConfig = [];
 
         $transportConfig['host'] = $this->mailer->getHostname();
@@ -302,11 +303,11 @@ class EmailService
             $transportConfig['connection_config']['ssl'] = $this->mailer->getSsl();
         }
         if (null !== $this->mailer->getUsername()) {
-            $transportConfig['connection_class'] = 'login';
+            $transportConfig['connection_class']              = 'login';
             $transportConfig['connection_config']['username'] = $this->mailer->getUsername();
         }
         if (null !== $this->mailer->getPassword()) {
-            $transportConfig['connection_class'] = 'login';
+            $transportConfig['connection_class']              = 'login';
             $transportConfig['connection_config']['password'] = $this->mailer->getPassword();
         }
 

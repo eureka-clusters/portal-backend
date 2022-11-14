@@ -6,6 +6,9 @@ namespace Application\Authentication\Adapter;
 
 use PDO;
 
+use function array_merge;
+use function sprintf;
+
 final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
 {
     public function getUser($username): array|bool
@@ -13,7 +16,7 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
         $stmt = $this->db->prepare(query: $sql = sprintf(format: 'SELECT * from admin_user where email=:email'));
         $stmt->execute(params: ['email' => $username]);
 
-        if (!$userInfo = $stmt->fetch(mode: PDO::FETCH_ASSOC)) {
+        if (! $userInfo = $stmt->fetch(mode: PDO::FETCH_ASSOC)) {
             return false;
         }
 

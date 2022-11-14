@@ -12,47 +12,47 @@ return [
     'router' => [
         'routes' => [
             'user' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route' => '/user',
+                'type'          => Literal::class,
+                'options'       => [
+                    'route'    => '/user',
                     'defaults' => [
                         'controller' => UserController::class,
-                        'action' => 'list',
+                        'action'     => 'list',
                     ],
                 ],
                 'may_terminate' => false,
-                'child_routes' => [
-                    'login' => [
-                        'type' => Segment::class,
+                'child_routes'  => [
+                    'login'           => [
+                        'type'    => Segment::class,
                         'options' => [
-                            'route' => '/login.html',
+                            'route'    => '/login.html',
                             'defaults' => [
                                 'action' => 'login',
                             ],
                         ],
                     ],
-                    'logout' => [
-                        'type' => Segment::class,
+                    'logout'          => [
+                        'type'    => Segment::class,
                         'options' => [
-                            'route' => '/logout.html',
+                            'route'    => '/logout.html',
                             'defaults' => [
                                 'action' => 'logout',
                             ],
                         ],
                     ],
                     'change-password' => [
-                        'type' => 'Segment',
+                        'type'    => 'Segment',
                         'options' => [
-                            'route' => '/change-password.html',
+                            'route'    => '/change-password.html',
                             'defaults' => [
                                 'action' => 'change-password',
                             ],
                         ],
                     ],
-                    'lost-password' => [
-                        'type' => 'Segment',
+                    'lost-password'   => [
+                        'type'    => 'Segment',
                         'options' => [
-                            'route' => '/lost-password.html',
+                            'route'    => '/lost-password.html',
                             'defaults' => [
                                 'action' => 'lost-password',
                             ],

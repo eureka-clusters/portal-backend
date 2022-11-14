@@ -55,9 +55,9 @@ class Version extends AbstractEntity
 
     public function __construct()
     {
-        $this->project = new Project();
-        $this->type = new Type();
-        $this->status = new Status();
+        $this->project        = new Project();
+        $this->type           = new Type();
+        $this->status         = new Status();
         $this->costsAndEffort = new ArrayCollection();
     }
 

@@ -28,7 +28,7 @@ final class Recipient
 
         $emailValidator = new EmailAddress();
 
-        if (!$emailValidator->isValid(value: $this->email)) {
+        if (! $emailValidator->isValid(value: $this->email)) {
             $invalidReasons[] = sprintf('Email address (%s) is invalid', $this->email);
         }
 
@@ -39,7 +39,7 @@ final class Recipient
     {
         return [
             'Email' => $this->email,
-            'Name' => $this->name,
+            'Name'  => $this->name,
         ];
     }
 

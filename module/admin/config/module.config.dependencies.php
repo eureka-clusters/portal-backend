@@ -24,19 +24,19 @@ use Mailing\Service\EmailService;
 
 return [
     ConfigAbstractFactory::class => [
-        UserService::class => [
+        UserService::class       => [
             EntityManager::class,
             EmailService::class,
         ],
-        AdminService::class => [
+        AdminService::class      => [
             EntityManager::class,
             TranslatorInterface::class,
         ],
-        ApiService::class => [
+        ApiService::class        => [
             EntityManager::class,
             TranslatorInterface::class,
         ],
-        UserController::class => [
+        UserController::class    => [
             AdminService::class,
             UserService::class,
             'Config',
@@ -44,12 +44,12 @@ return [
             AuthenticationService::class,
             TranslatorInterface::class,
         ],
-        RoleController::class => [
+        RoleController::class    => [
             AdminService::class,
             FormService::class,
             TranslatorInterface::class,
         ],
-        ClientController::class => [
+        ClientController::class  => [
             OAuth2Service::class,
             EntityManager::class,
             TranslatorInterface::class,
@@ -59,11 +59,11 @@ return [
             FormService::class,
             TranslatorInterface::class,
         ],
-        ScopeController::class => [
+        ScopeController::class   => [
             OAuth2Service::class,
             TranslatorInterface::class,
         ],
-        CacheController::class => [
+        CacheController::class   => [
             Redis::class,
         ],
     ],

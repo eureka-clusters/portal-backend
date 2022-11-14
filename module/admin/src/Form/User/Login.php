@@ -25,34 +25,34 @@ final class Login extends Form implements InputFilterProviderInterface
 
         $this->add(
             elementOrFieldset: [
-                'name' => 'username',
-                'type' => Email::class,
-                'options' => [
+                'name'       => 'username',
+                'type'       => Email::class,
+                'options'    => [
                     'label' => _('txt-identity'),
                 ],
                 'attributes' => [
                     'placeholder' => _('txt-company-email-address'),
-                    'class' => 'form-control',
+                    'class'       => 'form-control',
                 ],
             ]
         );
         $this->add(
             elementOrFieldset: [
-                'name' => 'password',
-                'type' => Password::class,
-                'options' => [
+                'name'       => 'password',
+                'type'       => Password::class,
+                'options'    => [
                     'label' => _('txt-password'),
                 ],
                 'attributes' => [
                     'placeholder' => _('txt-password'),
-                    'class' => 'form-control',
+                    'class'       => 'form-control',
                 ],
             ]
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Csrf::class,
-                'name' => 'csrf',
+                'type'    => Csrf::class,
+                'name'    => 'csrf',
                 'options' => [
                     'csrf_options' => [
                         'timeout' => 1200,
@@ -62,8 +62,8 @@ final class Login extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'name' => 'submit',
-                'type' => Submit::class,
+                'name'       => 'submit',
+                'type'       => Submit::class,
                 'attributes' => [
                     'class' => 'btn btn-primary',
                     'value' => _('txt-login'),
@@ -77,7 +77,7 @@ final class Login extends Form implements InputFilterProviderInterface
         return [
             'username' => [
                 'required' => true,
-                'filters' => [
+                'filters'  => [
                     [
                         'name' => StringTrim::class,
                     ],

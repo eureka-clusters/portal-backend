@@ -8,18 +8,22 @@ use Admin\Entity\User;
 use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use GuzzleHttp\RequestOptions;
 use Laminas\Json\Json;
 use OAuth2\Encryption\Jwt;
 use RuntimeException;
 
+use function time;
+
 class OAuth2Service extends AbstractService
 {
     public function findClientByClientId(string $clientId): Client
     {
         $repository = $this->entityManager->getRepository(entityName: Client::class);
-        $client = $repository->findOneBy(criteria: ['clientId' => $clientId]);
+        $client     = $repository->findOneBy(criteria: ['clientId' => $clientId]);
 
         if (null === $client) {
             throw new RuntimeException(message: "No JWT client available");
@@ -41,19 +45,19 @@ class OAuth2Service extends AbstractService
             'POST',
             $service->getAccessTokenUrl(),
             [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
+                RequestOptions::HEADERS     => [
+                    'Accept'       => 'application/json',
                     'Content-Type' => 'application/json',
                 ],
-                RequestOptions::DEBUG => false,
+                RequestOptions::DEBUG       => false,
                 RequestOptions::HTTP_ERRORS => true,
-                RequestOptions::JSON => [
-                    'grant_type' => 'client_credentials',
-                    'redirect_uri' => $service->getRedirectUrl(),
-                    'client_id' => $service->getClientId(),
+                RequestOptions::JSON        => [
+                    'grant_type'    => 'client_credentials',
+                    'redirect_uri'  => $service->getRedirectUrl(),
+                    'client_id'     => $service->getClientId(),
                     'client_secret' => $service->getClientSecret(),
-                    'scope' => $service->getScope()->getScope()
-                ]
+                    'scope'         => $service->getScope()->getScope(),
+                ],
             ]
         );
 
@@ -66,15 +70,15 @@ class OAuth2Service extends AbstractService
     public function generateJwtToken(Client $client, User $user): string
     {
         $payload = [
-            'id' => 1, // for BC (see #591)
-            'jti' => 1,
-            'iss' => 'eureka-clusters',
-            'aud' => $client->getClientId(),
-            'sub' => $user->getId(),
-            'exp' => (new \DateTime())->add(interval: new \DateInterval(duration: 'P1D'))->getTimestamp(),
-            'iat' => time(),
+            'id'         => 1, // for BC (see #591)
+            'jti'        => 1,
+            'iss'        => 'eureka-clusters',
+            'aud'        => $client->getClientId(),
+            'sub'        => $user->getId(),
+            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1D'))->getTimestamp(),
+            'iat'        => time(),
             'token_type' => $client->getPublicKey()?->getEncryptionAlgorithm(),
-            'scope' => 'openid'
+            'scope'      => 'openid',
         ];
 
         $jwtHelper = new Jwt();

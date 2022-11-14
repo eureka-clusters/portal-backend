@@ -31,7 +31,7 @@ final class DatabaseAdapter implements AdapterInterface
             );
         }
 
-        if (!$this->validateCredential(user: $user, credential: $this->password)) {
+        if (! $this->validateCredential(user: $user, credential: $this->password)) {
             return new Result(code: Result::FAILURE_CREDENTIAL_INVALID, identity: null, messages: ['Supplied credential is not valid']);
         }
 
@@ -43,6 +43,6 @@ final class DatabaseAdapter implements AdapterInterface
         $bcrypt = new Bcrypt();
         $bcrypt->setCost(cost: 14);
 
-        return $bcrypt->verify(password: (string)$credential, hash: $user->getPassword());
+        return $bcrypt->verify(password: (string) $credential, hash: $user->getPassword());
     }
 }

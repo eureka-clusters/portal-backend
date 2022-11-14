@@ -25,9 +25,9 @@ class StatusProvider implements ProviderInterface
 
         $statusData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$statusData) {
+        if (! $statusData) {
             $statusData = [
-                'id' => $status->getId(),
+                'id'     => $status->getId(),
                 'status' => $status->getStatus(),
             ];
 

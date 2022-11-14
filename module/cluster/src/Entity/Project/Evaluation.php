@@ -56,8 +56,8 @@ class Evaluation extends AbstractEntity
     {
         $this->dateCreated = new DateTime();
 
-        $this->status = new Status();
-        $this->user = new User();
+        $this->status  = new Status();
+        $this->user    = new User();
         $this->country = new Country();
         $this->project = new Project();
     }

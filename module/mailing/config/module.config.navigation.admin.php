@@ -17,20 +17,20 @@ return [
     'navigation' => [
         'default' => [
             'mailing' => [
-                'label' => _('txt-emails'),
-                'resource' => 'route/zfcadmin/mailing/email/list',
+                'label'     => _('txt-emails'),
+                'resource'  => 'route/zfcadmin/mailing/email/list',
                 'privilege' => 'list',
-                'uri' => '#',
-                'pages' => [
+                'uri'       => '#',
+                'pages'     => [
                     // And finally, here is where we define our page hierarchy
-                    'email' => [
+                    'email'         => [
                         'label' => _('txt-nav-email-list'),
                         'route' => 'zfcadmin/mailing/email/list',
                         'pages' => [
                             'email-view' => [
-                                'route' => 'zfcadmin/mailing/email/view',
+                                'route'  => 'zfcadmin/mailing/email/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => EmailMessage::class,
                                     ],
                                     'invokables' => [
@@ -40,24 +40,24 @@ return [
                             ],
                         ],
                     ],
-                    'senders' => [
+                    'senders'       => [
                         'label' => _('txt-nav-sender-list'),
                         'route' => 'zfcadmin/mailing/sender/list',
                         'pages' => [
                             'view' => [
-                                'route' => 'zfcadmin/mailing/sender/view',
+                                'route'  => 'zfcadmin/mailing/sender/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => Sender::class,
                                     ],
                                     'invokables' => [
                                         SenderLabel::class,
                                     ],
                                 ],
-                                'pages' => [
+                                'pages'  => [
                                     'edit' => [
-                                        'label' => _('txt-nav-edit'),
-                                        'route' => 'zfcadmin/mailing/sender/edit',
+                                        'label'  => _('txt-nav-edit'),
+                                        'route'  => 'zfcadmin/mailing/sender/edit',
                                         'params' => [
                                             'entities' => [
                                                 'id' => Sender::class,
@@ -66,30 +66,30 @@ return [
                                     ],
                                 ],
                             ],
-                            'new' => [
+                            'new'  => [
                                 'route' => 'zfcadmin/mailing/sender/new',
                                 'label' => _('txt-new-sender'),
                             ],
                         ],
                     ],
-                    'mailers' => [
+                    'mailers'       => [
                         'label' => _('txt-nav-mailer-list'),
                         'route' => 'zfcadmin/mailing/mailer/list',
                         'pages' => [
                             'view' => [
-                                'route' => 'zfcadmin/mailing/mailer/view',
+                                'route'  => 'zfcadmin/mailing/mailer/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => Mailer::class,
                                     ],
                                     'invokables' => [
-                                        MailerLabel::class
+                                        MailerLabel::class,
                                     ],
                                 ],
-                                'pages' => [
+                                'pages'  => [
                                     'edit' => [
-                                        'label' => _('txt-nav-edit'),
-                                        'route' => 'zfcadmin/mailing/mailer/edit',
+                                        'label'  => _('txt-nav-edit'),
+                                        'route'  => 'zfcadmin/mailing/mailer/edit',
                                         'params' => [
                                             'entities' => [
                                                 'id' => Mailer::class,
@@ -98,30 +98,30 @@ return [
                                     ],
                                 ],
                             ],
-                            'new' => [
+                            'new'  => [
                                 'route' => 'zfcadmin/mailing/mailer/new',
                                 'label' => _('txt-new-mailer'),
                             ],
                         ],
                     ],
-                    'templates' => [
+                    'templates'     => [
                         'label' => _('txt-nav-mailing-template-list'),
                         'route' => 'zfcadmin/mailing/template/list',
                         'pages' => [
                             'view' => [
-                                'route' => 'zfcadmin/mailing/template/view',
+                                'route'  => 'zfcadmin/mailing/template/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => Template::class,
                                     ],
                                     'invokables' => [
                                         TemplateLabel::class,
                                     ],
                                 ],
-                                'pages' => [
+                                'pages'  => [
                                     'edit' => [
-                                        'label' => _('txt-nav-edit'),
-                                        'route' => 'zfcadmin/mailing/template/edit',
+                                        'label'  => _('txt-nav-edit'),
+                                        'route'  => 'zfcadmin/mailing/template/edit',
                                         'params' => [
                                             'entities' => [
                                                 'id' => Template::class,
@@ -130,7 +130,7 @@ return [
                                     ],
                                 ],
                             ],
-                            'new' => [
+                            'new'  => [
                                 'route' => 'zfcadmin/mailing/template/new',
                                 'label' => _('txt-new-email-template'),
                             ],
@@ -141,19 +141,19 @@ return [
                         'route' => 'zfcadmin/mailing/transactional/list',
                         'pages' => [
                             'view' => [
-                                'route' => 'zfcadmin/mailing/transactional/view',
+                                'route'  => 'zfcadmin/mailing/transactional/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => Transactional::class,
                                     ],
                                     'invokables' => [
                                         TransactionalLabel::class,
                                     ],
                                 ],
-                                'pages' => [
+                                'pages'  => [
                                     'edit' => [
-                                        'label' => _('txt-nav-edit'),
-                                        'route' => 'zfcadmin/mailing/transactional/edit',
+                                        'label'  => _('txt-nav-edit'),
+                                        'route'  => 'zfcadmin/mailing/transactional/edit',
                                         'params' => [
                                             'entities' => [
                                                 'id' => Transactional::class,
@@ -162,7 +162,7 @@ return [
                                     ],
                                 ],
                             ],
-                            'new' => [
+                            'new'  => [
                                 'route' => 'zfcadmin/mailing/transactional/new',
                                 'label' => _('txt-new-transactional-email'),
                             ],

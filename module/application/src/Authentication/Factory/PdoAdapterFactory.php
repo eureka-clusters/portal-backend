@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Application\Authentication\Factory;
 
 use Application\Authentication\Adapter\PdoAdapter;
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 
 use function is_array;
 use function sprintf;
 
 final class PdoAdapterFactory
 {
-    public function __invoke(ContainerInterface $container): PdoAdapter
+    public function __invoke(containerinterface $container): PdoAdapter
     {
         $config = $container->get('config');
 
@@ -21,7 +21,7 @@ final class PdoAdapterFactory
         //Grab the params directly from the Doctrine Params
         $username = $config['doctrine']['connection']['orm_default']['params']['user'] ?? null;
         $password = $config['doctrine']['connection']['orm_default']['params']['password'] ?? null;
-        $options = $config['doctrine']['connection']['orm_default']['params']['driverOptions'] ?? [];
+        $options  = $config['doctrine']['connection']['orm_default']['params']['driverOptions'] ?? [];
 
         $dsn = sprintf(
             'mysql:dbname=%s;host=%s',
@@ -36,14 +36,14 @@ final class PdoAdapterFactory
 
         //Add 2 own options
         $oauth2ServerConfig['bcrypt_cost'] = 14;
-        $oauth2ServerConfig['user_table'] = 'admin_user';
+        $oauth2ServerConfig['user_table']  = 'admin_user';
 
         return new PdoAdapter(
             connection: [
-                'dsn' => $dsn,
+                'dsn'      => $dsn,
                 'username' => $username,
                 'password' => $password,
-                'options' => $options,
+                'options'  => $options,
             ],
             config: $oauth2ServerConfig
         );

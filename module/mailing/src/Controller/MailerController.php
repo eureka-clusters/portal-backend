@@ -35,9 +35,9 @@ final class MailerController extends MailingAbstractController
 
     public function listAction(): ViewModel
     {
-        $page = $this->params()->fromRoute(param: 'page', default: 1);
+        $page         = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
-        $userQuery = $this->mailerService
+        $userQuery    = $this->mailerService
             ->findFiltered(entity: Mailer::class, formResult: $filterPlugin->getFilter());
 
         $paginator = new Paginator(
@@ -49,8 +49,8 @@ final class MailerController extends MailingAbstractController
             )
         );
         $paginator::setDefaultItemCountPerPage(count: $page === 'all' ? PHP_INT_MAX : 20);
-        $paginator->setCurrentPageNumber(pageNumber: (int)$page);
-        $paginator->setPageRange(pageRange: (int)ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator->setCurrentPageNumber(pageNumber: (int) $page);
+        $paginator->setPageRange(pageRange: (int) ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
 
         $form = new MailerFilter();
 
@@ -59,17 +59,17 @@ final class MailerController extends MailingAbstractController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
-                'services' => Mailer::getServicesArray(),
+                'services'  => Mailer::getServicesArray(),
             ]
         );
     }
 
     public function viewAction(): ViewModel|Response
     {
-        $mailer = $this->mailerService->findMailerById(id: (int)$this->params('id'));
+        $mailer = $this->mailerService->findMailerById(id: (int) $this->params('id'));
 
         if (null === $mailer) {
             return $this->notFoundAction();
@@ -113,17 +113,19 @@ final class MailerController extends MailingAbstractController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Mailer $mailer */
-        $mailer = $this->mailerService->findMailerById(id: (int)$this->params('id'));
-        $data = $this->getRequest()->getPost()->toArray();
-        $form = $this->formService->prepare(classNameOrEntity: $mailer, data: $data);
+        $mailer = $this->mailerService->findMailerById(id: (int) $this->params('id'));
+        $data   = $this->getRequest()->getPost()->toArray();
+        $form   = $this->formService->prepare(classNameOrEntity: $mailer, data: $data);
 
-        if (!$this->mailerService->canDeleteMailer(mailer: $mailer)) {
+        if (! $this->mailerService->canDeleteMailer(mailer: $mailer)) {
             $form->remove(elementOrFieldset: 'delete');
         }
 
-        foreach ($this->mailerService->getRequiredFormFieldsByService(
-            service: $mailer->getService()
-        ) as $requiredFormField) {
+        foreach (
+            $this->mailerService->getRequiredFormFieldsByService(
+                service: $mailer->getService()
+            ) as $requiredFormField
+        ) {
             $form->getInputFilter()->get(name: 'mailing_entity_mailer')->get(name: $requiredFormField)->setRequired(
                 required: true
             );
@@ -160,17 +162,17 @@ final class MailerController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'form' => $form,
-                'mailer' => $mailer,
+                'form'        => $form,
+                'mailer'      => $mailer,
                 'serviceName' => $mailer->getServiceText(),
-                'formFields' => $this->mailerService->getFormFieldsByService(service: $mailer->getService())
+                'formFields'  => $this->mailerService->getFormFieldsByService(service: $mailer->getService()),
             ]
         );
     }
 
     public function newAction(): Response|ViewModel
     {
-        $service = (int)$this->params('service');
+        $service = (int) $this->params('service');
 
         $data = $this->getRequest()->getPost()->toArray();
         $form = $this->formService->prepare(classNameOrEntity: Mailer::class, data: $data);
@@ -207,10 +209,10 @@ final class MailerController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'form' => $form,
-                'service' => $service,
+                'form'        => $form,
+                'service'     => $service,
                 'serviceName' => Mailer::getServicesArray()[$service] ?? '',
-                'formFields' => $this->mailerService->getFormFieldsByService(service: $service)
+                'formFields'  => $this->mailerService->getFormFieldsByService(service: $service),
             ]
         );
     }

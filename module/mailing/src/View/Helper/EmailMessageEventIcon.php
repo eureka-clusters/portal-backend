@@ -6,6 +6,7 @@ namespace Mailing\View\Helper;
 
 use Mailing\Entity\EmailMessage;
 
+use function htmlentities;
 use function sprintf;
 
 final class EmailMessageEventIcon

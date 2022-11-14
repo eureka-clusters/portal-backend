@@ -33,20 +33,20 @@ final class PartnerListener extends AbstractResourceListener
 
     public function fetch($id = 'csv'): array
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return [];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
-        $filter = base64_decode(string: $filter, true);
+        $filter      = $this->getEvent()->getQueryParams()?->get(name: 'filter');
+        $filter      = base64_decode(string: $filter, strict: true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'partner.organisation.name';
-        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
         $partnerQueryBuilder = $this->partnerService->getPartners(
             user: $user,
@@ -58,7 +58,7 @@ final class PartnerListener extends AbstractResourceListener
         $partners = $partnerQueryBuilder->getQuery()->getResult();
 
         $results = [];
-        if (!empty($arrayFilter['year'])) {
+        if (! empty($arrayFilter['year'])) {
             /** @var Partner $partner */
             foreach ($partners as $partner) {
                 $results[] = $this->partnerYearProvider->generateArray(entity: $partner);
@@ -75,7 +75,7 @@ final class PartnerListener extends AbstractResourceListener
         $partnerSheet = $spreadSheet->getActiveSheet();
         $partnerSheet->setTitle(title: $this->translator->translate(message: 'txt-partners'));
 
-        $row = 1;
+        $row    = 1;
         $column = 'A';
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
@@ -108,7 +108,7 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
 
-        if (!empty($arrayFilter['year'])) {
+        if (! empty($arrayFilter['year'])) {
             $partnerSheet->setCellValue(
                 coordinate: $column++ . $row,
                 value: $this->translator->translate(
@@ -146,7 +146,7 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['country']['country']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['type']['type']);
 
-            if (!empty($arrayFilter['year'])) {
+            if (! empty($arrayFilter['year'])) {
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCostsInYear']);
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffortInYear']);
             } else {
@@ -162,7 +162,7 @@ final class PartnerListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         return ['download' => base64_encode(string: $file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

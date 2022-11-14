@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mailing\Controller;
 
+use Application\Form\SearchFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
@@ -11,10 +12,8 @@ use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use Mailing\Entity\EmailMessage;
 use Mailing\Service\MailingService;
-use Application\Form\SearchFilter;
 
 use function ceil;
-use function urlencode;
 
 use const PHP_INT_MAX;
 
@@ -47,11 +46,10 @@ final class EmailController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'paginator'     => $paginator,
-                'form'          => $form,
-
-                'order'         => $filterPlugin->getOrder(),
-                'direction'     => $filterPlugin->getDirection(),
+                'paginator' => $paginator,
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
+                'direction' => $filterPlugin->getDirection(),
             ]
         );
     }

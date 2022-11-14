@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Factory;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\Cache\Storage\Adapter\Redis;
 use Laminas\Cache\Storage\Plugin\ExceptionHandler;
 use Laminas\Cache\Storage\Plugin\Serializer;
@@ -13,7 +13,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 final class LaminasCacheFactory implements FactoryInterface
 {
     public function __invoke(
-        ContainerInterface $container,
+        containerinterface $container,
         $requestedName,
         ?array $options = null
     ): Redis {
@@ -25,9 +25,9 @@ final class LaminasCacheFactory implements FactoryInterface
 
         $cache->getOptions()->setServer(
             server: [
-                'host' => $cacheOptions['options']['server']['host'],
-                'port' => $cacheOptions['options']['server']['host'],
-                'timeout' => 0.3
+                'host'    => $cacheOptions['options']['server']['host'],
+                'port'    => $cacheOptions['options']['server']['host'],
+                'timeout' => 0.3,
             ]
         );
 

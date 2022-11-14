@@ -7,6 +7,8 @@ namespace Admin\Service;
 use Admin\Entity\Role;
 use Application\Service\AbstractService;
 
+use function count;
+
 class AdminService extends AbstractService
 {
     public function canDeleteRole(Role $role): bool
@@ -17,7 +19,7 @@ class AdminService extends AbstractService
             $cannotDeleteRole[] = 'This role is locked';
         }
 
-        if (!$role->getUsers()->isEmpty()) {
+        if (! $role->getUsers()->isEmpty()) {
             $cannotDeleteRole[] = 'This role has users';
         }
 

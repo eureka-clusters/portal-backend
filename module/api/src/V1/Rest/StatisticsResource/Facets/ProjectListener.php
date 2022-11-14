@@ -9,6 +9,8 @@ use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 
+use function base64_decode;
+
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
@@ -19,20 +21,22 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetch($id)
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return [
-                'countries' => [],
+                'countries'         => [],
                 'organisationTypes' => [],
-                'projectStatus' => [],
-                'programmeCalls' => [],
-                'clusters' => [],
+                'projectStatus'     => [],
+                'programmeCalls'    => [],
+                'clusters'          => [],
             ];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $id, true);
+        $filter      = base64_decode(string: $id, strict: true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         //Make sure you wrap the response in an array!!

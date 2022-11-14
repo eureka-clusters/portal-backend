@@ -27,9 +27,9 @@ final class GetFilter extends AbstractPlugin
     public function __invoke(): GetFilter
     {
         /** @var Application $application */
-        $application = $this->container->get('application');
+        $application   = $this->container->get('application');
         $encodedFilter = urldecode(
-            string: (string)$application->getMvcEvent()->getRouteMatch()->getParam(
+            string: (string) $application->getMvcEvent()->getRouteMatch()->getParam(
                 name: 'encodedFilter'
             )
         );
@@ -42,7 +42,7 @@ final class GetFilter extends AbstractPlugin
             direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
         );
 
-        if (!empty($encodedFilter)) {
+        if (! empty($encodedFilter)) {
             $this->filter->updateFromEncodedFilter(encodedFilter: $encodedFilter);
         }
 
@@ -93,12 +93,12 @@ final class GetFilter extends AbstractPlugin
 
     #[Pure] #[ArrayShape(shape: [
         'filter' => "array",
-        'query' => "null|string"
+        'query'  => "null|string",
     ])] public function getFilterFormData(): array
     {
         return [
             'filter' => $this->filter->getFilter(),
-            'query' => $this->filter->getQuery(),
+            'query'  => $this->filter->getQuery(),
         ];
     }
 }

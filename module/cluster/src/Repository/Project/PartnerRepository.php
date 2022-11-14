@@ -17,6 +17,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+use function array_map;
+
 class PartnerRepository extends EntityRepository
 {
     public function getPartnersByUserAndFilter(
@@ -45,7 +47,7 @@ class PartnerRepository extends EntityRepository
         //Filters filters filters
         $countryFilter = $filter['country'] ?? [];
 
-        if (!empty($countryFilter)) {
+        if (! empty($countryFilter)) {
             //Find the projects where the country is active
             $countryFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'project_partner_filter_country')
@@ -69,7 +71,7 @@ class PartnerRepository extends EntityRepository
 
         $organisationTypeFilter = $filter['organisationType'] ?? [];
 
-        if (!empty($organisationTypeFilter)) {
+        if (! empty($organisationTypeFilter)) {
             //Find the projects where we have organisations with this type
             $organisationTypeFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'project_partner_filter_organisation_type')
@@ -96,7 +98,7 @@ class PartnerRepository extends EntityRepository
 
         $projectStatusFilter = $filter['projectStatus'] ?? [];
 
-        if (!empty($projectStatusFilter)) {
+        if (! empty($projectStatusFilter)) {
             //Find the projects where we have organisations with this type
             $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'project_partner_filter_project_status')
@@ -123,7 +125,7 @@ class PartnerRepository extends EntityRepository
 
         $clustersFilter = $filter['clusters'] ?? [];
 
-        if (!empty($clustersFilter)) {
+        if (! empty($clustersFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'project_partner_filter_primary_cluster')
@@ -171,7 +173,7 @@ class PartnerRepository extends EntityRepository
 
         $programmeCallFilter = $filter['programmeCall'] ?? [];
 
-        if (!empty($programmeCallFilter)) {
+        if (! empty($programmeCallFilter)) {
             //Find the projects who are in the call
             $programmeCallFilterSubset = $this->_em->createQueryBuilder()
                 ->select(select: 'project_partner_filter_programme_call')
@@ -194,7 +196,7 @@ class PartnerRepository extends EntityRepository
 
         $yearFilter = $filter['year'] ?? [];
 
-        if (!empty($yearFilter)) {
+        if (! empty($yearFilter)) {
             $queryBuilder->select('project_partner', 'project_partner_costs_and_effort');
             //If we have a year, then we join on costs and effort
             $queryBuilder->join(join: 'project_partner.costsAndEffort', alias: 'project_partner_costs_and_effort');
@@ -434,8 +436,8 @@ class PartnerRepository extends EntityRepository
 
         return array_map(static fn (array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
-            '1' => $cluster1[1],
-            '2' => $cluster2[1],
+            '1'    => $cluster1[1],
+            '2'    => $cluster2[1],
         ], $primaryClusters, $secondaryClusters);
     }
 
@@ -458,7 +460,6 @@ class PartnerRepository extends EntityRepository
 
         $queryBuilder->groupBy(groupBy: 'cluster_entity_project.programmeCall');
         $queryBuilder->orderBy('cluster_entity_project.programmeCall', Criteria::ASC);
-
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

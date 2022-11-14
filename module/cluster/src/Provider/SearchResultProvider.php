@@ -15,13 +15,13 @@ class SearchResultProvider implements ProviderInterface
      * @param SearchResult $entity
      */
     #[ArrayShape(shape: [
-        'type' => "string",
-        'slug' => "string",
-        'name' => "string",
-        'title' => "null|string",
-        'description' => "null|string",
+        'type'             => "string",
+        'slug'             => "string",
+        'name'             => "string",
+        'title'            => "null|string",
+        'description'      => "null|string",
         'organisationType' => "null|string",
-        'country' => "null|string"
+        'country'          => "null|string",
     ])] #[Pure] public function generateArray($entity): array
     {
         return $entity->toArray();

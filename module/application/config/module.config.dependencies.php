@@ -19,20 +19,20 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
-        IndexController::class => [
+        IndexController::class       => [
             OAuth2Service::class,
         ],
-        OAuth2Controller::class => [
+        OAuth2Controller::class      => [
             UserService::class,
             OAuth2Service::class,
-            'Config'
+            'Config',
         ],
         InjectAclInNavigation::class => [
             AuthorizeService::class,
             'Config',
         ],
-        SetTitle::class => [
-            'ViewRenderer'
+        SetTitle::class              => [
+            'ViewRenderer',
         ],
         AuthenticationService::class => [
             AuthenticationStorage::class,
@@ -41,7 +41,7 @@ return [
             DoctrineGateway::class,
             UserService::class,
         ],
-        DoctrineGateway::class => [
+        DoctrineGateway::class       => [
             EntityManager::class,
             'Config',
         ],

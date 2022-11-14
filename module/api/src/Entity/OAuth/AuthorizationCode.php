@@ -43,7 +43,7 @@ class AuthorizationCode extends AbstractEntity
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client  = new Client();
         $this->expires = new DateTimeImmutable();
     }
 

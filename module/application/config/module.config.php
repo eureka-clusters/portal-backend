@@ -36,100 +36,98 @@ use Laminas\Stdlib\Glob;
 use Twig\Extension\DebugExtension;
 
 $config = [
-    'controllers' => [
+    'controllers'        => [
         'factories' => [
             OAuth2Controller::class => ConfigAbstractFactory::class,
-            IndexController::class => ConfigAbstractFactory::class
+            IndexController::class  => ConfigAbstractFactory::class,
         ],
     ],
     'controller_plugins' => [
-        'aliases' => [
+        'aliases'   => [
             'getFilter' => GetFilter::class,
         ],
         'factories' => [
             GetFilter::class => InvokableFactory::class,
         ],
     ],
-    'service_manager' => [
-        'aliases' => [
+    'service_manager'    => [
+        'aliases'   => [
             'BjyAuthorize\Cache' => Redis::class, //Map the bjy on the native cache
         ],
         'factories' => [
-            'doctrine.cache.application_cache' => DoctrineCacheFactory::class,
+            'doctrine.cache.application_cache'       => DoctrineCacheFactory::class,
             Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
-            Redis::class => LaminasCacheFactory::class,
-            PdoAdapter::class => PdoAdapterFactory::class,
-            TranslatorInterface::class => TranslatorServiceFactory::class,
-            ModuleOptions::class => ModuleOptionsFactory::class,
-            FormService::class => InvokableFactory::class,
-
-            InjectAclInNavigation::class => ConfigAbstractFactory::class,
-            SetTitle::class => ConfigAbstractFactory::class,
-            UpdateNavigation::class => InvokableFactory::class,
-
-            AuthenticationService::class => ConfigAbstractFactory::class,
-            AuthenticationStorage::class => ConfigAbstractFactory::class,
-            DoctrineGateway::class => ConfigAbstractFactory::class,
+            Redis::class                             => LaminasCacheFactory::class,
+            PdoAdapter::class                        => PdoAdapterFactory::class,
+            TranslatorInterface::class               => TranslatorServiceFactory::class,
+            ModuleOptions::class                     => ModuleOptionsFactory::class,
+            FormService::class                       => InvokableFactory::class,
+            InjectAclInNavigation::class             => ConfigAbstractFactory::class,
+            SetTitle::class                          => ConfigAbstractFactory::class,
+            UpdateNavigation::class                  => InvokableFactory::class,
+            AuthenticationService::class             => ConfigAbstractFactory::class,
+            AuthenticationStorage::class             => ConfigAbstractFactory::class,
+            DoctrineGateway::class                   => ConfigAbstractFactory::class,
         ],
     ],
-    'view_helpers' => [
+    'view_helpers'       => [
         'invokables' => [
             'translate' => Translate::class,
         ],
-        'aliases' => [
+        'aliases'    => [
             'paginationLink' => PaginationLink::class,
         ],
-        'factories' => [
+        'factories'  => [
             PaginationLink::class => InvokableFactory::class,
         ],
     ],
-    'translator' => [
-        'locale' => 'en_GB',
+    'translator'         => [
+        'locale'                    => 'en_GB',
         'translation_file_patterns' => [
             [
-                'type' => 'gettext',
+                'type'     => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern' => '%s.mo',
+                'pattern'  => '%s.mo',
             ],
         ],
     ],
-    'zfctwig' => [
-        'disable_zf_model' => false,
-        'extensions' => [
+    'zfctwig'            => [
+        'disable_zf_model'    => false,
+        'extensions'          => [
             DebugExtension::class,
-            StringDateExtension::class
+            StringDateExtension::class,
         ],
         'environment_options' => [
             'cache' => __DIR__ . '/../../../data/twig/',
         ],
     ],
-    'view_manager' => [
+    'view_manager'       => [
         'display_not_found_reason' => true,
-        'display_exceptions' => true,
-        'doctype' => 'HTML5',
-        'not_found_template' => 'error/404',
-        'exception_template' => 'error/500',
-        'template_path_stack' => [
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/500',
+        'template_path_stack'      => [
             'application' => __DIR__ . '/../view',
         ],
-        'template_map' => require __DIR__ . '/../template_map.php',
-        'strategies' => [
+        'template_map'             => require __DIR__ . '/../template_map.php',
+        'strategies'               => [
             'ViewJsonStrategy',
         ],
     ],
-    'doctrine' => [
-        'driver' => [
+    'doctrine'           => [
+        'driver'        => [
             'orm_default' => [
                 'class' => MappingDriverChain::class,
             ],
         ],
         'entitymanager' => [
             'orm_default' => [
-                'connection' => 'orm_default',
+                'connection'    => 'orm_default',
                 'configuration' => 'orm_default',
             ],
         ],
-        'eventmanager' => [
+        'eventmanager'  => [
             'orm_default' => [
                 'subscribers' => [
                     TimestampableListener::class,
@@ -139,10 +137,10 @@ $config = [
         ],
         'configuration' => [
             'orm_default' => [
-                'metadata_cache' => 'application_cache',
-                'query_cache' => 'application_cache',
-                'result_cache' => 'application_cache',
-                'hydration_cache' => 'application_cache',
+                'metadata_cache'   => 'application_cache',
+                'query_cache'      => 'application_cache',
+                'result_cache'     => 'application_cache',
+                'hydration_cache'  => 'application_cache',
                 'generate_proxies' => false,
             ],
         ],

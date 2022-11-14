@@ -21,23 +21,23 @@ return [
         // Controllers
         DeeplinkController::class => [
             DeeplinkService::class,
-            AuthenticationService::class
+            AuthenticationService::class,
         ],
-        TargetController::class => [
+        TargetController::class   => [
             DeeplinkService::class,
             FormService::class,
             TreeRouteStack::class,
             TranslatorInterface::class,
         ],
-        DeeplinkService::class => [
+        DeeplinkService::class    => [
             EntityManager::class,
             'ViewHelperManager',
         ],
-        TargetFilter::class => [
+        TargetFilter::class       => [
             EntityManager::class,
             TreeRouteStack::class,
         ],
-        CanAssemble::class => [
+        CanAssemble::class        => [
             'Router',
         ],
     ],

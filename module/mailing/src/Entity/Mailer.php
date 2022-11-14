@@ -24,15 +24,15 @@ use Laminas\Form\Element\Text;
 #[Name(name: 'mailing_mailer')]
 class Mailer extends AbstractEntity
 {
-    final public const MAILER_SERVICE_SMTP = 1;
+    final public const MAILER_SERVICE_SMTP     = 1;
     final public const MAILER_SERVICE_SENDMAIL = 2;
-    final public const MAILER_SERVICE_MAILJET = 3;
+    final public const MAILER_SERVICE_MAILJET  = 3;
     final public const MAILER_SERVICE_SENDGRID = 4;
 
     public static array $servicesArray = [
-        self::MAILER_SERVICE_SMTP => 'txt-mailer-service-smtp',
+        self::MAILER_SERVICE_SMTP     => 'txt-mailer-service-smtp',
         self::MAILER_SERVICE_SENDMAIL => 'txt-mailer-service-sendmail',
-        self::MAILER_SERVICE_MAILJET => 'txt-mailer-service-mailjet',
+        self::MAILER_SERVICE_MAILJET  => 'txt-mailer-service-mailjet',
         self::MAILER_SERVICE_SENDGRID => 'txt-mailer-service-sendgrid',
     ];
 
@@ -46,8 +46,8 @@ class Mailer extends AbstractEntity
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-service-help-block'])]
     #[Attributes(attributes: [
-        'label' => 'txt-mailer-service-label',
-        'placeholder' => 'txt-mailer-service-placeholder'
+        'label'       => 'txt-mailer-service-label',
+        'placeholder' => 'txt-mailer-service-placeholder',
     ])]
     private string $name = '';
 
@@ -59,8 +59,8 @@ class Mailer extends AbstractEntity
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-hostname-help-block'])]
     #[Attributes(attributes: [
-        'label' => 'txt-mailer-hostname-label',
-        'placeholder' => 'txt-mailer-hostname-placeholder'
+        'label'       => 'txt-mailer-hostname-label',
+        'placeholder' => 'txt-mailer-hostname-placeholder',
     ])]
     private ?string $hostname = null;
 
@@ -68,8 +68,8 @@ class Mailer extends AbstractEntity
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-username-help-block'])]
     #[Attributes(attributes: [
-        'label' => 'txt-mailer-username-label',
-        'placeholder' => 'txt-mailer-username-placeholder'
+        'label'       => 'txt-mailer-username-label',
+        'placeholder' => 'txt-mailer-username-placeholder',
     ])]
     private ?string $username = null;
 
@@ -77,8 +77,8 @@ class Mailer extends AbstractEntity
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-password-help-block'])]
     #[Attributes(attributes: [
-        'label' => 'txt-mailer-password-label',
-        'placeholder' => 'txt-mailer-password-placeholder'
+        'label'       => 'txt-mailer-password-label',
+        'placeholder' => 'txt-mailer-password-placeholder',
     ])]
     private ?string $password = null;
 
@@ -98,8 +98,8 @@ class Mailer extends AbstractEntity
     #[Type(type: Text::class)]
     #[Options(options: ['help-block' => 'txt-mailer-sendgrid-api-key-help-block'])]
     #[Attributes(attributes: [
-        'label' => 'txt-mailer-sendgrid-api-key-label',
-        'placeholder' => 'txt-mailer-sendgrid-api-key-placeholder'
+        'label'       => 'txt-mailer-sendgrid-api-key-label',
+        'placeholder' => 'txt-mailer-sendgrid-api-key-placeholder',
     ])]
     private ?string $sendGridApiKey = null;
 
@@ -126,7 +126,7 @@ class Mailer extends AbstractEntity
     #[Pure] public function __construct()
     {
         $this->transactional = new ArrayCollection();
-        $this->emailMessage = new ArrayCollection();
+        $this->emailMessage  = new ArrayCollection();
     }
 
     public static function getServicesArray(): array

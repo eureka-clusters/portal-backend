@@ -16,7 +16,7 @@ final class SenderLink extends AbstractLink
         string $show = 'text'
     ): string {
         $linkParams = [];
-        $sender ??= new Sender();
+        $sender   ??= new Sender();
 
         $routeParams = [];
         $showOptions = [];

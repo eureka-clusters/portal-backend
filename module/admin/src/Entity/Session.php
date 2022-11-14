@@ -50,7 +50,7 @@ class Session extends AbstractEntity
 
     public function __construct()
     {
-        $this->ip = $_SERVER['REMOTE_ADDR'] ?? '-';
+        $this->ip        = $_SERVER['REMOTE_ADDR'] ?? '-';
         $this->dateStart = new DateTime();
     }
 

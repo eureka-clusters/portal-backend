@@ -25,12 +25,12 @@ class CountryProvider implements ProviderInterface
 
         $countryData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$countryData) {
+        if (! $countryData) {
             $countryData = [
-                'id' => $country->getId(),
+                'id'      => $country->getId(),
                 'country' => $country->getCountry(),
-                'cd' => $country->getCd(),
-                'iso3' => $country->getIso3(),
+                'cd'      => $country->getCd(),
+                'iso3'    => $country->getIso3(),
             ];
 
             $this->cache->setItem(key: $cacheKey, value: $countryData);

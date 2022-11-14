@@ -21,25 +21,25 @@ final class SearchResult
     }
 
     #[ArrayShape(shape: [
-        'type' => "string",
-        'slug' => "string",
-        'name' => "string",
-        'title' => "null|string",
-        'description' => "null|string",
+        'type'             => "string",
+        'slug'             => "string",
+        'name'             => "string",
+        'title'            => "null|string",
+        'description'      => "null|string",
         'organisationType' => "null|string",
-        'country' => "null|string",
-        'score' => "null|float"
+        'country'          => "null|string",
+        'score'            => "null|float",
     ])] public function toArray(): array
     {
         return [
-            'type' => $this->type,
-            'slug' => $this->slug,
-            'name' => $this->name,
-            'title' => $this->title,
-            'description' => $this->description,
+            'type'             => $this->type,
+            'slug'             => $this->slug,
+            'name'             => $this->name,
+            'title'            => $this->title,
+            'description'      => $this->description,
             'organisationType' => $this->organisationType,
-            'country' => $this->country,
-            'score' => $this->score,
+            'country'          => $this->country,
+            'score'            => $this->score,
         ];
     }
 

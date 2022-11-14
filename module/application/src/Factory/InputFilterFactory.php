@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Application\Factory;
 
 use Doctrine\ORM\EntityManager;
-use Psr\Container\ContainerInterface;
 use Laminas\InputFilter\InputFilter;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class InputFilterFactory implements FactoryInterface
 {

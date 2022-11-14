@@ -25,10 +25,10 @@ class TypeProvider implements ProviderInterface
 
         $typeData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$typeData) {
+        if (! $typeData) {
             $typeData = [
-                'id' => $type->getId(),
-                'type' => $type->getType(),
+                'id'          => $type->getId(),
+                'type'        => $type->getType(),
                 'description' => $type->getDescription(),
             ];
 

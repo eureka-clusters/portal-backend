@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deeplink;
 
-use Laminas\Router\Http\Segment;
 use Deeplink\Controller\DeeplinkController;
 use Deeplink\Controller\TargetController;
+use Laminas\Router\Http\Segment;
 
 return [
     'router' => [

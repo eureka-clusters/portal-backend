@@ -26,7 +26,7 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
@@ -35,14 +35,14 @@ final class ProjectListener extends AbstractResourceListener
         $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
 
         //The filter is a base64 encoded serialised json string
-        $filter = base64_decode(string: $encodedFilter, true);
+        $filter = base64_decode(string: $encodedFilter, strict: true);
         // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultOrder = 'asc';
-        $defaultSort = 'project.name';
+        $defaultSort  = 'project.name';
 
-        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $sort  = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
         $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: $defaultOrder);
 
         $projectQueryBuilder = $this->projectService->getProjects(
@@ -51,7 +51,7 @@ final class ProjectListener extends AbstractResourceListener
             sort: $sort,
             order: $order
         );
-        $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectQueryBuilder);
+        $doctrineORMAdapter  = new DoctrineORMAdapter(query: $projectQueryBuilder);
         $doctrineORMAdapter->setProvider(provider: $this->projectProvider);
 
         return new Paginator(adapter: $doctrineORMAdapter);

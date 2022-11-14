@@ -38,8 +38,8 @@ class Funder extends AbstractEntity
 
     public function __construct()
     {
-        $this->user = new User();
-        $this->country = new Country();
+        $this->user     = new User();
+        $this->country  = new Country();
         $this->clusters = new ArrayCollection();
     }
 

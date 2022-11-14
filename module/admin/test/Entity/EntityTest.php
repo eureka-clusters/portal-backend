@@ -30,7 +30,7 @@ class EntityTest extends AbstractEntityTest
         foreach ($entities as $className => $reflectionClass) {
             $class = new $className();
             $class->setId(1);
-            self::assertIsString(actual: (string)$class);
+            self::assertIsString(actual: (string) $class);
         }
     }
 

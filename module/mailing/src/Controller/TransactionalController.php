@@ -69,9 +69,8 @@ final class TransactionalController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -80,7 +79,7 @@ final class TransactionalController extends AbstractActionController
     public function viewAction(): Response|ViewModel
     {
         /** @var Entity\Transactional $transactional */
-        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int)$this->params('id'));
+        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int) $this->params('id'));
 
         if (null === $transactional) {
             return $this->notFoundAction();
@@ -152,7 +151,7 @@ final class TransactionalController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Transactional $transactional */
-        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int)$this->params('id'));
+        $transactional = $this->mailingService->find(entity: Transactional::class, id: (int) $this->params('id'));
 
         if (null === $transactional) {
             return $this->notFoundAction();
@@ -162,7 +161,7 @@ final class TransactionalController extends AbstractActionController
 
         $form = $this->formService->prepare(classNameOrEntity: $transactional, data: $data);
 
-        if (!$this->mailingService->canDeleteTransactional(transactional: $transactional)) {
+        if (! $this->mailingService->canDeleteTransactional(transactional: $transactional)) {
             $form->remove(elementOrFieldset: 'delete');
 
             $form->get(elementOrFieldset: 'mailing_entity_transactional')->get(elementOrFieldset: 'key')->setAttribute(

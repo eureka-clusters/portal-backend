@@ -25,8 +25,8 @@ use function sprintf;
 #[Name(name: 'mailing_sender')]
 class Sender extends AbstractEntity
 {
-    final public const SENDER_DEFAULT = 1;
-    final public const SENDER_OWNER = 2;
+    final public const SENDER_DEFAULT        = 1;
+    final public const SENDER_OWNER          = 2;
     final public const SENDER_LOGGED_IN_USER = 3;
 
     #[ORM\Column(type: 'integer')]
@@ -58,7 +58,7 @@ class Sender extends AbstractEntity
     #[Pure] public function __construct()
     {
         $this->transactional = new ArrayCollection();
-        $this->emailMessage = new ArrayCollection();
+        $this->emailMessage  = new ArrayCollection();
     }
 
     public function __toString(): string

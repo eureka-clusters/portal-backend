@@ -14,6 +14,8 @@ use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
+use function usort;
+
 final class ResultListener extends AbstractResourceListener
 {
     public function __construct(
@@ -29,7 +31,7 @@ final class ResultListener extends AbstractResourceListener
         $query = $this->getEvent()->getQueryParam(name: 'query');
 
         $user = $this->userService->findUserById(
-            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+            id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
 
         if (null === $user) {
@@ -46,7 +48,7 @@ final class ResultListener extends AbstractResourceListener
 
         foreach ($projects as $resultArray) {
             $project = $resultArray[0];
-            $score = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
+            $score   = isset($resultArray['score']) ? (float) $resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type: 'project',
@@ -66,7 +68,7 @@ final class ResultListener extends AbstractResourceListener
 
         foreach ($organisations as $resultArray) {
             $organisation = $resultArray[0];
-            $score = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
+            $score        = isset($resultArray['score']) ? (float) $resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type: 'organisation',

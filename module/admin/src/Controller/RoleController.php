@@ -61,9 +61,8 @@ final class RoleController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -71,7 +70,7 @@ final class RoleController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $role = $this->adminService->find(entity: Role::class, id: (int)$this->params('id'));
+        $role = $this->adminService->find(entity: Role::class, id: (int) $this->params('id'));
 
         if (null === $role) {
             return $this->notFoundAction();
@@ -113,7 +112,7 @@ final class RoleController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Role $role */
-        $role = $this->adminService->find(entity: Role::class, id: (int)$this->params('id'));
+        $role = $this->adminService->find(entity: Role::class, id: (int) $this->params('id'));
 
         if (null === $role) {
             return $this->notFoundAction();
@@ -123,7 +122,7 @@ final class RoleController extends AbstractActionController
 
         $form = $this->formService->prepare(classNameOrEntity: $role, data: $data);
 
-        if (!$this->adminService->canDeleteRole($role)) {
+        if (! $this->adminService->canDeleteRole($role)) {
             $form->remove(elementOrFieldset: 'delete');
         }
 

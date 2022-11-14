@@ -25,10 +25,9 @@ final class Password extends Form implements InputFilterProviderInterface
 
         $this->add(
             elementOrFieldset: [
-                'type' => \Laminas\Form\Element\Password::class,
-                'name' => 'password',
-                'options' => [
-
+                'type'       => \Laminas\Form\Element\Password::class,
+                'name'       => 'password',
+                'options'    => [
                     'help-block' => _("txt-new-password-form-help"),
                 ],
                 'attributes' => [
@@ -38,11 +37,10 @@ final class Password extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => \Laminas\Form\Element\Password::class,
-                'name' => 'passwordVerify',
-                'options' => [
+                'type'       => \Laminas\Form\Element\Password::class,
+                'name'       => 'passwordVerify',
+                'options'    => [
                     'help-block' => _("txt-new-password-verify-form-help"),
-
                 ],
                 'attributes' => [
                     'label' => _("txt-new-password-verify"),
@@ -51,8 +49,8 @@ final class Password extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Csrf::class,
-                'name' => 'csrf',
+                'type'    => Csrf::class,
+                'name'    => 'csrf',
                 'options' => [
                     'csrf_options' => [
                         'timeout' => 1200,
@@ -62,8 +60,8 @@ final class Password extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Submit::class,
-                'name' => 'submit',
+                'type'       => Submit::class,
+                'name'       => 'submit',
                 'attributes' => [
                     'class' => "btn btn-primary",
                     'value' => _("txt-submit"),
@@ -72,8 +70,8 @@ final class Password extends Form implements InputFilterProviderInterface
         );
         $this->add(
             elementOrFieldset: [
-                'type' => Submit::class,
-                'name' => 'cancel',
+                'type'       => Submit::class,
+                'name'       => 'cancel',
                 'attributes' => [
                     'class' => "btn btn-warning",
                     'value' => _("txt-cancel"),
@@ -86,57 +84,57 @@ final class Password extends Form implements InputFilterProviderInterface
     public function getInputFilterSpecification(): array
     {
         return [
-            'password' => [
-                'required' => true,
+            'password'       => [
+                'required'   => true,
                 'validators' => [
                     [
-                        'name' => StringLength::class,
+                        'name'    => StringLength::class,
                         'options' => [
                             'min' => 12,
                         ],
                     ],
                     [
-                        'name' => Callback::class,
+                        'name'    => Callback::class,
                         'options' => [
                             'messages' => [
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 UPPERCASE character, none found',
                             ],
-                            'callback' => static fn ($value) => preg_match(pattern: '@[A-Z]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[A-Z]@', subject: (string) $value),
                         ],
                     ],
                     [
-                        'name' => Callback::class,
+                        'name'    => Callback::class,
                         'options' => [
                             'messages' => [
                                 Callback::INVALID_VALUE
                                 => 'The password requires at least 1 lowercase character, none found',
                             ],
-                            'callback' => static fn ($value) => preg_match(pattern: '@[a-z]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[a-z]@', subject: (string) $value),
                         ],
                     ],
                     [
-                        'name' => Callback::class,
+                        'name'    => Callback::class,
                         'options' => [
                             'messages' => [
                                 Callback::INVALID_VALUE => 'The password requires at least 1 number, none found',
                             ],
-                            'callback' => static fn ($value) => preg_match(pattern: '@[\d]@', subject: (string)$value),
+                            'callback' => static fn ($value) => preg_match(pattern: '@[\d]@', subject: (string) $value),
                         ],
                     ],
                 ],
             ],
             'passwordVerify' => [
-                'required' => true,
+                'required'   => true,
                 'validators' => [
                     [
-                        'name' => StringLength::class,
+                        'name'    => StringLength::class,
                         'options' => [
                             'min' => 12,
                         ],
                     ],
                     [
-                        'name' => 'Identical',
+                        'name'    => 'Identical',
                         'options' => [
                             'token' => 'password',
                         ],

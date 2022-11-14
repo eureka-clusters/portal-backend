@@ -17,6 +17,13 @@ use Laminas\Navigation\Page\Mvc;
 use Laminas\Router\RouteMatch;
 use Psr\Container\ContainerInterface;
 
+use function array_key_exists;
+use function array_merge;
+use function class_exists;
+use function defined;
+use function is_array;
+use function sprintf;
+
 class UpdateNavigation extends AbstractListenerAggregate
 {
     protected ArrayCollection $entities;
@@ -31,8 +38,8 @@ class UpdateNavigation extends AbstractListenerAggregate
 
     public function __construct(private readonly ContainerInterface $container)
     {
-        $this->translator = $container->get(TranslatorInterface::class);
-        $this->navigation = $container->get(Navigation::class);
+        $this->translator    = $container->get(TranslatorInterface::class);
+        $this->navigation    = $container->get(Navigation::class);
         $this->entityManager = $this->container->get(EntityManager::class);
 
         $this->entities = new ArrayCollection();
@@ -65,10 +72,12 @@ class UpdateNavigation extends AbstractListenerAggregate
                 foreach ($pageCustomParams['entities'] as $routeParam => $entityClass) {
                     // The routeParam can be aliased
                     $routeParamKey = $routeParam;
-                    if (isset($pageCustomParams['routeParam']) && array_key_exists(
-                        key: $routeParam,
-                        array: $pageCustomParams['routeParam']
-                    )) {
+                    if (
+                        isset($pageCustomParams['routeParam']) && array_key_exists(
+                            key: $routeParam,
+                            array: $pageCustomParams['routeParam']
+                        )
+                    ) {
                         $routeParamKey = $pageCustomParams['routeParam'][$routeParam];
                     }
 

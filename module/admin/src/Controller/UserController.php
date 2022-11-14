@@ -28,6 +28,7 @@ use Laminas\View\Model\ViewModel;
 use function ceil;
 use function sprintf;
 use function str_starts_with;
+use function urldecode;
 
 /**
  * @method GetFilter getFilter()
@@ -48,7 +49,7 @@ final class UserController extends AbstractActionController
 
     public function listAction(): ViewModel
     {
-        $page = $this->params()->fromRoute(param: 'page', default: 1);
+        $page         = $this->params()->fromRoute(param: 'page', default: 1);
         $filterPlugin = $this->getFilter();
 
         $userQuery = $this->adminService->findFiltered(
@@ -73,8 +74,8 @@ final class UserController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -82,7 +83,7 @@ final class UserController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
+        $user = $this->adminService->find(entity: User::class, id: (int) $this->params('id'));
 
         if (null === $user) {
             return $this->notFoundAction();
@@ -153,8 +154,8 @@ final class UserController extends AbstractActionController
     {
         $session = new Container(name: 'session');
 
-        $form = new Login();
-        $data = $this->getRequest()->getPost()->toArray();
+        $form     = new Login();
+        $data     = $this->getRequest()->getPost()->toArray();
         $redirect = $session->redirect;
 
         $isoAuthLogin = false;
@@ -170,7 +171,7 @@ final class UserController extends AbstractActionController
             $username = $form->getInputFilter()->getValue(name: 'username');
             $password = $form->getInputFilter()->getValue(name: 'password');
 
-            $authAdapter = new DatabaseAdapter(
+            $authAdapter  = new DatabaseAdapter(
                 userService: $this->userService,
                 username: $username,
                 password: $password
@@ -197,9 +198,9 @@ final class UserController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                'form' => $form,
-                'redirect' => $redirect,
-                'isoAuthLogin' => $isoAuthLogin,
+                'form'           => $form,
+                'redirect'       => $redirect,
+                'isoAuthLogin'   => $isoAuthLogin,
                 'oauth2Settings' => $this->config['oauth2-settings'] ?? [],
             ]
         );

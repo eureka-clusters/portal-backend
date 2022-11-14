@@ -15,20 +15,20 @@ return [
                         'route' => 'zfcadmin/deeplink/target/list',
                         'pages' => [
                             'view' => [
-                                'label' => 'txt-nav-dee-link-target-view',
-                                'route' => 'zfcadmin/deeplink/target/view',
+                                'label'  => 'txt-nav-dee-link-target-view',
+                                'route'  => 'zfcadmin/deeplink/target/view',
                                 'params' => [
-                                    'entities' => [
+                                    'entities'   => [
                                         'id' => Target::class,
                                     ],
                                     'invokables' => [
                                         TargetLabel::class,
                                     ],
                                 ],
-                                'pages' => [
+                                'pages'  => [
                                     'edit' => [
-                                        'label' => _('txt-nav-edit'),
-                                        'route' => 'zfcadmin/deeplink/target/edit',
+                                        'label'  => _('txt-nav-edit'),
+                                        'route'  => 'zfcadmin/deeplink/target/edit',
                                         'params' => [
                                             'entities' => [
                                                 'id' => Target::class,
@@ -37,7 +37,7 @@ return [
                                     ],
                                 ],
                             ],
-                            'new' => [
+                            'new'  => [
                                 'label' => _('txt-nav-new-deeplink-target'),
                                 'route' => 'zfcadmin/deeplink/target/new',
                             ],

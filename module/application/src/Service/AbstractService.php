@@ -6,12 +6,17 @@ namespace Application\Service;
 
 use Application\Entity\AbstractEntity;
 use Application\Repository\FilteredObjectRepository;
+use Application\ValueObject\SearchFormResult;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use InvalidArgumentException;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\HasPermitInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
-use Application\ValueObject\SearchFormResult;
+
+use function class_implements;
+use function in_array;
+use function sprintf;
 
 abstract class AbstractService implements HasPermitInterface
 {
@@ -41,12 +46,14 @@ abstract class AbstractService implements HasPermitInterface
         /** @var FilteredObjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: $entity);
 
-        if (!in_array(
-            needle: FilteredObjectRepository::class,
-            haystack: class_implements(object_or_class: $repository),
-            strict: true
-        )) {
-            throw new \InvalidArgumentException(
+        if (
+            ! in_array(
+                needle: FilteredObjectRepository::class,
+                haystack: class_implements(object_or_class: $repository),
+                strict: true
+            )
+        ) {
+            throw new InvalidArgumentException(
                 message: sprintf(
                     'The repository of %s should implement %s',
                     $entity,
@@ -58,10 +65,9 @@ abstract class AbstractService implements HasPermitInterface
         return $repository->findFiltered(searchFormResult: $formResult);
     }
 
-
     public function save(AbstractEntity $entity): AbstractEntity
     {
-        if (!$this->entityManager->contains(entity: $entity)) {
+        if (! $this->entityManager->contains(entity: $entity)) {
             $this->entityManager->persist(entity: $entity);
         }
         $this->entityManager->flush();

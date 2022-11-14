@@ -25,10 +25,10 @@ class ClusterProvider implements ProviderInterface
 
         $clusterData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$clusterData) {
+        if (! $clusterData) {
             $clusterData = [
-                'id' => $cluster->getId(),
-                'name' => $cluster->getName(),
+                'id'          => $cluster->getId(),
+                'name'        => $cluster->getName(),
                 'description' => $cluster->getDescription(),
             ];
 

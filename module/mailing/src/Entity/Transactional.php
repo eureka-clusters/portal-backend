@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Mailing\Entity;
 
 use Application\Entity\AbstractEntity;
-use Application\Twig\TemplateInterface;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineORMModule\Form\Element\EntitySelect;
@@ -22,13 +19,15 @@ use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Element\Textarea;
 
+use function array_key_exists;
+
 #[ORM\Table(name: 'mailing_transactional')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\Transactional::class)]
 #[Name(name: 'mailing_transactional')]
 class Transactional extends AbstractEntity
 {
     final public const TRANSACTIONAL_MAILING_QUEUE_START = 'mailing:queue:start';
-    final public const TRANSACTIONAL_MAILING_QUEUE_END = 'mailing:queue:end';
+    final public const TRANSACTIONAL_MAILING_QUEUE_END   = 'mailing:queue:end';
 
     public static array $lockedKeys
         = [
@@ -66,11 +65,11 @@ class Transactional extends AbstractEntity
     #[ORM\Column(type: 'text')]
     #[Type(type: Textarea::class)]
     #[Options(options: [
-        'label' => 'txt-transactional-mail-html-label',
+        'label'      => 'txt-transactional-mail-html-label',
         'help-block' => 'txt-transactional-mail-html-help-block',
     ])]
     #[Attributes(attributes: ['rows' => 30, 'id' => 'mailHtml'])]
-    private string $mailHtml = '';
+    private string $mailHtml      = '';
 
     #[ORM\Column]
     #[Type(type: Text::class)]
@@ -82,10 +81,10 @@ class Transactional extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     #[Type(type: EntitySelect::class)]
     #[Options(options: [
-        'help-block' => 'txt-mailing-transactional-template-help-block',
+        'help-block'   => 'txt-mailing-transactional-template-help-block',
         'empty_option' => '— Select a mailing template',
         'target_class' => Template::class,
-        'find_method' => ['name' => 'findBy', 'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]],
+        'find_method'  => ['name' => 'findBy', 'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]],
     ])]
     #[Attributes(attributes: ['label' => 'txt-mailing-transactional-template-label'])]
     private Template $template;
@@ -94,12 +93,12 @@ class Transactional extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     #[Type(type: EntitySelect::class)]
     #[Options(options: [
-        'help-block' => 'txt-mailing-transactional-sender-help-block',
+        'help-block'   => 'txt-mailing-transactional-sender-help-block',
         'empty_option' => '— Select a sender',
         'target_class' => Sender::class,
-        'find_method' => [
-            'name' => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['sender' => Criteria::ASC]]
+        'find_method'  => [
+            'name'   => 'findBy',
+            'params' => ['criteria' => [], 'orderBy' => ['sender' => Criteria::ASC]],
         ],
     ])]
     #[Attributes(attributes: ['label' => 'txt-mailing-transactional-sender-label'])]
@@ -109,27 +108,26 @@ class Transactional extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     #[Type(type: EntitySelect::class)]
     #[Options(options: [
-        'help-block' => 'txt-mailing-transactional-mailer-help-block',
+        'help-block'   => 'txt-mailing-transactional-mailer-help-block',
         'empty_option' => '— Select a mailer',
         'target_class' => Mailer::class,
-        'find_method' => [
-            'name' => 'findBy',
+        'find_method'  => [
+            'name'   => 'findBy',
             'params' => [
                 'criteria' => ['isActive' => true],
-                'orderBy' => ['name' => Criteria::ASC]
-            ]
+                'orderBy'  => ['name' => Criteria::ASC],
+            ],
         ],
     ])]
     #[Attributes(attributes: ['label' => 'txt-mailing-transactional-mailer-label'])]
     private Mailer $mailer;
 
-
     public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->sender = new Sender();
-        $this->mailer = new Mailer();
-        $this->template = new Template();
+        $this->sender      = new Sender();
+        $this->mailer      = new Mailer();
+        $this->template    = new Template();
     }
 
     public function parseSourceContent(): string
@@ -144,7 +142,7 @@ class Transactional extends AbstractEntity
 
     public function isLocked(): bool
     {
-        return array_key_exists(key: $this->key, array: self::$lockedKeys) ;
+        return array_key_exists(key: $this->key, array: self::$lockedKeys);
     }
 
     public function __toString(): string

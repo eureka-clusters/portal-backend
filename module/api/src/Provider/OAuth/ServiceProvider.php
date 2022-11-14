@@ -11,6 +11,7 @@ use Laminas\View\Helper\Url;
 use Laminas\View\HelperPluginManager;
 
 use function array_merge;
+use function sprintf;
 
 final class ServiceProvider implements ProviderInterface
 {
@@ -30,14 +31,14 @@ final class ServiceProvider implements ProviderInterface
 
         return array_merge(
             [
-                'id' => $service->getId(),
-                'name' => $service->getName(),
+                'id'       => $service->getId(),
+                'name'     => $service->getName(),
                 'loginUrl' => sprintf(
                     '%s%s',
                     $this->moduleOptions->getServerUrl(),
                     $urlHelper(name: 'oauth2/login', params: [
-                        'id' => $service->getId(),
-                        'name' => $service->getName()
+                        'id'   => $service->getId(),
+                        'name' => $service->getName(),
                     ])
                 ),
             ]

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mailing;
 
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
-use Laminas\ModuleManager\Feature;
 
 final class Module implements ConfigProviderInterface
 {

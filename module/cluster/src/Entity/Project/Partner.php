@@ -68,10 +68,10 @@ class Partner extends AbstractEntity
 
     public function __construct()
     {
-        $this->organisation = new Organisation();
-        $this->project = new Project();
+        $this->organisation   = new Organisation();
+        $this->project        = new Project();
         $this->costsAndEffort = new ArrayCollection();
-        $this->funding = new ArrayCollection();
+        $this->funding        = new ArrayCollection();
     }
 
     public function getId(): int

@@ -21,7 +21,7 @@ class Log extends EntityRepository
         $qb->select(select: 'admin_entity_api_log');
         $qb->from(from: Entity\Api\Log::class, alias: 'admin_entity_api_log');
 
-        if (!empty($filter['search'])) {
+        if (! empty($filter['search'])) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->like(x: 'admin_entity_api_log.payload', y: ':like'),

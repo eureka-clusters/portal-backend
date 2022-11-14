@@ -10,40 +10,40 @@ use Application\Controller\OAuth2Controller;
 return [
     'router' => [
         'routes' => [
-            'home' => [
-                'type' => 'Segment',
+            'home'   => [
+                'type'    => 'Segment',
                 'options' => [
-                    'route' => '/',
+                    'route'    => '/',
                     'defaults' => [
                         'controller' => IndexController::class,
-                        'action' => 'index',
+                        'action'     => 'index',
                     ],
                 ],
             ],
             'oauth2' => [
-                'type' => 'Literal',
-                'options' => [
-                    'route' => '/oauth2',
+                'type'          => 'Literal',
+                'options'       => [
+                    'route'    => '/oauth2',
                     'defaults' => [
                         'controller' => OAuth2Controller::class,
-                        'action' => 'list',
+                        'action'     => 'list',
                     ],
                 ],
                 'may_terminate' => false,
-                'child_routes' => [
-                    'login' => [
-                        'type' => 'Segment',
+                'child_routes'  => [
+                    'login'    => [
+                        'type'    => 'Segment',
                         'options' => [
-                            'route' => '/login/via/[:id]/[:name].html',
+                            'route'    => '/login/via/[:id]/[:name].html',
                             'defaults' => [
                                 'action' => 'login',
                             ],
                         ],
                     ],
                     'callback' => [
-                        'type' => 'Literal',
+                        'type'    => 'Literal',
                         'options' => [
-                            'route' => '/callback.html',
+                            'route'    => '/callback.html',
                             'defaults' => [
                                 'action' => 'callback',
                             ],

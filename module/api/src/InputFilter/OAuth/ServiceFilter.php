@@ -16,28 +16,28 @@ final class ServiceFilter extends InputFilter
         $inputFilter = new InputFilter();
         $inputFilter->add(
             input: [
-                'name' => 'name',
-                'required' => true,
-                'filters' => [
+                'name'       => 'name',
+                'required'   => true,
+                'filters'    => [
                     ['name' => 'StripTags'],
                     ['name' => 'StringTrim'],
                 ],
                 'validators' => [
                     [
-                        'name' => 'StringLength',
+                        'name'    => 'StringLength',
                         'options' => [
                             'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 255,
+                            'min'      => 3,
+                            'max'      => 255,
                         ],
                     ],
                     [
-                        'name' => UniqueObject::class,
+                        'name'    => UniqueObject::class,
                         'options' => [
                             'object_repository' => $entityManager->getRepository(entityName: Service::class),
-                            'object_manager' => $entityManager,
-                            'use_context' => true,
-                            'fields' => 'name',
+                            'object_manager'    => $entityManager,
+                            'use_context'       => true,
+                            'fields'            => 'name',
                         ],
                     ],
                 ],

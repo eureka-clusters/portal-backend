@@ -8,6 +8,8 @@ use Cluster\Module;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
 
+use function str_contains;
+
 final class ModuleTest extends AbstractServiceTest
 {
     public function testCanFindConfiguration(): void
@@ -28,7 +30,7 @@ final class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
-            if (str_contains(haystack: (string)$service, needle: 'Provider')) {
+            if (str_contains(haystack: (string) $service, needle: 'Provider')) {
                 continue;
             }
 

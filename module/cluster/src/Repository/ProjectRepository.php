@@ -16,7 +16,9 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
 
+use function array_map;
 use function count;
+use function is_countable;
 
 class ProjectRepository extends EntityRepository
 {
@@ -43,7 +45,7 @@ class ProjectRepository extends EntityRepository
         //Filters filters filters
         $countryFilter = $filter['country'] ?? [];
 
-        if (!empty($countryFilter)) {
+        if (! empty($countryFilter)) {
             switch ($filter['countryMethod'] ?? 'or') {
                 case 'and':
                     //Find the projects where the country is active
@@ -118,7 +120,7 @@ class ProjectRepository extends EntityRepository
 
         $organisationTypeFilter = $filter['organisationType'] ?? [];
 
-        if (!empty($organisationTypeFilter)) {
+        if (! empty($organisationTypeFilter)) {
             switch ($filter['organisationTypeMethod'] ?? 'or') {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -197,7 +199,7 @@ class ProjectRepository extends EntityRepository
 
         $projectStatusFilter = $filter['projectStatus'] ?? [];
 
-        if (!empty($projectStatusFilter)) {
+        if (! empty($projectStatusFilter)) {
             //Find the projects where we have organisations with this type
             $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'cluster_entity_project_filter_project_status')
@@ -220,14 +222,14 @@ class ProjectRepository extends EntityRepository
 
         $programmeCallFilter = $filter['programmeCall'] ?? [];
 
-        if (!empty($programmeCallFilter)) {
+        if (! empty($programmeCallFilter)) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in(x: 'cluster_entity_project.programmeCall', y: $programmeCallFilter)
             );
         }
 
         $clustersFilter = $filter['clusters'] ?? [];
-        if (!empty($clustersFilter)) {
+        if (! empty($clustersFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'cluster_entity_project_filter_primary_cluster')
@@ -520,8 +522,8 @@ class ProjectRepository extends EntityRepository
 
         return array_map(static fn (array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
-            '1' => $cluster1[1],
-            '2' => $cluster2[1],
+            '1'    => $cluster1[1],
+            '2'    => $cluster2[1],
         ], $primaryClusters, $secondaryClusters);
     }
 

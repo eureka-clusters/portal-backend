@@ -60,7 +60,7 @@ final class TargetController extends AbstractActionController
                 if (isset($data['target']) && is_array(value: $data['target'])) {
                     foreach ($data['target'] as $targetId) {
                         /** @var Entity\Target $target */
-                        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$targetId);
+                        $target = $this->deeplinkService->find(entity: Target::class, id: (int) $targetId);
                         $this->deeplinkService->delete(abstractEntity: $target);
                     }
 
@@ -90,7 +90,7 @@ final class TargetController extends AbstractActionController
     public function viewAction(): ViewModel
     {
         /** @var Entity\Target $target */
-        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$this->params('id'));
+        $target = $this->deeplinkService->find(entity: Target::class, id: (int) $this->params('id'));
 
         if (null === $target) {
             return $this->notFoundAction();
@@ -108,7 +108,7 @@ final class TargetController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\Target $target */
-        $target = $this->deeplinkService->find(entity: Target::class, id: (int)$this->params('id'));
+        $target = $this->deeplinkService->find(entity: Target::class, id: (int) $this->params('id'));
 
         if (null === $target) {
             return $this->notFoundAction();
@@ -117,7 +117,7 @@ final class TargetController extends AbstractActionController
         $data = $this->getRequest()->getPost()->toArray();
         $form = $this->formService->prepare(classNameOrEntity: $target, data: $data);
 
-        if (!$this->deeplinkService->targetCanBeDeleted(target: $target)) {
+        if (! $this->deeplinkService->targetCanBeDeleted(target: $target)) {
             $form->remove(elementOrFieldset: 'delete');
         }
 

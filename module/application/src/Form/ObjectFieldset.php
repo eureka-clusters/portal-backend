@@ -22,6 +22,7 @@ use Laminas\Form\FormInterface;
 
 use function array_key_exists;
 use function array_merge;
+use function asort;
 use function sprintf;
 use function ucfirst;
 
@@ -48,7 +49,7 @@ class ObjectFieldset extends Fieldset
         foreach ($dataFieldset->getElements() as $element) {
             $this->parseElement(element: $element, object: $object);
             // Add only when a type is provided
-            if (!array_key_exists(key: 'type', array: $element->getAttributes())) {
+            if (! array_key_exists(key: 'type', array: $element->getAttributes())) {
                 continue;
             }
 
@@ -96,11 +97,11 @@ class ObjectFieldset extends Fieldset
             );
         }
 
-        if (($element instanceof Radio || $element instanceof Select || $element instanceof MultiCheckbox) && !$element instanceof ObjectRadio) {
+        if (($element instanceof Radio || $element instanceof Select || $element instanceof MultiCheckbox) && ! $element instanceof ObjectRadio) {
             $attributes = $element->getAttributes();
 
             if (isset($attributes['array'])) {
-                $valueOptionsArray = sprintf('get%s', ucfirst(string: (string)$attributes['array']));
+                $valueOptionsArray = sprintf('get%s', ucfirst(string: (string) $attributes['array']));
 
                 $values = $object::$valueOptionsArray();
 

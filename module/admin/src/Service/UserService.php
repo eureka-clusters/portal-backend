@@ -63,7 +63,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         );
 
         //Delete the funder object when the user is not a funder
-        if (!$genericUser->isFunder() && $user->isFunder()) {
+        if (! $genericUser->isFunder() && $user->isFunder()) {
             $this->delete(abstractEntity: $user->getFunder());
         }
 
@@ -132,7 +132,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
                     'identifier' => $clusterIdentifier,
                 ]
             );
-            if ((null !== $cluster) && !$funder->getClusters()->contains(element: $cluster)) {
+            if ((null !== $cluster) && ! $funder->getClusters()->contains(element: $cluster)) {
                 $funder->getClusters()->add(element: $cluster);
             }
         }

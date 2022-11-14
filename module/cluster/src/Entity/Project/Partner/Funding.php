@@ -11,6 +11,8 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use function date;
+
 #[ORM\Table(name: 'cluster_project_partner_funding')]
 #[ORM\UniqueConstraint(name: 'cluster_project_partner_funding_year', columns: ['partner_id', 'year'])]
 #[ORM\Entity(repositoryClass: \Cluster\Repository\Partner\Funding::class)]
@@ -42,8 +44,8 @@ class Funding extends AbstractEntity
 
     public function __construct()
     {
-        $this->year = (int)date(format: 'Y');
-        $this->status = new Status();
+        $this->year    = (int) date(format: 'Y');
+        $this->status  = new Status();
         $this->partner = new Partner();
     }
 

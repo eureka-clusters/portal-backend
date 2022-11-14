@@ -16,9 +16,9 @@ return [
             ConfigInterface::class => SessionConfigFactory::class,
         ],
     ],
-    'session_config' => [
-        'cache_expire' => 86400,
+    'session_config'  => [
+        'cache_expire'    => 86400,
         'cookie_lifetime' => 31_536_000,
-        'name' => 'portal-backend',
+        'name'            => 'portal-backend',
     ],
 ];

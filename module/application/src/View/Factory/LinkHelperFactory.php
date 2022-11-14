@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Application\View\Factory;
 
 use Application\Options\ModuleOptions;
-use Jield\Authorize\Service\AssertionService;
 use Application\View\Helper\AbstractLink;
 use BjyAuthorize\Service\Authorize;
-use Psr\Container\ContainerInterface;
+use Jield\Authorize\Service\AssertionService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Router\RouteStackInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class LinkHelperFactory implements FactoryInterface
 {

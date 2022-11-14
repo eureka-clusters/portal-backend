@@ -60,8 +60,8 @@ class AuthenticationStorage extends Session
             return $this->resolvedIdentity;
         }
 
-        $identity = (int)$this->saveHandler->read($this->getSessionId());
-        $identity = $this->userService->findUserById((int)$identity);
+        $identity = (int) $this->saveHandler->read($this->getSessionId());
+        $identity = $this->userService->findUserById((int) $identity);
 
         if ($identity) {
             $this->resolvedIdentity = $identity;

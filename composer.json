@@ -99,9 +99,9 @@
     ],
     "php-lint": "parallel-lint module",
     "phpstan": "phpstan analyze --xdebug",
-    "cs": "phpcs --extensions=php,twig module",
-    "cbf": "phpcbf --extensions=php,twig module",
-    "cs-fix": "php-cs-fixer fix -v module",
+    "cs": "phpcs --extensions=php module",
+    "cbf": "phpcbf --extensions=php module",
+    "cs-fix": "php-cs-fixer fix --allow-risky=yes",
     "test": "phpunit"
   }
 }

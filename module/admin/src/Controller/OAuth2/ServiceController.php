@@ -63,8 +63,8 @@ final class ServiceController extends AbstractActionController
         return new ViewModel(
             variables: [
                 'paginator' => $paginator,
-                'form' => $form,
-                'order' => $filterPlugin->getOrder(),
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
                 'direction' => $filterPlugin->getDirection(),
             ]
         );
@@ -73,16 +73,16 @@ final class ServiceController extends AbstractActionController
     public function viewAction(): ViewModel
     {
         /** @var Service $service */
-        $service = $this->oAuth2Service->find(entity: Service::class, id: (int)$this->params('id'));
+        $service = $this->oAuth2Service->find(entity: Service::class, id: (int) $this->params('id'));
 
         if (null === $service) {
             return $this->notFoundAction();
         }
 
         $accessToken = null;
-        $error = null;
-        $hasTest = false;
-        $success = false;
+        $error       = null;
+        $hasTest     = false;
+        $success     = false;
 
         if ($this->getRequest()->isPost()) {
             //Do a request with the service
@@ -98,10 +98,10 @@ final class ServiceController extends AbstractActionController
         }
 
         return new ViewModel(variables: [
-            'service' => $service,
-            'hasTest' => $hasTest,
-            'success' => $success,
-            'error' => $error,
+            'service'     => $service,
+            'hasTest'     => $hasTest,
+            'success'     => $success,
+            'error'       => $error,
             'accessToken' => $accessToken,
         ]);
     }
@@ -124,7 +124,6 @@ final class ServiceController extends AbstractActionController
             if ($form->isValid()) {
                 /** @var Service $service */
                 $service = $form->getData();
-                ;
 
                 $this->oAuth2Service->save(entity: $service);
                 $this->flashMessenger()->addSuccessMessage(
@@ -148,7 +147,7 @@ final class ServiceController extends AbstractActionController
     public function editAction(): Response|ViewModel
     {
         /** @var Entity\OAuth\Service $service */
-        $service = $this->oAuth2Service->find(entity: Service::class, id: (int)$this->params('id'));
+        $service = $this->oAuth2Service->find(entity: Service::class, id: (int) $this->params('id'));
 
         if (null === $service) {
             return $this->notFoundAction();

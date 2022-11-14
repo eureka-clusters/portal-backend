@@ -31,77 +31,77 @@ class Service extends AbstractEntity
     #[ORM\Column(unique: true)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-name-help-block'
+        'help-block' => 'txt-oauth-service-name-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-name-label',
-        'placeholder' => 'txt-oauth-service-name-placeholder'
+        'label'       => 'txt-oauth-service-name-label',
+        'placeholder' => 'txt-oauth-service-name-placeholder',
     ])]
     private string $name = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-client-id-help-block'
+        'help-block' => 'txt-oauth-service-client-id-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-client-id-label',
-        'placeholder' => 'txt-oauth-service-client-id-placeholder'
+        'label'       => 'txt-oauth-service-client-id-label',
+        'placeholder' => 'txt-oauth-service-client-id-placeholder',
     ])]
     private string $clientId = '';
 
     #[ORM\Column(length: 2000)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-client-secret-help-block'
+        'help-block' => 'txt-oauth-service-client-secret-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-client-secret-label',
-        'placeholder' => 'txt-oauth-service-client-secret-placeholder'
+        'label'       => 'txt-oauth-service-client-secret-label',
+        'placeholder' => 'txt-oauth-service-client-secret-placeholder',
     ])]
     private string $clientSecret = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-redirect-url-help-block'
+        'help-block' => 'txt-oauth-service-redirect-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-redirect-url-label',
-        'placeholder' => 'txt-oauth-service-redirect-url-placeholder'
+        'label'       => 'txt-oauth-service-redirect-url-label',
+        'placeholder' => 'txt-oauth-service-redirect-url-placeholder',
     ])]
     private string $redirectUrl = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-authorization-url-help-block'
+        'help-block' => 'txt-oauth-service-authorization-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-authorization-url-label',
-        'placeholder' => 'txt-oauth-service-authorization-url-placeholder'
+        'label'       => 'txt-oauth-service-authorization-url-label',
+        'placeholder' => 'txt-oauth-service-authorization-url-placeholder',
     ])]
     private string $authorizationUrl = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-access-token-url-help-block'
+        'help-block' => 'txt-oauth-service-access-token-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-access-token-url-label',
-        'placeholder' => 'txt-oauth-service-access-token-url-placeholder'
+        'label'       => 'txt-oauth-service-access-token-url-label',
+        'placeholder' => 'txt-oauth-service-access-token-url-placeholder',
     ])]
     private string $accessTokenUrl = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-profile-url-help-block'
+        'help-block' => 'txt-oauth-service-profile-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label' => 'txt-oauth-service-profile-url-label',
-        'placeholder' => 'txt-oauth-service-profile-url-placeholder'
+        'label'       => 'txt-oauth-service-profile-url-label',
+        'placeholder' => 'txt-oauth-service-profile-url-placeholder',
     ])]
     private string $profileUrl = '';
 
@@ -112,12 +112,12 @@ class Service extends AbstractEntity
     #[ORM\InverseJoinColumn(nullable: false)]
     #[Annotation\Type(EntityMultiCheckbox::class)]
     #[Annotation\Options([
-        'help-block' => 'txt-oauth-service-allowed-clusters-help-block',
+        'help-block'   => 'txt-oauth-service-allowed-clusters-help-block',
         'target_class' => Cluster::class,
-        'find_method' => [
-            'name' => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]
-        ]
+        'find_method'  => [
+            'name'   => 'findBy',
+            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]],
+        ],
     ])]
     #[Annotation\Attributes(['label' => 'txt-oauth-service-allowed-clusters-label'])]
     private Collection $allowedClusters;
@@ -128,13 +128,12 @@ class Service extends AbstractEntity
     #[Annotation\Options([
         'target_class' => Scope::class,
         'empty_option' => '— Select a scope',
-        'label' => 'txt-oauth-service-scope-label',
-        'help-block' => 'txt-oauth-service-scope-help-block',
-        'find_method' => [
-            'name' => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['scope' => Criteria::ASC]]
-        ]
-
+        'label'        => 'txt-oauth-service-scope-label',
+        'help-block'   => 'txt-oauth-service-scope-help-block',
+        'find_method'  => [
+            'name'   => 'findBy',
+            'params' => ['criteria' => [], 'orderBy' => ['scope' => Criteria::ASC]],
+        ],
     ])]
     private Scope $scope;
 
@@ -144,21 +143,20 @@ class Service extends AbstractEntity
     #[Annotation\Options([
         'target_class' => Client::class,
         'empty_option' => '— Select a client',
-        'label' => 'txt-oauth-service-client-label',
-        'help-block' => 'txt-oauth-service-client-help-block',
-        'find_method' => [
-            'name' => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]
-        ]
-
+        'label'        => 'txt-oauth-service-client-label',
+        'help-block'   => 'txt-oauth-service-client-help-block',
+        'find_method'  => [
+            'name'   => 'findBy',
+            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]],
+        ],
     ])]
     private Client $client;
 
     #[Pure] public function __construct()
     {
         $this->allowedClusters = new ArrayCollection();
-        $this->scope = new Scope();
-        $this->client = new Client();
+        $this->scope           = new Scope();
+        $this->client          = new Client();
     }
 
     public function addAllowedClusters(Collection $allowedClustersCollection): void
@@ -177,15 +175,14 @@ class Service extends AbstractEntity
 
     public function parseOptions(): array
     {
-        return
-            [
-                'urlAuthorize' => $this->authorizationUrl,
-                'urlAccessToken' => $this->accessTokenUrl,
-                'clientId' => $this->clientId,
-                'clientSecret' => $this->clientSecret,
-                'redirectUri' => $this->redirectUrl,
-                'urlResourceOwnerDetails' => $this->allowedClusters->first()->getName()
-            ];
+        return [
+            'urlAuthorize'            => $this->authorizationUrl,
+            'urlAccessToken'          => $this->accessTokenUrl,
+            'clientId'                => $this->clientId,
+            'clientSecret'            => $this->clientSecret,
+            'redirectUri'             => $this->redirectUrl,
+            'urlResourceOwnerDetails' => $this->allowedClusters->first()->getName(),
+        ];
     }
 
     public function getId(): ?int

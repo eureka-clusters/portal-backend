@@ -94,10 +94,10 @@ class Project extends AbstractEntity
     public function __construct()
     {
         $this->primaryCluster = new Cluster();
-        $this->status = new Status();
-        $this->versions = new ArrayCollection();
-        $this->partners = new ArrayCollection();
-        $this->evaluation = new ArrayCollection();
+        $this->status         = new Status();
+        $this->versions       = new ArrayCollection();
+        $this->partners       = new ArrayCollection();
+        $this->evaluation     = new ArrayCollection();
     }
 
     public function hasSecondaryCluster(): bool

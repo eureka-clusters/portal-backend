@@ -31,20 +31,20 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetch($id = 'Xlsx'): array
     {
-        $user = $this->userService->findUserById(id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
 
         if (null === $user) {
             return [];
         }
 
         //The filter is a base64 encoded serialised json string
-        $filter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
-        $filter = base64_decode(string: $filter, true);
+        $filter      = $this->getEvent()->getQueryParams()?->get(name: 'filter');
+        $filter      = base64_decode(string: $filter, strict: true);
         $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
 
         $defaultSort = 'project.name';
-        $sort = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 
         $projectQueryBuilder = $this->projectService->getProjects(
             user: $user,
@@ -67,7 +67,7 @@ final class ProjectListener extends AbstractResourceListener
 
         $partnerSheet->setTitle(title: $this->translator->translate(message: 'txt-projects'));
 
-        $row = 1;
+        $row    = 1;
         $column = 'A';
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
@@ -153,7 +153,7 @@ final class ProjectListener extends AbstractResourceListener
         $file = ob_get_clean();
 
         $extension = '.xlsx';
-        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $mimetype  = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         return ['download' => base64_encode(string: $file), 'extension' => $extension, 'mimetype' => $mimetype];
     }
 }

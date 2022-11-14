@@ -8,7 +8,6 @@ use Admin\Entity\Session;
 use Admin\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
-
 use ReturnTypeWillChange;
 
 use function time;
@@ -21,7 +20,7 @@ class DoctrineGateway implements SaveHandlerInterface
 
     public function __construct(private readonly EntityManager $entityManager, array $config)
     {
-        $this->lifetime      = $config['session_config']['cookie_lifetime'] ?? 31_536_000;
+        $this->lifetime = $config['session_config']['cookie_lifetime'] ?? 31_536_000;
     }
 
     public function open($savePath, $name): bool

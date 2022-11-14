@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Application\Factory;
 
 use Application\Options\ModuleOptions;
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class ModuleOptionsFactory implements FactoryInterface
 {

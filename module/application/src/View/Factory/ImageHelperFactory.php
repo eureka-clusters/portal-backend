@@ -6,9 +6,9 @@ namespace Application\View\Factory;
 
 use Application\Options\ModuleOptions;
 use Application\View\Helper\AbstractImage;
-use Psr\Container\ContainerInterface;
 use Laminas\Router\RouteStackInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class ImageHelperFactory implements FactoryInterface
 {

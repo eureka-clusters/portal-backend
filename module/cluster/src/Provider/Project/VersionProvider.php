@@ -30,10 +30,10 @@ class VersionProvider implements ProviderInterface
 
         $versionData = $this->cache->getItem(key: $cacheKey);
 
-        if (!$versionData) {
+        if (! $versionData) {
             $versionData = [
-                'id' => $version->getId(),
-                'type' => $this->versionTypeProvider->generateArray(type: $version->getType()),
+                'id'     => $version->getId(),
+                'type'   => $this->versionTypeProvider->generateArray(type: $version->getType()),
                 'status' => $this->versionStatusProvider->generateArray(status: $version->getStatus()),
             ];
 
