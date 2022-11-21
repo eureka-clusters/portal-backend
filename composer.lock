@@ -5079,12 +5079,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-hydrator.git",
-                "reference": "04aadd5f66e66dd1f785a7a66dcccf3b89a255e1"
+                "reference": "ad118089fc907ad7f217fe5420b42b92255dad13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/04aadd5f66e66dd1f785a7a66dcccf3b89a255e1",
-                "reference": "04aadd5f66e66dd1f785a7a66dcccf3b89a255e1",
+                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/ad118089fc907ad7f217fe5420b42b92255dad13",
+                "reference": "ad118089fc907ad7f217fe5420b42b92255dad13",
                 "shasum": ""
             },
             "require": {
@@ -5149,7 +5149,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:39:19+00:00"
+            "time": "2022-11-19T01:10:07+00:00"
         },
         {
             "name": "laminas/laminas-i18n",
@@ -5434,16 +5434,16 @@
         },
         {
             "name": "laminas/laminas-mail",
-            "version": "2.20.x-dev",
+            "version": "2.21.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mail.git",
-                "reference": "553723eb728b3be96c372082c67f5b28f14dd13e"
+                "reference": "44ad911e2bb72e40d4319afb8a8f594aacfa2fab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/553723eb728b3be96c372082c67f5b28f14dd13e",
-                "reference": "553723eb728b3be96c372082c67f5b28f14dd13e",
+                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/44ad911e2bb72e40d4319afb8a8f594aacfa2fab",
+                "reference": "44ad911e2bb72e40d4319afb8a8f594aacfa2fab",
                 "shasum": ""
             },
             "require": {
@@ -5508,7 +5508,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-07T01:00:33+00:00"
+            "time": "2022-11-19T00:07:19+00:00"
         },
         {
             "name": "laminas/laminas-math",
@@ -6450,12 +6450,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "562a859ca6eeb8779187c9a501a6751192f96dc4"
+                "reference": "ab716e641344de4fb7bc3162ef79fba77dfce114"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/562a859ca6eeb8779187c9a501a6751192f96dc4",
-                "reference": "562a859ca6eeb8779187c9a501a6751192f96dc4",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/ab716e641344de4fb7bc3162ef79fba77dfce114",
+                "reference": "ab716e641344de4fb7bc3162ef79fba77dfce114",
                 "shasum": ""
             },
             "require": {
@@ -6478,7 +6478,7 @@
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11.99.5",
                 "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-container-config-test": "^0.7",
+                "laminas/laminas-container-config-test": "^0.8",
                 "laminas/laminas-dependency-plugin": "^2.2",
                 "mikey179/vfsstream": "^1.6.11@alpha",
                 "ocramius/proxy-manager": "^2.14.1",
@@ -6533,7 +6533,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T00:58:45+00:00"
+            "time": "2022-11-19T01:50:54+00:00"
         },
         {
             "name": "laminas/laminas-session",
@@ -6625,12 +6625,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "5df51db5a888cec16e54ef2c13d7bd82e18eb2e1"
+                "reference": "7575a5a995a42919b212eee571e6d794ab456265"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/5df51db5a888cec16e54ef2c13d7bd82e18eb2e1",
-                "reference": "5df51db5a888cec16e54ef2c13d7bd82e18eb2e1",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/7575a5a995a42919b212eee571e6d794ab456265",
+                "reference": "7575a5a995a42919b212eee571e6d794ab456265",
                 "shasum": ""
             },
             "require": {
@@ -6677,7 +6677,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:22:53+00:00"
+            "time": "2022-11-20T01:26:42+00:00"
         },
         {
             "name": "laminas/laminas-uri",
@@ -6740,22 +6740,23 @@
         },
         {
             "name": "laminas/laminas-validator",
-            "version": "2.28.x-dev",
+            "version": "2.29.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "e071d046941a8383f942113a9ed66f3287a714d6"
+                "reference": "ade514bf80782e55f0b0eb649701590413304185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/e071d046941a8383f942113a9ed66f3287a714d6",
-                "reference": "e071d046941a8383f942113a9ed66f3287a714d6",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/ade514bf80782e55f0b0eb649701590413304185",
+                "reference": "ade514bf80782e55f0b0eb649701590413304185",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-servicemanager": "^3.12.0",
                 "laminas/laminas-stdlib": "^3.13",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "psr/http-message": "^1.0.1"
             },
             "conflict": {
                 "zendframework/zend-validator": "*"
@@ -6772,7 +6773,6 @@
                 "psalm/plugin-phpunit": "^0.18.0",
                 "psr/http-client": "^1.0.1",
                 "psr/http-factory": "^1.0.1",
-                "psr/http-message": "^1.0.1",
                 "vimeo/psalm": "^4.28"
             },
             "suggest": {
@@ -6822,7 +6822,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T00:10:16+00:00"
+            "time": "2022-11-20T00:50:11+00:00"
         },
         {
             "name": "laminas/laminas-view",
@@ -6931,12 +6931,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "406ed6a66592a32a57a9bedf02744407d7ce40d3"
+                "reference": "75b1f31ec43cc609c50ab7a3efbaa229c2b2f5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/406ed6a66592a32a57a9bedf02744407d7ce40d3",
-                "reference": "406ed6a66592a32a57a9bedf02744407d7ce40d3",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/75b1f31ec43cc609c50ab7a3efbaa229c2b2f5d1",
+                "reference": "75b1f31ec43cc609c50ab7a3efbaa229c2b2f5d1",
                 "shasum": ""
             },
             "require": {
@@ -6986,7 +6986,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:02:00+00:00"
+            "time": "2022-11-19T00:44:44+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -15131,6 +15131,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "laminas/laminas-mail": 20,
         "league/oauth2-client": 20,
         "jield-webdev/jield-authorize": 20,
         "jield-webdev/laminas-bootstrap5": 20,
