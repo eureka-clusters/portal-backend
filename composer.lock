@@ -5075,16 +5075,16 @@
         },
         {
             "name": "laminas/laminas-hydrator",
-            "version": "4.9.x-dev",
+            "version": "4.11.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-hydrator.git",
-                "reference": "04aadd5f66e66dd1f785a7a66dcccf3b89a255e1"
+                "reference": "9917c999faa8acc13da51a9b0d12e513b5d26430"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/04aadd5f66e66dd1f785a7a66dcccf3b89a255e1",
-                "reference": "04aadd5f66e66dd1f785a7a66dcccf3b89a255e1",
+                "url": "https://api.github.com/repos/laminas/laminas-hydrator/zipball/9917c999faa8acc13da51a9b0d12e513b5d26430",
+                "reference": "9917c999faa8acc13da51a9b0d12e513b5d26430",
                 "shasum": ""
             },
             "require": {
@@ -5105,7 +5105,7 @@
                 "phpbench/phpbench": "^1.2.7",
                 "phpunit/phpunit": "^9.5.26",
                 "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29"
+                "vimeo/psalm": "^5.0"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "^3.2, to support aggregate hydrator usage",
@@ -5149,7 +5149,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:39:19+00:00"
+            "time": "2022-12-05T18:17:44+00:00"
         },
         {
             "name": "laminas/laminas-i18n",
@@ -6098,16 +6098,16 @@
         },
         {
             "name": "laminas/laminas-paginator",
-            "version": "2.16.x-dev",
+            "version": "2.18.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-paginator.git",
-                "reference": "b1f742205a813317d063e758f1a01eae52844106"
+                "reference": "d0fca60a32656fe095045d76af7ad3a3bfc297f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-paginator/zipball/b1f742205a813317d063e758f1a01eae52844106",
-                "reference": "b1f742205a813317d063e758f1a01eae52844106",
+                "url": "https://api.github.com/repos/laminas/laminas-paginator/zipball/d0fca60a32656fe095045d76af7ad3a3bfc297f9",
+                "reference": "d0fca60a32656fe095045d76af7ad3a3bfc297f9",
                 "shasum": ""
             },
             "require": {
@@ -6128,7 +6128,7 @@
                 "laminas/laminas-view": "^2.24.0",
                 "phpunit/phpunit": "^9.5.25",
                 "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29.0"
+                "vimeo/psalm": "^5.0.0"
             },
             "suggest": {
                 "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
@@ -6174,7 +6174,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:16:45+00:00"
+            "time": "2022-12-05T16:02:38+00:00"
         },
         {
             "name": "laminas/laminas-permissions-acl",
@@ -6621,16 +6621,16 @@
         },
         {
             "name": "laminas/laminas-stdlib",
-            "version": "3.16.x-dev",
+            "version": "3.17.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "5df51db5a888cec16e54ef2c13d7bd82e18eb2e1"
+                "reference": "0e9aed3de2d49b80583db9b77a144d509e68681e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/5df51db5a888cec16e54ef2c13d7bd82e18eb2e1",
-                "reference": "5df51db5a888cec16e54ef2c13d7bd82e18eb2e1",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/0e9aed3de2d49b80583db9b77a144d509e68681e",
+                "reference": "0e9aed3de2d49b80583db9b77a144d509e68681e",
                 "shasum": ""
             },
             "require": {
@@ -6644,7 +6644,7 @@
                 "phpbench/phpbench": "^1.2.7",
                 "phpunit/phpunit": "^9.5.26",
                 "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29.0"
+                "vimeo/psalm": "^5.0.0"
             },
             "default-branch": true,
             "type": "library",
@@ -6677,7 +6677,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:22:53+00:00"
+            "time": "2022-12-04T01:16:39+00:00"
         },
         {
             "name": "laminas/laminas-uri",
@@ -6931,12 +6931,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "406ed6a66592a32a57a9bedf02744407d7ce40d3"
+                "reference": "f08818a4f97a712d46331d63aa07d15f327eecee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/406ed6a66592a32a57a9bedf02744407d7ce40d3",
-                "reference": "406ed6a66592a32a57a9bedf02744407d7ce40d3",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/f08818a4f97a712d46331d63aa07d15f327eecee",
+                "reference": "f08818a4f97a712d46331d63aa07d15f327eecee",
                 "shasum": ""
             },
             "require": {
@@ -6986,7 +6986,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-13T01:02:00+00:00"
+            "time": "2022-11-29T01:00:35+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -15131,6 +15131,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "laminas/laminas-paginator": 20,
         "league/oauth2-client": 20,
         "jield-webdev/jield-authorize": 20,
         "jield-webdev/laminas-bootstrap5": 20,
