@@ -117,7 +117,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
 
     public function getRolesAsArray(): array
     {
-        $roles = [];
+        $roles = [Role::ROLE_USER];
         foreach ($this->roles as $role) {
             $roles[] = $role->getId();
         }

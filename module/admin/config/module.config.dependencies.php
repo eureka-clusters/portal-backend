@@ -36,6 +36,11 @@ return [
             EntityManager::class,
             TranslatorInterface::class,
         ],
+        OAuth2Service::class     => [
+            EntityManager::class,
+            TranslatorInterface::class,
+            'Config'
+        ],
         UserController::class    => [
             AdminService::class,
             UserService::class,

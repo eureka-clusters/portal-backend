@@ -9,10 +9,13 @@ use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
 use Cluster\Provider\Project\PartnerProvider;
+use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
+use Doctrine\Common\Collections\Criteria;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
@@ -23,17 +26,22 @@ final class PartnerListener extends AbstractResourceListener
         private readonly ProjectService $projectService,
         private readonly OrganisationService $organisationService,
         private readonly UserService $userService,
-        private readonly PartnerProvider $partnerProvider
+        private readonly PartnerProvider $partnerProvider,
+        private readonly PartnerYearProvider $partnerYearProvider,
     ) {
     }
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
         }
+
+        $hasYears = false;
 
         switch (true) {
             case isset($params->project):
@@ -57,11 +65,34 @@ final class PartnerListener extends AbstractResourceListener
                 $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(organisation: $organisation);
                 break;
             default:
-                $partnerQueryBuilder = $this->partnerService->getPartners(user: $user, filter: []);
+
+                $encodedFilter = (string)$this->getEvent()->getQueryParams()?->get(name: 'filter');
+
+                //The filter is a base64 encoded serialised json string
+                $filter      = base64_decode(string: $encodedFilter, strict: true);
+                $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+
+                $defaultSort = 'partner.organisation.name';
+                $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
+                $order       = $this->getEvent()->getQueryParams()?->get(
+                    name: 'order',
+                    default: strtolower(
+                        string: Criteria::ASC
+                    )
+                );
+
+                $hasYears = !empty($arrayFilter['year']);
+
+                $partnerQueryBuilder = $this->partnerService->getPartners(
+                    user: $user,
+                    filter: $arrayFilter,
+                    sort: $sort,
+                    order: $order
+                );
         }
 
         $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
-        $doctrineORMAdapter->setProvider(provider: $this->partnerProvider);
+        $doctrineORMAdapter->setProvider(provider: $hasYears ? $this->partnerYearProvider : $this->partnerProvider);
 
         return new Paginator(adapter: $doctrineORMAdapter);
     }

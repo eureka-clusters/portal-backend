@@ -52,6 +52,10 @@ class UpdateNavigation extends AbstractListenerAggregate
 
     public function onRoute(MvcEvent $event): void
     {
+        if (null === $event->getRouteMatch()) {
+            return;
+        }
+
         $this->routeMatch = $event->getRouteMatch();
 
         /** @var Mvc $page */
@@ -95,8 +99,8 @@ class UpdateNavigation extends AbstractListenerAggregate
 
                         if (null === $entity) {
                             if (
-                                defined(constant_name: 'NAVELA_ENVIRONMENT')
-                                && (NAVELA_ENVIRONMENT === 'development')
+                                defined(constant_name: 'PORTAL_ENVIRONMENT')
+                                && (PORTAL_ENVIRONMENT === 'PORTAL_ENVIRONMENT')
                             ) {
                                 print sprintf(
                                     "Can not load '%s' by '%s' via '%s' value(%s)",
@@ -138,7 +142,7 @@ class UpdateNavigation extends AbstractListenerAggregate
                     } else {
                         throw new InvalidArgumentException(message: 'Can\'t invoke callable ' . $invokable);
                     }
-                // Not found
+                    // Not found
                 } else {
                     throw new InvalidArgumentException(message: 'Servicelocator can\'t find invokable ' . $invokable);
                 }

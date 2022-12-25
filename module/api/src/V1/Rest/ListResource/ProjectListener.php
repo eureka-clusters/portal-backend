@@ -9,6 +9,7 @@ use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
@@ -23,20 +24,37 @@ final class ProjectListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return new Paginator(adapter: new ArrayAdapter());
         }
 
-        $defaultSort = 'project.name';
+        $encodedFilter = $this->getEvent()->getQueryParams()?->get(name: 'filter');
+
+        $arrayFilter = [];
+        if (null !== $encodedFilter) {
+            //The filter is a base64 encoded serialised json string
+            $filter = base64_decode(string: $encodedFilter, strict: true);
+            // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
+            $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+        }
+
+        $defaultOrder = 'asc';
+        $defaultSort  = 'name';
 
         $sort  = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        $order = $this->getEvent()->getQueryParams()?->get(name: 'order', default: $defaultOrder);
 
-        $projectQueryBuilder = $this->projectService->getProjects(user: $user, filter: [], sort: $sort, order: $order);
-
-        $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectQueryBuilder);
+        $projectQueryBuilder = $this->projectService->getProjects(
+            user: $user,
+            filter: $arrayFilter,
+            sort: $sort,
+            order: $order
+        );
+        $doctrineORMAdapter  = new DoctrineORMAdapter(query: $projectQueryBuilder);
         $doctrineORMAdapter->setProvider(provider: $this->projectProvider);
 
         return new Paginator(adapter: $doctrineORMAdapter);

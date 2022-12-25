@@ -21,7 +21,9 @@ class OrganisationService extends AbstractService
 
     public function findOrganisationBySlug(string $slug): ?Organisation
     {
-        return $this->entityManager->getRepository(entityName: Organisation::class)->findOneBy(criteria: ['slug' => $slug]);
+        return $this->entityManager->getRepository(entityName: Organisation::class)->findOneBy(
+            criteria: ['slug' => $slug]
+        );
     }
 
     public function searchOrganisations(Funder $funder, string $query, int $limit): array
@@ -48,7 +50,7 @@ class OrganisationService extends AbstractService
 
     public function getOrganisations(
         array $filter,
-        string $sort = 'organisation.name',
+        string $sort = 'name',
         string $order = 'asc'
     ): QueryBuilder {
         return $this->entityManager->getRepository(entityName: Organisation::class)->getOrganisationsByFilter(

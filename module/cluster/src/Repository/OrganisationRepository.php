@@ -14,7 +14,7 @@ class OrganisationRepository extends EntityRepository
 {
     public function getOrganisationsByFilter(
         array $filter,
-        string $sort = 'organisation.name',
+        string $sort = 'name',
         string $order = 'asc'
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
@@ -39,14 +39,14 @@ class OrganisationRepository extends EntityRepository
             case 'id':
                 $sortColumn = 'cluster_entity_organisation.id';
                 break;
-            case 'organisation.name':
+            case 'name':
                 $sortColumn = 'cluster_entity_organisation.name';
                 break;
-            case 'organisation.country.country':
+            case 'country':
                 $sortColumn = 'organisation_country.country';
                 $queryBuilder->join(join: 'cluster_entity_organisation.country', alias: 'organisation_country');
                 break;
-            case 'organisation.type.type':
+            case 'type':
                 $sortColumn = 'organisation_type.type';
                 $queryBuilder->join(join: 'cluster_entity_organisation.type', alias: 'organisation_type');
                 break;

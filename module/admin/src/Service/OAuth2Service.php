@@ -5,31 +5,37 @@ declare(strict_types=1);
 namespace Admin\Service;
 
 use Admin\Entity\User;
+use Api\Entity\OAuth\AccessToken;
 use Api\Entity\OAuth\Client;
+use Api\Entity\OAuth\RefreshToken;
 use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
-use DateInterval;
-use DateTime;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
 use GuzzleHttp\RequestOptions;
+use JetBrains\PhpStorm\Deprecated;
+use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use OAuth2\Encryption\Jwt;
-use RuntimeException;
 
 use function time;
 
 class OAuth2Service extends AbstractService
 {
-    public function findClientByClientId(string $clientId): Client
+    public function __construct(
+        EntityManager $entityManager,
+        ?TranslatorInterface $translator,
+        private readonly array $config
+    ) {
+        parent::__construct(entityManager: $entityManager, translator: $translator);
+        $this->translator = $translator;
+    }
+
+    public function findClientByClientId(string $clientId): ?Client
     {
-        $repository = $this->entityManager->getRepository(entityName: Client::class);
-        $client     = $repository->findOneBy(criteria: ['clientId' => $clientId]);
-
-        if (null === $client) {
-            throw new RuntimeException(message: "No JWT client available");
-        }
-
-        return $client;
+        return $this->entityManager->getRepository(entityName: Client::class)->findOneBy(
+            criteria: ['clientId' => $clientId]
+        );
     }
 
     public function findServiceById(int $id): ?Service
@@ -67,6 +73,7 @@ class OAuth2Service extends AbstractService
         return $responseData->access_token;
     }
 
+    #[Deprecated]
     public function generateJwtToken(Client $client, User $user): string
     {
         $payload = [
@@ -75,7 +82,7 @@ class OAuth2Service extends AbstractService
             'iss'        => 'eureka-clusters',
             'aud'        => $client->getClientId(),
             'sub'        => $user->getId(),
-            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1D'))->getTimestamp(),
+            'exp'        => time() + ($this->config['api-tools-oauth2']['access_lifetime'] ?? 3600),
             'iat'        => time(),
             'token_type' => $client->getPublicKey()?->getEncryptionAlgorithm(),
             'scope'      => 'openid',
@@ -96,6 +103,48 @@ class OAuth2Service extends AbstractService
             key: $client->getPublicKey()?->getPublicKey(),
             algo: 'HS256'
         );
+    }
+
+    public function createAccessAndRefreshToken(Client $client, User $user): array
+    {
+        return [
+            'accessToken'  => $this->createAccessToken($client, $user)->getAccessToken(),
+            'refreshToken' => $this->createRefreshToken($client, $user)->getRefreshToken(),
+        ];
+    }
+
+    private function createAccessToken(Client $client, User $user): AccessToken
+    {
+        $accessToken = new AccessToken();
+        $accessToken->setClient($client);
+        $accessToken->setExpires(new \DateTimeImmutable('now + 1 hour'));
+        $accessToken->setScope($client->getScope()->getScope());
+        $accessToken->setUser($user);
+        $accessToken->setAccessToken($this->generateAccessToken());
+
+        $this->save($accessToken);
+
+        return $accessToken;
+    }
+
+    private function createRefreshToken(Client $client, User $user): RefreshToken
+    {
+        $refreshToken = new RefreshToken();
+        $refreshToken->setClient($client);
+        $refreshToken->setExpires(new \DateTimeImmutable('now + 1 day'));
+        $refreshToken->setScope($client->getScope()->getScope());
+        $refreshToken->setUser($user);
+        $refreshToken->setRefreshToken($this->generateAccessToken());
+
+        $this->save($refreshToken);
+
+        return $refreshToken;
+    }
+
+    private function generateAccessToken(): string
+    {
+        $randomData = $randomData = random_bytes(20);
+        return substr(hash('sha512', $randomData), 0, 40);
     }
 
     public function findAllService(): array

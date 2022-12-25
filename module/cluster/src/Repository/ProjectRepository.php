@@ -45,7 +45,7 @@ class ProjectRepository extends EntityRepository
         //Filters filters filters
         $countryFilter = $filter['country'] ?? [];
 
-        if (! empty($countryFilter)) {
+        if (!empty($countryFilter)) {
             switch ($filter['countryMethod'] ?? 'or') {
                 case 'and':
                     //Find the projects where the country is active
@@ -75,10 +75,10 @@ class ProjectRepository extends EntityRepository
                         ) //Add an id so we don't get all group by statements
                         ->having(
                             having: 'COUNT(DISTINCT cluster_entity_country) > ' . ((is_countable(
-                                value: $countryFilter
-                            ) ? count(
-                                $countryFilter
-                            ) : 0) - 1)
+                                    value: $countryFilter
+                                ) ? count(
+                                    $countryFilter
+                                ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -120,7 +120,7 @@ class ProjectRepository extends EntityRepository
 
         $organisationTypeFilter = $filter['organisationType'] ?? [];
 
-        if (! empty($organisationTypeFilter)) {
+        if (!empty($organisationTypeFilter)) {
             switch ($filter['organisationTypeMethod'] ?? 'or') {
                 case 'and':
                     //Find the projects we have at least organisations with this type
@@ -148,10 +148,10 @@ class ProjectRepository extends EntityRepository
                         ->addGroupBy(groupBy: 'cluster_entity_project_filter_organisation_type.id')
                         ->having(
                             having: 'COUNT(DISTINCT cluster_entity_organisation_type) > ' . ((is_countable(
-                                value: $organisationTypeFilter
-                            ) ? count(
-                                $organisationTypeFilter
-                            ) : 0) - 1)
+                                    value: $organisationTypeFilter
+                                ) ? count(
+                                    $organisationTypeFilter
+                                ) : 0) - 1)
                         );
 
                     $queryBuilder->andWhere(
@@ -199,7 +199,7 @@ class ProjectRepository extends EntityRepository
 
         $projectStatusFilter = $filter['projectStatus'] ?? [];
 
-        if (! empty($projectStatusFilter)) {
+        if (!empty($projectStatusFilter)) {
             //Find the projects where we have organisations with this type
             $projectStatusFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'cluster_entity_project_filter_project_status')
@@ -222,14 +222,14 @@ class ProjectRepository extends EntityRepository
 
         $programmeCallFilter = $filter['programmeCall'] ?? [];
 
-        if (! empty($programmeCallFilter)) {
+        if (!empty($programmeCallFilter)) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in(x: 'cluster_entity_project.programmeCall', y: $programmeCallFilter)
             );
         }
 
         $clustersFilter = $filter['clusters'] ?? [];
-        if (! empty($clustersFilter)) {
+        if (!empty($clustersFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'cluster_entity_project_filter_primary_cluster')
@@ -276,27 +276,27 @@ class ProjectRepository extends EntityRepository
         $sortColumn = null;
 
         switch ($sort) {
-            case 'project.number':
+            case 'number':
                 $sortColumn = 'cluster_entity_project.number';
                 break;
-            case 'project.name':
+            case 'name':
                 $sortColumn = 'cluster_entity_project.name';
                 break;
-            case 'project.primaryCluster.name':
+            case 'primary_cluster':
                 $sortColumn = 'primaryCluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'primaryCluster');
                 break;
-            case 'project.secondaryCluster.name':
+            case 'secondary_cluster':
                 $sortColumn = 'secondaryCluster.name';
                 $queryBuilder->leftJoin(join: 'cluster_entity_project.secondaryCluster', alias: 'secondaryCluster');
                 break;
-            case 'project.status.status':
+            case 'status':
                 $sortColumn = 'projectStatus.status';
                 $queryBuilder->join(join: 'cluster_entity_project.status', alias: 'projectStatus');
                 break;
 
-                //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
-            case 'project.latestVersion.type.type':
+            //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
+            case 'latest_version_type':
                 $sortColumn = 'latestversion_type.type';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -307,8 +307,8 @@ class ProjectRepository extends EntityRepository
                 $queryBuilder->join(join: 'latestversion.type', alias: 'latestversion_type');
                 break;
 
-                //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
-            case 'project.latestVersionTotalCosts':
+            //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
+            case 'latest_version_costs':
                 $sortColumn = 'latestversion.costs';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -317,7 +317,7 @@ class ProjectRepository extends EntityRepository
                     condition: 'latestversion.type = 3'
                 );
                 break;
-            case 'project.latestVersionTotalEffort':
+            case 'latest_version_effort':
                 $sortColumn = 'latestversion.effort';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',

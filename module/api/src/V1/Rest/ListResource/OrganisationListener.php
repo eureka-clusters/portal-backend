@@ -20,7 +20,7 @@ final class OrganisationListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $defaultSort = 'organisation.name';
+        $defaultSort = 'name';
         $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
         $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
 

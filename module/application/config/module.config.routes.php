@@ -6,12 +6,14 @@ namespace Admin;
 
 use Application\Controller\IndexController;
 use Application\Controller\OAuth2Controller;
+use Laminas\Router\Http\Literal;
+use Laminas\Router\Http\Segment;
 
 return [
     'router' => [
         'routes' => [
             'home'   => [
-                'type'    => 'Segment',
+                'type'    => Literal::class,
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
@@ -21,7 +23,7 @@ return [
                 ],
             ],
             'oauth2' => [
-                'type'          => 'Literal',
+                'type'          => Literal::class,
                 'options'       => [
                     'route'    => '/oauth2',
                     'defaults' => [
@@ -32,7 +34,7 @@ return [
                 'may_terminate' => false,
                 'child_routes'  => [
                     'login'    => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/login/via/[:id]/[:name].html',
                             'defaults' => [
@@ -41,11 +43,20 @@ return [
                         ],
                     ],
                     'callback' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/callback.html',
                             'defaults' => [
                                 'action' => 'callback',
+                            ],
+                        ],
+                    ],
+                    'refresh'  => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/refresh.html',
+                            'defaults' => [
+                                'action' => 'refresh',
                             ],
                         ],
                     ],

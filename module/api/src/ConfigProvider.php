@@ -45,7 +45,6 @@ final class ConfigProvider
     {
         return [
             'factories' => [
-                OAuth2Service::class                                    => ConfigAbstractFactory::class,
                 MeListener::class                                       => ConfigAbstractFactory::class,
                 Rest\ListResource\ServiceListener::class                => ConfigAbstractFactory::class,
                 ProjectListener::class                                  => ConfigAbstractFactory::class,
@@ -56,8 +55,6 @@ final class ConfigProvider
                 Rest\ViewResource\OrganisationListener::class           => ConfigAbstractFactory::class,
                 Rest\ViewResource\PartnerListener::class                => ConfigAbstractFactory::class,
                 Rest\UpdateResource\ProjectListener::class              => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Results\ProjectListener::class  => ConfigAbstractFactory::class,
-                Rest\StatisticsResource\Results\PartnerListener::class  => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Facets\ProjectListener::class   => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Facets\PartnerListener::class   => ConfigAbstractFactory::class,
                 Rest\StatisticsResource\Download\ProjectListener::class => ConfigAbstractFactory::class,
@@ -112,6 +109,7 @@ final class ConfigProvider
                 OrganisationService::class,
                 UserService::class,
                 PartnerProvider::class,
+                PartnerYearProvider::class
             ],
             ResultListener::class                                   => [
                 ProjectService::class,
@@ -146,17 +144,6 @@ final class ConfigProvider
                 PartnerService::class,
                 UserService::class,
             ],
-            Rest\StatisticsResource\Results\ProjectListener::class  => [
-                ProjectService::class,
-                UserService::class,
-                ProjectProvider::class,
-            ],
-            Rest\StatisticsResource\Results\PartnerListener::class  => [
-                PartnerService::class,
-                UserService::class,
-                PartnerProvider::class,
-                PartnerYearProvider::class,
-            ],
             Rest\StatisticsResource\Download\ProjectListener::class => [
                 ProjectService::class,
                 UserService::class,
@@ -169,10 +156,6 @@ final class ConfigProvider
                 TranslatorInterface::class,
                 PartnerProvider::class,
                 PartnerYearProvider::class,
-            ],
-            OAuth2Service::class                                    => [
-                EntityManager::class,
-                TranslatorInterface::class,
             ],
             ServiceProvider::class                                  => [
                 'ViewHelperManager',
@@ -196,8 +179,6 @@ final class ConfigProvider
                     ['route' => Rest\ViewResource\OrganisationListener::class, 'roles' => []],
                     ['route' => Rest\ViewResource\PartnerListener::class, 'roles' => []],
                     ['route' => Rest\UpdateResource\ProjectListener::class, 'roles' => []],
-                    ['route' => Rest\StatisticsResource\Results\ProjectListener::class, 'roles' => []],
-                    ['route' => Rest\StatisticsResource\Results\PartnerListener::class, 'roles' => []],
                     ['route' => Rest\StatisticsResource\Facets\ProjectListener::class, 'roles' => []],
                     ['route' => Rest\StatisticsResource\Facets\PartnerListener::class, 'roles' => []],
                     ['route' => Rest\StatisticsResource\Download\ProjectListener::class, 'roles' => []],
@@ -316,24 +297,6 @@ final class ConfigProvider
                         'route'    => '/api/statistics/facets/partner/[:id]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\PartnerListener::class,
-                        ],
-                    ],
-                ],
-                Rest\StatisticsResource\Results\ProjectListener::class  => [
-                    'type'    => Literal::class,
-                    'options' => [
-                        'route'    => '/api/statistics/results/project',
-                        'defaults' => [
-                            'controller' => Rest\StatisticsResource\Results\ProjectListener::class,
-                        ],
-                    ],
-                ],
-                Rest\StatisticsResource\Results\PartnerListener::class  => [
-                    'type'    => Literal::class,
-                    'options' => [
-                        'route'    => '/api/statistics/results/partner',
-                        'defaults' => [
-                            'controller' => Rest\StatisticsResource\Results\PartnerListener::class,
                         ],
                     ],
                 ],

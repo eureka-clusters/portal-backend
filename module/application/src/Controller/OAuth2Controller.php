@@ -11,11 +11,14 @@ use Application\ValueObject\OAuth2\GenericUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Laminas\Http\Response;
+use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
+use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
+use OAuth2\Encryption\Jwt;
 
 final class OAuth2Controller extends AbstractActionController
 {
@@ -29,7 +32,7 @@ final class OAuth2Controller extends AbstractActionController
     public function loginAction(): Response|ViewModel
     {
         //Find the service
-        $id      = (int) $this->params('id');
+        $id      = (int)$this->params('id');
         $service = $this->oAuth2Service->findServiceById(id: $id);
 
         if (null === $service) {
@@ -118,11 +121,13 @@ final class OAuth2Controller extends AbstractActionController
                     )->toArray()
                 );
 
+                //We let the system create an access token and a refresh token
                 $token = $this->oAuth2Service->generateJwtToken(client: $service->getClient(), user: $user);
 
-                //Redirect to frontend
+                //Redirect to frontend with the tokens
                 return $this->redirect()->toUrl(
-                    url: $service->getClient()->getRedirectUri() . '?token=' . $token
+                    url: $service->getClient()->getRedirectUri(
+                    ) . '?token=' . $token . '&client_id=' . $service->getClient()->getClientId()
                 );
             } catch (IdentityProviderException) {
                 return $this->redirect()->toRoute(route: '/');
@@ -130,5 +135,56 @@ final class OAuth2Controller extends AbstractActionController
         }
 
         return $this->redirect()->toRoute(route: 'home');
+    }
+
+    public function refreshAction(): JsonModel|Response
+    {
+        $content = $this->getRequest()->getContent();
+
+        try {
+            $data        = Json::decode(encodedValue: $content);
+            $clientId    = $data->client_id ?? null;
+            $bearerToken = $data->token ?? null;
+        } catch (\Exception) {
+            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid Client');
+        }
+
+        if (null === $clientId) {
+            return $this->getResponse()->setStatusCode(code: 400)->setContent('Empty Client ID');
+        }
+
+        $client = $this->oAuth2Service->findClientByClientId(clientId: $clientId);
+
+        if (null === $client) {
+            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid Client');
+        }
+
+        //Try to decode the token
+        try {
+            $jwtHelper = new Jwt();
+            $key       = $jwtHelper->decode(
+                jwt: $bearerToken,
+                key: $client->getPublicKey()?->getPublicKey(),
+                allowedAlgorithms: [$client->getPublicKey()?->getEncryptionAlgorithm()]
+            );
+
+            if (!$key) {
+                return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid key');
+            }
+
+            $key['exp'] = time() + ($this->config['api-tools-oauth2']['access_lifetime'] ?? 3600);
+            $key['int'] = time();
+
+            return new JsonModel(variables: [
+                'success' => true,
+                'token'   => $jwtHelper->encode(
+                    payload: $key,
+                    key: $client->getPublicKey()?->getPrivateKey(),
+                    algo: $client->getPublicKey()?->getEncryptionAlgorithm()
+                ),
+            ]);
+        } catch (\Exception) {
+            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid token');
+        }
     }
 }
