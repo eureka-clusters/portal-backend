@@ -33,8 +33,6 @@ class OrganisationRepository extends EntityRepository
 
     private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
     {
-        $sortColumn = null;
-
         switch ($sort) {
             case 'id':
                 $sortColumn = 'cluster_entity_organisation.id';
