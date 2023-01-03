@@ -53,7 +53,10 @@ class OrganisationService extends AbstractService
         string $sort = 'name',
         string $order = 'asc'
     ): QueryBuilder {
-        return $this->entityManager->getRepository(entityName: Organisation::class)->getOrganisationsByFilter(
+        /** @var OrganisationRepository $repository */
+        $repository = $this->entityManager->getRepository(entityName: Organisation::class);
+
+        return $repository->getOrganisationsByFilter(
             filter: $filter,
             sort: $sort,
             order: $order

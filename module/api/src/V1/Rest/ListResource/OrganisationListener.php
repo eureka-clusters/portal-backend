@@ -7,6 +7,7 @@ namespace Api\V1\Rest\ListResource;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Service\OrganisationService;
+use Doctrine\Common\Collections\Criteria;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Paginator\Paginator;
 
@@ -20,13 +21,12 @@ final class OrganisationListener extends AbstractResourceListener
 
     public function fetchAll($params = []): Paginator
     {
-        $defaultSort = 'name';
-        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        $sort  = $params->sort ?? 'name';
+        $order = $params->order ?? strtolower(string: Criteria::ASC);
 
-        $partnerQueryBuilder = $this->organisationService->getOrganisations(filter: [], sort: $sort, order: $order);
+        $organisationQueryBuilder = $this->organisationService->getOrganisations(filter: [], sort: $sort, order: $order);
 
-        $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $organisationQueryBuilder);
         $doctrineORMAdapter->setProvider(provider: $this->organisationProvider);
 
         return new Paginator(adapter: $doctrineORMAdapter);

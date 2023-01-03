@@ -40,6 +40,7 @@ class OrganisationRepository extends EntityRepository
                 $sortColumn = 'cluster_entity_organisation.id';
                 break;
             case 'name':
+            default:
                 $sortColumn = 'cluster_entity_organisation.name';
                 break;
             case 'country':
@@ -52,9 +53,7 @@ class OrganisationRepository extends EntityRepository
                 break;
         }
 
-        if (isset($sortColumn)) {
-            $queryBuilder->orderBy(sort: $sortColumn, order: $order);
-        }
+        $queryBuilder->orderBy(sort: $sortColumn, order: $order);
     }
 
     public function searchOrganisations(
