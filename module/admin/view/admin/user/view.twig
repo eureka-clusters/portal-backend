@@ -20,9 +20,18 @@
     {% endfor %}
     <dt>{{ translate("txt-is-funder") }}</dt>
     {% if user.isFunder() %}
-        <dd>{{ translate("txt-yes") }} ({{ user.funder.country }})</dd>
+        <dd>{{ translate("txt-yes") }} ({{ user.funder.country }}) {{ user.funder.id }}</dd>
     {% else %}
         <dd>{{ translate("txt-no") }}</dd>
+    {% endif %}
+
+    {% if user.isFunder() %}
+        <dt>{{ translate("txt-funder-in-cluster") }}</dt>
+        {% for cluster in user.funder.clusters %}
+            <dd>{{ cluster.name }}</dd>
+        {% else %}
+            <dd>{{ translate("txt-no-clusters-known") }}</dd>
+        {% endfor %}
     {% endif %}
 
     <dt>{{ translate("txt-is-eureka-secretariat-staff-member") }}</dt>

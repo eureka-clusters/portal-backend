@@ -6,9 +6,9 @@ namespace Admin\Service;
 
 use Admin\Entity\Role;
 use Admin\Entity\User;
+use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
 use Application\ValueObject\OAuth2\GenericUser;
-use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
 use Doctrine\ORM\EntityManager;
@@ -19,9 +19,6 @@ use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
 use Laminas\Crypt\Password\Bcrypt;
 use Mailing\Service\EmailService;
 
-use function array_diff;
-use function array_intersect;
-use function array_values;
 use function sprintf;
 
 class UserService extends AbstractService implements AccessRolesByUserInterface
@@ -38,7 +35,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         return $this->entityManager->find(className: User::class, id: $id);
     }
 
-    public function findOrCreateUserFromGenericUser(GenericUser $genericUser, array $allowedClusters = []): User
+    public function findOrCreateUserFromGenericUser(GenericUser $genericUser, Service $service): User
     {
         //Try to see if we already have the user
         $user = $this->entityManager->getRepository(entityName: User::class)->findOneBy(
@@ -63,7 +60,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         );
 
         //Delete the funder object when the user is not a funder
-        if (! $genericUser->isFunder() && $user->isFunder()) {
+        if (!$genericUser->isFunder() && $user->isFunder()) {
             $this->delete(abstractEntity: $user->getFunder());
         }
 
@@ -94,63 +91,26 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
             }
             $this->save(entity: $funder);
 
-            $this->updateClusterPermissions(
+            $this->updateFunderClusterPermissions(
                 funder: $funder,
-                genericUser: $genericUser,
-                allowedClusters: $allowedClusters
+                service: $service
             );
         }
 
         return $user;
     }
 
-    protected function updateClusterPermissions(
+    private function updateFunderClusterPermissions(
         Funder $funder,
-        GenericUser $genericUser,
-        array $allowedClusters = []
+        Service $service,
     ): void {
+        //Each service is connected to a cluster, and we store this information in the funder object
+
         // get the ClusterPermissions from generic User
-        $clusterPermissions = $genericUser->getClusterPermissions();
+        //$currentFunderClusters = $funder->getClusters()->toArray();
+        $newFunderClusters = $service->getAllowedClusters();
 
-        $funderClusters = $funder->getClusters();
-
-        // map clusters to each identifier name
-        $linkedIdentifierArray = $funderClusters->map(
-            func: fn (Cluster $cluster) => $cluster->getIdentifier()
-        )->toArray();
-
-        // filter by allowedClusters of this oauth provider to only remove clusters which are changeable.
-        $linkedIdentifierArray = array_intersect($linkedIdentifierArray, $allowedClusters);
-
-        // get the clusters to add
-        $identifiersToAdd = array_values(array: array_diff($clusterPermissions, $linkedIdentifierArray));
-
-        // add the clusters which permission was added
-        foreach ($identifiersToAdd as $clusterIdentifier) {
-            $cluster = $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(
-                criteria: [
-                    'identifier' => $clusterIdentifier,
-                ]
-            );
-            if ((null !== $cluster) && ! $funder->getClusters()->contains(element: $cluster)) {
-                $funder->getClusters()->add(element: $cluster);
-            }
-        }
-
-        // which clusters should be removed given by its identifier
-        $identifiersToRemove = array_values(array: array_diff($linkedIdentifierArray, $clusterPermissions));
-
-        // remove the clusters which permission was revoked
-        foreach ($identifiersToRemove as $clusterIdentifier) {
-            $cluster = $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(
-                criteria: [
-                    'identifier' => $clusterIdentifier,
-                ]
-            );
-            if ((null !== $cluster) && $funder->getClusters()->contains(element: $cluster)) {
-                $funder->getClusters()->removeElement(element: $cluster);
-            }
-        }
+        $funder->setClusters(clusters: $newFunderClusters);
 
         $this->save(entity: $funder);
     }

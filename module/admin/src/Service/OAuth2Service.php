@@ -73,7 +73,6 @@ class OAuth2Service extends AbstractService
         return $responseData->access_token;
     }
 
-    #[Deprecated]
     public function generateJwtToken(Client $client, User $user): string
     {
         $payload = [

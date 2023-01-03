@@ -47,29 +47,43 @@ class PartnerService extends AbstractService
     public function getPartners(
         User $user,
         array $filter,
-        string $sort = 'partner.organisation.name',
+        string $sort = 'name',
         string $order = 'asc'
     ): QueryBuilder {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByUserAndFilter(user: $user, filter: $filter, sort:  $sort, order: $order);
+        return $repository->getPartnersByUserAndFilter(user: $user, filter: $filter, sort: $sort, order: $order);
     }
 
-    public function getPartnersByProject(Project $project): QueryBuilder
-    {
+    public function getPartnersByProject(
+        Project $project,
+        string $sort = 'name',
+        string $order = 'asc'
+    ): QueryBuilder {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByProject(project: $project);
+        return $repository->getPartnersByProject(
+            project: $project,
+            sort: $sort,
+            order: $order
+        );
     }
 
-    public function getPartnersByOrganisation(Organisation $organisation): QueryBuilder
-    {
+    public function getPartnersByOrganisation(
+        Organisation $organisation,
+        string $sort = 'name',
+        string $order = 'asc'
+    ): QueryBuilder {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByOrganisation(organisation: $organisation);
+        return $repository->getPartnersByOrganisation(
+            organisation: $organisation,
+            sort: $sort,
+            order: $order
+        );
     }
 
     #[ArrayShape(shape: [
@@ -134,7 +148,9 @@ class PartnerService extends AbstractService
         $country = $this->countryService->findCountryByCd(cd: $data->country);
 
         if (null === $country) {
-            throw new InvalidArgumentException(message: sprintf("Country with code %s cannot be found", $data->country));
+            throw new InvalidArgumentException(
+                message: sprintf("Country with code %s cannot be found", $data->country)
+            );
         }
 
         //Find the type

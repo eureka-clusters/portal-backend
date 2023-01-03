@@ -24,7 +24,7 @@ class UserProvider
                 'funder_country'                     => $user->getFunder()?->getCountry()->getCountry(),
                 'funder_country_cd'                  => $user->getFunder()?->getCountry()->getCd(),
                 'funder_clusters'                    => $user->getFunder()?->getClusters()->map(
-                    func: fn (Cluster $cluster) => $cluster->getIdentifier()
+                    func: fn (Cluster $cluster) => $cluster->getName()
                 )->toArray(),
             ]
         );

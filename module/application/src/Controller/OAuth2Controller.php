@@ -106,19 +106,12 @@ final class OAuth2Controller extends AbstractActionController
                 );
 
                 // get the GenericUser but filter the cluster_permissions with the allowedCluster setting of the oauth2-settings for the used service
-                $genericUser = GenericUser::fromJson(
-                    jsonString: $request->getBody()->getContents(),
-                    allowedClusters: $service->getAllowedClusters()->map(
-                        fn ($cluster) => $cluster->getName()
-                    )->toArray()
-                );
+                $genericUser = GenericUser::fromJson(jsonString: $request->getBody()->getContents());
 
                 //find or create new user by the returned User information
                 $user = $this->userService->findOrCreateUserFromGenericUser(
                     genericUser: $genericUser,
-                    allowedClusters: $service->getAllowedClusters()->map(
-                        fn ($cluster) => $cluster->getName()
-                    )->toArray()
+                    service: $service
                 );
 
                 //We let the system create an access token and a refresh token

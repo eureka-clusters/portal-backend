@@ -41,7 +41,12 @@ final class PartnerListener extends AbstractResourceListener
             return new Paginator(adapter: new ArrayAdapter());
         }
 
-        $hasYears = false;
+        $hasYears    = false;
+        $defaultSort = 'name';
+
+        $sort          = $params->sort ?? $defaultSort;
+        $encodedFilter = $params->filter ?? null;
+        $order         = $params->order ?? strtolower(string: Criteria::ASC);
 
         switch (true) {
             case isset($params->project):
@@ -52,7 +57,11 @@ final class PartnerListener extends AbstractResourceListener
                     return new Paginator(adapter: new ArrayAdapter());
                 }
 
-                $partnerQueryBuilder = $this->partnerService->getPartnersByProject(project: $project);
+                $partnerQueryBuilder = $this->partnerService->getPartnersByProject(
+                    project: $project,
+                    sort: $sort,
+                    order: $order
+                );
                 break;
             case isset($params->organisation):
                 /** @var Organisation $organisation */
@@ -62,24 +71,20 @@ final class PartnerListener extends AbstractResourceListener
                     return new Paginator(adapter: new ArrayAdapter());
                 }
 
-                $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(organisation: $organisation);
+                $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(
+                    organisation: $organisation,
+                    sort: $sort,
+                    order: $order
+                );
                 break;
             default:
 
-                $encodedFilter = (string)$this->getEvent()->getQueryParams()?->get(name: 'filter');
-
                 //The filter is a base64 encoded serialised json string
-                $filter      = base64_decode(string: $encodedFilter, strict: true);
-                $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
-
-                $defaultSort = 'partner.organisation.name';
-                $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-                $order       = $this->getEvent()->getQueryParams()?->get(
-                    name: 'order',
-                    default: strtolower(
-                        string: Criteria::ASC
-                    )
-                );
+                $arrayFilter = [];
+                if (!empty($encodedFilter)) {
+                    $filter      = base64_decode(string: $encodedFilter, strict: true);
+                    $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+                }
 
                 $hasYears = !empty($arrayFilter['year']);
 

@@ -46,6 +46,7 @@ final class ResultListener extends AbstractResourceListener
             limit: 20
         );
 
+
         foreach ($projects as $resultArray) {
             $project = $resultArray[0];
             $score   = isset($resultArray['score']) ? (float) $resultArray['score'] : null;
