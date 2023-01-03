@@ -8,6 +8,7 @@ use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
 use Api\Entity\OAuth\Service;
 use Application\ValueObject\OAuth2\GenericUser;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Laminas\Http\Response;
@@ -75,7 +76,7 @@ final class OAuth2Controller extends AbstractActionController
         $authCode = $this->getRequest()->getQuery(name: 'code');
 
         /** @var Service $service */
-        $service = $this->oAuth2Service->findServiceById(id: $session->serviceId);
+        $service = $this->oAuth2Service->findServiceById(id: (int) $session->serviceId);
 
         if (null !== $authCode) {
             try {
@@ -133,23 +134,25 @@ final class OAuth2Controller extends AbstractActionController
     public function refreshAction(): JsonModel|Response
     {
         $content = $this->getRequest()->getContent();
+        /** @var Response $response */
+        $response = $this->getResponse();
 
         try {
             $data        = Json::decode(encodedValue: $content);
             $clientId    = $data->client_id ?? null;
             $bearerToken = $data->token ?? null;
-        } catch (\Exception) {
-            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid Client');
+        } catch (Exception) {
+            return $response->setStatusCode(code: 400)->setContent('Invalid Client');
         }
 
         if (null === $clientId) {
-            return $this->getResponse()->setStatusCode(code: 400)->setContent('Empty Client ID');
+            return $response->setStatusCode(code: 400)->setContent('Empty Client ID');
         }
 
         $client = $this->oAuth2Service->findClientByClientId(clientId: $clientId);
 
         if (null === $client) {
-            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid Client');
+            return $response->setStatusCode(code: 400)->setContent('Invalid Client');
         }
 
         //Try to decode the token
@@ -162,7 +165,7 @@ final class OAuth2Controller extends AbstractActionController
             );
 
             if (!$key) {
-                return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid key');
+                return $response->setStatusCode(code: 400)->setContent('Invalid key');
             }
 
             $key['exp'] = time() + ($this->config['api-tools-oauth2']['access_lifetime'] ?? 3600);
@@ -176,8 +179,8 @@ final class OAuth2Controller extends AbstractActionController
                     algo: $client->getPublicKey()?->getEncryptionAlgorithm()
                 ),
             ]);
-        } catch (\Exception) {
-            return $this->getResponse()->setStatusCode(code: 400)->setContent('Invalid token');
+        } catch (Exception) {
+            return $response->setStatusCode(code: 400)->setContent('Invalid token');
         }
     }
 }

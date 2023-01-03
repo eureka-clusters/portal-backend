@@ -228,16 +228,6 @@ final class ApiConfigProvider
                         'GET' => true,
                     ],
                 ],
-                Rest\StatisticsResource\Results\ProjectListener::class  => [
-                    'collection' => [
-                        'GET' => true,
-                    ],
-                ],
-                Rest\StatisticsResource\Results\PartnerListener::class  => [
-                    'collection' => [
-                        'GET' => true,
-                    ],
-                ],
                 Rest\StatisticsResource\Download\ProjectListener::class => [
                     'collection' => [
                         'GET' => true,
