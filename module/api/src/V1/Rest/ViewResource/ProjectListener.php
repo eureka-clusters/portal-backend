@@ -34,7 +34,7 @@ final class ProjectListener extends AbstractResourceListener
         $project = $this->projectService->findProjectBySlugAndUser(slug: $slug, user: $user);
 
         if (null === $project) {
-            return new ApiProblem(status: 404, detail: 'You have no access to this project');
+            return new ApiProblem(status: 500, detail: 'You have no access to this project');
         }
 
         return $this->projectProvider->generateArray(project: $project);
