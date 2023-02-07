@@ -20,6 +20,7 @@ class OrganisationRepository extends EntityRepository
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_organisation');
         $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
+        $queryBuilder->innerJoin(join: 'cluster_entity_organisation.partners', alias: 'cluster_entity_partners');
 
         $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
