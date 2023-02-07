@@ -302,6 +302,9 @@ class PartnerRepository extends EntityRepository
 
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
 
+        //We always need a join on project
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
+
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
@@ -353,6 +356,9 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'project_partner_organisation');
         $queryBuilder->where(predicates: 'project_partner_organisation = :organisation');
         $queryBuilder->setParameter(key: 'organisation', value: $organisation);
+
+        //We always need a join on project
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
