@@ -289,6 +289,7 @@ class PartnerRepository extends EntityRepository
     }
 
     public function getPartnersByProject(
+        User $user,
         Project $project,
         string $sort = 'name',
         string $order = 'asc'
@@ -302,6 +303,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
 
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         return $queryBuilder;
     }
@@ -340,6 +342,7 @@ class PartnerRepository extends EntityRepository
     }
 
     public function getPartnersByOrganisation(
+        User $user,
         Organisation $organisation,
         string $sort = 'name',
         string $order = 'asc'
@@ -352,6 +355,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->setParameter(key: 'organisation', value: $organisation);
 
         $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         return $queryBuilder;
     }

@@ -57,6 +57,7 @@ class PartnerService extends AbstractService
     }
 
     public function getPartnersByProject(
+        User $user,
         Project $project,
         string $sort = 'name',
         string $order = 'asc'
@@ -65,6 +66,7 @@ class PartnerService extends AbstractService
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         return $repository->getPartnersByProject(
+            user: $user,
             project: $project,
             sort: $sort,
             order: $order
@@ -72,6 +74,7 @@ class PartnerService extends AbstractService
     }
 
     public function getPartnersByOrganisation(
+        User $user,
         Organisation $organisation,
         string $sort = 'name',
         string $order = 'asc'
@@ -80,6 +83,7 @@ class PartnerService extends AbstractService
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         return $repository->getPartnersByOrganisation(
+            user: $user,
             organisation: $organisation,
             sort: $sort,
             order: $order

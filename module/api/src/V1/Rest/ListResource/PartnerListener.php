@@ -58,6 +58,7 @@ final class PartnerListener extends AbstractResourceListener
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByProject(
+                    user: $user,
                     project: $project,
                     sort: $sort,
                     order: $order
@@ -72,6 +73,7 @@ final class PartnerListener extends AbstractResourceListener
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(
+                    user: $user,
                     organisation: $organisation,
                     sort: $sort,
                     order: $order
