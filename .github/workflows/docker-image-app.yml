@@ -32,10 +32,10 @@ jobs:
           password: ${{ secrets.CR_PAT }}
 
       - name: Build and push App container
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           file: ./.docker/php-fpm/prod/Dockerfile
           push: true
           tags: ghcr.io/eureka-clusters/backend/app:latest
