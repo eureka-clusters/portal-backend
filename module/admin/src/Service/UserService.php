@@ -74,6 +74,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
                     'cd' => $genericUser->getFunderCountry(),
                 ]
             );
+
             if (null === $country) {
                 throw new Exception(
                     message: sprintf(
@@ -87,8 +88,9 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
             if (null === $funder) {
                 $funder = new Funder();
                 $funder->setUser(user: $user);
-                $funder->setCountry(country: $country);
             }
+
+            $funder->setCountry(country: $country);
             $this->save(entity: $funder);
 
             $this->updateFunderClusterPermissions(
