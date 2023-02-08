@@ -110,9 +110,13 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
         // get the ClusterPermissions from generic User
         //$currentFunderClusters = $funder->getClusters()->toArray();
-        $newFunderClusters = $service->getAllowedClusters();
+        foreach ($service->getAllowedClusters() as $allowedCluster) {
+            if ($funder->getClusters()->contains($allowedCluster)) {
+                continue;
+            }
 
-        $funder->setClusters(clusters: $newFunderClusters);
+            $funder->getClusters()->add($allowedCluster);
+        }
 
         $this->save(entity: $funder);
     }

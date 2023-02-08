@@ -76,12 +76,12 @@ class Funder extends AbstractEntity
         return $this;
     }
 
-    public function getClusters(): ArrayCollection|Collection
+    public function getClusters(): Collection
     {
         return $this->clusters;
     }
 
-    public function setClusters(ArrayCollection|Collection $clusters): Funder
+    public function setClusters(Collection $clusters): Funder
     {
         $this->clusters = $clusters;
         return $this;
