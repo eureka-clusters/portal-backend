@@ -24,7 +24,7 @@
     "laminas-api-tools/api-tools": "^1.7",
     "laminas-api-tools/api-tools-documentation": "^1.6",
     "laminas-api-tools/api-tools-documentation-swagger": "^1.7",
-    "phpoffice/phpspreadsheet": "^1.26",
+    "phpoffice/phpspreadsheet": "^1.28",
     "lm-commons/lmc-cors": "^1.2",
     "league/oauth2-client": "dev-master",
     "dg/bypass-finals": "^1.4",
