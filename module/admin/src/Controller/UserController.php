@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Admin\Controller;
 
 use Admin\Entity\User;
+use Admin\Form\User\GenerateTokenForm;
 use Admin\Form\User\Login;
 use Admin\Form\User\LostPassword;
 use Admin\Form\User\Password;
 use Admin\Form\UserFilter;
 use Admin\Service\AdminService;
+use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
+use Api\Entity\OAuth\Client;
 use Application\Authentication\Adapter\DatabaseAdapter;
 use Application\Controller\Plugin\GetFilter;
 use Doctrine\ORM\EntityManager;
@@ -24,6 +27,7 @@ use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
 use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
+use OAuth2\Encryption\Jwt;
 
 use function ceil;
 use function sprintf;
@@ -40,6 +44,7 @@ final class UserController extends AbstractActionController
     public function __construct(
         private readonly AdminService $adminService,
         private readonly UserService $userService,
+        private readonly OAuth2Service $oAuth2Service,
         private readonly array $config,
         private readonly EntityManager $entityManager,
         private readonly AuthenticationService $authenticationService,
@@ -83,13 +88,51 @@ final class UserController extends AbstractActionController
 
     public function viewAction(): ViewModel
     {
-        $user = $this->adminService->find(entity: User::class, id: (int) $this->params('id'));
+        $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
 
         if (null === $user) {
             return $this->notFoundAction();
         }
 
         return new ViewModel(variables: ['user' => $user]);
+    }
+
+    public function generateTokenAction(): ViewModel|Response
+    {
+        /** @var User $user */
+        $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
+
+        if (null === $user) {
+            return $this->notFoundAction();
+        }
+
+        $data = $this->getRequest()->getPost()->toArray();
+
+        $form = new GenerateTokenForm(entityManager: $this->entityManager);
+        $form->setData(data: $data);
+
+        $token = null;
+
+        if ($this->getRequest()->isPost()) {
+            if (isset($data['cancel'])) {
+                return $this->redirect()->toRoute('admin/user/view', ['id' => $user->getId()]);
+            }
+
+            if ($form->isValid()) {
+                /** @var Client $client */
+                $client  = $this->oAuth2Service->findClientByClientId($data['client']);
+                $payload = $this->userService->generatePayload(client: $client, user: $user, algorithm: 'RS256');
+
+                //We need to generate a token
+                $token = (new Jwt())->encode(
+                    payload: $payload,
+                    key: $client->getPublicKey()?->getPrivateKey(),
+                    algo: $client->getPublicKey()?->getEncryptionAlgorithm()
+                );
+            }
+        }
+
+        return new ViewModel(variables: ['user' => $user, 'form' => $form, 'token' => $token]);
     }
 
     public function lostPasswordAction(): Response|ViewModel

@@ -349,7 +349,13 @@ class ProjectRepository extends EntityRepository
                 join: 'cluster_entity_project_funder_partners.organisation',
                 alias: 'cluster_entity_project_funder_partners_organisation'
             )
-            ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country');
+            ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country')
+            ->andWhere(
+                $queryBuilder->expr()->eq(
+                    x: 'cluster_entity_project_funder_partners.isActive',
+                    y: $queryBuilder->expr()->literal(literal: true)
+                )
+            );
 
         $queryBuilder->andWhere(
             $queryBuilder->expr()->in(x: 'cluster_entity_project', y: $funderSubSelect->getDQL())

@@ -43,7 +43,7 @@ return [
                         ],
                         'may_terminate' => true,
                         'child_routes'  => [
-                            'list' => [
+                            'list'           => [
                                 'type'    => Segment::class,
                                 'options' => [
                                     'route'    => '/list[/f-:encodedFilter][/page-:page].html',
@@ -52,12 +52,21 @@ return [
                                     ],
                                 ],
                             ],
-                            'view' => [
+                            'view'           => [
                                 'type'    => Segment::class,
                                 'options' => [
                                     'route'    => '/view/[:id].html',
                                     'defaults' => [
                                         'action' => 'view',
+                                    ],
+                                ],
+                            ],
+                            'generate-token' => [
+                                'type'    => Segment::class,
+                                'options' => [
+                                    'route'    => '/generate-token/[:id].html',
+                                    'defaults' => [
+                                        'action' => 'generate-token',
                                     ],
                                 ],
                             ],

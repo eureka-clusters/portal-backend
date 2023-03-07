@@ -1,0 +1,30 @@
+{% do headTitle().append(translate("txt-generate-token")) %}
+
+<h1>{{ translate("txt-generate-token") }}</h1>
+
+<p>{{ translate("txt-generate-token-explanation") }}</p>
+
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{{ lbs5formelement(form.get('client')) }}
+{# {{ lbs5formelement(form.get('type')) }} #}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ lbs5formelement(form.get('submit')) }}
+        {{ lbs5formelement(form.get('cancel')) }}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}
+
+
+{% if token %}
+    <h2>{{ translate("txt-token") }}</h2>
+    <p>New generated Bearer JWT (RS256)</p>
+
+    <code class="py-2">{{ token }}</code>
+{% endif %}

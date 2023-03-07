@@ -37,6 +37,17 @@ return [
                                         UserLabel::class,
                                     ],
                                 ],
+                                'pages'  => [
+                                    'generate-token' => [
+                                        'route'  => 'zfcadmin/user/generate-token',
+                                        'label'  => _('txt-generate-token'),
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => User::class,
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                         ],
                     ],

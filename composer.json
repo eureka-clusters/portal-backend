@@ -17,7 +17,7 @@
     "laminas/laminas-serializer": "^2.15",
     "laminas/laminas-paginator": "~2.18",
     "laminas/laminas-mail": "^2.23",
-    "laminas/laminas-crypt": "^3.10",
+    "laminas/laminas-crypt": "^3.11",
     "laminas/laminas-mvc-plugin-flashmessenger": "^1.10",
     "laminas/laminas-mvc-plugin-identity": "^1.6",
     "laminas/laminas-cache-storage-adapter-redis": "^2.6",

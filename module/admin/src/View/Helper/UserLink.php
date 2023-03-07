@@ -15,12 +15,12 @@ final class UserLink extends AbstractLink
     public function __invoke(?User $user = null, string $action = 'view', string $show = 'name'): string
     {
         $linkParams = [];
-        $user     ??= new User();
+        $user       ??= new User();
 
         $routeParams = [];
         $showOptions = [];
 
-        if (! $user->isEmpty()) {
+        if (!$user->isEmpty()) {
             $routeParams['id']    = $user->getId();
             $showOptions['name']  = $user->parseFullName();
             $showOptions['email'] = $user->getEmail();
@@ -46,9 +46,9 @@ final class UserLink extends AbstractLink
                     'icon'  => 'fa-user-circle-o',
                     'route' => 'zfcadmin/user/view',
                     'text'  => $showOptions[$show] ?? sprintf(
-                        $this->translator->translate(message: 'txt-view-user-%s-in-admin'),
-                        $user->parseFullName()
-                    ),
+                            $this->translator->translate(message: 'txt-view-user-%s-in-admin'),
+                            $user->parseFullName()
+                        ),
                 ];
                 break;
             case 'new':
@@ -70,6 +70,13 @@ final class UserLink extends AbstractLink
                     'icon'  => 'fa-user-secret',
                     'route' => 'zfcadmin/user/impersonate',
                     'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-impersonate'),
+                ];
+                break;
+            case 'generate-token':
+                $linkParams = [
+                    'icon'  => 'fa-user-secret',
+                    'route' => 'zfcadmin/user/generate-token',
+                    'text'  => $showOptions[$show] ?? $this->translator->translate(message: 'txt-generate-token'),
                 ];
                 break;
         }

@@ -7,14 +7,13 @@ namespace Admin\Controller\OAuth2;
 use Admin\Entity\User;
 use Admin\Form;
 use Admin\Service\OAuth2Service;
+use Admin\Service\UserService;
 use Api\Entity;
 use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\PublicKey;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
 use Application\Form\SearchFilter;
-use DateInterval;
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
@@ -37,7 +36,6 @@ use function openssl_pkey_get_details;
 use function openssl_pkey_new;
 use function sha1;
 use function substr;
-use function time;
 
 /**
  * @method GetFilter getFilter()
@@ -48,6 +46,7 @@ final class ClientController extends AbstractActionController
 {
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
+        private readonly UserService $userService,
         private readonly EntityManager $entityManager,
         private readonly TranslatorInterface $translator
     ) {
@@ -66,7 +65,11 @@ final class ClientController extends AbstractActionController
         );
         $paginator::setDefaultItemCountPerPage(count: 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
-        $paginator->setPageRange(pageRange: ceil(num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()));
+        $paginator->setPageRange(
+            pageRange: ceil(
+                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+            )
+        );
 
         $form = new SearchFilter();
         $form->setData($filterPlugin->getFilterFormData());
@@ -124,17 +127,7 @@ final class ClientController extends AbstractActionController
 
         $jwtHelper = new Jwt();
 
-        $payload = [
-            'id'         => 1, // for BC (see #591)
-            'jti'        => 1,
-            'iss'        => 'portal-backend',
-            'aud'        => $client->getClientId(),
-            'sub'        => $this->identity()->getId(),
-            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
-            'iat'        => time(),
-            'token_type' => 'HS256',
-            'scope'      => 'openid',
-        ];
+        $payload = $this->userService->generatePayload(client: $client, user: $this->identity(), algorithm: 'HS256');
 
         $HS256Token = $jwtHelper->encode(
             payload: $payload,
@@ -142,17 +135,7 @@ final class ClientController extends AbstractActionController
             algo: 'HS256'
         );
 
-        $payload = [
-            'id'         => 1, // for BC (see #591)
-            'jti'        => 1,
-            'iss'        => 'portal-backend',
-            'aud'        => $client->getClientId(),
-            'sub'        => $this->identity()->getId(),
-            'exp'        => (new DateTime())->add(interval: new DateInterval(duration: 'P1Y'))->getTimestamp(),
-            'iat'        => time(),
-            'token_type' => 'RS256',
-            'scope'      => 'openid',
-        ];
+        $payload = $this->userService->generatePayload(client: $client, user: $this->identity(), algorithm: 'RS256');
 
         $RS256Token = $jwtHelper->encode(
             payload: $payload,
@@ -167,8 +150,14 @@ final class ClientController extends AbstractActionController
                 'base64EncodedPublicKey' => base64_encode(string: $client->getPublicKey()->getPublicKey()),
                 'RS256Token'             => $RS256Token,
                 'HS256Token'             => $HS256Token,
-                'decodedRS256Token'      => $jwtHelper->decode(jwt: $RS256Token, key: $client->getPublicKey()?->getPublicKey()),
-                'decodedHS256Token'      => $jwtHelper->decode(jwt: $HS256Token, key: $client->getPublicKey()?->getPublicKey()),
+                'decodedRS256Token'      => $jwtHelper->decode(
+                    jwt: $RS256Token,
+                    key: $client->getPublicKey()?->getPublicKey()
+                ),
+                'decodedHS256Token'      => $jwtHelper->decode(
+                    jwt: $HS256Token,
+                    key: $client->getPublicKey()?->getPublicKey()
+                ),
             ]
         );
     }
@@ -196,13 +185,19 @@ final class ClientController extends AbstractActionController
                 $bCryptedSecret = $bCrypt->create(password: $secret);
 
                 $client->setClientSecret(clientsecret: $bCryptedSecret);
-                $client->setClientSecretTeaser(clientsecretTeaser: substr(string: $secret, offset: 0, length: 2) . '*****');
+                $client->setClientSecretTeaser(
+                    clientsecretTeaser: substr(
+                        string: $secret,
+                        offset: 0,
+                        length: 2
+                    ) . '*****'
+                );
                 $client->setName(name: $data['name']);
                 $client->setDescription(description: $data['description']);
                 $client->setGrantTypes(grantTypes: $data['grantTypes']);
 
                 /** @var Entity\OAuth\Scope $scope */
-                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $data['scope']);
+                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$data['scope']);
 
                 $client->setScope(scope: $scope);
                 $client->setRedirectUri(redirectUri: $data['redirectUri']);
@@ -280,7 +275,7 @@ final class ClientController extends AbstractActionController
                 $client->setGrantTypes(grantTypes: null);
 
                 /** @var Entity\OAuth\Scope $scope */
-                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $data['scope']);
+                $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int)$data['scope']);
 
                 $client->setScope(scope: $scope);
                 $client->setName(name: $data['name']);

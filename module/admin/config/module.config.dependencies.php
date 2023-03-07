@@ -44,6 +44,7 @@ return [
         UserController::class    => [
             AdminService::class,
             UserService::class,
+            OAuth2Service::class,
             'Config',
             EntityManager::class,
             AuthenticationService::class,
@@ -56,6 +57,7 @@ return [
         ],
         ClientController::class  => [
             OAuth2Service::class,
+            UserService::class,
             EntityManager::class,
             TranslatorInterface::class,
         ],

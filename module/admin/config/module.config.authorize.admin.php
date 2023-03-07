@@ -29,6 +29,7 @@ return [
                 ['route' => 'zfcadmin/role/edit', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/user/view', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/user/list', 'roles' => [Role::ROLE_ADMIN]],
+                ['route' => 'zfcadmin/user/generate-token', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/cache/index', 'roles' => [Role::ROLE_ADMIN]],
             ],
         ],

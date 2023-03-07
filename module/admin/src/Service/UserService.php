@@ -6,6 +6,7 @@ namespace Admin\Service;
 
 use Admin\Entity\Role;
 use Admin\Entity\User;
+use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
 use Application\ValueObject\OAuth2\GenericUser;
@@ -133,6 +134,25 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     public function findUserByEmail(string $email): ?User
     {
         return $this->entityManager->getRepository(entityName: User::class)->findOneBy(criteria: ['email' => $email]);
+    }
+
+    public function generatePayload(Client $client, User $user, string $algorithm): array
+    {
+        if (!in_array(needle: $algorithm, haystack: ['HS256', 'RS256'], strict: true)) {
+            throw new Exception(message: 'Invalid algorithm', code: 1);
+        }
+
+        return [
+            'id'         => 1, // for BC (see #591)
+            'jti'        => 1,
+            'iss'        => 'portal-backend',
+            'aud'        => $client->getClientId(),
+            'sub'        => $user->getId(),
+            'exp'        => (new \DateTime())->add(interval: new \DateInterval(duration: 'P1Y'))->getTimestamp(),
+            'iat'        => time(),
+            'token_type' => $algorithm,
+            'scope'      => 'openid',
+        ];
     }
 
     public function lostPassword(string $emailAddress): void
