@@ -21,6 +21,7 @@ use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
+use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
@@ -46,6 +47,9 @@ return [
             StatusProvider::class,
             VersionProvider::class,
             // ,Provider\Project\PartnerProvider::class
+        ],
+        ContactProvider::class                 => [
+            AuthenticationService::class
         ],
         PartnerProvider::class                 => [
             Redis::class,

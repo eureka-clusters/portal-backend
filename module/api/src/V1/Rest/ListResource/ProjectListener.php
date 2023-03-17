@@ -35,7 +35,7 @@ final class ProjectListener extends AbstractResourceListener
 
         $encodedFilter = $params->filter ?? null;
         $sort          = $params->sort ?? 'name';
-        $order         = $params->order ?? strtolower(string: Criteria::ASC);
+        $order         = $params->order ?? strtolower(string: Criteria::DESC);
 
         $arrayFilter = [];
         if (!empty($encodedFilter)) {

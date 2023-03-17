@@ -273,8 +273,6 @@ class ProjectRepository extends EntityRepository
 
     private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
     {
-        $sortColumn = null;
-
         switch ($sort) {
             case 'number':
                 $sortColumn = 'cluster_entity_project.number';
@@ -326,11 +324,13 @@ class ProjectRepository extends EntityRepository
                     condition: 'latestversion.type = 3'
                 );
                 break;
+            default:
+                $sortColumn = 'cluster_entity_project.number';
+                $order = 'DESC';
+                break;
         }
 
-        if (isset($sortColumn)) {
-            $queryBuilder->orderBy(sort: $sortColumn, order: $order);
-        }
+        $queryBuilder->orderBy(sort: $sortColumn, order: $order);
     }
 
     private function applyUserFilter(QueryBuilder $queryBuilder, User $user): void

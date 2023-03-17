@@ -48,8 +48,8 @@ $config = [
             PartnerService::class                  => ConfigAbstractFactory::class,
         ],
         'invokables' => [
-            ContactProvider::class,
             SearchResultProvider::class,
+            ContactProvider::class
         ],
     ],
     'doctrine'        => [

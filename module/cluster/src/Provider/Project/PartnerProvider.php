@@ -35,7 +35,7 @@ class PartnerProvider implements ProviderInterface
         'technicalContact' => "array",
     ])] public static function parseCoordinatorArray(Partner $partner): array
     {
-        if (! $partner->isCoordinator()) {
+        if (!$partner->isCoordinator()) {
             throw new InvalidArgumentException(
                 message: sprintf("%s in %s is no coordinator", $partner->getOrganisation(), $partner->getProject())
             );
@@ -56,7 +56,7 @@ class PartnerProvider implements ProviderInterface
         $cacheKey    = $partner->getResourceId();
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
-        if (! $partnerData) {
+        if (!$partnerData) {
             $partnerData = [
                 'id'                  => $partner->getId(),
                 'slug'                => $partner->getSlug(),
@@ -64,8 +64,12 @@ class PartnerProvider implements ProviderInterface
                 'isActive'            => $partner->isActive(),
                 'isSelfFunded'        => $partner->isSelfFunded(),
                 'isCoordinator'       => $partner->isCoordinator(),
-                'technicalContact'    => $this->contactProvider->generateArray(contact: $partner->getTechnicalContact()),
-                'organisation'        => $this->organisationProvider->generateArray(organisation: $partner->getOrganisation()),
+                'technicalContact'    => $this->contactProvider->generateArray(
+                    contact: $partner->getTechnicalContact()
+                ),
+                'organisation'        => $this->organisationProvider->generateArray(
+                    organisation: $partner->getOrganisation()
+                ),
                 'latestVersionCosts'  => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
                 'latestVersionEffort' => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
             ];
