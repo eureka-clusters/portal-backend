@@ -70,6 +70,12 @@ class ProjectRepository extends EntityRepository
                                 y: $countryFilter
                             )
                         )
+                        ->andWhere(
+                            $queryBuilder->expr()->eq(
+                                x: 'cluster_entity_project_partner_filter_country.isActive',
+                                y: $queryBuilder->expr()->literal(literal: true)
+                            )
+                        )
                         ->addGroupBy(
                             groupBy: 'cluster_entity_project_filter_country.id'
                         ) //Add an id so we don't get all group by statements
@@ -108,6 +114,12 @@ class ProjectRepository extends EntityRepository
                                 x: 'cluster_entity_country.country',
                                 y: $countryFilter
                             )
+                        )
+                        ->andWhere(
+                            $queryBuilder->expr()->eq(
+                                'cluster_entity_project_partner_filter_country.isActive',
+                                $queryBuilder->expr()->literal(literal: true)
+                            )
                         );
 
                     $queryBuilder->andWhere(
@@ -143,6 +155,12 @@ class ProjectRepository extends EntityRepository
                             predicates: $queryBuilder->expr()->in(
                                 x: 'cluster_entity_organisation_type.type',
                                 y: $organisationTypeFilter
+                            )
+                        )
+                        ->andWhere(
+                            $queryBuilder->expr()->eq(
+                                'cluster_entity_project_partner_filter_organisation_type.isActive',
+                                $queryBuilder->expr()->literal(literal: true)
                             )
                         )
                         ->addGroupBy(groupBy: 'cluster_entity_project_filter_organisation_type.id')
@@ -184,7 +202,14 @@ class ProjectRepository extends EntityRepository
                                 x: 'cluster_entity_project_partner_filter_organisation_type_organisation_type.type',
                                 y: $organisationTypeFilter
                             )
-                        );
+                        )
+                        ->andWhere(
+                            $queryBuilder->expr()->eq(
+                                'cluster_entity_project_partner_filter_organisation_type.isActive',
+                                $queryBuilder->expr()->literal(literal: true)
+                            )
+                        )
+                       ;
 
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in(
@@ -326,7 +351,7 @@ class ProjectRepository extends EntityRepository
                 break;
             default:
                 $sortColumn = 'cluster_entity_project.number';
-                $order = 'DESC';
+                $order      = 'DESC';
                 break;
         }
 
