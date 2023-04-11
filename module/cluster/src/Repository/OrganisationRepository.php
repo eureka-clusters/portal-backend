@@ -9,21 +9,20 @@ use Cluster\Entity\Organisation;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
+use Jield\Search\ValueObject\SearchFormResult;
 
 class OrganisationRepository extends EntityRepository
 {
     public function getOrganisationsByFilter(
-        array $filter,
-        string $sort = 'name',
-        string $order = 'asc'
+        SearchFormResult $searchFormResult,
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_organisation');
         $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
         $queryBuilder->innerJoin(join: 'cluster_entity_organisation.partners', alias: 'cluster_entity_partners');
 
-        $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
-        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
+        $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
         return $queryBuilder;
     }
@@ -32,9 +31,9 @@ class OrganisationRepository extends EntityRepository
     {
     }
 
-    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    private function applySorting(SearchFormResult $searchFormResult, QueryBuilder $queryBuilder): void
     {
-        switch ($sort) {
+        switch ($searchFormResult->getOrder()) {
             case 'id':
                 $sortColumn = 'cluster_entity_organisation.id';
                 break;
@@ -52,12 +51,12 @@ class OrganisationRepository extends EntityRepository
                 break;
         }
 
-        $queryBuilder->orderBy(sort: $sortColumn, order: $order);
+        $queryBuilder->orderBy(sort: $sortColumn, order: $searchFormResult->getDirection());
     }
 
     public function searchOrganisations(
         Funder $funder,
-        string $query,
+        ?string $query,
         int $limit
     ): QueryBuilder {
         $config = $this->_em->getConfiguration();

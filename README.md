@@ -1,9 +1,8 @@
 # portal-backend
 
-The code of this portal is jointly developed by 
+The code of this portal is jointly developed by
 
 Johan van der Heide <johan.van.der.heide@itea4.org>
-Benjamin Hoft <hoft@eurescom.eu>
 
 ## Documentation
 
@@ -31,4 +30,6 @@ docker compose up -d
 
 
 docker compose run --rm cli /var/www/bin/generate_templatemaps
+
+./vendor/bin/openapi module -f json -o public/swagger/swagger.json
 ```

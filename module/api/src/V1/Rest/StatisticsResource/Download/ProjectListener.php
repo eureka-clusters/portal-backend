@@ -8,9 +8,11 @@ use Admin\Service\UserService;
 use Cluster\Entity\Project;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
+use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
+use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -29,28 +31,59 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($id = 'Xlsx'): array
+    #[OA\Get(
+        path: '/api/statistics/results/project/download',
+        description: 'Download projects',
+        summary: 'Download projects to Excel',
+        tags: ['Project'],
+        parameters: [
+            new OA\Parameter(
+                name: 'filter',
+                description: 'base64 encoded JSON filter',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+                example: 'eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0='
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Downloaded file information',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'download', type: 'string', example: 'base64 encoded file'),
+                        new OA\Property(property: 'extension', type: 'string', example: 'File extension'),
+                        new OA\Property(property: 'mimetype', type: 'string', example: 'File mimetype'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
+    public function fetchAll($params = []): array
     {
-        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
         if (null === $user) {
             return [];
         }
 
-        //The filter is a base64 encoded serialised json string
-        $filter      = $this->getEvent()->getQueryParams()?->get(name: 'filter');
-        $filter      = base64_decode(string: $filter, strict: true);
-        $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+        $filter = $params->toArray();
 
-        $defaultSort = 'project.name';
-        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        //Inject the encoded filter from the results
+        if (isset($params->filter)) {
+            $filter           = base64_decode(string: $params->filter, strict: true);
+            $filter['filter'] = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+        }
+
+        $searchFormResult = SearchFormResult::fromArray($filter);
 
         $projectQueryBuilder = $this->projectService->getProjects(
             user: $user,
-            filter: $arrayFilter,
-            sort: $sort,
-            order: $order
+            searchFormResult: $searchFormResult,
         );
 
         $projects = $projectQueryBuilder->getQuery()->getResult();
@@ -58,7 +91,7 @@ final class ProjectListener extends AbstractResourceListener
         $results = [];
         /** @var Project $project */
         foreach ($projects as $project) {
-            $results[] = $this->projectProvider->generateArray(project: $project);
+            $results[] = $this->projectProvider->generateArray(entity: $project);
         }
 
         $spreadSheet = new Spreadsheet();
@@ -136,11 +169,17 @@ final class ProjectListener extends AbstractResourceListener
 
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['number']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['name']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['primaryCluster']['name'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['secondaryCluster']['name'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['primaryCluster']['name'] ?? null
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['secondaryCluster']['name'] ?? null
+            );
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['duration']['months'] ?? null);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['duration']['months'] ?? null
+            );
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
             $partnerSheet->getCell(coordinate: $column . $row)->setValue(value: $result['latestVersionTotalEffort']);

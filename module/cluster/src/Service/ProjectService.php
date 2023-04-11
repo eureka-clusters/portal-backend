@@ -13,8 +13,9 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use Jield\Search\ValueObject\SearchFormResult;
+use OpenApi\Attributes as OA;
 use stdClass;
 
 use function array_map;
@@ -23,8 +24,8 @@ use function ceil;
 class ProjectService extends AbstractService
 {
     final public const DURATION_MONTH = 'm';
-    final public const DURATION_YEAR  = 'y';
-    final public const DURATION_DAYS  = 'd';
+    final public const DURATION_YEAR = 'y';
+    final public const DURATION_DAYS = 'd';
 
     #[Pure] public function __construct(
         EntityManager $entityManager,
@@ -35,17 +36,15 @@ class ProjectService extends AbstractService
 
     public function getProjects(
         User $user,
-        array $filter,
-        string $sort = 'project.name',
-        string $order = 'asc'
+        SearchFormResult $searchFormResult
     ): QueryBuilder {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Project::class);
 
-        return $repository->getProjectsByUserAndFilter(user: $user, filter: $filter, sort: $sort, order: $order);
+        return $repository->getProjectsByUserAndFilter(user: $user, searchFormResult: $searchFormResult);
     }
 
-    public function searchProjects(User $user, string $query, int $limit): array
+    public function searchProjects(User $user, ?string $query, int $limit): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Project::class);
@@ -53,22 +52,76 @@ class ProjectService extends AbstractService
         return $repository->searchProjects(user: $user, query: $query, limit: $limit)->getQuery()->getResult();
     }
 
-    #[ArrayShape(shape: [
-        'countries'         => "array[]",
-        'organisationTypes' => "array[]",
-        'projectStatus'     => "array[]",
-        'programmeCalls'    => "array[]",
-        'clusters'          => "array[]",
-    ])] public function generateFacets(User $user, array $filter): array
+    #[OA\Response(
+        response: 'project_facets',
+        description: 'Project facets',
+        content: new OA\JsonContent(ref: '#/components/schemas/project_facets')
+    )]
+    #[OA\Schema(
+        schema: 'project_facets',
+        title: 'Project facets result response',
+        description: 'Array of facets for projects',
+        properties: [
+            new OA\Property(
+                property: 'countries',
+                description: 'Result of countries',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'organisationTypes',
+                description: 'Result of organisation types',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'projectStatus',
+                description: 'Result of project status',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'programmeCalls',
+                description: 'Result of programme calls',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'clusters',
+                description: 'Result of clusters',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+        ]
+    )]
+    #[OA\Schema(
+        schema: 'facet_content',
+        title: 'Facets content',
+        description: 'Response per facet',
+        properties: [
+            new OA\Property(
+                property: 'name',
+                description: 'Name of the facet',
+                type: 'string',
+                example: 'Facet label'
+            ),
+            new OA\Property(
+                property: 'amount',
+                description: 'Amount of results in the facet',
+                type: 'integer',
+                example: 4
+            ),
+        ])]
+    public function generateFacets(User $user, SearchFormResult $searchFormResult): array
     {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Project::class);
 
-        $countries         = $repository->fetchCountries(user: $user, filter: $filter);
-        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
-        $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
-        $clusters          = $repository->fetchClusters();
-        $projectStatuses   = $repository->fetchProjectStatuses(user: $user, filter: $filter);
+        $countries         = $repository->fetchCountries(user: $user, searchFormResult: $searchFormResult);
+        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, searchFormResult: $searchFormResult);
+        $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, searchFormResult: $searchFormResult);
+        $clusters          = $repository->fetchClusters(searchFormResult: $searchFormResult);
+        $projectStatuses   = $repository->fetchProjectStatuses(user: $user, searchFormResult: $searchFormResult);
 
         $countriesIndexed = array_map(callback: static fn (array $country) => [
             'name'   => $country['country'],
@@ -172,7 +225,7 @@ class ProjectService extends AbstractService
         if ($data->cancelDate) {
             $cancelDate = DateTime::createFromFormat(
                 format: DateTimeInterface::ATOM,
-                datetime: (string) $data->cancelDate
+                datetime: (string)$data->cancelDate
             );
             $project->setCancelDate(cancelDate: $cancelDate ?: null);
         }
@@ -211,22 +264,22 @@ class ProjectService extends AbstractService
         $difference = $project->getOfficialEndDate()->diff(targetObject: $project->getOfficialStartDate());
 
         return match ($type) {
-            self::DURATION_YEAR => (int) (
-                (int) $difference->format(format: '%' . self::DURATION_YEAR) + ceil(
-                    num: (int) ($difference->format(format: '%' . self::DURATION_MONTH)) / 12
+            self::DURATION_YEAR => (int)(
+                (int)$difference->format(format: '%' . self::DURATION_YEAR) + ceil(
+                    num: (int)($difference->format(format: '%' . self::DURATION_MONTH)) / 12
                 )
             ),
             self::DURATION_MONTH => (
-                (int) ($difference->format(format: '%' . self::DURATION_YEAR)) * 12
-            ) +
-            (int) $difference->format(format: '%' . self::DURATION_MONTH) +
-            ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
-                : 0),
-            default => ((int) ($difference->format(
-                format: '%' . self::DURATION_YEAR
-            )) * 365) + ((int) ($difference->format(
-                format: '%' . self::DURATION_MONTH
-            )) * 12) + (int) $difference->format(format: '%' . self::DURATION_DAYS),
+                    (int)($difference->format(format: '%' . self::DURATION_YEAR)) * 12
+                ) +
+                (int)$difference->format(format: '%' . self::DURATION_MONTH) +
+                ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
+                    : 0),
+            default => ((int)($difference->format(
+                        format: '%' . self::DURATION_YEAR
+                    )) * 365) + ((int)($difference->format(
+                        format: '%' . self::DURATION_MONTH
+                    )) * 12) + (int)$difference->format(format: '%' . self::DURATION_DAYS),
         };
     }
 }

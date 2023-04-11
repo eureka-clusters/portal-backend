@@ -15,6 +15,7 @@ use Laminas\Http\Response;
 use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
+use Laminas\Stdlib\Message;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -76,7 +77,7 @@ final class OAuth2Controller extends AbstractActionController
         $authCode = $this->getRequest()->getQuery(name: 'code');
 
         /** @var Service $service */
-        $service = $this->oAuth2Service->findServiceById(id: (int) $session->serviceId);
+        $service = $this->oAuth2Service->findServiceById(id: (int)$session->serviceId);
 
         if (null !== $authCode) {
             try {
@@ -131,7 +132,7 @@ final class OAuth2Controller extends AbstractActionController
         return $this->redirect()->toRoute(route: 'home');
     }
 
-    public function refreshAction(): JsonModel|Response
+    public function refreshAction(): JsonModel|Response|Message
     {
         $content = $this->getRequest()->getContent();
         /** @var Response $response */

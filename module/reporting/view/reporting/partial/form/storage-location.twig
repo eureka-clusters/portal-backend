@@ -1,0 +1,28 @@
+{% do form.prepare() %}
+
+{{ form().openTag(form)|raw }}
+
+{% set sender = form.get('reporting_entity_storagelocation') %}
+
+{{ lbs5formelement(sender.get('id')) }}
+{{ lbs5formelement(sender.get('name')) }}
+{{ lbs5formelement(sender.get('connectionString')) }}
+{{ lbs5formelement(sender.get('container')) }}
+{{ lbs5formelement(sender.get('excelFolder')) }}
+{{ lbs5formelement(sender.get('parquetFolder')) }}
+{{ lbs5formelement(sender.get('oAuth2Service')) }}
+
+{{ formelement(form.get('csrf')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ formelement(form.get('submit')) }}
+        {% if form.has('delete') %}
+            {{ formelement(form.get('delete')) }}
+        {% endif %}
+        {{ formelement(form.get('cancel')) }}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}

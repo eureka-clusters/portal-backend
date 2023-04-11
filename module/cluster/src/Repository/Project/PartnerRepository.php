@@ -16,6 +16,7 @@ use Cluster\Entity\Project\Version\CostsAndEffort;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Jield\Search\ValueObject\SearchFormResult;
 
 use function array_map;
 
@@ -23,9 +24,7 @@ class PartnerRepository extends EntityRepository
 {
     public function getPartnersByUserAndFilter(
         User $user,
-        array $filter,
-        string $sort = 'name',
-        string $order = 'asc'
+        SearchFormResult $searchFormResult,
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'project_partner');
@@ -35,8 +34,8 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
 
-        $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
-        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
+        $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
@@ -214,11 +213,11 @@ class PartnerRepository extends EntityRepository
         }
     }
 
-    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    private function applySorting(SearchFormResult $searchFormResult, QueryBuilder $queryBuilder): void
     {
         $sortColumn = null;
 
-        switch ($sort) {
+        switch ($searchFormResult->getOrder()) {
             case 'id':
                 $sortColumn = 'project_partner.id';
                 break;
@@ -251,7 +250,7 @@ class PartnerRepository extends EntityRepository
         }
 
         if (isset($sortColumn)) {
-            $queryBuilder->orderBy(sort: $sortColumn, order: $order);
+            $queryBuilder->orderBy(sort: $sortColumn, order: $searchFormResult->getDirection());
         }
     }
 
@@ -291,8 +290,7 @@ class PartnerRepository extends EntityRepository
     public function getPartnersByProject(
         User $user,
         Project $project,
-        string $sort = 'name',
-        string $order = 'asc'
+        SearchFormResult $searchFormResult
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'project_partner');
@@ -305,7 +303,7 @@ class PartnerRepository extends EntityRepository
         //We always need a join on project
         $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
-        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         return $queryBuilder;
@@ -347,8 +345,7 @@ class PartnerRepository extends EntityRepository
     public function getPartnersByOrganisation(
         User $user,
         Organisation $organisation,
-        string $sort = 'name',
-        string $order = 'asc'
+        SearchFormResult $searchFormResult
     ): QueryBuilder {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'project_partner');
@@ -360,13 +357,13 @@ class PartnerRepository extends EntityRepository
         //We always need a join on project
         $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
-        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         return $queryBuilder;
     }
 
-    public function fetchCountries(User $user, $filter): array
+    public function fetchCountries(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
@@ -387,7 +384,7 @@ class PartnerRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchOrganisationTypes(User $user, $filter): array
+    public function fetchOrganisationTypes(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
@@ -409,7 +406,7 @@ class PartnerRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchClusters(): array
+    public function fetchClusters(SearchFormResult $searchFormResult): array
     {
         // it should be a left join so that all clusters are returned even with 0 projects
         $queryBuilder = $this->_em->createQueryBuilder();
@@ -456,7 +453,7 @@ class PartnerRepository extends EntityRepository
         ], $primaryClusters, $secondaryClusters);
     }
 
-    public function fetchProgrammeCalls(User $user, $filter): array
+    public function fetchProgrammeCalls(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
@@ -474,12 +471,12 @@ class PartnerRepository extends EntityRepository
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         $queryBuilder->groupBy(groupBy: 'cluster_entity_project.programmeCall');
-        $queryBuilder->orderBy('cluster_entity_project.programmeCall', Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_project.programmeCall', order: Criteria::ASC);
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchProjectStatuses(User $user, $filter): array
+    public function fetchProjectStatuses(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 

@@ -50,20 +50,18 @@ $config = [
         ],
     ],
     'service_manager' => [
-        'invokables' => [
-            UserProvider::class,
-        ],
-        'factories'  => [
+        'factories' => [
             AdminService::class  => ConfigAbstractFactory::class,
             OAuth2Service::class => ConfigAbstractFactory::class,
             ApiService::class    => ConfigAbstractFactory::class,
             UserService::class   => ConfigAbstractFactory::class,
-            ServiceFilter::class => InputFilterFactory::class, //Has to be in Api namespace
+            ServiceFilter::class => InputFilterFactory::class,
             RoleLabel::class     => InvokableFactory::class,
             UserLabel::class     => InvokableFactory::class,
             ServiceLabel::class  => InvokableFactory::class,
             ClientLabel::class   => InvokableFactory::class,
             ScopeLabel::class    => InvokableFactory::class,
+            UserProvider::class  => ConfigAbstractFactory::class,
 
         ],
     ],

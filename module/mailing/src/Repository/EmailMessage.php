@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mailing\Repository;
 
 use Application\Repository\FilteredObjectRepository;
-use Application\ValueObject\SearchFormResult;
+use Jield\Search\ValueObject\SearchFormResult;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;

@@ -9,6 +9,7 @@ use Cluster\Provider\ContactProvider;
 use Cluster\Provider\CountryProvider;
 use Cluster\Provider\Organisation\TypeProvider;
 use Cluster\Provider\OrganisationProvider;
+use Cluster\Provider\Project\Partner\CoordinatorProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Provider\Project\StatusProvider;
@@ -34,6 +35,7 @@ $config = [
             TypeProvider::class                    => ConfigAbstractFactory::class,
             ProjectProvider::class                 => ConfigAbstractFactory::class,
             PartnerProvider::class                 => ConfigAbstractFactory::class,
+            CoordinatorProvider::class             => ConfigAbstractFactory::class,
             PartnerYearProvider::class             => ConfigAbstractFactory::class,
             StatusProvider::class                  => ConfigAbstractFactory::class,
             VersionProvider::class                 => ConfigAbstractFactory::class,

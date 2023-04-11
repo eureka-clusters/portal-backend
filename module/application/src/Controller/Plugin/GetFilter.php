@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Controller\Plugin;
 
-use Application\ValueObject\SearchFormResult;
+use Jield\Search\ValueObject\SearchFormResult;
 use Doctrine\Common\Collections\Criteria;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;

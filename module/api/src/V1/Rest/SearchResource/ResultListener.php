@@ -11,8 +11,8 @@ use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
-use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use OpenApi\Attributes as OA;
 
 use function usort;
 
@@ -26,30 +26,78 @@ final class ResultListener extends AbstractResourceListener
     ) {
     }
 
+    #[OA\Get(
+        path: '/api/search/result',
+        description: 'Search for projects and organisations',
+        summary: 'Get a list of search results',
+        tags: ['Project'],
+        parameters: [
+            new OA\Parameter(
+                name: 'query',
+                description: 'Search Query',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'order',
+                description: 'Sort order',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'name'
+            ),
+            new OA\Parameter(
+                name: 'direction',
+                description: 'Sort direction',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'asc'
+            ),
+            new OA\Parameter(
+                name: 'pageSize',
+                description: 'Amount per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 25
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 1
+            ),
+        ],
+        responses: [
+            new OA\Response(ref: '#/components/responses/search_result', response: 200),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
     public function fetchAll($params = []): Paginator
     {
-        $query = $this->getEvent()->getQueryParam(name: 'query');
+        $query = $params->query ?? null;
+        $limit = $params->pageSize ?? 25;
 
         $user = $this->userService->findUserById(
-            id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
-
-        if (null === $user) {
-            return new Paginator(adapter: new ArrayAdapter());
-        }
 
         $results = [];
 
         $projects = $this->projectService->searchProjects(
             user: $user,
             query: $query,
-            limit: 20
+            limit: $limit
         );
-
 
         foreach ($projects as $resultArray) {
             $project = $resultArray[0];
-            $score   = isset($resultArray['score']) ? (float) $resultArray['score'] : null;
+            $score   = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type: 'project',
@@ -64,12 +112,12 @@ final class ResultListener extends AbstractResourceListener
         $organisations = $this->organisationService->searchOrganisations(
             funder: $user->getFunder(),
             query: $query,
-            limit: 20
+            limit: $limit
         );
 
         foreach ($organisations as $resultArray) {
             $organisation = $resultArray[0];
-            $score        = isset($resultArray['score']) ? (float) $resultArray['score'] : null;
+            $score        = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
                 type: 'organisation',

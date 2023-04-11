@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'modules' => [
+    'modules'                 => [
         'Laminas\\Router',
         'Laminas\\Form',
         'Laminas\\InputFilter',
@@ -14,10 +14,7 @@ return [
         'Laminas\\Mvc\\Plugin\\Identity',
 
         'Laminas\\ApiTools',
-        'Laminas\\ApiTools\\Documentation',
-        'Laminas\\ApiTools\\Documentation\\Swagger',
         'Laminas\\ApiTools\\ApiProblem',
-        'Laminas\\ApiTools\\Configuration',
         'Laminas\\ApiTools\\OAuth2',
         'Laminas\\ApiTools\\MvcAuth',
         'Laminas\\ApiTools\\Hal',
@@ -43,28 +40,28 @@ return [
         'Admin',
         'Cluster',
         'Application',
+        'Reporting',
         'Deeplink',
         'Mailing',
 
-
     ],
     'module_listener_options' => [
-        'config_glob_paths' => [
+        'config_glob_paths'        => [
             'config/autoload/{,*.}{global,local}.php',
         ],
-        'config_cache_enabled' => !(!defined('PORTAL_ENVIRONMENT')
-            || 'development' === PORTAL_ENVIRONMENT),
-        'config_cache_key' => 'ecp-backend',
-        'module_map_cache_enabled' => !(!defined('PORTAL_ENVIRONMENT')
-            || 'development' === PORTAL_ENVIRONMENT),
-        'cache_dir' => 'data/cache',
-        'module_paths' => [
+        'config_cache_enabled'     => !(!defined(constant_name: 'PORTAL_ENVIRONMENT')
+            || ('development' === PORTAL_ENVIRONMENT)),
+        'config_cache_key'         => 'ecp-backend',
+        'module_map_cache_enabled' => !(!defined(constant_name: 'PORTAL_ENVIRONMENT')
+            || ('development' === PORTAL_ENVIRONMENT)),
+        'cache_dir'                => 'data/cache',
+        'module_paths'             => [
             './module',
             './vendor',
         ],
     ],
-    'service_manager' => [
+    'service_manager'         => [
         'use_defaults' => true,
-        'factories' => [],
+        'factories'    => [],
     ],
 ];

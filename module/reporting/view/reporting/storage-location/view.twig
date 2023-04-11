@@ -1,0 +1,35 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-view-storage-location")) %}
+
+<h1>{{ storageLocation }} {{ storageLocationLink( storageLocation,'edit','button') }}</h1>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ storageLocation.name }}</dd>
+    <dt>{{ translate("txt-connection-string") }}</dt>
+    <dd>{{ storageLocation.connectionString }}</dd>
+    <dt>{{ translate("txt-container") }}</dt>
+    <dd>{{ storageLocation.container }}</dd>
+    <dt>{{ translate("txt-excel-folder") }}</dt>
+    <dd>{{ storageLocation.excelFolder }}</dd>
+    <dt>{{ translate("txt-parquet-folder") }}</dt>
+    <dd>{{ storageLocation.parquetFolder }}</dd>
+    {% if storageLocation.hasOAuth2Service() %}
+        <dt>{{ translate("txt-oauth2-service") }}</dt>
+        <dd>{{ oauth2ServiceLink(storageLocation.oAuth2Service) }}</dd>
+    {% endif %}
+</dl>
+
+{% if hasAccessTested %}
+    {% if hasAccess %}
+        {{ lbs5alert().success(translate("txt-successfully-accessed-container"))|raw }}
+    {% else %}
+        {{ lbs5alert().danger(translate("txt-there-was-an-issue-connecting-to-the-container-%s")|format(accessMessage))|raw }}
+    {% endif %}
+
+{% endif %}
+
+<form method="post">
+    <button type="submit" class="btn btn-primary">{{ translate("txt-test-access") }}</button>
+</form>
+

@@ -9,9 +9,11 @@ use Cluster\Entity\Project\Partner;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\Project\PartnerService;
+use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
+use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -31,34 +33,61 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($id = 'csv'): array
+    #[OA\Get(
+        path: '/api/statistics/results/partner/download',
+        description: 'Download project partners',
+        summary: 'Download project partners to Excel',
+        tags: ['Project'],
+        parameters: [
+            new OA\Parameter(
+                name: 'filter',
+                description: 'base64 encoded JSON filter',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+                example: 'eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0='
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Downloaded file information',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'download', type: 'string', example: 'base64 encoded file'),
+                        new OA\Property(property: 'extension', type: 'string', example: 'File extension'),
+                        new OA\Property(property: 'mimetype', type: 'string', example: 'File mimetype'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
+    public function fetchAll($params = []): array
     {
-        $user = $this->userService->findUserById(id: (int) $this->getIdentity()?->getAuthenticationIdentity()['user_id']);
+        $user = $this->userService->findUserById(
+            id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
+        );
 
-        if (null === $user) {
-            return [];
+        $filter = $params->toArray();
+
+        //Inject the encoded filter from the results
+        if (isset($params->filter)) {
+            $filter           = base64_decode(string: $params->filter, strict: true);
+            $filter['filter'] = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
-        //The filter is a base64 encoded serialised json string
-        $filter      = $this->getEvent()->getQueryParams()?->get(name: 'filter');
-        $filter      = base64_decode(string: $filter, strict: true);
-        $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
-
-        $defaultSort = 'partner.organisation.name';
-        $sort        = $this->getEvent()->getQueryParams()?->get(name: 'sort', default: $defaultSort);
-        $order       = $this->getEvent()->getQueryParams()?->get(name: 'order', default: 'asc');
+        $searchFormResult = SearchFormResult::fromArray($filter);
 
         $partnerQueryBuilder = $this->partnerService->getPartners(
             user: $user,
-            filter: $arrayFilter,
-            sort: $sort,
-            order: $order
+            searchFormResult: $searchFormResult,
         );
 
         $partners = $partnerQueryBuilder->getQuery()->getResult();
 
         $results = [];
-        if (! empty($arrayFilter['year'])) {
+        if (!empty($filter['filter']['year'])) {
             /** @var Partner $partner */
             foreach ($partners as $partner) {
                 $results[] = $this->partnerYearProvider->generateArray(entity: $partner);
@@ -66,7 +95,7 @@ final class PartnerListener extends AbstractResourceListener
         } else {
             /** @var Partner $partner */
             foreach ($partners as $partner) {
-                $results[] = $this->partnerProvider->generateArray(partner: $partner);
+                $results[] = $this->partnerProvider->generateArray(entity: $partner);
             }
         }
 
@@ -108,7 +137,7 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
 
-        if (! empty($arrayFilter['year'])) {
+        if (!empty($filter['filter']['year'])) {
             $partnerSheet->setCellValue(
                 coordinate: $column++ . $row,
                 value: $this->translator->translate(
@@ -143,12 +172,20 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['number']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['name']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['name']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['country']['country']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['type']['type']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['organisation']['country']['country']
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['organisation']['type']['type']
+            );
 
-            if (! empty($arrayFilter['year'])) {
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCostsInYear']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffortInYear']);
+            if (!empty($filter['filter']['year'])) {
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                    value: $result['latestVersionCostsInYear']
+                );
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                    value: $result['latestVersionEffortInYear']
+                );
             } else {
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);

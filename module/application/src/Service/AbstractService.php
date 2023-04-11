@@ -6,7 +6,7 @@ namespace Application\Service;
 
 use Application\Entity\AbstractEntity;
 use Application\Repository\FilteredObjectRepository;
-use Application\ValueObject\SearchFormResult;
+use Jield\Search\ValueObject\SearchFormResult;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;

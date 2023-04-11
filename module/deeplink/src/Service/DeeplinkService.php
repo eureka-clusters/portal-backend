@@ -21,8 +21,10 @@ use function sprintf;
 
 class DeeplinkService extends AbstractService
 {
-    #[Pure] public function __construct(EntityManager $entityManager, private readonly HelperPluginManager $viewHelperManager)
-    {
+    #[Pure] public function __construct(
+        EntityManager $entityManager,
+        private readonly HelperPluginManager $viewHelperManager
+    ) {
         parent::__construct(entityManager: $entityManager);
     }
 
@@ -69,7 +71,9 @@ class DeeplinkService extends AbstractService
          * Produce the endDate
          */
         $endDate = new DateTime();
-        $endDate->add(interval: new DateInterval(duration: sprintf('P%dD', $days ?? Deeplink::EXPIRATION_DAYS_DEFAULT)));
+        $endDate->add(
+            interval: new DateInterval(duration: sprintf('P%dD', $days ?? Deeplink::EXPIRATION_DAYS_DEFAULT))
+        );
         /**
          * Create the deepLink
          */
@@ -87,8 +91,10 @@ class DeeplinkService extends AbstractService
 
     public function createTargetFromRoute(string $route, ?string $name = null): Target
     {
-        /** @var Target $target */
-        $target = $this->entityManager->getRepository(entityName: Target::class)->findOneBy(criteria: ['route' => $route]);
+        /** @var Target|null $target */
+        $target = $this->entityManager->getRepository(entityName: Target::class)->findOneBy(
+            criteria: ['route' => $route]
+        );
         if (null !== $target) {
             return $target;
         }
@@ -96,7 +102,7 @@ class DeeplinkService extends AbstractService
         $target = new Target();
         $target->setTarget(target: sprintf("Target created from %s", $route));
 
-        if (! empty($name)) {
+        if (!empty($name)) {
             $target->setTarget(target: $name);
         }
         $target->setRoute(route: $route);
