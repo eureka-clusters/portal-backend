@@ -307,6 +307,12 @@ class ProjectRepository extends EntityRepository
                 $sortColumn = 'primaryCluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'primaryCluster');
                 break;
+            case 'programme':
+                $sortColumn = 'cluster_entity_project.programme';
+                break;
+            case 'programme_call':
+                $sortColumn = 'cluster_entity_project.programmeCall';
+                break;
             case 'secondary_cluster':
                 $sortColumn = 'secondaryCluster.name';
                 $queryBuilder->leftJoin(join: 'cluster_entity_project.secondaryCluster', alias: 'secondaryCluster');
@@ -348,8 +354,8 @@ class ProjectRepository extends EntityRepository
                 );
                 break;
             default:
-                $sortColumn = 'cluster_entity_project.number';
-                $order      = 'DESC';
+                $sortColumn = 'cluster_entity_project.labelDate';
+                $searchFormResult->setDirection(direction: 'DESC');
                 break;
         }
 
