@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Repository;
 
 use Cluster\Entity\Organisation;
+use Cluster\Entity\Project\Partner;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
@@ -18,16 +19,30 @@ class OrganisationRepository extends EntityRepository
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_organisation');
         $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
-        $queryBuilder->innerJoin(join: 'cluster_entity_organisation.partners', alias: 'cluster_entity_partners');
 
-        $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
+        $queryBuilder->innerJoin(join: 'cluster_entity_organisation.type', alias: 'organisation_type');
+        $queryBuilder->innerJoin(join: 'cluster_entity_organisation.country', alias: 'organisation_country');
+
+        //We use the project database as filter
+        //Create a sub query where we only have organisations that are in the project
+        $subQuery = $this->_em->createQueryBuilder();
+        $subQuery->select(select: 'cluster_entity_project_partner_organisation');
+        $subQuery->from(from: Partner::class, alias: 'cluster_entity_project_partner');
+        $subQuery->innerJoin(
+            join: 'cluster_entity_project_partner.organisation',
+            alias: 'cluster_entity_project_partner_organisation'
+        );
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->in(
+                x: 'cluster_entity_organisation',
+                y: $subQuery->getDQL()
+            )
+        );
+
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
         return $queryBuilder;
-    }
-
-    private function applyFilters(array $filter, QueryBuilder $queryBuilder): void
-    {
     }
 
     private function applySorting(SearchFormResult $searchFormResult, QueryBuilder $queryBuilder): void
@@ -42,11 +57,11 @@ class OrganisationRepository extends EntityRepository
                 break;
             case 'country':
                 $sortColumn = 'organisation_country.country';
-                $queryBuilder->join(join: 'cluster_entity_organisation.country', alias: 'organisation_country');
+
                 break;
             case 'type':
                 $sortColumn = 'organisation_type.type';
-                $queryBuilder->join(join: 'cluster_entity_organisation.type', alias: 'organisation_type');
+
                 break;
         }
 

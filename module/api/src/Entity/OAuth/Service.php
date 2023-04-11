@@ -17,6 +17,7 @@ use Laminas\Form\Annotation;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Element\Url;
+use Reporting\Entity\StorageLocation;
 
 #[ORM\Table(name: 'oauth_service')]
 #[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Service::class)]
@@ -152,11 +153,15 @@ class Service extends AbstractEntity
     ])]
     private Client $client;
 
+    #[ORM\OneToMany(mappedBy: 'oAuth2Service', targetEntity: StorageLocation::class, cascade: ['persist'])]
+    private Collection $storageLocations;
+
     #[Pure] public function __construct()
     {
-        $this->allowedClusters = new ArrayCollection();
-        $this->scope           = new Scope();
-        $this->client          = new Client();
+        $this->allowedClusters  = new ArrayCollection();
+        $this->storageLocations = new ArrayCollection();
+        $this->scope            = new Scope();
+        $this->client           = new Client();
     }
 
     public function addAllowedClusters(Collection $allowedClustersCollection): void
@@ -303,6 +308,17 @@ class Service extends AbstractEntity
     public function setClient(Client $client): Service
     {
         $this->client = $client;
+        return $this;
+    }
+
+    public function getStorageLocations(): Collection
+    {
+        return $this->storageLocations;
+    }
+
+    public function setStorageLocations(Collection $storageLocations): Service
+    {
+        $this->storageLocations = $storageLocations;
         return $this;
     }
 }

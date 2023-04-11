@@ -105,7 +105,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 1
+                        "example": null
                     },
                     {
                         "name": "project",
@@ -115,7 +115,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 1
+                        "example": null
                     },
                     {
                         "name": "filter",
@@ -356,18 +356,18 @@
                 }
             }
         },
-        "/api/statistics/results/partner/download": {
+        "/api/statistics/results/partner/download/{filter}": {
             "get": {
                 "tags": [
                     "Project"
                 ],
                 "summary": "Download project partners to Excel",
                 "description": "Download project partners",
-                "operationId": "f1e57fcdb5baedc3ad69c58a87e9b3d4",
+                "operationId": "bb5b6985da29db868026ba920cbd2042",
                 "parameters": [
                     {
                         "name": "filter",
-                        "in": "query",
+                        "in": "path",
                         "description": "base64 encoded JSON filter",
                         "required": true,
                         "schema": {
@@ -407,18 +407,18 @@
                 }
             }
         },
-        "/api/statistics/results/project/download": {
+        "/api/statistics/results/project/download/{filter}": {
             "get": {
                 "tags": [
                     "Project"
                 ],
                 "summary": "Download projects to Excel",
                 "description": "Download projects",
-                "operationId": "2dbef965ea8df3f3ad81c96c720ae0f1",
+                "operationId": "e088892b2eadc342f907e3cb9aa151ee",
                 "parameters": [
                     {
                         "name": "filter",
-                        "in": "query",
+                        "in": "path",
                         "description": "base64 encoded JSON filter",
                         "required": true,
                         "schema": {
@@ -458,18 +458,18 @@
                 }
             }
         },
-        "/api/statistics/facets/partner": {
+        "/api/statistics/facets/partner/{filter}": {
             "get": {
                 "tags": [
                     "Project"
                 ],
                 "summary": "Get array with project partner facets, based on the filter",
                 "description": "Project partner facets",
-                "operationId": "acbc9ec4d7deba8828dd861526a06726",
+                "operationId": "d6c8556ece1f828677235b3b0b62936b",
                 "parameters": [
                     {
                         "name": "filter",
-                        "in": "query",
+                        "in": "path",
                         "description": "base64 encoded JSON filter",
                         "required": true,
                         "schema": {
@@ -495,11 +495,11 @@
                 ],
                 "summary": "Get array with project partner facets, based on the filter",
                 "description": "Project partner facets",
-                "operationId": "f253a4faa7329fe3e6acd29dd3168beb",
+                "operationId": "7071199be4bbf4ddfa230685c86b4f58",
                 "parameters": [
                     {
                         "name": "filter",
-                        "in": "query",
+                        "in": "path",
                         "description": "base64 encoded JSON filter",
                         "required": true,
                         "schema": {

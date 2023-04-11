@@ -22,8 +22,8 @@ docker compose run --rm cli php /var/www/composer.phar phpstan
 docker compose run --rm cli php /var/www/composer.phar fix
 docker compose run --rm cli php /var/www/composer.phar cs
 
+docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:schema-tool:update --dump-sql
-
 
 docker compose exec redis redis-cli
 docker compose up -d

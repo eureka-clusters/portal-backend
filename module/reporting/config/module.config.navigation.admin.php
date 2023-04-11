@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'navigation' => [
-        'admin' => [
+        'default' => [
             'reporting' => [
                 'label' => _('txt-reporting'),
                 'uri'   => '#',
@@ -46,7 +46,7 @@ return [
                         ],
                     ],
                 ],
-            ]
+            ],
         ],
-    ]
+    ],
 ];

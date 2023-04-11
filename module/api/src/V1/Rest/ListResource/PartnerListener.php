@@ -118,7 +118,8 @@ final class PartnerListener extends AbstractResourceListener
         $filter = $params->toArray();
 
         //Inject the encoded filter from the results
-        if (isset($params->filter)) {
+        $filter['filter'] = [];
+        if (!empty($params->filter)) {
             $encodedFilter    = base64_decode(string: $params->filter, strict: true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }

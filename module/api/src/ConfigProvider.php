@@ -283,36 +283,36 @@ final class ConfigProvider
                     ],
                 ],
                 Rest\StatisticsResource\Facets\ProjectListener::class   => [
-                    'type'    => Literal::class,
+                    'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/project',
+                        'route'    => '/api/statistics/facets/project/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\ProjectListener::class,
                         ],
                     ],
                 ],
                 Rest\StatisticsResource\Facets\PartnerListener::class   => [
-                    'type'    => Literal::class,
+                    'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/partner',
+                        'route'    => '/api/statistics/facets/partner/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\PartnerListener::class,
                         ],
                     ],
                 ],
                 Rest\StatisticsResource\Download\ProjectListener::class => [
-                    'type'    => Literal::class,
+                    'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/project/download',
+                        'route'    => '/api/statistics/results/project/download/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
                         ],
                     ],
                 ],
                 Rest\StatisticsResource\Download\PartnerListener::class => [
-                    'type'    => Literal::class,
+                    'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/partner/download',
+                        'route'    => '/api/statistics/results/partner/download/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                         ],

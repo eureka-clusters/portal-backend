@@ -34,7 +34,7 @@ final class PartnerListener extends AbstractResourceListener
     }
 
     #[OA\Get(
-        path: '/api/statistics/results/partner/download',
+        path: '/api/statistics/results/partner/download/{filter}',
         description: 'Download project partners',
         summary: 'Download project partners to Excel',
         tags: ['Project'],
@@ -42,7 +42,7 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Parameter(
                 name: 'filter',
                 description: 'base64 encoded JSON filter',
-                in: 'query',
+                in: 'path',
                 required: true,
                 schema: new OA\Schema(type: 'string'),
                 example: 'eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0='
@@ -63,19 +63,17 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
-    public function fetchAll($params = []): array
+    public function fetch($id): array
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
 
-        $filter = $params->toArray();
+        $filter = [];
 
         //Inject the encoded filter from the results
-        if (isset($params->filter)) {
-            $encodedFilter    = base64_decode(string: $params->filter, strict: true);
-            $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
-        }
+        $encodedFilter    = base64_decode(string: $id, strict: true);
+        $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
 
         $searchFormResult = SearchFormResult::fromArray($filter);
 
