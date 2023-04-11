@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cluster\Repository;
 
-use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -55,7 +54,6 @@ class OrganisationRepository extends EntityRepository
     }
 
     public function searchOrganisations(
-        Funder $funder,
         ?string $query,
         int $limit
     ): QueryBuilder {
@@ -65,13 +63,6 @@ class OrganisationRepository extends EntityRepository
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_organisation');
         $queryBuilder->from(from: Organisation::class, alias: 'cluster_entity_organisation');
-
-        // $queryBuilder->andWhere(
-        //     $queryBuilder->expr()->orX(
-        //         $queryBuilder->expr()->like('cluster_entity_organisation.name', ':like'),
-        //     )
-        // );
-        // $queryBuilder->setParameter('like', sprintf('%%%s%%', $query));
 
         $queryBuilder->addSelect(
             select: 'MATCH_AGAINST (cluster_entity_organisation.name) AGAINST (:match IN BOOLEAN MODE) as score'

@@ -44,7 +44,7 @@ final class PartnerListener extends AbstractResourceListener
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer'),
-                example: 1
+                example: null
             ),
             new OA\Parameter(
                 name: 'project',
@@ -52,7 +52,7 @@ final class PartnerListener extends AbstractResourceListener
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer'),
-                example: 1
+                example: null
             ),
             new OA\Parameter(
                 name: 'filter',
@@ -119,8 +119,8 @@ final class PartnerListener extends AbstractResourceListener
 
         //Inject the encoded filter from the results
         if (isset($params->filter)) {
-            $filter           = base64_decode(string: $params->filter, strict: true);
-            $filter['filter'] = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
+            $encodedFilter    = base64_decode(string: $params->filter, strict: true);
+            $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
         $searchFormResult = SearchFormResult::fromArray($filter);

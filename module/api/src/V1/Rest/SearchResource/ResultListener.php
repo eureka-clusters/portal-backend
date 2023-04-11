@@ -7,6 +7,7 @@ namespace Api\V1\Rest\SearchResource;
 use Admin\Service\UserService;
 use Api\Paginator\CustomAdapter;
 use Application\ValueObject\SearchResult;
+use Cluster\Entity\Funder;
 use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
@@ -110,7 +111,6 @@ final class ResultListener extends AbstractResourceListener
         }
 
         $organisations = $this->organisationService->searchOrganisations(
-            funder: $user->getFunder(),
             query: $query,
             limit: $limit
         );
