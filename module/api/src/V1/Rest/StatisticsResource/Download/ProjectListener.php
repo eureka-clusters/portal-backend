@@ -139,12 +139,6 @@ final class ProjectListener extends AbstractResourceListener
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-                message: 'txt-duration-(months)'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
                 message: 'txt-project-status'
             )
         );
@@ -175,9 +169,6 @@ final class ProjectListener extends AbstractResourceListener
             );
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['duration']['months'] ?? null
-            );
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
             $partnerSheet->getCell(coordinate: $column . $row)->setValue(value: $result['latestVersionTotalEffort']);
