@@ -15,6 +15,7 @@ use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
+use OpenApi\Attributes as OA;
 use stdClass;
 
 final class ProjectListener extends AbstractResourceListener
@@ -28,6 +29,31 @@ final class ProjectListener extends AbstractResourceListener
     {
     }
 
+    #[OA\Post(
+        path: '/api/update/project',
+        description: 'Update project information',
+        summary: 'Update project information from backends',
+        requestBody: new OA\RequestBody(
+            description: "Content",
+            required: true,
+            content: [
+                new OA\MediaType(
+                    mediaType: 'multipart/form-data',
+                    schema: new OA\Schema(
+                        required: ['file'],
+                        properties: [
+                            new OA\Property(property: 'file', description: 'Json file with project information', type: 'string', format: 'binary')
+                        ],
+                    )
+                ),
+            ]
+        ),
+        tags: ['Project'],
+        responses: [
+            new OA\Response(response: 200, description: 'Success'),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
     public function create($data = []): ApiProblem|string
     {
         $filter = $this->getInputFilter();

@@ -518,6 +518,45 @@
                 }
             }
         },
+        "/api/update/project": {
+            "post": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Update project information from backends",
+                "description": "Update project information",
+                "operationId": "6c65eb827d87e014517e0e11acd0cf21",
+                "requestBody": {
+                    "description": "Content",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "Json file with project information",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/api/me": {
             "get": {
                 "tags": [
@@ -525,6 +564,7 @@
                 ],
                 "summary": "Get details from the current user",
                 "description": "User information",
+                "operationId": "3d7d90b6c1477381339824855efcace4",
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/user"
