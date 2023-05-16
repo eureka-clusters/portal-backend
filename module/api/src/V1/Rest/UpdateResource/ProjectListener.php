@@ -14,6 +14,8 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\Json\Json;
+use stdClass;
 
 final class ProjectListener extends AbstractResourceListener
 {
@@ -21,15 +23,22 @@ final class ProjectListener extends AbstractResourceListener
         private readonly ProjectService $projectService,
         private readonly VersionService $versionService,
         private readonly PartnerService $partnerService,
-        private readonly EntityManager $entityManager
-    ) {
+        private readonly EntityManager  $entityManager
+    )
+    {
     }
 
-    public function create($data = [])
+    public function create($data = []): ApiProblem|string
     {
+        $filter = $this->getInputFilter();
+        $content = $filter->getValue('file');
+
+        $data = file_get_contents($content['tmp_name']);
+        $data = Json::decode($data, Json::TYPE_OBJECT);
+
         try {
             //Collect all projects from the data
-            $project = $this->projectService->findOrCreateProject(data: (object) $data);
+            $project = $this->projectService->findOrCreateProject(data: $data);
 
             //Delete the versions
             foreach ($project->getVersions() as $version) {
@@ -50,47 +59,48 @@ final class ProjectListener extends AbstractResourceListener
         } catch (Exception $e) {
             return new ApiProblem(status: 500, detail: $e->getMessage());
         }
+
+        return '';
     }
 
-    private function extractDataFromVersion(array $data, string $versionTypeName, Project $project): void
+    private function extractDataFromVersion(stdClass $data, string $versionTypeName, Project $project): void
     {
-        if (isset($data[$versionTypeName])) {
+        //Convert to an array
+
+        if (isset($data->$versionTypeName)) {
             //Find the version type
             $versionType = $this->versionService->findVersionType(typeName: $versionTypeName);
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                data: (object) $data[$versionTypeName],
+                data: $data->$versionTypeName,
                 type: $versionType,
                 project: $project
             );
 
             //Now we go over the partners and collect these and save the costs and effort
-            foreach ($data[$versionTypeName]['partners'] as $partnerData) {
-                //Cast to an object
-                $partnerData = (object) $partnerData;
-
+            foreach ($data->$versionTypeName->partners as $partnerData) {
                 $partner = $this->partnerService->findOrCreatePartner(data: $partnerData, project: $project);
 
                 $partner->setIsActive(isActive: $partnerData->isActive);
                 $partner->setIsCoordinator(isCoordinator: $partnerData->isCoordinator);
                 $partner->setIsSelfFunded(isSelfFunded: $partnerData->isSelfFunded);
-                $partner->setTechnicalContact(technicalContact: $partnerData->technicalContact);
+                $partner->setTechnicalContact(technicalContact: (array)$partnerData->technicalContact);
 
-                $totalCosts  = 0;
+                $totalCosts = 0;
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
-                    $totalCosts  += $costsAndEffortData['costs'];
-                    $totalEffort += $costsAndEffortData['effort'];
+                    $totalCosts += $costsAndEffortData->costs;
+                    $totalEffort += $costsAndEffortData->effort;
 
                     //This data is saved in a costs and effort table
                     $costsAndEffort = new CostsAndEffort();
                     $costsAndEffort->setVersion(version: $version);
                     $costsAndEffort->setPartner(partner: $partner);
-                    $costsAndEffort->setYear(year: $year);
-                    $costsAndEffort->setCosts(costs: $costsAndEffortData['costs']);
-                    $costsAndEffort->setEffort(effort: $costsAndEffortData['effort']);
+                    $costsAndEffort->setYear(year: (int)$year);
+                    $costsAndEffort->setCosts(costs: $costsAndEffortData->costs);
+                    $costsAndEffort->setEffort(effort: $costsAndEffortData->effort);
 
                     $this->entityManager->persist(entity: $costsAndEffort);
                 }

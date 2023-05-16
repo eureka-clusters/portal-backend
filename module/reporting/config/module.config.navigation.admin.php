@@ -6,9 +6,10 @@ return [
     'navigation' => [
         'default' => [
             'reporting' => [
-                'label' => _('txt-reporting'),
-                'uri'   => '#',
-                'pages' => [
+                'label'    => _('txt-reporting'),
+                'uri'      => '#',
+                'resource' => 'route/zfcadmin/reporting/index',
+                'pages'    => [
                     'index'            => [
                         'label' => _("txt-reporting"),
                         'route' => 'zfcadmin/reporting/index',

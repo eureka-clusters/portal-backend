@@ -114,9 +114,7 @@ final class ApiConfigProvider
                 'listener'                => Rest\UpdateResource\ProjectListener::class,
                 'route_name'              => Rest\UpdateResource\ProjectListener::class,
                 'route_identifier_name'   => 'id',
-                'collection_http_methods' => [
-                    'POST',
-                ],
+                'collection_http_methods' => ['POST'],
             ],
             Rest\StatisticsResource\Facets\ProjectListener::class   => [
                 'listener'              => Rest\StatisticsResource\Facets\ProjectListener::class,
@@ -237,23 +235,12 @@ final class ApiConfigProvider
         return [
             Rest\UpdateResource\ProjectListener::class => [
                 [
-                    'required'      => true,
-                    'validators'    => [],
-                    'filters'       => [],
-                    'name'          => 'internalIdentifier',
-                    'description'   => 'Please provide a value for the internal identifier',
-                    'field_type'    => 'string',
-                    'error_message' => 'Please provide a value for the internal identifier',
-                ],
-                [
-                    'required'      => true,
-                    'validators'    => [],
-                    'filters'       => [],
-                    'name'          => 'primaryCluster',
-                    'description'   => 'Please provide a value for the primary cluster',
-                    'field_type'    => 'string',
-                    'error_message' => 'Please provide a value for the primary cluster',
-                ],
+                    'required'   => true,
+                    'validators' => [],
+                    'filters'    => [],
+                    'name'       => 'file',
+                    'type'       => \Laminas\InputFilter\FileInput::class,
+                ]
             ],
         ];
     }

@@ -19,19 +19,19 @@ class ClusterService extends AbstractService
         return $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(criteria: ['name' => $name]);
     }
 
-    public function findOrCreateCluster(array $clusterData): Cluster
+    public function findOrCreateCluster(object $clusterData): Cluster
     {
-        $cluster = $this->findClusterByIdentifier(identifier: $clusterData['identifier']);
+        $cluster = $this->findClusterByIdentifier(identifier: $clusterData->identifier);
 
         //If we cannot find the cluster we create a new one.
         if (null === $cluster) {
             $cluster = new Cluster();
-            $cluster->setIdentifier(identifier: $clusterData['identifier']);
+            $cluster->setIdentifier(identifier: $clusterData->identifier);
         }
 
         //It will be possible to update the cluster name
-        $cluster->setName(name: $clusterData['name']);
-        $cluster->setDescription(description: $clusterData['description']);
+        $cluster->setName(name: $clusterData->name);
+        $cluster->setDescription(description: $clusterData->description);
         $this->save(entity: $cluster);
 
         return $cluster;
@@ -39,6 +39,8 @@ class ClusterService extends AbstractService
 
     public function findClusterByIdentifier(string $identifier): ?Cluster
     {
-        return $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(criteria: ['identifier' => $identifier]);
+        return $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(
+            criteria: ['identifier' => $identifier]
+        );
     }
 }

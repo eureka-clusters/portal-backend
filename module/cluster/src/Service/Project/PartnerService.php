@@ -219,7 +219,7 @@ class PartnerService extends AbstractService
             $partner->setIsActive(isActive: $data->isActive);
             $partner->setIsCoordinator(isCoordinator: $data->isCoordinator);
             $partner->setIsSelfFunded(isSelfFunded: $data->isSelfFunded);
-            $partner->setTechnicalContact(technicalContact: $data->technicalContact);
+            $partner->setTechnicalContact(technicalContact: (array) $data->technicalContact);
             $partner->setLatestVersionEffort(latestVersionEffort: 0.0); //Create with an initial version
             $partner->setLatestVersionCosts(latestVersionCosts: 0.0); //Create with an initial version
 

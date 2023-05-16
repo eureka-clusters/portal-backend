@@ -173,8 +173,7 @@ class ProjectService extends AbstractService
         $project->setDescription(description: $data->description);
         $project->setProgramme(programme: $data->programme);
         $project->setProgrammeCall(programmeCall: $data->programmeCall);
-
-        $project->setProjectLeader(projectLeader: $data->projectLeader);
+        $project->setProjectLeader(projectLeader: (array) $data->projectLeader);
         $project->setTechnicalArea(technicalArea: $data->technicalArea);
 
         //Find or create the primary cluster
@@ -231,6 +230,7 @@ class ProjectService extends AbstractService
         }
 
         $this->save(entity: $project);
+
         return $project;
     }
 
