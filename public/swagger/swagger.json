@@ -551,6 +551,9 @@
                     "200": {
                         "description": "Success"
                     },
+                    "201": {
+                        "description": "Created"
+                    },
                     "403": {
                         "description": "Forbidden"
                     }

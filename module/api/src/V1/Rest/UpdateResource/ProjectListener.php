@@ -51,6 +51,7 @@ final class ProjectListener extends AbstractResourceListener
         tags: ['Project'],
         responses: [
             new OA\Response(response: 200, description: 'Success'),
+            new OA\Response(response: 201, description: 'Created'),
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
