@@ -8,11 +8,14 @@ use Admin\Module;
 use Laminas\Mvc\Controller\PluginManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
+use DG\BypassFinals;
 
 class ModuleTest extends AbstractServiceTest
 {
     public function testCanFindConfiguration(): void
     {
+        BypassFinals::enable();
+
         $module = new Module();
         $config = $module->getConfig();
 
