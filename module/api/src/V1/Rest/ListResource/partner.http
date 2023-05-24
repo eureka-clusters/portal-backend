@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/list/partner?filter=&page=1&pageSize=30&sort=latestVersionCosts&order=asc&project=disperse
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

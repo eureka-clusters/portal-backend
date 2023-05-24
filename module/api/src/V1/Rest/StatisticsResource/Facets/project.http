@@ -1,0 +1,4 @@
+{{ baseUrl }}/api/statistics/facets/project/eyJjb3VudHJ5IjpbXSwiY291bnRyeV9tZXRob2QiOiJvciIsIm9yZ2FuaXNhdGlvbl90eXBlIjpbXSwib3JnYW5pc2F0aW9uX3R5cGVfbWV0aG9kIjoib3IiLCJwcm9qZWN0X3N0YXR1cyI6W10sInByb2plY3Rfc3RhdHVzX21ldGhvZCI6Im9yIiwicHJvZ3JhbW1lX2NhbGwiOltdLCJjbHVzdGVycyI6W10sImNsdXN0ZXJzX21ldGhvZCI6Im9yIiwieWVhciI6W119?page=1&pageSize=30&sort=partner.organisation.name&order=asc
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

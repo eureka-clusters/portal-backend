@@ -17,7 +17,6 @@ use JetBrains\PhpStorm\Pure;
 use Jield\Search\ValueObject\SearchFormResult;
 use OpenApi\Attributes as OA;
 use stdClass;
-
 use function array_map;
 use function ceil;
 
@@ -28,16 +27,18 @@ class ProjectService extends AbstractService
     final public const DURATION_DAYS = 'd';
 
     #[Pure] public function __construct(
-        EntityManager $entityManager,
+        EntityManager                   $entityManager,
         private readonly ClusterService $clusterService
-    ) {
+    )
+    {
         parent::__construct(entityManager: $entityManager);
     }
 
     public function getProjects(
-        User $user,
+        User             $user,
         SearchFormResult $searchFormResult
-    ): QueryBuilder {
+    ): QueryBuilder
+    {
         /** @var ProjectRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Project::class);
 
@@ -87,8 +88,8 @@ class ProjectService extends AbstractService
                 items: new OA\Items(ref: '#/components/schemas/facet_content'),
             ),
             new OA\Property(
-                property: 'clusters',
-                description: 'Result of clusters',
+                property: 'clusterGroups',
+                description: 'Result of cluster groups (collection of clusters)',
                 type: 'array',
                 items: new OA\Items(ref: '#/components/schemas/facet_content'),
             ),
@@ -120,30 +121,35 @@ class ProjectService extends AbstractService
         $countries         = $repository->fetchCountries(user: $user, searchFormResult: $searchFormResult);
         $organisationTypes = $repository->fetchOrganisationTypes(user: $user, searchFormResult: $searchFormResult);
         $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, searchFormResult: $searchFormResult);
-        $clusters          = $repository->fetchClusters(searchFormResult: $searchFormResult);
+        $clusterGroups     = $repository->fetchClusterGroups();
         $projectStatuses   = $repository->fetchProjectStatuses(user: $user, searchFormResult: $searchFormResult);
 
-        $countriesIndexed = array_map(callback: static fn (array $country) => [
+        $countriesIndexed = array_map(callback: static fn(array $country) => [
+            'id'     => $country['id'],
             'name'   => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
-        $organisationTypesIndexed = array_map(callback: static fn (array $organisationType) => [
+        $organisationTypesIndexed = array_map(callback: static fn(array $organisationType) => [
+            'id'     => $organisationType['id'],
             'name'   => $organisationType['type'],
             'amount' => $organisationType[1],
         ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(callback: static fn (array $cluster) => [
-            'name'   => $cluster['name'],
-            'amount' => $cluster[1] + $cluster[2],
-        ], array: $clusters);
+        $clusterGroupsIndexed = array_map(callback: static fn(array $clusterGroup) => [
+            'id'     => $clusterGroup['id'],
+            'name'   => $clusterGroup['name'],
+            'amount' => $clusterGroup[1] + $clusterGroup[2],
+        ], array: $clusterGroups);
 
-        $programmeCallsIndexed = array_map(callback: static fn (array $programmeCall) => [
+        $programmeCallsIndexed = array_map(callback: static fn(array $programmeCall) => [
+            'id'     => $programmeCall['programmeCall'],
             'name'   => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
+            'id'     => $projectStatus['id'],
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
@@ -153,7 +159,7 @@ class ProjectService extends AbstractService
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'programmeCalls'    => $programmeCallsIndexed,
-            'clusters'          => $clustersIndexed,
+            'clusterGroups'     => $clusterGroupsIndexed,
         ];
     }
 
@@ -173,7 +179,7 @@ class ProjectService extends AbstractService
         $project->setDescription(description: $data->description);
         $project->setProgramme(programme: $data->programme);
         $project->setProgrammeCall(programmeCall: $data->programmeCall);
-        $project->setProjectLeader(projectLeader: (array) $data->projectLeader);
+        $project->setProjectLeader(projectLeader: (array)$data->projectLeader);
         $project->setTechnicalArea(technicalArea: $data->technicalArea);
 
         //Find or create the primary cluster
@@ -264,7 +270,7 @@ class ProjectService extends AbstractService
         $difference = $project->getOfficialEndDate()->diff(targetObject: $project->getOfficialStartDate());
 
         return match ($type) {
-            self::DURATION_YEAR => (int)(
+            self::DURATION_YEAR  => (int)(
                 (int)$difference->format(format: '%' . self::DURATION_YEAR) + ceil(
                     num: (int)($difference->format(format: '%' . self::DURATION_MONTH)) / 12
                 )
@@ -275,7 +281,7 @@ class ProjectService extends AbstractService
                 (int)$difference->format(format: '%' . self::DURATION_MONTH) +
                 ($difference->format(format: '%' . self::DURATION_DAYS) > 0 ? 1
                     : 0),
-            default => ((int)($difference->format(
+            default              => ((int)($difference->format(
                         format: '%' . self::DURATION_YEAR
                     )) * 365) + ((int)($difference->format(
                         format: '%' . self::DURATION_MONTH

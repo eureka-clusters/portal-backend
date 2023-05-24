@@ -5,5 +5,6 @@ return [
     'cluster/cluster/group/new' => __DIR__ . '/./view/cluster/cluster/group/new.twig',
     'cluster/cluster/group/list' => __DIR__ . '/./view/cluster/cluster/group/list.twig',
     'cluster/partial/form/cluster/group' => __DIR__ . '/./view/cluster/partial/form/cluster/group.twig',
+    'cluster/project/view' => __DIR__ . '/./view/cluster/project/view.twig',
     'cluster/project/list' => __DIR__ . '/./view/cluster/project/list.twig',
 ];

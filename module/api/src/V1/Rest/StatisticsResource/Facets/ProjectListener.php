@@ -10,15 +10,15 @@ use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
-
 use function base64_decode;
 
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
         private readonly ProjectService $projectService,
-        private readonly UserService $userService
-    ) {
+        private readonly UserService    $userService
+    )
+    {
     }
 
     #[OA\Get(

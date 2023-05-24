@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/search/result?filter=&query=elec&page=1&pageSize=30&sort=&order=
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

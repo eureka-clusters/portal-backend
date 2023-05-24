@@ -1,0 +1,4 @@
+GET {{ baseUrl }}//api/statistics/results/project/download/ImUzMD0ids
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

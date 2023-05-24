@@ -21,17 +21,17 @@ use JetBrains\PhpStorm\Pure;
 use Jield\Search\ValueObject\SearchFormResult;
 use OpenApi\Attributes as OA;
 use stdClass;
-
 use function array_map;
 use function sprintf;
 
 class PartnerService extends AbstractService
 {
     #[Pure] public function __construct(
-        EntityManager $entityManager,
-        private readonly CountryService $countryService,
+        EntityManager                        $entityManager,
+        private readonly CountryService      $countryService,
         private readonly OrganisationService $organisationService
-    ) {
+    )
+    {
         parent::__construct(entityManager: $entityManager);
     }
 
@@ -46,9 +46,10 @@ class PartnerService extends AbstractService
     }
 
     public function getPartners(
-        User $user,
+        User             $user,
         SearchFormResult $searchFormResult,
-    ): QueryBuilder {
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
@@ -56,10 +57,11 @@ class PartnerService extends AbstractService
     }
 
     public function getPartnersByProject(
-        User $user,
-        Project $project,
+        User             $user,
+        Project          $project,
         SearchFormResult $searchFormResult
-    ): QueryBuilder {
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
@@ -71,10 +73,11 @@ class PartnerService extends AbstractService
     }
 
     public function getPartnersByOrganisation(
-        User $user,
-        Organisation $organisation,
+        User             $user,
+        Organisation     $organisation,
         SearchFormResult $searchFormResult
-    ): QueryBuilder {
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
@@ -120,8 +123,8 @@ class PartnerService extends AbstractService
                 items: new OA\Items(ref: '#/components/schemas/facet_content'),
             ),
             new OA\Property(
-                property: 'clusters',
-                description: 'Result of clusters',
+                property: 'clusterGroups',
+                description: 'Result of cluster groups (collection of clusters)',
                 type: 'array',
                 items: new OA\Items(ref: '#/components/schemas/facet_content'),
             ),
@@ -140,44 +143,48 @@ class PartnerService extends AbstractService
 
         $countries         = $repository->fetchCountries(user: $user, searchFormResult: $searchFormResult);
         $organisationTypes = $repository->fetchOrganisationTypes(user: $user, searchFormResult: $searchFormResult);
-        $clusters          = $repository->fetchClusters(searchFormResult: $searchFormResult);
+        $clusterGroups     = $repository->fetchClusterGroups();
         $projectStatuses   = $repository->fetchProjectStatuses(user: $user, searchFormResult: $searchFormResult);
         $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, searchFormResult: $searchFormResult);
         $years             = $repository->fetchYears();
 
-        $countriesIndexed = array_map(callback: static fn (array $country) => [
+        $countriesIndexed = array_map(callback: static fn(array $country) => [
+            'id'     => $country['id'],
             'name'   => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
-        $organisationTypesIndexed = array_map(callback: static fn (array $partnerType) => [
+        $organisationTypesIndexed = array_map(callback: static fn(array $partnerType) => [
+            'id'     => $partnerType['id'],
             'name'   => $partnerType['type'],
             'amount' => $partnerType[1],
         ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(callback: static fn (array $cluster) => [
-            'name'   => $cluster['name'],
-            'amount' => $cluster[1] + $cluster[2],
-        ], array: $clusters);
+        $clusterGroupsIndexed = array_map(callback: static fn(array $clusterGroup) => [
+            'id'     => $clusterGroup['id'],
+            'name'   => $clusterGroup['name'],
+            'amount' => $clusterGroup[1] + $clusterGroup[2],
+        ], array: $clusterGroups);
 
-        $programmeCallIndexed = array_map(callback: static fn (array $programmeCall) => [
+        $programmeCallIndexed = array_map(callback: static fn(array $programmeCall) => [
+            'id'     => $programmeCall['programmeCall'],
             'name'   => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
 
-        $yearsIndexed = array_map(callback: static fn (array $years) => $years['year'], array: $years);
+        $yearsIndexed = array_map(callback: static fn(array $years) => $years['year'], array: $years);
 
         return [
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
             'programmeCalls'    => $programmeCallIndexed,
-            'clusters'          => $clustersIndexed,
+            'clusterGroups'     => $clusterGroupsIndexed,
             'years'             => $yearsIndexed,
         ];
     }
@@ -219,7 +226,7 @@ class PartnerService extends AbstractService
             $partner->setIsActive(isActive: $data->isActive);
             $partner->setIsCoordinator(isCoordinator: $data->isCoordinator);
             $partner->setIsSelfFunded(isSelfFunded: $data->isSelfFunded);
-            $partner->setTechnicalContact(technicalContact: (array) $data->technicalContact);
+            $partner->setTechnicalContact(technicalContact: (array)$data->technicalContact);
             $partner->setLatestVersionEffort(latestVersionEffort: 0.0); //Create with an initial version
             $partner->setLatestVersionCosts(latestVersionCosts: 0.0); //Create with an initial version
 
@@ -232,8 +239,9 @@ class PartnerService extends AbstractService
     public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
@@ -247,8 +255,9 @@ class PartnerService extends AbstractService
     public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 

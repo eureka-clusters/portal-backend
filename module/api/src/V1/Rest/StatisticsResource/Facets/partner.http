@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/statistics/facets/partner/eyJjb3VudHJ5IjpbXSwib3JnYW5pc2F0aW9uX3R5cGUiOltdLCJwcm9qZWN0X3N0YXR1cyI6W10sImNsdXN0ZXJzIjpbXSwicHJvZ3JhbW1lX2NhbGwiOltdLCJ5ZWFyIjpbXX0=?page=1&pageSize=30&sort=partner.organisation.name&order=asc
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

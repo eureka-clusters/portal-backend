@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/view/partner/cosmodu-advanced-packaging-center-bv
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}
