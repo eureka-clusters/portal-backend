@@ -23,15 +23,17 @@ use OpenApi\Attributes as OA;
 class ProjectProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly Redis $cache,
-        private readonly ProjectService $projectService,
+        private readonly Redis               $cache,
+        private readonly ProjectService      $projectService,
         private readonly CoordinatorProvider $coordinatorProvider,
-        private readonly VersionService $versionService,
-        private readonly ClusterProvider $clusterProvider,
-        private readonly ContactProvider $contactProvider,
-        private readonly StatusProvider $projectStatusProvider,
-        private readonly VersionProvider $versionProvider
-    ) {
+        private readonly VersionService      $versionService,
+        private readonly ClusterProvider     $clusterProvider,
+        private readonly ContactProvider     $contactProvider,
+        private readonly StatusProvider      $projectStatusProvider,
+        private readonly VersionProvider     $versionProvider,
+        private readonly CountryProvider     $countryProvider,
+    )
+    {
     }
 
     #[OA\Schema(
@@ -196,6 +198,12 @@ class ProjectProvider implements ProviderInterface
                 description: 'Total effort of the latest project version (In Person Years)',
                 type: 'float',
                 example: 82.3
+            ),
+            new OA\Property(
+                property: 'countries',
+                description: 'List of countries active in the project',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/country'),
             )
         ]
     )]
@@ -204,11 +212,22 @@ class ProjectProvider implements ProviderInterface
         /** @var Project $project */
         $project = $entity;
 
-        $cacheKey = $project->getResourceId();
+        $cacheKey = $project->parseCacheKey();
 
         $projectData = $this->cache->getItem(key: $cacheKey);
 
         if (!$projectData) {
+
+            $countries = [];
+            /** @var Project\Partner $partner */
+            foreach ($project->getPartners() as $partner) {
+                if ($partner->isActive()) {
+                    $country = $partner->getOrganisation()->getCountry();
+
+                    $countries[$country->getId()] = $this->countryProvider->generateArray(entity: $country);
+                }
+            }
+
             $projectData = [
                 'slug'                     => $project->getSlug(),
                 'identifier'               => $project->getIdentifier(),
@@ -217,13 +236,11 @@ class ProjectProvider implements ProviderInterface
                 'title'                    => $project->getTitle(),
                 'description'              => $project->getDescription(),
                 'technicalArea'            => $project->getTechnicalArea(),
-                'coordinator'              => null === $project->getCoordinatorPartner(
-                ) ? null : $this->coordinatorProvider->generateArray(entity: $project->getCoordinatorPartner()),
+                'coordinator'              => null === $project->getCoordinatorPartner() ? null : $this->coordinatorProvider->generateArray(entity: $project->getCoordinatorPartner()),
                 'projectLeader'            => $this->contactProvider->generateArray(
                     entity: $project->getProjectLeader()
                 ),
-                'latestVersion'            => null === $project->getLatestVersion(
-                ) ? null : $this->versionProvider->generateArray(
+                'latestVersion'            => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
                     entity: $project->getLatestVersion()
                 ),
                 'programme'                => $project->getProgramme(),
@@ -231,8 +248,7 @@ class ProjectProvider implements ProviderInterface
                 'primaryCluster'           => $this->clusterProvider->generateArray(
                     entity: $project->getPrimaryCluster()
                 ),
-                'secondaryCluster'         => !$project->hasSecondaryCluster(
-                ) ? null : $this->clusterProvider->generateArray(
+                'secondaryCluster'         => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
                     entity: $project->getSecondaryCluster()
                 ),
                 'cancelDate'               => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
@@ -258,14 +274,13 @@ class ProjectProvider implements ProviderInterface
                 'status'                   => $this->projectStatusProvider->generateArray(
                     entity: $project->getStatus()
                 ),
-                'latestVersionTotalCosts'  => null === $project->getLatestVersion(
-                ) ? null : $this->versionService->parseTotalCostsByProjectVersion(
+                'latestVersionTotalCosts'  => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalCostsByProjectVersion(
                     projectVersion: $project->getLatestVersion()
                 ),
-                'latestVersionTotalEffort' => null === $project->getLatestVersion(
-                ) ? null : $this->versionService->parseTotalEffortByProjectVersion(
+                'latestVersionTotalEffort' => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalEffortByProjectVersion(
                     projectVersion: $project->getLatestVersion()
                 ),
+                'countries'                => $countries,
             ];
 
             $this->cache->setItem(key: $cacheKey, value: $projectData);

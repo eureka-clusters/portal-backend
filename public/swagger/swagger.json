@@ -1149,6 +1149,13 @@
                         "type": "number",
                         "format": "float",
                         "example": 82.3
+                    },
+                    "countries": {
+                        "description": "List of countries active in the project",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/country"
+                        }
                     }
                 },
                 "type": "object"

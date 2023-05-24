@@ -14,9 +14,19 @@ class ClusterService extends AbstractService
         return $this->entityManager->find(className: Cluster::class, id: $id);
     }
 
+    public function findClusterGroupById(int $id): ?Cluster\Group
+    {
+        return $this->entityManager->find(className: Cluster\Group::class, id: $id);
+    }
+
     public function findClusterByName(string $name): ?Cluster
     {
         return $this->entityManager->getRepository(entityName: Cluster::class)->findOneBy(criteria: ['name' => $name]);
+    }
+
+    public function canDeleteClusterGroup(Cluster\Group $group): bool
+    {
+        return $group->getClusters()->isEmpty();
     }
 
     public function findOrCreateCluster(object $clusterData): Cluster

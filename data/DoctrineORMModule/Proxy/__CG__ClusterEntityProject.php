@@ -67,10 +67,10 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
     }
 
     /**
@@ -177,6 +177,17 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function parseCacheKey(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'parseCacheKey', []);
+
+        return parent::parseCacheKey();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -674,6 +685,50 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvaluation', [$evaluation]);
 
         return parent::setEvaluation($evaluation);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDateCreated(): \DateTime
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateCreated', []);
+
+        return parent::getDateCreated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDateCreated(\DateTime $dateCreated): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateCreated', [$dateCreated]);
+
+        return parent::setDateCreated($dateCreated);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDateUpdated(): ?\DateTime
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateUpdated', []);
+
+        return parent::getDateUpdated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDateUpdated(?\DateTime $dateUpdated): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateUpdated', [$dateUpdated]);
+
+        return parent::setDateUpdated($dateUpdated);
     }
 
     /**

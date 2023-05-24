@@ -13,7 +13,7 @@ use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\PublicKey;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
-use Application\Form\SearchFilter;
+use Jield\Search\Form\SearchFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;

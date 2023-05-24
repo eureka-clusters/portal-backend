@@ -10,7 +10,7 @@ use Admin\Service\OAuth2Service;
 use Api\Entity;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
-use Application\Form\SearchFilter;
+use Jield\Search\Form\SearchFilter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Laminas\Http\Response;

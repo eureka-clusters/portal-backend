@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Repository;
 
 use Admin\Entity\User;
+use Application\Repository\FilteredObjectRepository;
 use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Organisation\Type;
@@ -16,17 +17,52 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
 use Jield\Search\ValueObject\SearchFormResult;
-
 use function array_map;
 use function count;
 use function is_countable;
 
-class ProjectRepository extends EntityRepository
+class ProjectRepository extends EntityRepository implements FilteredObjectRepository
 {
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(select: 'cluster_entity_project');
+        $qb->from(from: Project::class, alias: 'cluster_entity_project');
+
+        $qb = $this->applyProjectFilter(qb: $qb, searchFormResult: $searchFormResult);
+
+        $direction = $searchFormResult->getDirection();
+
+        switch ($searchFormResult->getOrder()) {
+            case 'id':
+                $qb->addOrderBy(sort: 'cluster_entity_project.id', order: $direction);
+                break;
+            case 'name':
+                $qb->addOrderBy(sort: 'cluster_entity_project.description', order: $direction);
+                break;
+            default:
+                $qb->addOrderBy(sort: 'cluster_entity_project.description', order: Criteria::ASC);
+        }
+
+        return $qb;
+    }
+
+    public function applyProjectFilter(QueryBuilder $qb, SearchFormResult $searchFormResult): QueryBuilder
+    {
+        if ($searchFormResult->hasQuery()) {
+            $qb->andWhere($qb->expr()->like(x: 'cluster_entity_project.description', y: ':like'));
+            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $searchFormResult->getQuery()));
+        }
+
+        return $qb;
+    }
+
+
     public function getProjectsByUserAndFilter(
-        User $user,
+        User             $user,
         SearchFormResult $searchFormResult,
-    ): QueryBuilder {
+    ): QueryBuilder
+    {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project');
         $queryBuilder->from(from: Project::class, alias: 'cluster_entity_project');
@@ -402,10 +438,11 @@ class ProjectRepository extends EntityRepository
     }
 
     public function searchProjects(
-        User $user,
+        User   $user,
         string $query,
-        int $limit
-    ): QueryBuilder {
+        int    $limit
+    ): QueryBuilder
+    {
         $config = $this->_em->getConfiguration();
         $config->addCustomStringFunction(name: 'match', className: MatchAgainst::class);
 
@@ -555,7 +592,7 @@ class ProjectRepository extends EntityRepository
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-        return array_map(static fn (array $cluster1, $cluster2) => [
+        return array_map(static fn(array $cluster1, $cluster2) => [
             'name' => $cluster1['name'],
             '1'    => $cluster1[1],
             '2'    => $cluster2[1],

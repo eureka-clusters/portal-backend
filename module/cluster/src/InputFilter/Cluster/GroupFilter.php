@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Admin\InputFilter;
+namespace Cluster\InputFilter\Cluster;
 
-use Admin\Entity\Role;
+use Cluster\Entity\Cluster\Group;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Validator\UniqueObject;
+use Laminas\Filter\StringTrim;
+use Laminas\Filter\StripTags;
 use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\StringLength;
 
-final class RoleFilter extends InputFilter
+final class GroupFilter extends InputFilter
 {
     public function __construct(EntityManager $entityManager)
     {
@@ -19,12 +22,12 @@ final class RoleFilter extends InputFilter
                 'name'       => 'name',
                 'required'   => true,
                 'filters'    => [
-                    ['name' => 'StripTags'],
-                    ['name' => 'StringTrim'],
+                    ['name' => StripTags::class],
+                    ['name' => StringTrim::class],
                 ],
                 'validators' => [
                     [
-                        'name'    => 'StringLength',
+                        'name'    => StringLength::class,
                         'options' => [
                             'encoding' => 'UTF-8',
                             'min'      => 1,
@@ -34,7 +37,7 @@ final class RoleFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(entityName: Role::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Group::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => 'name',
@@ -44,6 +47,6 @@ final class RoleFilter extends InputFilter
             ]
         );
 
-        $this->add(input: $inputFilter, name: 'admin_entity_role');
+        $this->add(input: $inputFilter, name: 'cluster_entity_cluster_group');
     }
 }

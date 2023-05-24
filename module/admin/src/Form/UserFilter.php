@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Admin\Form;
 
 use Admin\Entity\Role;
-use Application\Form\SearchFilter;
+use Jield\Search\Form\SearchFilter;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use DoctrineORMModule\Form\Element\EntityMultiCheckbox;

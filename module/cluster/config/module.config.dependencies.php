@@ -48,7 +48,7 @@ return [
             ContactProvider::class,
             StatusProvider::class,
             VersionProvider::class,
-            // ,Provider\Project\PartnerProvider::class
+            CountryProvider::class
         ],
         ContactProvider::class                 => [
             AuthenticationService::class

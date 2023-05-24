@@ -15,7 +15,6 @@ use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-
 use function base64_decode;
 use function base64_encode;
 use function ob_get_clean;
@@ -24,11 +23,12 @@ use function ob_start;
 final class ProjectListener extends AbstractResourceListener
 {
     public function __construct(
-        private readonly ProjectService $projectService,
-        private readonly UserService $userService,
+        private readonly ProjectService      $projectService,
+        private readonly UserService         $userService,
         private readonly TranslatorInterface $translator,
-        private readonly ProjectProvider $projectProvider
-    ) {
+        private readonly ProjectProvider     $projectProvider
+    )
+    {
     }
 
     #[OA\Get(
@@ -94,64 +94,70 @@ final class ProjectListener extends AbstractResourceListener
 
         $spreadSheet = new Spreadsheet();
         $spreadSheet->getProperties()->setTitle(title: 'Statistics');
-        $partnerSheet = $spreadSheet->getActiveSheet();
+        $projectSheet = $spreadSheet->getActiveSheet();
 
-        $partnerSheet->setTitle(title: $this->translator->translate(message: 'txt-projects'));
+        $projectSheet->setTitle(title: $this->translator->translate(message: 'txt-projects'));
 
         $row    = 1;
         $column = 'A';
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-project-number'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-project-name'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-primary-cluster'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-secondary-cluster'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-official-start-date'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-official-end-date'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-project-status'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-total-costs'
             )
         );
-        $partnerSheet->setCellValue(
+        $projectSheet->setCellValue(
             coordinate: $column . $row,
             value: $this->translator->translate(
                 message: 'txt-total-effort'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column . $row,
+            value: $this->translator->translate(
+                message: 'txt-involved-countries'
             )
         );
 
@@ -159,19 +165,27 @@ final class ProjectListener extends AbstractResourceListener
             $column = 'A';
             $row++;
 
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['number']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['name']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['number']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['name']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['primaryCluster']['name'] ?? null
             );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['secondaryCluster']['name'] ?? null
             );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
-            $partnerSheet->getCell(coordinate: $column . $row)->setValue(value: $result['latestVersionTotalEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalEffort']);
+
+            $countries = [];
+            foreach ($result['countries'] as $countryData) {
+                $countries[] = $countryData['iso3'];
+            }
+
+            $projectSheet->getCell(coordinate: $column . $row)->setValue(value: implode(separator: ', ', array: $countries));
+
         }
 
         $excelWriter = IOFactory::createWriter(spreadsheet: $spreadSheet, writerType: 'Xlsx');
