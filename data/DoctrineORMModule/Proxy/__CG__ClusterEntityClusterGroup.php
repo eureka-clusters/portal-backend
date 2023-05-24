@@ -180,6 +180,28 @@ class Group extends \Cluster\Entity\Cluster\Group implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
+    public function addClusters(\Doctrine\Common\Collections\Collection $clusters): \Cluster\Entity\Cluster\Group
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addClusters', [$clusters]);
+
+        return parent::addClusters($clusters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeClusters(\Doctrine\Common\Collections\Collection $clusters): \Cluster\Entity\Cluster\Group
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeClusters', [$clusters]);
+
+        return parent::removeClusters($clusters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function __toString(): string
     {
 

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Cluster\Repository\Cluster;
 
+use Application\Repository\FilteredObjectRepository;
 use Cluster\Entity\Cluster\Group;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Jield\Search\ValueObject\SearchFormResult;
 
-class GroupRepository extends EntityRepository
+class GroupRepository extends EntityRepository implements FilteredObjectRepository
 {
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
@@ -28,6 +29,9 @@ class GroupRepository extends EntityRepository
                 break;
             case 'name':
                 $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: $direction);
+                break;
+            case 'description':
+                $qb->addOrderBy(sort: 'cluster_entity_cluster_group.description', order: $direction);
                 break;
             default:
                 $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);

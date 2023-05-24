@@ -23,7 +23,7 @@ return [
                 'may_terminate' => false,
                 'child_routes'  => [
                     'index'  => [
-                        'type'    => Segment::class,
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/index.html',
                             'defaults' => [
@@ -33,7 +33,7 @@ return [
                         ],
                     ],
                     'user'   => [
-                        'type'          => Segment::class,
+                        'type'          => Literal::class,
                         'options'       => [
                             'route'    => '/user',
                             'defaults' => [
@@ -73,7 +73,7 @@ return [
                         ],
                     ],
                     'role'   => [
-                        'type'          => Segment::class,
+                        'type'          => Literal::class,
                         'options'       => [
                             'route'    => '/role',
                             'defaults' => [

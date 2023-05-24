@@ -19,7 +19,6 @@ use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use function ceil;
-use function sprintf;
 
 /**
  * @method GetFilter getFilter()
@@ -93,10 +92,7 @@ final class GroupController extends AbstractActionController
             $this->clusterService->save(entity: $group);
 
             $this->flashMessenger()->addSuccessMessage(
-                message: sprintf(
-                    $this->translator->translate(message: "txt-user-group-%s-has-been-created-successfully"),
-                    $group->getDescription()
-                )
+                message: $this->translator->translate(message: "txt-cluster-group-has-been-created-successfully")
             );
 
             return $this->redirect()->toRoute(
@@ -136,10 +132,7 @@ final class GroupController extends AbstractActionController
                 $this->clusterService->delete(abstractEntity: $group);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    message: sprintf(
-                        $this->translator->translate(message: "txt-user-group-%s-has-been-deleted-successfully"),
-                        $group->getDescription()
-                    )
+                    message: $this->translator->translate(message: "txt-cluster-group-has-been-deleted-successfully")
                 );
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/cluster/group/list');
@@ -155,10 +148,7 @@ final class GroupController extends AbstractActionController
                 $this->clusterService->save(entity: $group);
 
                 $this->flashMessenger()->addSuccessMessage(
-                    message: sprintf(
-                        $this->translator->translate(message: "txt-user-group-%s-has-been-updated-successfully"),
-                        $group->getDescription()
-                    )
+                    message: $this->translator->translate(message: "txt-cluster-group-has-been-updated-successfully")
                 );
 
                 return $this->redirect()->toRoute(

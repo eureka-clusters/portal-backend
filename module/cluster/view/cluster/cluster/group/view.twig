@@ -1,0 +1,21 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(group.name) %}
+
+<h1>{{ group.name }}  {{ clusterGroupLink(group,'edit','button') }}</h1>
+
+<p>{{ translate("txt-cluster-group-information") }}</p>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-id") }}</dt>
+    <dd>{{ group.id }}</dd>
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ group.name }}</dd>
+    <dt>{{ translate("txt-description") }}</dt>
+    <dd>{{ group.description }}</dd>
+    <dt>{{ translate("txt-clusters") }}</dt>
+    {% for cluster in group.clusters %}
+        <dd>{{ cluster.name }}</dd>
+    {% else %}
+        <dd>{{ translate("txt-no-clusters-found-in-this-group") }}</dd>
+    {% endfor %}
+</dl>

@@ -28,14 +28,11 @@ final class Role extends EntityRepository implements FilteredObjectRepository
             case 'id':
                 $qb->addOrderBy(sort: 'admin_entity_role.id', order: $direction);
                 break;
-            case 'name':
-                $qb->addOrderBy(sort: 'admin_entity_role.name', order: $direction);
-                break;
             case 'description':
                 $qb->addOrderBy(sort: 'admin_entity_role.description', order: $direction);
                 break;
             default:
-                $qb->addOrderBy(sort: 'admin_entity_role.name', order: Criteria::ASC);
+                $qb->addOrderBy(sort: 'admin_entity_role.description', order: Criteria::ASC);
         }
 
         return $qb;
@@ -44,12 +41,7 @@ final class Role extends EntityRepository implements FilteredObjectRepository
     public function applyRoleFilter(QueryBuilder $qb, SearchFormResult $searchFormResult): QueryBuilder
     {
         if ($searchFormResult->hasQuery()) {
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->like(x: 'admin_entity_role.description', y: ':like'),
-                    $qb->expr()->like(x: 'admin_entity_role.description', y: ':like')
-                )
-            );
+            $qb->andWhere($qb->expr()->like(x: 'admin_entity_role.description', y: ':like'));
             $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 

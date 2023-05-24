@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Cluster;
 
+use Application\Factory\InputFilterFactory;
+use Application\Factory\InvokableFactory;
+use Application\View\Factory\LinkHelperFactory;
+use Cluster\Controller\Cluster\GroupController;
+use Cluster\Controller\ProjectController;
+use Cluster\InputFilter\Cluster\GroupFilter;
+use Cluster\Navigation\Invokable\Cluster\GroupLabel;
+use Cluster\Navigation\Invokable\ProjectLabel;
 use Cluster\Provider\ClusterProvider;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\CountryProvider;
@@ -22,12 +30,21 @@ use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
+use Cluster\View\Helper\Cluster\GroupLink;
+use Cluster\View\Helper\ProjectLink;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
 
+
 $config = [
+    'controllers'     => [
+        'factories' => [
+            ProjectController::class => ConfigAbstractFactory::class,
+            GroupController::class   => ConfigAbstractFactory::class,
+        ]
+    ],
     'service_manager' => [
         'factories'  => [
             ClusterProvider::class                 => ConfigAbstractFactory::class,
@@ -48,11 +65,27 @@ $config = [
             ProjectService::class                  => ConfigAbstractFactory::class,
             VersionService::class                  => ConfigAbstractFactory::class,
             PartnerService::class                  => ConfigAbstractFactory::class,
+            GroupFilter::class                     => InputFilterFactory::class,
+            GroupLabel::class                      => InvokableFactory::class,
+            ProjectLabel::class                    => InvokableFactory::class,
         ],
         'invokables' => [
             SearchResultProvider::class,
             ContactProvider::class
         ],
+    ],
+    'view_helpers'    => [
+        'aliases'   => [
+            'clusterGroupLink' => GroupLink::class,
+            'projectLink'      => ProjectLink::class,
+        ],
+        'factories' => [
+            GroupLink::class   => LinkHelperFactory::class,
+            ProjectLink::class => LinkHelperFactory::class,
+        ],
+    ],
+    'view_manager'    => [
+        'template_map' => include __DIR__ . '/../template_map.php',
     ],
     'doctrine'        => [
         'driver' => [

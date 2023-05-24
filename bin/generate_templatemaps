@@ -10,6 +10,8 @@ cd "../deeplink" || exit
 ../../vendor/bin/templatemap_generator.php ./view $(find ./view -name '*.twig') >template_map.php
 cd "../mailing" || exit
 ../../vendor/bin/templatemap_generator.php ./view $(find ./view -name '*.twig') >template_map.php
+cd "../cluster" || exit
+../../vendor/bin/templatemap_generator.php ./view $(find ./view -name '*.twig') >template_map.php
 
 
 rm -rf ./data/cache/module-config-cache.solodb.php

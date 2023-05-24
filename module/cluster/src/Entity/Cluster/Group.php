@@ -16,6 +16,8 @@ use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Laminas\Form\Annotation;
 use Laminas\Form\Element\Hidden;
+use Laminas\Form\Element\Text;
+use Laminas\Form\Element\Textarea;
 
 #[ORM\Table(name: 'cluster_cluster_group')]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
@@ -28,6 +30,7 @@ class Group extends AbstractEntity
     private ?int $id = null;
 
     #[ORM\Column(unique: true)]
+    #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
         'help-block' => 'txt-cluster-cluster-group-name-help-block',
     ])]
@@ -38,6 +41,7 @@ class Group extends AbstractEntity
     private string $name = '';
 
     #[ORM\Column(nullable: true)]
+    #[Annotation\Type(type: Textarea::class)]
     #[Annotation\Options(options: [
         'help-block' => 'txt-cluster-cluster-group-description-help-block',
     ])]
@@ -57,7 +61,7 @@ class Group extends AbstractEntity
     #[Annotation\Exclude]
     private ?DateTime $dateUpdated = null;
 
-    #[ORM\ManyToMany(targetEntity: Cluster::class, mappedBy: 'groups', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'groups', cascade: ['persist'])]
     #[ORM\OrderBy(value: ['name' => Criteria::ASC])]
     #[ORM\JoinTable(name: 'cluster_cluster_group_cluster')]
     #[ORM\JoinColumn(nullable: false)]
@@ -78,6 +82,22 @@ class Group extends AbstractEntity
     {
         $this->dateCreated = new DateTime();
         $this->clusters    = new ArrayCollection();
+    }
+
+    public function addClusters(Collection $clusters): Group
+    {
+        foreach ($clusters as $cluster) {
+            $this->clusters->add($cluster);
+        }
+        return $this;
+    }
+
+    public function removeClusters(Collection $clusters): Group
+    {
+        foreach ($clusters as $cluster) {
+            $this->clusters->removeElement($cluster);
+        }
+        return $this;
     }
 
     public function __toString(): string

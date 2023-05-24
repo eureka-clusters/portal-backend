@@ -49,7 +49,7 @@ class Cluster extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'secondaryCluster', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projectsSecondary;
 
-    #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'clusters', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'clusters', cascade: ['persist'])]
     private Collection $groups;
 
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'allowedClusters', cascade: ['persist'])]

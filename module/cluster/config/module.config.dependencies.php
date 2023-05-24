@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Cluster;
 
+use Application\Service\FormService;
+use Cluster\Controller\Cluster\GroupController;
+use Cluster\Controller\ProjectController;
 use Cluster\Provider\ClusterProvider;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\CountryProvider;
@@ -24,10 +27,19 @@ use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
+use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 
 return [
     ConfigAbstractFactory::class => [
+        GroupController::class                 => [
+            ClusterService::class,
+            FormService::class,
+            TranslatorInterface::class,
+        ],
+        ProjectController::class               => [
+            ProjectService::class,
+        ],
         ClusterProvider::class                 => [
             Redis::class,
         ],
