@@ -101,6 +101,12 @@ class ProjectService extends AbstractService
         description: 'Response per facet',
         properties: [
             new OA\Property(
+                property: 'id',
+                description: 'ID of the facet',
+                type: 'integer',
+                example: 1
+            ),
+            new OA\Property(
                 property: 'name',
                 description: 'Name of the facet',
                 type: 'string',

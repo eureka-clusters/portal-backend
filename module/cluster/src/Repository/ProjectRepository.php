@@ -101,7 +101,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_country.country',
+                                x: 'cluster_entity_country.id',
                                 y: $countryFilter
                             )
                         )
@@ -146,7 +146,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_country.country',
+                                x: 'cluster_entity_country.id',
                                 y: $countryFilter
                             )
                         )
@@ -188,7 +188,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_organisation_type.type',
+                                x: 'cluster_entity_organisation_type.id',
                                 y: $organisationTypeFilter
                             )
                         )
@@ -234,7 +234,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_project_partner_filter_organisation_type_organisation_type.type',
+                                x: 'cluster_entity_project_partner_filter_organisation_type_organisation_type.id',
                                 y: $organisationTypeFilter
                             )
                         )
@@ -269,7 +269,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'cluster_entity_project_filter_project_status_status.status',
+                        x: 'cluster_entity_project_filter_project_status_status.id',
                         y: $projectStatusFilter
                     )
                 );
@@ -304,7 +304,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'cluster_entity_project_filter_primary_cluster_primary_cluster.name',
+                        x: 'cluster_entity_project_filter_primary_cluster_primary_cluster_groups.id',
                         y: $clusterGroupsFilter
                     )
                 );
@@ -348,17 +348,17 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             case 'name':
                 $sortColumn = 'cluster_entity_project.name';
                 break;
-            case 'primary_cluster':
+            case 'primaryCluster':
                 $sortColumn = 'primaryCluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'primaryCluster');
                 break;
             case 'programme':
                 $sortColumn = 'cluster_entity_project.programme';
                 break;
-            case 'programme_call':
+            case 'programmeCall':
                 $sortColumn = 'cluster_entity_project.programmeCall';
                 break;
-            case 'secondary_cluster':
+            case 'secondaryCluster':
                 $sortColumn = 'secondaryCluster.name';
                 $queryBuilder->leftJoin(join: 'cluster_entity_project.secondaryCluster', alias: 'secondaryCluster');
                 break;
@@ -368,7 +368,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 break;
 
             //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
-            case 'latest_version_type':
+            case 'latestVersionType':
                 $sortColumn = 'latestversion_type.type';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -380,7 +380,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 break;
 
             //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
-            case 'latest_version_costs':
+            case 'latestVersionTotalCosts':
                 $sortColumn = 'latestversion.costs';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -389,7 +389,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                     condition: 'latestversion.type = 3'
                 );
                 break;
-            case 'latest_version_effort':
+            case 'latestVersionTotalEffort':
                 $sortColumn = 'latestversion.effort';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -400,7 +400,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 break;
             default:
                 $sortColumn = 'cluster_entity_project.labelDate';
-                $searchFormResult->setDirection(direction: 'DESC');
+                $searchFormResult->setDirection(direction: Criteria::DESC);
                 break;
         }
 

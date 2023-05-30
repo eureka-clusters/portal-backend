@@ -59,7 +59,7 @@ class PartnerRepository extends EntityRepository
                 ->join(join: 'project_partner_filter_country_organisation.country', alias: 'country')
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'country.country',
+                        x: 'country.id',
                         y: $countryFilter
                     )
                 );
@@ -86,7 +86,7 @@ class PartnerRepository extends EntityRepository
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'project_partner_filter_organisation_type_organisation_type.type',
+                        x: 'project_partner_filter_organisation_type_organisation_type.id',
                         y: $organisationTypeFilter
                     )
                 );
@@ -113,7 +113,7 @@ class PartnerRepository extends EntityRepository
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'project_partner_filter_project_status_project_status.status',
+                        x: 'project_partner_filter_project_status_project_status.id',
                         y: $projectStatusFilter
                     )
                 );
@@ -144,7 +144,7 @@ class PartnerRepository extends EntityRepository
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'project_partner_filter_primary_cluster_project_primary_cluster.name',
+                        x: 'project_partner_filter_primary_cluster_project_primary_cluster_groups.id',
                         y: $clusterGroupsFilter
                     )
                 );
@@ -229,7 +229,7 @@ class PartnerRepository extends EntityRepository
             case 'id':
                 $sortColumn = 'project_partner.id';
                 break;
-            case 'name':
+            case 'organisation':
                 $sortColumn = 'organisation.name';
                 break;
             case 'country':
@@ -239,6 +239,10 @@ class PartnerRepository extends EntityRepository
             case 'type':
                 $sortColumn = 'organisation_type.type';
                 $queryBuilder->join(join: 'organisation.type', alias: 'organisation_type');
+                break;
+            case 'primaryCluster':
+                $sortColumn = 'cluster_entity_project_primary_cluster.name';
+                $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'cluster_entity_project_primary_cluster');
                 break;
             case 'latestVersionCosts':
                 $sortColumn = 'project_partner.latestVersionCosts';
@@ -409,6 +413,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(from: Type::class, alias: 'cluster_entity_organisation_type');
         $queryBuilder->join(join: 'cluster_entity_organisation_type.organisations', alias: 'cluster_entity_organisation');
         $queryBuilder->join(join: 'cluster_entity_organisation.partners', alias: 'cluster_entity_project_partner');
+        $queryBuilder->orderBy(sort: 'cluster_entity_organisation_type.type', order: Criteria::ASC);
         $queryBuilder->groupBy(groupBy: 'cluster_entity_organisation_type');
 
         //Join on partner to have the funder filter

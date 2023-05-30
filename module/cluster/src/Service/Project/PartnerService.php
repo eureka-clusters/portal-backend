@@ -173,6 +173,7 @@ class PartnerService extends AbstractService
         ], array: $programmeCalls);
 
         $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
+            'id'     => $projectStatus['id'],
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
