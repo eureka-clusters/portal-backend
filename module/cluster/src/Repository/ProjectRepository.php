@@ -352,6 +352,9 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 $sortColumn = 'primaryCluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'primaryCluster');
                 break;
+            case 'labelDate':
+                $sortColumn = 'cluster_entity_project.labelDate';
+                break;
             case 'programme':
                 $sortColumn = 'cluster_entity_project.programme';
                 break;

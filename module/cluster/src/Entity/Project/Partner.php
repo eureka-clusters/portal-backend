@@ -74,6 +74,11 @@ class Partner extends AbstractEntity
         $this->funding        = new ArrayCollection();
     }
 
+    public function parseCacheKey(): string
+    {
+        return sprintf('cluster-project-partner-%d-%s', $this->getId(), $this->project->parseCacheKey());
+    }
+
     public function getId(): int
     {
         return $this->id;

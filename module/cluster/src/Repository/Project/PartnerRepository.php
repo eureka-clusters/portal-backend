@@ -240,6 +240,13 @@ class PartnerRepository extends EntityRepository
                 $sortColumn = 'organisation_type.type';
                 $queryBuilder->join(join: 'organisation.type', alias: 'organisation_type');
                 break;
+            case 'project':
+                $sortColumn = 'cluster_entity_project.name';
+                break;
+            case 'projectStatus':
+                $sortColumn = 'cluster_entity_project_status.status';
+                $queryBuilder->join(join: 'cluster_entity_project.status', alias: 'cluster_entity_project_status');
+                break;
             case 'primaryCluster':
                 $sortColumn = 'cluster_entity_project_primary_cluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'cluster_entity_project_primary_cluster');

@@ -11,7 +11,6 @@ use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
 use Laminas\Cache\Storage\Adapter\Redis;
-
 use function number_format;
 use function sprintf;
 
@@ -20,11 +19,12 @@ class PartnerYearProvider implements ProviderInterface
     private ?int $year = null;
 
     public function __construct(
-        private readonly Redis $cache,
-        private readonly ProjectProvider $projectProvider,
-        private readonly ContactProvider $contactProvider,
+        private readonly Redis                $cache,
+        private readonly ProjectProvider      $projectProvider,
+        private readonly ContactProvider      $contactProvider,
         private readonly OrganisationProvider $organisationProvider
-    ) {
+    )
+    {
     }
 
     public function setYear(int $year): self
@@ -42,7 +42,7 @@ class PartnerYearProvider implements ProviderInterface
         /** @var Partner $partner */
         $partner = $entity;
 
-        $cacheKey    = sprintf('%s-year-%d', $partner->getResourceId(), $this->year);
+        $cacheKey    = sprintf('%s-year-%d', $partner->parseCacheKey(), $this->year);
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
         if (!$partnerData) {
@@ -74,8 +74,8 @@ class PartnerYearProvider implements ProviderInterface
                             decimals: 2
                         ),
                         'year'                      => $costsAndEffort->getYear(),
-                        'latestVersionCostsInYear'  => number_format(num: $costsAndEffort->getCosts(), decimals: 2),
-                        'latestVersionEffortInYear' => number_format(num: $costsAndEffort->getEffort(), decimals: 2),
+                        'latestVersionCostsInYear'  => $costsAndEffort->getCosts(),
+                        'latestVersionEffortInYear' => $costsAndEffort->getEffort(),
                     ];
                     $this->cache->setItem(key: $cacheKey, value: $partnerData);
                 }

@@ -12,8 +12,6 @@ use Cluster\Provider\ProjectProvider;
 use Laminas\Cache\Storage\Adapter\Redis;
 use OpenApi\Attributes as OA;
 
-use function number_format;
-
 #[OA\Response(
     response: 'project_partner',
     description: 'Project partner information',
@@ -22,11 +20,12 @@ use function number_format;
 class PartnerProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly Redis $cache,
-        private readonly ProjectProvider $projectProvider,
-        private readonly ContactProvider $contactProvider,
+        private readonly Redis                $cache,
+        private readonly ProjectProvider      $projectProvider,
+        private readonly ContactProvider      $contactProvider,
         private readonly OrganisationProvider $organisationProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Schema(
@@ -98,7 +97,7 @@ class PartnerProvider implements ProviderInterface
         /** @var Partner $partner */
         $partner = $entity;
 
-        $cacheKey    = $partner->getResourceId();
+        $cacheKey    = $partner->parseCacheKey();
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
         if (!$partnerData) {
@@ -115,8 +114,8 @@ class PartnerProvider implements ProviderInterface
                 'organisation'        => $this->organisationProvider->generateArray(
                     entity: $partner->getOrganisation()
                 ),
-                'latestVersionCosts'  => number_format(num: $partner->getLatestVersionCosts(), decimals: 2),
-                'latestVersionEffort' => number_format(num: $partner->getLatestVersionEffort(), decimals: 2),
+                'latestVersionCosts'  => $partner->getLatestVersionCosts(),
+                'latestVersionEffort' => $partner->getLatestVersionEffort(),
             ];
             $this->cache->setItem(key: $cacheKey, value: $partnerData);
         }
