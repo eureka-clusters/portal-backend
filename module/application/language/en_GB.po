@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 14:54+0200\n"
+"POT-Creation-Date: 2023-06-05 11:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -267,6 +267,7 @@ msgstr "Cancel"
 
 #: admin/src/Form/OAuth2/Client.php:130 admin/src/Form/OAuth2/Scope.php:89
 #: application/src/Form/CreateObject.php:81
+#: cluster/src/Form/ProjectManipulation.php:32
 msgid "txt-delete"
 msgstr "Delete"
 
@@ -680,6 +681,10 @@ msgstr "Cluster group has been deleted successfully"
 #: cluster/src/Controller/Cluster/GroupController.php:151
 msgid "txt-cluster-group-has-been-updated-successfully"
 msgstr "Cluster group has been updated successfully"
+
+#: cluster/src/Controller/ProjectController.php:79
+msgid "txt-project-deleted"
+msgstr "Project has been deleted"
 
 #: deeplink/config/language.php:5
 msgid "txt-deeplink-target-target-placeholder"
@@ -1906,15 +1911,27 @@ msgstr "Error details"
 msgid "txt-exception-details"
 msgstr "Exception details"
 
-#: application/view/layout/layout.twig:34
+#: application/view/layout/layout.twig:44
+msgid "txt-light-mode"
+msgstr "Light mode"
+
+#: application/view/layout/layout.twig:52
+msgid "txt-dark-mode"
+msgstr "Dark mode"
+
+#: application/view/layout/layout.twig:61
+msgid "txt-auto-mode"
+msgstr "Auto mode"
+
+#: application/view/layout/layout.twig:71
 msgid "txt-logout"
 msgstr "Logout"
 
-#: application/view/layout/layout.twig:38
+#: application/view/layout/layout.twig:75
 msgid "txt-admin-login"
 msgstr "Admin login"
 
-#: application/view/layout/layout.twig:62
+#: application/view/layout/layout.twig:99
 #, php-format
 msgid "txt-footer-%s-%s"
 msgstr "PA Portal backend %s &middot; &copy; %s"
@@ -18748,9 +18765,6 @@ msgstr "There was an issue connecting to container %s"
 #~ "(including associates).<br><br>Note that contact needs to login and "
 #~ "logout to activate the access rights if they have been granted access."
 
-#~ msgid "txt-mode"
-#~ msgstr "Mode"
-
 #~ msgid "txt-full-project-title"
 #~ msgstr "Full project title"
 
@@ -22871,9 +22885,6 @@ msgstr "There was an issue connecting to container %s"
 #, php-format
 #~ msgid "txt-%s-new-explanation"
 #~ msgstr "Use the form to insert a new achievement of %s in the database"
-
-#~ msgid "txt-list-nodes"
-#~ msgstr "Node list"
 
 #~ msgid "txt-list-nodes-explanation"
 #~ msgstr "Here a list of nodes can be found"
@@ -27135,9 +27146,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-table-of-contents"
 #~ msgstr "Table of contents"
 
-#~ msgid "txt-auto-toc"
-#~ msgstr "Auto Table of Contents"
-
 #~ msgid "txt-pages"
 #~ msgstr "Pages"
 
@@ -27270,9 +27278,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-itea-related-projects"
 #~ msgstr "ITEA related project(s)"
-
-#~ msgid "txt-no-project-selected"
-#~ msgstr "No project selected"
 
 #~ msgid "txt-websites"
 #~ msgstr "Websites"
