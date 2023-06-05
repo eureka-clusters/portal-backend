@@ -39,6 +39,7 @@ return [
         ],
         ProjectController::class               => [
             ProjectService::class,
+            TranslatorInterface::class,
         ],
         ClusterProvider::class                 => [
             Redis::class,
