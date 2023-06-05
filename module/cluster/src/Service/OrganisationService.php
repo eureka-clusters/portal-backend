@@ -6,11 +6,11 @@ namespace Cluster\Service;
 
 use Application\Service\AbstractService;
 use Cluster\Entity\Country;
-use Cluster\Entity\Funder;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Organisation\Type;
 use Cluster\Repository\OrganisationRepository;
 use Doctrine\ORM\QueryBuilder;
+use Jield\Search\ValueObject\SearchFormResult;
 
 class OrganisationService extends AbstractService
 {
@@ -26,12 +26,12 @@ class OrganisationService extends AbstractService
         );
     }
 
-    public function searchOrganisations(Funder $funder, string $query, int $limit): array
+    public function searchOrganisations(?string $query, int $limit): array
     {
         /** @var OrganisationRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Organisation::class);
 
-        return $repository->searchOrganisations(funder: $funder, query: $query, limit: $limit)->getQuery()->getResult();
+        return $repository->searchOrganisations(query: $query, limit: $limit)->getQuery()->getResult();
     }
 
     public function findOrCreateOrganisationType(string $typeName): Type
@@ -48,19 +48,12 @@ class OrganisationService extends AbstractService
         return $type;
     }
 
-    public function getOrganisations(
-        array $filter,
-        string $sort = 'name',
-        string $order = 'asc'
-    ): QueryBuilder {
+    public function getOrganisations(SearchFormResult $searchFormResult): QueryBuilder
+    {
         /** @var OrganisationRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Organisation::class);
 
-        return $repository->getOrganisationsByFilter(
-            filter: $filter,
-            sort: $sort,
-            order: $order
-        );
+        return $repository->getOrganisationsByFilter(searchFormResult: $searchFormResult);
     }
 
     public function findOrCreateOrganisation(

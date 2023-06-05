@@ -6,6 +6,7 @@ namespace Cluster\Entity;
 
 use Api\Entity\OAuth\Service;
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Cluster\Group;
 use Cluster\Repository\ClusterRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,6 +49,9 @@ class Cluster extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'secondaryCluster', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projectsSecondary;
 
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'clusters', cascade: ['persist'])]
+    private Collection $groups;
+
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'allowedClusters', cascade: ['persist'])]
     private Collection $oauthServices;
 
@@ -57,6 +61,7 @@ class Cluster extends AbstractEntity
         $this->clusterFunders    = new ArrayCollection();
         $this->projectsPrimary   = new ArrayCollection();
         $this->projectsSecondary = new ArrayCollection();
+        $this->groups            = new ArrayCollection();
         $this->oauthServices     = new ArrayCollection();
     }
 
@@ -172,6 +177,17 @@ class Cluster extends AbstractEntity
     public function setOauthServices(Collection $oauthServices): Cluster
     {
         $this->oauthServices = $oauthServices;
+        return $this;
+    }
+
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function setGroups(Collection $groups): Cluster
+    {
+        $this->groups = $groups;
         return $this;
     }
 }

@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/view/project/cosmodu
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

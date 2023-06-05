@@ -32,7 +32,7 @@ class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
-            if (str_contains(haystack: (string) $service, needle: 'Filter')) {
+            if (str_contains(haystack: (string)$service, needle: 'Filter')) {
                 continue;
             }
 
@@ -40,9 +40,6 @@ class ModuleTest extends AbstractServiceTest
             foreach ($dependencies as $dependency) {
                 if ($dependency === 'Application') {
                     $dependency = Application::class;
-                }
-                if ($dependency === 'ViewHelperManager') {
-                    $dependency = HelperPluginManager::class;
                 }
 
                 if ($dependency === 'ViewHelperManager') {
@@ -53,7 +50,8 @@ class ModuleTest extends AbstractServiceTest
                     $dependency = PluginManager::class;
                 }
 
-                $instantiateDependency = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
+                $instantiateDependency = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor(
+                )->getMock();
 
                 $instantiatedDependencies[] = $instantiateDependency;
             }

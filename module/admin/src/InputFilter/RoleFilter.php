@@ -15,7 +15,7 @@ final class RoleFilter extends InputFilter
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'name',
                 'required'   => true,
                 'filters'    => [
@@ -34,7 +34,7 @@ final class RoleFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(Role::class),
+                            'object_repository' => $entityManager->getRepository(entityName: Role::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => 'name',
@@ -44,6 +44,6 @@ final class RoleFilter extends InputFilter
             ]
         );
 
-        $this->add($inputFilter, 'admin_entity_role');
+        $this->add(input: $inputFilter, name: 'admin_entity_role');
     }
 }

@@ -9,10 +9,16 @@ use Api\Provider\ProviderInterface;
 use Application\Options\ModuleOptions;
 use Laminas\View\Helper\Url;
 use Laminas\View\HelperPluginManager;
+use OpenApi\Attributes as OA;
 
 use function array_merge;
 use function sprintf;
 
+#[OA\Response(
+    response: 'service',
+    description: 'oAuth2 service information',
+    content: new OA\JsonContent(ref: '#/components/schemas/service'),
+)]
 final class ServiceProvider implements ProviderInterface
 {
     public function __construct(
@@ -21,6 +27,31 @@ final class ServiceProvider implements ProviderInterface
     ) {
     }
 
+    #[OA\Schema(
+        schema: 'service',
+        title: 'oAuth2 service',
+        description: 'oAuth2 service information',
+        properties: [
+            new OA\Property(
+                property: 'id',
+                description: 'oAuth2 service ID',
+                type: 'integer',
+                example: 1
+            ),
+            new OA\Property(
+                property: 'name',
+                description: 'oAuth2 service name',
+                type: 'string',
+                example: 'ITEA Office'
+            ),
+            new OA\Property(
+                property: 'loginUrl',
+                description: 'oAuth2 service login URL',
+                type: 'string',
+                example: 'https://itea4.org/oauth2/login?id=1&name=portal'
+            ),
+        ],
+    )]
     public function generateArray($entity): array
     {
         /** @var Service $service */

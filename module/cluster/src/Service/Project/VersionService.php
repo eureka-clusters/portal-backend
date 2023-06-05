@@ -43,7 +43,7 @@ class VersionService extends AbstractService
         $version->setEffort(effort: $data->totalEffort);
 
         //@todo: We keep an array here, might need to create entities
-        $version->setCountries(countries: $data->countries);
+        $version->setCountries(countries: (array) $data->countries);
 
         $this->save(entity: $version);
 

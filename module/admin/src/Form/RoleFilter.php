@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Admin\Form;
 
-use Application\Form\SearchFilter;
+use Jield\Search\Form\SearchFilter;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
 

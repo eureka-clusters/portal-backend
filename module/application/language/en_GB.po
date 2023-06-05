@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-07 16:09+0100\n"
+"POT-Creation-Date: 2023-06-05 11:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: translate;_;label\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.3.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/config/language.php:5
@@ -48,99 +48,107 @@ msgstr "Incoming"
 msgid "txt-type-outgoing"
 msgstr "Outgoing"
 
-#: admin/config/module.config.navigation.admin.php:18
+#: admin/config/module.config.navigation.admin.php:20
 msgid "txt-user-and-roles"
 msgstr "User and roles"
 
-#: admin/config/module.config.navigation.admin.php:24
+#: admin/config/module.config.navigation.admin.php:26
 #: admin/view/admin/user/list.twig:2 admin/view/admin/user/list.twig:12
 msgid "txt-user-list"
 msgstr "Users"
 
-#: admin/config/module.config.navigation.admin.php:29
+#: admin/config/module.config.navigation.admin.php:31
 msgid "txt-view-user"
 msgstr "User"
 
 #: admin/config/module.config.navigation.admin.php:43
+#: admin/src/View/Helper/UserLink.php:79
+#: admin/view/admin/user/generate-token.twig:1
+#: admin/view/admin/user/generate-token.twig:3
+msgid "txt-generate-token"
+msgstr "Generate token"
+
+#: admin/config/module.config.navigation.admin.php:55
 #: admin/view/admin/role/list.twig:2 admin/view/admin/role/list.twig:13
 msgid "txt-role-list"
 msgstr "Roles"
 
-#: admin/config/module.config.navigation.admin.php:59
+#: admin/config/module.config.navigation.admin.php:71
 #: admin/src/View/Helper/RoleLink.php:48
 msgid "txt-edit-role"
 msgstr "Edit role"
 
-#: admin/config/module.config.navigation.admin.php:70
+#: admin/config/module.config.navigation.admin.php:82
 msgid "txt-add-role"
 msgstr "New role"
 
-#: admin/config/module.config.navigation.admin.php:78
+#: admin/config/module.config.navigation.admin.php:90
 msgid "txt-oauth2"
 msgstr "oAuth2"
 
-#: admin/config/module.config.navigation.admin.php:84
+#: admin/config/module.config.navigation.admin.php:96
 msgid "txt-oauth2-scopes-list"
 msgstr "oAuth2 scopes"
 
-#: admin/config/module.config.navigation.admin.php:88
+#: admin/config/module.config.navigation.admin.php:100
 #: admin/view/admin/o-auth2/scope/view.twig:2
 #: admin/view/admin/o-auth2/scope/view.twig:4
 msgid "txt-oauth2-scope"
 msgstr "Scope"
 
-#: admin/config/module.config.navigation.admin.php:100
+#: admin/config/module.config.navigation.admin.php:112
 #: admin/src/View/Helper/OAuth2/ScopeLink.php:47
 msgid "txt-edit-oauth2-scope"
 msgstr "Edit oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:111
+#: admin/config/module.config.navigation.admin.php:123
 msgid "txt-new-oauth2-scopes"
 msgstr "New oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:117
+#: admin/config/module.config.navigation.admin.php:129
 msgid "txt-oauth2-clients-list"
 msgstr "oAuth2 clients"
 
-#: admin/config/module.config.navigation.admin.php:121
+#: admin/config/module.config.navigation.admin.php:133
 #: admin/view/admin/o-auth2/client/view.twig:2
 #: admin/view/admin/o-auth2/client/view.twig:4
 msgid "txt-oauth2-client"
 msgstr "oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:134
+#: admin/config/module.config.navigation.admin.php:146
 msgid "txt-edit-client"
 msgstr "Edit oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:149
+#: admin/config/module.config.navigation.admin.php:161
 msgid "txt-new-oauth2-clients"
 msgstr "New oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:155
+#: admin/config/module.config.navigation.admin.php:167
 #: admin/view/admin/o-auth2/service/list.twig:2
 #: admin/view/admin/o-auth2/service/list.twig:7
 msgid "txt-oauth2-service-list"
 msgstr "oAuth2 Services"
 
-#: admin/config/module.config.navigation.admin.php:159
+#: admin/config/module.config.navigation.admin.php:171
 #: admin/view/admin/o-auth2/service/view.twig:2
+#: reporting/view/reporting/storage-location/view.twig:18
 msgid "txt-oauth2-service"
 msgstr "oAuth2 service"
 
-#: admin/config/module.config.navigation.admin.php:171
+#: admin/config/module.config.navigation.admin.php:183
 msgid "txt-edit-service"
 msgstr "Edit service"
 
-#: admin/config/module.config.navigation.admin.php:185
+#: admin/config/module.config.navigation.admin.php:197
 msgid "txt-new-oauth2-services"
 msgstr "oAuth2 services"
 
-#: admin/config/module.config.navigation.admin.php:195
+#: admin/config/module.config.navigation.admin.php:205
 #: admin/view/admin/cache/index.twig:1 admin/view/admin/cache/index.twig:2
 msgid "txt-cache-management"
 msgstr "Cache management"
 
-#: admin/src/Controller/OAuth2/ClientController.php:224
+#: admin/src/Controller/OAuth2/ClientController.php:223
 msgid "txt-contact-oauth2-client-has-been-created-successfully"
 msgstr "oAuth2 client has been created successfully"
 
@@ -148,11 +156,11 @@ msgstr "oAuth2 client has been created successfully"
 msgid "txt-contact-oauth2-client-has-been-updated-successfully"
 msgstr "oAuth2 client has been updated successfully"
 
-#: admin/src/Controller/OAuth2/ScopeController.php:108
+#: admin/src/Controller/OAuth2/ScopeController.php:107
 msgid "txt-user-oauth2-scope-has-been-created-successfully"
 msgstr "oAuth2 scope has been created successfully"
 
-#: admin/src/Controller/OAuth2/ScopeController.php:164
+#: admin/src/Controller/OAuth2/ScopeController.php:163
 msgid "txt-user-oauth2-scope-has-been-updated-successfully"
 msgstr "oAuth2 scope has been updated successfully"
 
@@ -164,105 +172,108 @@ msgstr "oAuth2 service has been created successfully"
 msgid "txt-user-oauth2-service-has-been-updated-successfully"
 msgstr "oAuth2 service has been updated successfully"
 
-#: admin/src/Controller/RoleController.php:97
+#: admin/src/Controller/RoleController.php:96
 #, php-format
 msgid "txt-user-role-%s-has-been-created-successfully"
 msgstr "Role %s has been created successfully"
 
-#: admin/src/Controller/RoleController.php:140
+#: admin/src/Controller/RoleController.php:139
 #, php-format
 msgid "txt-user-role-%s-has-been-deleted-successfully"
 msgstr "Role %s has been deleted successfully"
 
-#: admin/src/Controller/RoleController.php:154
+#: admin/src/Controller/RoleController.php:153
 #, php-format
 msgid "txt-user-role-%s-has-been-updated-successfully"
 msgstr "Role %s has been updated successfully"
 
-#: admin/src/Controller/UserController.php:119
+#: admin/src/Controller/UserController.php:162
 #, php-format
 msgid "txt-new-password-for-%s-has-been-requested"
 msgstr "An email with instructions to reset your password has been sent to %s"
 
-#: admin/src/Controller/UserController.php:143
+#: admin/src/Controller/UserController.php:186
 msgid "txt-password-successfully-been-updated"
 msgstr "Your password has been successfully updated"
 
-#: admin/src/Form/AdminFunctions.php:32
+#: admin/src/Form/AdminFunctions.php:36
 msgid "txt-cleanup-file-cache"
 msgstr "Cleanup file cache"
 
-#: admin/src/Form/AdminFunctions.php:43
+#: admin/src/Form/AdminFunctions.php:47
 msgid "txt-flush-redis-cache"
 msgstr "Flush Redis cache"
 
-#: admin/src/Form/OAuth2/Client.php:36
+#: admin/src/Form/OAuth2/Client.php:34
 msgid "txt-oauth2-client-select-a-valid-redirect-uri-help-block"
 msgstr "Give a valid redirect URI"
 
-#: admin/src/Form/OAuth2/Client.php:39 admin/src/Form/OAuth2/Client.php:40
+#: admin/src/Form/OAuth2/Client.php:37 admin/src/Form/OAuth2/Client.php:38
 msgid "txt-redirect-uri"
 msgstr "Redirect URI"
 
-#: admin/src/Form/OAuth2/Client.php:50
+#: admin/src/Form/OAuth2/Client.php:48
 msgid "txt-oauth2-client-name-help-block"
 msgstr "Give a user friendly name for the client"
 
-#: admin/src/Form/OAuth2/Client.php:53
+#: admin/src/Form/OAuth2/Client.php:51
 msgid "txt-oauth2-client-name-label"
 msgstr "Name"
 
-#: admin/src/Form/OAuth2/Client.php:54
+#: admin/src/Form/OAuth2/Client.php:52
 msgid "txt-oauth2-client-name-placeholder"
 msgstr "Client name"
 
-#: admin/src/Form/OAuth2/Client.php:64
+#: admin/src/Form/OAuth2/Client.php:62
 msgid "txt-oauth2-client-description-help-block"
 msgstr "Give a short description of the client"
 
-#: admin/src/Form/OAuth2/Client.php:67
+#: admin/src/Form/OAuth2/Client.php:65
 msgid "txt-oauth2-client-description-label"
 msgstr "Description"
 
-#: admin/src/Form/OAuth2/Client.php:68
+#: admin/src/Form/OAuth2/Client.php:66
 msgid "txt-oauth2-client-description-placeholder"
 msgstr "Client description"
 
-#: admin/src/Form/OAuth2/Client.php:78
+#: admin/src/Form/OAuth2/Client.php:76
 msgid "txt-oauth2-client-grant-types-help-block"
 msgstr ""
 "Give the possible grant types, options are: <code>authorization_code "
 "client_credentials refresh_token password implicit</code>"
 
-#: admin/src/Form/OAuth2/Client.php:81
+#: admin/src/Form/OAuth2/Client.php:79
 msgid "txt-oauth2-client-grant-types-label"
 msgstr "Grant types"
 
-#: admin/src/Form/OAuth2/Client.php:82
+#: admin/src/Form/OAuth2/Client.php:80
 msgid "txt-oauth2-client-grant-types-placeholder"
 msgstr "Possible grant types"
 
-#: admin/src/Form/OAuth2/Client.php:102
+#: admin/src/Form/OAuth2/Client.php:100
 msgid "txt-oauth2-client-select-a-valid-scope-help-block"
 msgstr "Select a scope"
 
-#: admin/src/Form/OAuth2/Client.php:105
+#: admin/src/Form/OAuth2/Client.php:103
 msgid "txt-oauth2-client-select-a-valid-scope-label"
 msgstr "Scope"
 
-#: admin/src/Form/OAuth2/Client.php:122 admin/src/Form/OAuth2/Scope.php:79
-#: admin/src/Form/User/LostPassword.php:65 admin/src/Form/User/Password.php:79
+#: admin/src/Form/OAuth2/Client.php:120 admin/src/Form/OAuth2/Scope.php:79
+#: admin/src/Form/User/GenerateTokenForm.php:70
+#: admin/src/Form/User/LostPassword.php:65 admin/src/Form/User/Password.php:77
 #: application/src/Form/CreateObject.php:71
 msgid "txt-cancel"
 msgstr "Cancel"
 
-#: admin/src/Form/OAuth2/Client.php:132 admin/src/Form/OAuth2/Scope.php:89
+#: admin/src/Form/OAuth2/Client.php:130 admin/src/Form/OAuth2/Scope.php:89
 #: application/src/Form/CreateObject.php:81
+#: cluster/src/Form/ProjectManipulation.php:32
 msgid "txt-delete"
 msgstr "Delete"
 
-#: admin/src/Form/OAuth2/Client.php:142 admin/src/Form/OAuth2/Scope.php:99
-#: admin/src/Form/User/Password.php:69 application/src/Form/CreateObject.php:61
+#: admin/src/Form/OAuth2/Client.php:140 admin/src/Form/OAuth2/Scope.php:99
+#: admin/src/Form/User/GenerateTokenForm.php:60
+#: admin/src/Form/User/Password.php:67 application/src/Form/CreateObject.php:61
 msgid "txt-submit"
 msgstr "Submit"
 
@@ -302,6 +313,18 @@ msgstr "Default"
 msgid "txt-filter-on-locked"
 msgstr "Filter on locked"
 
+#: admin/src/Form/User/GenerateTokenForm.php:28
+msgid "txt-generate-token-client-label"
+msgstr "Client"
+
+#: admin/src/Form/User/GenerateTokenForm.php:31
+msgid "txt-generate-token-client-help-block"
+msgstr "Select client for which this token is created"
+
+#: admin/src/Form/User/GenerateTokenForm.php:32
+msgid "txt-generate-token-client-empty-option"
+msgstr "— Select client for which this token has to be generated"
+
 #: admin/src/Form/User/Login.php:31
 msgid "txt-identity"
 msgstr "Email address"
@@ -330,23 +353,23 @@ msgstr ""
 msgid "txt-reset-password"
 msgstr "Reset password"
 
-#: admin/src/Form/User/Password.php:32
+#: admin/src/Form/User/Password.php:31
 msgid "txt-new-password-form-help"
 msgstr ""
 "The password should be at least 12 characters long and should contain at "
 "least 1 UPPERCASE character, 1 lowercase character and 1 number (0-9)"
 
-#: admin/src/Form/User/Password.php:35
+#: admin/src/Form/User/Password.php:34
 msgid "txt-new-password"
 msgstr "New password"
 
-#: admin/src/Form/User/Password.php:44
+#: admin/src/Form/User/Password.php:43
 msgid "txt-new-password-verify-form-help"
 msgstr ""
 "The password should be at least 12 characters long and should contain at "
 "least 1 UPPERCASE character, 1 lowercase character and 1 number (0-9)"
 
-#: admin/src/Form/User/Password.php:48
+#: admin/src/Form/User/Password.php:46
 msgid "txt-new-password-verify"
 msgstr "Repeat new password"
 
@@ -358,6 +381,8 @@ msgstr "Filter on role"
 #: admin/src/Navigation/Invokable/OAuth2/ScopeLabel.php:17
 #: admin/src/Navigation/Invokable/OAuth2/ServiceLabel.php:17
 #: admin/src/Navigation/Invokable/RoleLabel.php:17
+#: cluster/src/Navigation/Invokable/Cluster/GroupLabel.php:16
+#: cluster/src/Navigation/Invokable/ProjectLabel.php:16
 #: deeplink/src/Navigation/Invokable/TargetLabel.php:29
 #: mailing/src/Navigation/Invokable/EmailMessageLabel.php:17
 msgid "txt-nav-view"
@@ -526,102 +551,140 @@ msgstr ""
 "Select here the internal client which is used for key transfer between the "
 "backend and the React frontend"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:76
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:103
 msgid "txt-partners"
 msgstr "Partners"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:83
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:75
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:110
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:106
 msgid "txt-project-number"
 msgstr "Project number"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:87
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:79
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:116
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:112
 msgid "txt-project-name"
 msgstr "Project name"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:91
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:122
 msgid "txt-partner"
 msgstr "Partner"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:95
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:128
 msgid "txt-country"
 msgstr "Country"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:99
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:134
 msgid "txt-partner-type"
 msgstr "Partner type"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:105
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:142
 msgid "txt-partner-costs-in-year"
 msgstr "Partner costs in year"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:109
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
 msgid "txt-partner-effort-in-year"
 msgstr "Partner effort in year"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:114
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:155
 msgid "txt-partner-costs"
 msgstr "Partner costs"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:118
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:161
 msgid "txt-partner-effort"
 msgstr "Partner effort"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:68
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:99
 msgid "txt-projects"
 msgstr "Projects"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:83
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:118
+#: cluster/view/cluster/project/view.twig:15
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:87
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:124
+#: cluster/view/cluster/project/view.twig:17
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:91
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:130
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:95
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:136
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:99
-msgid "txt-duration-(months)"
-msgstr "Duration (months)"
-
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:103
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:142
 msgid "txt-project-status"
 msgstr "Status of the project"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:107
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:148
 msgid "txt-total-costs"
 msgstr "Total costs"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:111
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:154
 msgid "txt-total-effort"
 msgstr "Total effort"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:160
+msgid "txt-involved-countries"
+msgstr "Involved countries"
 
 #: application/src/Form/CreateObject.php:91
 msgid "txt-restore"
 msgstr "Restore"
 
-#: application/src/Form/SearchFilter.php:28
-#: application/src/Form/SearchFilter.php:47
-#: application/src/Form/SearchFilter.php:59
-msgid "txt-search"
-msgstr "Search"
-
-#: application/src/Form/SearchFilter.php:71
-msgid "txt-reset"
-msgstr "Reset"
-
 #: application/src/View/Helper/PaginationLink.php:52
 #, php-format
 msgid "txt-go-to-page-%s"
 msgstr "Go to page %s"
+
+#: cluster/config/module.config.navigation.admin.php:16
+msgid "txt-clusters-and-projects"
+msgstr "Clusters and projects"
+
+#: cluster/config/module.config.navigation.admin.php:22
+#: cluster/view/cluster/cluster/group/list.twig:2
+#: cluster/view/cluster/cluster/group/list.twig:8
+msgid "txt-cluster-group-list"
+msgstr "Cluster groups"
+
+#: cluster/config/module.config.navigation.admin.php:37
+#: cluster/src/View/Helper/Cluster/GroupLink.php:50
+#: cluster/view/cluster/cluster/group/edit.twig:2
+#: cluster/view/cluster/cluster/group/edit.twig:4
+#: cluster/view/cluster/cluster/group/new.twig:2
+#: cluster/view/cluster/cluster/group/new.twig:4
+msgid "txt-edit-cluster-group"
+msgstr "Edit cluster group"
+
+#: cluster/config/module.config.navigation.admin.php:48
+#: cluster/src/View/Helper/Cluster/GroupLink.php:36
+msgid "txt-new-cluster-group"
+msgstr "New cluster group"
+
+#: cluster/config/module.config.navigation.admin.php:54
+#: cluster/view/cluster/project/list.twig:2
+#: cluster/view/cluster/project/list.twig:7
+msgid "txt-project-list"
+msgstr "All projects"
+
+#: cluster/src/Controller/Cluster/GroupController.php:95
+msgid "txt-cluster-group-has-been-created-successfully"
+msgstr "Cluster group has been created successfully"
+
+#: cluster/src/Controller/Cluster/GroupController.php:135
+msgid "txt-cluster-group-has-been-deleted-successfully"
+msgstr "Cluster group has been deleted successfully"
+
+#: cluster/src/Controller/Cluster/GroupController.php:151
+msgid "txt-cluster-group-has-been-updated-successfully"
+msgstr "Cluster group has been updated successfully"
+
+#: cluster/src/Controller/ProjectController.php:79
+msgid "txt-project-deleted"
+msgstr "Project has been deleted"
 
 #: deeplink/config/language.php:5
 msgid "txt-deeplink-target-target-placeholder"
@@ -650,16 +713,15 @@ msgstr ""
 "target"
 
 #: deeplink/config/module.config.navigation.admin.php:14
-#: deeplink/config/module.config.navigation.php:14
 msgid "txt-deeplink-targets"
 msgstr "Deeplink targets"
 
 #: deeplink/config/module.config.navigation.admin.php:30
-#: deeplink/config/module.config.navigation.php:30
 #: mailing/config/module.config.navigation.admin.php:59
 #: mailing/config/module.config.navigation.admin.php:91
 #: mailing/config/module.config.navigation.admin.php:123
 #: mailing/config/module.config.navigation.admin.php:155
+#: reporting/config/module.config.navigation.admin.php:33
 msgid "txt-nav-edit"
 msgstr "Edit"
 
@@ -671,22 +733,22 @@ msgstr "New deeplink target"
 msgid "txt-all-expired-deeplinks-have-been-removed-successfully"
 msgstr "All expired deep links have been removed successfully"
 
-#: deeplink/src/Controller/TargetController.php:69
+#: deeplink/src/Controller/TargetController.php:70
 #, php-format
 msgid "txt-%s-deeplink-targets-have-been-removed-successfully"
 msgstr "%s deeplink targets been removed successfully"
 
-#: deeplink/src/Controller/TargetController.php:126
+#: deeplink/src/Controller/TargetController.php:128
 #, php-format
 msgid "txt-deeplink-target-%s-has-successfully-been-deleted"
 msgstr "Target %s has been deleted successfully"
 
-#: deeplink/src/Controller/TargetController.php:152
+#: deeplink/src/Controller/TargetController.php:154
 #, php-format
 msgid "txt-deeplink-target-%s-has-successfully-been-updated"
 msgstr "Target %s has been updated successfully"
 
-#: deeplink/src/Controller/TargetController.php:189
+#: deeplink/src/Controller/TargetController.php:191
 #, php-format
 msgid "txt-deeplink-target-%s-has-successfully-been-created"
 msgstr "%s has been updated successfully"
@@ -991,8 +1053,8 @@ msgstr "Give the name of the sender"
 #: mailing/config/language.php:64
 msgid "txt-sender-name-help-block"
 msgstr ""
-"Give here the name of the sender. This is the name which is used as \"Sender"
-"\" of the email"
+"Give here the name of the sender. This is the name which is used as "
+"\"Sender\" of the email"
 
 #: mailing/config/language.php:65
 msgid "txt-sender-email-label"
@@ -1007,7 +1069,7 @@ msgid "txt-sender-email-help-block"
 msgstr ""
 "Give here the email address of the sender. Note that the email address "
 "should be validated in Mailtjet before mails can be send out. Choose "
-"<code>_owner@itea3.org</code> or <code>_self@itea3.org</code> to use the "
+"<code>_owner@itea4.org</code> or <code>_self@itea3.org</code> to use the "
 "owner (_owner) of the mailing or the logged in user (_self).<br>If _owner is "
 "taken don't forget to make the sender \"Personal\""
 
@@ -1057,35 +1119,35 @@ msgstr "Transactional emails"
 msgid "txt-new-transactional-email"
 msgstr "New transactional email"
 
-#: mailing/src/Controller/MailerController.php:84
+#: mailing/src/Controller/MailerController.php:87
 msgid "txt-test-mail-sent-successfully"
 msgstr "Test mail has been sent successfully"
 
-#: mailing/src/Controller/MailerController.php:89
+#: mailing/src/Controller/MailerController.php:92
 msgid "txt-test-mail-failed"
 msgstr "Sending of test mail failed"
 
-#: mailing/src/Controller/MailerController.php:93
+#: mailing/src/Controller/MailerController.php:98
 #, php-format
 msgid "txt-test-mail-failed-reason-%s"
 msgstr "Sending of test mail failed with reason %s"
 
-#: mailing/src/Controller/MailerController.php:136
+#: mailing/src/Controller/MailerController.php:145
 #, php-format
 msgid "txt-mailer-%s-has-successfully-been-deleted"
 msgstr "%s has been deleted successfully"
 
-#: mailing/src/Controller/MailerController.php:190
+#: mailing/src/Controller/MailerController.php:200
 #, php-format
 msgid "txt-mailer-%s-has-successfully-been-created"
 msgstr "%s has been created successfully"
 
-#: mailing/src/Controller/SenderController.php:99
+#: mailing/src/Controller/SenderController.php:100
 #, php-format
 msgid "txt-sender-%s-has-successfully-been-deleted"
 msgstr "Sender %s has been deleted successfully"
 
-#: mailing/src/Controller/SenderController.php:138
+#: mailing/src/Controller/SenderController.php:139
 #, php-format
 msgid "txt-sender-%s-has-successfully-been-created"
 msgstr "Sender %s has been created successfully"
@@ -1105,17 +1167,17 @@ msgstr "Template %s has been updated successfully"
 msgid "txt-template-%s-has-successfully-been-created"
 msgstr "Template %s has been created successfully"
 
-#: mailing/src/Controller/TransactionalController.php:95
+#: mailing/src/Controller/TransactionalController.php:97
 #, php-format
 msgid "txt-transactional-email-with-name-%s-has-been-sent-successfully"
 msgstr "Email %s has been sent successfully"
 
-#: mailing/src/Controller/TransactionalController.php:131
+#: mailing/src/Controller/TransactionalController.php:134
 #, php-format
 msgid "txt-transactional-%s-has-been-created-successfully"
 msgstr "%s has been created successfully"
 
-#: mailing/src/Controller/TransactionalController.php:194
+#: mailing/src/Controller/TransactionalController.php:199
 #, php-format
 msgid "txt-transactional-%s-has-been-updated-successfully"
 msgstr "%s has been updated successfully"
@@ -1133,6 +1195,7 @@ msgid "txt-filter-on-tags"
 msgstr "Filter on tags"
 
 #: mailing/src/Navigation/Invokable/MailerLabel.php:17
+#: reporting/src/Navigation/Invokable/StorageLocationLabel.php:17
 msgid "txt-nav-mailer"
 msgstr "Mailers"
 
@@ -1148,17 +1211,17 @@ msgstr "Email template"
 msgid "txt-nav-transactional-email"
 msgstr "Transactional email"
 
-#: mailing/src/View/Helper/MailerLink.php:42
+#: mailing/src/View/Helper/MailerLink.php:44
 #, php-format
 msgid "txt-new-mailer-of-type-%s"
 msgstr "New %s"
 
-#: mailing/src/View/Helper/MailerLink.php:51
+#: mailing/src/View/Helper/MailerLink.php:53
 #: mailing/view/mailing/mailer/view.twig:2
 msgid "txt-view-mailer"
 msgstr "Mailer"
 
-#: mailing/src/View/Helper/MailerLink.php:58
+#: mailing/src/View/Helper/MailerLink.php:60
 msgid "txt-edit-mailer"
 msgstr "Edit mailer"
 
@@ -1181,9 +1244,48 @@ msgstr "Create mailing template"
 msgid "txt-edit-mailing-template"
 msgstr "Edit mailing template"
 
-#: mailing/src/View/Helper/TransactionalLink.php:53
+#: mailing/src/View/Helper/TransactionalLink.php:54
 msgid "txt-edit-transactional-email"
 msgstr "Edit transactional email"
+
+#: reporting/config/module.config.navigation.admin.php:9
+#: reporting/config/module.config.navigation.admin.php:14
+#: reporting/view/reporting/reporting/index.twig:2
+#: reporting/view/reporting/reporting/index.twig:4
+msgid "txt-reporting"
+msgstr "Reporting"
+
+#: reporting/config/module.config.navigation.admin.php:18
+msgid "txt-nav-storage-location-list"
+msgstr "Storage locations"
+
+#: reporting/config/module.config.navigation.admin.php:45
+#: reporting/src/View/Helper/StorageLocationLink.php:34
+#: reporting/view/reporting/storage-location/new.twig:2
+#: reporting/view/reporting/storage-location/new.twig:4
+msgid "txt-new-storage-location"
+msgstr "New storage location"
+
+#: reporting/src/Controller/StorageLocationController.php:132
+#, php-format
+msgid "txt-storage-location-%s-has-successfully-been-deleted"
+msgstr "Storage location %s has been deleted successfully"
+
+#: reporting/src/Controller/StorageLocationController.php:180
+#, php-format
+msgid "txt-storage-location-%s-has-successfully-been-created"
+msgstr "Storage location %s has been created successfully"
+
+#: reporting/src/View/Helper/StorageLocationLink.php:42
+#: reporting/view/reporting/storage-location/view.twig:2
+msgid "txt-view-storage-location"
+msgstr "Storage location"
+
+#: reporting/src/View/Helper/StorageLocationLink.php:51
+#: reporting/view/reporting/storage-location/edit.twig:2
+#: reporting/view/reporting/storage-location/edit.twig:4
+msgid "txt-edit-storage-location"
+msgstr "Edit storage location"
 
 #: admin/view/admin/cache/index.twig:4
 #, php-format
@@ -1219,6 +1321,12 @@ msgstr ""
 #: admin/view/admin/role/edit.twig:1 admin/view/admin/role/list.twig:1
 #: admin/view/admin/role/new.twig:1 admin/view/admin/role/view.twig:1
 #: admin/view/admin/user/list.twig:1 admin/view/admin/user/view.twig:1
+#: cluster/view/cluster/cluster/group/edit.twig:1
+#: cluster/view/cluster/cluster/group/list.twig:1
+#: cluster/view/cluster/cluster/group/new.twig:1
+#: cluster/view/cluster/cluster/group/view.twig:1
+#: cluster/view/cluster/project/list.twig:1
+#: cluster/view/cluster/project/view.twig:1
 #: deeplink/view/deeplink/target/edit.twig:1
 #: deeplink/view/deeplink/target/list.twig:1
 #: deeplink/view/deeplink/target/new.twig:1
@@ -1237,6 +1345,11 @@ msgstr ""
 #: mailing/view/mailing/template/list.twig:1
 #: mailing/view/mailing/template/new.twig:1
 #: mailing/view/mailing/template/view.twig:5
+#: reporting/view/reporting/reporting/index.twig:1
+#: reporting/view/reporting/storage-location/edit.twig:1
+#: reporting/view/reporting/storage-location/list.twig:1
+#: reporting/view/reporting/storage-location/new.twig:1
+#: reporting/view/reporting/storage-location/view.twig:1
 msgid "txt-admin"
 msgstr "Office"
 
@@ -1263,7 +1376,7 @@ msgid "txt-oauth2-client-explanation"
 msgstr "Find here an overview of all available oAuth2 clients"
 
 #: admin/view/admin/o-auth2/client/list.twig:26
-#: admin/view/admin/o-auth2/client/view.twig:11
+#: admin/view/admin/o-auth2/client/view.twig:9
 #: admin/view/admin/o-auth2/service/list.twig:28
 msgid "txt-client-id"
 msgstr "Client ID"
@@ -1273,8 +1386,11 @@ msgid "txt-client-name"
 msgstr "Client name"
 
 #: admin/view/admin/o-auth2/client/list.twig:28
-#: admin/view/admin/o-auth2/client/view.twig:15
+#: admin/view/admin/o-auth2/client/view.twig:13
 #: admin/view/admin/role/list.twig:33
+#: cluster/view/cluster/cluster/group/list.twig:29
+#: cluster/view/cluster/cluster/group/view.twig:13
+#: cluster/view/cluster/project/view.twig:19
 msgid "txt-description"
 msgstr "Description"
 
@@ -1291,63 +1407,66 @@ msgstr "Grant types"
 msgid "txt-no-oauth2-clients-found"
 msgstr "No oAuth2 clients could be found"
 
-#: admin/view/admin/o-auth2/client/view.twig:9
-msgid "txt-oauth2-client-information"
-msgstr "oAuth2 client information"
-
-#: admin/view/admin/o-auth2/client/view.twig:13
+#: admin/view/admin/o-auth2/client/view.twig:11
 #: admin/view/admin/o-auth2/service/list.twig:27
-#: admin/view/admin/user/list.twig:32 mailing/view/mailing/email/list.twig:26
+#: admin/view/admin/user/list.twig:32
+#: cluster/view/cluster/cluster/group/list.twig:28
+#: cluster/view/cluster/cluster/group/view.twig:11
+#: cluster/view/cluster/project/list.twig:27
+#: cluster/view/cluster/project/view.twig:13
+#: mailing/view/mailing/email/list.twig:26
 #: mailing/view/mailing/mailer/list.twig:11
 #: mailing/view/mailing/mailer/view.twig:15
 #: mailing/view/mailing/sender/view.twig:8
 #: mailing/view/mailing/template/view.twig:12
 #: mailing/view/mailing/transactional/list.twig:33
+#: reporting/view/reporting/storage-location/list.twig:11
+#: reporting/view/reporting/storage-location/view.twig:7
 msgid "txt-name"
 msgstr "Name"
 
-#: admin/view/admin/o-auth2/client/view.twig:17
+#: admin/view/admin/o-auth2/client/view.twig:15
 msgid "txt-secret-teaser"
 msgstr "Secret teaser"
 
-#: admin/view/admin/o-auth2/client/view.twig:19
+#: admin/view/admin/o-auth2/client/view.twig:17
 msgid "txt-oauth2-client-redirect-url"
 msgstr "Redirect URI"
 
-#: admin/view/admin/o-auth2/client/view.twig:21
+#: admin/view/admin/o-auth2/client/view.twig:19
 msgid "txt-oauth2-client-scope"
 msgstr "Scope"
 
-#: admin/view/admin/o-auth2/client/view.twig:23
+#: admin/view/admin/o-auth2/client/view.twig:21
 msgid "txt-oauth2-client-grant-types"
 msgstr "Grant types"
 
-#: admin/view/admin/o-auth2/client/view.twig:27
-#: admin/view/admin/o-auth2/client/view.twig:30
+#: admin/view/admin/o-auth2/client/view.twig:25
+#: admin/view/admin/o-auth2/client/view.twig:28
 msgid "txt-public-key"
 msgstr "Public Key"
 
-#: admin/view/admin/o-auth2/client/view.twig:34
+#: admin/view/admin/o-auth2/client/view.twig:32
 msgid "txt-private-key"
 msgstr "Private Key"
 
-#: admin/view/admin/o-auth2/client/view.twig:38
+#: admin/view/admin/o-auth2/client/view.twig:36
 msgid "txt-public-key-base-64"
 msgstr "Public key (base64 encoded)"
 
-#: admin/view/admin/o-auth2/client/view.twig:43
+#: admin/view/admin/o-auth2/client/view.twig:41
 msgid "txt-encryption-algorithm"
 msgstr "Encryption algorithm"
 
-#: admin/view/admin/o-auth2/client/view.twig:118
+#: admin/view/admin/o-auth2/client/view.twig:116
 msgid "txt-generate-new-secret"
 msgstr "Generate new secret"
 
-#: admin/view/admin/o-auth2/client/view.twig:122
+#: admin/view/admin/o-auth2/client/view.twig:120
 msgid "txt-oauth2-client-secret"
 msgstr "Secret"
 
-#: admin/view/admin/o-auth2/client/view.twig:124
+#: admin/view/admin/o-auth2/client/view.twig:122
 msgid "txt-oauth2-client-secret-explanation"
 msgstr ""
 "This secret is only visible now so make sure this secret is saved somewhere "
@@ -1400,10 +1519,15 @@ msgstr "oAuth2 scope information"
 
 #: admin/view/admin/o-auth2/scope/view.twig:9
 #: admin/view/admin/o-auth2/service/list.twig:26
+#: cluster/view/cluster/cluster/group/list.twig:27
+#: cluster/view/cluster/cluster/group/view.twig:9
+#: cluster/view/cluster/project/list.twig:26
+#: cluster/view/cluster/project/view.twig:9
 #: mailing/view/mailing/email/view.twig:69
 #: mailing/view/mailing/mailer/list.twig:10
 #: mailing/view/mailing/sender/list.twig:10
 #: mailing/view/mailing/template/list.twig:10
+#: reporting/view/reporting/storage-location/list.twig:10
 msgid "txt-id"
 msgstr "Id"
 
@@ -1420,7 +1544,7 @@ msgid "txt-oauth2-is-default"
 msgstr "Is default"
 
 #: admin/view/admin/o-auth2/scope/view.twig:16
-#: admin/view/admin/user/view.twig:23 admin/view/admin/user/view.twig:30
+#: admin/view/admin/user/view.twig:23 admin/view/admin/user/view.twig:39
 #: application/view/oauth/authorize.twig:11
 #: mailing/view/mailing/mailer/view.twig:20
 #: mailing/view/mailing/mailer/view.twig:22
@@ -1428,10 +1552,11 @@ msgid "txt-yes"
 msgstr "Yes"
 
 #: admin/view/admin/o-auth2/scope/view.twig:16
-#: admin/view/admin/user/view.twig:25 admin/view/admin/user/view.twig:32
+#: admin/view/admin/user/view.twig:25 admin/view/admin/user/view.twig:41
 #: application/view/oauth/authorize.twig:13
 #: mailing/view/mailing/mailer/view.twig:20
 #: mailing/view/mailing/mailer/view.twig:22
+#: reporting/view/reporting/reporting/index.twig:14
 msgid "txt-no"
 msgstr "No"
 
@@ -1460,6 +1585,8 @@ msgstr ""
 "cluster portal"
 
 #: admin/view/admin/o-auth2/service/list.twig:30
+#: cluster/view/cluster/cluster/group/list.twig:30
+#: cluster/view/cluster/cluster/group/view.twig:15
 msgid "txt-clusters"
 msgstr "Clusters"
 
@@ -1523,6 +1650,7 @@ msgid "txt-oauth2-service-client"
 msgstr "Client"
 
 #: admin/view/admin/o-auth2/service/view.twig:49
+#: reporting/view/reporting/storage-location/view.twig:33
 msgid "txt-test-access"
 msgstr "Test access"
 
@@ -1614,6 +1742,14 @@ msgstr "Set password"
 msgid "txt-set-password-explanation"
 msgstr "Use this form to set your password"
 
+#: admin/view/admin/user/generate-token.twig:5
+msgid "txt-generate-token-explanation"
+msgstr "Use the form below to generate a oAuth2 Bearer token"
+
+#: admin/view/admin/user/generate-token.twig:26
+msgid "txt-token"
+msgstr "Token"
+
 #: admin/view/admin/user/list.twig:16
 msgid "txt-user-list-explanation"
 msgstr "Find here a list of all users"
@@ -1652,14 +1788,13 @@ msgstr "Login via %s"
 
 #: admin/view/admin/user/login.twig:27 admin/view/admin/user/login.twig:30
 msgid "txt-sign-in"
-msgstr "Log in to MyITEA"
+msgstr "Log in to PA Portal Backend"
 
 #: admin/view/admin/user/login.twig:36
 msgid "txt-sign-in-explanation"
 msgstr ""
 "Please log in using your MyITEA credentials. If you do not have an account "
-"or do not know if you have one, follow the ‘<a href=\"user/register.html"
-"\">Create new account</a>’ procedure."
+"or do not know if you have one please contact one of the cluster ICT users"
 
 #: admin/view/admin/user/login.twig:50
 #: admin/view/admin/user/lost-password.twig:1
@@ -1702,7 +1837,15 @@ msgstr "No roles"
 msgid "txt-is-funder"
 msgstr "Is funder"
 
-#: admin/view/admin/user/view.twig:28
+#: admin/view/admin/user/view.twig:29
+msgid "txt-funder-in-cluster"
+msgstr "Funder in cluster"
+
+#: admin/view/admin/user/view.twig:33
+msgid "txt-no-clusters-known"
+msgstr "No clusters could be found"
+
+#: admin/view/admin/user/view.twig:37
 msgid "txt-is-eureka-secretariat-staff-member"
 msgstr "Is ESE Staff member"
 
@@ -1767,15 +1910,27 @@ msgstr "Error details"
 msgid "txt-exception-details"
 msgstr "Exception details"
 
-#: application/view/layout/layout.twig:34
+#: application/view/layout/layout.twig:44
+msgid "txt-light-mode"
+msgstr "Light mode"
+
+#: application/view/layout/layout.twig:52
+msgid "txt-dark-mode"
+msgstr "Dark mode"
+
+#: application/view/layout/layout.twig:61
+msgid "txt-auto-mode"
+msgstr "Auto mode"
+
+#: application/view/layout/layout.twig:71
 msgid "txt-logout"
 msgstr "Logout"
 
-#: application/view/layout/layout.twig:38
+#: application/view/layout/layout.twig:75
 msgid "txt-admin-login"
 msgstr "Admin login"
 
-#: application/view/layout/layout.twig:62
+#: application/view/layout/layout.twig:99
 #, php-format
 msgid "txt-footer-%s-%s"
 msgstr "PA Portal backend %s &middot; &copy; %s"
@@ -1801,6 +1956,51 @@ msgstr "HTTP"
 #: application/view/oauth/receive-code.twig:20
 msgid "txt-curl"
 msgstr "Curl"
+
+#: cluster/view/cluster/cluster/group/list.twig:12
+msgid "txt-cluster-group-list-explanation"
+msgstr ""
+"A cluster group is used in the frontend as filter element and can be used to "
+"group multiple clusters into 1 filter, for example for Euripides and Celtic"
+
+#: cluster/view/cluster/cluster/group/list.twig:47
+msgid "txt-no-cluster-groups-found"
+msgstr "No cluster groups could be found"
+
+#: cluster/view/cluster/cluster/group/view.twig:6
+msgid "txt-cluster-group-information"
+msgstr "Cluster group information"
+
+#: cluster/view/cluster/cluster/group/view.twig:19
+msgid "txt-no-clusters-found-in-this-group"
+msgstr "No clusters found in this group"
+
+#: cluster/view/cluster/project/list.twig:11
+msgid "txt-project-list-explanation"
+msgstr "Find below a list of all projects in PA portal backend"
+
+#: cluster/view/cluster/project/list.twig:28
+#: cluster/view/cluster/project/view.twig:11
+msgid "txt-identifier"
+msgstr "Identifier"
+
+#: cluster/view/cluster/project/list.twig:29
+msgid "txt-cluster"
+msgstr "Cluster"
+
+#: cluster/view/cluster/project/list.twig:30
+#: mailing/view/mailing/transactional/list.twig:39
+#: mailing/view/mailing/transactional/view.twig:27
+msgid "txt-last-update"
+msgstr "Last update"
+
+#: cluster/view/cluster/project/list.twig:48
+msgid "txt-no-projects-found"
+msgstr "No projects can be found"
+
+#: cluster/view/cluster/project/view.twig:6
+msgid "txt-project-information"
+msgstr "Project information"
 
 #: deeplink/view/deeplink/target/edit.twig:2
 #: deeplink/view/deeplink/target/edit.twig:4
@@ -2201,11 +2401,6 @@ msgstr ""
 msgid "txt-transactional-id"
 msgstr "Id"
 
-#: mailing/view/mailing/transactional/list.twig:39
-#: mailing/view/mailing/transactional/view.twig:27
-msgid "txt-last-update"
-msgstr "Last update"
-
 #: mailing/view/mailing/transactional/list.twig:53
 msgid "txt-this-transactional-is-locked-and-cannot-be-deleted"
 msgstr "This transactional email is locked and cannot be deleted"
@@ -2242,6 +2437,79 @@ msgstr "Mail subject"
 #: mailing/view/mailing/transactional/view.twig:32
 msgid "txt-content"
 msgstr "Content"
+
+#: reporting/view/reporting/reporting/index.twig:7
+msgid "txt-no-storage-location-configured"
+msgstr "No storage locations configured"
+
+#: reporting/view/reporting/reporting/index.twig:15
+msgid "txt-file"
+msgstr "File"
+
+#: reporting/view/reporting/reporting/index.twig:16
+msgid "txt-size"
+msgstr "Size"
+
+#: reporting/view/reporting/reporting/index.twig:17
+msgid "txt-date-created"
+msgstr "Date created"
+
+#: reporting/view/reporting/reporting/index.twig:18
+msgid "txt-date-updated"
+msgstr "Date updated"
+
+#: reporting/view/reporting/reporting/index.twig:36
+msgid "txt-no-logfiles-found"
+msgstr "No log files could be found"
+
+#: reporting/view/reporting/storage-location/list.twig:2
+#: reporting/view/reporting/storage-location/list.twig:4
+msgid "txt-storage-location-list"
+msgstr "Storage locations"
+
+#: reporting/view/reporting/storage-location/list.twig:12
+#: reporting/view/reporting/storage-location/view.twig:11
+msgid "txt-container"
+msgstr "Container"
+
+#: reporting/view/reporting/storage-location/list.twig:13
+#: reporting/view/reporting/storage-location/view.twig:13
+msgid "txt-excel-folder"
+msgstr "Excel folder"
+
+#: reporting/view/reporting/storage-location/list.twig:14
+#: reporting/view/reporting/storage-location/view.twig:15
+msgid "txt-parquet-folder"
+msgstr "Parquet folder"
+
+#: reporting/view/reporting/storage-location/list.twig:32
+msgid "txt-no-storage-locations-found"
+msgstr "No storage locations could be found"
+
+#: reporting/view/reporting/storage-location/view.twig:9
+msgid "txt-connection-string"
+msgstr "Connection string"
+
+#: reporting/view/reporting/storage-location/view.twig:25
+msgid "txt-successfully-accessed-container"
+msgstr "Successfully accessed container"
+
+#: reporting/view/reporting/storage-location/view.twig:27
+#, php-format
+msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
+msgstr "There was an issue connecting to container %s"
+
+#~ msgid "txt-duration-(months)"
+#~ msgstr "Duration (months)"
+
+#~ msgid "txt-search"
+#~ msgstr "Search"
+
+#~ msgid "txt-reset"
+#~ msgstr "Reset"
+
+#~ msgid "txt-oauth2-client-information"
+#~ msgstr "oAuth2 client information"
 
 #, fuzzy
 #~| msgid "txt-oauth2-scopes-list"
@@ -2508,10 +2776,11 @@ msgstr "Content"
 #~ msgid "txt-user-%s-is-already-in-the-database-%s"
 #~ msgstr ""
 #~ "An account with email address %s has been already found in the database. "
-#~ "Please log in and <a href=\"/community/contact/profile/privacy.html"
-#~ "\">update your subscriptions</a> if you want to receive our newsletter. "
-#~ "<a href=\"/user/lost-password.html?email=%s\">Request a new password</a> "
-#~ "in case you forgot your password or did not yet set your password."
+#~ "Please log in and <a href=\"/community/contact/profile/privacy."
+#~ "html\">update your subscriptions</a> if you want to receive our "
+#~ "newsletter. <a href=\"/user/lost-password.html?email=%s\">Request a new "
+#~ "password</a> in case you forgot your password or did not yet set your "
+#~ "password."
 
 #, php-format
 #~ msgid ""
@@ -3650,9 +3919,6 @@ msgstr "Content"
 #~ msgid "txt-%s%%-contribution-for-%s"
 #~ msgstr "%s%% contribution for %s"
 
-#~ msgid "txt-reporting"
-#~ msgstr "Reporting"
-
 #~ msgid "txt-manage-technical-contact-link-text"
 #~ msgstr "Manage technical contacts"
 
@@ -4417,9 +4683,6 @@ msgstr "Content"
 #~ msgid "txt-cluster-platform-identifier-help-block"
 #~ msgstr "Identifier for the cluster platform"
 
-#~ msgid "txt-nav-cluster-list"
-#~ msgstr "Clusters"
-
 #~ msgid "txt-nav-new-cluster"
 #~ msgstr "New Cluster"
 
@@ -4443,15 +4706,6 @@ msgstr "Content"
 
 #~ msgid "txt-nav-cluster-platform-exchange-log-list"
 #~ msgstr "Cluster platform exchange logs"
-
-#~ msgid "txt-cluster-has-been-created-successfully"
-#~ msgstr "Cluster has been created successfully"
-
-#~ msgid "txt-cluster-has-been-deleted-successfully"
-#~ msgstr "Funder has been deleted successfully"
-
-#~ msgid "txt-cluster-has-been-updated-successfully"
-#~ msgstr "Funder has been updated successfully"
 
 #~ msgid ""
 #~ "txt-project-selection-has-been-added-to-platform-exchange-successfully"
@@ -4495,9 +4749,6 @@ msgstr "Content"
 #~ msgid "txt-nav-platform"
 #~ msgstr "Clusters platform"
 
-#~ msgid "txt-new-cluster"
-#~ msgstr "New Cluster"
-
 #~ msgid "txt-view-log"
 #~ msgstr "Log"
 
@@ -4524,8 +4775,8 @@ msgstr "Content"
 #~ "txt-no-organisation-found-complete-your-profile-to-participate-in-"
 #~ "projects-with-link-%s"
 #~ msgstr ""
-#~ "You have no organisation in your profile. Please complete your <a class="
-#~ "\"alert-link\" href=\"%s\">profile</a> to be able to participate in "
+#~ "You have no organisation in your profile. Please complete your <a "
+#~ "class=\"alert-link\" href=\"%s\">profile</a> to be able to participate in "
 #~ "projects and ideas"
 
 #~ msgid "txt-no-event-registrations-were-found-for-this-contact"
@@ -5014,12 +5265,6 @@ msgstr "Content"
 #~ msgid "txt-edit-contact"
 #~ msgstr "Edit contact"
 
-#~ msgid "txt-nav-selection-list"
-#~ msgstr "Selections"
-
-#~ msgid "txt-edit-selection"
-#~ msgstr "Edit selection"
-
 #~ msgid "txt-copy-selection"
 #~ msgstr "Copy selection"
 
@@ -5028,9 +5273,6 @@ msgstr "Content"
 
 #~ msgid "txt-generate-deeplinks"
 #~ msgstr "Generate deeplinks"
-
-#~ msgid "txt-new-selection"
-#~ msgstr "New selection"
 
 #~ msgid "txt-nav-facebook-list"
 #~ msgstr "Facebook"
@@ -6163,9 +6405,6 @@ msgstr "Content"
 #~ msgid "txt-excellent:-outstanding-work"
 #~ msgstr "Excellent: Outstanding work"
 
-#~ msgid "txt-excellent"
-#~ msgstr "Excellent"
-
 #~ msgid "txt-adequate"
 #~ msgstr "Adequate"
 
@@ -6683,10 +6922,6 @@ msgstr "Content"
 #~ msgid "txt-%s-evaluation-%s-has-successfully-been-updated"
 #~ msgstr "%s evaluation for project %s has been successfully updated"
 
-#, php-format
-#~ msgid "txt-%s-evaluation-%s-has-successfully-been-created"
-#~ msgstr "%s evaluation for project %s has been successfully created"
-
 #~ msgid "txt-consortium-feedback-has-been-saved-successfully"
 #~ msgstr "Consortium feedback has been saved successfully"
 
@@ -6810,9 +7045,6 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-submitted-on-%s"
 #~ msgstr "Submitted on %s"
-
-#~ msgid "txt-cluster"
-#~ msgstr "Cluster"
 
 #, php-format
 #~ msgid "txt-steering-group-decision-on-%s"
@@ -6974,9 +7206,6 @@ msgstr "Content"
 
 #~ msgid "txt-select-a-score"
 #~ msgstr "Select a score"
-
-#~ msgid "txt-file"
-#~ msgstr "File"
 
 #~ msgid "txt-select-a-filled-in-evaluation-report-excel"
 #~ msgstr "Select a filled in evaluation report in Excel"
@@ -8362,9 +8591,6 @@ msgstr "Content"
 #~ msgid "txt-new-text-element"
 #~ msgstr "New text element"
 
-#~ msgid "txt-badge-successfully-copied"
-#~ msgstr "Badge has been copied successfully"
-
 #, php-format
 #~ msgid "txt-%d-contacts-added,-%d-contacts-removed"
 #~ msgstr "%d contacts have been added, %d contacts removed"
@@ -8698,9 +8924,6 @@ msgstr "Content"
 
 #~ msgid "txt-on-participants-list"
 #~ msgstr "Visibility"
-
-#~ msgid "txt-continue"
-#~ msgstr "Continue"
 
 #~ msgid "txt-create-user-in-cometchat"
 #~ msgstr "Create user in CometChat"
@@ -10249,8 +10472,8 @@ msgstr "Content"
 
 #~ msgid "txt-living-roadmap-challenge-explanation"
 #~ msgstr ""
-#~ "Choose a <a href=\"/scope-and-research-areas.html\" target=\"blank"
-#~ "\">challenge</a> described in the living roadmap"
+#~ "Choose a <a href=\"/scope-and-research-areas.html\" "
+#~ "target=\"blank\">challenge</a> described in the living roadmap"
 
 #~ msgid "txt-idea-additional-challenge-label"
 #~ msgstr "Additional challenge(s)"
@@ -10841,9 +11064,6 @@ msgstr "Content"
 
 #~ msgid "txt-late"
 #~ msgstr "Late"
-
-#~ msgid "txt-open"
-#~ msgstr "Open"
 
 #~ msgid "txt-reminded"
 #~ msgstr "Reminded"
@@ -14129,8 +14349,8 @@ msgstr "Content"
 #~ msgstr ""
 #~ "Give a specific website for funding information (include http(s)://). If "
 #~ "you want to have an alternative text the link use a <code>|</code> as "
-#~ "separator. For example http://www.link.com|link text will become <a href="
-#~ "\"http://www.link.com\">link text</a>"
+#~ "separator. For example http://www.link.com|link text will become <a "
+#~ "href=\"http://www.link.com\">link text</a>"
 
 #~ msgid "txt-hide-on-website"
 #~ msgstr "Hide on website"
@@ -15132,9 +15352,6 @@ msgstr "Content"
 #~ msgid "txt-user-is-registered-and-checked-in"
 #~ msgstr "User is registered for the event and has checked in"
 
-#~ msgid "txt-there-is-a-national-contract-for-this-partner"
-#~ msgstr "This is a national contract for this partner"
-
 #~ msgid "txt-save-and-return-to-overview"
 #~ msgstr "Save and return to overview"
 
@@ -15437,9 +15654,9 @@ msgstr "Content"
 #~ "Describe the possible integration methods / requirements / constraints "
 #~ "for using your exploitable result (e.g. required Operating System, "
 #~ "Protocols, APIs, Platforms).<br><br>In this field rich text using "
-#~ "Markdown Extra is supported. Find all supported commands <a target="
-#~ "\"_blank\" href=\"https://michelf.ca/projects/php-markdown/extra/\">on "
-#~ "this website</a>"
+#~ "Markdown Extra is supported. Find all supported commands <a "
+#~ "target=\"_blank\" href=\"https://michelf.ca/projects/php-markdown/extra/"
+#~ "\">on this website</a>"
 
 #~ msgid "txt-exploitable-result-intended-users-label"
 #~ msgstr "Targeted customers"
@@ -15450,8 +15667,9 @@ msgstr "Content"
 #~ "targeted customer(s) can be either direct customers or business partners. "
 #~ "If you are looking for business partners define the expertise you are "
 #~ "looking for.<br><br>In this field rich text using Markdown Extra is "
-#~ "supported. Find all supported commands <a target=\"_blank\" href="
-#~ "\"https://michelf.ca/projects/php-markdown/extra/\">on this website</a>"
+#~ "supported. Find all supported commands <a target=\"_blank\" "
+#~ "href=\"https://michelf.ca/projects/php-markdown/extra/\">on this website</"
+#~ "a>"
 
 #~ msgid "txt-exploitable-result-reuse-conditions-label"
 #~ msgstr "Conditions of reuse"
@@ -17496,10 +17714,6 @@ msgstr "Content"
 #~ msgstr "%s has been saved successfully"
 
 #, php-format
-#~ msgid "txt-action-%s-has-successfully-been-deleted"
-#~ msgstr "Action %s has successfully been deleted"
-
-#, php-format
 #~ msgid "txt-action-%s-has-successfully-been-updated"
 #~ msgstr "Action %s has been updated successfully"
 
@@ -18550,9 +18764,6 @@ msgstr "Content"
 #~ "(including associates).<br><br>Note that contact needs to login and "
 #~ "logout to activate the access rights if they have been granted access."
 
-#~ msgid "txt-mode"
-#~ msgstr "Mode"
-
 #~ msgid "txt-full-project-title"
 #~ msgstr "Full project title"
 
@@ -18832,9 +19043,6 @@ msgstr "Content"
 
 #~ msgid "txt-exploitable-result-portal"
 #~ msgstr "Exploitable results portal"
-
-#~ msgid "txt-project-list"
-#~ msgstr "All projects"
 
 #~ msgid "txt-project-award-list"
 #~ msgstr "Project awards"
@@ -20487,9 +20695,6 @@ msgstr "Content"
 #~ msgid "txt-queue-information"
 #~ msgstr "Queue information"
 
-#~ msgid "txt-date-created"
-#~ msgstr "Date created"
-
 #~ msgid "txt-date-scheduled"
 #~ msgstr "Date Scheduled"
 
@@ -20729,9 +20934,6 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-merge-affiliation-%s-in-%s"
 #~ msgstr "Merge partner %s in %s"
-
-#~ msgid "txt-project-information"
-#~ msgstr "Project information"
 
 #~ msgid "txt-main-affiliation"
 #~ msgstr "Main partner"
@@ -21284,9 +21486,6 @@ msgstr "Content"
 #~ msgid "txt-loi-id"
 #~ msgstr "LoI id"
 
-#~ msgid "txt-date-updated"
-#~ msgstr "Date updated"
-
 #~ msgid "txt-this-loi-has-not-been-signed"
 #~ msgstr "This LoI has no been signed"
 
@@ -21408,9 +21607,6 @@ msgstr "Content"
 
 #~ msgid "txt-document"
 #~ msgstr "Document"
-
-#~ msgid "txt-size"
-#~ msgstr "Size"
 
 #~ msgid "txt-no-documents-attached"
 #~ msgstr "No documents have been attached"
@@ -21712,9 +21908,6 @@ msgstr "Content"
 #~ msgid "txt-current-logo"
 #~ msgstr "Current logo"
 
-#~ msgid "txt-identifier"
-#~ msgstr "Identifier"
-
 #~ msgid "txt-programs"
 #~ msgstr "Programmes"
 
@@ -21744,9 +21937,6 @@ msgstr "Content"
 
 #~ msgid "txt-overview-of-cluster-programs"
 #~ msgstr "Cluster Programmes"
-
-#~ msgid "txt-edit-cluster-platform"
-#~ msgstr "Edit cluster platform"
 
 #~ msgid "txt-platform-exchange-list"
 #~ msgstr "Platform exchanges"
@@ -22207,8 +22397,8 @@ msgstr "Content"
 #~ msgid "txt-partner-search-engine-explanation"
 #~ msgstr ""
 #~ "The partner search tool only searches through MyITEA profiles that "
-#~ "include expertise. Get the most out of <a class=\"alert-link\" href="
-#~ "\"community/contact/profile/view.html\">your profile</a> by adding/"
+#~ "include expertise. Get the most out of <a class=\"alert-link\" "
+#~ "href=\"community/contact/profile/view.html\">your profile</a> by adding/"
 #~ "updating your expertise and enable interested partners and idea proposers "
 #~ "to find and connect to you!"
 
@@ -22514,14 +22704,8 @@ msgstr "Content"
 #~ "in this selection. Select the deep link and target and the system will "
 #~ "produce a deep link for every contact in the selection."
 
-#~ msgid "txt-selection-list"
-#~ msgstr "Selection list"
-
 #~ msgid "txt-selection-list-explanation"
 #~ msgstr "Find here a list of all selections in the database"
-
-#~ msgid "txt-no-selections-found"
-#~ msgstr "No selections found"
 
 #, php-format
 #~ msgid "txt-view-selection-%s"
@@ -22700,9 +22884,6 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-%s-new-explanation"
 #~ msgstr "Use the form to insert a new achievement of %s in the database"
-
-#~ msgid "txt-list-nodes"
-#~ msgstr "Node list"
 
 #~ msgid "txt-list-nodes-explanation"
 #~ msgstr "Here a list of nodes can be found"
@@ -23451,8 +23632,8 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-a-consolidated-report-can-be-created-via-this-link-%s"
 #~ msgstr ""
-#~ "Use the following button to create a consolidated report<br><br><a href="
-#~ "\"%s\" class=\"btn btn-primary\">Create consolidated report</a>"
+#~ "Use the following button to create a consolidated report<br><br><a "
+#~ "href=\"%s\" class=\"btn btn-primary\">Create consolidated report</a>"
 
 #, php-format
 #~ msgid "txt-edit-report-window-%s"
@@ -23600,15 +23781,15 @@ msgstr "Content"
 #~ msgid "txt-no-coupon-codes-were-provided-for-this-booth"
 #~ msgstr ""
 #~ "After you have confirmed the booth for your project in the DIF exhibition "
-#~ "to <a href=\"mailto:loes.van.den.borne@itea3.org\" class=\"alert-link"
-#~ "\">Loes van den Borne</a>, you will receive  voucher codes for two free "
-#~ "entrance tickets for your booth crew. These voucher codes will appear "
-#~ "here.\n"
+#~ "to <a href=\"mailto:loes.van.den.borne@itea3.org\" class=\"alert-"
+#~ "link\">Loes van den Borne</a>, you will receive  voucher codes for two "
+#~ "free entrance tickets for your booth crew. These voucher codes will "
+#~ "appear here.\n"
 #~ "\n"
 #~ "<p>Once the vouchers are visible you can also check whether they are "
 #~ "already used, and if so, by whom. If your voucher codes do not appear in "
-#~ "this tab, please <a href=\"mailto:info@itea3.org\" class=\"alert-link"
-#~ "\">contact the ITEA Office</a>."
+#~ "this tab, please <a href=\"mailto:info@itea3.org\" class=\"alert-"
+#~ "link\">contact the ITEA Office</a>."
 
 #~ msgid "txt-registered"
 #~ msgstr "Registered"
@@ -24200,8 +24381,8 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-no-nda-for-call-%s"
 #~ msgstr ""
-#~ "You have not yet an (approved) <abbr title=\"Non Disclosure Agreement"
-#~ "\">NDA</abbr> for %s"
+#~ "You have not yet an (approved) <abbr title=\"Non Disclosure "
+#~ "Agreement\">NDA</abbr> for %s"
 
 #~ msgid "txt-participants-list"
 #~ msgstr "Participants"
@@ -24723,9 +24904,6 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-country-%s"
 #~ msgstr "%s"
-
-#~ msgid "txt-country-information"
-#~ msgstr "Country information"
 
 #~ msgid "txt-country-name"
 #~ msgstr "Name"
@@ -25297,8 +25475,8 @@ msgstr "Content"
 #~ "not yet registered. Register via the button below to attend the webinars, "
 #~ "to view the uploaded pitch presentations or to create and attend the "
 #~ "workgroup sessions. Registering for the event also gives access to the "
-#~ "event chat (only available when your profile is open)<br><br><a class="
-#~ "\"btn btn-primary\" href=\"%s\">Visit event website</a> %s"
+#~ "event chat (only available when your profile is open)<br><br><a "
+#~ "class=\"btn btn-primary\" href=\"%s\">Visit event website</a> %s"
 
 #, php-format
 #~ msgid "txt-no-po-created-from-idea-deadline-%s"
@@ -25319,8 +25497,8 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-you-are-invited-to-join-this-idea-%s"
 #~ msgstr ""
-#~ "You are invited to join this idea. Use the following link to <a href=\"%s"
-#~ "\">accept or decline</a> the invitation"
+#~ "You are invited to join this idea. Use the following link to <a "
+#~ "href=\"%s\">accept or decline</a> the invitation"
 
 #~ msgid "txt-this-idea-is-hidden"
 #~ msgstr "This idea is hidden"
@@ -25357,9 +25535,9 @@ msgstr "Content"
 
 #~ msgid "txt-your-profile-is-hidden-chat-is-not-enabled"
 #~ msgstr ""
-#~ "Your profile is hidden so you cannot use the event chat feature. <a href="
-#~ "\"/community/contact/profile/edit.html\">Update your profile</a> if you "
-#~ "want to make use of the event chat"
+#~ "Your profile is hidden so you cannot use the event chat feature. <a "
+#~ "href=\"/community/contact/profile/edit.html\">Update your profile</a> if "
+#~ "you want to make use of the event chat"
 
 #~ msgid "txt-profile-of-idea-lister-is-hidden-chat-is-not-enabled"
 #~ msgstr ""
@@ -26162,8 +26340,8 @@ msgstr "Content"
 #~ "txt-for-this-office-invoicing-via-the-parent-is-active-use-%s-this-list-"
 #~ "instead"
 #~ msgstr ""
-#~ "For this office invoicing via parents is active. You should use <a class="
-#~ "\"alert-link\" href=\"%s\">this overview</a> instead"
+#~ "For this office invoicing via parents is active. You should use <a "
+#~ "class=\"alert-link\" href=\"%s\">this overview</a> instead"
 
 #~ msgid "txt-project-invoice-national-contract-period-overview-explanation"
 #~ msgstr ""
@@ -26232,8 +26410,8 @@ msgstr "Content"
 #~ "txt-for-this-office-invoicing-via-the-parent-is-not-active-use-%s-this-"
 #~ "list-instead"
 #~ msgstr ""
-#~ "For this office variable fee is not active. You should use <a class="
-#~ "\"alert-link\" href=\"%s\">this overview</a> instead"
+#~ "For this office variable fee is not active. You should use <a "
+#~ "class=\"alert-link\" href=\"%s\">this overview</a> instead"
 
 #~ msgid "txt-parent-extra-variable-fee-overview-explanation"
 #~ msgstr "Parents eligible for invoicing extra variable fee"
@@ -26930,9 +27108,6 @@ msgstr "Content"
 #~ msgid "txt-magazine-article-downloads"
 #~ msgstr "Downloads"
 
-#~ msgid "txt-connections"
-#~ msgstr "Connections"
-
 #~ msgid "txt-result"
 #~ msgstr "Result"
 
@@ -26969,12 +27144,6 @@ msgstr "Content"
 
 #~ msgid "txt-table-of-contents"
 #~ msgstr "Table of contents"
-
-#~ msgid "txt-generated-toc"
-#~ msgstr "Raw overview of contents"
-
-#~ msgid "txt-auto-toc"
-#~ msgstr "Auto Table of Contents"
 
 #~ msgid "txt-pages"
 #~ msgstr "Pages"
@@ -27108,9 +27277,6 @@ msgstr "Content"
 
 #~ msgid "txt-itea-related-projects"
 #~ msgstr "ITEA related project(s)"
-
-#~ msgid "txt-no-project-selected"
-#~ msgstr "No project selected"
 
 #~ msgid "txt-websites"
 #~ msgstr "Websites"
@@ -28172,9 +28338,6 @@ msgstr "Content"
 #~ msgid "txt-call-information"
 #~ msgstr "Call information"
 
-#~ msgid "txt-no-clusters-connected"
-#~ msgstr "No clusters could be found"
-
 #~ msgid "txt-project-number-mask"
 #~ msgstr "Project number format"
 
@@ -28363,8 +28526,8 @@ msgstr "Content"
 
 #~ msgid "txt-download-program-doa-link-text"
 #~ msgstr ""
-#~ "<a href=\"/publication/download/itea-2-declaration-of-acceptance.doc"
-#~ "\">Download DOA template</a>"
+#~ "<a href=\"/publication/download/itea-2-declaration-of-acceptance."
+#~ "doc\">Download DOA template</a>"
 
 #, php-format
 #~ msgid "txt-view-doa-for-organisation-%s-for-program-%s"
@@ -28373,8 +28536,8 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-view-doa-for-organisation-%s-for-program-%s-explanation"
 #~ msgstr ""
-#~ "Given here the information for the <abbr title=\"Declaration of Acceptance"
-#~ "\">DoA</abbr> for %s in %s"
+#~ "Given here the information for the <abbr title=\"Declaration of "
+#~ "Acceptance\">DoA</abbr> for %s in %s"
 
 #~ msgid "txt-eureka-secretariat-staff-member-list"
 #~ msgstr "Eureka Secretariat staff members"
@@ -28384,9 +28547,6 @@ msgstr "Content"
 
 #~ msgid "txt-no-eureka-secretariat-staff-members-could-be-found"
 #~ msgstr "No ESE Staff members could be found"
-
-#~ msgid "txt-funder-list"
-#~ msgstr "Public authority list"
 
 #~ msgid "txt-funder-list-explanation"
 #~ msgstr "Find here a list of all PA's in the database"
@@ -28560,9 +28720,6 @@ msgstr "Content"
 
 #~ msgid "txt-no-invoice-method-found"
 #~ msgstr "No invoice method could be found"
-
-#~ msgid "txt-no-cluster-could-be-found"
-#~ msgstr "No clusters could be found"
 
 #~ msgid "txt-overview-of-calls"
 #~ msgstr "Overview of calls"
@@ -29093,9 +29250,6 @@ msgstr "Content"
 #~ msgid "txt-change-request-process-list-explanation"
 #~ msgstr "Find a list of all Change Requests"
 
-#~ msgid "txt-no-countries"
-#~ msgstr "no countries"
-
 #~ msgid "txt-no-change-requests-found"
 #~ msgstr "No Change Requests could be found"
 
@@ -29170,9 +29324,6 @@ msgstr "Content"
 #~ "In case of a national funding related change (Eg. result of a funding "
 #~ "application, modification of a national funding contract etc.), click the "
 #~ "related country and provide further information."
-
-#~ msgid "txt-no-countries-found-in-this-change-request"
-#~ msgstr "No countries could be found"
 
 #~ msgid "txt-non-funding-related-changes-explanation"
 #~ msgstr ""
@@ -29310,8 +29461,8 @@ msgstr "Content"
 #, php-format
 #~ msgid "txt-you-have-no-organisation-complete-your-profile-%s-first"
 #~ msgstr ""
-#~ "You have no organisation in your profile. Please complete your <a hef=\"%s"
-#~ "\">profile</a> first"
+#~ "You have no organisation in your profile. Please complete your <a "
+#~ "hef=\"%s\">profile</a> first"
 
 #, php-format
 #~ msgid "txt-po-submission-will-close-on-%s"
@@ -29352,9 +29503,6 @@ msgstr "Content"
 
 #~ msgid "txt-my-active-projects"
 #~ msgstr "My active projects"
-
-#~ msgid "txt-no-projects-found"
-#~ msgstr "No projects can be found"
 
 #~ msgid "txt-project-invites"
 #~ msgstr "Project invitations"
@@ -30529,8 +30677,8 @@ msgstr "Content"
 #~ "<a class=\"alert-link\" href=\"%s\">Change Request</a> can be submitted "
 #~ "with the “Submit Change Request” button. The button can be found at the "
 #~ "bottom of the overview page.<br><br>The Change request can also be "
-#~ "completed by using the “Update Change Request Wizard” button below<br><br>"
-#~ "%s"
+#~ "completed by using the “Update Change Request Wizard” button "
+#~ "below<br><br>%s"
 
 #, php-format
 #~ msgid "txt-ppr-%s-due-%s-create-report-here-%s"
@@ -30860,8 +31008,9 @@ msgstr "Content"
 #~ "<div class=\"alert alert-success\">\n"
 #~ "<p>ITEA covers the digitalisation of industries - a topic that is very "
 #~ "broad. In order to help the ITEA Community to check if a idea fits in the "
-#~ "ITEA programme, we have identified a set of <a class=\"alert-link\" href="
-#~ "\"https://itea3.org/living-roadmap-challenges.html\">challenges</a>.\n"
+#~ "ITEA programme, we have identified a set of <a class=\"alert-link\" "
+#~ "href=\"https://itea3.org/living-roadmap-challenges.html\">challenges</"
+#~ "a>.\n"
 #~ "<p>Furthermore, ITEA is pushing through projects clear innovations that "
 #~ "are defined in comparison to the State-of-the-Art (SotA). To help the "
 #~ "ITEA Community to position its’ innovation ideas, ITEA has gathered the "
@@ -31651,9 +31800,6 @@ msgstr "Content"
 #~ msgid "txt-project-information-page"
 #~ msgstr "Project information"
 
-#~ msgid "txt-project-list-explanation"
-#~ msgstr "Find below a list of all active and finished ITEA projects"
-
 #~ msgid "txt-project-involvement"
 #~ msgstr "Project involvement"
 
@@ -32125,9 +32271,6 @@ msgstr "Content"
 #~ msgstr ""
 #~ "Write here the text which is displayed below the form element, in help "
 #~ "text"
-
-#~ msgid "txt-placeholder"
-#~ msgstr "Placeholder"
 
 #~ msgid "txt-placeholder-help-block"
 #~ msgstr ""
@@ -33178,8 +33321,8 @@ msgstr "Content"
 
 #~ msgid "txt-download-doa-link-text"
 #~ msgstr ""
-#~ "<a href=\"/publication/download/itea3-declaration-of-acceptance.doc"
-#~ "\">Download DOA template</a>"
+#~ "<a href=\"/publication/download/itea3-declaration-of-acceptance."
+#~ "doc\">Download DOA template</a>"
 
 #, php-format
 #~ msgid "txt-select-top-3-ertp-explanation-link-%s"
@@ -33656,12 +33799,6 @@ msgstr "Content"
 #~ msgid "txt-released"
 #~ msgstr "Released"
 
-#~ msgid "txt-create-comment-ticket-help-block"
-#~ msgstr "Add a comment to this ticket"
-
-#~ msgid "txt-create-comment-ticket-label"
-#~ msgstr "Comment"
-
 #~ msgid "txt-create-comment-ticket-placeholder"
 #~ msgstr "Write here a comment which will be added to the ticket"
 
@@ -33949,9 +34086,6 @@ msgstr "Content"
 
 #~ msgid "txt-select-top-3-ertp-achievements"
 #~ msgstr "Select top 3 ERTP"
-
-#~ msgid "txt-general-description"
-#~ msgstr "General description"
 
 #~ msgid "txt-personal-profile"
 #~ msgstr "Personal profile"
@@ -34488,12 +34622,12 @@ msgstr "Content"
 #~ msgid "txt-project-idea-tool-banner"
 #~ msgstr ""
 #~ "<div class=\"alert alert-info\" role=\"alert\">Prepare yourself in "
-#~ "advance and make a <a class=\"alert-link\" href=\"getting-started.html"
-#~ "\">flying start</a> to ITEA 3 Call 2 now by using the updated <a href="
-#~ "\"community/idea/list.html\" class=\"alert-link\">Project idea tool</a>, "
-#~ "the new <a href=\"community/contact/search.html\" class=\"alert-link"
-#~ "\">Partner search</a> and <a href=\"community/idea/message-board/list.html"
-#~ "\" class=\"alert-link\">Message board</a></div>"
+#~ "advance and make a <a class=\"alert-link\" href=\"getting-started."
+#~ "html\">flying start</a> to ITEA 3 Call 2 now by using the updated <a "
+#~ "href=\"community/idea/list.html\" class=\"alert-link\">Project idea tool</"
+#~ "a>, the new <a href=\"community/contact/search.html\" class=\"alert-"
+#~ "link\">Partner search</a> and <a href=\"community/idea/message-board/list."
+#~ "html\" class=\"alert-link\">Message board</a></div>"
 
 #~ msgid "txt-current-mode"
 #~ msgstr "Current mode"
@@ -35262,9 +35396,6 @@ msgstr "Content"
 #~ msgid "txt-list-selections"
 #~ msgstr "List selections"
 
-#~ msgid "txt-view-selection"
-#~ msgstr "Selection"
-
 #, php-format
 #~ msgid "txt-view-contact-in-admin-%s"
 #~ msgstr "View contact in office %s"
@@ -35759,9 +35890,9 @@ msgstr "Content"
 
 #~ msgid "txt-font-awesome-icon-help-block"
 #~ msgstr ""
-#~ "Select here which <a href=\"http://fontawesome.io/icons/\" target=\"_blank"
-#~ "\">Font awesome</a> icons should be taken. The format should be <code>fa-"
-#~ "*</code>"
+#~ "Select here which <a href=\"http://fontawesome.io/icons/\" "
+#~ "target=\"_blank\">Font awesome</a> icons should be taken. The format "
+#~ "should be <code>fa-*</code>"
 
 #~ msgid "txt-editted-by-project-leader"
 #~ msgstr "Editable by Project leader"
@@ -38053,11 +38184,6 @@ msgstr "Content"
 
 #~ msgid "txt-add-national-contract-to-project-%s"
 #~ msgstr "Add national contract for %s"
-
-#~ msgid "txt-generated-body-explanations"
-#~ msgstr ""
-#~ "Find here an iframe where the generated body is merged into the mail "
-#~ "template"
 
 #~ msgid "txt-%s-items-in-%s-groups"
 #~ msgstr "%s results on %s groups"

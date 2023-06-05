@@ -49,7 +49,7 @@ abstract class AbstractEntityTest extends TestCase
             /** @var Element $element */
             foreach ($dataFieldset->getElements() as $element) {
                 // Add only when a type is provided
-                if (! array_key_exists(key: 'type', array: $element->getAttributes())) {
+                if (!array_key_exists(key: 'type', array: $element->getAttributes())) {
                     continue;
                 }
 
@@ -130,11 +130,11 @@ abstract class AbstractEntityTest extends TestCase
     protected function getClassNameFromFileInfo(string $namespace, SplFileInfo $fileInfo): string
     {
         return ucfirst(string: $namespace) . '\Entity\\' . str_replace(
-            search: ['/', '.php'],
-            replace: ['\\', ''],
-            /** @phpstan-ignore-next-line */
-            subject: $fileInfo->getRelativePathname()
-        );
+                search: ['/', '.php'],
+                replace: ['\\', ''],
+                /** @phpstan-ignore-next-line */
+                subject: $fileInfo->getRelativePathname()
+            );
     }
 
     protected function analyseClass(ReflectionClass $class): void
@@ -142,7 +142,14 @@ abstract class AbstractEntityTest extends TestCase
         $builder          = new AttributeReader();
         $classAnnotations = $builder->getClassAttributes(class: $class);
 
-        self::assertArrayHasKey(key: Table::class, array: $classAnnotations, message: sprintf('%s should have a table', $class->getName()));
+        self::assertArrayHasKey(
+            key: Table::class,
+            array: $classAnnotations,
+            message: sprintf(
+            '%s should have a table',
+            $class->getName()
+        )
+        );
         self::assertArrayHasKey(
             key: Entity::class,
             array: $classAnnotations,
@@ -240,7 +247,7 @@ abstract class AbstractEntityTest extends TestCase
             self::assertNull(actual: $entity->$getter());
         }
 
-        if (! $columnAnnotation->nullable) {
+        if (!$columnAnnotation->nullable) {
             switch ($columnAnnotation->type) {
                 case 'integer':
                 case 'smallint':
@@ -316,10 +323,11 @@ abstract class AbstractEntityTest extends TestCase
             /** @var RepeatableAttributeCollection $repeatableJoinColumnAnnotation */
             $repeatableJoinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
 
+            /** @var JoinColumn $joinColumnAnnotation */
             foreach ($repeatableJoinColumnAnnotation as $joinColumnAnnotation) {
                 //The relelationship is not nullable, and we force initialisation
                 //We we expect to find an entity
-                if (! $joinColumnAnnotation->nullable) {
+                if (!$joinColumnAnnotation->nullable) {
                     self::assertInstanceOf(
                         expected: $targetEntity,
                         actual: $entity->$getter(),
@@ -373,10 +381,11 @@ abstract class AbstractEntityTest extends TestCase
         /** @var RepeatableAttributeCollection $repeatableJoinColumnAnnotation */
         $repeatableJoinColumnAnnotation = $propertyAnnotations[JoinColumn::class];
 
+        /** @var JoinColumn $joinColumnAnnotation */
         foreach ($repeatableJoinColumnAnnotation as $joinColumnAnnotation) {
             //The relelationship is not nullable, and we force initialisation
             //We we expect to find an entity
-            if (! $joinColumnAnnotation->nullable) {
+            if (!$joinColumnAnnotation->nullable) {
                 self::assertInstanceOf(
                     expected: $targetEntity,
                     actual: $entity->$getter(),

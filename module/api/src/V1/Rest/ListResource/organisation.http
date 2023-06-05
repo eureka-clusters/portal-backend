@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/list/organisation?page=1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

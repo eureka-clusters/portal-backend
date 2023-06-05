@@ -67,10 +67,10 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
     }
 
     /**
@@ -454,6 +454,28 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClient', [$client]);
 
         return parent::setClient($client);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStorageLocations(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStorageLocations', []);
+
+        return parent::getStorageLocations();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStorageLocations(\Doctrine\Common\Collections\Collection $storageLocations): \Api\Entity\OAuth\Service
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStorageLocations', [$storageLocations]);
+
+        return parent::setStorageLocations($storageLocations);
     }
 
     /**

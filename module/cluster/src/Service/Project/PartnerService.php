@@ -17,20 +17,21 @@ use Cluster\Service\OrganisationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use Jield\Search\ValueObject\SearchFormResult;
+use OpenApi\Attributes as OA;
 use stdClass;
-
 use function array_map;
 use function sprintf;
 
 class PartnerService extends AbstractService
 {
     #[Pure] public function __construct(
-        EntityManager $entityManager,
-        private readonly CountryService $countryService,
+        EntityManager                        $entityManager,
+        private readonly CountryService      $countryService,
         private readonly OrganisationService $organisationService
-    ) {
+    )
+    {
         parent::__construct(entityManager: $entityManager);
     }
 
@@ -45,103 +46,146 @@ class PartnerService extends AbstractService
     }
 
     public function getPartners(
-        User $user,
-        array $filter,
-        string $sort = 'name',
-        string $order = 'asc'
-    ): QueryBuilder {
+        User             $user,
+        SearchFormResult $searchFormResult,
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        return $repository->getPartnersByUserAndFilter(user: $user, filter: $filter, sort: $sort, order: $order);
+        return $repository->getPartnersByUserAndFilter(user: $user, searchFormResult: $searchFormResult);
     }
 
     public function getPartnersByProject(
-        User $user,
-        Project $project,
-        string $sort = 'name',
-        string $order = 'asc'
-    ): QueryBuilder {
+        User             $user,
+        Project          $project,
+        SearchFormResult $searchFormResult
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         return $repository->getPartnersByProject(
             user: $user,
             project: $project,
-            sort: $sort,
-            order: $order
+            searchFormResult: $searchFormResult
         );
     }
 
     public function getPartnersByOrganisation(
-        User $user,
-        Organisation $organisation,
-        string $sort = 'name',
-        string $order = 'asc'
-    ): QueryBuilder {
+        User             $user,
+        Organisation     $organisation,
+        SearchFormResult $searchFormResult
+    ): QueryBuilder
+    {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
         return $repository->getPartnersByOrganisation(
             user: $user,
             organisation: $organisation,
-            sort: $sort,
-            order: $order
+            searchFormResult: $searchFormResult
         );
     }
 
-    #[ArrayShape(shape: [
-        'countries'         => "array[]",
-        'organisationTypes' => "array[]",
-        'projectStatus'     => "array[]",
-        'clusters'          => "array[]",
-        'programmeCalls'    => "array[]",
-        'years'             => "array",
-    ])] public function generateFacets(User $user, array $filter): array
+    #[OA\Response(
+        response: 'partner_facets',
+        description: 'Project partner facets',
+        content: new OA\JsonContent(ref: '#/components/schemas/partner_facets')
+    )]
+    #[OA\Schema(
+        schema: 'partner_facets',
+        title: 'Project partner facets result response',
+        description: 'Array of facets for project partners',
+        properties: [
+            new OA\Property(
+                property: 'countries',
+                description: 'Result of countries',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'organisationTypes',
+                description: 'Result of organisation types',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'projectStatus',
+                description: 'Result of project status',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'programmeCalls',
+                description: 'Result of programme calls',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'clusterGroups',
+                description: 'Result of cluster groups (collection of clusters)',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+            new OA\Property(
+                property: 'years',
+                description: 'Result of Years',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/facet_content'),
+            ),
+        ]
+    )]
+    public function generateFacets(User $user, SearchFormResult $searchFormResult): array
     {
         /** @var PartnerRepository $repository */
         $repository = $this->entityManager->getRepository(entityName: Partner::class);
 
-        $countries         = $repository->fetchCountries(user: $user, filter: $filter);
-        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, filter: $filter);
-        $clusters          = $repository->fetchClusters();
-        $projectStatuses   = $repository->fetchProjectStatuses(user: $user, filter: $filter);
-        $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, filter: $filter);
+        $countries         = $repository->fetchCountries(user: $user, searchFormResult: $searchFormResult);
+        $organisationTypes = $repository->fetchOrganisationTypes(user: $user, searchFormResult: $searchFormResult);
+        $clusterGroups     = $repository->fetchClusterGroups();
+        $projectStatuses   = $repository->fetchProjectStatuses(user: $user, searchFormResult: $searchFormResult);
+        $programmeCalls    = $repository->fetchProgrammeCalls(user: $user, searchFormResult: $searchFormResult);
         $years             = $repository->fetchYears();
 
-        $countriesIndexed = array_map(callback: static fn (array $country) => [
+        $countriesIndexed = array_map(callback: static fn(array $country) => [
+            'id'     => $country['id'],
             'name'   => $country['country'],
             'amount' => $country[1],
         ], array: $countries);
 
-        $organisationTypesIndexed = array_map(callback: static fn (array $partnerType) => [
+        $organisationTypesIndexed = array_map(callback: static fn(array $partnerType) => [
+            'id'     => $partnerType['id'],
             'name'   => $partnerType['type'],
             'amount' => $partnerType[1],
         ], array: $organisationTypes);
 
-        $clustersIndexed = array_map(callback: static fn (array $cluster) => [
-            'name'   => $cluster['name'],
-            'amount' => $cluster[1] + $cluster[2],
-        ], array: $clusters);
+        $clusterGroupsIndexed = array_map(callback: static fn(array $clusterGroup) => [
+            'id'     => $clusterGroup['id'],
+            'name'   => $clusterGroup['name'],
+            'amount' => $clusterGroup[1] + $clusterGroup[2],
+        ], array: $clusterGroups);
 
-        $programmeCallIndexed = array_map(callback: static fn (array $programmeCall) => [
+        $programmeCallIndexed = array_map(callback: static fn(array $programmeCall) => [
+            'id'     => $programmeCall['programmeCall'],
             'name'   => $programmeCall['programmeCall'],
             'amount' => $programmeCall[1],
         ], array: $programmeCalls);
 
-        $projectStatusIndexed = array_map(callback: static fn (array $projectStatus) => [
+        $projectStatusIndexed = array_map(callback: static fn(array $projectStatus) => [
+            'id'     => $projectStatus['id'],
             'name'   => $projectStatus['status'],
             'amount' => $projectStatus[1],
         ], array: $projectStatuses);
 
-        $yearsIndexed = array_map(callback: static fn (array $years) => $years['year'], array: $years);
+        $yearsIndexed = array_map(callback: static fn(array $years) => $years['year'], array: $years);
 
         return [
             'countries'         => $countriesIndexed,
             'organisationTypes' => $organisationTypesIndexed,
             'projectStatus'     => $projectStatusIndexed,
-            'clusters'          => $clustersIndexed,
             'programmeCalls'    => $programmeCallIndexed,
+            'clusterGroups'     => $clusterGroupsIndexed,
             'years'             => $yearsIndexed,
         ];
     }
@@ -183,7 +227,7 @@ class PartnerService extends AbstractService
             $partner->setIsActive(isActive: $data->isActive);
             $partner->setIsCoordinator(isCoordinator: $data->isCoordinator);
             $partner->setIsSelfFunded(isSelfFunded: $data->isSelfFunded);
-            $partner->setTechnicalContact(technicalContact: $data->technicalContact);
+            $partner->setTechnicalContact(technicalContact: (array)$data->technicalContact);
             $partner->setLatestVersionEffort(latestVersionEffort: 0.0); //Create with an initial version
             $partner->setLatestVersionCosts(latestVersionCosts: 0.0); //Create with an initial version
 
@@ -196,8 +240,9 @@ class PartnerService extends AbstractService
     public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
@@ -211,8 +256,9 @@ class PartnerService extends AbstractService
     public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 

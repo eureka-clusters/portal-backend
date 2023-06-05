@@ -20,8 +20,7 @@ use Mailing\Service\MailingService;
 return [
     ConfigAbstractFactory::class => [
         EmailController::class         => [
-            MailingService::class,
-            EntityManager::class,
+            MailingService::class
         ],
         SenderController::class        => [
             MailingService::class,

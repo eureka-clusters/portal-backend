@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Repository;
 
 use Admin\Entity\User;
+use Application\Repository\FilteredObjectRepository;
 use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Organisation\Type;
@@ -15,25 +16,68 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
-
+use Jield\Search\ValueObject\SearchFormResult;
 use function array_map;
 use function count;
 use function is_countable;
 
-class ProjectRepository extends EntityRepository
+class ProjectRepository extends EntityRepository implements FilteredObjectRepository
 {
+    public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(select: 'cluster_entity_project');
+        $qb->from(from: Project::class, alias: 'cluster_entity_project');
+
+        $qb = $this->applyProjectFilter(qb: $qb, searchFormResult: $searchFormResult);
+
+        $direction = $searchFormResult->getDirection();
+
+        switch ($searchFormResult->getOrder()) {
+            case 'id':
+                $qb->addOrderBy(sort: 'cluster_entity_project.id', order: $direction);
+                break;
+            case 'number':
+                $qb->addOrderBy(sort: 'cluster_entity_project.number', order: $direction);
+                break;
+            case 'identifier':
+                $qb->addOrderBy(sort: 'cluster_entity_project.identifier', order: $direction);
+                break;
+            case 'name':
+                $qb->addOrderBy(sort: 'cluster_entity_project.name', order: $direction);
+                break;
+            case 'title':
+                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: $direction);
+                break;
+            default:
+                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: Criteria::ASC);
+        }
+
+        return $qb;
+    }
+
+    public function applyProjectFilter(QueryBuilder $qb, SearchFormResult $searchFormResult): QueryBuilder
+    {
+        if ($searchFormResult->hasQuery()) {
+            $qb->andWhere($qb->expr()->like(x: 'cluster_entity_project.description', y: ':like'));
+            $qb->setParameter(key: 'like', value: sprintf('%%%s%%', $searchFormResult->getQuery()));
+        }
+
+        return $qb;
+    }
+
+
     public function getProjectsByUserAndFilter(
-        User $user,
-        array $filter,
-        string $sort = 'project.name',
-        string $order = 'asc'
-    ): QueryBuilder {
+        User             $user,
+        SearchFormResult $searchFormResult,
+    ): QueryBuilder
+    {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project');
         $queryBuilder->from(from: Project::class, alias: 'cluster_entity_project');
 
-        $this->applyFilters(filter: $filter, queryBuilder: $queryBuilder);
-        $this->applySorting(sort: $sort, order: $order, queryBuilder: $queryBuilder);
+        $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
+        $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
@@ -66,7 +110,7 @@ class ProjectRepository extends EntityRepository
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_country.country',
+                                x: 'cluster_entity_country.id',
                                 y: $countryFilter
                             )
                         )
@@ -111,7 +155,7 @@ class ProjectRepository extends EntityRepository
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_country.country',
+                                x: 'cluster_entity_country.id',
                                 y: $countryFilter
                             )
                         )
@@ -153,7 +197,7 @@ class ProjectRepository extends EntityRepository
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_organisation_type.type',
+                                x: 'cluster_entity_organisation_type.id',
                                 y: $organisationTypeFilter
                             )
                         )
@@ -199,7 +243,7 @@ class ProjectRepository extends EntityRepository
                         )
                         ->where(
                             predicates: $queryBuilder->expr()->in(
-                                x: 'cluster_entity_project_partner_filter_organisation_type_organisation_type.type',
+                                x: 'cluster_entity_project_partner_filter_organisation_type_organisation_type.id',
                                 y: $organisationTypeFilter
                             )
                         )
@@ -208,8 +252,7 @@ class ProjectRepository extends EntityRepository
                                 'cluster_entity_project_partner_filter_organisation_type.isActive',
                                 $queryBuilder->expr()->literal(literal: true)
                             )
-                        )
-                       ;
+                        );
 
                     $queryBuilder->andWhere(
                         $queryBuilder->expr()->in(
@@ -235,7 +278,7 @@ class ProjectRepository extends EntityRepository
                 )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'cluster_entity_project_filter_project_status_status.status',
+                        x: 'cluster_entity_project_filter_project_status_status.id',
                         y: $projectStatusFilter
                     )
                 );
@@ -253,8 +296,9 @@ class ProjectRepository extends EntityRepository
             );
         }
 
-        $clustersFilter = $filter['clusters'] ?? [];
-        if (!empty($clustersFilter)) {
+        $clusterGroupsFilter = $filter['clusterGroups'] ?? [];
+
+        if (!empty($clusterGroupsFilter)) {
             //Find the projects where we have organisations with this type
             $primaryClusterFilterSubSelect = $this->_em->createQueryBuilder()
                 ->select(select: 'cluster_entity_project_filter_primary_cluster')
@@ -263,10 +307,14 @@ class ProjectRepository extends EntityRepository
                     join: 'cluster_entity_project_filter_primary_cluster.primaryCluster',
                     alias: 'cluster_entity_project_filter_primary_cluster_primary_cluster'
                 )
+                ->join(
+                    join: 'cluster_entity_project_filter_primary_cluster_primary_cluster.groups',
+                    alias: 'cluster_entity_project_filter_primary_cluster_primary_cluster_groups'
+                )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'cluster_entity_project_filter_primary_cluster_primary_cluster.name',
-                        y: $clustersFilter
+                        x: 'cluster_entity_project_filter_primary_cluster_primary_cluster_groups.id',
+                        y: $clusterGroupsFilter
                     )
                 );
 
@@ -277,10 +325,14 @@ class ProjectRepository extends EntityRepository
                     join: 'cluster_entity_project_filter_secondary_cluster.secondaryCluster',
                     alias: 'cluster_entity_project_filter_secondary_cluster_secondary_cluster'
                 )
+                ->join(
+                    join: 'cluster_entity_project_filter_secondary_cluster_secondary_cluster.groups',
+                    alias: 'cluster_entity_project_filter_secondary_cluster_secondary_cluster_groups'
+                )
                 ->where(
                     predicates: $queryBuilder->expr()->in(
-                        x: 'cluster_entity_project_filter_secondary_cluster_secondary_cluster.name',
-                        y: $clustersFilter
+                        x: 'cluster_entity_project_filter_secondary_cluster_secondary_cluster_groups.id',
+                        y: $clusterGroupsFilter
                     )
                 );
 
@@ -296,20 +348,29 @@ class ProjectRepository extends EntityRepository
         }
     }
 
-    private function applySorting(string $sort, string $order, QueryBuilder $queryBuilder): void
+    private function applySorting(SearchFormResult $searchFormResult, QueryBuilder $queryBuilder): void
     {
-        switch ($sort) {
+        switch ($searchFormResult->getOrder()) {
             case 'number':
                 $sortColumn = 'cluster_entity_project.number';
                 break;
             case 'name':
                 $sortColumn = 'cluster_entity_project.name';
                 break;
-            case 'primary_cluster':
+            case 'primaryCluster':
                 $sortColumn = 'primaryCluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'primaryCluster');
                 break;
-            case 'secondary_cluster':
+            case 'labelDate':
+                $sortColumn = 'cluster_entity_project.labelDate';
+                break;
+            case 'programme':
+                $sortColumn = 'cluster_entity_project.programme';
+                break;
+            case 'programmeCall':
+                $sortColumn = 'cluster_entity_project.programmeCall';
+                break;
+            case 'secondaryCluster':
                 $sortColumn = 'secondaryCluster.name';
                 $queryBuilder->leftJoin(join: 'cluster_entity_project.secondaryCluster', alias: 'secondaryCluster');
                 break;
@@ -319,7 +380,7 @@ class ProjectRepository extends EntityRepository
                 break;
 
             //todo: if the latest version column always only displays "latest" then sorting doesn't make sense
-            case 'latest_version_type':
+            case 'latestVersionType':
                 $sortColumn = 'latestversion_type.type';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -331,7 +392,7 @@ class ProjectRepository extends EntityRepository
                 break;
 
             //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
-            case 'latest_version_costs':
+            case 'latestVersionTotalCosts':
                 $sortColumn = 'latestversion.costs';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -340,7 +401,7 @@ class ProjectRepository extends EntityRepository
                     condition: 'latestversion.type = 3'
                 );
                 break;
-            case 'latest_version_effort':
+            case 'latestVersionTotalEffort':
                 $sortColumn = 'latestversion.effort';
                 $queryBuilder->leftJoin(
                     join: 'cluster_entity_project.versions',
@@ -350,12 +411,12 @@ class ProjectRepository extends EntityRepository
                 );
                 break;
             default:
-                $sortColumn = 'cluster_entity_project.number';
-                $order      = 'DESC';
+                $sortColumn = 'cluster_entity_project.labelDate';
+                $searchFormResult->setDirection(direction: Criteria::DESC);
                 break;
         }
 
-        $queryBuilder->orderBy(sort: $sortColumn, order: $order);
+        $queryBuilder->orderBy(sort: $sortColumn, order: $searchFormResult->getDirection());
     }
 
     private function applyUserFilter(QueryBuilder $queryBuilder, User $user): void
@@ -398,10 +459,11 @@ class ProjectRepository extends EntityRepository
     }
 
     public function searchProjects(
-        User $user,
+        User   $user,
         string $query,
-        int $limit
-    ): QueryBuilder {
+        int    $limit
+    ): QueryBuilder
+    {
         $config = $this->_em->getConfiguration();
         $config->addCustomStringFunction(name: 'match', className: MatchAgainst::class);
 
@@ -445,11 +507,12 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder;
     }
 
-    public function fetchOrganisationTypes(User $user, $filter): array
+    public function fetchOrganisationTypes(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
         $queryBuilder->select(
+            'cluster_entity_organisation_type.id',
             'cluster_entity_organisation_type.type',
             $queryBuilder->expr()->countDistinct(x: 'cluster_entity_project')
         );
@@ -467,6 +530,7 @@ class ProjectRepository extends EntityRepository
                 join: 'cluster_entity_organisation_type_organisations_partners.project',
                 alias: 'cluster_entity_project'
             )
+            ->orderBy(sort: 'cluster_entity_organisation_type.type', order: Criteria::ASC)
             ->groupBy(groupBy: 'cluster_entity_organisation_type');
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
@@ -474,12 +538,13 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchCountries(User $user, $filter): array
+    public function fetchCountries(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
         $queryBuilder->select(
             'cluster_entity_project_partners_organisation_country.country',
+            'cluster_entity_project_partners_organisation_country.id',
             $queryBuilder->expr()->countDistinct(x: 'cluster_entity_project.id')
         );
 
@@ -493,6 +558,7 @@ class ProjectRepository extends EntityRepository
                 join: 'cluster_entity_project_partners_organisation.country',
                 alias: 'cluster_entity_project_partners_organisation_country'
             )
+            ->orderBy(sort: 'cluster_entity_project_partners_organisation_country.country', order: Criteria::ASC)
             ->groupBy(groupBy: 'cluster_entity_project_partners_organisation.country');
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
@@ -500,7 +566,7 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchProgrammeCalls(User $user, $filter): array
+    public function fetchProgrammeCalls(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
@@ -519,50 +585,56 @@ class ProjectRepository extends EntityRepository
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function fetchClusters(): array
+    public function fetchClusterGroups(): array
     {
         // it should be a left join so that all clusters are returned even with 0 projects
         $queryBuilder = $this->_em->createQueryBuilder();
 
         // select primary
         $queryBuilder->select(
-            'cluster_entity_cluster.name',
+            'cluster_entity_cluster_group.id',
+            'cluster_entity_cluster_group.name',
             $queryBuilder->expr()->count(x: 'cluster_entity_project.id'),
         );
 
-        $queryBuilder->from(from: Cluster::class, alias: 'cluster_entity_cluster')
-            ->leftJoin(join: 'cluster_entity_cluster.projectsPrimary', alias: 'cluster_entity_project')
-            ->groupBy(groupBy: 'cluster_entity_cluster')
-            ->orderBy(sort: 'cluster_entity_cluster.name', order: Criteria::ASC);
+        $queryBuilder->from(from: Cluster\Group::class, alias: 'cluster_entity_cluster_group')
+            ->innerJoin(join: 'cluster_entity_cluster_group.clusters', alias: 'cluster_entity_cluster')
+            ->innerJoin(join: 'cluster_entity_cluster.projectsPrimary', alias: 'cluster_entity_project')
+            ->groupBy(groupBy: 'cluster_entity_cluster_group')
+            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
         // select secondary
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(
-            'cluster_entity_cluster.name',
+            'cluster_entity_cluster_group.id',
+            'cluster_entity_cluster_group.name',
             $queryBuilder->expr()->count(x: 'cluster_entity_project.id'),
         );
 
-        $queryBuilder->from(from: Cluster::class, alias: 'cluster_entity_cluster')
-            ->leftJoin(join: 'cluster_entity_cluster.projectsSecondary', alias: 'cluster_entity_project')
-            ->groupBy(groupBy: 'cluster_entity_cluster')
-            ->orderBy(sort: 'cluster_entity_cluster.name', order: Criteria::ASC);
+        $queryBuilder->from(from: Cluster\Group::class, alias: 'cluster_entity_cluster_group')
+            ->innerJoin(join: 'cluster_entity_cluster_group.clusters', alias: 'cluster_entity_cluster')
+            ->innerJoin(join: 'cluster_entity_cluster.projectsSecondary', alias: 'cluster_entity_project')
+            ->groupBy(groupBy: 'cluster_entity_cluster_group')
+            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
-        return array_map(static fn (array $cluster1, $cluster2) => [
+        return array_map(static fn(array $cluster1, $cluster2) => [
+            'id'   => $cluster1['id'],
             'name' => $cluster1['name'],
-            '1'    => $cluster1[1],
-            '2'    => $cluster2[1],
+            1      => $cluster1[1],
+            2      => $cluster2[1],
         ], $primaryClusters, $secondaryClusters);
     }
 
-    public function fetchProjectStatuses(User $user, $filter): array
+    public function fetchProjectStatuses(User $user, SearchFormResult $searchFormResult): array
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
         $queryBuilder->select(
+            'cluster_entity_project_status.id',
             'cluster_entity_project_status.status',
             $queryBuilder->expr()->count(x: 'cluster_entity_project.id')
         );

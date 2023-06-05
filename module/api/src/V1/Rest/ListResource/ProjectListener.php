@@ -8,11 +8,11 @@ use Admin\Service\UserService;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
-use Doctrine\Common\Collections\Criteria;
+use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
-use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use OpenApi\Attributes as OA;
 
 final class ProjectListener extends AbstractResourceListener
 {
@@ -23,35 +23,89 @@ final class ProjectListener extends AbstractResourceListener
     ) {
     }
 
+    #[OA\Get(
+        path: '/api/list/project',
+        description: 'List of projects',
+        summary: 'Get a list of projects',
+        tags: ['Project'],
+        parameters: [
+            new OA\Parameter(
+                name: 'filter',
+                description: 'Base64 encoded JSON filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'query',
+                description: 'Search Query',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'order',
+                description: 'Sort order',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'name'
+            ),
+            new OA\Parameter(
+                name: 'direction',
+                description: 'Sort direction',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'asc'
+            ),
+            new OA\Parameter(
+                name: 'pageSize',
+                description: 'Amount per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 25
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 1
+            ),
+        ],
+        responses: [
+            new OA\Response(ref: '#/components/responses/project', response: 200),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
     public function fetchAll($params = []): Paginator
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
 
-        if (null === $user) {
-            return new Paginator(adapter: new ArrayAdapter());
+        $filter = $params->toArray();
+
+        //Inject the encoded filter from the results
+        $filter['filter'] = [];
+        if (!empty($params->filter)) {
+            $encodedFilter    = base64_decode(string: $params->filter, strict: true);
+            $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
-        $encodedFilter = $params->filter ?? null;
-        $sort          = $params->sort ?? 'name';
-        $order         = $params->order ?? strtolower(string: Criteria::DESC);
-
-        $arrayFilter = [];
-        if (!empty($encodedFilter)) {
-            //The filter is a base64 encoded serialised json string
-            $filter = base64_decode(string: $encodedFilter, strict: true);
-            // $arrayFilter = json_decode($filter, true, 512, JSON_THROW_ON_ERROR);
-            $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
-        }
+        $searchFormResult = SearchFormResult::fromArray($filter);
 
         $projectQueryBuilder = $this->projectService->getProjects(
             user: $user,
-            filter: $arrayFilter,
-            sort: $sort,
-            order: $order
+            searchFormResult: $searchFormResult,
         );
-        $doctrineORMAdapter  = new DoctrineORMAdapter(query: $projectQueryBuilder);
+
+        $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectQueryBuilder);
         $doctrineORMAdapter->setProvider(provider: $this->projectProvider);
 
         return new Paginator(adapter: $doctrineORMAdapter);

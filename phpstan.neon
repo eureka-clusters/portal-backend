@@ -3,7 +3,8 @@ includes:
         - vendor/phpstan/phpstan-doctrine/extension.neon
         - vendor/phpstan/phpstan-doctrine/rules.neon
 parameters:
-    level: 2
+    level: 4
+    treatPhpDocTypesAsCertain: false
     paths:
         - module
     ignoreErrors:
@@ -11,3 +12,4 @@ parameters:
     	- '#Call to an undefined method Laminas\\Form\\ElementInterface::[a-zA-Z]+\(\)#'
     	- '#Call to an undefined method Jield\\Authorize\\Role\\UserAsRoleInterface::[a-zA-Z]+\(\)#'
     	- '#Access to an undefined property Laminas\\Session\\Container\<string, mixed\>::\$[a-zA-Z]+#'
+    	- '#Call to function _\(\) on a separate line has no effect.#'

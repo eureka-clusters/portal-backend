@@ -8,6 +8,7 @@ use Cluster\Provider\OrganisationProvider;
 use Cluster\Service\OrganisationService;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
+use OpenApi\Attributes as OA;
 
 final class OrganisationListener extends AbstractResourceListener
 {
@@ -17,14 +18,38 @@ final class OrganisationListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetch($slug = null)
+    #[OA\Get(
+        path: '/api/view/organisation/{slug}',
+        description: 'Organisation information',
+        summary: 'Get details from an organisation',
+        tags: ['Organisation'],
+        parameters: [
+            new OA\Parameter(
+                name: 'slug',
+                description: 'Organisation slug',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+                example: 'organisation-slug'
+            ),
+        ],
+        responses: [
+            new OA\Response(ref: '#/components/responses/organisation', response: 200),
+            new OA\Response(
+                response: 400,
+                description: 'The selected organisation cannot be found'
+            ),
+            new OA\Response(response: 403, description: 'Forbidden'),
+        ],
+    )]
+    public function fetch($id = null): array|ApiProblem
     {
-        $organisation = $this->organisationService->findOrganisationBySlug(slug: $slug);
+        $organisation = $this->organisationService->findOrganisationBySlug(slug: $id);
 
         if (null === $organisation) {
-            return new ApiProblem(status: 404, detail: 'The selected organisation cannot be found');
+            return new ApiProblem(status: 400, detail: 'The selected organisation cannot be found');
         }
 
-        return $this->organisationProvider->generateArray(organisation: $organisation);
+        return $this->organisationProvider->generateArray(entity: $organisation);
     }
 }

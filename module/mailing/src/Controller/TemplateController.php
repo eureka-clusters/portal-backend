@@ -71,7 +71,7 @@ final class TemplateController extends MailingAbstractController
             }
 
             if (isset($data['delete']) && $this->mailingService->canDeleteTemplate(template: $template)) {
-                $this->mailingService->delete(abstractEntity: $template);
+                $this->mailingService->delete(entity: $template);
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(

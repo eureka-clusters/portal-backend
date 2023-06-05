@@ -1,0 +1,1578 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Eureka Clusters backend API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/list/organisation": {
+            "get": {
+                "tags": [
+                    "Organisation"
+                ],
+                "summary": "Get a list of organisations",
+                "description": "List of organisations",
+                "operationId": "e1d769845da6c5b802cc361d1173bbab",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Base64 encoded JSON filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search Query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Sort order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Sort direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "asc"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Amount per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 25
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/organisation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Project or partner not found"
+                    }
+                }
+            }
+        },
+        "/api/list/partner": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get a list of partners project",
+                "description": "List of project partners",
+                "operationId": "88eac599cf478fe5c2e2c74fe2af69fc",
+                "parameters": [
+                    {
+                        "name": "organisation",
+                        "in": "query",
+                        "description": "Organisation ID to filter on",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "project",
+                        "in": "query",
+                        "description": "Project ID to filter on",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Base64 encoded JSON filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search Query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Sort order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Sort direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "asc"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Amount per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 25
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project_partner"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Project or partner not found"
+                    }
+                }
+            }
+        },
+        "/api/list/project": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get a list of projects",
+                "description": "List of projects",
+                "operationId": "83184cb36e5406fbb500f7c00a7a17cc",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Base64 encoded JSON filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search Query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Sort order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Sort direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "asc"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Amount per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 25
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/list/service": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a list of all oAuth2 services",
+                "description": "oAuth2 services information",
+                "operationId": "beaab05500838e3e80c709a0115c0800",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/service"
+                    }
+                }
+            }
+        },
+        "/api/search/result": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get a list of search results",
+                "description": "Search for projects and organisations",
+                "operationId": "38bf482cffbce610e636167ea7d3373a",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search Query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": null
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Sort order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Sort direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "asc"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Amount per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 25
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/search_result"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/statistics/results/partner/download/{filter}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Download project partners to Excel",
+                "description": "Download project partners",
+                "operationId": "bb5b6985da29db868026ba920cbd2042",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "path",
+                        "description": "base64 encoded JSON filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0="
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Downloaded file information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "download": {
+                                            "type": "string",
+                                            "example": "base64 encoded file"
+                                        },
+                                        "extension": {
+                                            "type": "string",
+                                            "example": "File extension"
+                                        },
+                                        "mimetype": {
+                                            "type": "string",
+                                            "example": "File mimetype"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/statistics/results/project/download/{filter}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Download projects to Excel",
+                "description": "Download projects",
+                "operationId": "e088892b2eadc342f907e3cb9aa151ee",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "path",
+                        "description": "base64 encoded JSON filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0="
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Downloaded file information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "download": {
+                                            "type": "string",
+                                            "example": "base64 encoded file"
+                                        },
+                                        "extension": {
+                                            "type": "string",
+                                            "example": "File extension"
+                                        },
+                                        "mimetype": {
+                                            "type": "string",
+                                            "example": "File mimetype"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/statistics/facets/partner/{filter}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get array with project partner facets, based on the filter",
+                "description": "Project partner facets",
+                "operationId": "d6c8556ece1f828677235b3b0b62936b",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "path",
+                        "description": "base64 encoded JSON filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0="
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/partner_facets"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/statistics/facets/project/{filter}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get array with project partner facets, based on the filter",
+                "description": "Project partner facets",
+                "operationId": "7071199be4bbf4ddfa230685c86b4f58",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "path",
+                        "description": "base64 encoded JSON filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0="
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project_facets"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/update/project": {
+            "post": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Update project information from backends",
+                "description": "Update project information",
+                "operationId": "6c65eb827d87e014517e0e11acd0cf21",
+                "requestBody": {
+                    "description": "Content",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "Json file with project information",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get details from the current user",
+                "description": "User information",
+                "operationId": "3d7d90b6c1477381339824855efcace4",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/user"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/view/organisation/{slug}": {
+            "get": {
+                "tags": [
+                    "Organisation"
+                ],
+                "summary": "Get details from an organisation",
+                "description": "Organisation information",
+                "operationId": "1d798f1fbb8b04a54e4bea9bb4ed18b3",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Organisation slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "organisation-slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/organisation"
+                    },
+                    "400": {
+                        "description": "The selected organisation cannot be found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/view/partner/{slug}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get details from a project partner",
+                "description": "Project partner information",
+                "operationId": "48a0ca3885bd7a8e9e47c0073ef7792e",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Partner slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "partner-slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project_partner"
+                    },
+                    "400": {
+                        "description": "The selected project partner cannot be found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/view/project/{slug}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get details from a project",
+                "description": "Project information",
+                "operationId": "09ece69e5bf9c36e557996e4eee0fed5",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Project slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "project-slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project"
+                    },
+                    "400": {
+                        "description": "Project could not be found or you have no access to this project"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "user": {
+                "title": "User",
+                "description": "User information",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "firstName": {
+                        "description": "User first name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastName": {
+                        "description": "User last name",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "example": "noreply@example.com"
+                    },
+                    "isFunder": {
+                        "description": "Is user a funder",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "isEurekaSecretariatStaffMember": {
+                        "description": "Is user a Eureka Secretariat staff member",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "funderCountry": {
+                        "$ref": "#/components/schemas/country"
+                    }
+                },
+                "type": "object"
+            },
+            "service": {
+                "title": "oAuth2 service",
+                "description": "oAuth2 service information",
+                "properties": {
+                    "id": {
+                        "description": "oAuth2 service ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "oAuth2 service name",
+                        "type": "string",
+                        "example": "ITEA Office"
+                    },
+                    "loginUrl": {
+                        "description": "oAuth2 service login URL",
+                        "type": "string",
+                        "example": "https://itea4.org/oauth2/login?id=1&name=portal"
+                    }
+                },
+                "type": "object"
+            },
+            "cluster": {
+                "title": "Cluster",
+                "description": "Information about a cluster",
+                "properties": {
+                    "id": {
+                        "description": "Cluster ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Cluster name",
+                        "type": "string",
+                        "example": "ITEA"
+                    },
+                    "description": {
+                        "description": "Cluster description",
+                        "type": "string",
+                        "example": "ITEA is the Eureka Cluster on software innovation"
+                    }
+                },
+                "type": "object"
+            },
+            "contact": {
+                "title": "Project contact information",
+                "description": "All information about a project contact",
+                "properties": {
+                    "fullName": {
+                        "description": "User full name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "firstName": {
+                        "description": "User first name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastName": {
+                        "description": "User last name",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "example": "noreply@example.com"
+                    },
+                    "address": {
+                        "description": "User address",
+                        "properties": {
+                            "address": {
+                                "description": "User address",
+                                "type": "string",
+                                "example": "Example street 1"
+                            },
+                            "city": {
+                                "description": "User city",
+                                "type": "string",
+                                "example": "Example city"
+                            },
+                            "zip": {
+                                "description": "User zip code",
+                                "type": "string",
+                                "example": "12345"
+                            },
+                            "country": {
+                                "description": "User country",
+                                "type": "string",
+                                "example": "BE"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "country": {
+                "title": "Country",
+                "description": "Information about a country",
+                "properties": {
+                    "id": {
+                        "description": "Country ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "country": {
+                        "description": "Country name",
+                        "type": "string",
+                        "example": "France"
+                    },
+                    "cd": {
+                        "description": "Country CD",
+                        "type": "string",
+                        "example": "FR"
+                    },
+                    "iso3": {
+                        "description": "Country ISO3",
+                        "type": "string",
+                        "example": "FRA"
+                    }
+                },
+                "type": "object"
+            },
+            "organisation_type": {
+                "title": "Organiation type",
+                "description": "Information about an organisation type",
+                "properties": {
+                    "id": {
+                        "description": "Type ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "description": "Type name",
+                        "type": "string",
+                        "example": "Large Industry"
+                    }
+                },
+                "type": "object"
+            },
+            "organisation": {
+                "title": "Organisation",
+                "description": "Information about an organisation",
+                "properties": {
+                    "id": {
+                        "description": "Organisation ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "description": "Organisation slug",
+                        "type": "string",
+                        "example": "organisation-1"
+                    },
+                    "name": {
+                        "description": "Organisation name",
+                        "type": "string",
+                        "example": "Organisation 1"
+                    },
+                    "country": {
+                        "$ref": "#/components/schemas/country"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/organisation_type"
+                    }
+                },
+                "type": "object"
+            },
+            "project_partner_coordinator": {
+                "title": "Project coordinator",
+                "description": "Information about a project coordinator",
+                "properties": {
+                    "id": {
+                        "description": "Partner ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "organisation": {
+                        "description": "Organisation name",
+                        "type": "string",
+                        "example": "Example organisation"
+                    },
+                    "isActive": {
+                        "description": "Is active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "isSelfFunded": {
+                        "description": "Is self funded",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "isCoordinator": {
+                        "description": "Is coordinator",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "technicalContact": {
+                        "$ref": "#/components/schemas/contact"
+                    }
+                },
+                "type": "object"
+            },
+            "project_partner": {
+                "title": "Project partner",
+                "description": "Information about a project partner",
+                "properties": {
+                    "id": {
+                        "description": "Partner ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "description": "Partner slug",
+                        "type": "string",
+                        "example": "partner-1"
+                    },
+                    "project": {
+                        "$ref": "#/components/schemas/project"
+                    },
+                    "isActive": {
+                        "description": "Is active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "isSelfFunded": {
+                        "description": "Is self funded",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "isCoordinator": {
+                        "description": "Is coordinator",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "technicalContact": {
+                        "$ref": "#/components/schemas/contact"
+                    },
+                    "organisation": {
+                        "$ref": "#/components/schemas/organisation"
+                    },
+                    "latestVersionCosts": {
+                        "description": "Latest version costs",
+                        "type": "string",
+                        "example": "100.00"
+                    },
+                    "latestVersionEffort": {
+                        "description": "Latest version effort",
+                        "type": "string",
+                        "example": "200.00"
+                    }
+                },
+                "type": "object"
+            },
+            "project_status": {
+                "title": "Project status",
+                "description": "Information about a project status",
+                "properties": {
+                    "id": {
+                        "description": "Status ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "string",
+                        "example": "Labeled"
+                    }
+                },
+                "type": "object"
+            },
+            "project_version": {
+                "title": "Project version",
+                "description": "Information about a project version",
+                "properties": {
+                    "id": {
+                        "description": "Version ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/project_version_type"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/project_version_status"
+                    }
+                },
+                "type": "object"
+            },
+            "project": {
+                "title": "Project",
+                "description": "Information about a project",
+                "properties": {
+                    "slug": {
+                        "description": "Project slug",
+                        "type": "string",
+                        "example": "project-1"
+                    },
+                    "identifier": {
+                        "description": "Project identifier",
+                        "type": "string",
+                        "example": "itea-2022001"
+                    },
+                    "number": {
+                        "description": "Project number",
+                        "type": "string",
+                        "example": "P1"
+                    },
+                    "name": {
+                        "description": "Project name",
+                        "type": "string",
+                        "example": "Project 1"
+                    },
+                    "title": {
+                        "description": "Project title",
+                        "type": "string",
+                        "example": "Project 1"
+                    },
+                    "description": {
+                        "description": "Project description",
+                        "type": "string",
+                        "example": "This is the project description",
+                        "nullable": true
+                    },
+                    "technicalArea": {
+                        "description": "Project technical area",
+                        "type": "string",
+                        "example": "Smart Energy",
+                        "nullable": true
+                    },
+                    "coordinator": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/project_partner_coordinator"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "projectLeader": {
+                        "$ref": "#/components/schemas/contact"
+                    },
+                    "latestVersion": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/project_version"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "programme": {
+                        "description": "Programme of the project",
+                        "type": "string",
+                        "example": "ITEA"
+                    },
+                    "programmeCall": {
+                        "description": "Programme call of the project",
+                        "type": "string",
+                        "example": "ITEA Call 2023"
+                    },
+                    "primaryCluster": {
+                        "$ref": "#/components/schemas/cluster"
+                    },
+                    "secondaryCluster": {
+                        "$ref": "#/components/schemas/cluster"
+                    },
+                    "cancelDate": {
+                        "description": "Date when the project was cancelled. Null if the project is not cancelled",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "labelDate": {
+                        "description": "Date when the project was labelled. Null if the project is not labelled",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T09:00:00+00:00",
+                        "nullable": true
+                    },
+                    "officialStartDate": {
+                        "description": "Official date when the project starts",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-04-01T09:00:00+00:00",
+                        "nullable": true
+                    },
+                    "officialEndDate": {
+                        "description": "Official date when the project ends",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-03-31T09:00:00+00:00",
+                        "nullable": true
+                    },
+                    "duration": {
+                        "description": "Project duration fields",
+                        "properties": {
+                            "years": {
+                                "description": "Project duration in years",
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "months": {
+                                "description": "Project duration in months",
+                                "type": "integer",
+                                "example": 36
+                            },
+                            "days": {
+                                "description": "Project duration in days",
+                                "type": "integer",
+                                "example": 1095
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/project_status"
+                    },
+                    "latestVersionTotalCosts": {
+                        "description": "Total costs of the latest project version (In EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000000
+                    },
+                    "latestVersionTotalEffort": {
+                        "description": "Total effort of the latest project version (In Person Years)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 82.3
+                    },
+                    "countries": {
+                        "description": "List of countries active in the project",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/country"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "search_result": {
+                "title": "Search result response",
+                "description": "Response given when searching for a resource",
+                "properties": {
+                    "type": {
+                        "description": "Search result type",
+                        "type": "string",
+                        "example": "project"
+                    },
+                    "slug": {
+                        "description": "Slug/Docref of the resource",
+                        "type": "string",
+                        "example": "company-name"
+                    },
+                    "name": {
+                        "description": "Name of the resource",
+                        "type": "string",
+                        "example": "Company name"
+                    },
+                    "title": {
+                        "description": "Title of the resource, for example for a project",
+                        "type": "string",
+                        "example": "Project title",
+                        "nullable": true
+                    },
+                    "description": {
+                        "description": "description of the resource, for example for a project",
+                        "type": "string",
+                        "example": "Project description",
+                        "nullable": true
+                    },
+                    "organisationType": {
+                        "description": "In case of an organisation, the type of the organisation",
+                        "type": "string",
+                        "example": "Large industry",
+                        "nullable": true
+                    },
+                    "country": {
+                        "description": "In case of an organisation, the country of the organisation",
+                        "type": "string",
+                        "example": "France",
+                        "nullable": true
+                    },
+                    "score": {
+                        "description": "The score of the search result",
+                        "type": "number",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "project_version_status": {
+                "title": "Project version status",
+                "description": "Information about a project version status",
+                "properties": {
+                    "id": {
+                        "description": "Status ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "description": "Status name",
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
+            "project_version_type": {
+                "title": "Project version type",
+                "description": "Information about a project version type",
+                "properties": {
+                    "id": {
+                        "description": "Project Version type ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "description": "Project version type",
+                        "type": "string",
+                        "example": "FPP"
+                    },
+                    "description": {
+                        "description": "Version type description",
+                        "type": "string",
+                        "example": "Full project proposal"
+                    }
+                },
+                "type": "object"
+            },
+            "partner_facets": {
+                "title": "Project partner facets result response",
+                "description": "Array of facets for project partners",
+                "properties": {
+                    "countries": {
+                        "description": "Result of countries",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "organisationTypes": {
+                        "description": "Result of organisation types",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "projectStatus": {
+                        "description": "Result of project status",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "programmeCalls": {
+                        "description": "Result of programme calls",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "clusters": {
+                        "description": "Result of clusters",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "years": {
+                        "description": "Result of Years",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "project_facets": {
+                "title": "Project facets result response",
+                "description": "Array of facets for projects",
+                "properties": {
+                    "countries": {
+                        "description": "Result of countries",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "organisationTypes": {
+                        "description": "Result of organisation types",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "projectStatus": {
+                        "description": "Result of project status",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "programmeCalls": {
+                        "description": "Result of programme calls",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    },
+                    "clusters": {
+                        "description": "Result of clusters",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/facet_content"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "facet_content": {
+                "title": "Facets content",
+                "description": "Response per facet",
+                "properties": {
+                    "name": {
+                        "description": "Name of the facet",
+                        "type": "string",
+                        "example": "Facet label"
+                    },
+                    "amount": {
+                        "description": "Amount of results in the facet",
+                        "type": "integer",
+                        "example": 4
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "user": {
+                "description": "User information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/user"
+                        }
+                    }
+                }
+            },
+            "service": {
+                "description": "oAuth2 service information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/service"
+                        }
+                    }
+                }
+            },
+            "cluster": {
+                "description": "Cluster information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/cluster"
+                        }
+                    }
+                }
+            },
+            "contact": {
+                "description": "Contact information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/contact"
+                        }
+                    }
+                }
+            },
+            "country": {
+                "description": "Country information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/country"
+                        }
+                    }
+                }
+            },
+            "organisation_type": {
+                "description": "Organisation type information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/organisation_type"
+                        }
+                    }
+                }
+            },
+            "organisation": {
+                "description": "Organisation information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/organisation"
+                        }
+                    }
+                }
+            },
+            "project_partner_coordinator": {
+                "description": "Project coordinator information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_partner_coordinator"
+                        }
+                    }
+                }
+            },
+            "project_partner": {
+                "description": "Project partner information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_partner"
+                        }
+                    }
+                }
+            },
+            "project_status": {
+                "description": "Project status information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_status"
+                        }
+                    }
+                }
+            },
+            "project_version": {
+                "description": "Version information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_version"
+                        }
+                    }
+                }
+            },
+            "project": {
+                "description": "Project information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project"
+                        }
+                    }
+                }
+            },
+            "search_result": {
+                "description": "Search result response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/search_result"
+                        }
+                    }
+                }
+            },
+            "project_version_status": {
+                "description": "Version status information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_version_status"
+                        }
+                    }
+                }
+            },
+            "project_version_type": {
+                "description": "Version type information",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_version_type"
+                        }
+                    }
+                }
+            },
+            "partner_facets": {
+                "description": "Project partner facets",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/partner_facets"
+                        }
+                    }
+                }
+            },
+            "project_facets": {
+                "description": "Project facets",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/project_facets"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Project",
+            "description": "Project related endpoints",
+            "externalDocs": {
+                "description": "Backend API code. Find more information in the official documentation",
+                "url": "https://eureka-clusters.github.io/portal-backend/"
+            }
+        },
+        {
+            "name": "Organisation",
+            "description": "Organisation related endpoints",
+            "externalDocs": {
+                "description": "Backend API code. Find more information in the official documentation",
+                "url": "https://eureka-clusters.github.io/portal-backend/"
+            }
+        },
+        {
+            "name": "User",
+            "description": "User related endpoints",
+            "externalDocs": {
+                "description": "Backend API code. Find more information in the official documentation",
+                "url": "https://eureka-clusters.github.io/portal-backend/"
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Backend API code. Find more information in the official documentation",
+        "url": "https://eureka-clusters.github.io/portal-backend/"
+    }
+}

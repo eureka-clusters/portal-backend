@@ -10,11 +10,13 @@ use Admin\Controller\OAuth2\ScopeController;
 use Admin\Controller\OAuth2\ServiceController;
 use Admin\Controller\RoleController;
 use Admin\Controller\UserController;
+use Admin\Provider\UserProvider;
 use Admin\Service\AdminService;
 use Admin\Service\ApiService;
 use Admin\Service\OAuth2Service;
 use Admin\Service\UserService;
 use Application\Service\FormService;
+use Cluster\Provider\CountryProvider;
 use Doctrine\ORM\EntityManager;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
@@ -72,6 +74,9 @@ return [
         ],
         CacheController::class   => [
             Redis::class,
+        ],
+        UserProvider::class      => [
+            CountryProvider::class,
         ],
     ],
 ];

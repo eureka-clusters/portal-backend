@@ -6,11 +6,10 @@ namespace Admin\Repository;
 
 use Admin\Entity;
 use Application\Repository\FilteredObjectRepository;
-use Application\ValueObject\SearchFormResult;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
+use Jield\Search\ValueObject\SearchFormResult;
 use function sprintf;
 
 final class Role extends EntityRepository implements FilteredObjectRepository
@@ -29,7 +28,7 @@ final class Role extends EntityRepository implements FilteredObjectRepository
             case 'id':
                 $qb->addOrderBy(sort: 'admin_entity_role.id', order: $direction);
                 break;
-            case 'name':
+            case 'description':
                 $qb->addOrderBy(sort: 'admin_entity_role.description', order: $direction);
                 break;
             default:

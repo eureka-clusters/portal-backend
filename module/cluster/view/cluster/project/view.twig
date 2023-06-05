@@ -1,0 +1,30 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(project.name) %}
+
+<h1>{{ project.name }}</h1>
+
+<p>{{ translate("txt-project-information") }}</p>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-id") }}</dt>
+    <dd>{{ project.id }}</dd>
+    <dt>{{ translate("txt-identifier") }}</dt>
+    <dd>{{ project.identifier }}</dd>
+    <dt>{{ translate("txt-name") }}</dt>
+    <dd>{{ project.name }}</dd>
+    <dt>{{ translate("txt-primary-cluster") }}</dt>
+    <dd>{{ project.primaryCluster.name }}</dd>
+    <dt>{{ translate("txt-secondary-cluster") }}</dt>
+    <dd>{% if project.secondaryCluster %}{{ project.primaryCluster.name }}{% else %}-{% endif %}</dd>
+    <dt>{{ translate("txt-description") }}</dt>
+    <dd>{{ project.description }}</dd>
+
+</dl>
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{{ lbs5formelement(form.get('delete')) }}
+{{ formelement(form.get('csrf')) }}
+
+{{ form().closeTag()|raw }}

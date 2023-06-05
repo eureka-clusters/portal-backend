@@ -1,0 +1,22 @@
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{% set groupForm = form.get('cluster_entity_cluster_group') %}
+
+{{ formelement(groupForm.get('id')) }}
+{{ lbs5formelement(groupForm.get('name')) }}
+{{ lbs5formelement(groupForm.get('description')) }}
+{{ lbs5formelement(groupForm.get('clusters')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ formelement(form.get('csrf')) }}
+        {{ lbs5formelement(form.get('submit')) }}
+        {{ lbs5formelement(form.get('cancel')) }}
+        {% if form.has('delete') %}
+            {{ lbs5formelement(form.get('delete')) }}
+        {% endif %}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}

@@ -15,7 +15,9 @@ use function time;
 class DoctrineGateway implements SaveHandlerInterface
 {
     private ?Session $session = null;
+
     private string $sessionName;
+
     private readonly int $lifetime;
 
     public function __construct(private readonly EntityManager $entityManager, array $config)
@@ -23,7 +25,7 @@ class DoctrineGateway implements SaveHandlerInterface
         $this->lifetime = $config['session_config']['cookie_lifetime'] ?? 31_536_000;
     }
 
-    public function open($savePath, $name): bool
+    public function open($path, $name): bool
     {
         $this->sessionName = $name;
 
@@ -35,60 +37,67 @@ class DoctrineGateway implements SaveHandlerInterface
         return true;
     }
 
-    public function read($key): string
+    public function read($id): string
     {
+        $key = $id;
+
         if (null === $this->session) {
-            $this->session = $this->entityManager->getRepository(Session::class)->findOneBy(['key' => $key]);
+            $this->session = $this->entityManager->getRepository(entityName: Session::class)->findOneBy(
+                criteria: ['key' => $key]
+            );
         }
 
         if (null !== $this->session) {
             if ($this->session->getModified() + $this->session->getLifetime() > time()) {
                 //Update the lifetime again with default lifetime
 
-                $this->session->setModified(time());
+                $this->session->setModified(modified: time());
                 $hits = $this->session->getHits();
-                $this->session->setHits($hits + 1);
-                $this->entityManager->persist($this->session);
+                $this->session->setHits(hits: $hits + 1);
+                $this->entityManager->persist(entity: $this->session);
                 $this->entityManager->flush();
 
                 return $this->session->getData();
             }
-            $this->destroy($key);
+            $this->destroy(id: $key);
         }
 
         return '';
     }
 
-    public function destroy($key): bool
+    public function destroy($id): bool
     {
-        $entity = $this->entityManager->getRepository(Session::class)->findOneBy(['key' => $key]);
+        $key = $id;
+
+        $entity = $this->entityManager->getRepository(entityName: Session::class)->findOneBy(criteria: ['key' => $key]);
         if ($entity) {
-            $this->entityManager->remove($entity);
+            $this->entityManager->remove(entity: $entity);
             $this->entityManager->flush();
         }
 
         return true;
     }
 
-    /**
-     * @param string $key
-     * @param User $user
-     */
-    public function write($key, $user): bool
+    public function write($id, $data): bool
     {
-        $sessionRepository = $this->entityManager->getRepository(Session::class);
-        if (! $session = $sessionRepository->findOneBy(['key' => $key])) {
+        $key = $id;
+
+        /** @var User $user */
+        $user = $data;
+
+        $sessionRepository = $this->entityManager->getRepository(entityName: Session::class);
+        if (!$session = $sessionRepository->findOneBy(criteria: ['key' => $key])) {
             $session = new Session();
         }
 
-        $session->setUser($user);
-        $session->setModified(time());
-        $session->setData((string) $user->getId());
-        $session->setKey($key);
-        $session->setName($this->sessionName);
-        $session->setLifetime($this->lifetime);
+        $session->setUser(user: $user);
+        $session->setModified(modified: time());
+        $session->setData(data: (string)$user->getId());
+        $session->setKey(key: $key);
+        $session->setName(name: $this->sessionName);
+        $session->setLifetime(lifetime: $this->lifetime);
 
-        $this->entityManager->persist($session);
+        $this->entityManager->persist(entity: $session);
         $this->entityManager->flush();
 
         $this->session = $session;
@@ -97,7 +106,7 @@ class DoctrineGateway implements SaveHandlerInterface
     }
 
     #[ReturnTypeWillChange]
-    public function gc($maxLifetime): bool
+    public function gc($max_lifetime): bool
     {
         return true;
     }

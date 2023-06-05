@@ -13,11 +13,12 @@ use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
-use Doctrine\Common\Collections\Criteria;
+use Jield\Search\ValueObject\SearchFormResult;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
-use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use OpenApi\Attributes as OA;
 
 final class PartnerListener extends AbstractResourceListener
 {
@@ -31,22 +32,101 @@ final class PartnerListener extends AbstractResourceListener
     ) {
     }
 
-    public function fetchAll($params = []): Paginator
+    #[OA\Get(
+        path: '/api/list/partner',
+        description: 'List of project partners',
+        summary: 'Get a list of partners project',
+        tags: ['Project'],
+        parameters: [
+            new OA\Parameter(
+                name: 'organisation',
+                description: 'Organisation ID to filter on',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'project',
+                description: 'Project ID to filter on',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'filter',
+                description: 'Base64 encoded JSON filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'query',
+                description: 'Search Query',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'order',
+                description: 'Sort order',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'name'
+            ),
+            new OA\Parameter(
+                name: 'direction',
+                description: 'Sort direction',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+                example: 'asc'
+            ),
+            new OA\Parameter(
+                name: 'pageSize',
+                description: 'Amount per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 25
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: 1
+            ),
+        ],
+        responses: [
+            new OA\Response(ref: '#/components/responses/project_partner', response: 200),
+            new OA\Response(response: 403, description: 'Forbidden'),
+            new OA\Response(response: 400, description: 'Project or partner not found'),
+        ],
+    )]
+    public function fetchAll($params = []): Paginator|ApiProblem
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
 
-        if (null === $user) {
-            return new Paginator(adapter: new ArrayAdapter());
+        $filter = $params->toArray();
+
+        //Inject the encoded filter from the results
+        $filter['filter'] = [];
+        if (!empty($params->filter)) {
+            $encodedFilter    = base64_decode(string: $params->filter, strict: true);
+            $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
-        $hasYears    = false;
-        $defaultSort = 'name';
+        $searchFormResult = SearchFormResult::fromArray($filter);
 
-        $sort          = $params->sort ?? $defaultSort;
-        $encodedFilter = $params->filter ?? null;
-        $order         = $params->order ?? strtolower(string: Criteria::ASC);
+        $hasYears = false;
 
         switch (true) {
             case isset($params->project):
@@ -54,14 +134,13 @@ final class PartnerListener extends AbstractResourceListener
                 $project = $this->projectService->findProjectBySlug(slug: $params->project);
 
                 if (null === $project) {
-                    return new Paginator(adapter: new ArrayAdapter());
+                    return new ApiProblem(status: 400, detail: 'Project not found');
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByProject(
                     user: $user,
                     project: $project,
-                    sort: $sort,
-                    order: $order
+                    searchFormResult: $searchFormResult,
                 );
                 break;
             case isset($params->organisation):
@@ -69,32 +148,22 @@ final class PartnerListener extends AbstractResourceListener
                 $organisation = $this->organisationService->findOrganisationBySlug(slug: $params->organisation);
 
                 if (null === $organisation) {
-                    return new Paginator(adapter: new ArrayAdapter());
+                    return new ApiProblem(status: 400, detail: 'Partner not found');
                 }
 
                 $partnerQueryBuilder = $this->partnerService->getPartnersByOrganisation(
                     user: $user,
                     organisation: $organisation,
-                    sort: $sort,
-                    order: $order
+                    searchFormResult: $searchFormResult,
                 );
                 break;
             default:
 
-                //The filter is a base64 encoded serialised json string
-                $arrayFilter = [];
-                if (!empty($encodedFilter)) {
-                    $filter      = base64_decode(string: $encodedFilter, strict: true);
-                    $arrayFilter = Json::decode(encodedValue: $filter, objectDecodeType: Json::TYPE_ARRAY);
-                }
-
-                $hasYears = !empty($arrayFilter['year']);
+                $hasYears = !empty($filter['filter']['year']);
 
                 $partnerQueryBuilder = $this->partnerService->getPartners(
                     user: $user,
-                    filter: $arrayFilter,
-                    sort: $sort,
-                    order: $order
+                    searchFormResult: $searchFormResult,
                 );
         }
 

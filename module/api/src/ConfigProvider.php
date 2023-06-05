@@ -285,7 +285,7 @@ final class ConfigProvider
                 Rest\StatisticsResource\Facets\ProjectListener::class   => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/project/[:id]',
+                        'route'    => '/api/statistics/facets/project/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\ProjectListener::class,
                         ],
@@ -294,7 +294,7 @@ final class ConfigProvider
                 Rest\StatisticsResource\Facets\PartnerListener::class   => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/facets/partner/[:id]',
+                        'route'    => '/api/statistics/facets/partner/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Facets\PartnerListener::class,
                         ],
@@ -303,7 +303,7 @@ final class ConfigProvider
                 Rest\StatisticsResource\Download\ProjectListener::class => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/project/download/[:export_type]',
+                        'route'    => '/api/statistics/results/project/download/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\ProjectListener::class,
                         ],
@@ -312,7 +312,7 @@ final class ConfigProvider
                 Rest\StatisticsResource\Download\PartnerListener::class => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/api/statistics/results/partner/download/[:export_type]',
+                        'route'    => '/api/statistics/results/partner/download/[:filter]',
                         'defaults' => [
                             'controller' => Rest\StatisticsResource\Download\PartnerListener::class,
                         ],

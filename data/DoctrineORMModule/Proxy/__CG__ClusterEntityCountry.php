@@ -180,6 +180,17 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId(): ?int
     {
         if ($this->__isInitialized__ === false) {
@@ -377,17 +388,6 @@ class Country extends \Cluster\Entity\Country implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvaluation', [$evaluation]);
 
         return parent::setEvaluation($evaluation);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString(): string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
-
-        return parent::__toString();
     }
 
     /**

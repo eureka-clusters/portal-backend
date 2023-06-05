@@ -132,7 +132,7 @@ final class RoleController extends AbstractActionController
             }
 
             if (isset($data['delete']) && $this->adminService->canDeleteRole($role)) {
-                $this->adminService->delete(abstractEntity: $role);
+                $this->adminService->delete(entity: $role);
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(

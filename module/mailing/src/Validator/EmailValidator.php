@@ -10,7 +10,8 @@ use function count;
 
 class EmailValidator
 {
-    private bool $isValid                 = false;
+    private bool $isValid = false;
+
     private array $cannotSendEmailReasons = [];
 
     public function __construct(private readonly EmailBuilder $emailBuilder)
@@ -22,18 +23,6 @@ class EmailValidator
     {
         if (count($this->emailBuilder->getTo()) === 0) {
             $this->cannotSendEmailReasons[] = 'No value for $to has been defined';
-        }
-
-        if (null === $this->emailBuilder->getSender()) {
-            $this->cannotSendEmailReasons[] = 'No sender defined';
-        }
-
-        if (null === $this->emailBuilder->getTemplate()) {
-            $this->cannotSendEmailReasons[] = 'No template defined';
-        }
-
-        if (null === $this->emailBuilder->getSender()) {
-            $this->cannotSendEmailReasons[] = 'No sender defined';
         }
 
         if (null === $this->emailBuilder->getSubject()) {

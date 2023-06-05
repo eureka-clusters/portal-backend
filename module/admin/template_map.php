@@ -20,6 +20,7 @@ return [
     'admin/partial/form/oauth2/scope' => __DIR__ . '/./view/admin/partial/form/oauth2/scope.twig',
     'admin/partial/form/oauth2/service' => __DIR__ . '/./view/admin/partial/form/oauth2/service.twig',
     'admin/partial/form/oauth2/client' => __DIR__ . '/./view/admin/partial/form/oauth2/client.twig',
+    'admin/partial/form/role' => __DIR__ . '/./view/admin/partial/form/role.twig',
     'admin/user/view' => __DIR__ . '/./view/admin/user/view.twig',
     'admin/user/change-password' => __DIR__ . '/./view/admin/user/change-password.twig',
     'admin/user/lost-password' => __DIR__ . '/./view/admin/user/lost-password.twig',

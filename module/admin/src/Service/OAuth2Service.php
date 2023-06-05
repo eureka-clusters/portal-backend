@@ -13,7 +13,6 @@ use Application\Service\AbstractService;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use GuzzleHttp\RequestOptions;
-use JetBrains\PhpStorm\Deprecated;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use OAuth2\Encryption\Jwt;
@@ -92,8 +91,8 @@ class OAuth2Service extends AbstractService
         if ($client->getPublicKey()?->getEncryptionAlgorithm() === 'RS256') {
             return $jwtHelper->encode(
                 payload: $payload,
-                key: $client->getPublicKey()?->getPrivateKey(),
-                algo: $client->getPublicKey()?->getEncryptionAlgorithm()
+                key: $client->getPublicKey()->getPrivateKey(),
+                algo: $client->getPublicKey()->getEncryptionAlgorithm()
             );
         }
 

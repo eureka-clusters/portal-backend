@@ -34,6 +34,14 @@ class Project extends AbstractEntity
     #[Gedmo\Slug(fields: ['name'], updatable: true)]
     private string $slug;
 
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
+    private DateTime $dateCreated;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?DateTime $dateUpdated = null;
+
     #[ORM\Column]
     private string $number = '';
 
@@ -88,16 +96,27 @@ class Project extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Partner::class, cascade: ['persist', 'remove'])]
     private Collection $partners;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist', 'remove'])]
     private Collection $evaluation;
 
     public function __construct()
     {
+        $this->dateCreated    = new DateTime();
         $this->primaryCluster = new Cluster();
         $this->status         = new Status();
         $this->versions       = new ArrayCollection();
         $this->partners       = new ArrayCollection();
         $this->evaluation     = new ArrayCollection();
+    }
+
+    public function parseCacheKey(): string
+    {
+        return sprintf('project-%s-%d', $this->getResourceId(), null === $this->dateUpdated ? $this->dateCreated->getTimestamp() : $this->dateUpdated->getTimestamp());
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->title;
     }
 
     public function hasSecondaryCluster(): bool
@@ -107,12 +126,12 @@ class Project extends AbstractEntity
 
     public function getLatestVersion(): ?Version
     {
-        return $this->versions->filter(p: fn (Version $version) => $version->getType()->isLatest())->first() ?: null;
+        return $this->versions->filter(p: fn(Version $version) => $version->getType()->isLatest())->first() ?: null;
     }
 
     public function getCoordinatorPartner(): ?Partner
     {
-        return $this->partners->filter(p: fn (Partner $partner) => $partner->isCoordinator())->first() ?: null;
+        return $this->partners->filter(p: fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
     }
 
     public function getId(): ?int
@@ -343,6 +362,28 @@ class Project extends AbstractEntity
     public function setEvaluation(Collection $evaluation): Project
     {
         $this->evaluation = $evaluation;
+        return $this;
+    }
+
+    public function getDateCreated(): DateTime
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(DateTime $dateCreated): Project
+    {
+        $this->dateCreated = $dateCreated;
+        return $this;
+    }
+
+    public function getDateUpdated(): ?DateTime
+    {
+        return $this->dateUpdated;
+    }
+
+    public function setDateUpdated(?DateTime $dateUpdated): Project
+    {
+        $this->dateUpdated = $dateUpdated;
         return $this;
     }
 }

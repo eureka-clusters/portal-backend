@@ -175,7 +175,7 @@ final class TransactionalController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             if (isset($data['delete']) && $this->mailingService->canDeleteTransactional(transactional: $transactional)) {
-                $this->mailingService->delete(abstractEntity: $transactional);
+                $this->mailingService->delete(entity: $transactional);
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/mailing/transactional/list');
             }

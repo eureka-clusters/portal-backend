@@ -1,0 +1,3 @@
+GET {{ baseUrl }}/api/list/service
+Accept: application/json
+Content-Type: application/json

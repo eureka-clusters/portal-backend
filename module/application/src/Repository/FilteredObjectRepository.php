@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
-use Application\ValueObject\SearchFormResult;
+use Jield\Search\ValueObject\SearchFormResult;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 
