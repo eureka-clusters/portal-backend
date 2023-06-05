@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 11:59+0200\n"
+"POT-Creation-Date: 2023-06-05 20:28+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -556,12 +556,12 @@ msgid "txt-partners"
 msgstr "Partners"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:110
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:106
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:108
 msgid "txt-project-number"
 msgstr "Project number"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:116
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:112
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:114
 msgid "txt-project-name"
 msgstr "Project name"
 
@@ -593,41 +593,54 @@ msgstr "Partner costs"
 msgid "txt-partner-effort"
 msgstr "Partner effort"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:99
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:101
 msgid "txt-projects"
 msgstr "Projects"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:118
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
+#: cluster/view/cluster/project/list.twig:29
 #: cluster/view/cluster/project/view.twig:15
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:124
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
 #: cluster/view/cluster/project/view.twig:17
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:130
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:132
+msgid "txt-programme"
+msgstr "Programme"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:138
+msgid "txt-programme-call"
+msgstr "Programme Call"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:144
+msgid "txt-label-date"
+msgstr "Label date"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:150
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:136
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:156
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:142
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:162
 msgid "txt-project-status"
 msgstr "Status of the project"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:148
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
 msgid "txt-total-costs"
 msgstr "Total costs"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:154
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
 msgid "txt-total-effort"
 msgstr "Total effort"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:160
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
 msgid "txt-involved-countries"
 msgstr "Involved countries"
 
@@ -639,6 +652,40 @@ msgstr "Restore"
 #, php-format
 msgid "txt-go-to-page-%s"
 msgstr "Go to page %s"
+
+#: cluster/config/language.php:5
+msgid "txt-cluster-cluster-group-name-label"
+msgstr "Group name"
+
+#: cluster/config/language.php:6
+msgid "txt-cluster-cluster-group-name-placeholder"
+msgstr "Name of the cluster group"
+
+#: cluster/config/language.php:7
+msgid "txt-cluster-cluster-group-name-help-block"
+msgstr "Name of the cluster group"
+
+#: cluster/config/language.php:8
+msgid "txt-cluster-cluster-group-description-label"
+msgstr "Description"
+
+#: cluster/config/language.php:9
+msgid "txt-cluster-cluster-group-description-placeholder"
+msgstr "Description for the cluster group"
+
+#: cluster/config/language.php:10
+msgid "txt-cluster-cluster-group-description-help-block"
+msgstr "Description for the cluster group"
+
+#: cluster/config/language.php:11
+msgid "txt-cluster-group-clusters-label"
+msgstr "Clusters"
+
+#: cluster/config/language.php:12
+msgid "txt-cluster-group-clusters-help-block"
+msgstr ""
+"Select clusters which are part of this cluster group, the API code will "
+"render filters based on the cluster groups"
 
 #: cluster/config/module.config.navigation.admin.php:16
 msgid "txt-clusters-and-projects"
@@ -1247,6 +1294,76 @@ msgstr "Edit mailing template"
 #: mailing/src/View/Helper/TransactionalLink.php:54
 msgid "txt-edit-transactional-email"
 msgstr "Edit transactional email"
+
+#: reporting/config/language.php:5
+msgid "txt-reporting-storage-location-name-label"
+msgstr "Name"
+
+#: reporting/config/language.php:6
+msgid "txt-reporting-storage-location-name-placeholder"
+msgstr "Name of the storage location"
+
+#: reporting/config/language.php:7
+msgid "txt-reporting-storage-location-name-help-block"
+msgstr "Name of the storage location"
+
+#: reporting/config/language.php:8
+msgid "txt-reporting-storage-location-connection-string-label"
+msgstr "Connection string"
+
+#: reporting/config/language.php:9
+msgid "txt-reporting-storage-location-connection-string-placeholder"
+msgstr "Connection string of the storage location"
+
+#: reporting/config/language.php:10
+msgid "txt-reporting-storage-location-connection-string-help-block"
+msgstr "Give the connection string of the connection to the storage location"
+
+#: reporting/config/language.php:11
+msgid "txt-reporting-storage-location-container-label"
+msgstr "Container name"
+
+#: reporting/config/language.php:12
+msgid "txt-reporting-storage-location-container-placeholder"
+msgstr "Name of the container"
+
+#: reporting/config/language.php:13
+msgid "txt-reporting-storage-location-container-help-block"
+msgstr "Name of the container in the data warehouse"
+
+#: reporting/config/language.php:14
+msgid "txt-reporting-storage-location-excel-folder-label"
+msgstr "Excel folder"
+
+#: reporting/config/language.php:15
+msgid "txt-reporting-storage-location-excel-folder-placeholder"
+msgstr "Excel folder name"
+
+#: reporting/config/language.php:16
+msgid "txt-reporting-storage-location-excel-folder-help-block"
+msgstr "Folder name where the Excel files will be stored"
+
+#: reporting/config/language.php:17
+msgid "txt-reporting-storage-location-parquet-folder-label"
+msgstr "Parquet folder"
+
+#: reporting/config/language.php:18
+msgid "txt-reporting-storage-location-parquet-folder-placeholder"
+msgstr "Parquet folder name"
+
+#: reporting/config/language.php:19
+msgid "txt-reporting-storage-location-parquet-folder-help-block"
+msgstr "Folder name where the Parquet files will be stored"
+
+#: reporting/config/language.php:20
+msgid "txt-reporting-storage-location-oauth2-service-label"
+msgstr "oAuth2 service"
+
+#: reporting/config/language.php:21
+msgid "txt-reporting-storage-location-oauth2-service-help-block"
+msgstr ""
+"Select the oAuth2 service which will take care of generating an oAuth2 token "
+"from the token service"
 
 #: reporting/config/module.config.navigation.admin.php:9
 #: reporting/config/module.config.navigation.admin.php:14
@@ -1984,15 +2101,10 @@ msgstr "Find below a list of all projects in PA portal backend"
 msgid "txt-identifier"
 msgstr "Identifier"
 
-#: cluster/view/cluster/project/list.twig:29
-msgid "txt-cluster"
-msgstr "Cluster"
-
 #: cluster/view/cluster/project/list.twig:30
-#: mailing/view/mailing/transactional/list.twig:39
-#: mailing/view/mailing/transactional/view.twig:27
-msgid "txt-last-update"
-msgstr "Last update"
+#: reporting/view/reporting/reporting/index.twig:18
+msgid "txt-date-updated"
+msgstr "Date updated"
 
 #: cluster/view/cluster/project/list.twig:48
 msgid "txt-no-projects-found"
@@ -2401,6 +2513,11 @@ msgstr ""
 msgid "txt-transactional-id"
 msgstr "Id"
 
+#: mailing/view/mailing/transactional/list.twig:39
+#: mailing/view/mailing/transactional/view.twig:27
+msgid "txt-last-update"
+msgstr "Last update"
+
 #: mailing/view/mailing/transactional/list.twig:53
 msgid "txt-this-transactional-is-locked-and-cannot-be-deleted"
 msgstr "This transactional email is locked and cannot be deleted"
@@ -2454,10 +2571,6 @@ msgstr "Size"
 msgid "txt-date-created"
 msgstr "Date created"
 
-#: reporting/view/reporting/reporting/index.twig:18
-msgid "txt-date-updated"
-msgstr "Date updated"
-
 #: reporting/view/reporting/reporting/index.twig:36
 msgid "txt-no-logfiles-found"
 msgstr "No log files could be found"
@@ -2498,6 +2611,14 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#, fuzzy
+#~| msgid "txt-primary-cluster"
+#~ msgid "txt-primar-cluster"
+#~ msgstr "Primary cluster"
+
+#~ msgid "txt-cluster"
+#~ msgstr "Cluster"
 
 #~ msgid "txt-duration-(months)"
 #~ msgstr "Duration (months)"
@@ -4498,12 +4619,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-edit-type"
 #~ msgstr "Edit type"
 
-#~ msgid "txt-cluster-logo-file-label"
-#~ msgstr "Cluster logo"
-
-#~ msgid "txt-cluster-logo-file-help-block"
-#~ msgstr "Upload a high-res logo of the cluster (in png/jpg)"
-
 #~ msgid "txt-cluster-description-placeholder"
 #~ msgstr "Give a description for the cluster"
 
@@ -4655,24 +4770,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-selection-type-include"
 #~ msgstr "Include"
-
-#~ msgid "txt-cluster-platform-name-placeholder"
-#~ msgstr "Name of the other cluster platform"
-
-#~ msgid "txt-cluster-platform-name-label"
-#~ msgstr "Platform name"
-
-#~ msgid "txt-cluster-platform-name-help-block"
-#~ msgstr "Name of the cluster platform"
-
-#~ msgid "txt-cluster-platform-description-label"
-#~ msgstr "Description"
-
-#~ msgid "txt-cluster-platform-description-placeholder"
-#~ msgstr "Description for the cluster platform"
-
-#~ msgid "txt-cluster-platform-description-help-block"
-#~ msgstr "Description for the cluster platform"
 
 #~ msgid "txt-cluster-platform-identifier-placeholder"
 #~ msgstr "Identifier for the cluster platform"
@@ -7808,14 +7905,8 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-meeting-description-help-block"
 #~ msgstr "Give here a description of the event"
 
-#~ msgid "txt-meeting-location-placeholder"
-#~ msgstr "Give the location of the meeting"
-
 #~ msgid "txt-meeting-location"
 #~ msgstr "Location"
-
-#~ msgid "txt-meeting-location-help-block"
-#~ msgstr "Give the location of the meeting"
 
 #~ msgid "txt-meeting-url-placeholder"
 #~ msgstr "Give the external URL of the meeting"
@@ -8002,15 +8093,6 @@ msgstr "There was an issue connecting to container %s"
 #~ "Give here the type of the option (textblock can be used to  create a text "
 #~ "in the form)"
 
-#~ msgid "txt-meeting-option-name-placeholder"
-#~ msgstr "Option name"
-
-#~ msgid "txt-meeting-option-name-label"
-#~ msgstr "Internal name"
-
-#~ msgid "txt-meeting-option-name-help-block"
-#~ msgstr "Give here an internal name for the option"
-
 #~ msgid "txt-meeting-option-text-placeholder"
 #~ msgstr "Give a text for the option"
 
@@ -8129,9 +8211,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-meeting-option-cost-option-label"
 #~ msgstr "Option"
 
-#~ msgid "txt-meeting-option-cost-option-help-block"
-#~ msgstr "Indicate here for which meeting option this cost applies"
-
 #~ msgid "txt-meeting-option-cost-vat-code-label"
 #~ msgstr "Vat code"
 
@@ -8198,16 +8277,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgstr ""
 #~ "Date until which the early bird rate applies. Note that this date given "
 #~ "here is the last date on which the early bird fee is applied (until 23.59)"
-
-#~ msgid "txt-meeting-cost-selection-type-label"
-#~ msgstr "Selection type"
-
-#~ msgid "txt-meeting-cost-selection-type-help-block"
-#~ msgstr ""
-#~ "Indicate here if the selections below are used to \"Include\" or to "
-#~ "\"Exclude (exempt)\" the registered user. When \"Inlcude\" is chosen the "
-#~ "fee will only be applied to those who are in the selections. Exclude will "
-#~ "exempt them."
 
 #~ msgid "txt-meeting-cost-selection-label"
 #~ msgstr "Selection"
@@ -12549,9 +12618,6 @@ msgstr "There was an issue connecting to container %s"
 #~ "will be shown on the public website in case the selection is used to "
 #~ "filter organisations"
 
-#~ msgid "txt-organisation-selection-tag-placeholder"
-#~ msgstr "Give a tag"
-
 #~ msgid "txt-organisation-selection-tag-label"
 #~ msgstr "Tag"
 
@@ -12560,9 +12626,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-organisation-selection-owner-label"
 #~ msgstr "Owner"
-
-#~ msgid "txt-organisation-selection-owner-help-block"
-#~ msgstr "Select the owner of the organisation selection"
 
 #~ msgid "txt-organisation-selection-sql-label"
 #~ msgstr "SQL"
@@ -12747,11 +12810,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-parent-organisation-parent-label"
 #~ msgstr "Parent"
-
-#~ msgid "txt-parent-organisation-parent-help-block"
-#~ msgstr ""
-#~ "The \"Parent\" is a specific status of an organisation. Select here the "
-#~ "organisation of the parent."
 
 #~ msgid "txt-parent-organisation-representative-label"
 #~ msgstr "Parent representative"
@@ -14791,9 +14849,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-partner-self-funded"
 #~ msgstr "Self-Funded"
-
-#~ msgid "txt-label-date"
-#~ msgstr "Label date"
 
 #~ msgid "txt-cancelled-stopped-date"
 #~ msgstr "Cancelled / Stopped date"
@@ -18999,14 +19054,8 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-is-closed-text"
 #~ msgstr "Is closed"
 
-#~ msgid "txt-programme-call"
-#~ msgstr "Programme Call"
-
 #~ msgid "txt-is-successful"
 #~ msgstr "Is successful"
-
-#~ msgid "txt-programme"
-#~ msgstr "Programme"
 
 #~ msgid "txt-award-year"
 #~ msgstr "Award year"
