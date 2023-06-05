@@ -156,6 +156,11 @@ class Service extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'oAuth2Service', targetEntity: StorageLocation::class, cascade: ['persist'])]
     private Collection $storageLocations;
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     #[Pure] public function __construct()
     {
         $this->allowedClusters  = new ArrayCollection();
