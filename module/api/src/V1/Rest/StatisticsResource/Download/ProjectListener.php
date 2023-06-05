@@ -129,6 +129,18 @@ final class ProjectListener extends AbstractResourceListener
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
+                message: 'txt-programme'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-programme-call'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
                 message: 'txt-label-date'
             )
         );
@@ -181,6 +193,8 @@ final class ProjectListener extends AbstractResourceListener
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['secondaryCluster']['name'] ?? null
             );
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['programme']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['programmeCall']);
 
             $labelDate         = null;
             $officialStartDate = null;
