@@ -1069,7 +1069,7 @@ msgid "txt-sender-email-help-block"
 msgstr ""
 "Give here the email address of the sender. Note that the email address "
 "should be validated in Mailtjet before mails can be send out. Choose "
-"<code>_owner@itea3.org</code> or <code>_self@itea3.org</code> to use the "
+"<code>_owner@itea4.org</code> or <code>_self@itea3.org</code> to use the "
 "owner (_owner) of the mailing or the logged in user (_self).<br>If _owner is "
 "taken don't forget to make the sender \"Personal\""
 
@@ -1788,14 +1788,13 @@ msgstr "Login via %s"
 
 #: admin/view/admin/user/login.twig:27 admin/view/admin/user/login.twig:30
 msgid "txt-sign-in"
-msgstr "Log in to MyITEA"
+msgstr "Log in to PA Portal Backend"
 
 #: admin/view/admin/user/login.twig:36
 msgid "txt-sign-in-explanation"
 msgstr ""
 "Please log in using your MyITEA credentials. If you do not have an account "
-"or do not know if you have one, follow the ‘<a href=\"user/register."
-"html\">Create new account</a>’ procedure."
+"or do not know if you have one please contact one of the cluster ICT users"
 
 #: admin/view/admin/user/login.twig:50
 #: admin/view/admin/user/lost-password.twig:1
@@ -1978,7 +1977,7 @@ msgstr "No clusters found in this group"
 
 #: cluster/view/cluster/project/list.twig:11
 msgid "txt-project-list-explanation"
-msgstr "Find below a list of all active and finished ITEA projects"
+msgstr "Find below a list of all projects in PA portal backend"
 
 #: cluster/view/cluster/project/list.twig:28
 #: cluster/view/cluster/project/view.twig:11
