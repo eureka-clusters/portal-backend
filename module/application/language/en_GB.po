@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 11:59+0200\n"
+"POT-Creation-Date: 2023-06-05 16:21+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -556,12 +556,12 @@ msgid "txt-partners"
 msgstr "Partners"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:110
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:106
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:108
 msgid "txt-project-number"
 msgstr "Project number"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:116
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:112
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:114
 msgid "txt-project-name"
 msgstr "Project name"
 
@@ -593,41 +593,54 @@ msgstr "Partner costs"
 msgid "txt-partner-effort"
 msgstr "Partner effort"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:99
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:101
 msgid "txt-projects"
 msgstr "Projects"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:118
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
+#: cluster/view/cluster/project/list.twig:29
 #: cluster/view/cluster/project/view.twig:15
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:124
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
 #: cluster/view/cluster/project/view.twig:17
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:130
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:132
+msgid "txt-programme"
+msgstr "Programme"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:138
+msgid "txt-programme-call"
+msgstr "Programme Call"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:144
+msgid "txt-label-date"
+msgstr "Label date"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:150
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:136
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:156
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:142
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:162
 msgid "txt-project-status"
 msgstr "Status of the project"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:148
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
 msgid "txt-total-costs"
 msgstr "Total costs"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:154
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
 msgid "txt-total-effort"
 msgstr "Total effort"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:160
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
 msgid "txt-involved-countries"
 msgstr "Involved countries"
 
@@ -1984,15 +1997,10 @@ msgstr "Find below a list of all projects in PA portal backend"
 msgid "txt-identifier"
 msgstr "Identifier"
 
-#: cluster/view/cluster/project/list.twig:29
-msgid "txt-cluster"
-msgstr "Cluster"
-
 #: cluster/view/cluster/project/list.twig:30
-#: mailing/view/mailing/transactional/list.twig:39
-#: mailing/view/mailing/transactional/view.twig:27
-msgid "txt-last-update"
-msgstr "Last update"
+#: reporting/view/reporting/reporting/index.twig:18
+msgid "txt-date-updated"
+msgstr "Date updated"
 
 #: cluster/view/cluster/project/list.twig:48
 msgid "txt-no-projects-found"
@@ -2401,6 +2409,11 @@ msgstr ""
 msgid "txt-transactional-id"
 msgstr "Id"
 
+#: mailing/view/mailing/transactional/list.twig:39
+#: mailing/view/mailing/transactional/view.twig:27
+msgid "txt-last-update"
+msgstr "Last update"
+
 #: mailing/view/mailing/transactional/list.twig:53
 msgid "txt-this-transactional-is-locked-and-cannot-be-deleted"
 msgstr "This transactional email is locked and cannot be deleted"
@@ -2454,10 +2467,6 @@ msgstr "Size"
 msgid "txt-date-created"
 msgstr "Date created"
 
-#: reporting/view/reporting/reporting/index.twig:18
-msgid "txt-date-updated"
-msgstr "Date updated"
-
 #: reporting/view/reporting/reporting/index.twig:36
 msgid "txt-no-logfiles-found"
 msgstr "No log files could be found"
@@ -2498,6 +2507,14 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#, fuzzy
+#~| msgid "txt-primary-cluster"
+#~ msgid "txt-primar-cluster"
+#~ msgstr "Primary cluster"
+
+#~ msgid "txt-cluster"
+#~ msgstr "Cluster"
 
 #~ msgid "txt-duration-(months)"
 #~ msgstr "Duration (months)"
@@ -14792,9 +14809,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-partner-self-funded"
 #~ msgstr "Self-Funded"
 
-#~ msgid "txt-label-date"
-#~ msgstr "Label date"
-
 #~ msgid "txt-cancelled-stopped-date"
 #~ msgstr "Cancelled / Stopped date"
 
@@ -18999,14 +19013,8 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-is-closed-text"
 #~ msgstr "Is closed"
 
-#~ msgid "txt-programme-call"
-#~ msgstr "Programme Call"
-
 #~ msgid "txt-is-successful"
 #~ msgstr "Is successful"
-
-#~ msgid "txt-programme"
-#~ msgstr "Programme"
 
 #~ msgid "txt-award-year"
 #~ msgstr "Award year"
