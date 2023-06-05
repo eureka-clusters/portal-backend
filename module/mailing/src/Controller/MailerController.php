@@ -138,7 +138,7 @@ final class MailerController extends MailingAbstractController
             }
 
             if (isset($data['delete']) && $this->mailerService->canDeleteMailer(mailer: $mailer)) {
-                $this->mailerService->delete(abstractEntity: $mailer);
+                $this->mailerService->delete(entity: $mailer);
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(

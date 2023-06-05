@@ -61,7 +61,7 @@ final class TargetController extends AbstractActionController
                     foreach ($data['target'] as $targetId) {
                         /** @var Entity\Target $target */
                         $target = $this->deeplinkService->find(entity: Target::class, id: (int) $targetId);
-                        $this->deeplinkService->delete(abstractEntity: $target);
+                        $this->deeplinkService->delete(entity: $target);
                     }
 
                     $this->flashMessenger()->addSuccessMessage(
@@ -130,7 +130,7 @@ final class TargetController extends AbstractActionController
                     )
                 );
 
-                $this->deeplinkService->delete(abstractEntity: $target);
+                $this->deeplinkService->delete(entity: $target);
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/deeplink/target/list');
             }

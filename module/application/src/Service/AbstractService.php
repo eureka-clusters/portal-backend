@@ -75,9 +75,9 @@ abstract class AbstractService implements HasPermitInterface
         return $entity;
     }
 
-    public function delete(AbstractEntity $abstractEntity): void
+    public function delete(AbstractEntity $entity): void
     {
-        $this->entityManager->remove(entity: $abstractEntity);
+        $this->entityManager->remove(entity: $entity);
         $this->entityManager->flush();
     }
 

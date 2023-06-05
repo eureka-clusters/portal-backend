@@ -125,7 +125,7 @@ final class StorageLocationController extends MailingAbstractController
             if (isset($data['delete']) && $this->storageLocationService->canDeleteStorageLocation(
                     storageLocation: $storageLocation
                 )) {
-                $this->storageLocationService->delete(abstractEntity: $storageLocation);
+                $this->storageLocationService->delete(entity: $storageLocation);
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(

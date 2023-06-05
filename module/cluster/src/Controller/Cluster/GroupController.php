@@ -129,7 +129,7 @@ final class GroupController extends AbstractActionController
             }
 
             if (isset($data['delete']) && $this->clusterService->canDeleteClusterGroup($group)) {
-                $this->clusterService->delete(abstractEntity: $group);
+                $this->clusterService->delete(entity: $group);
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(message: "txt-cluster-group-has-been-deleted-successfully")

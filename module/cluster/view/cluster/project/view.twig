@@ -20,3 +20,11 @@
     <dd>{{ project.description }}</dd>
 
 </dl>
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{{ lbs5formelement(form.get('delete')) }}
+{{ formelement(form.get('csrf')) }}
+
+{{ form().closeTag()|raw }}

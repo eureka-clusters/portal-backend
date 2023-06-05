@@ -69,12 +69,12 @@ final class ProjectListener extends AbstractResourceListener
 
             //Delete the versions
             foreach ($project->getVersions() as $version) {
-                $this->projectService->delete(abstractEntity: $version);
+                $this->projectService->delete(entity: $version);
             }
 
             //Delete the partners
             foreach ($project->getPartners() as $partner) {
-                $this->projectService->delete(abstractEntity: $partner);
+                $this->projectService->delete(entity: $partner);
             }
 
             //Collect an array of partners and specify the unique elements of these partners

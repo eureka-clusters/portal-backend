@@ -96,7 +96,7 @@ class Project extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Partner::class, cascade: ['persist', 'remove'])]
     private Collection $partners;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist', 'remove'])]
     private Collection $evaluation;
 
     public function __construct()
@@ -112,6 +112,11 @@ class Project extends AbstractEntity
     public function parseCacheKey(): string
     {
         return sprintf('project-%s-%d', $this->getResourceId(), null === $this->dateUpdated ? $this->dateCreated->getTimestamp() : $this->dateUpdated->getTimestamp());
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->title;
     }
 
     public function hasSecondaryCluster(): bool

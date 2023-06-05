@@ -62,7 +62,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
         //Delete the funder object when the user is not a funder
         if (!$genericUser->isFunder() && $user->isFunder()) {
-            $this->delete(abstractEntity: $user->getFunder());
+            $this->delete(entity: $user->getFunder());
         }
 
         if ($genericUser->isFunder()) {

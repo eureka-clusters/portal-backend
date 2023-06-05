@@ -6,10 +6,12 @@ namespace Cluster\Controller;
 
 use Application\Controller\Plugin\GetFilter;
 use Cluster\Entity\Project;
+use Cluster\Form\ProjectManipulation;
 use Cluster\Service\ProjectService;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Jield\Search\Form\SearchFilter;
+use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
@@ -39,7 +41,7 @@ final class ProjectController extends AbstractActionController
         $paginator = new Paginator(
             adapter: new PaginatorAdapter(paginator: new ORMPaginator(query: $projectQuery, fetchJoinCollection: false))
         );
-        $paginator::setDefaultItemCountPerPage(count: 25);
+        $paginator::setDefaultItemCountPerPage($page === 'all' ? PHP_INT_MAX : 25);
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(
             pageRange: ceil(
@@ -59,7 +61,7 @@ final class ProjectController extends AbstractActionController
         );
     }
 
-    public function viewAction(): ViewModel
+    public function viewAction(): ViewModel|Response
     {
         $project = $this->projectService->find(entity: Project::class, id: (int)$this->params('id'));
 
@@ -67,6 +69,19 @@ final class ProjectController extends AbstractActionController
             return $this->notFoundAction();
         }
 
-        return new ViewModel(variables: ['project' => $project]);
+        $form = new ProjectManipulation();
+        $data = $this->getRequest()->getPost()->toArray();
+        $form->setData($data);
+
+        if ($this->getRequest()->isPost() && $form->isValid()) {
+            $this->projectService->delete(entity: $project);
+            $this->flashMessenger()->addSuccessMessage(message: 'txt-project-deleted');
+
+            return $this->redirect()->toRoute(
+                route: 'zfcadmin/project/list',
+            );
+        }
+
+        return new ViewModel(variables: ['project' => $project, 'form' => $form]);
     }
 }
