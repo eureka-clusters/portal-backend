@@ -8,6 +8,8 @@ use Admin\Service\UserService;
 use Cluster\Entity\Project;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
+use DateTime;
+use DateTimeInterface;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -127,6 +129,12 @@ final class ProjectListener extends AbstractResourceListener
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
+                message: 'txt-label-date'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
                 message: 'txt-official-start-date'
             )
         );
@@ -149,7 +157,7 @@ final class ProjectListener extends AbstractResourceListener
             )
         );
         $projectSheet->setCellValue(
-            coordinate: $column . $row,
+            coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-total-effort'
             )
@@ -173,8 +181,24 @@ final class ProjectListener extends AbstractResourceListener
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['secondaryCluster']['name'] ?? null
             );
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialStartDate'] ?? null);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['officialEndDate'] ?? null);
+
+            $labelDate         = null;
+            $officialStartDate = null;
+            $officialEndDate   = null;
+
+            if (null !== $result['labelDate']) {
+                $labelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['labelDate'])->format(format: 'Y-m-d');
+            }
+            if (null !== $result['officialStartDate']) {
+                $officialStartDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['officialStartDate'])->format(format: 'Y-m-d');
+            }
+            if (null !== $result['officialEndDate']) {
+                $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['officialEndDate'])->format(format: 'Y-m-d');
+            }
+
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $labelDate);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialStartDate);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalEffort']);
