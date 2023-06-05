@@ -37,11 +37,20 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             case 'id':
                 $qb->addOrderBy(sort: 'cluster_entity_project.id', order: $direction);
                 break;
+            case 'number':
+                $qb->addOrderBy(sort: 'cluster_entity_project.number', order: $direction);
+                break;
+            case 'identifier':
+                $qb->addOrderBy(sort: 'cluster_entity_project.identifier', order: $direction);
+                break;
             case 'name':
-                $qb->addOrderBy(sort: 'cluster_entity_project.description', order: $direction);
+                $qb->addOrderBy(sort: 'cluster_entity_project.name', order: $direction);
+                break;
+            case 'title':
+                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: $direction);
                 break;
             default:
-                $qb->addOrderBy(sort: 'cluster_entity_project.description', order: Criteria::ASC);
+                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: Criteria::ASC);
         }
 
         return $qb;
