@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" processIsolation="false" backupGlobals="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" cacheDirectory=".phpunit.cache">
-  <testsuites>
-    <testsuite name="ClusterBackend">
-      <directory>./module/admin/test</directory>
-      <directory>./module/api/test</directory>
-      <directory>./module/cluster/test</directory>
-      <directory>./module/deeplink/test</directory>
-      <directory>./module/mailing/test</directory>
-    </testsuite>
-  </testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false"
+         processIsolation="false" backupGlobals="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="ClusterBackend">
+            <directory>./module/admin/test</directory>
+            <directory>./module/api/test</directory>
+            <directory>./module/cluster/test</directory>
+            <directory>./module/deeplink/test</directory>
+            <directory>./module/mailing/test</directory>
+            <directory>./module/reporting/test</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

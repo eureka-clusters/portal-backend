@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ClusterTest\Entity;
+namespace ReportingTest\Entity;
 
 use ApplicationTest\Entity\AbstractEntityTest;
 
 class EntityTest extends AbstractEntityTest
 {
-    private string $namespace = 'cluster';
+    private string $namespace = 'reporting';
 
     public function testCorrectPropertiesOfEntities(): void
     {
@@ -30,7 +30,7 @@ class EntityTest extends AbstractEntityTest
         foreach ($entities as $className => $reflectionClass) {
             $class = new $className();
             $class->setId(1);
-            self::assertIsString(actual: (string) $class);
+            self::assertIsString(actual: (string)$class);
         }
     }
 
