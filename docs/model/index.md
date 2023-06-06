@@ -82,14 +82,14 @@ from a new cluster is imported
 
 In this table an overview of all countries is given
 
-| Column      | Type     | Nullable | Description                                                                              |
-|-------------|----------|----------|------------------------------------------------------------------------------------------|
-| id          | int      | no       |                                                                                          |
-| cd          | string   | no       | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code      |
-| country     | string   | no       | Name of the country                                                                      |
-| docRef      | string   | no       | Unique key of the country used for URL formation (eg: united-kingdom for United Kingdom) |
-| iso3        | string   | yes      | [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)                   |
-| numbode     | integer  | yes      | [ISO 3166-1 numeric](https://en.wikipedia.org/wiki/ISO_3166-1_numeric)                   |
+| Column  | Type    | Nullable | Description                                                                              |
+|---------|---------|----------|------------------------------------------------------------------------------------------|
+| id      | int     | no       |                                                                                          |
+| cd      | string  | no       | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code      |
+| country | string  | no       | Name of the country                                                                      |
+| docRef  | string  | no       | Unique key of the country used for URL formation (eg: united-kingdom for United Kingdom) |
+| iso3    | string  | yes      | [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)                   |
+| numbode | integer | yes      | [ISO 3166-1 numeric](https://en.wikipedia.org/wiki/ISO_3166-1_numeric)                   |
 
 ### Project status
 
@@ -139,12 +139,12 @@ of all EUREKA clusters
 | id     | int    | no       |             |
 | type   | string | no       |             |
 
-Current project version statuses are: <empty>, Government, Industry, Large Industry, Others, Research, SME, University,
+Current project version statuses are: Government, Industry, Others, Research, SME, University,
 Unknown
 
 ### Funder
 
-This table indicates if a user is a funder (Public Authority). Each record in the table corresponsds to a user and
+This table indicates if a user is a funder (Public Authority). Each record in the table corresponds to a user and
 country and indicates that the user is Public Authority in that country
 
 | Column     | Type | Nullable | Description                       |
