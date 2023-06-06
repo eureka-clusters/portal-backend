@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 20:28+0200\n"
+"POT-Creation-Date: 2023-06-06 08:55+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -633,12 +633,12 @@ msgid "txt-project-status"
 msgstr "Status of the project"
 
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
-msgid "txt-total-costs"
-msgstr "Total costs"
+msgid "txt-total-costs-euro"
+msgstr "Total Costs (EUR)"
 
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
-msgid "txt-total-effort"
-msgstr "Total effort"
+msgid "txt-total-effort-py"
+msgstr "Total Effort (PY)"
 
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
 msgid "txt-involved-countries"
@@ -2611,6 +2611,9 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#~ msgid "txt-total-costs"
+#~ msgstr "Total costs"
 
 #, fuzzy
 #~| msgid "txt-primary-cluster"
@@ -18277,9 +18280,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-delay-(+)-or-advance-(-)-on-the-end-date-(months)"
 #~ msgstr "Delay (+) or advance (-) in months on the end date (months)"
-
-#~ msgid "txt-old-costs-keuro"
-#~ msgstr "Old Costs (kEUR)"
 
 #~ msgid "txt-new-costs-keuro"
 #~ msgstr "New Costs (kEUR)"

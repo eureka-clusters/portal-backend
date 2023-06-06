@@ -165,13 +165,13 @@ final class ProjectListener extends AbstractResourceListener
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-                message: 'txt-total-costs'
+                message: 'txt-total-costs-euro'
             )
         );
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-                message: 'txt-total-effort'
+                message: 'txt-total-effort-py'
             )
         );
         $projectSheet->setCellValue(
