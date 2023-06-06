@@ -371,6 +371,12 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             case 'labelDate':
                 $sortColumn = 'cluster_entity_project.labelDate';
                 break;
+            case 'officialStartDate':
+                $sortColumn = 'cluster_entity_project.officialStartDate';
+                break;
+                case 'officialEndDate':
+                $sortColumn = 'cluster_entity_project.officialEndDate';
+                break;
             case 'programme':
                 $sortColumn = 'cluster_entity_project.programme';
                 break;
