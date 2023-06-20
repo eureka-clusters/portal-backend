@@ -19,15 +19,15 @@ use Jield\Authorize\Service\AccessRolesByUserInterface;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
 use Laminas\Crypt\Password\Bcrypt;
 use Mailing\Service\EmailService;
-
 use function sprintf;
 
 class UserService extends AbstractService implements AccessRolesByUserInterface
 {
     public function __construct(
-        protected EntityManager $entityManager,
+        protected EntityManager       $entityManager,
         private readonly EmailService $emailService
-    ) {
+    )
+    {
         parent::__construct(entityManager: $entityManager);
     }
 
@@ -53,12 +53,12 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         $user->setFirstName(firstName: $genericUser->getFirstName());
         $user->setLastName(lastName: $genericUser->getLastName());
 
-        $this->save(entity: $user);
-
         //Save the EurekaSecretariatOfficeStaff
         $user->setIsEurekaSecretariatStaffMember(
             isEurekaSecretariatStaffMember: $genericUser->isEurekaSecretariatStaffMember()
         );
+
+        $this->save(entity: $user);
 
         //Delete the funder object when the user is not a funder
         if (!$genericUser->isFunder() && $user->isFunder()) {
@@ -104,9 +104,10 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     }
 
     private function updateFunderClusterPermissions(
-        Funder $funder,
+        Funder  $funder,
         Service $service,
-    ): void {
+    ): void
+    {
         //Each service is connected to a cluster, and we store this information in the funder object
 
         // get the ClusterPermissions from generic User

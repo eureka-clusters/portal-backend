@@ -20,7 +20,7 @@
     {% endfor %}
     <dt>{{ translate("txt-is-funder") }}</dt>
     {% if user.isFunder() %}
-        <dd>{{ translate("txt-yes") }} ({{ user.funder.country }}) {{ user.funder.id }}</dd>
+        <dd>{{ translate("txt-yes") }} ({{ user.funder.country }})</dd>
     {% else %}
         <dd>{{ translate("txt-no") }}</dd>
     {% endif %}
