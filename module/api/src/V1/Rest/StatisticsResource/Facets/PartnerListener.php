@@ -10,15 +10,15 @@ use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
-
 use function base64_decode;
 
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
         private readonly PartnerService $partnerService,
-        private readonly UserService $userService
-    ) {
+        private readonly UserService    $userService
+    )
+    {
     }
 
     #[OA\Get(
@@ -50,7 +50,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         if (!empty($id)) {
-            $encodedFilter    = base64_decode(string: $id, strict: true);
+            $encodedFilter    = base64_decode($id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
