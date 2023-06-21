@@ -24,8 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 {{ lbs5navigation('navigation').lbs5menu().setUlClass('navbar-nav me-auto').setMaxDepth(1)|raw }}
 
-
-                <ul class="navbar-nav me-2">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <button style="padding-top: 11px;"
                                 class="btn btn-link nav-link px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
@@ -75,7 +74,6 @@
                             <a class="nav-link" href="{{ url('user/login') }}">{{ translate("txt-admin-login") }}</a>
                         </li>
                     {% endif %}
-
                 </ul>
             </div>
         </div>
@@ -159,7 +157,6 @@
         })
     })()
 </script>
-
 
 
 {{ inlineScript()|raw }}
