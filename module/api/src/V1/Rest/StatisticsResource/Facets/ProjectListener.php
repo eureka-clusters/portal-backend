@@ -51,7 +51,7 @@ final class ProjectListener extends AbstractResourceListener
 
         //Inject the encoded filter from the results
         if (!empty($id)) {
-            $encodedFilter    = base64_decode(string: $id, strict: true);
+            $encodedFilter    = base64_decode($id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 

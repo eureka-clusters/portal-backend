@@ -72,7 +72,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         //Inject the encoded filter from the results
-        $encodedFilter    = base64_decode(string: $id, strict: true);
+        $encodedFilter    = base64_decode($id, true);
         $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
 
         $searchFormResult = SearchFormResult::fromArray($filter);

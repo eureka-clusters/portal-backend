@@ -89,7 +89,7 @@ final class OrganisationListener extends AbstractResourceListener
         //Inject the encoded filter from the results
         $filter['filter'] = [];
         if (!empty($params->filter)) {
-            $encodedFilter    = base64_decode(string: $params->filter, strict: true);
+            $encodedFilter    = base64_decode($params->filter, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
