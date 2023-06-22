@@ -14,8 +14,9 @@ final class CostsAndEffort extends EntityRepository
     public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project_version_costs_and_effort.costs');
         $queryBuilder->from(
@@ -29,15 +30,15 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setParameter(key: 'year', value: $year);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
-        )->getSingleScalarResult();
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
-        int $year
-    ): float {
+        int     $year
+    ): float
+    {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project_version_costs_and_effort.effort');
         $queryBuilder->from(
@@ -51,8 +52,7 @@ final class CostsAndEffort extends EntityRepository
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
         $queryBuilder->setParameter(key: 'year', value: $year);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
-        )->getSingleScalarResult();
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     public function parseTotalCostsByProjectVersion(Version $projectVersion): float
@@ -63,12 +63,18 @@ final class CostsAndEffort extends EntityRepository
             from: Entity\Project\Version\CostsAndEffort::class,
             alias: 'cluster_entity_project_version_costs_and_effort'
         );
+
+        $queryBuilder->join(join: 'cluster_entity_project_version_costs_and_effort.partner', alias: 'cluster_entity_project_partner');
+
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
+        $queryBuilder->andWhere('cluster_entity_project_partner.isActive = :isActive');
+
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setParameter(key: 'isActive', value: true);
+
         $queryBuilder->setMaxResults(maxResults: 1);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
-        )->getSingleScalarResult();
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     public function parseTotalEffortByProjectVersion(Version $projectVersion): float
@@ -79,11 +85,17 @@ final class CostsAndEffort extends EntityRepository
             from: Entity\Project\Version\CostsAndEffort::class,
             alias: 'cluster_entity_project_version_costs_and_effort'
         );
+
+        $queryBuilder->join(join: 'cluster_entity_project_version_costs_and_effort.partner', alias: 'cluster_entity_project_partner');
+
         $queryBuilder->andWhere('cluster_entity_project_version_costs_and_effort.version = :projectVersion');
+        $queryBuilder->andWhere('cluster_entity_project_partner.isActive = :isActive');
+
         $queryBuilder->setParameter(key: 'projectVersion', value: $projectVersion);
+        $queryBuilder->setParameter(key: 'isActive', value: true);
+
         $queryBuilder->setMaxResults(maxResults: 1);
 
-        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float) $queryBuilder->getQuery(
-        )->getSingleScalarResult();
+        return null === $queryBuilder->getQuery()->getOneOrNullResult() ? 0.0 : (float)$queryBuilder->getQuery()->getSingleScalarResult();
     }
 }
