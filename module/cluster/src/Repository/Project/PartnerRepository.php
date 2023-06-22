@@ -31,8 +31,9 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(from: Partner::class, alias: 'project_partner');
 
         //We always need a join on project
-        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
+
+        $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
 
         $queryBuilder->andWhere('project_partner.isActive = :isActive');
         $queryBuilder->setParameter(key: 'isActive', value: true);
@@ -335,7 +336,7 @@ class PartnerRepository extends EntityRepository
         return $queryBuilder;
     }
 
-    private function activeInLatestVersionSubselect(QueryBuilder $queryBuilder, Project $project): void
+    private function activeInLatestVersionSubselect(QueryBuilder $queryBuilder, ?Project $project = null): void
     {
         $activeInLatestVersionSubSelect = $this->_em->createQueryBuilder();
         $activeInLatestVersionSubSelect->select(select: 'project_partner_subselect');
@@ -359,10 +360,14 @@ class PartnerRepository extends EntityRepository
         $activeInLatestVersionSubSelect->andWhere(
             'project_partner_subselect_costs_and_effort_version_type.type = :type'
         );
-        $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_project.id = :projectId');
+
+        if (null !== $project) {
+            $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_project.id = :projectId');
+            $queryBuilder->setParameter(key: 'projectId', value: $project->getId());
+        }
 
         $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
-        $queryBuilder->setParameter(key: 'projectId', value: $project->getId());
+
         $queryBuilder->andWhere(
             $queryBuilder->expr()->in(x: 'project_partner', y: $activeInLatestVersionSubSelect->getDQL())
         );
@@ -384,8 +389,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->andWhere('project_partner.isActive = :isActive');
         $queryBuilder->setParameter(key: 'isActive', value: true);
 
-        //We always need a join on project
-        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
+        $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
 
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);

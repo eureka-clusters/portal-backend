@@ -1,4 +1,4 @@
-GET {{ baseUrl }}/api/list/partner?filter=&page=1&pageSize=30&sort=latestVersionCosts&order=asc&project=6g-sky
+GET {{ baseUrl }}/api/list/partner?filter=&page=1&pageSize=30&sort=latestVersionCosts&order=asc
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{ bearerToken }}
