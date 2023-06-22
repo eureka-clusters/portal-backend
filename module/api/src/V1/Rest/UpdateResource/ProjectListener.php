@@ -118,6 +118,7 @@ final class ProjectListener extends AbstractResourceListener
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
+
                     $totalCosts += $costsAndEffortData->costs;
                     $totalEffort += $costsAndEffortData->effort;
 
