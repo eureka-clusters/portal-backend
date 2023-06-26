@@ -1,4 +1,4 @@
-FROM ghcr.io/jield-webdev/docker-repos/php8.1-cli:dev
+FROM ghcr.io/jield-webdev/docker-repos/php8.2-cli:dev
 
 LABEL maintainer="Johan van der Heide <johan.van.der.heide@itea4.org>"
 LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/portal-backend/cli"

@@ -35,8 +35,8 @@ class PartnerRepository extends EntityRepository
 
         $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
 
-        $queryBuilder->andWhere('project_partner.isActive = :isActive');
-        $queryBuilder->setParameter(key: 'isActive', value: true);
+//        $queryBuilder->andWhere('project_partner.isActive = :isActive');
+//        $queryBuilder->setParameter(key: 'isActive', value: true);
 
         $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
@@ -320,8 +320,8 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select(select: 'project_partner');
         $queryBuilder->from(from: Partner::class, alias: 'project_partner');
 
-        $queryBuilder->andWhere('project_partner.isActive = :isActive');
-        $queryBuilder->setParameter(key: 'isActive', value: true);
+//        $queryBuilder->andWhere('project_partner.isActive = :isActive');
+//        $queryBuilder->setParameter(key: 'isActive', value: true);
 
         $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder, project: $project);
 
@@ -386,8 +386,8 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->where(predicates: 'project_partner_organisation = :organisation');
         $queryBuilder->setParameter(key: 'organisation', value: $organisation);
 
-        $queryBuilder->andWhere('project_partner.isActive = :isActive');
-        $queryBuilder->setParameter(key: 'isActive', value: true);
+//        $queryBuilder->andWhere('project_partner.isActive = :isActive');
+//        $queryBuilder->setParameter(key: 'isActive', value: true);
 
         $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
 
