@@ -41,6 +41,12 @@ class AuthorizationCode extends AbstractEntity
     #[ORM\Column(name: 'id_token', type: 'string', length: 2000, nullable: true)]
     private ?string $idToken = null;
 
+    #[ORM\Column(name: 'code_challenge', type: 'string', length: 2000, nullable: true)]
+    private ?string $codeChallenge = null;
+
+    #[ORM\Column(name: 'code_challenge_method', type: 'string', length: 2000, nullable: true)]
+    private ?string $codeChallengeMethod = null;
+
     public function __construct()
     {
         $this->client  = new Client();
@@ -132,6 +138,28 @@ class AuthorizationCode extends AbstractEntity
     public function setIdToken(?string $idToken): AuthorizationCode
     {
         $this->idToken = $idToken;
+        return $this;
+    }
+
+    public function getCodeChallenge(): ?string
+    {
+        return $this->codeChallenge;
+    }
+
+    public function setCodeChallenge(?string $codeChallenge): AuthorizationCode
+    {
+        $this->codeChallenge = $codeChallenge;
+        return $this;
+    }
+
+    public function getCodeChallengeMethod(): ?string
+    {
+        return $this->codeChallengeMethod;
+    }
+
+    public function setCodeChallengeMethod(?string $codeChallengeMethod): AuthorizationCode
+    {
+        $this->codeChallengeMethod = $codeChallengeMethod;
         return $this;
     }
 }

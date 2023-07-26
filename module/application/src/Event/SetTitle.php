@@ -19,7 +19,7 @@ class SetTitle extends AbstractListenerAggregate
     public function setHeadLink(): void
     {
         $this->renderer->headLink()->appendStylesheet(
-            '//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
+            '//cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css',
             'all',
             null,
             null
@@ -49,14 +49,12 @@ class SetTitle extends AbstractListenerAggregate
 
     public function setHeadScript(): void
     {
-        $this->renderer->headScript()->appendFile('//cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js');
+        //$this->renderer->headScript()->appendFile('//cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js');
     }
 
     public function setHeadTitle(): void
     {
-        /** @phpstan-ignore-next-line */
         $this->renderer->headTitle()->setSeparator(' - ');
-        /** @phpstan-ignore-next-line */
         $this->renderer->headTitle()->append('Eureka Clusters Backend Application');
     }
 

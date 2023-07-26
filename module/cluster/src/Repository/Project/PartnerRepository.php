@@ -38,6 +38,9 @@ class PartnerRepository extends EntityRepository
 //        $queryBuilder->andWhere('project_partner.isActive = :isActive');
 //        $queryBuilder->setParameter(key: 'isActive', value: true);
 
+        //We always need a join on project
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
+
         $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
@@ -383,11 +386,15 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select(select: 'project_partner');
         $queryBuilder->from(from: Partner::class, alias: 'project_partner');
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'project_partner_organisation');
+
         $queryBuilder->where(predicates: 'project_partner_organisation = :organisation');
         $queryBuilder->setParameter(key: 'organisation', value: $organisation);
 
 //        $queryBuilder->andWhere('project_partner.isActive = :isActive');
 //        $queryBuilder->setParameter(key: 'isActive', value: true);
+
+        //We always need a join on project
+        $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
         $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
 
