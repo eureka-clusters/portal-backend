@@ -9,13 +9,14 @@ use Cluster\Entity\Project;
 use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Entity\Version\Status;
 use Cluster\Entity\Version\Type;
+use Cluster\Repository\Project\VersionRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'cluster_project_version')]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: VersionRepository::class)]
 class Version extends AbstractEntity
 {
     #[ORM\Column(type: 'integer')]
@@ -64,6 +65,11 @@ class Version extends AbstractEntity
     public function hasEvaluation(): bool
     {
         return null !== $this->evaluation;
+    }
+
+    public function isSubmitted(): bool
+    {
+        return null !== $this->submissionDate;
     }
 
     public function getId(): ?int

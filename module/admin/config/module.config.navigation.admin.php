@@ -47,6 +47,15 @@ return [
                                             ],
                                         ],
                                     ],
+                                    'edit' => [
+                                        'route'  => 'zfcadmin/user/edit',
+                                        'label'  => _('txt-edit-user'),
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => User::class,
+                                            ],
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],

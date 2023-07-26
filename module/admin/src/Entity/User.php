@@ -16,12 +16,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Jield\Authorize\Role\UserAsRoleInterface;
+use Laminas\Form\Annotation;
 use Laminas\Form\Annotation\Exclude;
+use Laminas\Form\Element\Hidden;
+use Laminas\Form\Element\Text;
 use Mailing\Entity\EmailMessage;
-
 use function sprintf;
+
 
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \Admin\Repository\User::class)]
@@ -30,32 +34,60 @@ class User extends AbstractEntity implements UserAsRoleInterface
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Annotation\Type(Hidden::class)]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Annotation\Exclude]
     private ?string $password = null;
 
     #[ORM\Column]
+    #[Annotation\Type(Text::class)]
+    #[Annotation\Options(['help-block' => 'txt-user-first-name-help-block'])]
+    #[Annotation\Attributes([
+        'label'       => 'txt-user-first-name-label',
+        'placeholder' => 'txt-user-first-name-placeholder'
+    ])]
     private string $firstName = '';
 
     #[ORM\Column]
+    #[Annotation\Type(Text::class)]
+    #[Annotation\Options(['help-block' => 'txt-user-last-name-help-block'])]
+    #[Annotation\Attributes([
+        'label'       => 'txt-user-last-name-label',
+        'placeholder' => 'txt-user-last-name-placeholder'
+    ])]
     private string $lastName = '';
 
     #[ORM\Column(unique: true)]
+    #[Annotation\Type(\Laminas\Form\Element\Email::class)]
+    #[Annotation\Options(['help-block' => 'txt-user-email-address-help-block'])]
+    #[Annotation\Attributes([
+        'label'       => 'txt-user-email-address-label',
+        'placeholder' => 'txt-user-email-address-placeholder'
+    ])]
     private string $email = '';
 
     #[ORM\Column(type: 'datetime', nullable: false)]
     #[Gedmo\Timestampable(on: 'create')]
+    #[Annotation\Exclude]
     private DateTime $dateCreated;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Gedmo\Timestampable(on: 'update')]
+    #[Annotation\Exclude]
     private ?DateTime $dateUpdated = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Annotation\Exclude]
     private ?DateTime $dateEnd = null;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
+    #[Annotation\Type(\Laminas\Form\Element\Checkbox::class)]
+    #[Annotation\Options(['help-block' => 'txt-user-is-eureka-secretariat-staff-member-help-block'])]
+    #[Annotation\Attributes([
+        'label' => 'txt-user-is-eureka-secretariat-staff-member-label',
+    ])]
     private bool $isEurekaSecretariatStaffMember = false;
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
@@ -63,24 +95,33 @@ class User extends AbstractEntity implements UserAsRoleInterface
     #[ORM\JoinTable(name: 'admin_user_role')]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\InverseJoinColumn(nullable: false)]
+    #[Annotation\Type(EntityMultiCheckbox::class)]
+    #[Annotation\Options(['target_class' => Role::class, 'help-block' => 'txt-user-roles-help-block'])]
+    #[Annotation\Attributes(['label' => 'txt-user-role-label'])]
     private Collection $roles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Session::class)]
+    #[Annotation\Exclude]
     private Collection $session;
 
     #[ORM\OneToOne(mappedBy: 'user', targetEntity: Funder::class, cascade: ['persist', 'remove'])]
+    #[Annotation\Exclude]
     private ?Funder $funder = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Evaluation::class, cascade: ['persist'])]
+    #[Annotation\Exclude]
     private Collection $evaluation;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: AccessToken::class, cascade: ['persist'])]
+    #[Annotation\Exclude]
     private Collection $oAuthAccessTokens;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: AuthorizationCode::class, cascade: ['persist'])]
+    #[Annotation\Exclude]
     private Collection $oAuthAuthorizationCodes;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: RefreshToken::class, cascade: ['persist'])]
+    #[Annotation\Exclude]
     private Collection $oAuthRefreshTokens;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Deeplink::class, cascade: ['persist', 'remove'])]
@@ -105,8 +146,31 @@ class User extends AbstractEntity implements UserAsRoleInterface
         $this->emailMessage            = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->parseFullName();
+    }
+
+    public function addRoles(Collection $roles): void
+    {
+        foreach ($roles as $role) {
+            $this->roles->add($role);
+        }
+    }
+
+    public function removeRoles(Collection $roles): void
+    {
+        foreach ($roles as $role) {
+            $this->roles->removeElement($role);
+        }
+    }
+
     public function parseFullName(): string
     {
+        if (empty($this->firstName) || empty($this->lastName)) {
+            return $this->email;
+        }
+
         return sprintf('%s %s', $this->firstName, $this->lastName);
     }
 
@@ -140,7 +204,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
     {
         return null !== $this->getRoles()
             && $this->getRoles()->exists(
-                p: static fn ($key, Role $role) => $role->getId() === $userRole->getId()
+                p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
             );
     }
 

@@ -6,9 +6,11 @@ namespace Cluster\Provider\Project;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Partner;
+use Cluster\Entity\Project\Version;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
+use Cluster\Service\Project\PartnerService;
 use Laminas\Cache\Storage\Adapter\Redis;
 use OpenApi\Attributes as OA;
 
@@ -19,8 +21,11 @@ use OpenApi\Attributes as OA;
 )]
 class PartnerProvider implements ProviderInterface
 {
+    private ?Version $version = null;
+
     public function __construct(
         private readonly Redis                $cache,
+        private readonly PartnerService       $partnerService,
         private readonly ProjectProvider      $projectProvider,
         private readonly ContactProvider      $contactProvider,
         private readonly OrganisationProvider $organisationProvider
@@ -101,6 +106,15 @@ class PartnerProvider implements ProviderInterface
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
         if (!$partnerData) {
+
+            $latestVersionCost   = $partner->getLatestVersionCosts();
+            $latestVersionEffort = $partner->getLatestVersionEffort();
+
+            if ($this->version) {
+                $latestVersionCost   = $this->partnerService->findTotalCostsByPartnerAndProjectVersion(partner: $partner, projectVersion: $this->version);
+                $latestVersionEffort = $this->partnerService->findTotalEffortByPartnerAndProjectVersion(partner: $partner, projectVersion: $this->version);
+            }
+
             $partnerData = [
                 'id'                  => $partner->getId(),
                 'slug'                => $partner->getSlug(),
@@ -114,12 +128,19 @@ class PartnerProvider implements ProviderInterface
                 'organisation'        => $this->organisationProvider->generateArray(
                     entity: $partner->getOrganisation()
                 ),
-                'latestVersionCosts'  => $partner->getLatestVersionCosts(),
-                'latestVersionEffort' => $partner->getLatestVersionEffort(),
+                'latestVersionCosts'  => $latestVersionCost,
+                'latestVersionEffort' => $latestVersionEffort,
             ];
             $this->cache->setItem(key: $cacheKey, value: $partnerData);
         }
 
         return $partnerData;
+    }
+
+    public function setVersion(?Version $version): self
+    {
+        $this->version = $version;
+
+        return $this;
     }
 }

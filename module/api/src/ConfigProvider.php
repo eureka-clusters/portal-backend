@@ -19,6 +19,7 @@ use BjyAuthorize\Guard\Route;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
+use Cluster\Provider\Project\VersionProvider;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
@@ -48,6 +49,7 @@ final class ConfigProvider
                 MeListener::class                                       => ConfigAbstractFactory::class,
                 Rest\ListResource\ServiceListener::class                => ConfigAbstractFactory::class,
                 ProjectListener::class                                  => ConfigAbstractFactory::class,
+                Rest\ListResource\Project\VersionListener::class        => ConfigAbstractFactory::class,
                 OrganisationListener::class                             => ConfigAbstractFactory::class,
                 PartnerListener::class                                  => ConfigAbstractFactory::class,
                 ResultListener::class                                   => ConfigAbstractFactory::class,
@@ -103,10 +105,17 @@ final class ConfigProvider
                 UserService::class,
                 ProjectProvider::class,
             ],
+            Rest\ListResource\Project\VersionListener::class        => [
+                VersionService::class,
+                ProjectService::class,
+                UserService::class,
+                VersionProvider::class,
+            ],
             PartnerListener::class                                  => [
                 PartnerService::class,
                 ProjectService::class,
                 OrganisationService::class,
+                VersionService::class,
                 UserService::class,
                 PartnerProvider::class,
                 PartnerYearProvider::class
@@ -172,6 +181,7 @@ final class ConfigProvider
                     ['route' => MeListener::class, 'roles' => []],
                     ['route' => Rest\ListResource\ServiceListener::class, 'roles' => []],
                     ['route' => ProjectListener::class, 'roles' => []],
+                    ['route' => Rest\ListResource\Project\VersionListener::class, 'roles' => []],
                     ['route' => OrganisationListener::class, 'roles' => []],
                     ['route' => PartnerListener::class, 'roles' => []],
                     ['route' => ResultListener::class, 'roles' => []],
@@ -216,6 +226,15 @@ final class ConfigProvider
                         'route'    => '/api/list/project',
                         'defaults' => [
                             'controller' => ProjectListener::class,
+                        ],
+                    ],
+                ],
+                Rest\ListResource\Project\VersionListener::class        => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/api/list/project/version',
+                        'defaults' => [
+                            'controller' => Rest\ListResource\Project\VersionListener::class,
                         ],
                     ],
                 ],

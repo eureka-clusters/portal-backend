@@ -17,21 +17,21 @@ final class UserFilter extends InputFilter
         $inputFilter = new InputFilter();
 
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'firstName',
                 'required' => true,
             ]
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'lastName',
                 'required' => true,
             ]
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name'       => 'email',
                 'required'   => true,
                 'filters'    => [
@@ -45,7 +45,7 @@ final class UserFilter extends InputFilter
                     [
                         'name'    => UniqueObject::class,
                         'options' => [
-                            'object_repository' => $entityManager->getRepository(User::class),
+                            'object_repository' => $entityManager->getRepository(entityName: User::class),
                             'object_manager'    => $entityManager,
                             'use_context'       => true,
                             'fields'            => 'email',
@@ -56,12 +56,12 @@ final class UserFilter extends InputFilter
         );
 
         $inputFilter->add(
-            [
+            input: [
                 'name'     => 'roles',
                 'required' => false,
             ]
         );
 
-        $this->add($inputFilter, 'admin_entity_user');
+        $this->add(input: $inputFilter, name: 'admin_entity_user');
     }
 }

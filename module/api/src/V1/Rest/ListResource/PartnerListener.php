@@ -12,6 +12,7 @@ use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\Project\PartnerService;
+use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
@@ -23,13 +24,15 @@ use OpenApi\Attributes as OA;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private readonly PartnerService $partnerService,
-        private readonly ProjectService $projectService,
+        private readonly PartnerService      $partnerService,
+        private readonly ProjectService      $projectService,
         private readonly OrganisationService $organisationService,
-        private readonly UserService $userService,
-        private readonly PartnerProvider $partnerProvider,
+        private readonly VersionService      $versionService,
+        private readonly UserService         $userService,
+        private readonly PartnerProvider     $partnerProvider,
         private readonly PartnerYearProvider $partnerYearProvider,
-    ) {
+    )
+    {
     }
 
     #[OA\Get(
@@ -49,6 +52,14 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Parameter(
                 name: 'project',
                 description: 'Project ID to filter on',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer'),
+                example: null
+            ),
+            new OA\Parameter(
+                name: 'version',
+                description: 'Project version ID to filter on',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer'),
@@ -127,6 +138,7 @@ final class PartnerListener extends AbstractResourceListener
         $searchFormResult = SearchFormResult::fromArray($filter);
 
         $hasYears = false;
+        $version  = null;
 
         switch (true) {
             case isset($params->project):
@@ -157,6 +169,20 @@ final class PartnerListener extends AbstractResourceListener
                     searchFormResult: $searchFormResult,
                 );
                 break;
+            case isset($params->version):
+                /** @var Project\Version $version */
+                $version = $this->versionService->findVersionById(id: (int)$params->version);
+
+                if (null === $version) {
+                    return new ApiProblem(status: 400, detail: 'Version cannot not found');
+                }
+
+                $partnerQueryBuilder = $this->partnerService->getPartnersByProjectVersion(
+                    user: $user,
+                    projectVersion: $version,
+                    searchFormResult: $searchFormResult,
+                );
+                break;
             default:
 
                 $hasYears = !empty($filter['filter']['year']);
@@ -168,7 +194,8 @@ final class PartnerListener extends AbstractResourceListener
         }
 
         $doctrineORMAdapter = new DoctrineORMAdapter(query: $partnerQueryBuilder);
-        $doctrineORMAdapter->setProvider(provider: $hasYears ? $this->partnerYearProvider : $this->partnerProvider);
+        $doctrineORMAdapter->setProvider(provider: $hasYears ? $this->partnerYearProvider : $this->partnerProvider->setVersion($version));
+
 
         return new Paginator(adapter: $doctrineORMAdapter);
     }

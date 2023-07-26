@@ -1,0 +1,4 @@
+GET {{ baseUrl }}/api/list/project/version?project=717
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

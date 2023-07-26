@@ -1,0 +1,6 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(translate("txt-edit-user-%s")|format(user)) %}
+
+<h1>{{ translate("txt-edit-user-%s")|format(user) }}</h1>
+
+{% include 'admin/partial/form/user' %}

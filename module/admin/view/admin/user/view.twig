@@ -1,7 +1,7 @@
 {% do headTitle().append(translate("txt-admin") ) %}
 {% do headTitle().append(translate("txt-user") ) %}
 
-<h1>{{ user.parseFullName() }}</h1>
+<h1>{{ user.parseFullName() }} {{ userLink(user, 'edit','button') }}</h1>
 
 <p>{{ translate("txt-detailed-overview-of-user") }}</p>
 

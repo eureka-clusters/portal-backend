@@ -40,7 +40,7 @@
                 {% for user in paginator.getCurrentItems() %}
                     <tr>
                         <td><small class="text-muted">{{ user.id }}</small></td>
-                        <td>{{ userLink(user, 'view-admin', 'name') }}</td>
+                        <td>{{ userLink(user, 'view-admin', 'name') }} {{ userLink(user, 'edit', 'icon') }}</td>
                         <td>{{ userLink(user, 'view-admin', 'email') }}</td>
                         <td>{% if user.isFunder() %}{{ user.funder.country }}{% endif %}</td>
                         <td>{% for role in user.getRoles() %}{{ roleLink(role,'view','name') }}{% if not loop.last %}, {% endif %}{% endfor %}

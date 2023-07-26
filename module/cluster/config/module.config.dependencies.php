@@ -68,6 +68,7 @@ return [
         ],
         PartnerProvider::class                 => [
             Redis::class,
+            PartnerService::class,
             ProjectProvider::class,
             ContactProvider::class,
             OrganisationProvider::class,

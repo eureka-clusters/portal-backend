@@ -19,10 +19,11 @@ use OpenApi\Attributes as OA;
 class VersionProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly Redis $cache,
-        private readonly TypeProvider $versionTypeProvider,
+        private readonly Redis          $cache,
+        private readonly TypeProvider   $versionTypeProvider,
         private readonly StatusProvider $versionStatusProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Schema(
@@ -44,6 +45,25 @@ class VersionProvider implements ProviderInterface
                 property: 'status',
                 ref: '#/components/schemas/project_version_status'
             ),
+            new OA\Property(
+                property: 'dateSubmitted',
+                description: 'Date when the version was submitted by the project',
+                type: 'string',
+                format: 'date-time',
+                example: '2023-01-01T00:00:00+00:00'
+            ),
+            new OA\Property(
+                property: 'effort',
+                description: 'Total effort in this version in PY',
+                type: 'float',
+                example: 12.3
+            ),
+            new OA\Property(
+                property: 'costs',
+                description: 'Total effort in this version in Euro',
+                type: 'float',
+                example: 3_400_300
+            ),
         ]
     )]
     public function generateArray($entity): array
@@ -57,9 +77,12 @@ class VersionProvider implements ProviderInterface
 
         if (!$versionData) {
             $versionData = [
-                'id'     => $version->getId(),
-                'type'   => $this->versionTypeProvider->generateArray(entity: $version->getType()),
-                'status' => $this->versionStatusProvider->generateArray(entity: $version->getStatus()),
+                'id'            => $version->getId(),
+                'type'          => $this->versionTypeProvider->generateArray(entity: $version->getType()),
+                'status'        => $this->versionStatusProvider->generateArray(entity: $version->getStatus()),
+                'dateSubmitted' => $version->isSubmitted() ? $version->getSubmissionDate()->format(\DateTimeInterface::ATOM) : null,
+                'effort'        => $version->getEffort(),
+                'costs'         => $version->getCosts(),
             ];
 
             $this->cache->setItem(key: $cacheKey, value: $versionData);

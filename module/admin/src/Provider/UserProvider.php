@@ -44,6 +44,12 @@ class UserProvider implements ProviderInterface
                 example: 'Doe'
             ),
             new OA\Property(
+                property: 'fullName',
+                description: 'Full name of the user (and email if empty)',
+                type: 'string',
+                example: 'John Doe'
+            ),
+            new OA\Property(
                 property: 'email',
                 description: 'User email',
                 type: 'string',
@@ -76,6 +82,7 @@ class UserProvider implements ProviderInterface
             'id'                             => $user->getId(),
             'firstName'                      => $user->getFirstName(),
             'lastName'                       => $user->getLastName(),
+            'fullName'                       => $user->parseFullName(),
             'email'                          => $user->getEmail(),
             'isFunder'                       => $user->isFunder(),
             'isEurekaSecretariatStaffMember' => $user->isEurekaSecretariatStaffMember(),
