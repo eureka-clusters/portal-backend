@@ -699,7 +699,7 @@ msgstr "Effort (PO, PY)"
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:217
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
 msgid "txt-full-project-proposal-costs"
-msgstr "Full project proposal costs"
+msgstr "Costs (FPP, EUR)"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:223
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:186
