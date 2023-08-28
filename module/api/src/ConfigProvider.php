@@ -115,7 +115,6 @@ final class ConfigProvider
                 PartnerService::class,
                 ProjectService::class,
                 OrganisationService::class,
-                VersionService::class,
                 UserService::class,
                 PartnerProvider::class,
                 PartnerYearProvider::class

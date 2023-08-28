@@ -6,6 +6,7 @@ namespace Cluster\Provider;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project;
+use Cluster\Entity\Version\Type;
 use Cluster\Provider\Project\Partner\CoordinatorProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
@@ -188,6 +189,32 @@ class ProjectProvider implements ProviderInterface
                 description: 'Project status information'
             ),
             new OA\Property(
+                property: 'projectOutlineTotalCosts',
+                description: 'Total costs of the Project Outline (In EUR)',
+                type: 'float',
+                example: 1_000_000,
+                nullable: true
+            ),
+            new OA\Property(
+                property: 'projectOutlineTotalEffort',
+                description: 'Total effort of the Project Outline (In Person Years)',
+                type: 'float',
+                example: 13.1,
+                nullable: true
+            ),
+            new OA\Property(
+                property: 'fullProjectProposalTotalCosts',
+                description: 'Total costs of the Full Project Proposal (In EUR)',
+                type: 'float',
+                example: 2_000_000
+            ),
+            new OA\Property(
+                property: 'fullProjectProposalTotalEffort',
+                description: 'Total effort of the Full Project Proposal (In Person Years)',
+                type: 'float',
+                example: 22.3
+            ),
+            new OA\Property(
                 property: 'latestVersionTotalCosts',
                 description: 'Total costs of the latest project version (In EUR)',
                 type: 'float',
@@ -228,36 +255,48 @@ class ProjectProvider implements ProviderInterface
                 }
             }
 
+            //Get the project outline
+            $projectOutline      = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_PO);
+            $fullProjectProposal = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_FPP);
+            $latestVersion       = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_LATEST);
+
+            $projectOutlineTotalCosts       = null === $projectOutline ? null : $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $projectOutline);
+            $projectOutlineTotalEffort      = null === $projectOutline ? null : $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $projectOutline);
+            $fullProjectProposalTotalCosts  = $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $fullProjectProposal);
+            $fullProjectProposalTotalEffort = $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $fullProjectProposal);
+            $latestVersionTotalCosts        = $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $latestVersion);
+            $latestVersionTotalEffort       = $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $latestVersion);
+
             $projectData = [
-                'slug'                     => $project->getSlug(),
-                'identifier'               => $project->getIdentifier(),
-                'number'                   => $project->getNumber(),
-                'name'                     => $project->getName(),
-                'title'                    => $project->getTitle(),
-                'description'              => $project->getDescription(),
-                'technicalArea'            => $project->getTechnicalArea(),
-                'coordinator'              => null === $project->getCoordinatorPartner() ? null : $this->coordinatorProvider->generateArray(entity: $project->getCoordinatorPartner()),
-                'projectLeader'            => $this->contactProvider->generateArray(
+                'slug'                           => $project->getSlug(),
+                'identifier'                     => $project->getIdentifier(),
+                'number'                         => $project->getNumber(),
+                'name'                           => $project->getName(),
+                'title'                          => $project->getTitle(),
+                'description'                    => $project->getDescription(),
+                'technicalArea'                  => $project->getTechnicalArea(),
+                'coordinator'                    => null === $project->getCoordinatorPartner() ? null : $this->coordinatorProvider->generateArray(entity: $project->getCoordinatorPartner()),
+                'projectLeader'                  => $this->contactProvider->generateArray(
                     entity: $project->getProjectLeader()
                 ),
-                'latestVersion'            => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
+                'latestVersion'                  => null === $project->getLatestVersion() ? null : $this->versionProvider->generateArray(
                     entity: $project->getLatestVersion()
                 ),
-                'programme'                => $project->getProgramme(),
-                'programmeCall'            => $project->getProgrammeCall(),
-                'primaryCluster'           => $this->clusterProvider->generateArray(
+                'programme'                      => $project->getProgramme(),
+                'programmeCall'                  => $project->getProgrammeCall(),
+                'primaryCluster'                 => $this->clusterProvider->generateArray(
                     entity: $project->getPrimaryCluster()
                 ),
-                'secondaryCluster'         => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
+                'secondaryCluster'               => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
                     entity: $project->getSecondaryCluster()
                 ),
-                'cancelDate'               => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
-                'labelDate'                => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
-                'officialStartDate'        => $project->getOfficialStartDate()?->format(
+                'cancelDate'                     => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
+                'labelDate'                      => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
+                'officialStartDate'              => $project->getOfficialStartDate()?->format(
                     format: DateTimeInterface::ATOM
                 ),
-                'officialEndDate'          => $project->getOfficialEndDate()?->format(format: DateTimeInterface::ATOM),
-                'duration'                 => [
+                'officialEndDate'                => $project->getOfficialEndDate()?->format(format: DateTimeInterface::ATOM),
+                'duration'                       => [
                     'years'  => $this->projectService->parseDuration(
                         project: $project,
                         type: ProjectService::DURATION_YEAR
@@ -271,16 +310,16 @@ class ProjectProvider implements ProviderInterface
                         type: ProjectService::DURATION_DAYS
                     ),
                 ],
-                'status'                   => $this->projectStatusProvider->generateArray(
+                'status'                         => $this->projectStatusProvider->generateArray(
                     entity: $project->getStatus()
                 ),
-                'latestVersionTotalCosts'  => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalCostsByProjectVersion(
-                    projectVersion: $project->getLatestVersion()
-                ),
-                'latestVersionTotalEffort' => null === $project->getLatestVersion() ? null : $this->versionService->parseTotalEffortByProjectVersion(
-                    projectVersion: $project->getLatestVersion()
-                ),
-                'countries'                => $countries,
+                'projectOutlineTotalCosts'       => $projectOutlineTotalCosts,
+                'projectOutlineTotalEffort'      => $projectOutlineTotalEffort,
+                'fullProjectProposalTotalCosts'  => $fullProjectProposalTotalCosts,
+                'fullProjectProposalTotalEffort' => $fullProjectProposalTotalEffort,
+                'latestVersionTotalCosts'        => $latestVersionTotalCosts,
+                'latestVersionTotalEffort'       => $latestVersionTotalEffort,
+                'countries'                      => $countries,
             ];
 
             $this->cache->setItem(key: $cacheKey, value: $projectData);
