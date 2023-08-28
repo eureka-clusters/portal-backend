@@ -185,63 +185,48 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
 
-        if (!empty($filter['filter']['year'])) {
-            $partnerSheet->setCellValue(
-                coordinate: $column++ . $row,
-                value: $this->translator->translate(
-                    message: 'txt-partner-costs-in-year'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column . $row,
-                value: $this->translator->translate(
-                    message: 'txt-partner-effort-in-year'
-                )
-            );
-        } else {
-            $partnerSheet->setCellValue(
-                coordinate: $column++ . $row,
-                value: $this->translator->translate(
-                    message: 'txt-project-outline-costs'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column . $row,
-                value: $this->translator->translate(
-                    message: 'txt-project-outline-effort'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column++ . $row,
-                value: $this->translator->translate(
-                    message: 'txt-full-project-proposal-costs'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column . $row,
-                value: $this->translator->translate(
-                    message: 'txt-full-project-proposal-effort'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column++ . $row,
-                value: $this->translator->translate(
-                    message: 'txt-latest-version-costs'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column . $row,
-                value: $this->translator->translate(
-                    message: 'txt-latest-version-effort'
-                )
-            );
-            $partnerSheet->setCellValue(
-                coordinate: $column++ . $row,
-                value: $this->translator->translate(
-                    message: 'txt-latest-version-is-fpp'
-                )
-            );
-        }
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-project-outline-costs'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column . $row,
+            value: $this->translator->translate(
+                message: 'txt-project-outline-effort'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-full-project-proposal-costs'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column . $row,
+            value: $this->translator->translate(
+                message: 'txt-full-project-proposal-effort'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-costs'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-effort'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-is-fpp'
+            )
+        );
 
         foreach ($results as $result) {
             $column = 'A';
