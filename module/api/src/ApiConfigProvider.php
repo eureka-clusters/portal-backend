@@ -44,6 +44,21 @@ final class ApiConfigProvider
                     'filter'
                 ],
             ],
+            Rest\ListResource\Project\VersionListener::class        => [
+                'listener'                   => Rest\ListResource\Project\VersionListener::class,
+                'route_name'                 => Rest\ListResource\Project\VersionListener::class,
+                'route_identifier_name'      => '',
+                'collection_http_methods'    => ['GET'],
+                'page_size'                  => 25,
+                'page_size_param'            => 'pageSize',
+                'collection_query_whitelist' => [
+                    'project',
+                    'query',
+                    'order',
+                    'direction',
+                    'filter'
+                ],
+            ],
             OrganisationListener::class                             => [
                 'listener'                   => OrganisationListener::class,
                 'route_name'                 => OrganisationListener::class,
@@ -69,6 +84,7 @@ final class ApiConfigProvider
                 'page_size_param'            => 'pageSize',
                 'collection_query_whitelist' => [
                     'project',
+                    'version',
                     'organisation',
                     'order',
                     'direction',
@@ -158,6 +174,11 @@ final class ApiConfigProvider
                     ],
                 ],
                 ProjectListener::class                                  => [
+                    'collection' => [
+                        'GET' => true,
+                    ],
+                ],
+                Rest\ListResource\Project\VersionListener::class        => [
                     'collection' => [
                         'GET' => true,
                     ],

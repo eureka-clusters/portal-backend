@@ -26,6 +26,7 @@ docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-sch
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:schema-tool:update --dump-sql
 
 docker compose exec redis redis-cli
+docker compose build
 docker compose up -d
 
 

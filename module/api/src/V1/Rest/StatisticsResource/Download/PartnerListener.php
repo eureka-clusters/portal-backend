@@ -9,6 +9,8 @@ use Cluster\Entity\Project\Partner;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
 use Cluster\Service\Project\PartnerService;
+use DateTime;
+use DateTimeInterface;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
@@ -16,7 +18,6 @@ use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-
 use function base64_decode;
 use function base64_encode;
 use function ob_get_clean;
@@ -25,12 +26,13 @@ use function ob_start;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private readonly PartnerService $partnerService,
-        private readonly UserService $userService,
+        private readonly PartnerService      $partnerService,
+        private readonly UserService         $userService,
         private readonly TranslatorInterface $translator,
-        private readonly PartnerProvider $partnerProvider,
+        private readonly PartnerProvider     $partnerProvider,
         private readonly PartnerYearProvider $partnerYearProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(
@@ -134,6 +136,54 @@ final class PartnerListener extends AbstractResourceListener
                 message: 'txt-partner-type'
             )
         );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-primary-cluster'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-secondary-cluster'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-programme'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-programme-call'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-label-date'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-official-start-date'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-official-end-date'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-project-status'
+            )
+        );
 
         if (!empty($filter['filter']['year'])) {
             $partnerSheet->setCellValue(
@@ -152,13 +202,43 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->setCellValue(
                 coordinate: $column++ . $row,
                 value: $this->translator->translate(
-                    message: 'txt-partner-costs'
+                    message: 'txt-project-outline-costs'
                 )
             );
             $partnerSheet->setCellValue(
                 coordinate: $column . $row,
                 value: $this->translator->translate(
-                    message: 'txt-partner-effort'
+                    message: 'txt-project-outline-effort'
+                )
+            );
+            $partnerSheet->setCellValue(
+                coordinate: $column++ . $row,
+                value: $this->translator->translate(
+                    message: 'txt-full-project-proposal-costs'
+                )
+            );
+            $partnerSheet->setCellValue(
+                coordinate: $column . $row,
+                value: $this->translator->translate(
+                    message: 'txt-full-project-proposal-effort'
+                )
+            );
+            $partnerSheet->setCellValue(
+                coordinate: $column++ . $row,
+                value: $this->translator->translate(
+                    message: 'txt-latest-version-costs'
+                )
+            );
+            $partnerSheet->setCellValue(
+                coordinate: $column . $row,
+                value: $this->translator->translate(
+                    message: 'txt-latest-version-effort'
+                )
+            );
+            $partnerSheet->setCellValue(
+                coordinate: $column++ . $row,
+                value: $this->translator->translate(
+                    message: 'txt-latest-version-is-fpp'
                 )
             );
         }
@@ -177,6 +257,34 @@ final class PartnerListener extends AbstractResourceListener
                 value: $result['organisation']['type']['type']
             );
 
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['project']['primaryCluster']['name'] ?? null
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['project']['secondaryCluster']['name'] ?? null
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['programme']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['programmeCall']);
+
+            $labelDate         = null;
+            $officialStartDate = null;
+            $officialEndDate   = null;
+
+            if (null !== $result['project']['labelDate']) {
+                $labelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['labelDate'])->format(format: 'Y-m-d');
+            }
+            if (null !== $result['project']['officialStartDate']) {
+                $officialStartDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['officialStartDate'])->format(format: 'Y-m-d');
+            }
+            if (null !== $result['project']['officialEndDate']) {
+                $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['officialEndDate'])->format(format: 'Y-m-d');
+            }
+
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $labelDate);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialStartDate);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['status']['status'] ?? null);
+
             if (!empty($filter['filter']['year'])) {
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
                     value: $result['latestVersionCostsInYear']
@@ -185,8 +293,13 @@ final class PartnerListener extends AbstractResourceListener
                     value: $result['latestVersionEffortInYear']
                 );
             } else {
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineCosts']);
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineEffort']);
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalCosts']);
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
                 $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
+                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
             }
         }
 

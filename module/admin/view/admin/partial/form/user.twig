@@ -1,0 +1,26 @@
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+ {% set userForm = form.get('admin_entity_user') %}
+
+    {{ lbs5formelement(userForm.get('id')) }}
+    {{ lbs5formelement(userForm.get('firstName')) }}
+    {{ lbs5formelement(userForm.get('lastName')) }}
+    {{ lbs5formelement(userForm.get('email')) }}
+    {{ lbs5formelement(userForm.get('isEurekaSecretariatStaffMember')) }}
+    {{ lbs5formelement(userForm.get('roles')) }}
+
+
+{{ formelement(form.get('csrf')) }}
+
+<div class="row mb-3">
+    <div class="offset-sm-3 col-sm-9">
+        {{ lbs5formelement(form.get('submit')) }}
+        {% if form.has('delete') %}
+            {{ lbs5formelement(form.get('delete')) }}
+        {% endif %}
+        {{ lbs5formelement(form.get('cancel')) }}
+    </div>
+</div>
+
+{{ form().closeTag()|raw }}

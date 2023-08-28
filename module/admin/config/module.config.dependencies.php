@@ -50,6 +50,7 @@ return [
             'Config',
             EntityManager::class,
             AuthenticationService::class,
+            FormService::class,
             TranslatorInterface::class,
         ],
         RoleController::class    => [

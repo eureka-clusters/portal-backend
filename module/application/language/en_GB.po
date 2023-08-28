@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-06 08:55+0200\n"
+"POT-Creation-Date: 2023-08-28 14:57+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -13,38 +13,91 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: translate;_;label\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/config/language.php:5
+msgid "txt-user-first-name-label"
+msgstr "First name"
+
+#: admin/config/language.php:6
+msgid "txt-user-first-name-placeholder"
+msgstr "First name of the user"
+
+#: admin/config/language.php:7
+msgid "txt-user-first-name-help-block"
+msgstr "First name of the user"
+
+#: admin/config/language.php:8
+msgid "txt-user-last-name-label"
+msgstr "Last name"
+
+#: admin/config/language.php:9
+msgid "txt-user-last-name-placeholder"
+msgstr "Last name of the user"
+
+#: admin/config/language.php:10
+msgid "txt-user-last-name-help-block"
+msgstr "Last name of the user"
+
+#: admin/config/language.php:11
+msgid "txt-user-email-address-label"
+msgstr "Email address"
+
+#: admin/config/language.php:12
+msgid "txt-user-email-address-placeholder"
+msgstr "Email address of the user"
+
+#: admin/config/language.php:13
+msgid "txt-user-email-address-help-block"
+msgstr "Email address of the user"
+
+#: admin/config/language.php:14
+msgid "txt-user-is-eureka-secretariat-staff-member-label"
+msgstr "Is ESE Staff"
+
+#: admin/config/language.php:15
+msgid "txt-user-is-eureka-secretariat-staff-member-help-block"
+msgstr ""
+"Indicate here if the user is ESE staff and has access to all project data"
+
+#: admin/config/language.php:16
+msgid "txt-user-role-label"
+msgstr "Role"
+
+#: admin/config/language.php:17
+msgid "txt-user-roles-help-block"
+msgstr "Select the access roles of the user"
+
+#: admin/config/language.php:18
 msgid "txt-role-description"
 msgstr "Description"
 
-#: admin/config/language.php:6
+#: admin/config/language.php:19
 msgid "txt-role-description-placeholder"
 msgstr "Give a description for this role"
 
-#: admin/config/language.php:7
+#: admin/config/language.php:20
 msgid "txt-role-description-help-block"
 msgstr "Give the brief description of the role"
 
-#: admin/config/language.php:8
+#: admin/config/language.php:21
 msgid "1"
 msgstr "1"
 
-#: admin/config/language.php:9
+#: admin/config/language.php:22
 msgid "2"
 msgstr "2"
 
-#: admin/config/language.php:10
+#: admin/config/language.php:23
 msgid "3"
 msgstr "3"
 
-#: admin/config/language.php:11
+#: admin/config/language.php:24
 msgid "txt-type-incoming"
 msgstr "Incoming"
 
-#: admin/config/language.php:12
+#: admin/config/language.php:25
 msgid "txt-type-outgoing"
 msgstr "Outgoing"
 
@@ -68,82 +121,87 @@ msgstr "User"
 msgid "txt-generate-token"
 msgstr "Generate token"
 
-#: admin/config/module.config.navigation.admin.php:55
+#: admin/config/module.config.navigation.admin.php:52
+#: admin/src/View/Helper/UserLink.php:65
+msgid "txt-edit-user"
+msgstr "Edit user"
+
+#: admin/config/module.config.navigation.admin.php:64
 #: admin/view/admin/role/list.twig:2 admin/view/admin/role/list.twig:13
 msgid "txt-role-list"
 msgstr "Roles"
 
-#: admin/config/module.config.navigation.admin.php:71
+#: admin/config/module.config.navigation.admin.php:80
 #: admin/src/View/Helper/RoleLink.php:48
 msgid "txt-edit-role"
 msgstr "Edit role"
 
-#: admin/config/module.config.navigation.admin.php:82
+#: admin/config/module.config.navigation.admin.php:91
 msgid "txt-add-role"
 msgstr "New role"
 
-#: admin/config/module.config.navigation.admin.php:90
+#: admin/config/module.config.navigation.admin.php:99
 msgid "txt-oauth2"
 msgstr "oAuth2"
 
-#: admin/config/module.config.navigation.admin.php:96
+#: admin/config/module.config.navigation.admin.php:105
 msgid "txt-oauth2-scopes-list"
 msgstr "oAuth2 scopes"
 
-#: admin/config/module.config.navigation.admin.php:100
+#: admin/config/module.config.navigation.admin.php:109
 #: admin/view/admin/o-auth2/scope/view.twig:2
 #: admin/view/admin/o-auth2/scope/view.twig:4
 msgid "txt-oauth2-scope"
 msgstr "Scope"
 
-#: admin/config/module.config.navigation.admin.php:112
+#: admin/config/module.config.navigation.admin.php:121
 #: admin/src/View/Helper/OAuth2/ScopeLink.php:47
 msgid "txt-edit-oauth2-scope"
 msgstr "Edit oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:123
+#: admin/config/module.config.navigation.admin.php:132
 msgid "txt-new-oauth2-scopes"
 msgstr "New oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:129
+#: admin/config/module.config.navigation.admin.php:138
 msgid "txt-oauth2-clients-list"
 msgstr "oAuth2 clients"
 
-#: admin/config/module.config.navigation.admin.php:133
+#: admin/config/module.config.navigation.admin.php:142
 #: admin/view/admin/o-auth2/client/view.twig:2
 #: admin/view/admin/o-auth2/client/view.twig:4
 msgid "txt-oauth2-client"
 msgstr "oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:146
+#: admin/config/module.config.navigation.admin.php:155
 msgid "txt-edit-client"
 msgstr "Edit oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:161
+#: admin/config/module.config.navigation.admin.php:170
 msgid "txt-new-oauth2-clients"
 msgstr "New oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:167
+#: admin/config/module.config.navigation.admin.php:176
 #: admin/view/admin/o-auth2/service/list.twig:2
 #: admin/view/admin/o-auth2/service/list.twig:7
 msgid "txt-oauth2-service-list"
 msgstr "oAuth2 Services"
 
-#: admin/config/module.config.navigation.admin.php:171
+#: admin/config/module.config.navigation.admin.php:180
 #: admin/view/admin/o-auth2/service/view.twig:2
 #: reporting/view/reporting/storage-location/view.twig:18
 msgid "txt-oauth2-service"
 msgstr "oAuth2 service"
 
-#: admin/config/module.config.navigation.admin.php:183
+#: admin/config/module.config.navigation.admin.php:192
 msgid "txt-edit-service"
 msgstr "Edit service"
 
-#: admin/config/module.config.navigation.admin.php:197
+#: admin/config/module.config.navigation.admin.php:206
 msgid "txt-new-oauth2-services"
 msgstr "oAuth2 services"
 
-#: admin/config/module.config.navigation.admin.php:205
+#: admin/config/module.config.navigation.admin.php:214
 #: admin/view/admin/cache/index.twig:1 admin/view/admin/cache/index.twig:2
 msgid "txt-cache-management"
 msgstr "Cache management"
@@ -187,12 +245,16 @@ msgstr "Role %s has been deleted successfully"
 msgid "txt-user-role-%s-has-been-updated-successfully"
 msgstr "Role %s has been updated successfully"
 
-#: admin/src/Controller/UserController.php:162
+#: admin/src/Controller/UserController.php:134
+msgid "txt-user-has-been-updated-successfully"
+msgstr "User has been updated successfully"
+
+#: admin/src/Controller/UserController.php:211
 #, php-format
 msgid "txt-new-password-for-%s-has-been-requested"
 msgstr "An email with instructions to reset your password has been sent to %s"
 
-#: admin/src/Controller/UserController.php:186
+#: admin/src/Controller/UserController.php:235
 msgid "txt-password-successfully-been-updated"
 msgstr "Your password has been successfully updated"
 
@@ -430,10 +492,6 @@ msgstr "View %s in admin"
 msgid "txt-create-user"
 msgstr "Create user"
 
-#: admin/src/View/Helper/UserLink.php:65
-msgid "txt-edit-user"
-msgstr "Edit user"
-
 #: admin/src/View/Helper/UserLink.php:72
 msgid "txt-impersonate"
 msgstr "Impersonate"
@@ -551,96 +609,123 @@ msgstr ""
 "Select here the internal client which is used for key transfer between the "
 "backend and the React frontend"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:103
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:105
 msgid "txt-partners"
 msgstr "Partners"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:110
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:112
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:108
 msgid "txt-project-number"
 msgstr "Project number"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:116
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:118
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:114
 msgid "txt-project-name"
 msgstr "Project name"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:122
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:124
 msgid "txt-partner"
 msgstr "Partner"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:128
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:130
 msgid "txt-country"
 msgstr "Country"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:134
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:136
 msgid "txt-partner-type"
 msgstr "Partner type"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:142
-msgid "txt-partner-costs-in-year"
-msgstr "Partner costs in year"
-
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
-msgid "txt-partner-effort-in-year"
-msgstr "Partner effort in year"
-
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:155
-msgid "txt-partner-costs"
-msgstr "Partner costs"
-
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:161
-msgid "txt-partner-effort"
-msgstr "Partner effort"
-
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:101
-msgid "txt-projects"
-msgstr "Projects"
-
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
 #: cluster/view/cluster/project/list.twig:29
 #: cluster/view/cluster/project/view.twig:15
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
 #: cluster/view/cluster/project/view.twig:17
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:154
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:132
 msgid "txt-programme"
 msgstr "Programme"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:160
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:138
 msgid "txt-programme-call"
 msgstr "Programme Call"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:166
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:144
 msgid "txt-label-date"
 msgstr "Label date"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:172
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:150
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:178
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:156
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:184
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:162
 msgid "txt-project-status"
 msgstr "Status of the project"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:192
+msgid "txt-partner-costs-in-year"
+msgstr "Partner costs in year"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:198
+msgid "txt-partner-effort-in-year"
+msgstr "Partner effort in year"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:205
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
-msgid "txt-total-costs-euro"
-msgstr "Total Costs (EUR)"
+msgid "txt-project-outline-costs"
+msgstr "Costs (PO, EUR)"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:211
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
-msgid "txt-total-effort-py"
-msgstr "Total Effort (PY)"
+msgid "txt-project-outline-effort"
+msgstr "Effort (PO, PY)"
 
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:217
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
+msgid "txt-full-project-proposal-costs"
+msgstr "Full project proposal costs"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:223
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:186
+msgid "txt-full-project-proposal-effort"
+msgstr "Effort (FPP, PY)"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:229
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:192
+msgid "txt-latest-version-costs"
+msgstr "Costs (latest version, EUR)"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:235
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:198
+msgid "txt-latest-version-effort"
+msgstr "Effort (latest version)"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:241
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:204
+msgid "txt-latest-version-is-fpp"
+msgstr "Latest version is FPP"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:101
+msgid "txt-projects"
+msgstr "Projects"
+
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:210
 msgid "txt-involved-countries"
 msgstr "Involved countries"
 
@@ -1437,7 +1522,8 @@ msgstr ""
 #: admin/view/admin/o-auth2/service/view.twig:1
 #: admin/view/admin/role/edit.twig:1 admin/view/admin/role/list.twig:1
 #: admin/view/admin/role/new.twig:1 admin/view/admin/role/view.twig:1
-#: admin/view/admin/user/list.twig:1 admin/view/admin/user/view.twig:1
+#: admin/view/admin/user/edit.twig:1 admin/view/admin/user/list.twig:1
+#: admin/view/admin/user/view.twig:1
 #: cluster/view/cluster/cluster/group/edit.twig:1
 #: cluster/view/cluster/cluster/group/list.twig:1
 #: cluster/view/cluster/cluster/group/new.twig:1
@@ -1859,6 +1945,11 @@ msgstr "Set password"
 msgid "txt-set-password-explanation"
 msgstr "Use this form to set your password"
 
+#: admin/view/admin/user/edit.twig:2 admin/view/admin/user/edit.twig:4
+#, php-format
+msgid "txt-edit-user-%s"
+msgstr "Edit %s"
+
 #: admin/view/admin/user/generate-token.twig:5
 msgid "txt-generate-token-explanation"
 msgstr "Use the form below to generate a oAuth2 Bearer token"
@@ -2027,27 +2118,27 @@ msgstr "Error details"
 msgid "txt-exception-details"
 msgstr "Exception details"
 
-#: application/view/layout/layout.twig:44
+#: application/view/layout/layout.twig:43
 msgid "txt-light-mode"
 msgstr "Light mode"
 
-#: application/view/layout/layout.twig:52
+#: application/view/layout/layout.twig:51
 msgid "txt-dark-mode"
 msgstr "Dark mode"
 
-#: application/view/layout/layout.twig:61
+#: application/view/layout/layout.twig:60
 msgid "txt-auto-mode"
 msgstr "Auto mode"
 
-#: application/view/layout/layout.twig:71
+#: application/view/layout/layout.twig:70
 msgid "txt-logout"
 msgstr "Logout"
 
-#: application/view/layout/layout.twig:75
+#: application/view/layout/layout.twig:74
 msgid "txt-admin-login"
 msgstr "Admin login"
 
-#: application/view/layout/layout.twig:99
+#: application/view/layout/layout.twig:97
 #, php-format
 msgid "txt-footer-%s-%s"
 msgstr "PA Portal backend %s &middot; &copy; %s"
@@ -2611,6 +2702,41 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#, fuzzy
+#~| msgid "txt-total-costs-euro"
+#~ msgid "txt-po-costs-euro"
+#~ msgstr "Total Costs (EUR)"
+
+#, fuzzy
+#~| msgid "txt-po-effort"
+#~ msgid "txt-po-effort-py"
+#~ msgstr "PO Effort (PY)"
+
+#~ msgid "txt-fpp-costs-euro"
+#~ msgstr "FPP costs (EUR)"
+
+#~ msgid "txt-fpp-effort-py"
+#~ msgstr "FPP effort (EUR)"
+
+#, fuzzy
+#~| msgid "txt-latest-version-status"
+#~ msgid "txt-latest-version-costs-euro"
+#~ msgstr "Latest version status"
+
+#, fuzzy
+#~| msgid "txt-latest-version-effort"
+#~ msgid "txt-latest-version-effort-py"
+#~ msgstr "Effort (latest version)"
+
+#~ msgid "txt-partner-costs"
+#~ msgstr "Partner costs"
+
+#~ msgid "txt-partner-effort"
+#~ msgstr "Partner effort"
+
+#~ msgid "txt-total-effort-py"
+#~ msgstr "Total Effort (PY)"
 
 #~ msgid "txt-total-costs"
 #~ msgstr "Total costs"
@@ -5043,15 +5169,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-contact-address-country-help-block"
 #~ msgstr "Select the country"
 
-#~ msgid "txt-contact-first-name-placeholder"
-#~ msgstr "First name"
-
-#~ msgid "txt-contact-first-name-label"
-#~ msgstr "First name"
-
-#~ msgid "txt-contact-first-name-help-block"
-#~ msgstr "Give the first name of the contact"
-
 #~ msgid "txt-contact-middle-name-placeholder"
 #~ msgstr "Middle name"
 
@@ -5069,9 +5186,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-contact-last-name-help-block"
 #~ msgstr "Give the first name of the contact"
-
-#~ msgid "txt-contact-email-address-placeholder"
-#~ msgstr "Give the email address"
 
 #~ msgid "txt-contact-email-address-label"
 #~ msgstr "Email address"
@@ -6030,12 +6144,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgstr "No hide from navigation"
 
 #~ msgid "txt-route-route-placeholder"
-#~ msgstr "Give the structure for this route"
-
-#~ msgid "txt-route-route-label"
-#~ msgstr "Route"
-
-#~ msgid "txt-route-route-help-block"
 #~ msgstr "Give the structure for this route"
 
 #~ msgid "txt-route-assertion-label"
@@ -7352,12 +7460,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-progress-report"
 #~ msgstr "Progress report"
-
-#~ msgid "txt-project-outline"
-#~ msgstr "Project outline"
-
-#~ msgid "txt-full-project-proposal"
-#~ msgstr "Full project proposal"
 
 #~ msgid "txt-change-request"
 #~ msgstr "Change request"
@@ -14425,9 +14527,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-eureka-secretariat-staff-member-contact-label"
 #~ msgstr "Contact"
 
-#~ msgid "txt-eureka-secretariat-staff-member-contact-help-block"
-#~ msgstr "Select contact which is ESE staff member"
-
 #~ msgid "txt-eureka-secretariat-staff-member-information-label"
 #~ msgstr "Extra information"
 
@@ -14809,9 +14908,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-funder-has-been-deleted-successfully"
 #~ msgstr "Funder has been deleted successfully"
 
-#~ msgid "txt-funder-has-been-updated-successfully"
-#~ msgstr "Funder has been updated successfully"
-
 #, php-format
 #~ msgid "txt-nda-for-contact-%s-has-been-removed"
 #~ msgstr "NDA for %s has been removed"
@@ -14856,9 +14952,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-cancelled-stopped-date"
 #~ msgstr "Cancelled / Stopped date"
 
-#~ msgid "txt-effort-po"
-#~ msgstr "Effort (PO)"
-
 #~ msgid "txt-cost-po"
 #~ msgstr "Costs (PO)"
 
@@ -14876,9 +14969,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-latest-version-type"
 #~ msgstr "Latest version type"
-
-#~ msgid "txt-latest-version-status"
-#~ msgstr "Latest version status"
 
 #~ msgid "txt-latest-version-date"
 #~ msgstr "Latest version submission"
@@ -14900,9 +14990,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-contract-cost-euro"
 #~ msgstr "Contract costs (EUR)"
-
-#~ msgid "txt-final-cost-euro"
-#~ msgstr "Final costs (EUR)"
 
 #~ msgid "txt-total-project-effort"
 #~ msgstr "Total project effort (PY)"
@@ -29347,9 +29434,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-change"
 #~ msgstr "Change"
 
-#~ msgid "txt-latest-version"
-#~ msgstr "Latest version"
-
 #~ msgid "txt-current-version"
 #~ msgstr "Current version"
 
@@ -29774,9 +29858,6 @@ msgstr "There was an issue connecting to container %s"
 #, php-format
 #~ msgid "txt-costs-overview-in-project-%s"
 #~ msgstr "Costs in %s"
-
-#~ msgid "txt-po-effort"
-#~ msgstr "PO Effort (PY)"
 
 #~ msgid "txt-cost-total"
 #~ msgstr "Total costs"
@@ -37010,15 +37091,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-release"
 #~ msgstr "Release"
 
-#~ msgid "txt-voting-email-address-label"
-#~ msgstr "Email address"
-
-#~ msgid "txt-voting-email-address-help-block"
-#~ msgstr ""
-#~ "To validate your vote, please indicate the email address that was used "
-#~ "for your event registration. A confirmation of your vote will be sent to "
-#~ "this email address."
-
 #~ msgid "txt-vote"
 #~ msgstr "Vote"
 
@@ -38248,9 +38320,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-project-draft-cost"
 #~ msgstr "Cost (draft)"
-
-#~ msgid "txt-latest-version-effort"
-#~ msgstr "Effort (latest version)"
 
 #~ msgid "txt-render-word-invoice-%s"
 #~ msgstr "Render Word version of %s"

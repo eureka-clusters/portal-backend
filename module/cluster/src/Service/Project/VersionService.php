@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cluster\Service\Project;
 
+use Admin\Entity\User;
 use Application\Service\AbstractService;
 use Cluster\Entity;
 use Cluster\Entity\Project;
@@ -11,20 +12,53 @@ use Cluster\Entity\Project\Version;
 use Cluster\Entity\Version\Status;
 use Cluster\Entity\Version\Type;
 use Cluster\Repository\Project\Version\CostsAndEffort;
+use Cluster\Repository\Project\VersionRepository;
 use DateTime;
 use DateTimeInterface;
+use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
+use Jield\Search\ValueObject\SearchFormResult;
 use stdClass;
-
 use function sprintf;
 
 class VersionService extends AbstractService
 {
+    public function findVersionById(int $id): ?Version
+    {
+        return $this->entityManager->getRepository(entityName: Version::class)->find(id: $id);
+    }
+
+    public function isLatestVersionAndIsFPP(Version $version): bool
+    {
+
+        //If the version is not the latest version then we can stop here
+        if (!$version->getType()->isLatest()) {
+            return false;
+        }
+
+        //We need to find the dateSubmitted of the FPP and compare it to the latest version
+        $fpp = $this->findVersionTypeByProjectAndVersionTypeName(
+            project: $version->getProject(),
+            versionTypeName: Type::TYPE_FPP
+        );
+
+        return $version->getSubmissionDate()->getTimestamp() === $fpp->getSubmissionDate()->getTimestamp();
+    }
+
+    public function getVersions(User $user, SearchFormResult $searchFormResult): QueryBuilder
+    {
+        /** @var VersionRepository $repository */
+        $repository = $this->entityManager->getRepository(entityName: Version::class);
+
+        return $repository->getVersionsByFilter(user: $user, searchFormResult: $searchFormResult);
+    }
+
     public function createVersionFromData(
         stdClass $data,
-        Type $type,
-        Project $project
-    ): Version {
+        Type     $type,
+        Project  $project
+    ): Version
+    {
         $version = new Version();
         $version->setProject(project: $project);
 
@@ -43,7 +77,7 @@ class VersionService extends AbstractService
         $version->setEffort(effort: $data->totalEffort);
 
         //@todo: We keep an array here, might need to create entities
-        $version->setCountries(countries: (array) $data->countries);
+        $version->setCountries(countries: (array)$data->countries);
 
         $this->save(entity: $version);
 
@@ -74,6 +108,20 @@ class VersionService extends AbstractService
         }
 
         return $type;
+    }
+
+    public function findVersionTypeByProjectAndVersionTypeName(Project $project, string $versionTypeName): ?Version
+    {
+        /** @var VersionRepository $repository */
+        $repository = $this->entityManager->getRepository(entityName: Version::class);
+
+        //Find the project outline type
+        $versionType = $this->findVersionType(typeName: $versionTypeName);
+
+        return $repository->findOneBy([
+            'project' => $project,
+            'type'    => $versionType
+        ]);
     }
 
     public function parseTotalCostsByProjectVersion(Version $projectVersion): float

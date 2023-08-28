@@ -16,6 +16,7 @@ use Admin\Service\UserService;
 use Api\Entity\OAuth\Client;
 use Application\Authentication\Adapter\DatabaseAdapter;
 use Application\Controller\Plugin\GetFilter;
+use Application\Service\FormService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
@@ -28,7 +29,6 @@ use Laminas\Paginator\Paginator;
 use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
 use OAuth2\Encryption\Jwt;
-
 use function ceil;
 use function sprintf;
 use function str_starts_with;
@@ -42,14 +42,16 @@ use function urldecode;
 final class UserController extends AbstractActionController
 {
     public function __construct(
-        private readonly AdminService $adminService,
-        private readonly UserService $userService,
-        private readonly OAuth2Service $oAuth2Service,
-        private readonly array $config,
-        private readonly EntityManager $entityManager,
+        private readonly AdminService          $adminService,
+        private readonly UserService           $userService,
+        private readonly OAuth2Service         $oAuth2Service,
+        private readonly array                 $config,
+        private readonly EntityManager         $entityManager,
         private readonly AuthenticationService $authenticationService,
-        private readonly TranslatorInterface $translator
-    ) {
+        private readonly FormService           $formService,
+        private readonly TranslatorInterface   $translator
+    )
+    {
     }
 
     public function listAction(): ViewModel
@@ -95,6 +97,53 @@ final class UserController extends AbstractActionController
         }
 
         return new ViewModel(variables: ['user' => $user]);
+    }
+
+    public function editAction(): Response|ViewModel
+    {
+        /** @var User $user */
+        $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
+
+        if (null === $user) {
+            return $this->notFoundAction();
+        }
+
+        $data = $this->getRequest()->getPost()->toArray();
+        $form = $this->formService->prepare(classNameOrEntity: User::class, data: $data);
+        $form->bind($user);
+
+        if ($this->getRequest()->isPost()) {
+            if (isset($data['cancel'])) {
+                return $this->redirect()->toRoute(route: 'zfcadmin/user/view', params: ['id' => $user->getId()]);
+            }
+
+            if (isset($data['delete'])) {
+                $user->setDateEnd(new \DateTime());
+                $this->adminService->save($user);
+
+                return $this->redirect()->toRoute('zfcadmin/user/list');
+            }
+
+            if ($form->isValid()) {
+                /** @var User $user */
+                $user = $form->getData();
+
+                $user = $this->userService->save($user);
+
+                $this->flashMessenger()->addSuccessMessage(
+                    $this->translator->translate(message: "txt-user-has-been-updated-successfully")
+                );
+
+                $this->redirect()->toRoute(
+                    route: 'zfcadmin/user/view',
+                    params: [
+                        'id' => $user->getId(),
+                    ]
+                );
+            }
+        }
+
+        return new ViewModel(['form' => $form, 'user' => $user]);
     }
 
     public function generateTokenAction(): ViewModel|Response

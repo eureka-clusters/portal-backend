@@ -88,6 +88,22 @@ class PartnerService extends AbstractService
         );
     }
 
+    public function getPartnersByProjectVersion(
+        User             $user,
+        Version          $projectVersion,
+        SearchFormResult $searchFormResult
+    ): QueryBuilder
+    {
+        /** @var PartnerRepository $repository */
+        $repository = $this->entityManager->getRepository(entityName: Partner::class);
+
+        return $repository->getPartnersByProjectVersion(
+            user: $user,
+            projectVersion: $projectVersion,
+            searchFormResult: $searchFormResult
+        );
+    }
+
     #[OA\Response(
         response: 'partner_facets',
         description: 'Project partner facets',
@@ -237,7 +253,7 @@ class PartnerService extends AbstractService
         return $partner;
     }
 
-    public function findTotalCostsByPartnerAndLatestProjectVersionAndYear(
+    public function findTotalCostsByPartnerAndProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
         int     $year
@@ -246,14 +262,28 @@ class PartnerService extends AbstractService
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
-        return $repository->findTotalCostsByPartnerAndLatestProjectVersionAndYear(
+        return $repository->findTotalCostsByPartnerAndProjectVersionAndYear(
             partner: $partner,
             projectVersion: $projectVersion,
             year: $year
         );
     }
 
-    public function findTotalEffortByPartnerAndLatestProjectVersionAndYear(
+    public function findTotalCostsByPartnerAndProjectVersion(
+        Partner $partner,
+        Version $projectVersion
+    ): float
+    {
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
+
+        return $repository->findTotalCostsByPartnerAndProjectVersion(
+            partner: $partner,
+            projectVersion: $projectVersion
+        );
+    }
+
+    public function findTotalEffortByPartnerAndProjectVersionAndYear(
         Partner $partner,
         Version $projectVersion,
         int     $year
@@ -262,10 +292,25 @@ class PartnerService extends AbstractService
         /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
         $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
 
-        return $repository->findTotalEffortByPartnerAndLatestProjectVersionAndYear(
+        return $repository->findTotalEffortByPartnerAndProjectVersionAndYear(
             partner: $partner,
             projectVersion: $projectVersion,
             year: $year
+        );
+    }
+
+    public function findTotalEffortByPartnerAndProjectVersion(
+        Partner $partner,
+        Version $projectVersion
+
+    ): float
+    {
+        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
+        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
+
+        return $repository->findTotalEffortByPartnerAndProjectVersion(
+            partner: $partner,
+            projectVersion: $projectVersion,
         );
     }
 }

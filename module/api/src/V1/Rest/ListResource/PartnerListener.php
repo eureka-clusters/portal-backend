@@ -23,13 +23,14 @@ use OpenApi\Attributes as OA;
 final class PartnerListener extends AbstractResourceListener
 {
     public function __construct(
-        private readonly PartnerService $partnerService,
-        private readonly ProjectService $projectService,
+        private readonly PartnerService      $partnerService,
+        private readonly ProjectService      $projectService,
         private readonly OrganisationService $organisationService,
-        private readonly UserService $userService,
-        private readonly PartnerProvider $partnerProvider,
+        private readonly UserService         $userService,
+        private readonly PartnerProvider     $partnerProvider,
         private readonly PartnerYearProvider $partnerYearProvider,
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

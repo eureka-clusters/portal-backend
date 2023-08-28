@@ -76,7 +76,7 @@ final class ProjectListener extends AbstractResourceListener
         $filter = [];
 
         //Inject the encoded filter from the results
-        $encodedFilter    = base64_decode( $id,  true);
+        $encodedFilter    = base64_decode($id, true);
         $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
 
         $searchFormResult = SearchFormResult::fromArray($filter);
@@ -165,13 +165,43 @@ final class ProjectListener extends AbstractResourceListener
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-                message: 'txt-total-costs-euro'
+                message: 'txt-project-outline-costs'
             )
         );
         $projectSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
-                message: 'txt-total-effort-py'
+                message: 'txt-project-outline-effort'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-full-project-proposal-costs'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-full-project-proposal-effort'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-costs'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-effort'
+            )
+        );
+        $projectSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-latest-version-is-fpp'
             )
         );
         $projectSheet->setCellValue(
@@ -214,8 +244,13 @@ final class ProjectListener extends AbstractResourceListener
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialStartDate);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineTotalCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineTotalEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalTotalCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalTotalEffort']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersion']['isLatestVersionAndIsFPP']);
 
             $countries = [];
             foreach ($result['countries'] as $countryData) {
