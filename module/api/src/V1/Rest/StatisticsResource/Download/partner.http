@@ -1,0 +1,4 @@
+GET {{ baseUrl }}//api/statistics/results/partner/download/e30=
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ bearerToken }}

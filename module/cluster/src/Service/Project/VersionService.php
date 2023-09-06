@@ -6,12 +6,10 @@ namespace Cluster\Service\Project;
 
 use Admin\Entity\User;
 use Application\Service\AbstractService;
-use Cluster\Entity;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Version;
 use Cluster\Entity\Version\Status;
 use Cluster\Entity\Version\Type;
-use Cluster\Repository\Project\Version\CostsAndEffort;
 use Cluster\Repository\Project\VersionRepository;
 use DateTime;
 use DateTimeInterface;
@@ -42,7 +40,7 @@ class VersionService extends AbstractService
             versionTypeName: Type::TYPE_FPP
         );
 
-        return $version->getSubmissionDate()->getTimestamp() === $fpp->getSubmissionDate()->getTimestamp();
+        return $version->getStatus() === $fpp->getStatus();
     }
 
     public function getVersions(User $user, SearchFormResult $searchFormResult): QueryBuilder
@@ -61,17 +59,22 @@ class VersionService extends AbstractService
     {
         $version = new Version();
         $version->setProject(project: $project);
-
         $version->setType(type: $type);
 
         //Find the status
         $status = $this->findOrCreateVersionStatus(statusName: $data->status);
 
         $version->setStatus(status: $status);
+        $version->setIdentifier(identifier: (string)($data->id ?? $data->version));
 
         //Handle the submission date
         $submissionDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->submissionDate);
         $version->setSubmissionDate(submissionDate: $submissionDate);
+
+        if (isset($data->reviewDate)) {
+            $reviewDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->reviewDate);
+            $version->setReviewDate(reviewDate: $reviewDate);
+        }
 
         $version->setCosts(costs: $data->totalCosts);
         $version->setEffort(effort: $data->totalEffort);
@@ -122,21 +125,5 @@ class VersionService extends AbstractService
             'project' => $project,
             'type'    => $versionType
         ]);
-    }
-
-    public function parseTotalCostsByProjectVersion(Version $projectVersion): float
-    {
-        /** @var CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: Entity\Project\Version\CostsAndEffort::class);
-
-        return $repository->parseTotalCostsByProjectVersion(projectVersion: $projectVersion);
-    }
-
-    public function parseTotalEffortByProjectVersion(Version $projectVersion): float
-    {
-        /** @var CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: Entity\Project\Version\CostsAndEffort::class);
-
-        return $repository->parseTotalEffortByProjectVersion(projectVersion: $projectVersion);
     }
 }

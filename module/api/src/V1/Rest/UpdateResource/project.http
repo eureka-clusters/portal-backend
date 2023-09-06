@@ -4,6 +4,6 @@ Accept: */*
 Authorization: Bearer {{ bearerToken }}
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="aissi.json"
+Content-Disposition: form-data; name="file"; filename="generiot.jsond"
 
-< aissi.json
+< CPVH-EUROGIA.json

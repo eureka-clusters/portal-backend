@@ -24,6 +24,9 @@ class Version extends AbstractEntity
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private string $identifier = '';
+
     #[ORM\ManyToOne(targetEntity: Project::class, cascade: ['persist'], inversedBy: 'versions')]
     #[ORM\JoinColumn(nullable: false)]
     private Project $project;
@@ -38,15 +41,18 @@ class Version extends AbstractEntity
     #[ORM\Column(type: 'date', nullable: true)]
     private ?DateTime $submissionDate = null;
 
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?DateTime $reviewDate = null;
+
     #[ORM\ManyToOne(targetEntity: Status::class, cascade: ['persist'], inversedBy: 'versions')]
     #[ORM\JoinColumn(nullable: false)]
     private Status $status;
 
     #[ORM\Column(type: 'float')]
-    private float $effort = 0.0;
+    private float $costs = 0;
 
     #[ORM\Column(type: 'float')]
-    private float $costs = 0.0;
+    private float $effort = 0;
 
     #[ORM\Column(type: 'array')]
     private array $countries = [];
@@ -60,6 +66,17 @@ class Version extends AbstractEntity
         $this->type           = new Type();
         $this->status         = new Status();
         $this->costsAndEffort = new ArrayCollection();
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(string $identifier): Version
+    {
+        $this->identifier = $identifier;
+        return $this;
     }
 
     public function hasEvaluation(): bool
@@ -127,6 +144,17 @@ class Version extends AbstractEntity
         return $this;
     }
 
+    public function getReviewDate(): ?DateTime
+    {
+        return $this->reviewDate;
+    }
+
+    public function setReviewDate(?DateTime $reviewDate): Version
+    {
+        $this->reviewDate = $reviewDate;
+        return $this;
+    }
+
     public function getStatus(): Status
     {
         return $this->status;
@@ -181,4 +209,6 @@ class Version extends AbstractEntity
         $this->evaluation = $evaluation;
         return $this;
     }
+
+
 }

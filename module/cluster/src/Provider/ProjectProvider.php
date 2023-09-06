@@ -6,7 +6,6 @@ namespace Cluster\Provider;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project;
-use Cluster\Entity\Version\Type;
 use Cluster\Provider\Project\Partner\CoordinatorProvider;
 use Cluster\Provider\Project\StatusProvider;
 use Cluster\Provider\Project\VersionProvider;
@@ -255,18 +254,6 @@ class ProjectProvider implements ProviderInterface
                 }
             }
 
-            //Get the project outline
-            $projectOutline      = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_PO);
-            $fullProjectProposal = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_FPP);
-            $latestVersion       = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $project, versionTypeName: Type::TYPE_LATEST);
-
-            $projectOutlineTotalCosts       = null === $projectOutline ? null : $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $projectOutline);
-            $projectOutlineTotalEffort      = null === $projectOutline ? null : $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $projectOutline);
-            $fullProjectProposalTotalCosts  = $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $fullProjectProposal);
-            $fullProjectProposalTotalEffort = $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $fullProjectProposal);
-            $latestVersionTotalCosts        = $this->versionService->parseTotalCostsByProjectVersion(projectVersion: $latestVersion);
-            $latestVersionTotalEffort       = $this->versionService->parseTotalEffortByProjectVersion(projectVersion: $latestVersion);
-
             $projectData = [
                 'slug'                           => $project->getSlug(),
                 'identifier'                     => $project->getIdentifier(),
@@ -313,12 +300,12 @@ class ProjectProvider implements ProviderInterface
                 'status'                         => $this->projectStatusProvider->generateArray(
                     entity: $project->getStatus()
                 ),
-                'projectOutlineTotalCosts'       => $projectOutlineTotalCosts,
-                'projectOutlineTotalEffort'      => $projectOutlineTotalEffort,
-                'fullProjectProposalTotalCosts'  => $fullProjectProposalTotalCosts,
-                'fullProjectProposalTotalEffort' => $fullProjectProposalTotalEffort,
-                'latestVersionTotalCosts'        => $latestVersionTotalCosts,
-                'latestVersionTotalEffort'       => $latestVersionTotalEffort,
+                'projectOutlineTotalCosts'       => $project->getProjectOutlineCosts(),
+                'projectOutlineTotalEffort'      => $project->getProjectOutlineEffort(),
+                'fullProjectProposalTotalCosts'  => $project->getFullProjectProposalCosts(),
+                'fullProjectProposalTotalEffort' => $project->getFullProjectProposalEffort(),
+                'latestVersionTotalCosts'        => $project->getLatestVersionCosts(),
+                'latestVersionTotalEffort'       => $project->getLatestVersionEffort(),
                 'countries'                      => $countries,
             ];
 

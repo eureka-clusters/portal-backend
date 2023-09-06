@@ -99,6 +99,24 @@ class Project extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist', 'remove'])]
     private Collection $evaluation;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $projectOutlineCosts = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $projectOutlineEffort = null;
+
+    #[ORM\Column(type: 'float')]
+    private float $fullProjectProposalCosts = 0;
+
+    #[ORM\Column(type: 'float')]
+    private float $fullProjectProposalEffort = 0;
+
+    #[ORM\Column(type: 'float')]
+    private float $latestVersionCosts = 0;
+
+    #[ORM\Column(type: 'float')]
+    private float $latestVersionEffort = 0;
+
     public function __construct()
     {
         $this->dateCreated    = new DateTime();
@@ -384,6 +402,72 @@ class Project extends AbstractEntity
     public function setDateUpdated(?DateTime $dateUpdated): Project
     {
         $this->dateUpdated = $dateUpdated;
+        return $this;
+    }
+
+    public function getProjectOutlineCosts(): ?float
+    {
+        return $this->projectOutlineCosts;
+    }
+
+    public function setProjectOutlineCosts(?float $projectOutlineCosts): Project
+    {
+        $this->projectOutlineCosts = $projectOutlineCosts;
+        return $this;
+    }
+
+    public function getProjectOutlineEffort(): ?float
+    {
+        return $this->projectOutlineEffort;
+    }
+
+    public function setProjectOutlineEffort(?float $projectOutlineEffort): Project
+    {
+        $this->projectOutlineEffort = $projectOutlineEffort;
+        return $this;
+    }
+
+    public function getFullProjectProposalCosts(): float
+    {
+        return $this->fullProjectProposalCosts;
+    }
+
+    public function setFullProjectProposalCosts(float $fullProjectProposalCosts): Project
+    {
+        $this->fullProjectProposalCosts = $fullProjectProposalCosts;
+        return $this;
+    }
+
+    public function getFullProjectProposalEffort(): float
+    {
+        return $this->fullProjectProposalEffort;
+    }
+
+    public function setFullProjectProposalEffort(float $fullProjectProposalEffort): Project
+    {
+        $this->fullProjectProposalEffort = $fullProjectProposalEffort;
+        return $this;
+    }
+
+    public function getLatestVersionCosts(): float
+    {
+        return $this->latestVersionCosts;
+    }
+
+    public function setLatestVersionCosts(float $latestVersionCosts): Project
+    {
+        $this->latestVersionCosts = $latestVersionCosts;
+        return $this;
+    }
+
+    public function getLatestVersionEffort(): float
+    {
+        return $this->latestVersionEffort;
+    }
+
+    public function setLatestVersionEffort(float $latestVersionEffort): Project
+    {
+        $this->latestVersionEffort = $latestVersionEffort;
         return $this;
     }
 }

@@ -250,7 +250,7 @@ final class ProjectListener extends AbstractResourceListener
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalTotalEffort']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalEffort']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersion']['isLatestVersionAndIsFPP']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersion']['isLatestVersionAndIsFPP'] ?? false);
 
             $countries = [];
             foreach ($result['countries'] as $countryData) {
