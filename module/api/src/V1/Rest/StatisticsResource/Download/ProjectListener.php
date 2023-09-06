@@ -244,12 +244,12 @@ final class ProjectListener extends AbstractResourceListener
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialStartDate);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['status']['status'] ?? null);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineTotalCosts']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineTotalEffort']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalTotalCosts']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalTotalEffort']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalCosts']);
-            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionTotalEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
+            $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
             $projectSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersion']['isLatestVersionAndIsFPP'] ?? false);
 
             $countries = [];
