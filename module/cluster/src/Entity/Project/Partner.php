@@ -212,28 +212,6 @@ class Partner extends AbstractEntity
         return $this;
     }
 
-    public function getLatestVersionCosts(): float
-    {
-        return $this->latestVersionCosts;
-    }
-
-    public function setLatestVersionCosts(float $latestVersionCosts): Partner
-    {
-        $this->latestVersionCosts = $latestVersionCosts;
-        return $this;
-    }
-
-    public function getLatestVersionEffort(): float
-    {
-        return $this->latestVersionEffort;
-    }
-
-    public function setLatestVersionEffort(float $latestVersionEffort): Partner
-    {
-        $this->latestVersionEffort = $latestVersionEffort;
-        return $this;
-    }
-
     public function getFunding(): Collection
     {
         return $this->funding;
@@ -286,6 +264,28 @@ class Partner extends AbstractEntity
     public function setFullProjectProposalEffort(?float $fullProjectProposalEffort): Partner
     {
         $this->fullProjectProposalEffort = $fullProjectProposalEffort;
+        return $this;
+    }
+
+    public function getLatestVersionCosts(): ?float
+    {
+        return $this->latestVersionCosts;
+    }
+
+    public function setLatestVersionCosts(?float $latestVersionCosts): Partner
+    {
+        $this->latestVersionCosts = $latestVersionCosts;
+        return $this;
+    }
+
+    public function getLatestVersionEffort(): ?float
+    {
+        return $this->latestVersionEffort;
+    }
+
+    public function setLatestVersionEffort(?float $latestVersionEffort): Partner
+    {
+        $this->latestVersionEffort = $latestVersionEffort;
         return $this;
     }
 }
