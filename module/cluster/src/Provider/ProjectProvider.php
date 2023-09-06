@@ -26,7 +26,6 @@ class ProjectProvider implements ProviderInterface
         private readonly Redis               $cache,
         private readonly ProjectService      $projectService,
         private readonly CoordinatorProvider $coordinatorProvider,
-        private readonly VersionService      $versionService,
         private readonly ClusterProvider     $clusterProvider,
         private readonly ContactProvider     $contactProvider,
         private readonly StatusProvider      $projectStatusProvider,
