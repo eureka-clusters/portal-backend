@@ -67,10 +67,10 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectOutlineCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectOutlineEffort', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'fullProjectProposalCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'fullProjectProposalEffort', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'latestVersionEffort'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateCreated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'dateUpdated', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'number', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'name', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'title', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'description', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'technicalArea', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programme', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'programmeCall', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'primaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'secondaryCluster', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'labelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'cancelDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialStartDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'officialEndDate', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectLeader', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'versions', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'partners', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'evaluation', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectOutlineCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'projectOutlineEffort', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'fullProjectProposalCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'fullProjectProposalEffort', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project' . "\0" . 'latestVersionEffort'];
     }
 
     /**
@@ -186,6 +186,17 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'parseCacheKey', []);
 
         return parent::parseCacheKey();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
     }
 
     /**
@@ -734,12 +745,133 @@ class Project extends \Cluster\Entity\Project implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function __toString(): string
+    public function getProjectOutlineCosts(): ?float
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectOutlineCosts', []);
 
-        return parent::__toString();
+        return parent::getProjectOutlineCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectOutlineCosts(?float $projectOutlineCosts): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectOutlineCosts', [$projectOutlineCosts]);
+
+        return parent::setProjectOutlineCosts($projectOutlineCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectOutlineEffort(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectOutlineEffort', []);
+
+        return parent::getProjectOutlineEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectOutlineEffort(?float $projectOutlineEffort): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectOutlineEffort', [$projectOutlineEffort]);
+
+        return parent::setProjectOutlineEffort($projectOutlineEffort);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFullProjectProposalCosts(): float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFullProjectProposalCosts', []);
+
+        return parent::getFullProjectProposalCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFullProjectProposalCosts(float $fullProjectProposalCosts): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFullProjectProposalCosts', [$fullProjectProposalCosts]);
+
+        return parent::setFullProjectProposalCosts($fullProjectProposalCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFullProjectProposalEffort(): float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFullProjectProposalEffort', []);
+
+        return parent::getFullProjectProposalEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFullProjectProposalEffort(float $fullProjectProposalEffort): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFullProjectProposalEffort', [$fullProjectProposalEffort]);
+
+        return parent::setFullProjectProposalEffort($fullProjectProposalEffort);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatestVersionCosts(): float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionCosts', []);
+
+        return parent::getLatestVersionCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatestVersionCosts(float $latestVersionCosts): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionCosts', [$latestVersionCosts]);
+
+        return parent::setLatestVersionCosts($latestVersionCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatestVersionEffort(): float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionEffort', []);
+
+        return parent::getLatestVersionEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatestVersionEffort(float $latestVersionEffort): \Cluster\Entity\Project
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionEffort', [$latestVersionEffort]);
+
+        return parent::setLatestVersionEffort($latestVersionEffort);
     }
 
     /**

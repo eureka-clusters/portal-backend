@@ -67,10 +67,10 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisation', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisationName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isActive', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isCoordinator', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isSelfFunded', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'technicalContact', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'funding'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisation', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisationName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isActive', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isCoordinator', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isSelfFunded', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'technicalContact', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectOutlineCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectOutlineEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'fullProjectProposalCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'fullProjectProposalEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'funding'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisation', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisationName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isActive', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isCoordinator', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isSelfFunded', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'technicalContact', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'funding'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisation', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'slug', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'organisationName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectName', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isActive', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isCoordinator', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'isSelfFunded', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'technicalContact', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectOutlineCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'projectOutlineEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'fullProjectProposalCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'fullProjectProposalEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionCosts', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'latestVersionEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Partner' . "\0" . 'funding'];
     }
 
     /**
@@ -177,6 +177,17 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function parseCacheKey(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'parseCacheKey', []);
+
+        return parent::parseCacheKey();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -426,50 +437,6 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
-    public function getLatestVersionCosts(): float
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionCosts', []);
-
-        return parent::getLatestVersionCosts();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setLatestVersionCosts(float $latestVersionCosts): \Cluster\Entity\Project\Partner
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionCosts', [$latestVersionCosts]);
-
-        return parent::setLatestVersionCosts($latestVersionCosts);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLatestVersionEffort(): float
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionEffort', []);
-
-        return parent::getLatestVersionEffort();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setLatestVersionEffort(float $latestVersionEffort): \Cluster\Entity\Project\Partner
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionEffort', [$latestVersionEffort]);
-
-        return parent::setLatestVersionEffort($latestVersionEffort);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFunding(): \Doctrine\Common\Collections\Collection
     {
 
@@ -487,6 +454,138 @@ class Partner extends \Cluster\Entity\Project\Partner implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFunding', [$funding]);
 
         return parent::setFunding($funding);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectOutlineCosts(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectOutlineCosts', []);
+
+        return parent::getProjectOutlineCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectOutlineCosts(?float $projectOutlineCosts): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectOutlineCosts', [$projectOutlineCosts]);
+
+        return parent::setProjectOutlineCosts($projectOutlineCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProjectOutlineEffort(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProjectOutlineEffort', []);
+
+        return parent::getProjectOutlineEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProjectOutlineEffort(?float $projectOutlineEffort): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProjectOutlineEffort', [$projectOutlineEffort]);
+
+        return parent::setProjectOutlineEffort($projectOutlineEffort);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFullProjectProposalCosts(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFullProjectProposalCosts', []);
+
+        return parent::getFullProjectProposalCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFullProjectProposalCosts(?float $fullProjectProposalCosts): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFullProjectProposalCosts', [$fullProjectProposalCosts]);
+
+        return parent::setFullProjectProposalCosts($fullProjectProposalCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFullProjectProposalEffort(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFullProjectProposalEffort', []);
+
+        return parent::getFullProjectProposalEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFullProjectProposalEffort(?float $fullProjectProposalEffort): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFullProjectProposalEffort', [$fullProjectProposalEffort]);
+
+        return parent::setFullProjectProposalEffort($fullProjectProposalEffort);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatestVersionCosts(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionCosts', []);
+
+        return parent::getLatestVersionCosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatestVersionCosts(?float $latestVersionCosts): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionCosts', [$latestVersionCosts]);
+
+        return parent::setLatestVersionCosts($latestVersionCosts);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatestVersionEffort(): ?float
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatestVersionEffort', []);
+
+        return parent::getLatestVersionEffort();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatestVersionEffort(?float $latestVersionEffort): \Cluster\Entity\Project\Partner
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatestVersionEffort', [$latestVersionEffort]);
+
+        return parent::setLatestVersionEffort($latestVersionEffort);
     }
 
     /**

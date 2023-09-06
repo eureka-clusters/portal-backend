@@ -180,6 +180,17 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addAllowedClusters(\Doctrine\Common\Collections\Collection $allowedClustersCollection): void
     {
 
@@ -476,17 +487,6 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStorageLocations', [$storageLocations]);
 
         return parent::setStorageLocations($storageLocations);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString(): string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
-
-        return parent::__toString();
     }
 
     /**

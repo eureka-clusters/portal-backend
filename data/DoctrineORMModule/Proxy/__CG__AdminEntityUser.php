@@ -180,6 +180,39 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addRoles(\Doctrine\Common\Collections\Collection $roles): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addRoles', [$roles]);
+
+        parent::addRoles($roles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeRoles(\Doctrine\Common\Collections\Collection $roles): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeRoles', [$roles]);
+
+        parent::removeRoles($roles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function parseFullName(): string
     {
 
@@ -630,17 +663,6 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmailMessage', [$emailMessage]);
 
         return parent::setEmailMessage($emailMessage);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString(): string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
-
-        return parent::__toString();
     }
 
     /**
