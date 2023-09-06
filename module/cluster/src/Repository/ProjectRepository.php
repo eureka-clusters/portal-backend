@@ -423,22 +423,22 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 $queryBuilder->join(join: 'latestversion.type', alias: 'latestversion_type');
                 break;
             case 'projectOutlineCosts':
-                $sortColumn = 'projectOutlineCosts';
+                $sortColumn = 'cluster_entity_project.projectOutlineCosts';
                 break;
             case 'projectOutlineEffort':
-                $sortColumn = 'projectOutlineEffort';
+                $sortColumn = 'cluster_entity_project.projectOutlineEffort';
                 break;
             case 'fullProjectProposalCosts':
-                $sortColumn = 'fullProjectProposalCosts';
+                $sortColumn = 'cluster_entity_project.fullProjectProposalCosts';
                 break;
             case 'fullProjectProposalEffort':
-                $sortColumn = 'fullProjectProposalEffort';
+                $sortColumn = 'cluster_entity_project.fullProjectProposalEffort';
                 break;
             case 'latestVersionCosts':
-                $sortColumn = 'latestVersionCosts';
+                $sortColumn = 'cluster_entity_project.latestVersionCosts';
                 break;
             case 'latestVersionEffort':
-                $sortColumn = 'latestVersionEffort';
+                $sortColumn = 'cluster_entity_project.latestVersionEffort';
                 break;
             default:
                 $sortColumn = 'cluster_entity_project.labelDate';
