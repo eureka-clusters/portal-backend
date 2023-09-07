@@ -10,7 +10,6 @@ use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Version;
-use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Repository\Project\PartnerRepository;
 use Cluster\Service\CountryService;
 use Cluster\Service\OrganisationService;
@@ -251,66 +250,5 @@ class PartnerService extends AbstractService
         }
 
         return $partner;
-    }
-
-    public function findTotalCostsByPartnerAndProjectVersionAndYear(
-        Partner $partner,
-        Version $projectVersion,
-        int     $year
-    ): float
-    {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
-
-        return $repository->findTotalCostsByPartnerAndProjectVersionAndYear(
-            partner: $partner,
-            projectVersion: $projectVersion,
-            year: $year
-        );
-    }
-
-    public function findTotalCostsByPartnerAndProjectVersion(
-        Partner $partner,
-        Version $projectVersion
-    ): float
-    {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
-
-        return $repository->findTotalCostsByPartnerAndProjectVersion(
-            partner: $partner,
-            projectVersion: $projectVersion
-        );
-    }
-
-    public function findTotalEffortByPartnerAndProjectVersionAndYear(
-        Partner $partner,
-        Version $projectVersion,
-        int     $year
-    ): float
-    {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
-
-        return $repository->findTotalEffortByPartnerAndProjectVersionAndYear(
-            partner: $partner,
-            projectVersion: $projectVersion,
-            year: $year
-        );
-    }
-
-    public function findTotalEffortByPartnerAndProjectVersion(
-        Partner $partner,
-        Version $projectVersion
-
-    ): float
-    {
-        /** @var \Cluster\Repository\Project\Version\CostsAndEffort $repository */
-        $repository = $this->entityManager->getRepository(entityName: CostsAndEffort::class);
-
-        return $repository->findTotalEffortByPartnerAndProjectVersion(
-            partner: $partner,
-            projectVersion: $projectVersion,
-        );
     }
 }

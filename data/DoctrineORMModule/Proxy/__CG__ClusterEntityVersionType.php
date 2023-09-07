@@ -180,6 +180,28 @@ class Type extends \Cluster\Entity\Version\Type implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
+    public function isPo(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPo', []);
+
+        return parent::isPo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isFpp(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isFpp', []);
+
+        return parent::isFpp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function isLatest(): bool
     {
 

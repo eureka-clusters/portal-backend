@@ -246,6 +246,40 @@ class ProjectService extends AbstractService
         return $project;
     }
 
+    public function updateProjectCostsAndEffort(Project $project): void
+    {
+        $this->refresh(abstractEntity: $project);
+
+        //Reset the project totals
+        $project->setProjectOutlineCosts(projectOutlineCosts: null);
+        $project->setProjectOutlineEffort(projectOutlineEffort: null);
+        $project->setFullProjectProposalCosts(fullProjectProposalCosts: 0);
+        $project->setFullProjectProposalEffort(fullProjectProposalEffort: 0);
+        $project->setLatestVersionCosts(latestVersionCosts: 0);
+        $project->setLatestVersionEffort(latestVersionEffort: 0);
+
+        /** @var Project\Version $version */
+        foreach ($project->getVersions() as $version) {
+
+            if ($version->getType()->isPo()) {
+                $project->setProjectOutlineCosts(projectOutlineCosts: $version->getCosts());
+                $project->setProjectOutlineEffort(projectOutlineEffort: $version->getEffort());
+            }
+
+            if ($version->getType()->isFpp()) {
+                $project->setFullProjectProposalCosts(fullProjectProposalCosts: $version->getCosts());
+                $project->setFullProjectProposalEffort(fullProjectProposalEffort: $version->getEffort());
+            }
+
+            if ($version->getType()->isLatest()) {
+                $project->setLatestVersionCosts(latestVersionCosts: $version->getCosts());
+                $project->setLatestVersionEffort(latestVersionEffort: $version->getEffort());
+            }
+        }
+
+        $this->save(entity: $project);
+    }
+
     public function findProjectByIdentifier(string $identifier): ?Project
     {
         return $this->entityManager->getRepository(entityName: Project::class)->findOneBy(

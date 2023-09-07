@@ -67,10 +67,10 @@ class AuthorizationCode extends \Api\Entity\OAuth\AuthorizationCode implements \
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'codeChallenge', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'codeChallengeMethod'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'authorizationCode', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'user', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'expires', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'redirectUri', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'idToken', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'codeChallenge', '' . "\0" . 'Api\\Entity\\OAuth\\AuthorizationCode' . "\0" . 'codeChallengeMethod'];
     }
 
     /**
@@ -355,6 +355,50 @@ class AuthorizationCode extends \Api\Entity\OAuth\AuthorizationCode implements \
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIdToken', [$idToken]);
 
         return parent::setIdToken($idToken);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodeChallenge(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCodeChallenge', []);
+
+        return parent::getCodeChallenge();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCodeChallenge(?string $codeChallenge): \Api\Entity\OAuth\AuthorizationCode
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCodeChallenge', [$codeChallenge]);
+
+        return parent::setCodeChallenge($codeChallenge);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodeChallengeMethod(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCodeChallengeMethod', []);
+
+        return parent::getCodeChallengeMethod();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCodeChallengeMethod(?string $codeChallengeMethod): \Api\Entity\OAuth\AuthorizationCode
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCodeChallengeMethod', [$codeChallengeMethod]);
+
+        return parent::setCodeChallengeMethod($codeChallengeMethod);
     }
 
     /**

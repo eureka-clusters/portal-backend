@@ -67,10 +67,10 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'type', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'submissionDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'effort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costs', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'countries', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'evaluation'];
+            return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'type', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'submissionDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'reviewDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costs', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'effort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'countries', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'evaluation'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'type', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'submissionDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'effort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costs', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'countries', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'evaluation'];
+        return ['__isInitialized__', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'id', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'identifier', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'project', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'type', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costsAndEffort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'submissionDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'reviewDate', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'status', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'costs', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'effort', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'countries', '' . "\0" . 'Cluster\\Entity\\Project\\Version' . "\0" . 'evaluation'];
     }
 
     /**
@@ -180,12 +180,45 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
     /**
      * {@inheritDoc}
      */
+    public function getIdentifier(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdentifier', []);
+
+        return parent::getIdentifier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdentifier(string $identifier): \Cluster\Entity\Project\Version
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIdentifier', [$identifier]);
+
+        return parent::setIdentifier($identifier);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hasEvaluation(): bool
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasEvaluation', []);
 
         return parent::hasEvaluation();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSubmitted(): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isSubmitted', []);
+
+        return parent::isSubmitted();
     }
 
     /**
@@ -300,6 +333,28 @@ class Version extends \Cluster\Entity\Project\Version implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSubmissionDate', [$submissionDate]);
 
         return parent::setSubmissionDate($submissionDate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReviewDate(): ?\DateTime
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getReviewDate', []);
+
+        return parent::getReviewDate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setReviewDate(?\DateTime $reviewDate): \Cluster\Entity\Project\Version
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setReviewDate', [$reviewDate]);
+
+        return parent::setReviewDate($reviewDate);
     }
 
     /**

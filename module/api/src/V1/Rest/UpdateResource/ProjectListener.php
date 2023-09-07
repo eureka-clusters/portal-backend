@@ -57,7 +57,7 @@ final class ProjectListener extends AbstractResourceListener
     )]
     public function create($data = []): ApiProblem|string
     {
-        $filter = $this->getInputFilter();
+        $filter  = $this->getInputFilter();
         $content = $filter->getValue('file');
 
         $data = file_get_contents($content['tmp_name']);
@@ -81,6 +81,9 @@ final class ProjectListener extends AbstractResourceListener
             $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_PO, project: $project);
             $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_FPP, project: $project);
             $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_LATEST, project: $project);
+
+            //Update the costs/effort totals for all the project
+            $this->projectService->updateProjectCostsAndEffort(project: $project);
 
             $this->entityManager->flush();
         } catch (Exception $e) {
@@ -114,12 +117,12 @@ final class ProjectListener extends AbstractResourceListener
                 $partner->setIsSelfFunded(isSelfFunded: $partnerData->isSelfFunded);
                 $partner->setTechnicalContact(technicalContact: (array)$partnerData->technicalContact);
 
-                $totalCosts = 0;
+                $totalCosts  = 0;
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
 
-                    $totalCosts += $costsAndEffortData->costs;
+                    $totalCosts  += $costsAndEffortData->costs;
                     $totalEffort += $costsAndEffortData->effort;
 
                     //This data is saved in a costs and effort table
@@ -133,8 +136,20 @@ final class ProjectListener extends AbstractResourceListener
                     $this->entityManager->persist(entity: $costsAndEffort);
                 }
 
-                $partner->setLatestVersionCosts(latestVersionCosts: $totalCosts);
-                $partner->setLatestVersionEffort(latestVersionEffort: $totalEffort);
+                if ($versionType->isPo()) {
+                    $partner->setProjectOutlineCosts(projectOutlineCosts: $totalCosts);
+                    $partner->setProjectOutlineEffort(projectOutlineEffort: $totalEffort);
+                }
+
+                if ($versionType->isFpp()) {
+                    $partner->setFullProjectProposalCosts(fullProjectProposalCosts: $totalCosts);
+                    $partner->setFullProjectProposalEffort(fullProjectProposalEffort: $totalEffort);
+                }
+
+                if ($versionType->isLatest()) {
+                    $partner->setLatestVersionCosts(latestVersionCosts: $totalCosts);
+                    $partner->setLatestVersionEffort(latestVersionEffort: $totalEffort);
+                }
             }
             $this->entityManager->flush();
         }

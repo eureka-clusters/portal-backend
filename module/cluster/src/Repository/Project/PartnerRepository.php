@@ -258,6 +258,18 @@ class PartnerRepository extends EntityRepository
                 $sortColumn = 'cluster_entity_project_primary_cluster.name';
                 $queryBuilder->join(join: 'cluster_entity_project.primaryCluster', alias: 'cluster_entity_project_primary_cluster');
                 break;
+            case 'projectOutlineCosts':
+                $sortColumn = 'project_partner.projectOutlineCosts';
+                break;
+            case 'projectOutlineEffort':
+                $sortColumn = 'project_partner.projectOutlineEffort';
+                break;
+            case 'fullProjectProposalCosts':
+                $sortColumn = 'project_partner.fullProjectProposalCosts';
+                break;
+            case 'fullProjectProposalEffort':
+                $sortColumn = 'project_partner.fullProjectProposalEffort';
+                break;
             case 'latestVersionCosts':
                 $sortColumn = 'project_partner.latestVersionCosts';
                 break;

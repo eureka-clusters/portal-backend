@@ -57,11 +57,23 @@ class Partner extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: CostsAndEffort::class, cascade: ['persist'])]
     private Collection $costsAndEffort;
 
-    #[ORM\Column(type: 'float')]
-    private float $latestVersionCosts;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $projectOutlineCosts = null;
 
-    #[ORM\Column(type: 'float')]
-    private float $latestVersionEffort;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $projectOutlineEffort = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $fullProjectProposalCosts = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $fullProjectProposalEffort = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $latestVersionCosts = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $latestVersionEffort = null;
 
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Funding::class, cascade: ['persist'])]
     private Collection $funding;
@@ -200,28 +212,6 @@ class Partner extends AbstractEntity
         return $this;
     }
 
-    public function getLatestVersionCosts(): float
-    {
-        return $this->latestVersionCosts;
-    }
-
-    public function setLatestVersionCosts(float $latestVersionCosts): Partner
-    {
-        $this->latestVersionCosts = $latestVersionCosts;
-        return $this;
-    }
-
-    public function getLatestVersionEffort(): float
-    {
-        return $this->latestVersionEffort;
-    }
-
-    public function setLatestVersionEffort(float $latestVersionEffort): Partner
-    {
-        $this->latestVersionEffort = $latestVersionEffort;
-        return $this;
-    }
-
     public function getFunding(): Collection
     {
         return $this->funding;
@@ -230,6 +220,72 @@ class Partner extends AbstractEntity
     public function setFunding(Collection $funding): Partner
     {
         $this->funding = $funding;
+        return $this;
+    }
+
+    public function getProjectOutlineCosts(): ?float
+    {
+        return $this->projectOutlineCosts;
+    }
+
+    public function setProjectOutlineCosts(?float $projectOutlineCosts): Partner
+    {
+        $this->projectOutlineCosts = $projectOutlineCosts;
+        return $this;
+    }
+
+    public function getProjectOutlineEffort(): ?float
+    {
+        return $this->projectOutlineEffort;
+    }
+
+    public function setProjectOutlineEffort(?float $projectOutlineEffort): Partner
+    {
+        $this->projectOutlineEffort = $projectOutlineEffort;
+        return $this;
+    }
+
+    public function getFullProjectProposalCosts(): ?float
+    {
+        return $this->fullProjectProposalCosts;
+    }
+
+    public function setFullProjectProposalCosts(?float $fullProjectProposalCosts): Partner
+    {
+        $this->fullProjectProposalCosts = $fullProjectProposalCosts;
+        return $this;
+    }
+
+    public function getFullProjectProposalEffort(): ?float
+    {
+        return $this->fullProjectProposalEffort;
+    }
+
+    public function setFullProjectProposalEffort(?float $fullProjectProposalEffort): Partner
+    {
+        $this->fullProjectProposalEffort = $fullProjectProposalEffort;
+        return $this;
+    }
+
+    public function getLatestVersionCosts(): ?float
+    {
+        return $this->latestVersionCosts;
+    }
+
+    public function setLatestVersionCosts(?float $latestVersionCosts): Partner
+    {
+        $this->latestVersionCosts = $latestVersionCosts;
+        return $this;
+    }
+
+    public function getLatestVersionEffort(): ?float
+    {
+        return $this->latestVersionEffort;
+    }
+
+    public function setLatestVersionEffort(?float $latestVersionEffort): Partner
+    {
+        $this->latestVersionEffort = $latestVersionEffort;
         return $this;
     }
 }

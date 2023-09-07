@@ -34,3 +34,8 @@ docker compose run --rm cli /var/www/bin/generate_templatemaps
 
 ./vendor/bin/openapi module -f json -o public/swagger/swagger.json
 ```
+
+
+
+UPDATE cluster_project_version
+SET identifier = id;

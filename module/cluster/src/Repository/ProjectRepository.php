@@ -393,7 +393,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             case 'officialStartDate':
                 $sortColumn = 'cluster_entity_project.officialStartDate';
                 break;
-                case 'officialEndDate':
+            case 'officialEndDate':
                 $sortColumn = 'cluster_entity_project.officialEndDate';
                 break;
             case 'programme':
@@ -422,25 +422,23 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 );
                 $queryBuilder->join(join: 'latestversion.type', alias: 'latestversion_type');
                 break;
-
-            //todo how can the id of the latest version type be selected dynamically? or is this a fixed id
-            case 'latestVersionTotalCosts':
-                $sortColumn = 'latestversion.costs';
-                $queryBuilder->leftJoin(
-                    join: 'cluster_entity_project.versions',
-                    alias: 'latestversion',
-                    conditionType: 'WITH',
-                    condition: 'latestversion.type = 3'
-                );
+            case 'projectOutlineCosts':
+                $sortColumn = 'cluster_entity_project.projectOutlineCosts';
                 break;
-            case 'latestVersionTotalEffort':
-                $sortColumn = 'latestversion.effort';
-                $queryBuilder->leftJoin(
-                    join: 'cluster_entity_project.versions',
-                    alias: 'latestversion',
-                    conditionType: 'WITH',
-                    condition: 'latestversion.type = 3'
-                );
+            case 'projectOutlineEffort':
+                $sortColumn = 'cluster_entity_project.projectOutlineEffort';
+                break;
+            case 'fullProjectProposalCosts':
+                $sortColumn = 'cluster_entity_project.fullProjectProposalCosts';
+                break;
+            case 'fullProjectProposalEffort':
+                $sortColumn = 'cluster_entity_project.fullProjectProposalEffort';
+                break;
+            case 'latestVersionCosts':
+                $sortColumn = 'cluster_entity_project.latestVersionCosts';
+                break;
+            case 'latestVersionEffort':
+                $sortColumn = 'cluster_entity_project.latestVersionEffort';
                 break;
             default:
                 $sortColumn = 'cluster_entity_project.labelDate';

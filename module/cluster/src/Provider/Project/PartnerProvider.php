@@ -6,7 +6,6 @@ namespace Cluster\Provider\Project;
 
 use Api\Provider\ProviderInterface;
 use Cluster\Entity\Project\Partner;
-use Cluster\Entity\Version\Type;
 use Cluster\Provider\ContactProvider;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Provider\ProjectProvider;
@@ -24,8 +23,6 @@ class PartnerProvider implements ProviderInterface
 {
     public function __construct(
         private readonly Redis                $cache,
-        private readonly PartnerService       $partnerService,
-        private readonly VersionService       $versionService,
         private readonly ProjectProvider      $projectProvider,
         private readonly ContactProvider      $contactProvider,
         private readonly OrganisationProvider $organisationProvider
@@ -129,19 +126,8 @@ class PartnerProvider implements ProviderInterface
         $cacheKey    = $partner->parseCacheKey();
         $partnerData = $this->cache->getItem(key: $cacheKey);
 
-        //Get the project outline
-        $projectOutline      = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $partner->getProject(), versionTypeName: Type::TYPE_PO);
-        $fullProjectProposal = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $partner->getProject(), versionTypeName: Type::TYPE_FPP);
-        $latestVersion       = $this->versionService->findVersionTypeByProjectAndVersionTypeName(project: $partner->getProject(), versionTypeName: Type::TYPE_LATEST);
-
         if (!$partnerData) {
 
-            $projectOutlineCosts       = null === $projectOutline ? null : $this->partnerService->findTotalCostsByPartnerAndProjectVersion(partner: $partner, projectVersion: $projectOutline);
-            $projectOutlineEffort      = null === $projectOutline ? null : $this->partnerService->findTotalEffortByPartnerAndProjectVersion(partner: $partner, projectVersion: $projectOutline);
-            $fullProjectProposalCosts  = $this->partnerService->findTotalCostsByPartnerAndProjectVersion(partner: $partner, projectVersion: $fullProjectProposal);
-            $fullProjectProposalEffort = $this->partnerService->findTotalEffortByPartnerAndProjectVersion(partner: $partner, projectVersion: $fullProjectProposal);
-            $latestVersionCosts        = $this->partnerService->findTotalCostsByPartnerAndProjectVersion(partner: $partner, projectVersion: $latestVersion);
-            $latestVersionEffort       = $this->partnerService->findTotalEffortByPartnerAndProjectVersion(partner: $partner, projectVersion: $latestVersion);
 
             $partnerData = [
                 'id'                        => $partner->getId(),
@@ -156,12 +142,12 @@ class PartnerProvider implements ProviderInterface
                 'organisation'              => $this->organisationProvider->generateArray(
                     entity: $partner->getOrganisation()
                 ),
-                'projectOutlineCosts'       => $projectOutlineCosts,
-                'projectOutlineEffort'      => $projectOutlineEffort,
-                'fullProjectProposalCosts'  => $fullProjectProposalCosts,
-                'fullProjectProposalEffort' => $fullProjectProposalEffort,
-                'latestVersionCosts'        => $latestVersionCosts,
-                'latestVersionEffort'       => $latestVersionEffort,
+                'projectOutlineCosts'       => $partner->getProjectOutlineCosts(),
+                'projectOutlineEffort'      => $partner->getProjectOutlineEffort(),
+                'fullProjectProposalCosts'  => $partner->getFullProjectProposalCosts(),
+                'fullProjectProposalEffort' => $partner->getFullProjectProposalEffort(),
+                'latestVersionCosts'        => $partner->getLatestVersionCosts(),
+                'latestVersionEffort'       => $partner->getLatestVersionEffort(),
             ];
             $this->cache->setItem(key: $cacheKey, value: $partnerData);
         }
