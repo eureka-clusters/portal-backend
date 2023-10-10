@@ -19,7 +19,7 @@ class SetTitle extends AbstractListenerAggregate
     public function setHeadLink(): void
     {
         $this->renderer->headLink()->appendStylesheet(
-            '//cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css',
+            '//cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
             'all',
             null,
             null

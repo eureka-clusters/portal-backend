@@ -108,6 +108,9 @@ final class ProjectListener extends AbstractResourceListener
                 project: $project
             );
 
+            $totalVersionCosts  = 0;
+            $totalVersionEffort = 0;
+
             //Now we go over the partners and collect these and save the costs and effort
             foreach ($data->$versionTypeName->partners as $partnerData) {
                 $partner = $this->partnerService->findOrCreatePartner(data: $partnerData, project: $project);
@@ -150,7 +153,14 @@ final class ProjectListener extends AbstractResourceListener
                     $partner->setLatestVersionCosts(latestVersionCosts: $totalCosts);
                     $partner->setLatestVersionEffort(latestVersionEffort: $totalEffort);
                 }
+
+                $totalVersionCosts  += $totalCosts;
+                $totalVersionEffort += $totalEffort;
             }
+
+            $version->setCosts($totalVersionCosts);
+            $version->setCosts($totalVersionEffort);
+
             $this->entityManager->flush();
         }
     }

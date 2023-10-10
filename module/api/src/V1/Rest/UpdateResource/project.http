@@ -6,4 +6,4 @@ Authorization: Bearer {{ bearerToken }}
 --boundary
 Content-Disposition: form-data; name="file"; filename="generiot.jsond"
 
-< CPVH-EUROGIA.json
+< Dynamic%20SALSA%20-%20SMART.json
