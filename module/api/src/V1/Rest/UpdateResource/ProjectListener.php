@@ -159,7 +159,9 @@ final class ProjectListener extends AbstractResourceListener
             }
 
             $version->setCosts($totalVersionCosts);
-            $version->setCosts($totalVersionEffort);
+            $version->setEffort($totalVersionEffort);
+
+            $this->entityManager->persist(entity: $version);
 
             $this->entityManager->flush();
         }

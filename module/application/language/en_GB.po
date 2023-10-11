@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-28 14:57+0200\n"
+"POT-Creation-Date: 2023-10-11 13:37+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: translate;_;label\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/config/language.php:5
@@ -636,87 +636,93 @@ msgid "txt-partner-type"
 msgstr "Partner type"
 
 #: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:142
+msgid "txt-is-coordinator"
+msgstr "Coordinator"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
+msgid "txt-is-self-funded"
+msgstr "Self funded"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:154
+#: mailing/view/mailing/mailer/list.twig:13
+#: mailing/view/mailing/mailer/view.twig:19
+msgid "txt-is-active"
+msgstr "Is active"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:160
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
 #: cluster/view/cluster/project/list.twig:29
 #: cluster/view/cluster/project/view.twig:15
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:166
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
 #: cluster/view/cluster/project/view.twig:17
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:154
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:172
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:132
 msgid "txt-programme"
 msgstr "Programme"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:160
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:178
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:138
 msgid "txt-programme-call"
 msgstr "Programme Call"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:166
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:184
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:144
 msgid "txt-label-date"
 msgstr "Label date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:172
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:190
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:150
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:178
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:196
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:156
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:184
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:202
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:162
 msgid "txt-project-status"
 msgstr "Status of the project"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:192
-msgid "txt-partner-costs-in-year"
-msgstr "Partner costs in year"
-
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:198
-msgid "txt-partner-effort-in-year"
-msgstr "Partner effort in year"
-
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:205
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:209
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
 msgid "txt-project-outline-costs"
 msgstr "Costs (PO, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:211
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:215
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
 msgid "txt-project-outline-effort"
 msgstr "Effort (PO, PY)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:217
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:221
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
 msgid "txt-full-project-proposal-costs"
 msgstr "Costs (FPP, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:223
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:227
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:186
 msgid "txt-full-project-proposal-effort"
 msgstr "Effort (FPP, PY)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:229
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:233
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:192
 msgid "txt-latest-version-costs"
 msgstr "Costs (latest version, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:235
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:239
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:198
 msgid "txt-latest-version-effort"
 msgstr "Effort (latest version)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:241
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:245
 #: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:204
 msgid "txt-latest-version-is-fpp"
 msgstr "Latest version is FPP"
@@ -2437,11 +2443,6 @@ msgstr "Mailers"
 msgid "txt-service"
 msgstr "Service"
 
-#: mailing/view/mailing/mailer/list.twig:13
-#: mailing/view/mailing/mailer/view.twig:19
-msgid "txt-is-active"
-msgstr "Is active"
-
 #: mailing/view/mailing/mailer/list.twig:14
 #: mailing/view/mailing/mailer/view.twig:21
 msgid "txt-is-development"
@@ -2702,6 +2703,12 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#~ msgid "txt-partner-costs-in-year"
+#~ msgstr "Partner costs in year"
+
+#~ msgid "txt-partner-effort-in-year"
+#~ msgstr "Partner effort in year"
 
 #, fuzzy
 #~| msgid "txt-total-costs-euro"
@@ -3244,9 +3251,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-affiliation-loi-contact-help-block"
 #~ msgstr "Indicate here the contact who has uploaded the LOI"
-
-#~ msgid "txt-self-funded"
-#~ msgstr "Self funded"
 
 #~ msgid "txt-affiliation-invoice-period-placeholder"
 #~ msgstr "Choose here the period of the invoice (1 or 2)"
@@ -30332,9 +30336,6 @@ msgstr "There was an issue connecting to container %s"
 #, php-format
 #~ msgid "txt-%s-has-no-partners"
 #~ msgstr "%s has no partners"
-
-#~ msgid "txt-coordinator"
-#~ msgstr "Coordinator"
 
 #~ msgid "txt-coordinator-organisation"
 #~ msgstr "Organisation"

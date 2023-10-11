@@ -4,6 +4,6 @@ Accept: */*
 Authorization: Bearer {{ bearerToken }}
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="generiot.jsond"
+Content-Disposition: form-data; name="file"; filename="inno4health.jsond"
 
-< Dynamic%20SALSA%20-%20SMART.json
+< inno4health.json
