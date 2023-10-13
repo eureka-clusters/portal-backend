@@ -6,4 +6,4 @@ Authorization: Bearer {{ bearerToken }}
 --boundary
 Content-Disposition: form-data; name="file"; filename="inno4health.jsond"
 
-< inno4health.json
+< 5G4PHealth.json
