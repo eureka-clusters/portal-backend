@@ -380,19 +380,19 @@ class PartnerRepository extends EntityRepository
         $activeInAnyVersionSubselect = $this->_em->createQueryBuilder();
         $activeInAnyVersionSubselect->select(select: 'project_partner_subselect');
         $activeInAnyVersionSubselect->from(from: Partner::class, alias: 'project_partner_subselect');
-        $activeInAnyVersionSubselect->join(
+        $activeInAnyVersionSubselect->innerJoin(
             join: 'project_partner_subselect.project',
             alias: 'project_partner_subselect_project'
         );
-        $activeInAnyVersionSubselect->join(
+        $activeInAnyVersionSubselect->leftJoin(
             join: 'project_partner_subselect.costsAndEffort',
             alias: 'project_partner_subselect_costs_and_effort'
         );
-        $activeInAnyVersionSubselect->join(
+        $activeInAnyVersionSubselect->leftJoin(
             join: 'project_partner_subselect_costs_and_effort.version',
             alias: 'project_partner_subselect_costs_and_effort_version'
         );
-        $activeInAnyVersionSubselect->join(
+        $activeInAnyVersionSubselect->leftJoin(
             join: 'project_partner_subselect_costs_and_effort_version.type',
             alias: 'project_partner_subselect_costs_and_effort_version_type'
         );
