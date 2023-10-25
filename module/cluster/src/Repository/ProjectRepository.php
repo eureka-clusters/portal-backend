@@ -88,24 +88,24 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
-        //We only want projects with active partners
-        $activePartnerSubSelect = $this->_em->createQueryBuilder()
-            ->select(select: 'cluster_entity_project_active_partner_project')
-            ->from(from: Partner::class, alias: 'cluster_entity_project_active_partner')
-            ->join(
-                join: 'cluster_entity_project_active_partner.project',
-                alias: 'cluster_entity_project_active_partner_project'
-            )
-            ->where(
-                predicates: $queryBuilder->expr()->eq(
-                    x: 'cluster_entity_project_active_partner.isActive',
-                    y: $queryBuilder->expr()->literal(literal: true)
-                )
-            );
-
-        $queryBuilder->andWhere(
-            $queryBuilder->expr()->in(x: 'cluster_entity_project', y: $activePartnerSubSelect->getDQL()),
-        );
+//        //We only want projects with active partners
+//        $activePartnerSubSelect = $this->_em->createQueryBuilder()
+//            ->select(select: 'cluster_entity_project_active_partner_project')
+//            ->from(from: Partner::class, alias: 'cluster_entity_project_active_partner')
+//            ->join(
+//                join: 'cluster_entity_project_active_partner.project',
+//                alias: 'cluster_entity_project_active_partner_project'
+//            )
+//            ->where(
+//                predicates: $queryBuilder->expr()->eq(
+//                    x: 'cluster_entity_project_active_partner.isActive',
+//                    y: $queryBuilder->expr()->literal(literal: true)
+//                )
+//            );
+//
+//        $queryBuilder->andWhere(
+//            $queryBuilder->expr()->in(x: 'cluster_entity_project', y: $activePartnerSubSelect->getDQL()),
+//        );
 
         return $queryBuilder;
     }
@@ -465,13 +465,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 join: 'cluster_entity_project_funder_partners.organisation',
                 alias: 'cluster_entity_project_funder_partners_organisation'
             )
-            ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country')
-            ->andWhere(
-                $queryBuilder->expr()->eq(
-                    x: 'cluster_entity_project_funder_partners.isActive',
-                    y: $queryBuilder->expr()->literal(literal: true)
-                )
-            );
+            ->andWhere('cluster_entity_project_funder_partners_organisation.country = :funder_country');
 
         $queryBuilder->andWhere(
             $queryBuilder->expr()->in(x: 'cluster_entity_project', y: $funderSubSelect->getDQL())

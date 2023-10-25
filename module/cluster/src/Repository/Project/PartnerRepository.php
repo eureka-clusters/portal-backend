@@ -33,7 +33,7 @@ class PartnerRepository extends EntityRepository
         //We always need a join on project
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
 
-        $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
+        $this->activeInAnyVersionSubselect(queryBuilder: $queryBuilder);
 
 //        $queryBuilder->andWhere('project_partner.isActive = :isActive');
 //        $queryBuilder->setParameter(key: 'isActive', value: true);
@@ -335,10 +335,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select(select: 'project_partner');
         $queryBuilder->from(from: Partner::class, alias: 'project_partner');
 
-//        $queryBuilder->andWhere('project_partner.isActive = :isActive');
-//        $queryBuilder->setParameter(key: 'isActive', value: true);
-
-        $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder, project: $project);
+        $this->activeInProjectVersionSubselect(queryBuilder: $queryBuilder, project: $project);
 
         $queryBuilder->join(join: 'project_partner.organisation', alias: 'organisation');
 
@@ -351,40 +348,60 @@ class PartnerRepository extends EntityRepository
         return $queryBuilder;
     }
 
-    private function activeInLatestVersionSubselect(QueryBuilder $queryBuilder, ?Project $project = null): void
+    private function activeInAnyVersionSubselect(QueryBuilder $queryBuilder): void
     {
-        $activeInLatestVersionSubSelect = $this->_em->createQueryBuilder();
-        $activeInLatestVersionSubSelect->select(select: 'project_partner_subselect');
-        $activeInLatestVersionSubSelect->from(from: Partner::class, alias: 'project_partner_subselect');
-        $activeInLatestVersionSubSelect->join(
+        $activeInAnyVersionSubselect = $this->_em->createQueryBuilder();
+        $activeInAnyVersionSubselect->select(select: 'project_partner_subselect');
+        $activeInAnyVersionSubselect->from(from: Partner::class, alias: 'project_partner_subselect');
+        $activeInAnyVersionSubselect->join(
             join: 'project_partner_subselect.project',
             alias: 'project_partner_subselect_project'
         );
-        $activeInLatestVersionSubSelect->join(
+        $activeInAnyVersionSubselect->join(
             join: 'project_partner_subselect.costsAndEffort',
             alias: 'project_partner_subselect_costs_and_effort'
         );
-        $activeInLatestVersionSubSelect->join(
+        $activeInAnyVersionSubselect->join(
             join: 'project_partner_subselect_costs_and_effort.version',
             alias: 'project_partner_subselect_costs_and_effort_version'
         );
-        $activeInLatestVersionSubSelect->join(
+        $activeInAnyVersionSubselect->join(
             join: 'project_partner_subselect_costs_and_effort_version.type',
             alias: 'project_partner_subselect_costs_and_effort_version_type'
         );
-        $activeInLatestVersionSubSelect->andWhere(
-            'project_partner_subselect_costs_and_effort_version_type.type = :type'
-        );
-
-        if (null !== $project) {
-            $activeInLatestVersionSubSelect->andWhere('project_partner_subselect_project.id = :projectId');
-            $queryBuilder->setParameter(key: 'projectId', value: $project->getId());
-        }
-
-        $queryBuilder->setParameter(key: 'type', value: \Cluster\Entity\Version\Type::TYPE_LATEST);
 
         $queryBuilder->andWhere(
-            $queryBuilder->expr()->in(x: 'project_partner', y: $activeInLatestVersionSubSelect->getDQL())
+            $queryBuilder->expr()->in(x: 'project_partner', y: $activeInAnyVersionSubselect->getDQL())
+        );
+    }
+
+    private function activeInProjectVersionSubselect(QueryBuilder $queryBuilder, Project $project): void
+    {
+        $activeInAnyVersionSubselect = $this->_em->createQueryBuilder();
+        $activeInAnyVersionSubselect->select(select: 'project_partner_subselect');
+        $activeInAnyVersionSubselect->from(from: Partner::class, alias: 'project_partner_subselect');
+        $activeInAnyVersionSubselect->innerJoin(
+            join: 'project_partner_subselect.project',
+            alias: 'project_partner_subselect_project'
+        );
+        $activeInAnyVersionSubselect->leftJoin(
+            join: 'project_partner_subselect.costsAndEffort',
+            alias: 'project_partner_subselect_costs_and_effort'
+        );
+        $activeInAnyVersionSubselect->leftJoin(
+            join: 'project_partner_subselect_costs_and_effort.version',
+            alias: 'project_partner_subselect_costs_and_effort_version'
+        );
+        $activeInAnyVersionSubselect->leftJoin(
+            join: 'project_partner_subselect_costs_and_effort_version.type',
+            alias: 'project_partner_subselect_costs_and_effort_version_type'
+        );
+
+        $activeInAnyVersionSubselect->andWhere('project_partner_subselect_project.id = :projectId');
+        $queryBuilder->setParameter(key: 'projectId', value: $project->getId());
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->in(x: 'project_partner', y: $activeInAnyVersionSubselect->getDQL())
         );
     }
 
@@ -402,13 +419,10 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->where(predicates: 'project_partner_organisation = :organisation');
         $queryBuilder->setParameter(key: 'organisation', value: $organisation);
 
-//        $queryBuilder->andWhere('project_partner.isActive = :isActive');
-//        $queryBuilder->setParameter(key: 'isActive', value: true);
-
         //We always need a join on project
         $queryBuilder->join(join: 'project_partner.project', alias: 'cluster_entity_project');
 
-        $this->activeInLatestVersionSubselect(queryBuilder: $queryBuilder);
+        $this->activeInAnyVersionSubselect(queryBuilder: $queryBuilder);
 
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);

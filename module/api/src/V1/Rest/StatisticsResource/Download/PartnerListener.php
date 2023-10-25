@@ -139,6 +139,24 @@ final class PartnerListener extends AbstractResourceListener
         $partnerSheet->setCellValue(
             coordinate: $column++ . $row,
             value: $this->translator->translate(
+                message: 'txt-is-coordinator'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-is-self-funded'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
+                message: 'txt-is-active'
+            )
+        );
+        $partnerSheet->setCellValue(
+            coordinate: $column++ . $row,
+            value: $this->translator->translate(
                 message: 'txt-primary-cluster'
             )
         );
@@ -192,7 +210,7 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
         $partnerSheet->setCellValue(
-            coordinate: $column . $row,
+            coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-project-outline-effort'
             )
@@ -204,7 +222,7 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
         $partnerSheet->setCellValue(
-            coordinate: $column . $row,
+            coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-full-project-proposal-effort'
             )
@@ -216,7 +234,7 @@ final class PartnerListener extends AbstractResourceListener
             )
         );
         $partnerSheet->setCellValue(
-            coordinate: $column . $row,
+            coordinate: $column++ . $row,
             value: $this->translator->translate(
                 message: 'txt-latest-version-effort'
             )
@@ -241,7 +259,15 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['organisation']['type']['type']
             );
-
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['isCoordinator']
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['isSelfFunded']
+            );
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
+                value: $result['isActive']
+            );
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
                 value: $result['project']['primaryCluster']['name'] ?? null
             );
@@ -270,22 +296,14 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['status']['status'] ?? null);
 
-            if (!empty($filter['filter']['year'])) {
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                    value: $result['latestVersionCostsInYear']
-                );
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                    value: $result['latestVersionEffortInYear']
-                );
-            } else {
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineCosts']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineEffort']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalCosts']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
-                $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
-            }
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineCosts']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineEffort']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalCosts']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
+
         }
 
         $excelWriter = IOFactory::createWriter(spreadsheet: $spreadSheet, writerType: 'Xlsx');
