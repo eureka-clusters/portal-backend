@@ -302,7 +302,7 @@ final class PartnerListener extends AbstractResourceListener
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
             $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
+            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: null === $result['project']['latestVersion'] ? null : $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
 
         }
 
