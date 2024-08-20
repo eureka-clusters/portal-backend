@@ -23,6 +23,6 @@ class AdminService extends AbstractService
             $cannotDeleteRole[] = 'This role has users';
         }
 
-        return count($cannotDeleteRole) === 0;
+        return $cannotDeleteRole === [];
     }
 }

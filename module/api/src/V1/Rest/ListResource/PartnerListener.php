@@ -110,6 +110,7 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Response(response: 400, description: 'Project or partner not found'),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = []): Paginator|ApiProblem
     {
         $user = $this->userService->findUserById(

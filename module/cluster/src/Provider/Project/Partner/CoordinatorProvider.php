@@ -66,6 +66,7 @@ class CoordinatorProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Partner $partner */

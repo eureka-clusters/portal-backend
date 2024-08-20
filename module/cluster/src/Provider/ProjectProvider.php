@@ -231,6 +231,7 @@ class ProjectProvider implements ProviderInterface
             )
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Project $project */
@@ -272,9 +273,9 @@ class ProjectProvider implements ProviderInterface
                 'primaryCluster'            => $this->clusterProvider->generateArray(
                     entity: $project->getPrimaryCluster()
                 ),
-                'secondaryCluster'          => !$project->hasSecondaryCluster() ? null : $this->clusterProvider->generateArray(
+                'secondaryCluster'          => $project->hasSecondaryCluster() ? $this->clusterProvider->generateArray(
                     entity: $project->getSecondaryCluster()
-                ),
+                ) : null,
                 'cancelDate'                => $project->getCancelDate()?->format(format: DateTimeInterface::ATOM),
                 'labelDate'                 => $project->getLabelDate()?->format(format: DateTimeInterface::ATOM),
                 'officialStartDate'         => $project->getOfficialStartDate()?->format(

@@ -6,19 +6,21 @@ namespace Reporting\Entity;
 
 use Api\Entity\OAuth\Service;
 use Application\Entity\AbstractEntity;
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineORMModule\Form\Element\EntitySelect;
 use JetBrains\PhpStorm\Pure;
+use Jield\Export\Entity\StorageLocationInterface;
 use Laminas\Form\Annotation\Attributes;
 use Laminas\Form\Annotation\Options;
 use Laminas\Form\Annotation\Type;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
+use Override;
 
 #[ORM\Table(name: 'reporting_storage_location')]
 #[ORM\Entity(repositoryClass: \Reporting\Repository\StorageLocation::class)]
-class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\StorageLocationInterface
+class StorageLocation extends AbstractEntity implements StorageLocationInterface
 {
 
     #[ORM\Column(type: 'integer')]
@@ -81,7 +83,10 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         'help-block'   => 'txt-reporting-storage-location-oauth2-service-help-block',
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['scope' => Criteria::ASC]],
+            'params' => [
+                'criteria' => [],
+                'orderBy'  => ['scope' => Order::Ascending->value]
+            ],
         ],
     ])]
     #[Attributes(attributes: [
@@ -93,6 +98,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
     {
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -100,9 +106,10 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
 
     public function hasOAuth2Service(): bool
     {
-        return $this->oAuth2Service !== null;
+        return $this->oAuth2Service instanceof Service;
     }
 
+    #[Override]
     public function getId(): ?int
     {
         return $this->id;
@@ -125,6 +132,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         return $this;
     }
 
+    #[Override]
     public function getConnectionString(): string
     {
         return $this->connectionString;
@@ -136,6 +144,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         return $this;
     }
 
+    #[Override]
     public function getExcelFolder(): string
     {
         return $this->excelFolder;
@@ -147,6 +156,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         return $this;
     }
 
+    #[Override]
     public function getParquetFolder(): string
     {
         return $this->parquetFolder;
@@ -158,6 +168,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         return $this;
     }
 
+    #[Override]
     public function getOAuth2Service(): ?Service
     {
         return $this->oAuth2Service;
@@ -169,6 +180,7 @@ class StorageLocation extends AbstractEntity implements \Jield\Export\Entity\Sto
         return $this;
     }
 
+    #[Override]
     public function getContainer(): string
     {
         return $this->container;

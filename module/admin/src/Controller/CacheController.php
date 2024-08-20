@@ -29,6 +29,7 @@ final class CacheController extends AbstractActionController
     ) {
     }
 
+    #[\Override]
     public function indexAction(): Response|ViewModel
     {
         $form = new AdminFunctions();

@@ -15,6 +15,7 @@ use function sprintf;
 
 final class Scope extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -28,16 +29,11 @@ final class Scope extends EntityRepository implements FilteredObjectRepository
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $qb->addOrderBy('api_entity_oauth_scope.id', $direction);
-                break;
-            case 'scope':
-                $qb->addOrderBy('api_entity_oauth_scope.scope', $direction);
-                break;
-            default:
-                $qb->addOrderBy('api_entity_oauth_scope.scope', Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'id' => $qb->addOrderBy('api_entity_oauth_scope.id', $direction),
+            'scope' => $qb->addOrderBy('api_entity_oauth_scope.scope', $direction),
+            default => $qb->addOrderBy('api_entity_oauth_scope.scope', Criteria::ASC),
+        };
 
         return $qb;
     }

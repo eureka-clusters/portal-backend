@@ -398,6 +398,7 @@ class PartnerRepository extends EntityRepository
         );
 
         $activeInAnyVersionSubselect->andWhere('project_partner_subselect_project.id = :projectId');
+
         $queryBuilder->setParameter(key: 'projectId', value: $project->getId());
 
         $queryBuilder->andWhere(

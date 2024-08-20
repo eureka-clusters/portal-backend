@@ -10,20 +10,21 @@ use Laminas\Authentication\Adapter\AdapterInterface;
 use Laminas\Authentication\Result;
 use Laminas\Crypt\Password\Bcrypt;
 
-final class DatabaseAdapter implements AdapterInterface
+final readonly class DatabaseAdapter implements AdapterInterface
 {
     public function __construct(
-        private readonly UserService $userService,
-        private readonly string $username,
-        private readonly string $password
+        private UserService $userService,
+        private string $username,
+        private string $password
     ) {
     }
 
+    #[\Override]
     public function authenticate(): Result
     {
         $user = $this->userService->findUserByEmail(email: $this->username);
 
-        if (null === $user) {
+        if (!$user instanceof \Admin\Entity\User) {
             return new Result(
                 code: Result::FAILURE_IDENTITY_NOT_FOUND,
                 identity: null,

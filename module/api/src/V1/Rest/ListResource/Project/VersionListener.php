@@ -64,6 +64,7 @@ final class VersionListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = []): Paginator|ApiProblem
     {
         $user = $this->userService->findUserById(

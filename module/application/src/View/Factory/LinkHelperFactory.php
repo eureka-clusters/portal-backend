@@ -15,6 +15,7 @@ use Psr\Container\ContainerInterface;
 
 final class LinkHelperFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): AbstractLink
     {
         $dependencies = [

@@ -13,7 +13,7 @@ use Psr\Container\ContainerInterface;
 use function array_merge;
 use function sprintf;
 
-final class PaginationLink
+final readonly class PaginationLink
 {
     private RouteMatch $routeMatch;
 

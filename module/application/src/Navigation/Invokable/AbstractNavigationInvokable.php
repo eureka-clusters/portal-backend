@@ -19,6 +19,7 @@ abstract class AbstractNavigationInvokable implements NavigationInvokableInterfa
         $this->translator = $container->get(TranslatorInterface::class);
     }
 
+    #[\Override]
     abstract public function __invoke(Mvc $page): void;
 
     protected function getEntities(): ArrayCollection

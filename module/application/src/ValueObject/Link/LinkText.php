@@ -12,10 +12,12 @@ use function trim;
 
 final class LinkText
 {
-    public const DEFAULT_MAX_LENGTH = 50;
+    public const int DEFAULT_MAX_LENGTH = 50;
 
     private $text;
+
     private $title;
+
     private int $maxLength = self::DEFAULT_MAX_LENGTH;
 
     public function __construct(

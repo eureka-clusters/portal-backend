@@ -73,6 +73,7 @@ class UserProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var User $user */

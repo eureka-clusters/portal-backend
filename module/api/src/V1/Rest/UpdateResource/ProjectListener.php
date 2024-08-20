@@ -55,6 +55,7 @@ final class ProjectListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function create($data = []): ApiProblem|string
     {
         $filter  = $this->getInputFilter();
@@ -86,8 +87,8 @@ final class ProjectListener extends AbstractResourceListener
             $this->projectService->updateProjectCostsAndEffort(project: $project);
 
             $this->entityManager->flush();
-        } catch (Exception $e) {
-            return new ApiProblem(status: 500, detail: $e->getMessage());
+        } catch (Exception $exception) {
+            return new ApiProblem(status: 500, detail: $exception->getMessage());
         }
 
         return '';

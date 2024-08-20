@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ReportingTest;
 
 use Deeplink\Module;
+use Laminas\Mvc\Application;
 use Laminas\Router\Http\TreeRouteStack;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\View\HelperPluginManager;
@@ -41,9 +42,15 @@ class ModuleTest extends AbstractServiceTest
                 if ($dependency === 'ViewHelperManager') {
                     $dependency = HelperPluginManager::class;
                 }
+
+                if ($dependency === 'Application') {
+                    $dependency = Application::class;
+                }
+
                 if ($dependency === 'Router') {
                     $dependency = TreeRouteStack::class;
                 }
+
                 $instantiatedDependencies[]
                     = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
             }

@@ -54,11 +54,13 @@ class Session extends AbstractEntity
         $this->dateStart = new DateTime();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

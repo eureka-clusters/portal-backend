@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 
 final class ModuleOptionsFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ModuleOptions
     {
         $config = $container->get('Config');

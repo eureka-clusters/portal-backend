@@ -39,6 +39,7 @@ class StatusProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Status $status */

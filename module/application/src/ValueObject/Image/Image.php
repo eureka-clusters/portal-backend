@@ -7,9 +7,9 @@ namespace Application\ValueObject\Image;
 use Application\Options\ModuleOptions;
 use Laminas\Router\RouteStackInterface;
 
-final class Image
+final readonly class Image
 {
-    public function __construct(private readonly ImageRoute $imageRoute, private readonly ImageDecoration $imageDecoration)
+    public function __construct(private ImageRoute $imageRoute, private ImageDecoration $imageDecoration)
     {
     }
 

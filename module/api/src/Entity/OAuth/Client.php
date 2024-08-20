@@ -69,11 +69,13 @@ class Client extends AbstractEntity
         $this->scope = new Scope();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getId(): ?string
     {
         return $this->clientId;

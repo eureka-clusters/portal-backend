@@ -51,6 +51,7 @@ class CountryProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Country $country */

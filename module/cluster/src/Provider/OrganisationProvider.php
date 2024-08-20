@@ -59,6 +59,7 @@ class OrganisationProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Organisation $organisation */

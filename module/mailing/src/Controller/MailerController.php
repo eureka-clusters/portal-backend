@@ -71,7 +71,7 @@ final class MailerController extends MailingAbstractController
     {
         $mailer = $this->mailerService->findMailerById(id: (int) $this->params('id'));
 
-        if (null === $mailer) {
+        if (!$mailer instanceof \Mailing\Entity\Mailer) {
             return $this->notFoundAction();
         }
 
@@ -82,7 +82,7 @@ final class MailerController extends MailingAbstractController
                 $testEmail->setBody(body: 'This is a test');
                 $testEmail->setSubject(subject: 'This is a test subject');
 
-                if ($this->emailService->send(emailBuilder: $testEmail)) {
+                if ($this->emailService->send(emailBuilder: $testEmail) instanceof \Mailing\Entity\EmailMessage) {
                     $this->flashMessenger()->addSuccessMessage(
                         message: $this->translator->translate(message: 'txt-test-mail-sent-successfully')
                     );

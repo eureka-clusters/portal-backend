@@ -12,6 +12,7 @@ use function array_merge;
 
 class TargetLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         if ($this->getEntities()->containsKey(key: Target::class)) {
@@ -28,6 +29,7 @@ class TargetLabel extends AbstractNavigationInvokable
         } else {
             $label = $this->translator->translate(message: 'txt-nav-view');
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

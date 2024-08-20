@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Api;
 
 use Admin\Provider\UserProvider;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Api\Provider\OAuth\ServiceProvider;
 use Api\V1\Rest;
@@ -93,7 +93,7 @@ final class ConfigProvider
                 UserProvider::class,
             ],
             Rest\ListResource\ServiceListener::class                => [
-                OAuth2Service::class,
+                oAuth2Service::class,
                 ServiceProvider::class,
             ],
             OrganisationListener::class                             => [

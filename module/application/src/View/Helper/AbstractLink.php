@@ -25,7 +25,7 @@ abstract class AbstractLink
 
     protected function parse(?Link $link): string
     {
-        return $link === null ? '' : $link->parse(router: $this->router, serverUrl: $this->moduleOptions->getServerUrl());
+        return $link instanceof \Application\ValueObject\Link\Link ? $link->parse(router: $this->router, serverUrl: $this->moduleOptions->getServerUrl()) : '';
     }
 
     protected function hasAccess(AbstractEntity $entity, string $assertionName, string $action): bool

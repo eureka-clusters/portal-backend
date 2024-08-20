@@ -19,7 +19,7 @@ use OAuth2\Encryption\Jwt;
 
 use function time;
 
-class OAuth2Service extends AbstractService
+class oAuth2Service extends AbstractService
 {
     public function __construct(
         EntityManager $entityManager,
@@ -141,7 +141,8 @@ class OAuth2Service extends AbstractService
 
     private function generateAccessToken(): string
     {
-        $randomData = $randomData = random_bytes(20);
+        $randomData = random_bytes(20);
+        $randomData = $randomData;
         return substr(hash('sha512', $randomData), 0, 40);
     }
 

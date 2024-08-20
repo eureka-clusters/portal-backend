@@ -53,6 +53,7 @@ class AuthorizationCode extends AbstractEntity
         $this->expires = new DateTimeImmutable();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

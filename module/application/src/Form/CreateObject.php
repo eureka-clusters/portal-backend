@@ -40,6 +40,7 @@ class CreateObject extends Form
         } else {
             $objectFieldset = new ObjectFieldset(entityManager: $entityManager, object: $object);
         }
+
         $objectFieldset->setUseAsBaseFieldset(useAsBaseFieldset: true);
         $this->add(elementOrFieldset: $objectFieldset);
 

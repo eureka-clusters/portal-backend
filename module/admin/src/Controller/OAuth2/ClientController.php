@@ -6,7 +6,7 @@ namespace Admin\Controller\OAuth2;
 
 use Admin\Entity\User;
 use Admin\Form;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Api\Entity;
 use Api\Entity\OAuth\Client;
@@ -45,7 +45,7 @@ use function substr;
 final class ClientController extends AbstractActionController
 {
     public function __construct(
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
         private readonly UserService $userService,
         private readonly EntityManager $entityManager,
         private readonly TranslatorInterface $translator

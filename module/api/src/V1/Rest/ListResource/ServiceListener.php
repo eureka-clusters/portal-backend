@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Api\Entity\OAuth\Service;
 use Api\Provider\OAuth\ServiceProvider;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
@@ -15,7 +15,7 @@ use function array_map;
 final class ServiceListener extends AbstractResourceListener
 {
     public function __construct(
-        private readonly OAuth2Service $OAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
         private readonly ServiceProvider $serviceProvider
     ) {
     }
@@ -29,11 +29,12 @@ final class ServiceListener extends AbstractResourceListener
             new OA\Response(ref: '#/components/responses/service', response: 200),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = [])
     {
         return array_map(
             fn (Service $service) => $this->serviceProvider->generateArray($service),
-            $this->OAuth2Service->findAllService()
+            $this->oAuth2Service->findAllService()
         );
     }
 }

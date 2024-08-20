@@ -19,7 +19,7 @@ use Admin\Navigation\Invokable\UserLabel;
 use Admin\Provider\UserProvider;
 use Admin\Service\AdminService;
 use Admin\Service\ApiService;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Admin\View\Helper\OAuth2\ClientLink;
 use Admin\View\Helper\OAuth2\ScopeLink;
@@ -52,7 +52,7 @@ $config = [
     'service_manager' => [
         'factories' => [
             AdminService::class  => ConfigAbstractFactory::class,
-            OAuth2Service::class => ConfigAbstractFactory::class,
+            oAuth2Service::class => ConfigAbstractFactory::class,
             ApiService::class    => ConfigAbstractFactory::class,
             UserService::class   => ConfigAbstractFactory::class,
             ServiceFilter::class => InputFilterFactory::class,

@@ -15,6 +15,7 @@ use function sprintf;
 
 final class User extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -25,25 +26,14 @@ final class User extends EntityRepository implements FilteredObjectRepository
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'firstname':
-                $qb->addOrderBy(sort: 'admin_entity_user.firstName', order: $direction);
-                break;
-            case 'lastname':
-                $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: $direction);
-                break;
-            case 'email':
-                $qb->addOrderBy(sort: 'admin_entity_user.email', order: $direction);
-                break;
-            case 'add-date':
-                $qb->addOrderBy(sort: 'admin_entity_user.dateCreated', order: $direction);
-                break;
-            case 'last-update':
-                $qb->addOrderBy(sort: 'admin_entity_user.lastUpdate', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'firstname' => $qb->addOrderBy(sort: 'admin_entity_user.firstName', order: $direction),
+            'lastname' => $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: $direction),
+            'email' => $qb->addOrderBy(sort: 'admin_entity_user.email', order: $direction),
+            'add-date' => $qb->addOrderBy(sort: 'admin_entity_user.dateCreated', order: $direction),
+            'last-update' => $qb->addOrderBy(sort: 'admin_entity_user.lastUpdate', order: $direction),
+            default => $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: Criteria::ASC),
+        };
 
         return $qb;
     }

@@ -1,0 +1,95 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-reporting")) %}
+{% do headScript().appendFile('//www.gstatic.com/charts/loader.js') %}
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+<div class="row">
+    <div class="col-md-10">
+
+
+        {#         <pre> #}
+        {#            {% for run_data in paginator %} #}
+        {#                {% set run = runService.findRunById(240) %} #}
+        {#                {% if null != run.startDate %} #}
+        {#                    {% set progress = runService.generateProgress(run) %} #}
+        {#                    {% if null != progress %} #}
+        {#                        {% for step in progress.steps|filter(step => step.startDate < step.finishDate) %} #}
+        {#                            dataTable.addRow(['{{ runService.parseRunLabel(run) }}', '{{ step.step.number }}', {{ step.startDate|parse_javascript_date }}, {{ step.finishDate|parse_javascript_date }}]); #}
+        {#                        {% endfor %} #}
+        {#                    {% endif %} #}
+        {#                {% endif %} #}
+        {#            {% endfor %} #}
+        {#         </pre> #}
+
+
+        <h1>{{ translate("txt-dashboard") }}</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <p>{{ translate("txt-run-list-explanation") }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    {{ formelement(form.get('query')) }}
+                    {{ formelement(form.get('search')) }}
+                    {{ formelement(form.get('reset')) }}
+                </div>
+            </div>
+        </div>
+
+        {% include('application/partial/form-badges') %}
+
+        <div id="run_progress" class="h-100"></div>
+
+        {% include 'application/partial/pagination-control' %}
+
+    </div>
+    <div class="col-md-2">
+        <h3>{{ translate("txt-filter") }}</h3>
+        {{ lbs5formelement(form.get('filter').get('own'), true) }}
+        {% include 'search/partial/show-filter' %}
+    </div>
+</div>
+{{ form().closeTag()|raw }}
+
+
+<script type="text/javascript">
+    google.charts.load("current", {packages: ["timeline"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        let container = document.getElementById('run_progress');
+        let chart = new google.visualization.Timeline(container);
+        let dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({type: 'string', id: 'Run'});
+        dataTable.addColumn({type: 'string', id: 'Step'});
+        dataTable.addColumn({type: 'date', id: 'Start'});
+        dataTable.addColumn({type: 'date', id: 'End'});
+
+        {% for run_data in paginator %}
+        {% set run = runService.findRunById(run_data['run_id']) %}
+        {% if null != run.startDate %}
+        {% set progress = runService.generateProgress(run) %}
+        {% if null != progress %}
+        {% for step in progress.steps|filter(step => step.startDate < step.finishDate) %}
+        dataTable.addRow(['{{ runService.parseRunLabel(run) }}', '{{ step.step.number }}', {{ step.startDate|parse_javascript_date }}, {{ step.finishDate|parse_javascript_date }}]);
+        {% endfor %}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        let options = {
+            timeline: {groupByRowLabel: true},
+            avoidOverlappingGridLines: true,
+            height: 2000
+        };
+
+        chart.draw(dataTable, options);
+    }
+</script>
+
+<div id="run_progress" style="height: 1200px;"></div>

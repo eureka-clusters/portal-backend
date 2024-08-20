@@ -31,6 +31,7 @@ class Type extends AbstractEntity
         $this->organisations = new ArrayCollection();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

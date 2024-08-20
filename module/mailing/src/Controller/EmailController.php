@@ -63,7 +63,7 @@ final class EmailController extends MailingAbstractController
     public function viewAction(): ViewModel
     {
         $emailMessage = $this->mailingService->find(entity: EmailMessage::class, id: (int)$this->params('id'));
-        if (null === $emailMessage) {
+        if (!$emailMessage instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 

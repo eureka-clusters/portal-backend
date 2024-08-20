@@ -64,7 +64,7 @@ final class SenderController extends MailingAbstractController
     {
         $sender = $this->mailingService->find(entity: Sender::class, id: (int) $this->params('id'));
 
-        if (null === $sender) {
+        if (!$sender instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 

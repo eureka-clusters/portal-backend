@@ -21,7 +21,7 @@ class EmailValidator
 
     private function validate(): void
     {
-        if (count($this->emailBuilder->getTo()) === 0) {
+        if ($this->emailBuilder->getTo() === []) {
             $this->cannotSendEmailReasons[] = 'No value for $to has been defined';
         }
 
@@ -37,7 +37,7 @@ class EmailValidator
             $this->cannotSendEmailReasons[] = 'No Text part defined';
         }
 
-        $this->isValid = count($this->cannotSendEmailReasons) === 0;
+        $this->isValid = $this->cannotSendEmailReasons === [];
     }
 
     public function isValid(): bool

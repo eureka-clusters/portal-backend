@@ -31,6 +31,7 @@ class Status extends AbstractEntity
         $this->versions = new ArrayCollection();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

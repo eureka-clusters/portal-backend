@@ -41,6 +41,7 @@ final class ProjectListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id)
     {
         $user = $this->userService->findUserById(
@@ -51,7 +52,7 @@ final class ProjectListener extends AbstractResourceListener
 
         //Inject the encoded filter from the results
         if (!empty($id)) {
-            $encodedFilter    = base64_decode($id, true);
+            $encodedFilter    = base64_decode((string) $id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 

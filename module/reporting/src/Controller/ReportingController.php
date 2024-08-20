@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Reporting\Controller;
 
 use Admin\Entity\User;
+use Admin\Entity\User\Preferences;
+use AzureOSS\Storage\Blob\Models\ListBlobsOptions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Jield\Search\Controller\Plugin\GetFilter;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\View\Model\ViewModel;
-use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use Reporting\Service\StorageLocationService;
 
 /**
@@ -27,6 +28,7 @@ final class ReportingController extends AbstractActionController
     ) {
     }
 
+    #[\Override]
     public function indexAction(): Response|ViewModel
     {
         error_reporting(error_level: E_ALL ^ E_DEPRECATED);
@@ -38,10 +40,6 @@ final class ReportingController extends AbstractActionController
 
         $listBlobsOptions = new ListBlobsOptions();
         $listBlobsOptions->setPrefix($storageLocation->getExcelFolder() . '/');
-
-        // Setting max result to 1 is just to demonstrate the continuation token.
-        // It is not the recommended value in a product environment.
-        //$listBlobsOptions->setMaxResults(1);
 
         $blobList = $blobClient->listBlobs(
             container: $storageLocation->getContainer(),
@@ -59,5 +57,4 @@ final class ReportingController extends AbstractActionController
             ]
         );
     }
-
 }

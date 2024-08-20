@@ -70,6 +70,7 @@ abstract class AbstractService implements HasPermitInterface
         if (! $this->entityManager->contains(entity: $entity)) {
             $this->entityManager->persist(entity: $entity);
         }
+
         $this->entityManager->flush();
 
         return $entity;
@@ -86,11 +87,13 @@ abstract class AbstractService implements HasPermitInterface
         $this->entityManager->refresh(entity: $abstractEntity);
     }
 
+    #[\Override]
     public function hasPermit(UserAsRoleInterface $user, object $resource, array|string $privilege): bool
     {
         return true;
     }
 
+    #[\Override]
     public function hasGeneralPermit(UserAsRoleInterface $user, string $className, string $privilege): bool
     {
         return true;

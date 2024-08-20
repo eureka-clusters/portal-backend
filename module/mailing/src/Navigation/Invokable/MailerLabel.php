@@ -12,6 +12,7 @@ use function array_merge;
 
 final class MailerLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-mailer');

@@ -10,8 +10,9 @@ use function sprintf;
 
 final class ImageDecoration
 {
-    public const SHOW_IMAGE = 'image';
-    public const SHOW_RAW   = 'raw';
+    public const string SHOW_IMAGE = 'image';
+
+    public const string SHOW_RAW   = 'raw';
 
     private static string $imageTemplate = '<img src="%s" class="img-fluid" alt="%s" %s %s>';
 

@@ -44,6 +44,7 @@ final class ProjectListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id = null): array|ApiProblem
     {
         $slug = $id;
@@ -54,7 +55,7 @@ final class ProjectListener extends AbstractResourceListener
 
         $project = $this->projectService->findProjectBySlugAndUser(slug: $slug, user: $user);
 
-        if (null === $project) {
+        if (!$project instanceof \Cluster\Entity\Project) {
             return new ApiProblem(
                 status: 400,
                 detail: 'Project could not be found or you have no access to this project'

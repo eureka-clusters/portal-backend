@@ -90,7 +90,7 @@ final class TransactionalController extends AbstractActionController
             $email->setSender(setSender: null, ownerOrLoggedInUser: $this->identity());
             $email->addUserTo(user: $this->identity());
 
-            if ($this->emailService->send(emailBuilder: $email)) {
+            if ($this->emailService->send(emailBuilder: $email) instanceof \Mailing\Entity\EmailMessage) {
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
                         $this->translator->translate(

@@ -34,7 +34,7 @@ class ClusterService extends AbstractService
         $cluster = $this->findClusterByIdentifier(identifier: $clusterData->identifier);
 
         //If we cannot find the cluster we create a new one.
-        if (null === $cluster) {
+        if (!$cluster instanceof \Cluster\Entity\Cluster) {
             $cluster = new Cluster();
             $cluster->setIdentifier(identifier: $clusterData->identifier);
         }

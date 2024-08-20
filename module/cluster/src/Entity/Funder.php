@@ -43,6 +43,7 @@ class Funder extends AbstractEntity
         $this->clusters = new ArrayCollection();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

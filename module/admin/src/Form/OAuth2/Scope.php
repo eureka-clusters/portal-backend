@@ -102,6 +102,7 @@ final class Scope extends Form implements InputFilterProviderInterface
         );
     }
 
+    #[\Override]
     public function getInputFilterSpecification(): array
     {
         return [

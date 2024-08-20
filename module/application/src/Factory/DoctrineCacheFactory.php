@@ -12,6 +12,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 final class DoctrineCacheFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(containerinterface $container, $requestedName, ?array $options = null): CacheProvider
     {
         $laminasCache = $container->get(Redis::class);

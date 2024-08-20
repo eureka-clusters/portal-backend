@@ -45,6 +45,7 @@ class UpdateNavigation extends AbstractListenerAggregate
         $this->entities = new ArrayCollection();
     }
 
+    #[\Override]
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->onRoute(...), priority: -1000);
@@ -140,11 +141,12 @@ class UpdateNavigation extends AbstractListenerAggregate
                     if ($instance instanceof NavigationInvokableInterface) {
                         $instance(page: $page);
                     } else {
-                        throw new InvalidArgumentException(message: 'Can\'t invoke callable ' . $invokable);
+                        throw new InvalidArgumentException(message: "Can't invoke callable " . $invokable);
                     }
+
                     // Not found
                 } else {
-                    throw new InvalidArgumentException(message: 'Servicelocator can\'t find invokable ' . $invokable);
+                    throw new InvalidArgumentException(message: "Servicelocator can't find invokable " . $invokable);
                 }
             }
         }

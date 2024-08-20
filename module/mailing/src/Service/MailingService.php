@@ -51,7 +51,7 @@ class MailingService extends AbstractService
             $cannotDeleteTransactional[] = 'This transactional email is locked';
         }
 
-        return count($cannotDeleteTransactional) === 0;
+        return $cannotDeleteTransactional === [];
     }
 
     public function canDeleteSender(Sender $sender): bool
@@ -74,7 +74,7 @@ class MailingService extends AbstractService
             $cannotDeleteSenderReasons[] = 'Sender has transactional emails';
         }
 
-        return count($cannotDeleteSenderReasons) === 0;
+        return $cannotDeleteSenderReasons === [];
     }
 
     public function canDeleteTemplate(Template $template): bool
@@ -89,7 +89,7 @@ class MailingService extends AbstractService
             $cannotDeleteTemplateReasons[] = 'Template has transactional emails';
         }
 
-        return count($cannotDeleteTemplateReasons) === 0;
+        return $cannotDeleteTemplateReasons === [];
     }
 
     public function findEmailMessageByIdentifier(string $identifier): ?EmailMessage

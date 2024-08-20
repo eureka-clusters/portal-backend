@@ -12,6 +12,7 @@ use function array_merge;
 
 final class EmailMessageLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-view');
@@ -28,6 +29,7 @@ final class EmailMessageLabel extends AbstractNavigationInvokable
             );
             $label = $emailMessage->getSubject();
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

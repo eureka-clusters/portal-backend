@@ -14,6 +14,7 @@ use function sprintf;
 
 final class Role extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -24,16 +25,11 @@ final class Role extends EntityRepository implements FilteredObjectRepository
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $qb->addOrderBy(sort: 'admin_entity_role.id', order: $direction);
-                break;
-            case 'description':
-                $qb->addOrderBy(sort: 'admin_entity_role.description', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'admin_entity_role.description', order: Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'id' => $qb->addOrderBy(sort: 'admin_entity_role.id', order: $direction),
+            'description' => $qb->addOrderBy(sort: 'admin_entity_role.description', order: $direction),
+            default => $qb->addOrderBy(sort: 'admin_entity_role.description', order: Criteria::ASC),
+        };
 
         return $qb;
     }

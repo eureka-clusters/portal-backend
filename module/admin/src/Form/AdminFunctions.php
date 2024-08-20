@@ -12,8 +12,9 @@ use function _;
 
 final class AdminFunctions extends Form
 {
-    public const ACTION_CLEANUP_FILE_CACHE = 'cleanup-file-cache';
-    public const ACTION_FLUSH_REDIS_CACHE  = 'flush-redis-cache';
+    public const string ACTION_CLEANUP_FILE_CACHE = 'cleanup-file-cache';
+
+    public const string ACTION_FLUSH_REDIS_CACHE  = 'flush-redis-cache';
 
     public function __construct()
     {

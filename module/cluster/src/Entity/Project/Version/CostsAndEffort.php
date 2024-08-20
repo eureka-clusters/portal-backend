@@ -41,6 +41,7 @@ class CostsAndEffort extends AbstractEntity
         $this->version = new Version();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

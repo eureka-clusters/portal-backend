@@ -63,6 +63,7 @@ class EmailMessageEvent extends AbstractEntity
         $this->time         = new DateTime();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

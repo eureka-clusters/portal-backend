@@ -23,6 +23,7 @@ use function is_countable;
 
 class ProjectRepository extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();

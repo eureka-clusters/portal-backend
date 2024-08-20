@@ -21,11 +21,13 @@ use function ucfirst;
 
 abstract class AbstractEntity implements EntityInterface, ResourceInterface, Stringable
 {
+    #[\Override]
     public function __toString(): string
     {
         return $this->getResourceId();
     }
 
+    #[\Override]
     public function getResourceId(): string
     {
         return sprintf('%s-%s', $this->get(switch: 'underscore_entity_name'), (string) $this->getId());

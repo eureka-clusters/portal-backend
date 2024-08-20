@@ -59,11 +59,13 @@ class Target extends AbstractEntity
         $this->deeplink = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->target;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

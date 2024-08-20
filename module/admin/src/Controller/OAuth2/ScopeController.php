@@ -6,7 +6,7 @@ namespace Admin\Controller\OAuth2;
 
 use Admin\Entity\User;
 use Admin\Form;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Api\Entity;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
@@ -31,7 +31,7 @@ use function ceil;
 final class ScopeController extends AbstractActionController
 {
     public function __construct(
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
         private readonly TranslatorInterface $translator
     ) {
     }
@@ -73,7 +73,7 @@ final class ScopeController extends AbstractActionController
     {
         $scope = $this->oAuth2Service->find(entity: Scope::class, id: (int) $this->params('id'));
 
-        if (null === $scope) {
+        if (!$scope instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 

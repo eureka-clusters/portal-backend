@@ -89,6 +89,7 @@ class Group extends AbstractEntity
         foreach ($clusters as $cluster) {
             $this->clusters->add($cluster);
         }
+
         return $this;
     }
 
@@ -97,14 +98,17 @@ class Group extends AbstractEntity
         foreach ($clusters as $cluster) {
             $this->clusters->removeElement($cluster);
         }
+
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

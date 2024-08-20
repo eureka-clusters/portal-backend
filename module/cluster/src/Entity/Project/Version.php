@@ -81,14 +81,15 @@ class Version extends AbstractEntity
 
     public function hasEvaluation(): bool
     {
-        return null !== $this->evaluation;
+        return $this->evaluation instanceof \Cluster\Entity\Project\Evaluation;
     }
 
     public function isSubmitted(): bool
     {
-        return null !== $this->submissionDate;
+        return $this->submissionDate instanceof \DateTime;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

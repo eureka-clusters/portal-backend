@@ -39,6 +39,7 @@ class TypeProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Type $type */

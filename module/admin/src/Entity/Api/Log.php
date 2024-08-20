@@ -13,8 +13,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: \Admin\Repository\Api\Log::class)]
 class Log extends AbstractEntity
 {
-    final public const TYPE_INCOMING = 1;
-    final public const TYPE_OUTGOING = 2;
+    final public const int TYPE_INCOMING = 1;
+
+    final public const int TYPE_OUTGOING = 2;
 
     protected static array $typeTemplates
         = [
@@ -69,6 +70,7 @@ class Log extends AbstractEntity
         return self::$typeTemplates[$this->type];
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

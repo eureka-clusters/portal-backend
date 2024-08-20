@@ -19,15 +19,15 @@ use Laminas\Mime\Part;
 
 use function base64_encode;
 
-final class Ical
+final readonly class Ical
 {
     public function __construct(
-        private readonly DateTime $startDate,
-        private readonly DateTime $endDate,
-        private readonly string $title,
-        private readonly string $summary,
-        private readonly ?string $location,
-        private readonly User $organiser
+        private DateTime $startDate,
+        private DateTime $endDate,
+        private string $title,
+        private string $summary,
+        private ?string $location,
+        private User $organiser
     ) {
     }
 

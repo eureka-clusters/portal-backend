@@ -49,6 +49,7 @@ class Organisation extends AbstractEntity
         $this->partners = new ArrayCollection();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

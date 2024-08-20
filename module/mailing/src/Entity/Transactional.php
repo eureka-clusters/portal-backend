@@ -26,8 +26,9 @@ use function array_key_exists;
 #[Name(name: 'mailing_transactional')]
 class Transactional extends AbstractEntity
 {
-    final public const TRANSACTIONAL_MAILING_QUEUE_START = 'mailing:queue:start';
-    final public const TRANSACTIONAL_MAILING_QUEUE_END   = 'mailing:queue:end';
+    final public const string TRANSACTIONAL_MAILING_QUEUE_START = 'mailing:queue:start';
+
+    final public const string TRANSACTIONAL_MAILING_QUEUE_END   = 'mailing:queue:end';
 
     public static array $lockedKeys
         = [
@@ -62,6 +63,7 @@ class Transactional extends AbstractEntity
     #[Gedmo\Timestampable(on: 'update')]
     #[Exclude]
     private ?DateTime $lastUpdate = null;
+
     #[ORM\Column(type: 'text')]
     #[Type(type: Textarea::class)]
     #[Options(options: [
@@ -145,11 +147,13 @@ class Transactional extends AbstractEntity
         return array_key_exists(key: $this->key, array: self::$lockedKeys);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

@@ -22,9 +22,11 @@ use function strtolower;
 #[Annotation\Name(name: 'admin_role')]
 class Role extends AbstractEntity implements RoleInterface
 {
-    final public const ROLE_ADMIN  = 1;
-    final public const ROLE_USER   = 2;
-    final public const ROLE_PUBLIC = 3;
+    final public const int ROLE_ADMIN  = 1;
+
+    final public const int ROLE_USER   = 2;
+
+    final public const int ROLE_PUBLIC = 3;
 
     public static array $lockedRoles
         = [
@@ -54,6 +56,7 @@ class Role extends AbstractEntity implements RoleInterface
     #[Annotation\Exclude]
     private Collection $users;
 
+    #[\Override]
     public function getRoleId(): string
     {
         return strtolower(string: (string) $this->id);
@@ -74,11 +77,13 @@ class Role extends AbstractEntity implements RoleInterface
         return $this->id === self::ROLE_USER;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->description;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

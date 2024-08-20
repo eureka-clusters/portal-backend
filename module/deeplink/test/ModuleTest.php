@@ -42,9 +42,11 @@ class ModuleTest extends AbstractServiceTest
                 if ($dependency === 'ViewHelperManager') {
                     $dependency = HelperPluginManager::class;
                 }
+
                 if ($dependency === 'Router') {
                     $dependency = TreeRouteStack::class;
                 }
+
                 $instantiatedDependencies[]
                     = $this->getMockBuilder(className: $dependency)->disableOriginalConstructor()->getMock();
             }

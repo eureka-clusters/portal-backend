@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
+use Reporting\Entity\StorageLocation;
+use Reporting\Navigation\Invokable\StorageLocationLabel;
+
 return [
     'navigation' => [
-        'default' => [
-            'reporting' => [
-                'label'    => _('txt-reporting'),
-                'uri'      => '#',
-                'resource' => 'route/zfcadmin/reporting/index',
-                'pages'    => [
-                    'index'            => [
+        'admin' => [
+            'management' => [
+                'pages' => [
+                    'reporting'        => [
                         'label' => _("txt-reporting"),
                         'route' => 'zfcadmin/reporting/index',
                     ],
@@ -22,10 +22,10 @@ return [
                                 'route'  => 'zfcadmin/reporting/storage-location/view',
                                 'params' => [
                                     'entities'   => [
-                                        'id' => \Reporting\Entity\StorageLocation::class,
+                                        'id' => StorageLocation::class,
                                     ],
                                     'invokables' => [
-                                        \Reporting\Navigation\Invokable\StorageLocationLabel::class
+                                        StorageLocationLabel::class
                                     ],
                                 ],
                                 'pages'  => [
@@ -34,7 +34,7 @@ return [
                                         'route'  => 'zfcadmin/reporting/storage-location/edit',
                                         'params' => [
                                             'entities' => [
-                                                'id' => \Reporting\Entity\StorageLocation::class,
+                                                'id' => StorageLocation::class,
                                             ],
                                         ],
                                     ],
@@ -47,7 +47,7 @@ return [
                         ],
                     ],
                 ],
-            ],
+            ]
         ],
-    ],
+    ]
 ];

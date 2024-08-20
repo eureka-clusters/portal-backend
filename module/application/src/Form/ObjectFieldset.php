@@ -59,6 +59,7 @@ class ObjectFieldset extends Fieldset
                 $dataFieldset->add(elementOrFieldset: $element);
             }
         }
+
         // Prepare the target element of a form collection
         if ($dataFieldset instanceof Collection) {
             $targetFieldset = $dataFieldset->getTargetElement();
@@ -66,6 +67,7 @@ class ObjectFieldset extends Fieldset
             if ($targetFieldset instanceof FieldsetInterface) {
                 $targetFieldset->setHydrator(hydrator: $this->getHydrator());
             }
+
             /** @var Element $element */
             foreach ($targetFieldset->getElements() as $element) {
                 $this->parseElement(element: $element, object: $targetFieldset->getObject());

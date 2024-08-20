@@ -75,6 +75,7 @@ class VersionProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Version $version */

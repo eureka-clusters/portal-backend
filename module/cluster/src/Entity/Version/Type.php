@@ -15,9 +15,11 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity]
 class Type extends AbstractEntity
 {
-    final public const TYPE_PO = 'po';
-    final public const TYPE_FPP = 'fpp';
-    final public const TYPE_LATEST = 'latest';
+    final public const string TYPE_PO = 'po';
+
+    final public const string TYPE_FPP = 'fpp';
+
+    final public const string TYPE_LATEST = 'latest';
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -53,6 +55,7 @@ class Type extends AbstractEntity
         return $this->type === self::TYPE_LATEST;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

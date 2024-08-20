@@ -129,9 +129,10 @@ class Project extends AbstractEntity
 
     public function parseCacheKey(): string
     {
-        return sprintf('project-%s-%d', $this->getResourceId(), null === $this->dateUpdated ? $this->dateCreated->getTimestamp() : $this->dateUpdated->getTimestamp());
+        return sprintf('project-%s-%d', $this->getResourceId(), $this->dateUpdated instanceof \DateTime ? $this->dateUpdated->getTimestamp() : $this->dateCreated->getTimestamp());
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string)$this->title;
@@ -139,7 +140,7 @@ class Project extends AbstractEntity
 
     public function hasSecondaryCluster(): bool
     {
-        return null !== $this->secondaryCluster;
+        return $this->secondaryCluster instanceof \Cluster\Entity\Cluster;
     }
 
     public function getLatestVersion(): ?Version
@@ -152,6 +153,7 @@ class Project extends AbstractEntity
         return $this->partners->filter(p: fn(Partner $partner) => $partner->isCoordinator())->first() ?: null;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

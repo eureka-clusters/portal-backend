@@ -11,6 +11,7 @@ use Psr\Container\ContainerInterface;
 
 final class FormServiceFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FormService
     {
         return new $requestedName($container, $container->get(EntityManager::class));

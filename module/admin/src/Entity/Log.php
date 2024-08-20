@@ -43,11 +43,13 @@ class Log extends AbstractEntity
     #[ORM\Column(name: 'request_data', type: 'text')]
     private string $requestData = '';
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->event;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

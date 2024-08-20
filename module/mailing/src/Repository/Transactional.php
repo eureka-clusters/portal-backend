@@ -15,6 +15,7 @@ use function sprintf;
 
 final class Transactional extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -25,25 +26,14 @@ final class Transactional extends EntityRepository implements FilteredObjectRepo
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.id', order: $direction);
-                break;
-            case 'key':
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.key', order: $direction);
-                break;
-            case 'transactional':
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: $direction);
-                break;
-            case 'subject':
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.mailSubject', order: $direction);
-                break;
-            case 'last-update':
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.lastUpdate', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'id' => $qb->addOrderBy(sort: 'mailing_entity_transactional.id', order: $direction),
+            'key' => $qb->addOrderBy(sort: 'mailing_entity_transactional.key', order: $direction),
+            'transactional' => $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: $direction),
+            'subject' => $qb->addOrderBy(sort: 'mailing_entity_transactional.mailSubject', order: $direction),
+            'last-update' => $qb->addOrderBy(sort: 'mailing_entity_transactional.lastUpdate', order: $direction),
+            default => $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: Criteria::ASC),
+        };
 
         return $qb;
     }

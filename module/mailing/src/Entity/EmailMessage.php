@@ -87,11 +87,13 @@ class EmailMessage extends AbstractEntity
         $this->event       = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->subject;
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

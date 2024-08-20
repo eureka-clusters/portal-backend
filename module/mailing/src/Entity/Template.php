@@ -25,7 +25,7 @@ use Laminas\Form\Element\Textarea;
 #[Name(name: 'mailing_template')]
 class Template extends AbstractEntity implements TemplateInterface
 {
-    final public const TEMPLATE_DEFAULT = 1;
+    final public const int TEMPLATE_DEFAULT = 1;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -84,16 +84,19 @@ class Template extends AbstractEntity implements TemplateInterface
         return $this->id === self::TEMPLATE_DEFAULT;
     }
 
+    #[\Override]
     public function parseName(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function parseSourceContent(): string
     {
         return $this->body;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
@@ -111,6 +114,7 @@ class Template extends AbstractEntity implements TemplateInterface
         return $this;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;
@@ -146,6 +150,7 @@ class Template extends AbstractEntity implements TemplateInterface
         return $this;
     }
 
+    #[\Override]
     public function getLastUpdate(): ?DateTime
     {
         return $this->lastUpdate;

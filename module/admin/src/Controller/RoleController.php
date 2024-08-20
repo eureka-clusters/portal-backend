@@ -72,7 +72,7 @@ final class RoleController extends AbstractActionController
     {
         $role = $this->adminService->find(entity: Role::class, id: (int) $this->params('id'));
 
-        if (null === $role) {
+        if (!$role instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 
@@ -143,6 +143,7 @@ final class RoleController extends AbstractActionController
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/role/list');
             }
+
             if ($form->isValid()) {
                 /** @var Entity\Role $role */
                 $role = $form->getData();

@@ -66,7 +66,7 @@ final class ProjectController extends AbstractActionController
     {
         $project = $this->projectService->find(entity: Project::class, id: (int)$this->params('id'));
 
-        if (null === $project) {
+        if (!$project instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 

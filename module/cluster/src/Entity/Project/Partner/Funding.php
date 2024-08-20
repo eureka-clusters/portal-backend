@@ -49,6 +49,7 @@ class Funding extends AbstractEntity
         $this->partner = new Partner();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

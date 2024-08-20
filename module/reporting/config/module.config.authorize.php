@@ -10,6 +10,7 @@ return [
         'guards' => [
             Route::class => [
                 ['route' => 'zfcadmin/reporting/index', 'roles' => [Role::ROLE_ADMIN]],
+                ['route' => 'zfcadmin/reporting/dashboard', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/reporting/download/blob', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/reporting/storage-location/list', 'roles' => [Role::ROLE_ADMIN]],
                 ['route' => 'zfcadmin/reporting/storage-location/new', 'roles' => [Role::ROLE_ADMIN]],

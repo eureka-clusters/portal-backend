@@ -35,6 +35,15 @@ return [
                                     ],
                                 ],
                             ],
+                            'dashboard'        => [
+                                'type'    => Segment::class,
+                                'options' => [
+                                    'route'    => '/dashboard[/f-:encodedFilter][/page-:page].html',
+                                    'defaults' => [
+                                        'action' => 'dashboard',
+                                    ],
+                                ],
+                            ],
                             'download'         => [
                                 'type'          => Literal::class,
                                 'options'       => [

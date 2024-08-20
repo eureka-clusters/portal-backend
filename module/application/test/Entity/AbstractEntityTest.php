@@ -56,18 +56,23 @@ abstract class AbstractEntityTest extends TestCase
                 if (isset($element->getAttributes()['label'])) {
                     $labels[] = $element->getAttributes()['label'];
                 }
+
                 if (isset($element->getAttributes()['help-block'])) {
                     $labels[] = $element->getAttributes()['help-block'];
                 }
+
                 if (isset($element->getAttributes()['placeholder'])) {
                     $labels[] = $element->getAttributes()['placeholder'];
                 }
+
                 if (isset($element->getOptions()['label'])) {
                     $labels[] = $element->getOptions()['label'];
                 }
+
                 if (isset($element->getOptions()['help-block'])) {
                     $labels[] = $element->getOptions()['help-block'];
                 }
+
                 if (isset($element->getOptions()['placeholder'])) {
                     $labels[] = $element->getOptions()['placeholder'];
                 }
@@ -257,6 +262,7 @@ abstract class AbstractEntityTest extends TestCase
                             message: sprintf('%s on %s should not be null', $getter, $entity::class)
                         );
                     }
+
                     $entity->$setter(1);
                     self::assertEquals(expected: 1, actual: $entity->$getter());
                     break;
@@ -363,6 +369,7 @@ abstract class AbstractEntityTest extends TestCase
         //And we need to do this with an additional propererty
         $targetEntity = new $targetEntity();
         $targetEntity->setId(1);
+
         $entity->$setter($targetEntity);
         self::assertEquals(expected: 1, actual: $entity->$getter()->getId());
     }
@@ -420,6 +427,7 @@ abstract class AbstractEntityTest extends TestCase
         //And we need to do this with an additional propererty
         $targetEntity = new $targetEntity();
         $targetEntity->setId(1);
+
         $entity->$setter($targetEntity);
         self::assertEquals(expected: 1, actual: $entity->$getter()->getId());
     }

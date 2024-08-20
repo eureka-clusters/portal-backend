@@ -16,6 +16,6 @@ abstract class AbstractImage
 
     protected function parse(?Image $image): string
     {
-        return $image === null ? '' : $image->parse($this->router, $this->moduleOptions);
+        return $image instanceof \Application\ValueObject\Image\Image ? $image->parse($this->router, $this->moduleOptions) : '';
     }
 }

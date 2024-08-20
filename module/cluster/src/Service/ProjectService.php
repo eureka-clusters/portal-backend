@@ -22,9 +22,11 @@ use function ceil;
 
 class ProjectService extends AbstractService
 {
-    final public const DURATION_MONTH = 'm';
-    final public const DURATION_YEAR = 'y';
-    final public const DURATION_DAYS = 'd';
+    final public const string DURATION_MONTH = 'm';
+
+    final public const string DURATION_YEAR = 'y';
+
+    final public const string DURATION_DAYS = 'd';
 
     #[Pure] public function __construct(
         EntityManager                   $entityManager,
@@ -174,7 +176,7 @@ class ProjectService extends AbstractService
         $project = $this->findProjectByIdentifier(identifier: $data->internalIdentifier);
 
         //If we cannot find the project we create a new one. Only set the identifier as we will later overwrite/update the properties
-        if (null === $project) {
+        if (!$project instanceof \Cluster\Entity\Project) {
             $project = new Project();
             $project->setIdentifier(identifier: $data->internalIdentifier);
         }
@@ -303,7 +305,7 @@ class ProjectService extends AbstractService
 
     public function parseDuration(Project $project, string $type = self::DURATION_MONTH): ?int
     {
-        if (null === $project->getOfficialStartDate() || null === $project->getOfficialEndDate()) {
+        if (!$project->getOfficialStartDate() instanceof \DateTime || !$project->getOfficialEndDate() instanceof \DateTime) {
             return null;
         }
 

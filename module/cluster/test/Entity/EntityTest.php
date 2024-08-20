@@ -27,7 +27,7 @@ class EntityTest extends AbstractEntityTest
     {
         $entities = $this->getEntities(namespace: $this->namespace, baseFolder: __DIR__);
 
-        foreach ($entities as $className => $reflectionClass) {
+        foreach (array_keys($entities) as $className) {
             $class = new $className();
             $class->setId(1);
             self::assertIsString(actual: (string) $class);

@@ -28,14 +28,12 @@ final class ProjectLink extends AbstractLink
             $showOptions['identifier'] = $project->getIdentifier();
         }
 
-        switch ($action) {
-            case 'view':
-                $linkParams = [
-                    'icon'  => 'fa-link',
-                    'route' => 'zfcadmin/project/view',
-                    'text'  => $showOptions[$show] ?? $project->getName(),
-                ];
-                break;
+        if ($action === 'view') {
+            $linkParams = [
+                'icon'  => 'fa-link',
+                'route' => 'zfcadmin/project/view',
+                'text'  => $showOptions[$show] ?? $project->getName(),
+            ];
         }
 
         $linkParams['action']      = $action;

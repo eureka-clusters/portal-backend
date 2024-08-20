@@ -12,6 +12,7 @@ use function array_merge;
 
 final class ScopeLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translator->translate(message: 'txt-nav-view');

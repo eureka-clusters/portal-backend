@@ -39,11 +39,12 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id = null): array|ApiProblem
     {
         $partner = $this->partnerService->findPartnerBySlug(slug: $id);
 
-        if (null === $partner) {
+        if (!$partner instanceof \Cluster\Entity\Project\Partner) {
             return new ApiProblem(status: 400, detail: 'The selected project partner cannot be found');
         }
 

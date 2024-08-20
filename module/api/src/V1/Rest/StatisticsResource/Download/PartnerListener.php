@@ -65,6 +65,7 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id): array
     {
         $user = $this->userService->findUserById(
@@ -74,7 +75,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         //Inject the encoded filter from the results
-        $encodedFilter    = base64_decode($id, true);
+        $encodedFilter    = base64_decode((string) $id, true);
         $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
 
         $searchFormResult = SearchFormResult::fromArray($filter);
@@ -284,9 +285,11 @@ final class PartnerListener extends AbstractResourceListener
             if (null !== $result['project']['labelDate']) {
                 $labelDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['labelDate'])->format(format: 'Y-m-d');
             }
+
             if (null !== $result['project']['officialStartDate']) {
                 $officialStartDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['officialStartDate'])->format(format: 'Y-m-d');
             }
+
             if (null !== $result['project']['officialEndDate']) {
                 $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['officialEndDate'])->format(format: 'Y-m-d');
             }

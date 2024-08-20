@@ -47,23 +47,12 @@ class OrganisationRepository extends EntityRepository
 
     private function applySorting(SearchFormResult $searchFormResult, QueryBuilder $queryBuilder): void
     {
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $sortColumn = 'cluster_entity_organisation.id';
-                break;
-            case 'name':
-            default:
-                $sortColumn = 'cluster_entity_organisation.name';
-                break;
-            case 'country':
-                $sortColumn = 'organisation_country.country';
-
-                break;
-            case 'type':
-                $sortColumn = 'organisation_type.type';
-
-                break;
-        }
+        $sortColumn = match ($searchFormResult->getOrder()) {
+            'id' => 'cluster_entity_organisation.id',
+            'country' => 'organisation_country.country',
+            'type' => 'organisation_type.type',
+            default => 'cluster_entity_organisation.name',
+        };
 
         $queryBuilder->orderBy(sort: $sortColumn, order: $searchFormResult->getDirection());
     }

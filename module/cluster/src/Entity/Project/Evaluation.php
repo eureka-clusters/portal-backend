@@ -64,9 +64,10 @@ class Evaluation extends AbstractEntity
 
     public function isFundingStatus(): bool
     {
-        return null === $this->projectVersion;
+        return !$this->projectVersion instanceof \Cluster\Entity\Project\Version;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

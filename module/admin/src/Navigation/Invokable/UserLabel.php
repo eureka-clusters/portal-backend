@@ -12,6 +12,7 @@ use function array_merge;
 
 final class UserLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-user');
@@ -29,6 +30,7 @@ final class UserLabel extends AbstractNavigationInvokable
             );
             $label = (string) $entity->parseFullName();
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

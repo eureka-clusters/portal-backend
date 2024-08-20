@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Application\Authentication\Storage\AuthenticationStorage;
 use Application\Controller\IndexController;
@@ -20,11 +20,11 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 return [
     ConfigAbstractFactory::class => [
         IndexController::class       => [
-            OAuth2Service::class,
+            oAuth2Service::class,
         ],
         OAuth2Controller::class      => [
             UserService::class,
-            OAuth2Service::class,
+            oAuth2Service::class,
             'Config',
         ],
         InjectAclInNavigation::class => [

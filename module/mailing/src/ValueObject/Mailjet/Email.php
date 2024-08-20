@@ -6,26 +6,26 @@ namespace Mailing\ValueObject\Mailjet;
 
 use function count;
 
-final class Email
+final readonly class Email
 {
-    public function __construct(private readonly array $from, private readonly array $to, private readonly array $cc, private readonly array $bcc, private readonly string $subject, private readonly string $textPart, private readonly string $htmlPart, private readonly string $customID, private readonly string $eventPayload, private readonly ?array $replyTo = null, private readonly string $trackOpens = 'enabled', private readonly string $trackClicks = 'enabled', private readonly string $customCampaign = '', private readonly array $attachments = [], private readonly array $inlinedAttachments = [], private readonly array $headers = [])
+    public function __construct(private array $from, private array $to, private array $cc, private array $bcc, private string $subject, private string $textPart, private string $htmlPart, private string $customID, private string $eventPayload, private ?array $replyTo = null, private string $trackOpens = 'enabled', private string $trackClicks = 'enabled', private string $customCampaign = '', private array $attachments = [], private array $inlinedAttachments = [], private array $headers = [])
     {
     }
 
     public function isValid(): bool
     {
-        return count($this->isInvalidReasons()) === 0;
+        return $this->isInvalidReasons() === [];
     }
 
     public function isInvalidReasons(): array
     {
         $invalidReasons = [];
 
-        if (count($this->from) === 0) {
+        if ($this->from === []) {
             $invalidReasons[] = 'No sender given';
         }
 
-        if (count($this->to) === 0) {
+        if ($this->to === []) {
             $invalidReasons[] = 'No to given';
         }
 
@@ -52,11 +52,11 @@ final class Email
             'TrackClicks' => $this->trackClicks,
         ];
 
-        if (count($this->cc) > 0) {
+        if ($this->cc !== []) {
             $return['Cc'] = $this->cc;
         }
 
-        if (count($this->bcc) > 0) {
+        if ($this->bcc !== []) {
             $return['Bcc'] = $this->bcc;
         }
 
@@ -76,15 +76,15 @@ final class Email
             $return['CustomCampaign'] = $this->customCampaign;
         }
 
-        if (count($this->headers) > 0) {
+        if ($this->headers !== []) {
             $return['Headers'] = $this->headers;
         }
 
-        if (count($this->attachments) > 0) {
+        if ($this->attachments !== []) {
             $return['Attachments'] = $this->attachments;
         }
 
-        if (count($this->inlinedAttachments) > 0) {
+        if ($this->inlinedAttachments !== []) {
             $return['InlinedAttachments'] = $this->inlinedAttachments;
         }
 

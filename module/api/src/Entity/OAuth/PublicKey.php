@@ -35,6 +35,7 @@ class PublicKey extends AbstractEntity
         $this->client = new Client();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

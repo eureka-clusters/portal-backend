@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Reporting\Controller;
 
 use Admin\Entity\User;
+use Admin\Entity\User\Preferences;
 use Jield\Search\Controller\Plugin\GetFilter;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -16,6 +17,7 @@ use Reporting\Service\StorageLocationService;
  * @method FlashMessenger flashMessenger()
  * @method User identity()
  * @method GetFilter getFilter()
+ * @method Preferences preferences()
  */
 final class DownloadController extends AbstractActionController
 {
@@ -28,7 +30,7 @@ final class DownloadController extends AbstractActionController
     public function blobAction(): Response|ViewModel
     {
         //Temporary workaround to suppress deprecated warnings
-        error_reporting(E_ALL ^ E_DEPRECATED);
+        error_reporting(error_level: E_ALL ^ E_DEPRECATED);
 
         $blobClient = $this->storageLocationService->getBlobService();
 
@@ -41,6 +43,7 @@ final class DownloadController extends AbstractActionController
         $response = $this->getResponse();
 
         $response->setContent(stream_get_contents($blob->getContentStream()));
+
         $headers = $response->getHeaders();
         $headers->clearHeaders()->addHeaderLine(
             headerFieldNameOrLine: 'Content-Type',

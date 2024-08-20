@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Application\Controller;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
 final class IndexController extends AbstractActionController
 {
     public function __construct(
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
     ) {
     }
 
+    #[\Override]
     public function indexAction(): ViewModel
     {
         return new ViewModel(

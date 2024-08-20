@@ -42,11 +42,12 @@ final class OrganisationListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id = null): array|ApiProblem
     {
         $organisation = $this->organisationService->findOrganisationBySlug(slug: $id);
 
-        if (null === $organisation) {
+        if (!$organisation instanceof \Cluster\Entity\Organisation) {
             return new ApiProblem(status: 400, detail: 'The selected organisation cannot be found');
         }
 

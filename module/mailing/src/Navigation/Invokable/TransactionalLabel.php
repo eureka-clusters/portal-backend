@@ -12,6 +12,7 @@ use function array_merge;
 
 final class TransactionalLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-transactional-email');
@@ -30,6 +31,7 @@ final class TransactionalLabel extends AbstractNavigationInvokable
             );
             $label = $transactional->getName();
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

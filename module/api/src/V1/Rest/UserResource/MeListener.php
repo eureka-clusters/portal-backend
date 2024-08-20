@@ -26,13 +26,14 @@ final class MeListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id): array|ApiProblem
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
 
-        if (null === $user) {
+        if (!$user instanceof \Admin\Entity\User) {
             return new ApiProblem(status: 400, detail: 'The selected user cannot be found');
         }
 

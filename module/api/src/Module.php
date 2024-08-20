@@ -26,6 +26,7 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: 'User', description: 'User related endpoints')]
 final class Module implements ApiToolsProviderInterface, ConfigProviderInterface
 {
+    #[\Override]
     public function getConfig(): array
     {
         $configProvider    = new ConfigProvider();

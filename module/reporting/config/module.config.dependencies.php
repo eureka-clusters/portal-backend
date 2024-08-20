@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Reporting;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Application\Service\FormService;
 use Doctrine\ORM\EntityManager;
+use Jield\Search\Service\SearchUpdateService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Reporting\Controller\DownloadController;
@@ -23,13 +24,15 @@ return [
         ],
         ReportingController::class       => [
             StorageLocationService::class,
+            TranslatorInterface::class
         ],
         DownloadController::class        => [
             StorageLocationService::class,
         ],
         StorageLocationService::class    => [
             EntityManager::class,
-            OAuth2Service::class,
+            TranslatorInterface::class,
+            oAuth2Service::class,
         ]
     ]
 ];

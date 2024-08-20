@@ -40,11 +40,13 @@ class Scope extends AbstractEntity
         $this->oAuthServices = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->scope;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

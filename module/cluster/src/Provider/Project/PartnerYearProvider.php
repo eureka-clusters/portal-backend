@@ -33,6 +33,7 @@ class PartnerYearProvider implements ProviderInterface
         return $this;
     }
 
+    #[\Override]
     public function generateArray($entity): array
     {
         if (null === $this->year) {

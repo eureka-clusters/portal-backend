@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Admin\Controller\OAuth2;
 
 use Admin\Entity\User;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Api\Entity;
 use Api\Entity\OAuth\Service;
 use Application\Controller\Plugin\GetFilter;
@@ -31,7 +31,7 @@ use function ceil;
 final class ServiceController extends AbstractActionController
 {
     public function __construct(
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
         private readonly FormService $formService,
         private readonly TranslatorInterface $translator
     ) {

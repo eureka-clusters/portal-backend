@@ -77,6 +77,7 @@ class ContactProvider implements ProviderInterface
 
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         unset($entity['id']);

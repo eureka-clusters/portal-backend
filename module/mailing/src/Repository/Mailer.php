@@ -13,6 +13,7 @@ use Mailing\Entity;
 
 final class Mailer extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -21,16 +22,11 @@ final class Mailer extends EntityRepository implements FilteredObjectRepository
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'service':
-                $qb->addOrderBy(sort: 'mailing_entity_mailer.service', order: $direction);
-                break;
-            case 'name':
-                $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'service' => $qb->addOrderBy(sort: 'mailing_entity_mailer.service', order: $direction),
+            'name' => $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: $direction),
+            default => $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: Criteria::ASC),
+        };
 
         return $qb;
     }

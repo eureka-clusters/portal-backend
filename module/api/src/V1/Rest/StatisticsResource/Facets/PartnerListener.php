@@ -41,6 +41,7 @@ final class PartnerListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetch($id): array
     {
         $user = $this->userService->findUserById(
@@ -50,7 +51,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         if (!empty($id)) {
-            $encodedFilter    = base64_decode($id, true);
+            $encodedFilter    = base64_decode((string) $id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 

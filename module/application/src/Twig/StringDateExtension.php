@@ -15,8 +15,9 @@ use function mktime;
 
 final class StringDateExtension extends AbstractExtension
 {
-    private const FILTER_NAME = 'string_date';
+    private const string FILTER_NAME = 'string_date';
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -29,7 +30,7 @@ final class StringDateExtension extends AbstractExtension
 
     public function processFilter(?DateTime $date, string $format = 'd M Y'): ?string
     {
-        if (null === $date) {
+        if (!$date instanceof \DateTime) {
             return null;
         }
 

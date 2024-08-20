@@ -156,6 +156,7 @@ class Service extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'oAuth2Service', targetEntity: StorageLocation::class, cascade: ['persist'])]
     private Collection $storageLocations;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
@@ -195,6 +196,7 @@ class Service extends AbstractEntity
         ];
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

@@ -12,6 +12,7 @@ use function array_merge;
 
 final class TemplateLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-email-template');
@@ -30,6 +31,7 @@ final class TemplateLabel extends AbstractNavigationInvokable
             );
             $label = $template->getName();
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

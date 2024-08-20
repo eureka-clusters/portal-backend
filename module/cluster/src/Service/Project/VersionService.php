@@ -107,7 +107,7 @@ class VersionService extends AbstractService
             ->findOneBy(criteria: ['type' => $typeName]);
 
         if (null === $type) {
-            throw new InvalidArgumentException(message: sprintf("Project version type \"%s\" cannot be found", $typeName));
+            throw new InvalidArgumentException(message: sprintf('Project version type "%s" cannot be found', $typeName));
         }
 
         return $type;

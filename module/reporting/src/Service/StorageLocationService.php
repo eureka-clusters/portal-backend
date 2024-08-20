@@ -4,29 +4,39 @@ declare(strict_types=1);
 
 namespace Reporting\Service;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Application\Service\AbstractService;
+use AzureOSS\Storage\Blob\BlobRestProxy;
 use Doctrine\ORM\EntityManager;
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use Jield\Export\Service\StorageLocationServiceInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
 use Reporting\Entity\StorageLocation;
 
-class StorageLocationService extends AbstractService implements \Jield\Export\Service\StorageLocationServiceInterface
+class StorageLocationService extends AbstractService implements StorageLocationServiceInterface
 {
     private ?BlobRestProxy $blobClient = null;
 
-    public function __construct(EntityManager $entityManager, private readonly OAuth2Service $oAuth2Service)
+    public function __construct(
+        EntityManager                  $entityManager,
+        TranslatorInterface            $translator,
+        private readonly oAuth2Service $oAuth2Service
+    )
     {
-        parent::__construct(entityManager: $entityManager);
+        parent::__construct(
+            entityManager: $entityManager,
+            translator: $translator,
+        );
     }
 
-    public function findStorageLocationById(int $id): ?\Reporting\Entity\StorageLocation
+    public function findStorageLocationById(int $id): ?StorageLocation
     {
         return $this->entityManager->getRepository(entityName: StorageLocation::class)->find(id: $id);
     }
 
-    public function getBlobService(): \MicrosoftAzure\Storage\Blob\BlobRestProxy
+    #[\Override]
+    public function getBlobService(): BlobRestProxy
     {
-        if (null !== $this->blobClient) {
+        if ($this->blobClient instanceof \AzureOSS\Storage\Blob\BlobRestProxy) {
             return $this->blobClient;
         }
 
@@ -48,7 +58,8 @@ class StorageLocationService extends AbstractService implements \Jield\Export\Se
         return $this->blobClient;
     }
 
-    public function getDefaultStorageLocation(): \Reporting\Entity\StorageLocation
+    #[\Override]
+    public function getDefaultStorageLocation(): StorageLocation
     {
         return $this->entityManager->getRepository(entityName: StorageLocation::class)->findOneBy(criteria: []);
     }

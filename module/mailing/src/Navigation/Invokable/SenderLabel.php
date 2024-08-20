@@ -12,6 +12,7 @@ use function array_merge;
 
 final class SenderLabel extends AbstractNavigationInvokable
 {
+    #[\Override]
     public function __invoke(Mvc $page): void
     {
         $label = $this->translate(string: 'txt-nav-sender');
@@ -30,6 +31,7 @@ final class SenderLabel extends AbstractNavigationInvokable
             );
             $label = $sender->getSender();
         }
+
         $page->set(property: 'label', value: $label);
     }
 }

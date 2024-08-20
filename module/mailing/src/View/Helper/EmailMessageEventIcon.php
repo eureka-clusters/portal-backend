@@ -26,7 +26,7 @@ final class EmailMessageEventIcon
         return sprintf(
             '<i class="fa fa-circle-thin" style="color: %s" title="%s on %s"></i>',
             $color,
-            htmlentities(string: $message->getLatestEvent()),
+            htmlentities(string: (string) $message->getLatestEvent()),
             $message->getDateLatestEvent()->format(format: 'd-m-Y H:i:s')
         );
     }

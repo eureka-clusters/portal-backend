@@ -91,6 +91,7 @@ class Partner extends AbstractEntity
         return sprintf('cluster-project-partner-%d-%s', $this->getId(), $this->project->parseCacheKey());
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;

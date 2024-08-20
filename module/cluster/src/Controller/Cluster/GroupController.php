@@ -71,7 +71,7 @@ final class GroupController extends AbstractActionController
     {
         $group = $this->clusterService->findClusterGroupById((int)$this->params('id'));
 
-        if (null === $group) {
+        if (!$group instanceof \Cluster\Entity\Cluster\Group) {
             return $this->notFoundAction();
         }
 
@@ -137,6 +137,7 @@ final class GroupController extends AbstractActionController
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/cluster/group/list');
             }
+
             if ($form->isValid()) {
                 /** @var Group $group */
                 $group = $form->getData();

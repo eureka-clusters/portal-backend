@@ -24,7 +24,7 @@ class MailerService extends AbstractService
             $cannotDeleteMailer[] = 'This mailer email has transactional mailings';
         }
 
-        return count($cannotDeleteMailer) === 0;
+        return $cannotDeleteMailer === [];
     }
 
     public function getFormFieldsByService(int $service): array

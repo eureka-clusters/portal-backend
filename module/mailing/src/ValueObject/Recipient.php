@@ -11,15 +11,15 @@ use Laminas\Validator\EmailAddress;
 use function count;
 use function sprintf;
 
-final class Recipient
+final readonly class Recipient
 {
-    public function __construct(private readonly string $name, private readonly string $email)
+    public function __construct(private string $name, private string $email)
     {
     }
 
     public function isValid(): bool
     {
-        return count($this->isInvalidReasons()) === 0;
+        return $this->isInvalidReasons() === [];
     }
 
     public function isInvalidReasons(): array

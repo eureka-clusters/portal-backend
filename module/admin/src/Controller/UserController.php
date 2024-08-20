@@ -11,7 +11,7 @@ use Admin\Form\User\LostPassword;
 use Admin\Form\User\Password;
 use Admin\Form\UserFilter;
 use Admin\Service\AdminService;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Api\Entity\OAuth\Client;
 use Application\Authentication\Adapter\DatabaseAdapter;
@@ -44,7 +44,7 @@ final class UserController extends AbstractActionController
     public function __construct(
         private readonly AdminService          $adminService,
         private readonly UserService           $userService,
-        private readonly OAuth2Service         $oAuth2Service,
+        private readonly oAuth2Service         $oAuth2Service,
         private readonly array                 $config,
         private readonly EntityManager         $entityManager,
         private readonly AuthenticationService $authenticationService,
@@ -92,7 +92,7 @@ final class UserController extends AbstractActionController
     {
         $user = $this->adminService->find(entity: User::class, id: (int)$this->params('id'));
 
-        if (null === $user) {
+        if (!$user instanceof \Application\Entity\AbstractEntity) {
             return $this->notFoundAction();
         }
 

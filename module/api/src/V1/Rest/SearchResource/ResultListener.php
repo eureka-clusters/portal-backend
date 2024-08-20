@@ -79,6 +79,7 @@ final class ResultListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = []): Paginator
     {
         $query = $params->query ?? null;

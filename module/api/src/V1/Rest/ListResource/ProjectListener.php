@@ -83,6 +83,7 @@ final class ProjectListener extends AbstractResourceListener
             new OA\Response(response: 403, description: 'Forbidden'),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = []): Paginator
     {
         $user = $this->userService->findUserById(

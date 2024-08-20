@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Reporting\Controller;
 
 use Application\Service\FormService;
+use AzureOSS\Storage\Blob\Models\ListBlobsOptions;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Jield\Search\Form\SearchFilter;
@@ -13,7 +14,6 @@ use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use Mailing\Controller\MailingAbstractController;
-use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use Reporting\Entity\StorageLocation;
 use Reporting\Service\StorageLocationService;
 
@@ -67,7 +67,7 @@ final class StorageLocationController extends MailingAbstractController
         error_reporting(error_level: E_ALL ^ E_DEPRECATED);
         $storageLocation = $this->storageLocationService->findStorageLocationById(id: (int)$this->params('id'));
 
-        if (null === $storageLocation) {
+        if (!$storageLocation instanceof \Reporting\Entity\StorageLocation) {
             return $this->notFoundAction();
         }
 

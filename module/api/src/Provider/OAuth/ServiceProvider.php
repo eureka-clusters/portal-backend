@@ -19,14 +19,13 @@ use function sprintf;
     description: 'oAuth2 service information',
     content: new OA\JsonContent(ref: '#/components/schemas/service'),
 )]
-final class ServiceProvider implements ProviderInterface
+final readonly class ServiceProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly HelperPluginManager $helperPluginManager,
-        private readonly ModuleOptions $moduleOptions
+        private HelperPluginManager $helperPluginManager,
+        private ModuleOptions $moduleOptions
     ) {
     }
-
     #[OA\Schema(
         schema: 'service',
         title: 'oAuth2 service',
@@ -52,6 +51,7 @@ final class ServiceProvider implements ProviderInterface
             ),
         ],
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Service $service */
@@ -60,19 +60,13 @@ final class ServiceProvider implements ProviderInterface
         /** @var Url $urlHelper */
         $urlHelper = $this->helperPluginManager->get(name: 'url');
 
-        return array_merge(
-            [
-                'id'       => $service->getId(),
-                'name'     => $service->getName(),
-                'loginUrl' => sprintf(
-                    '%s%s',
-                    $this->moduleOptions->getServerUrl(),
-                    $urlHelper(name: 'oauth2/login', params: [
-                        'id'   => $service->getId(),
-                        'name' => $service->getName(),
-                    ])
-                ),
-            ]
-        );
+        return ['id' => $service->getId(), 'name' => $service->getName(), 'loginUrl' => sprintf(
+            '%s%s',
+            $this->moduleOptions->getServerUrl(),
+            $urlHelper(name: 'oauth2/login', params: [
+                'id'   => $service->getId(),
+                'name' => $service->getName(),
+            ])
+        )];
     }
 }

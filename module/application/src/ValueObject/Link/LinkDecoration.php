@@ -10,16 +10,23 @@ use function str_replace;
 
 final class LinkDecoration
 {
-    public const SHOW_TEXT          = 'text';
-    public const SHOW_ICON          = 'icon';
-    public const SHOW_ICON_AND_TEXT = 'icon-and-text';
-    public const SHOW_BUTTON        = 'button';
-    public const SHOW_DANGER_BUTTON = 'danger-button';
-    public const SHOW_RAW           = 'raw';
+    public const string SHOW_TEXT          = 'text';
 
-    private const ACTION_NEW    = 'new';
-    private const ACTION_EDIT   = 'edit';
-    private const ACTION_DELETE = 'delete';
+    public const string SHOW_ICON          = 'icon';
+
+    public const string SHOW_ICON_AND_TEXT = 'icon-and-text';
+
+    public const string SHOW_BUTTON        = 'button';
+
+    public const string SHOW_DANGER_BUTTON = 'danger-button';
+
+    public const string SHOW_RAW           = 'raw';
+
+    private const string ACTION_NEW    = 'new';
+
+    private const string ACTION_EDIT   = 'edit';
+
+    private const string ACTION_DELETE = 'delete';
 
     private static string $iconTemplate = '<i class="fa %s fa-fw"></i>';
 
@@ -31,7 +38,7 @@ final class LinkDecoration
         self::ACTION_DELETE => 'fa-trash',
     ];
 
-    private ?string $icon;
+    private readonly ?string $icon;
 
     public function __construct(
         private readonly string $show = self::SHOW_TEXT,
@@ -65,6 +72,7 @@ final class LinkDecoration
                 if ($this->icon !== null) {
                     $content[] = sprintf(self::$iconTemplate, $this->icon);
                 }
+
                 break;
             case self::SHOW_ICON_AND_TEXT:
             case self::SHOW_BUTTON:
@@ -72,16 +80,20 @@ final class LinkDecoration
                 if ($this->icon !== null) {
                     $content[] = sprintf(self::$iconTemplate, $this->icon);
                 }
+
                 $text = $this->linkText->parse();
-                if (! empty($text)) {
+                if ($text !== '' && $text !== '0') {
                     $content[] = sprintf(' %s', $text);
                 }
+
                 if ($this->show === self::SHOW_BUTTON) {
                     $classes = ['btn', 'btn-primary'];
                 }
+
                 if ($this->show === self::SHOW_DANGER_BUTTON) {
                     $classes = ['btn', 'btn-danger'];
                 }
+
                 break;
             case self::SHOW_TEXT:
             default:
@@ -91,12 +103,12 @@ final class LinkDecoration
 
         return sprintf(
             self::$linkTemplate,
-            empty($this->linkText->getTitle()) ? '' : sprintf(
+            $this->linkText->getTitle() === '' || $this->linkText->getTitle() === '0' ? '' : sprintf(
                 ' title="%s"',
                 str_replace(search: '%', replace: '&#37;', subject: $this->linkText->getTitle())
             ),
-            empty($classes) ? '' : sprintf(' class="%s"', implode(separator: ' ', array: $classes)),
-            str_replace(search: '%', replace: '&#37;', subject: implode(separator: $content))
+            $classes === [] ? '' : sprintf(' class="%s"', implode(separator: ' ', array: $classes)),
+            str_replace(search: '%', replace: '&#37;', subject: implode(separator: '', array: $content))
         );
     }
 }

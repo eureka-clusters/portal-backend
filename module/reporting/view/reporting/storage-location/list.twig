@@ -3,6 +3,22 @@
 
 <h1>{{ translate("txt-storage-location-list") }} {{ storageLocationLink(null,'new', 'button') }}</h1>
 
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+<div class="row">
+    <div class="col-md-6">
+        <p class="lead">{{ translate("txt-storage-location-list-explanation") }}</p>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            {{ formelement(form.get('query')) }}
+            {{ formelement(form.get('search')) }}
+            {{ formelement(form.get('reset')) }}
+        </div>
+    </div>
+</div>
+
 {% if paginator.pageRange > 0 %}
     <table class="table table-hover table-striped table-sm">
         <thead>
@@ -31,3 +47,5 @@
 {% else %}
     {{ lbs5alert().info(translate("txt-no-storage-locations-found"))|raw }}
 {% endif %}
+
+{{ form().closeTag()|raw }}

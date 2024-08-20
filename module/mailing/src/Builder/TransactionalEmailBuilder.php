@@ -33,6 +33,7 @@ final class TransactionalEmailBuilder extends EmailBuilder
         $this->transactional = $transactional;
     }
 
+    #[\Override]
     public function renderEmail(): void
     {
         $this->emailCampaign = $this->transactional->getKey();

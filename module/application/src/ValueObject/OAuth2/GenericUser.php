@@ -7,27 +7,27 @@ namespace Application\ValueObject\OAuth2;
 use Laminas\Json\Json;
 use stdClass;
 
-final class GenericUser
+final readonly class GenericUser
 {
-    private readonly string $id;
+    private string $id;
 
-    private readonly string $cluster;
+    private string $cluster;
 
-    private readonly string $firstName;
+    private string $firstName;
 
-    private readonly string $lastName;
+    private string $lastName;
 
-    private readonly string $email;
+    private string $email;
 
-    private readonly bool $isFunder;
+    private bool $isFunder;
 
-    private readonly bool $isEurekaSecretariatStaffMember;
+    private bool $isEurekaSecretariatStaffMember;
 
-    private readonly array $funder;
+    private array $funder;
 
-    private readonly array $address;
+    private array $address;
 
-    private readonly ?string $funderCountry;
+    private ?string $funderCountry;
 
     public function __construct(stdClass $result)
     {

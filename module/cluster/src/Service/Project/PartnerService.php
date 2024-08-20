@@ -210,7 +210,7 @@ class PartnerService extends AbstractService
         //Find the country first
         $country = $this->countryService->findCountryByCd(cd: $data->country);
 
-        if (null === $country) {
+        if (!$country instanceof \Cluster\Entity\Country) {
             throw new InvalidArgumentException(
                 message: sprintf("Country with code %s cannot be found", $data->country)
             );

@@ -26,9 +26,10 @@ final class DeeplinkController extends AbstractActionController
     {
         $deeplink = $this->deeplinkService->findDeeplinkByHash(hash: (string) $this->params('hash'));
 
-        if (null === $deeplink) {
+        if (!$deeplink instanceof \Deeplink\Entity\Deeplink) {
             return $this->notFoundAction();
         }
+
         if ($deeplink->getEndDate() < new DateTime()) {
             return $this->notFoundAction();
         }

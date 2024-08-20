@@ -27,6 +27,7 @@ class DoctrineORMAdapter extends Paginator implements AdapterInterface
      * @param int $offset
      * @param int $itemCountPerPage
      */
+    #[\Override]
     public function getItems($offset, $itemCountPerPage): array
     {
         if (

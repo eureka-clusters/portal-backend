@@ -75,6 +75,7 @@ class SearchResultProvider implements ProviderInterface
 
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         return $entity->toArray();

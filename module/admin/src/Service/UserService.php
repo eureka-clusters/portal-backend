@@ -123,6 +123,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         $this->save(entity: $funder);
     }
 
+    #[\Override]
     public function getAccessRolesByUser(UserAsRoleInterface|User|GuestIdentity $user): array
     {
         if ($user instanceof GuestIdentity) {
@@ -160,7 +161,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     {
         //Find the user
         $user = $this->findUserByEmail(email: $emailAddress);
-        if (null === $user) {
+        if (!$user instanceof \Admin\Entity\User) {
             return;
         }
 
@@ -178,6 +179,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     {
         $Bcrypt = new Bcrypt();
         $Bcrypt->setCost(cost: 14);
+
         $pass = $Bcrypt->create(password: $password);
         $user->setPassword(password: $pass);
         $this->save(entity: $user);

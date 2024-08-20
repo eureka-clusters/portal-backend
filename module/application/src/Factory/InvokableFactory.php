@@ -9,6 +9,7 @@ use Psr\Container\ContainerInterface;
 
 final class InvokableFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         return null === $options ? new $requestedName($container) : new $requestedName($container, $options);

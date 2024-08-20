@@ -47,11 +47,11 @@ class DeeplinkService extends AbstractService
     {
         $cannotBeDeleted = [];
 
-        if (count($this->findActiveDeeplinksByTarget(target: $target))) {
+        if ($this->findActiveDeeplinksByTarget(target: $target) !== []) {
             $cannotBeDeleted[] = 'This target has active deeplinks';
         }
 
-        return count($cannotBeDeleted) === 0;
+        return $cannotBeDeleted === [];
     }
 
     public function findActiveDeeplinksByTarget(Target $target): array
@@ -102,9 +102,10 @@ class DeeplinkService extends AbstractService
         $target = new Target();
         $target->setTarget(target: sprintf("Target created from %s", $route));
 
-        if (!empty($name)) {
+        if ($name !== null && $name !== '' && $name !== '0') {
             $target->setTarget(target: $name);
         }
+
         $target->setRoute(route: $route);
         $this->save(entity: $target);
 

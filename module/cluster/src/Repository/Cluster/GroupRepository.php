@@ -13,6 +13,7 @@ use Jield\Search\ValueObject\SearchFormResult;
 
 class GroupRepository extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -23,19 +24,12 @@ class GroupRepository extends EntityRepository implements FilteredObjectReposito
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $qb->addOrderBy(sort: 'cluster_entity_cluster_group.id', order: $direction);
-                break;
-            case 'name':
-                $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: $direction);
-                break;
-            case 'description':
-                $qb->addOrderBy(sort: 'cluster_entity_cluster_group.description', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'id' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.id', order: $direction),
+            'name' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: $direction),
+            'description' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.description', order: $direction),
+            default => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC),
+        };
 
         return $qb;
     }

@@ -34,24 +34,17 @@ class Log extends EntityRepository
         $direction = 'DESC';
         if (
             isset($filter['direction'])
-            && in_array(needle: strtoupper(string: $filter['direction']), haystack: ['ASC', 'DESC'], strict: true)
+            && in_array(needle: strtoupper(string: (string) $filter['direction']), haystack: ['ASC', 'DESC'], strict: true)
         ) {
-            $direction = strtoupper(string: $filter['direction']);
+            $direction = strtoupper(string: (string) $filter['direction']);
         }
 
-        switch ($filter['order']) {
-            case 'id':
-                $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: $direction);
-                break;
-            case 'date':
-                $qb->addOrderBy(sort: 'admin_entity_api_log.dateCreated', order: $direction);
-                break;
-            case 'type':
-                $qb->addOrderBy(sort: 'admin_entity_api_log.type', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: Criteria::DESC);
-        }
+        match ($filter['order']) {
+            'id' => $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: $direction),
+            'date' => $qb->addOrderBy(sort: 'admin_entity_api_log.dateCreated', order: $direction),
+            'type' => $qb->addOrderBy(sort: 'admin_entity_api_log.type', order: $direction),
+            default => $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: Criteria::DESC),
+        };
 
         return $qb;
     }

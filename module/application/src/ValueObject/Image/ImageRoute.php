@@ -8,9 +8,9 @@ use Application\Options\ModuleOptions;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Router\RouteStackInterface;
 
-final class ImageRoute
+final readonly class ImageRoute
 {
-    public function __construct(private readonly string $route, private readonly array $routeParams)
+    public function __construct(private string $route, private array $routeParams)
     {
     }
 

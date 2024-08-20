@@ -58,6 +58,7 @@ class SetTitle extends AbstractListenerAggregate
         $this->renderer->headTitle()->append('Eureka Clusters Backend Application');
     }
 
+    #[\Override]
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, $this->setHeadLink(...), priority: 1000);

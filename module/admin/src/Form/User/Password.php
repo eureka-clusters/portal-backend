@@ -81,6 +81,7 @@ final class Password extends Form implements InputFilterProviderInterface
     }
 
     #[ArrayShape(shape: ['password' => "array", 'passwordVerify' => "array"])]
+    #[\Override]
     public function getInputFilterSpecification(): array
     {
         return [

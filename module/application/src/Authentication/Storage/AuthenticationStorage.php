@@ -29,10 +29,11 @@ class AuthenticationStorage extends Session
         $this->session->getManager()->setSaveHandler($this->saveHandler);
     }
 
+    #[\Override]
     public function isEmpty(): bool
     {
         if (null === $this->isEmpty) {
-            $this->isEmpty = empty($this->saveHandler->read($this->getSessionId()));
+            $this->isEmpty = $this->saveHandler->read($this->getSessionId()) === '' || $this->saveHandler->read($this->getSessionId()) === '0';
         }
 
         return $this->isEmpty;
@@ -46,6 +47,7 @@ class AuthenticationStorage extends Session
     /**
      * @param User $contents
      */
+    #[\Override]
     public function write($contents): void
     {
         //Force isempty to become true
@@ -54,22 +56,24 @@ class AuthenticationStorage extends Session
         $this->saveHandler->write($this->getSessionId(), $contents);
     }
 
+    #[\Override]
     public function read(): ?User
     {
-        if (null !== $this->resolvedIdentity) {
+        if ($this->resolvedIdentity instanceof \Admin\Entity\User) {
             return $this->resolvedIdentity;
         }
 
         $identity = (int) $this->saveHandler->read($this->getSessionId());
         $identity = $this->userService->findUserById((int) $identity);
 
-        if ($identity) {
+        if ($identity instanceof \Admin\Entity\User) {
             $this->resolvedIdentity = $identity;
         }
 
         return $this->resolvedIdentity;
     }
 
+    #[\Override]
     public function clear(): void
     {
         $this->saveHandler->destroy($this->getSessionId());

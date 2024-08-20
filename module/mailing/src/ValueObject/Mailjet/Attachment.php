@@ -24,6 +24,7 @@ final class Attachment
         if (null !== $this->contentId) {
             $return ['ContentId'] = $this->contentId;
         }
+
         return $return;
     }
 

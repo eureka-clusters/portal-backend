@@ -53,11 +53,13 @@ class Country extends AbstractEntity
         $this->evaluation    = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->country;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

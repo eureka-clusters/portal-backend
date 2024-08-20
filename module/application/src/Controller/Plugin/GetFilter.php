@@ -42,7 +42,7 @@ final class GetFilter extends AbstractPlugin
             direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
         );
 
-        if (! empty($encodedFilter)) {
+        if ($encodedFilter !== '' && $encodedFilter !== '0') {
             $this->filter->updateFromEncodedFilter(encodedFilter: $encodedFilter);
         }
 

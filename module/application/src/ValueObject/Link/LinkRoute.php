@@ -7,9 +7,9 @@ namespace Application\ValueObject\Link;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Router\RouteStackInterface;
 
-final class LinkRoute
+final readonly class LinkRoute
 {
-    public function __construct(private readonly string $route, private readonly array $routeParams = [], private readonly ?array $queryParams = null, private readonly ?string $fragment = null)
+    public function __construct(private string $route, private array $routeParams = [], private ?array $queryParams = null, private ?string $fragment = null)
     {
     }
 

@@ -143,6 +143,7 @@ final class Client extends Form implements InputFilterProviderInterface
         );
     }
 
+    #[\Override]
     public function getInputFilterSpecification(): array
     {
         return [

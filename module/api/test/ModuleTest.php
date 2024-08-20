@@ -37,9 +37,11 @@ class ModuleTest extends AbstractServiceTest
                 if ($dependency === 'Application') {
                     $dependency = Application::class;
                 }
+
                 if ($dependency === 'ViewHelperManager') {
                     $dependency = HelperPluginManager::class;
                 }
+
                 if ($dependency === 'Config') {
                     $dependency = [];
                 }

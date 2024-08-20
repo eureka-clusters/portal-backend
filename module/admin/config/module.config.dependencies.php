@@ -13,7 +13,7 @@ use Admin\Controller\UserController;
 use Admin\Provider\UserProvider;
 use Admin\Service\AdminService;
 use Admin\Service\ApiService;
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Application\Service\FormService;
 use Cluster\Provider\CountryProvider;
@@ -38,7 +38,7 @@ return [
             EntityManager::class,
             TranslatorInterface::class,
         ],
-        OAuth2Service::class     => [
+        oAuth2Service::class     => [
             EntityManager::class,
             TranslatorInterface::class,
             'Config'
@@ -46,7 +46,7 @@ return [
         UserController::class    => [
             AdminService::class,
             UserService::class,
-            OAuth2Service::class,
+            oAuth2Service::class,
             'Config',
             EntityManager::class,
             AuthenticationService::class,
@@ -59,18 +59,18 @@ return [
             TranslatorInterface::class,
         ],
         ClientController::class  => [
-            OAuth2Service::class,
+            oAuth2Service::class,
             UserService::class,
             EntityManager::class,
             TranslatorInterface::class,
         ],
         ServiceController::class => [
-            OAuth2Service::class,
+            oAuth2Service::class,
             FormService::class,
             TranslatorInterface::class,
         ],
         ScopeController::class   => [
-            OAuth2Service::class,
+            oAuth2Service::class,
             TranslatorInterface::class,
         ],
         CacheController::class   => [

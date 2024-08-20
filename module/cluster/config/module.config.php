@@ -104,4 +104,5 @@ $config = [
 foreach (Glob::glob(pattern: __DIR__ . '/module.config.{,*}.php', flags: Glob::GLOB_BRACE) as $file) {
     $config = ArrayUtils::merge(a: $config, b: include $file);
 }
+
 return $config;

@@ -45,6 +45,7 @@ class ClusterProvider implements ProviderInterface
             ),
         ]
     )]
+    #[\Override]
     public function generateArray($entity): array
     {
         /** @var Cluster $cluster */

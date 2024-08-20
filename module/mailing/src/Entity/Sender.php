@@ -25,9 +25,11 @@ use function sprintf;
 #[Name(name: 'mailing_sender')]
 class Sender extends AbstractEntity
 {
-    final public const SENDER_DEFAULT        = 1;
-    final public const SENDER_OWNER          = 2;
-    final public const SENDER_LOGGED_IN_USER = 3;
+    final public const int SENDER_DEFAULT        = 1;
+
+    final public const int SENDER_OWNER          = 2;
+
+    final public const int SENDER_LOGGED_IN_USER = 3;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -61,6 +63,7 @@ class Sender extends AbstractEntity
         $this->emailMessage  = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return sprintf('%s (%s)', $this->sender, $this->email);
@@ -81,6 +84,7 @@ class Sender extends AbstractEntity
         return $this->id === self::SENDER_DEFAULT;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

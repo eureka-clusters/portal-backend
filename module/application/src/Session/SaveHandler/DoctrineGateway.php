@@ -25,6 +25,7 @@ class DoctrineGateway implements SaveHandlerInterface
         $this->lifetime = $config['session_config']['cookie_lifetime'] ?? 31_536_000;
     }
 
+    #[\Override]
     public function open($path, $name): bool
     {
         $this->sessionName = $name;
@@ -32,16 +33,18 @@ class DoctrineGateway implements SaveHandlerInterface
         return true;
     }
 
+    #[\Override]
     public function close(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function read($id): string
     {
         $key = $id;
 
-        if (null === $this->session) {
+        if (!$this->session instanceof \Admin\Entity\Session) {
             $this->session = $this->entityManager->getRepository(entityName: Session::class)->findOneBy(
                 criteria: ['key' => $key]
             );
@@ -59,12 +62,14 @@ class DoctrineGateway implements SaveHandlerInterface
 
                 return $this->session->getData();
             }
+
             $this->destroy(id: $key);
         }
 
         return '';
     }
 
+    #[\Override]
     public function destroy($id): bool
     {
         $key = $id;
@@ -78,6 +83,7 @@ class DoctrineGateway implements SaveHandlerInterface
         return true;
     }
 
+    #[\Override]
     public function write($id, $data): bool
     {
         $key = $id;
@@ -106,6 +112,7 @@ class DoctrineGateway implements SaveHandlerInterface
     }
 
     #[ReturnTypeWillChange]
+    #[\Override]
     public function gc($max_lifetime): bool
     {
         return true;

@@ -33,6 +33,7 @@ use function sprintf;
 class EmailService
 {
     private readonly EntityManager $entityManager;
+
     private ?Mailer $mailer = null;
 
     public function __construct(private readonly ContainerInterface $container)
@@ -97,38 +98,29 @@ class EmailService
         $emailMessageEvent->setEmailMessage(emailMessage: $emailMessage);
 
         if (! $this->mailer->isDevelopment()) {
-            switch (true) {
-                case $this->mailer->isSendGrid():
-                    $this->sendEmailViaSendGrid(
-                        emailBuilder: $emailBuilder,
-                        emailMessage: $emailMessage,
-                        emailMessageEvent: $emailMessageEvent
-                    );
-                    break;
-                case $this->mailer->isSendmail():
-                    $this->sendEmailViaSendmail(
-                        emailBuilder: $emailBuilder,
-                        emailMessage: $emailMessage,
-                        emailMessageEvent: $emailMessageEvent
-                    );
-                    break;
-                case $this->mailer->isMailjet():
-                    $this->sendEmailViaMailjet(
-                        emailBuilder: $emailBuilder,
-                        emailMessage: $emailMessage,
-                        emailMessageEvent: $emailMessageEvent
-                    );
-                    break;
-                case $this->mailer->isSmtp():
-                    $this->sendEmailViaSmtp(
-                        emailBuilder: $emailBuilder,
-                        emailMessage: $emailMessage,
-                        emailMessageEvent: $emailMessageEvent
-                    );
-                    break;
-                default:
-                    throw new InvalidArgumentException(message: 'The selected service does not exist');
-            }
+            match (true) {
+                $this->mailer->isSendGrid() => $this->sendEmailViaSendGrid(
+                    emailBuilder: $emailBuilder,
+                    emailMessage: $emailMessage,
+                    emailMessageEvent: $emailMessageEvent
+                ),
+                $this->mailer->isSendmail() => $this->sendEmailViaSendmail(
+                    emailBuilder: $emailBuilder,
+                    emailMessage: $emailMessage,
+                    emailMessageEvent: $emailMessageEvent
+                ),
+                $this->mailer->isMailjet() => $this->sendEmailViaMailjet(
+                    emailBuilder: $emailBuilder,
+                    emailMessage: $emailMessage,
+                    emailMessageEvent: $emailMessageEvent
+                ),
+                $this->mailer->isSmtp() => $this->sendEmailViaSmtp(
+                    emailBuilder: $emailBuilder,
+                    emailMessage: $emailMessage,
+                    emailMessageEvent: $emailMessageEvent
+                ),
+                default => throw new InvalidArgumentException(message: 'The selected service does not exist'),
+            };
         }
 
         if ($this->mailer->isDevelopment()) {
@@ -215,17 +207,18 @@ class EmailService
             $emailMessage->setLatestEvent(latestEvent: 'sent_to_sendgriddd');
             $emailMessageEvent->setEvent(event: 'sent_to_sendgrid');
             $emailMessageEvent->setSmtpReply(smtpReply: $response->body());
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             //Update the email message
             $emailMessage->setLatestEvent(latestEvent: 'sending_failed');
             $emailMessageEvent->setEvent(event: 'sending_failed');
-            $emailMessageEvent->setError(error: $e->getMessage());
+            $emailMessageEvent->setError(error: $exception->getMessage());
         }
 
         $emailMessage->setDateLatestEvent(dateLatestEvent: new DateTime());
 
         $emailMessageEvent->setTime(time: new DateTime());
         $emailMessageEvent->setMessageId(messageId: 0);
+
         $this->entityManager->persist(entity: $emailMessageEvent);
     }
 
@@ -237,6 +230,7 @@ class EmailService
         $transport = new Sendmail();
 
         $transport->send(message: $emailBuilder->getMessage());
+
         $result = 'sent_via_sendmail';
 
         //Update the email message
@@ -285,6 +279,7 @@ class EmailService
         $emailMessageEvent->setTime(time: new DateTime());
         $emailMessageEvent->setMessageId(messageId: 0);
         $emailMessageEvent->setError(error: $response->getReasonPhrase());
+
         $this->entityManager->persist(entity: $emailMessageEvent);
     }
 
@@ -302,10 +297,12 @@ class EmailService
         if (null !== $this->mailer->getSsl()) {
             $transportConfig['connection_config']['ssl'] = $this->mailer->getSsl();
         }
+
         if (null !== $this->mailer->getUsername()) {
             $transportConfig['connection_class']              = 'login';
             $transportConfig['connection_config']['username'] = $this->mailer->getUsername();
         }
+
         if (null !== $this->mailer->getPassword()) {
             $transportConfig['connection_class']              = 'login';
             $transportConfig['connection_config']['password'] = $this->mailer->getPassword();
@@ -314,6 +311,7 @@ class EmailService
         $smtpOptions = new SmtpOptions(options: $transportConfig);
         $transport->setOptions(options: $smtpOptions);
         $transport->send(message: $emailBuilder->getMessage());
+
         $result = $transport->getConnection()?->getResponse()[0] ?? 'sent_with_smtp';
 
         //Update the email message

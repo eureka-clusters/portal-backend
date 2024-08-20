@@ -146,6 +146,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
         $this->emailMessage            = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->parseFullName();
@@ -167,13 +168,14 @@ class User extends AbstractEntity implements UserAsRoleInterface
 
     public function parseFullName(): string
     {
-        if (empty($this->firstName) || empty($this->lastName)) {
+        if ($this->firstName === '' || $this->firstName === '0' || ($this->lastName === '' || $this->lastName === '0')) {
             return $this->email;
         }
 
         return sprintf('%s %s', $this->firstName, $this->lastName);
     }
 
+    #[\Override]
     public function getUserId(): string
     {
         return 'user' . $this->id;
@@ -189,6 +191,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
         return $roles;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;
@@ -202,7 +205,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
 
     public function hasRole(Role $userRole): bool
     {
-        return null !== $this->getRoles()
+        return $this->getRoles() instanceof \Doctrine\Common\Collections\Collection
             && $this->getRoles()->exists(
                 p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
             );
@@ -221,7 +224,7 @@ class User extends AbstractEntity implements UserAsRoleInterface
 
     public function isFunder(): bool
     {
-        return null !== $this->funder;
+        return $this->funder instanceof \Cluster\Entity\Funder;
     }
 
     public function getPassword(): ?string

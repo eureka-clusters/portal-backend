@@ -9,6 +9,7 @@ use Mailing\Service\MailingService;
 final class CustomEmailBuilder extends EmailBuilder
 {
     private ?string $customSubject = null;
+
     private ?string $customBody    = null;
 
     public function __construct(MailingService $mailingService)
@@ -16,6 +17,7 @@ final class CustomEmailBuilder extends EmailBuilder
         parent::__construct(mailingService: $mailingService);
     }
 
+    #[\Override]
     public function renderEmail(): void
     {
         $this->emailCampaign = 'Custom email';
@@ -23,6 +25,7 @@ final class CustomEmailBuilder extends EmailBuilder
         if (null !== $this->customSubject) {
             $this->renderSubject(mailSubject: $this->customSubject);
         }
+
         if (null !== $this->customBody) {
             $this->renderBody(bodyText: $this->customBody);
         }

@@ -8,9 +8,9 @@ use Laminas\Router\RouteStackInterface;
 
 use function sprintf;
 
-final class Link
+final readonly class Link
 {
-    public function __construct(private readonly LinkRoute $linkRoute, private readonly LinkDecoration $linkDecoration)
+    public function __construct(private LinkRoute $linkRoute, private LinkDecoration $linkDecoration)
     {
     }
 

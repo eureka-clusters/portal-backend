@@ -15,6 +15,7 @@ use function sprintf;
 
 final class EmailMessage extends EntityRepository implements FilteredObjectRepository
 {
+    #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
@@ -36,16 +37,11 @@ final class EmailMessage extends EntityRepository implements FilteredObjectRepos
 
         $direction = $searchFormResult->getDirection();
 
-        switch ($searchFormResult->getOrder()) {
-            case 'id':
-                $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: $direction);
-                break;
-            case 'subject':
-                $qb->addOrderBy(sort: 'mailing_entity_email_message.subject', order: $direction);
-                break;
-            default:
-                $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: Criteria::DESC);
-        }
+        match ($searchFormResult->getOrder()) {
+            'id' => $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: $direction),
+            'subject' => $qb->addOrderBy(sort: 'mailing_entity_email_message.subject', order: $direction),
+            default => $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: Criteria::DESC),
+        };
 
         return $qb;
     }

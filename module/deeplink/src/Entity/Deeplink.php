@@ -20,7 +20,7 @@ use function substr;
 #[ORM\Entity(repositoryClass: \Deeplink\Repository\Deeplink::class)]
 class Deeplink extends AbstractEntity
 {
-    final public const EXPIRATION_DAYS_DEFAULT = 100;
+    final public const int EXPIRATION_DAYS_DEFAULT = 100;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -41,7 +41,7 @@ class Deeplink extends AbstractEntity
     private ?DateTime $dateAccess = null;
 
     #[ORM\Column(type: 'string', length: 9, nullable: true)]
-    private null|string|int $keyId;
+    private null|string|int $keyId = null;
 
     #[ORM\ManyToOne(targetEntity: Target::class, cascade: ['persist'], inversedBy: 'deeplink')]
     #[ORM\JoinColumn(nullable: false)]
@@ -67,6 +67,7 @@ class Deeplink extends AbstractEntity
         $this->hash        = substr(string: sha1(string: Rand::getString(length: 255)), offset: 0, length: 15);
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

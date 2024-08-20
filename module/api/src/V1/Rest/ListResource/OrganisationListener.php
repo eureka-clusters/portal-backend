@@ -82,6 +82,7 @@ final class OrganisationListener extends AbstractResourceListener
             new OA\Response(response: 400, description: 'Project or partner not found'),
         ],
     )]
+    #[\Override]
     public function fetchAll($params = []): Paginator
     {
         $filter = $params->toArray();

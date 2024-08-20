@@ -12,6 +12,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 final class LaminasCacheFactory implements FactoryInterface
 {
+    #[\Override]
     public function __invoke(
         containerinterface $container,
         $requestedName,

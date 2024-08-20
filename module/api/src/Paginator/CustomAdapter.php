@@ -22,6 +22,7 @@ class CustomAdapter extends ArrayAdapter
      * @param int $offset
      * @param int $itemCountPerPage
      */
+    #[\Override]
     public function getItems($offset, $itemCountPerPage): array
     {
         foreach ($this->array as &$item) {

@@ -87,7 +87,7 @@ abstract class EmailBuilder
         $this->setSender(setSender: $mailingService->findDefaultSender());
         $this->setTemplate(template: $mailingService->findDefaultTemplate());
 
-        if (null !== $deeplinkService) {
+        if ($deeplinkService instanceof \Deeplink\Service\DeeplinkService) {
             $this->deeplinkService = $deeplinkService;
         }
     }
@@ -101,7 +101,7 @@ abstract class EmailBuilder
     {
         //Via this function it is possible to overrule the sender, but if no value for the sender is given
         //We do a fallback to the default sender
-        if (null !== $setSender) {
+        if ($setSender instanceof \Mailing\Entity\Sender) {
             $this->sender = $setSender;
         }
 
@@ -110,7 +110,7 @@ abstract class EmailBuilder
         switch ($sender) {
             case $sender->isLoggedInUser():
             case $sender->isOwner():
-                if (null !== $ownerOrLoggedInUser) {
+                if ($ownerOrLoggedInUser instanceof \Admin\Entity\User) {
                     $this->setTemplateVariables(
                         variables: [
                             'sender_email' => $ownerOrLoggedInUser->getEmail(),
@@ -317,7 +317,7 @@ abstract class EmailBuilder
 
     public function addTo(string $name, string $email): EmailBuilder
     {
-        if ($this->personal && count($this->to) > 0) {
+        if ($this->personal && $this->to !== []) {
             throw new InvalidArgumentException(message: 'Impossible to add more recipients to an personal email');
         }
 
@@ -416,6 +416,7 @@ abstract class EmailBuilder
         if (! $this->personal) {
             throw new InvalidArgumentException(message: 'It is not possible to add a deeplink for a non-personal email');
         }
+
         //Create a target
         $target = $this->deeplinkService->createTargetFromRoute(route: $route);
 
@@ -445,7 +446,7 @@ abstract class EmailBuilder
         $message->setCc(emailOrAddressList: $this->getCCAsAddressList());
         $message->setBcc(emailOrAddressList: $this->getBccAsAddressList());
 
-        if (null !== $this->replyTo) {
+        if ($this->replyTo instanceof \Mailing\ValueObject\Recipient) {
             $message->setReplyTo(emailOrAddressList: $this->replyTo->toAddress());
         }
 
@@ -540,7 +541,7 @@ abstract class EmailBuilder
 
     public function hasMultiParts(): bool
     {
-        return count($this->attachments) > 0 || count($this->invitations) > 0;
+        return $this->attachments !== [] || $this->invitations !== [];
     }
 
     protected function renderSubject(string $mailSubject): void
@@ -566,10 +567,10 @@ abstract class EmailBuilder
                 name: 'template_subject',
                 context: $this->templateVariables->toArray()
             );
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->subject = sprintf(
                 'Something went wrong with the merge of the subject. Error message: %s',
-                $e->getMessage()
+                $exception->getMessage()
             );
         }
     }
@@ -604,11 +605,12 @@ abstract class EmailBuilder
                 context: $this->templateVariables->toArray()
             );
             $this->textPart = strip_tags(string: $mailBody);
-        } catch (Exception $e) {
-            $this->htmlPart = $this->textPart = sprintf(
+        } catch (Exception $exception) {
+            $this->htmlPart = sprintf(
                 'Something went wrong with the merge of the body text. Error message: %s',
-                $e->getMessage()
+                $exception->getMessage()
             );
+            $this->textPart = $this->htmlPart;
         }
     }
 }

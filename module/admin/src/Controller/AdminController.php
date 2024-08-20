@@ -9,6 +9,7 @@ use Laminas\View\Model\ViewModel;
 
 final class AdminController extends AbstractActionController
 {
+    #[\Override]
     public function indexAction(): ViewModel
     {
         return new ViewModel();

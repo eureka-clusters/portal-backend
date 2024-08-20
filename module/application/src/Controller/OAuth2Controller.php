@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Controller;
 
-use Admin\Service\OAuth2Service;
+use Admin\Service\oAuth2Service;
 use Admin\Service\UserService;
 use Api\Entity\OAuth\Service;
 use Application\ValueObject\OAuth2\GenericUser;
@@ -26,7 +26,7 @@ final class OAuth2Controller extends AbstractActionController
 {
     public function __construct(
         private readonly UserService $userService,
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly oAuth2Service $oAuth2Service,
         private readonly array $config
     ) {
     }
@@ -37,7 +37,7 @@ final class OAuth2Controller extends AbstractActionController
         $id      = (int)$this->params('id');
         $service = $this->oAuth2Service->findServiceById(id: $id);
 
-        if (null === $service) {
+        if (!$service instanceof \Api\Entity\OAuth\Service) {
             return $this->notFoundAction();
         }
 
@@ -152,7 +152,7 @@ final class OAuth2Controller extends AbstractActionController
 
         $client = $this->oAuth2Service->findClientByClientId(clientId: $clientId);
 
-        if (null === $client) {
+        if (!$client instanceof \Api\Entity\OAuth\Client) {
             return $response->setStatusCode(code: 400)->setContent('Invalid Client');
         }
 

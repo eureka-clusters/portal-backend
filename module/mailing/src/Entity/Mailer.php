@@ -24,10 +24,13 @@ use Laminas\Form\Element\Text;
 #[Name(name: 'mailing_mailer')]
 class Mailer extends AbstractEntity
 {
-    final public const MAILER_SERVICE_SMTP     = 1;
-    final public const MAILER_SERVICE_SENDMAIL = 2;
-    final public const MAILER_SERVICE_MAILJET  = 3;
-    final public const MAILER_SERVICE_SENDGRID = 4;
+    final public const int MAILER_SERVICE_SMTP     = 1;
+
+    final public const int MAILER_SERVICE_SENDMAIL = 2;
+
+    final public const int MAILER_SERVICE_MAILJET  = 3;
+
+    final public const int MAILER_SERVICE_SENDGRID = 4;
 
     public static array $servicesArray = [
         self::MAILER_SERVICE_SMTP     => 'txt-mailer-service-smtp',
@@ -134,6 +137,7 @@ class Mailer extends AbstractEntity
         return self::$servicesArray;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
@@ -159,6 +163,7 @@ class Mailer extends AbstractEntity
         return $this->service === self::MAILER_SERVICE_SENDMAIL;
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;
