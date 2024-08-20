@@ -34,7 +34,7 @@ final class Module implements ApiToolsProviderInterface, ConfigProviderInterface
             ConfigProvider::class,
             ListenerConfigProvider::class,
         ]);
-
         return $aggregator->getMergedConfig();
+
     }
 }

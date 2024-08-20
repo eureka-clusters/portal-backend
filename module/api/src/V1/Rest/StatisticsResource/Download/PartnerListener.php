@@ -25,7 +25,7 @@ use function ob_start;
 
 final class PartnerListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/statistics/results/partner/download/:filter';
+    protected static string $route = '/api/statistics/results/partner/download/:id';
 
     public function __construct(
         private readonly PartnerService      $partnerService,
@@ -38,7 +38,7 @@ final class PartnerListener extends AbstractRoutedListener
     }
 
     #[OA\Get(
-        path: '/api/statistics/results/partner/download/{filter}',
+        path: '/api/statistics/results/partner/download/{id}',
         description: 'Download project partners',
         summary: 'Download project partners to Excel',
         tags: ['Project'],

@@ -29,7 +29,7 @@ class VersionService extends AbstractService
     public function isLatestVersionAndIsFPP(Version $version): bool
     {
 
-        //If the version is not the latest version then we can stop here
+        //If the version is not the latest version, then we can stop here
         if (!$version->getType()->isLatest()) {
             return false;
         }
@@ -40,7 +40,7 @@ class VersionService extends AbstractService
             versionTypeName: Type::TYPE_FPP
         );
 
-        return $version->getStatus() === $fpp->getStatus();
+        return $version->getStatus() === $fpp->getStatus() && $version->getSubmissionDate() === $fpp->getSubmissionDate();
     }
 
     public function getVersions(User $user, SearchFormResult $searchFormResult): QueryBuilder

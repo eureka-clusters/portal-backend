@@ -14,17 +14,19 @@ use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 final readonly class ListenerValueObject
 {
     public function __construct(
-        private string $listener,
-        private string $route,
-        private RouteTypeEnum $routeType = RouteTypeEnum::COLLECTION,
+        private string          $listener,
+        private string          $route,
+        private RouteTypeEnum   $routeType = RouteTypeEnum::COLLECTION,
         private RouteMethodEnum $routeMethod = RouteMethodEnum::GET,
-        private array $configAbstractFactories = [],
-        private array $entityCollectionWhiteList = [],
-        private int $pageSize = 25,
-        private array $inputFilterSpecification = [],
-        private ?string $routeAssertionClass = null,
-        private ?string $privilege = null,
-    ) {
+        private array           $configAbstractFactories = [],
+        private array           $entityCollectionWhiteList = [],
+        private int             $pageSize = 25,
+        private array           $inputFilterSpecification = [],
+        private ?string         $routeAssertionClass = null,
+        private ?string         $privilege = null,
+        private bool            $allowUnauthenticated = false
+    )
+    {
     }
 
     public function toArray(): array
@@ -73,7 +75,7 @@ final readonly class ListenerValueObject
     {
         //Depending on the route type, we will have different configurations
         $config = match ($this->routeType) {
-            RouteTypeEnum::ENTITY => [
+            RouteTypeEnum::ENTITY     => [
                 'entity_http_methods' => [$this->routeMethod->value],
             ],
             RouteTypeEnum::COLLECTION => [
@@ -103,7 +105,7 @@ final readonly class ListenerValueObject
         return [
             $this->listener => [
                 $this->routeType->value => [
-                    $this->routeMethod->value => true
+                    $this->routeMethod->value => !$this->allowUnauthenticated
                 ]
             ]
         ];

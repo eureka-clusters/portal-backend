@@ -24,6 +24,12 @@ final class PartnerListener extends AbstractRoutedListener
 {
     protected static string $route = '/api/list/partner';
 
+    protected static array $entityCollectionWhitelist
+        = [
+            'project',
+            'organisation',
+        ];
+
     public function __construct(
         private readonly PartnerService      $partnerService,
         private readonly ProjectService      $projectService,

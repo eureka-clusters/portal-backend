@@ -9,6 +9,7 @@ return [
         'Laminas\\Hydrator',
         'Laminas\\Paginator',
         'Laminas\\Cache',
+        'Laminas\\Validator\\Module',
 
         'Laminas\\Mvc\\Plugin\\FlashMessenger',
         'Laminas\\Mvc\\Plugin\\Identity',

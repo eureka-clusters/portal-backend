@@ -5,17 +5,32 @@ declare(strict_types=1);
 namespace Api;
 
 use Admin\Entity\Role;
+use Api\Provider\OAuth\ServiceProvider;
 use Api\V1\Rest;
+use Application\Options\ModuleOptions;
 use BjyAuthorize\Guard\Route;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Rector\Symfony\DataProvider\ServiceMapProvider;
 
 final class ConfigProvider
 {
     public function __invoke(): array
     {
         return [
-            'doctrine'     => $this->getDoctrineConfig(),
-            'bjyauthorize' => [
+            ConfigAbstractFactory::class => [
+                ServiceProvider::class => [
+                    'ViewHelperManager',
+                    ModuleOptions::class
+                ],
+            ],
+            'service_manager'            => [
+                'factories' => [
+                    ServiceProvider::class => ConfigAbstractFactory::class,
+                ],
+            ],
+            'doctrine'                   => $this->getDoctrineConfig(),
+            'bjyauthorize'               => [
                 'guards' => $this->getRouteGuardConfig()
             ]
         ];

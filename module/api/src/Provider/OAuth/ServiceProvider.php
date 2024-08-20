@@ -10,8 +10,6 @@ use Application\Options\ModuleOptions;
 use Laminas\View\Helper\Url;
 use Laminas\View\HelperPluginManager;
 use OpenApi\Attributes as OA;
-
-use function array_merge;
 use function sprintf;
 
 #[OA\Response(
@@ -23,8 +21,9 @@ final readonly class ServiceProvider implements ProviderInterface
 {
     public function __construct(
         private HelperPluginManager $helperPluginManager,
-        private ModuleOptions $moduleOptions
-    ) {
+        private ModuleOptions       $moduleOptions
+    )
+    {
     }
 
     #[OA\Schema(

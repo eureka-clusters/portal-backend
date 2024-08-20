@@ -14,7 +14,7 @@ use function base64_decode;
 
 final class ProjectListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/statistics/facets/project/:filter';
+    protected static string $route = '/api/statistics/facets/project/:id';
 
     public function __construct(
         private readonly ProjectService $projectService,

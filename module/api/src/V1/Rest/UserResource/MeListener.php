@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 
 final class MeListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/me';
+    protected static string $route = '/api/[:id]';
 
     public function __construct(private readonly UserService $userService, private readonly UserProvider $userProvider)
     {

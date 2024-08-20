@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 
 final class OrganisationListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/view/organisation/:slug';
+    protected static string $route = '/api/view/organisation/:id';
 
     public function __construct(
         private readonly OrganisationService  $organisationService,

@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 
 final class PartnerListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/view/partner/:slug';
+    protected static string $route = '/api/view/partner/:id';
 
     public function __construct(
         private readonly PartnerService  $partnerService,

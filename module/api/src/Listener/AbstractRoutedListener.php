@@ -12,7 +12,8 @@ abstract class AbstractRoutedListener extends AbstractResourceListener
 
     protected static ?string $privilege = null;
 
-    protected static int $pageSize = 25;
+    protected static int  $pageSize             = 25;
+    protected static bool $allowUnauthenticated = false;
 
     protected static array $entityCollectionWhitelist = [];
 
@@ -44,5 +45,10 @@ abstract class AbstractRoutedListener extends AbstractResourceListener
     public static function getRouteAssertionClass(): null|string
     {
         return null;
+    }
+
+    public static function getAllowUnauthenticated(): bool
+    {
+        return static::$allowUnauthenticated;
     }
 }

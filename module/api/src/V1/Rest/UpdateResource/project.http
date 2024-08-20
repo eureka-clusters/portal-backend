@@ -4,6 +4,6 @@ Accept: */*
 Authorization: Bearer {{bearerToken}}
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="inno4health.jsond"
+Content-Disposition: form-data; name="file"; filename="inno4health.json"
 
-< 5G4PHealth.json
+< i2D-MSW.json

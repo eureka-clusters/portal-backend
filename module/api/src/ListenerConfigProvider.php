@@ -87,7 +87,8 @@ final class ListenerConfigProvider
                         pageSize: $staticClass::getPageSize(),
                         inputFilterSpecification: $staticClass::getInputFilterSpecification(),
                         routeAssertionClass: $staticClass::getRouteAssertionClass(),
-                        privilege: $staticClass::getPrivilege()
+                        privilege: $staticClass::getPrivilege(),
+                        allowUnauthenticated: $staticClass::getAllowUnauthenticated(),
                     )
                 );
             }

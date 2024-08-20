@@ -13,7 +13,7 @@ use OpenApi\Attributes as OA;
 
 final class ProjectListener extends AbstractRoutedListener
 {
-    protected static string $route = '/api/view/project/:slug';
+    protected static string $route = '/api/view/project/:id';
 
     public function __construct(
         private readonly ProjectService  $projectService,

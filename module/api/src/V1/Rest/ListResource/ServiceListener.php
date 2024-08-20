@@ -15,6 +15,8 @@ final class ServiceListener extends AbstractRoutedListener
 {
     protected static string $route = '/api/list/service';
 
+    protected static bool $allowUnauthenticated = true;
+
     public function __construct(
         private readonly oAuth2Service   $oAuth2Service,
         private readonly ServiceProvider $serviceProvider

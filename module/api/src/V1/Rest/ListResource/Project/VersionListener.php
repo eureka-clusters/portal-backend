@@ -21,6 +21,11 @@ final class VersionListener extends AbstractRoutedListener
 {
     protected static string $route = '/api/list/project/version';
 
+    protected static array $entityCollectionWhitelist
+        = [
+            'project',
+        ];
+
     public function __construct(
         private readonly VersionService  $versionService,
         private readonly ProjectService  $projectService,
