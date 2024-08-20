@@ -1,7 +1,7 @@
 POST {{ baseUrl}}/api/update/project
 Content-Type: multipart/form-data; boundary=boundary
 Accept: */*
-Authorization: Bearer {{ bearerToken }}
+Authorization: Bearer {{bearerToken}}
 
 --boundary
 Content-Disposition: form-data; name="file"; filename="inno4health.jsond"
