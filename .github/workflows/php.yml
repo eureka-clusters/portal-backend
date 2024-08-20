@@ -3,12 +3,8 @@ name: PHP Composer
 on:
   push:
     branches:
-      - main
       - develop
   pull_request:
-    branches:
-      - main
-      - develop
 
 jobs:
   build:
@@ -18,19 +14,19 @@ jobs:
           - locked
           - highest
         php:
-          - 8.2
           - 8.3
+          - 8.4
         include:
-          - php-version: 8.3
+          - php-version: 8.4
             composer-options: "--ignore-platform-reqs"
 
-    continue-on-error: ${{ matrix.php == '8.3' }}
+    continue-on-error: ${{ matrix.php == '8.4' }}
 
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
@@ -40,7 +36,7 @@ jobs:
           ini-values: memory_limit=-1
 
       - name: "Install composer and dependencies"
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: ${{ matrix.composer-options }}
