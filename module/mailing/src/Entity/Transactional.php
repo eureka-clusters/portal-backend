@@ -86,7 +86,7 @@ class Transactional extends AbstractEntity
         'help-block'   => 'txt-mailing-transactional-template-help-block',
         'empty_option' => '— Select a mailing template',
         'target_class' => Template::class,
-        'find_method'  => ['name' => 'findBy', 'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]]],
+        'find_method'  => ['name' => 'findBy', 'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]]],
     ])]
     #[Attributes(attributes: ['label' => 'txt-mailing-transactional-template-label'])]
     private Template $template;
@@ -100,7 +100,7 @@ class Transactional extends AbstractEntity
         'target_class' => Sender::class,
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['sender' => Criteria::ASC]],
+            'params' => ['criteria' => [], 'orderBy' => ['sender' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
     #[Attributes(attributes: ['label' => 'txt-mailing-transactional-sender-label'])]
@@ -117,7 +117,7 @@ class Transactional extends AbstractEntity
             'name'   => 'findBy',
             'params' => [
                 'criteria' => ['isActive' => true],
-                'orderBy'  => ['name' => Criteria::ASC],
+                'orderBy'  => ['name' => \Doctrine\Common\Collections\Order::Ascending->value],
             ],
         ],
     ])]

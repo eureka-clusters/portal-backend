@@ -28,7 +28,7 @@ final class Role extends EntityRepository implements FilteredObjectRepository
         match ($searchFormResult->getOrder()) {
             'id' => $qb->addOrderBy(sort: 'admin_entity_role.id', order: $direction),
             'description' => $qb->addOrderBy(sort: 'admin_entity_role.description', order: $direction),
-            default => $qb->addOrderBy(sort: 'admin_entity_role.description', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'admin_entity_role.description', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Api;
 
 use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
+use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
-use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use OpenApi\Attributes as OA;
+use Override;
 
 #[OA\Info(version: '1.0', title: 'Eureka Clusters backend API')]
 #[OA\ExternalDocumentation(description: 'Backend API code. Find more information in the official documentation',
@@ -26,22 +27,14 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: 'User', description: 'User related endpoints')]
 final class Module implements ApiToolsProviderInterface, ConfigProviderInterface
 {
-    #[\Override]
+    #[Override]
     public function getConfig(): array
     {
-        $configProvider    = new ConfigProvider();
-        $apiConfigProvider = new ApiConfigProvider();
+        $aggregator = new ConfigAggregator([
+            ConfigProvider::class,
+            ListenerConfigProvider::class,
+        ]);
 
-        return [
-            ConfigAbstractFactory::class   => $configProvider->getConfigAbstractFactory(),
-            'service_manager'              => $configProvider->getDependencyConfig(),
-            'doctrine'                     => $configProvider->getDoctrineConfig(),
-            'router'                       => $configProvider->getRouteConfig(),
-            'bjyauthorize'                 => $configProvider->getGuardConfig(),
-            'api-tools-rest'               => $apiConfigProvider->getApiToolsRestConfig(),
-            'api-tools-mvc-auth'           => $apiConfigProvider->getApiToolsMvcConfig(),
-            'api-tools-content-validation' => $apiConfigProvider->getApiToolsContentValidationConfig(),
-            'input_filter_specs'           => $apiConfigProvider->getApiToolsInputFilterSpecsConfig(),
-        ];
+        return $aggregator->getMergedConfig();
     }
 }

@@ -39,7 +39,7 @@ final class GetFilter extends AbstractPlugin
         //Initiate the filter
         $this->filter = new SearchFormResult(
             order: $request->getQuery(name: 'order', default: 'default'),
-            direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
+            direction: $request->getQuery(name: 'direction', default: \Doctrine\Common\Collections\Order::Ascending->value)
         );
 
         if ($encodedFilter !== '' && $encodedFilter !== '0') {
@@ -64,7 +64,7 @@ final class GetFilter extends AbstractPlugin
         if ($request->getQuery(name: 'reset') !== null) {
             $this->filter = new SearchFormResult(
                 order: $request->getQuery(name: 'order', default: 'default'),
-                direction: $request->getQuery(name: 'direction', default: Criteria::ASC)
+                direction: $request->getQuery(name: 'direction', default: \Doctrine\Common\Collections\Order::Ascending->value)
             );
         }
 

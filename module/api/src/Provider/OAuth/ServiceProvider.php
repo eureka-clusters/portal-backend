@@ -26,6 +26,7 @@ final readonly class ServiceProvider implements ProviderInterface
         private ModuleOptions $moduleOptions
     ) {
     }
+
     #[OA\Schema(
         schema: 'service',
         title: 'oAuth2 service',

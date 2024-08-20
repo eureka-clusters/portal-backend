@@ -43,7 +43,7 @@ class Log extends EntityRepository
             'id' => $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: $direction),
             'date' => $qb->addOrderBy(sort: 'admin_entity_api_log.dateCreated', order: $direction),
             'type' => $qb->addOrderBy(sort: 'admin_entity_api_log.type', order: $direction),
-            default => $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: Criteria::DESC),
+            default => $qb->addOrderBy(sort: 'admin_entity_api_log.id', order: \Doctrine\Common\Collections\Order::Descending->value),
         };
 
         return $qb;

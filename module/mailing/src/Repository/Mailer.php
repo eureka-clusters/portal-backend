@@ -25,7 +25,7 @@ final class Mailer extends EntityRepository implements FilteredObjectRepository
         match ($searchFormResult->getOrder()) {
             'service' => $qb->addOrderBy(sort: 'mailing_entity_mailer.service', order: $direction),
             'name' => $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: $direction),
-            default => $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'mailing_entity_mailer.name', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

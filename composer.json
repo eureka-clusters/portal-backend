@@ -22,6 +22,7 @@
     "laminas/laminas-mvc-plugin-flashmessenger": "^1.10",
     "laminas/laminas-mvc-plugin-identity": "^1.6",
     "laminas/laminas-cache-storage-adapter-redis": "^2.7",
+    "laminas/laminas-config-aggregator": "^1.16",
     "rnd-cosoft/api-tools": "^1.8",
     "phpoffice/phpspreadsheet": "^1.29",
     "lm-commons/lmc-cors": "^1.2",

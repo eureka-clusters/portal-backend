@@ -40,7 +40,7 @@ final class EmailMessage extends EntityRepository implements FilteredObjectRepos
         match ($searchFormResult->getOrder()) {
             'id' => $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: $direction),
             'subject' => $qb->addOrderBy(sort: 'mailing_entity_email_message.subject', order: $direction),
-            default => $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: Criteria::DESC),
+            default => $qb->addOrderBy(sort: 'mailing_entity_email_message.id', order: \Doctrine\Common\Collections\Order::Descending->value),
         };
 
         return $qb;

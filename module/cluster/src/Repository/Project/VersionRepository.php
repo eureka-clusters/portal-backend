@@ -28,7 +28,7 @@ class VersionRepository extends EntityRepository
         $queryBuilder->join(join: 'cluster_entity_project_version.project', alias: 'cluster_entity_project');
 
         //Sort on the submission date
-        $queryBuilder->orderBy(sort: 'cluster_entity_project_version.submissionDate', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_project_version.submissionDate', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 

@@ -149,7 +149,7 @@ class oAuth2Service extends AbstractService
     {
         return $this->entityManager->getRepository(entityName: Service::class)->findBy(
             criteria: [],
-            orderBy: ['name' => Criteria::ASC]
+            orderBy: ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
         );
     }
 }

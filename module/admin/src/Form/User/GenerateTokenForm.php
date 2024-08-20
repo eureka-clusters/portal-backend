@@ -37,7 +37,7 @@ final class GenerateTokenForm extends Form
                         'params' => [
                             'criteria' => [],
                             'orderBy'  => [
-                                'description' => Criteria::ASC,
+                                'description' => \Doctrine\Common\Collections\Order::Ascending->value,
                             ],
                         ],
                     ],

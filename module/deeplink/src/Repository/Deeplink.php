@@ -25,7 +25,7 @@ final class Deeplink extends EntityRepository
         $qb->andWhere('deeplink_entity_deeplink.target = :target');
         $qb->setParameter(key: 'target', value: $target);
 
-        $qb->addOrderBy(sort: 'deeplink_entity_deeplink.dateCreated', order: Criteria::ASC);
+        $qb->addOrderBy(sort: 'deeplink_entity_deeplink.dateCreated', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $qb->getQuery()->getResult();
     }

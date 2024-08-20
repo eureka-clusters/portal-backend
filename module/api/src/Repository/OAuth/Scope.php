@@ -32,7 +32,7 @@ final class Scope extends EntityRepository implements FilteredObjectRepository
         match ($searchFormResult->getOrder()) {
             'id' => $qb->addOrderBy('api_entity_oauth_scope.id', $direction),
             'scope' => $qb->addOrderBy('api_entity_oauth_scope.scope', $direction),
-            default => $qb->addOrderBy('api_entity_oauth_scope.scope', Criteria::ASC),
+            default => $qb->addOrderBy('api_entity_oauth_scope.scope', \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

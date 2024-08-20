@@ -107,7 +107,7 @@ class Service extends AbstractEntity
     private string $profileUrl = '';
 
     #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'oauthServices', cascade: ['persist'])]
-    #[ORM\OrderBy(value: ['name' => Criteria::ASC])]
+    #[ORM\OrderBy(value: ['name' => \Doctrine\Common\Collections\Order::Ascending->value])]
     #[ORM\JoinTable(name: 'oauth_service_cluster')]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\InverseJoinColumn(nullable: false)]
@@ -117,7 +117,7 @@ class Service extends AbstractEntity
         'target_class' => Cluster::class,
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]],
+            'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
     #[Annotation\Attributes(['label' => 'txt-oauth-service-allowed-clusters-label'])]
@@ -133,7 +133,7 @@ class Service extends AbstractEntity
         'help-block'   => 'txt-oauth-service-scope-help-block',
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['scope' => Criteria::ASC]],
+            'params' => ['criteria' => [], 'orderBy' => ['scope' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
     private Scope $scope;
@@ -148,7 +148,7 @@ class Service extends AbstractEntity
         'help-block'   => 'txt-oauth-service-client-help-block',
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]],
+            'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
     private Client $client;

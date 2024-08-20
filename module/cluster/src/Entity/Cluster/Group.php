@@ -62,7 +62,7 @@ class Group extends AbstractEntity
     private ?DateTime $dateUpdated = null;
 
     #[ORM\ManyToMany(targetEntity: Cluster::class, inversedBy: 'groups', cascade: ['persist'])]
-    #[ORM\OrderBy(value: ['name' => Criteria::ASC])]
+    #[ORM\OrderBy(value: ['name' => \Doctrine\Common\Collections\Order::Ascending->value])]
     #[ORM\JoinTable(name: 'cluster_cluster_group_cluster')]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\InverseJoinColumn(nullable: false)]
@@ -72,7 +72,7 @@ class Group extends AbstractEntity
         'target_class' => Cluster::class,
         'find_method'  => [
             'name'   => 'findBy',
-            'params' => ['criteria' => [], 'orderBy' => ['name' => Criteria::ASC]],
+            'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
     #[Annotation\Attributes(['label' => 'txt-cluster-group-clusters-label'])]

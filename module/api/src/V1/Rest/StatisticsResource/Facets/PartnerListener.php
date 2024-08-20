@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Api\V1\Rest\StatisticsResource\Facets;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Cluster\Service\Project\PartnerService;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use function base64_decode;
 
-final class PartnerListener extends AbstractResourceListener
+final class PartnerListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/statistics/facets/partner/:filter';
+
     public function __construct(
         private readonly PartnerService $partnerService,
         private readonly UserService    $userService
@@ -51,7 +53,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         if (!empty($id)) {
-            $encodedFilter    = base64_decode((string) $id, true);
+            $encodedFilter    = base64_decode((string)$id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 

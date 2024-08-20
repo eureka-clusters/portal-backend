@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\V1\Rest\StatisticsResource\Download;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Cluster\Entity\Project\Partner;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Provider\Project\PartnerYearProvider;
@@ -12,7 +13,6 @@ use Cluster\Service\Project\PartnerService;
 use DateTime;
 use DateTimeInterface;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
@@ -23,8 +23,10 @@ use function base64_encode;
 use function ob_get_clean;
 use function ob_start;
 
-final class PartnerListener extends AbstractResourceListener
+final class PartnerListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/statistics/results/partner/download/:filter';
+
     public function __construct(
         private readonly PartnerService      $partnerService,
         private readonly UserService         $userService,
@@ -75,7 +77,7 @@ final class PartnerListener extends AbstractResourceListener
         $filter = [];
 
         //Inject the encoded filter from the results
-        $encodedFilter    = base64_decode((string) $id, true);
+        $encodedFilter    = base64_decode((string)$id, true);
         $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
 
         $searchFormResult = SearchFormResult::fromArray($filter);

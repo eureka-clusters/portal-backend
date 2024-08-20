@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource;
 
+use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Service\OrganisationService;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Paginator;
 use OpenApi\Attributes as OA;
 
-final class OrganisationListener extends AbstractResourceListener
+final class OrganisationListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/list/organisation';
+
     public function __construct(
-        private readonly OrganisationService $organisationService,
+        private readonly OrganisationService  $organisationService,
         private readonly OrganisationProvider $organisationProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

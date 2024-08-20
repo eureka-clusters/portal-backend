@@ -5,22 +5,25 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Paginator;
 use OpenApi\Attributes as OA;
 
-final class ProjectListener extends AbstractResourceListener
+final class ProjectListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/list/project';
+
     public function __construct(
-        private readonly ProjectService $projectService,
-        private readonly UserService $userService,
+        private readonly ProjectService  $projectService,
+        private readonly UserService     $userService,
         private readonly ProjectProvider $projectProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

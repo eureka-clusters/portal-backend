@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\UpdateResource;
 
+use Api\Listener\AbstractRoutedListener;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Version\CostsAndEffort;
 use Cluster\Entity\Version\Type;
@@ -13,13 +14,28 @@ use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use stdClass;
 
-final class ProjectListener extends AbstractResourceListener
+final class ProjectListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/update/project';
+
+    #[\Override]
+    public static function getInputFilterSpecification(): array
+    {
+        return [
+            [
+                'required'   => true,
+                'validators' => [],
+                'filters'    => [],
+                'name'       => 'file',
+                'type'       => \Laminas\InputFilter\FileInput::class,
+            ]
+        ];
+    }
+
     public function __construct(
         private readonly ProjectService $projectService,
         private readonly VersionService $versionService,

@@ -22,7 +22,7 @@ class Target extends EntityRepository
         $qb->leftJoin(join: 'deeplink_entity_target.deeplink', alias: 'deeplink_entity_deeplink');
         $qb->groupBy(groupBy: 'deeplink_entity_target.id');
 
-        $qb->addOrderBy(sort: 'deeplink_entity_target.target', order: Criteria::ASC);
+        $qb->addOrderBy(sort: 'deeplink_entity_target.target', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $qb->getQuery()->getResult();
     }
@@ -36,7 +36,7 @@ class Target extends EntityRepository
         $qb->select(select: 'deeplink_entity_target');
         $qb->from(from: Entity\Target::class, alias: 'deeplink_entity_target');
         $qb->andWhere($qb->expr()->isNotNull(x: 'deeplink_entity_target.route'));
-        $qb->addOrderBy(sort: 'deeplink_entity_target.target', order: Criteria::ASC);
+        $qb->addOrderBy(sort: 'deeplink_entity_target.target', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $qb->getQuery()->getResult();
     }

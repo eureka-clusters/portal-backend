@@ -32,7 +32,7 @@ final class Transactional extends EntityRepository implements FilteredObjectRepo
             'transactional' => $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: $direction),
             'subject' => $qb->addOrderBy(sort: 'mailing_entity_transactional.mailSubject', order: $direction),
             'last-update' => $qb->addOrderBy(sort: 'mailing_entity_transactional.lastUpdate', order: $direction),
-            default => $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'mailing_entity_transactional.name', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

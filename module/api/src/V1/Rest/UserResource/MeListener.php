@@ -6,12 +6,14 @@ namespace Api\V1\Rest\UserResource;
 
 use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use OpenApi\Attributes as OA;
 
-final class MeListener extends AbstractResourceListener
+final class MeListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/me';
+
     public function __construct(private readonly UserService $userService, private readonly UserProvider $userProvider)
     {
     }

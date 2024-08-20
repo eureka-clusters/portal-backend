@@ -32,7 +32,7 @@ final class Service extends EntityRepository implements FilteredObjectRepository
         match ($searchFormResult->getOrder()) {
             'id' => $qb->addOrderBy(sort: 'api_entity_oauth_service.id', order: $direction),
             'service' => $qb->addOrderBy(sort: 'api_entity_oauth_service.name', order: $direction),
-            default => $qb->addOrderBy(sort: 'api_entity_oauth_service.name', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'api_entity_oauth_service.name', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

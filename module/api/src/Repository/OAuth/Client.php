@@ -33,7 +33,7 @@ final class Client extends EntityRepository implements FilteredObjectRepository
             'id' => $qb->addOrderBy('api_entity_oauth_client.clientId', $direction),
             'name' => $qb->addOrderBy('api_entity_oauth_client.name', $direction),
             'description' => $qb->addOrderBy('api_entity_oauth_client.description', $direction),
-            default => $qb->addOrderBy('api_entity_oauth_client.clientId', Criteria::ASC),
+            default => $qb->addOrderBy('api_entity_oauth_client.clientId', \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

@@ -32,7 +32,7 @@ final class User extends EntityRepository implements FilteredObjectRepository
             'email' => $qb->addOrderBy(sort: 'admin_entity_user.email', order: $direction),
             'add-date' => $qb->addOrderBy(sort: 'admin_entity_user.dateCreated', order: $direction),
             'last-update' => $qb->addOrderBy(sort: 'admin_entity_user.lastUpdate', order: $direction),
-            default => $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'admin_entity_user.lastName', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

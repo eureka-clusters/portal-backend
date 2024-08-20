@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource\Project;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Entity\Project;
 use Cluster\Provider\Project\VersionProvider;
@@ -12,13 +13,14 @@ use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Paginator;
 use OpenApi\Attributes as OA;
 
-final class VersionListener extends AbstractResourceListener
+final class VersionListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/list/project/version';
+
     public function __construct(
         private readonly VersionService  $versionService,
         private readonly ProjectService  $projectService,

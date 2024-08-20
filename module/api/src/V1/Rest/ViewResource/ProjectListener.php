@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ViewResource;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use OpenApi\Attributes as OA;
 
-final class ProjectListener extends AbstractResourceListener
+final class ProjectListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/view/project/:slug';
+
     public function __construct(
-        private readonly ProjectService $projectService,
-        private readonly UserService $userService,
+        private readonly ProjectService  $projectService,
+        private readonly UserService     $userService,
         private readonly ProjectProvider $projectProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\DoctrineORMAdapter;
 use Cluster\Entity\Organisation;
 use Cluster\Entity\Project;
@@ -15,13 +16,14 @@ use Cluster\Service\Project\PartnerService;
 use Cluster\Service\ProjectService;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Json\Json;
 use Laminas\Paginator\Paginator;
 use OpenApi\Attributes as OA;
 
-final class PartnerListener extends AbstractResourceListener
+final class PartnerListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/list/partner';
+
     public function __construct(
         private readonly PartnerService      $partnerService,
         private readonly ProjectService      $projectService,

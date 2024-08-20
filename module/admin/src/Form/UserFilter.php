@@ -36,7 +36,7 @@ final class UserFilter extends SearchFilter
                         'params' => [
                             'criteria' => [],
                             'orderBy'  => [
-                                'description' => Criteria::ASC,
+                                'description' => \Doctrine\Common\Collections\Order::Ascending->value,
                             ],
                         ],
                     ],

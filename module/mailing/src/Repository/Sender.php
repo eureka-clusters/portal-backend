@@ -26,7 +26,7 @@ final class Sender extends EntityRepository implements FilteredObjectRepository
             'sender' => $qb->addOrderBy(sort: 'mailing_entity_sender.sender', order: $direction),
             'email' => $qb->addOrderBy(sort: 'mailing_entity_sender.email', order: $direction),
             'personal' => $qb->addOrderBy(sort: 'mailing_entity_sender.personal', order: $direction),
-            default => $qb->addOrderBy(sort: 'mailing_entity_sender.sender', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'mailing_entity_sender.sender', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

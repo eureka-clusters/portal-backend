@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace Api\V1\Rest\SearchResource;
 
 use Admin\Service\UserService;
+use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\CustomAdapter;
 use Application\ValueObject\SearchResult;
-use Cluster\Entity\Funder;
 use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\Paginator\Paginator;
 use OpenApi\Attributes as OA;
-
 use function usort;
 
-final class ResultListener extends AbstractResourceListener
+final class ResultListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/search/result';
+
     public function __construct(
-        private readonly ProjectService $projectService,
-        private readonly OrganisationService $organisationService,
-        private readonly UserService $userService,
+        private readonly ProjectService       $projectService,
+        private readonly OrganisationService  $organisationService,
+        private readonly UserService          $userService,
         private readonly SearchResultProvider $searchResultProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(
@@ -133,8 +134,7 @@ final class ResultListener extends AbstractResourceListener
         //Sort on score, but therefore we need to iterate over the scores
         usort(
             array: $results,
-            callback: static fn (SearchResult $result1, SearchResult $result2) => $result1->getScore(
-            ) < $result2->getScore() ? 1 : -1
+            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore() ? 1 : -1
         );
 
         $doctrineORMAdapter = new CustomAdapter(array: $results);

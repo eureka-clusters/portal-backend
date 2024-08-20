@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Admin\Repository;
 
 use Admin\Entity;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
 use function in_array;
 use function sprintf;
 use function strtoupper;
@@ -21,7 +19,7 @@ class Log extends EntityRepository
         $qb->select(select: 'admin_entity_log');
         $qb->from(from: Entity\Log::class, alias: 'admin_entity_log');
 
-        if (! empty($filter['search'])) {
+        if (!empty($filter['search'])) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->like(x: 'admin_entity_log.event', y: ':like'),
@@ -35,16 +33,16 @@ class Log extends EntityRepository
         $direction = 'DESC';
         if (
             isset($filter['direction'])
-            && in_array(needle: strtoupper(string: (string) $filter['direction']), haystack: ['ASC', 'DESC'], strict: true)
+            && in_array(needle: strtoupper(string: (string)$filter['direction']), haystack: ['ASC', 'DESC'], strict: true)
         ) {
-            $direction = strtoupper(string: (string) $filter['direction']);
+            $direction = strtoupper(string: (string)$filter['direction']);
         }
 
         match ($filter['order']) {
-            'id' => $qb->addOrderBy(sort: 'admin_entity_log.id', order: $direction),
-            'date' => $qb->addOrderBy(sort: 'admin_entity_log.date', order: $direction),
+            'id'    => $qb->addOrderBy(sort: 'admin_entity_log.id', order: $direction),
+            'date'  => $qb->addOrderBy(sort: 'admin_entity_log.date', order: $direction),
             'event' => $qb->addOrderBy(sort: 'admin_entity_log.event', order: $direction),
-            default => $qb->addOrderBy(sort: 'admin_entity_log.id', order: Criteria::DESC),
+            default => $qb->addOrderBy(sort: 'admin_entity_log.id', order: \Doctrine\Common\Collections\Order::Descending->value),
         };
 
         return $qb;

@@ -28,7 +28,7 @@ class GroupRepository extends EntityRepository implements FilteredObjectReposito
             'id' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.id', order: $direction),
             'name' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: $direction),
             'description' => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.description', order: $direction),
-            default => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC),
+            default => $qb->addOrderBy(sort: 'cluster_entity_cluster_group.name', order: \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

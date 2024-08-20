@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\ViewResource;
 
+use Api\Listener\AbstractRoutedListener;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Service\OrganisationService;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
-use Laminas\ApiTools\Rest\AbstractResourceListener;
 use OpenApi\Attributes as OA;
 
-final class OrganisationListener extends AbstractResourceListener
+final class OrganisationListener extends AbstractRoutedListener
 {
+    protected static string $route = '/api/view/organisation/:slug';
+
     public function __construct(
-        private readonly OrganisationService $organisationService,
+        private readonly OrganisationService  $organisationService,
         private readonly OrganisationProvider $organisationProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

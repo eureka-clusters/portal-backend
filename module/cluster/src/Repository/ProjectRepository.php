@@ -58,7 +58,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 $qb->addOrderBy(sort: 'cluster_entity_primary_cluster.name', order: $direction);
                 break;
             default:
-                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: Criteria::ASC);
+                $qb->addOrderBy(sort: 'cluster_entity_project.title', order: \Doctrine\Common\Collections\Order::Ascending->value);
         }
 
         return $qb;
@@ -443,7 +443,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 break;
             default:
                 $sortColumn = 'cluster_entity_project.labelDate';
-                $searchFormResult->setDirection(direction: Criteria::DESC);
+                $searchFormResult->setDirection(direction: \Doctrine\Common\Collections\Order::Descending->value);
                 break;
         }
 
@@ -555,7 +555,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 join: 'cluster_entity_organisation_type_organisations_partners.project',
                 alias: 'cluster_entity_project'
             )
-            ->orderBy(sort: 'cluster_entity_organisation_type.type', order: Criteria::ASC)
+            ->orderBy(sort: 'cluster_entity_organisation_type.type', order: \Doctrine\Common\Collections\Order::Ascending->value)
             ->groupBy(groupBy: 'cluster_entity_organisation_type');
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
@@ -583,7 +583,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
                 join: 'cluster_entity_project_partners_organisation.country',
                 alias: 'cluster_entity_project_partners_organisation_country'
             )
-            ->orderBy(sort: 'cluster_entity_project_partners_organisation_country.country', order: Criteria::ASC)
+            ->orderBy(sort: 'cluster_entity_project_partners_organisation_country.country', order: \Doctrine\Common\Collections\Order::Ascending->value)
             ->groupBy(groupBy: 'cluster_entity_project_partners_organisation.country');
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
@@ -605,7 +605,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
-        $queryBuilder->orderBy('cluster_entity_project.programmeCall', Criteria::ASC);
+        $queryBuilder->orderBy('cluster_entity_project.programmeCall', \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
@@ -626,7 +626,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             ->innerJoin(join: 'cluster_entity_cluster_group.clusters', alias: 'cluster_entity_cluster')
             ->innerJoin(join: 'cluster_entity_cluster.projectsPrimary', alias: 'cluster_entity_project')
             ->groupBy(groupBy: 'cluster_entity_cluster_group')
-            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
+            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
@@ -642,7 +642,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
             ->innerJoin(join: 'cluster_entity_cluster_group.clusters', alias: 'cluster_entity_cluster')
             ->innerJoin(join: 'cluster_entity_cluster.projectsSecondary', alias: 'cluster_entity_project')
             ->groupBy(groupBy: 'cluster_entity_cluster_group')
-            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
+            ->orderBy(sort: 'cluster_entity_cluster_group.name', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 

@@ -470,7 +470,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(from: Partner::class, alias: 'cluster_entity_project_partner');
         $queryBuilder->join(join: 'cluster_entity_project_partner.organisation', alias: 'cluster_entity_organisation');
         $queryBuilder->join(join: 'cluster_entity_organisation.country', alias: 'cluster_entity_country');
-        $queryBuilder->orderBy(sort: 'cluster_entity_country.country', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_country.country', order: \Doctrine\Common\Collections\Order::Ascending->value);
         $queryBuilder->groupBy(groupBy: 'cluster_entity_country');
 
         //Join on partner to have the funder filter
@@ -493,7 +493,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->from(from: Type::class, alias: 'cluster_entity_organisation_type');
         $queryBuilder->join(join: 'cluster_entity_organisation_type.organisations', alias: 'cluster_entity_organisation');
         $queryBuilder->join(join: 'cluster_entity_organisation.partners', alias: 'cluster_entity_project_partner');
-        $queryBuilder->orderBy(sort: 'cluster_entity_organisation_type.type', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_organisation_type.type', order: \Doctrine\Common\Collections\Order::Ascending->value);
         $queryBuilder->groupBy(groupBy: 'cluster_entity_organisation_type');
 
         //Join on partner to have the funder filter
@@ -521,7 +521,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->leftJoin(join: 'cluster_entity_cluster.projectsPrimary', alias: 'cluster_entity_project');
         $queryBuilder->leftJoin(join: 'cluster_entity_project.partners', alias: 'cluster_project_primary_partner');
         $queryBuilder->groupBy(groupBy: 'cluster_entity_cluster_group');
-        $queryBuilder->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_cluster_group.name', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         $primaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
@@ -538,7 +538,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->leftJoin(join: 'cluster_entity_cluster.projectsSecondary', alias: 'cluster_entity_project');
         $queryBuilder->leftJoin(join: 'cluster_entity_project.partners', alias: 'cluster_project_secondary_partner');
         $queryBuilder->groupBy(groupBy: 'cluster_entity_cluster_group');
-        $queryBuilder->orderBy(sort: 'cluster_entity_cluster_group.name', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_cluster_group.name', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         $secondaryClusters = $queryBuilder->getQuery()->getArrayResult();
 
@@ -568,7 +568,7 @@ class PartnerRepository extends EntityRepository
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
 
         $queryBuilder->groupBy(groupBy: 'cluster_entity_project.programmeCall');
-        $queryBuilder->orderBy(sort: 'cluster_entity_project.programmeCall', order: Criteria::ASC);
+        $queryBuilder->orderBy(sort: 'cluster_entity_project.programmeCall', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
@@ -606,7 +606,7 @@ class PartnerRepository extends EntityRepository
         $queryBuilder->select(select: 'project_version_costs_and_effort.year')
             ->distinct(flag: true)
             ->from(from: CostsAndEffort::class, alias: 'project_version_costs_and_effort')
-            ->orderBy(sort: 'project_version_costs_and_effort.year', order: Criteria::ASC);
+            ->orderBy(sort: 'project_version_costs_and_effort.year', order: \Doctrine\Common\Collections\Order::Ascending->value);
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
