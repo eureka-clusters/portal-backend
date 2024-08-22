@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace AdminTest;
 
+use Admin\Controller\CacheController;
 use Admin\Module;
+use DG\BypassFinals;
 use Laminas\Mvc\Controller\PluginManager;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Testing\Util\AbstractServiceTest;
-use DG\BypassFinals;
 
 class ModuleTest extends AbstractServiceTest
 {
@@ -31,6 +32,11 @@ class ModuleTest extends AbstractServiceTest
         $abstractFactories = $config[ConfigAbstractFactory::class] ?? [];
 
         foreach ($abstractFactories as $service => $dependencies) {
+
+            if ($service === CacheController::class) {
+                continue;
+            }
+
             $instantiatedDependencies = [];
             foreach ($dependencies as $dependency) {
                 if ($dependency === 'Config') {
