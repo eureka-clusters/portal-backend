@@ -8,12 +8,14 @@ use Application\Service\FormService;
 use AzureOSS\Storage\Blob\Models\ListBlobsOptions;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Jield\Search\Controller\Plugin\GetFilter;
 use Jield\Search\Form\SearchFilter;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\View\Model\ViewModel;
-use Mailing\Controller\MailingAbstractController;
 use Reporting\Entity\StorageLocation;
 use Reporting\Service\StorageLocationService;
 
@@ -22,7 +24,11 @@ use function sprintf;
 
 use const PHP_INT_MAX;
 
-final class StorageLocationController extends MailingAbstractController
+/**
+ * @method FlashMessenger flashMessenger()
+ * @method GetFilter getFilter()
+ */
+final class StorageLocationController extends AbstractActionController
 {
     public function __construct(
         private readonly StorageLocationService $storageLocationService,
@@ -45,8 +51,8 @@ final class StorageLocationController extends MailingAbstractController
         $paginator->setCurrentPageNumber(pageNumber: (int)$page);
         $paginator->setPageRange(
             pageRange: (int)ceil(
-                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
-            )
+                         num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+                     )
         );
 
         $form = new SearchFilter();
@@ -54,20 +60,19 @@ final class StorageLocationController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'paginator' => $paginator,
-                'form'      => $form,
-                'order'     => $filterPlugin->getOrder(),
-                'direction' => $filterPlugin->getDirection(),
-            ]
+                           'paginator' => $paginator,
+                           'form'      => $form,
+                           'order'     => $filterPlugin->getOrder(),
+                           'direction' => $filterPlugin->getDirection(),
+                       ]
         );
     }
 
-    public function viewAction(): ViewModel|Response
+    public function viewAction(): ViewModel
     {
-        error_reporting(error_level: E_ALL ^ E_DEPRECATED);
         $storageLocation = $this->storageLocationService->findStorageLocationById(id: (int)$this->params('id'));
 
-        if (!$storageLocation instanceof \Reporting\Entity\StorageLocation) {
+        if (!$storageLocation instanceof StorageLocation) {
             return $this->notFoundAction();
         }
 
@@ -79,11 +84,11 @@ final class StorageLocationController extends MailingAbstractController
             $hasAccessTested = true;
             try {
                 $listBlobsOptions = new ListBlobsOptions();
-                $listBlobsOptions->setPrefix($storageLocation->getExcelFolder() . '/');
+                $listBlobsOptions->setPrefix($storageLocation->getFolder() . '/');
 
                 $this->storageLocationService->getBlobService()->listBlobs(
                     container: $storageLocation->getContainer(),
-                    options: $listBlobsOptions
+                    options:   $listBlobsOptions
 
                 );
                 $hasAccess = true;
@@ -95,11 +100,11 @@ final class StorageLocationController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'storageLocation' => $storageLocation,
-                'hasAccessTested' => $hasAccessTested,
-                'hasAccess'       => $hasAccess,
-                'accessMessage'   => $accessMessage,
-            ]
+                           'storageLocation' => $storageLocation,
+                           'hasAccessTested' => $hasAccessTested,
+                           'hasAccess'       => $hasAccess,
+                           'accessMessage'   => $accessMessage,
+                       ]
         );
     }
 
@@ -129,9 +134,11 @@ final class StorageLocationController extends MailingAbstractController
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
-                        $this->translator->translate(message: 'txt-storage-location-%s-has-successfully-been-deleted'),
-                        $storageLocation->getName()
-                    )
+                                 $this->translator->translate(
+                                     message: 'txt-storage-location-%s-has-successfully-been-deleted'
+                                 ),
+                                 $storageLocation->getName()
+                             )
                 );
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/reporting/storage-location/list');
@@ -151,9 +158,9 @@ final class StorageLocationController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'form'            => $form,
-                'storageLocation' => $storageLocation,
-            ]
+                           'form'            => $form,
+                           'storageLocation' => $storageLocation,
+                       ]
         );
     }
 
@@ -177,9 +184,11 @@ final class StorageLocationController extends MailingAbstractController
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
-                        $this->translator->translate(message: 'txt-storage-location-%s-has-successfully-been-created'),
-                        $storageLocation->getName()
-                    )
+                                 $this->translator->translate(
+                                     message: 'txt-storage-location-%s-has-successfully-been-created'
+                                 ),
+                                 $storageLocation->getName()
+                             )
                 );
 
                 return $this->redirect()
@@ -191,9 +200,9 @@ final class StorageLocationController extends MailingAbstractController
 
         return new ViewModel(
             variables: [
-                'form'    => $form,
-                'service' => $service,
-            ]
+                           'form'    => $form,
+                           'service' => $service,
+                       ]
         );
     }
 }

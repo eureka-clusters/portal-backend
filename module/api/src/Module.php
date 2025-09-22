@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Api;
 
-use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use OpenApi\Attributes as OA;
@@ -25,16 +24,14 @@ use Override;
 #[OA\Tag(name: 'Project', description: 'Project related endpoints')]
 #[OA\Tag(name: 'Organisation', description: 'Organisation related endpoints')]
 #[OA\Tag(name: 'User', description: 'User related endpoints')]
-final class Module implements ApiToolsProviderInterface, ConfigProviderInterface
+final class Module implements ConfigProviderInterface
 {
     #[Override]
     public function getConfig(): array
     {
         $aggregator = new ConfigAggregator([
-            ConfigProvider::class,
-            ListenerConfigProvider::class,
-        ]);
+                                               ConfigProvider::class,
+                                           ]);
         return $aggregator->getMergedConfig();
-
     }
 }

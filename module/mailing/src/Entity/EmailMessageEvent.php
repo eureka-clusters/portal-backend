@@ -28,7 +28,7 @@ class EmailMessageEvent extends AbstractEntity
     private DateTime $time;
 
     #[ORM\Column(type: 'bigint', nullable: false)]
-    private ?int $messageId = null;
+    private string $messageId = '0';
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $email = null;
@@ -36,7 +36,7 @@ class EmailMessageEvent extends AbstractEntity
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $campaign = null;
 
-    #[ORM\Column(name: "smpt_reply", type: 'text', nullable: true)]
+    #[ORM\Column(name: "smtp_reply", type: 'text', nullable: true)]
     private ?string $smtpReply = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -108,12 +108,12 @@ class EmailMessageEvent extends AbstractEntity
         return $this;
     }
 
-    public function getMessageId(): ?int
+    public function getMessageId(): string
     {
         return $this->messageId;
     }
 
-    public function setMessageId(?int $messageId): EmailMessageEvent
+    public function setMessageId(string $messageId): EmailMessageEvent
     {
         $this->messageId = $messageId;
         return $this;

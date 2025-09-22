@@ -1,4 +1,4 @@
-FROM ghcr.io/jield-webdev/docker-repos/php8.3-fpm:dev
+FROM ghcr.io/jield-webdev/docker-repos/php8.4-fpm:arm64
 
 LABEL maintainer="Johan van der Heide <info@jield.nl>"
 LABEL org.opencontainers.image.source="https://github.com/eureka-clusters/backend/app"

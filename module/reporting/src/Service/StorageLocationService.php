@@ -9,23 +9,16 @@ use Application\Service\AbstractService;
 use AzureOSS\Storage\Blob\BlobRestProxy;
 use Doctrine\ORM\EntityManager;
 use Jield\Export\Service\StorageLocationServiceInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Override;
 use Reporting\Entity\StorageLocation;
 
 class StorageLocationService extends AbstractService implements StorageLocationServiceInterface
 {
     private ?BlobRestProxy $blobClient = null;
 
-    public function __construct(
-        EntityManager                  $entityManager,
-        TranslatorInterface            $translator,
-        private readonly oAuth2Service $oAuth2Service
-    )
+    public function __construct(EntityManager $entityManager, private readonly oAuth2Service $oAuth2Service)
     {
-        parent::__construct(
-            entityManager: $entityManager,
-            translator: $translator,
-        );
+        parent::__construct(entityManager: $entityManager);
     }
 
     public function findStorageLocationById(int $id): ?StorageLocation
@@ -33,10 +26,10 @@ class StorageLocationService extends AbstractService implements StorageLocationS
         return $this->entityManager->getRepository(entityName: StorageLocation::class)->find(id: $id);
     }
 
-    #[\Override]
+    #[Override]
     public function getBlobService(): BlobRestProxy
     {
-        if ($this->blobClient instanceof \AzureOSS\Storage\Blob\BlobRestProxy) {
+        if ($this->blobClient instanceof BlobRestProxy) {
             return $this->blobClient;
         }
 
@@ -58,10 +51,15 @@ class StorageLocationService extends AbstractService implements StorageLocationS
         return $this->blobClient;
     }
 
-    #[\Override]
+    #[Override]
     public function getDefaultStorageLocation(): StorageLocation
     {
         return $this->entityManager->getRepository(entityName: StorageLocation::class)->findOneBy(criteria: []);
+    }
+
+    public function hasDefaultStorageLocation(): bool
+    {
+        return $this->entityManager->getRepository(entityName: StorageLocation::class)->count(criteria: []) !== 0;
     }
 
     public function canDeleteStorageLocation(StorageLocation $storageLocation): bool

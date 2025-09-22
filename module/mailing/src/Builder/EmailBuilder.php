@@ -554,11 +554,11 @@ abstract class EmailBuilder
                 )
             );
             //Create a second template in which the content of the email is parsed and render the content in
-            $mailSubject = (new Environment(
+            $mailSubject = new Environment(
                 loader: new ArrayLoader(
                     templates: ['email_subject' => $mailSubject]
                 )
-            ))->render(name: 'email_subject', context: $this->templateVariables->toArray());
+            )->render(name: 'email_subject', context: $this->templateVariables->toArray());
 
             $this->setTemplateVariable(key: 'subject', value: $mailSubject);
 
@@ -591,11 +591,11 @@ abstract class EmailBuilder
             );
 
             //Create a second template in which the content of the email is parsed and render the content in
-            $mailBody = (new Environment(
+            $mailBody = new Environment(
                 loader: new ArrayLoader(
                     templates: ['email_content' => $bodyText]
                 )
-            ))->render(name: 'email_content', context: $this->templateVariables->toArray());
+            )->render(name: 'email_content', context: $this->templateVariables->toArray());
 
             $this->setTemplateVariable(key: 'content', value: $mailBody);
 

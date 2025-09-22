@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManager;
 use InvalidArgumentException;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Navigation\Navigation;
 use Laminas\Navigation\Page\Mvc;

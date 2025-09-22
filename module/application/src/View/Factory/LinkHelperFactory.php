@@ -8,7 +8,7 @@ use Application\Options\ModuleOptions;
 use Application\View\Helper\AbstractLink;
 use BjyAuthorize\Service\Authorize;
 use Jield\Authorize\Service\AssertionService;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Router\RouteStackInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;

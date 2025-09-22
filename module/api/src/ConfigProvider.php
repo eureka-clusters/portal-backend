@@ -11,7 +11,6 @@ use Application\Options\ModuleOptions;
 use BjyAuthorize\Guard\Route;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use Rector\Symfony\DataProvider\ServiceMapProvider;
 
 final class ConfigProvider
 {

@@ -6,15 +6,13 @@ namespace Deeplink\Entity;
 
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
+use Application\Helper\RandomHelper;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Laminas\Math\Rand;
 
-use function sha1;
 use function sprintf;
-use function substr;
 
 #[ORM\Table(name: 'deeplink')]
 #[ORM\Entity(repositoryClass: \Deeplink\Repository\Deeplink::class)]
@@ -41,7 +39,7 @@ class Deeplink extends AbstractEntity
     private ?DateTime $dateAccess = null;
 
     #[ORM\Column(type: 'string', length: 9, nullable: true)]
-    private null|string|int $keyId = null;
+    private null|string $keyId = null;
 
     #[ORM\ManyToOne(targetEntity: Target::class, cascade: ['persist'], inversedBy: 'deeplink')]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,17 +52,17 @@ class Deeplink extends AbstractEntity
     public function __construct()
     {
         $this->dateCreated = new DateTime();
-        $this->endDate     = (new DateTime())->add(
+        $this->endDate     = new DateTime()->add(
             interval: new DateInterval(
-                duration: sprintf(
-                    'P%dD',
-                    self::EXPIRATION_DAYS_DEFAULT
-                )
-            )
+                          duration: sprintf(
+                                        'P%dD',
+                                        self::EXPIRATION_DAYS_DEFAULT
+                                    )
+                      )
         );
         $this->user        = new User();
         $this->target      = new Target();
-        $this->hash        = substr(string: sha1(string: Rand::getString(length: 255)), offset: 0, length: 15);
+        $this->hash        = RandomHelper::getString(8);
     }
 
     #[\Override]

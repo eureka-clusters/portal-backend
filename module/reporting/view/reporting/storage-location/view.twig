@@ -8,12 +8,12 @@
     <dd>{{ storageLocation.name }}</dd>
     <dt>{{ translate("txt-connection-string") }}</dt>
     <dd>{{ storageLocation.connectionString }}</dd>
-    <dt>{{ translate("txt-container") }}</dt>
+    <dt>{{ translate("txt-storage-container") }}</dt>
     <dd>{{ storageLocation.container }}</dd>
-    <dt>{{ translate("txt-excel-folder") }}</dt>
-    <dd>{{ storageLocation.excelFolder }}</dd>
-    <dt>{{ translate("txt-parquet-folder") }}</dt>
-    <dd>{{ storageLocation.parquetFolder }}</dd>
+    <dt>{{ translate("txt-folder") }}</dt>
+    <dd>{{ storageLocation.folder }}</dd>
+    <dt>{{ translate("txt-export-file-type") }}</dt>
+    <dd>{{ translate(storageLocation.exportFileType.toString()) }}</dd>
     {% if storageLocation.hasOAuth2Service() %}
         <dt>{{ translate("txt-oauth2-service") }}</dt>
         <dd>{{ oauth2ServiceLink(storageLocation.oAuth2Service) }}</dd>

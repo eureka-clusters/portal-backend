@@ -14,16 +14,7 @@ return [
         'Laminas\\Mvc\\Plugin\\FlashMessenger',
         'Laminas\\Mvc\\Plugin\\Identity',
 
-        'Laminas\\ApiTools',
-        'Laminas\\ApiTools\\ApiProblem',
-        'Laminas\\ApiTools\\OAuth2',
-        'Laminas\\ApiTools\\MvcAuth',
-        'Laminas\\ApiTools\\Hal',
-        'Laminas\\ApiTools\\ContentNegotiation',
-        'Laminas\\ApiTools\\ContentValidation',
-        'Laminas\\ApiTools\\Rest',
-        'Laminas\\ApiTools\\Rpc',
-        'Laminas\\ApiTools\\Versioning',
+        'Jield\\ApiTools\\Module',
 
         'AssetManager',
         'LaminasBootstrap5',

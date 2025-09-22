@@ -23,7 +23,7 @@
             <tr>
                 <td><small class="text-muted">{{ loop.index }}</td>
                 <td class="font-monospace"><a
-                            href="{{ url('zfcadmin/reporting/download/blob',{'name': report.getName()}) }}">{{ report.getName() }}</a>
+                            href="{{ url('zfcadmin/reporting/download/blob',{'name': report.getName()|url_encode}) }}">{{ report.getName() }}</a>
                 </td>
                 <td>{{ report.getProperties().getContentLength()|parse_size }}</td>
                 <td>{{ report.getProperties().getCreationTime()|date('d-m-Y H:i') }}</td>

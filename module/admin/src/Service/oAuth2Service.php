@@ -10,11 +10,10 @@ use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\RefreshToken;
 use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use GuzzleHttp\RequestOptions;
-use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Json\Json;
+use Laminas\Translator\TranslatorInterface;
 use OAuth2\Encryption\Jwt;
 
 use function time;
@@ -91,15 +90,15 @@ class oAuth2Service extends AbstractService
         if ($client->getPublicKey()?->getEncryptionAlgorithm() === 'RS256') {
             return $jwtHelper->encode(
                 payload: $payload,
-                key: $client->getPublicKey()->getPrivateKey(),
-                algo: $client->getPublicKey()->getEncryptionAlgorithm()
+                key:     $client->getPublicKey()->getPrivateKey(),
+                algo:    $client->getPublicKey()->getEncryptionAlgorithm()
             );
         }
 
         return $jwtHelper->encode(
             payload: $payload,
-            key: $client->getPublicKey()?->getPublicKey(),
-            algo: 'HS256'
+            key:     $client->getPublicKey()?->getPublicKey(),
+            algo:    'HS256'
         );
     }
 
@@ -149,7 +148,7 @@ class oAuth2Service extends AbstractService
     {
         return $this->entityManager->getRepository(entityName: Service::class)->findBy(
             criteria: [],
-            orderBy: ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
+            orderBy:  ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
         );
     }
 }

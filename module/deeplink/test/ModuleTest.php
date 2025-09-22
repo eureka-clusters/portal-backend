@@ -19,7 +19,6 @@ class ModuleTest extends AbstractServiceTest
         $module = new Module();
         $config = $module->getConfig();
 
-        self::assertIsArray(actual: $config);
         self::assertArrayHasKey(key: 'service_manager', array: $config);
         self::assertArrayHasKey(key: ConfigAbstractFactory::class, array: $config);
     }
@@ -34,7 +33,7 @@ class ModuleTest extends AbstractServiceTest
         foreach ($abstractFactories as $service => $dependencies) {
             $instantiatedDependencies = [];
 
-            if (str_contains(haystack: (string) $service, needle: 'Filter')) {
+            if (str_contains(haystack: (string)$service, needle: 'Filter')) {
                 continue;
             }
 

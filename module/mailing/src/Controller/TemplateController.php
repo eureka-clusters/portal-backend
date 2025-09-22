@@ -6,7 +6,7 @@ namespace Mailing\Controller;
 
 use Application\Service\FormService;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;

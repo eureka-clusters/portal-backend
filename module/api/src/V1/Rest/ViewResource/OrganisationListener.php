@@ -7,7 +7,7 @@ namespace Api\V1\Rest\ViewResource;
 use Api\Listener\AbstractRoutedListener;
 use Cluster\Provider\OrganisationProvider;
 use Cluster\Service\OrganisationService;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use OpenApi\Attributes as OA;
 
 final class OrganisationListener extends AbstractRoutedListener

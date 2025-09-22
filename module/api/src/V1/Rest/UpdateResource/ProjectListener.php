@@ -13,7 +13,7 @@ use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use stdClass;
@@ -40,9 +40,8 @@ final class ProjectListener extends AbstractRoutedListener
         private readonly ProjectService $projectService,
         private readonly VersionService $versionService,
         private readonly PartnerService $partnerService,
-        private readonly EntityManager  $entityManager
-    )
-    {
+        private readonly EntityManager $entityManager
+    ) {
     }
 
     #[OA\Post(
@@ -51,18 +50,23 @@ final class ProjectListener extends AbstractRoutedListener
         summary: 'Update project information from backends',
         requestBody: new OA\RequestBody(
             description: "Content",
-            required: true,
-            content: [
-                new OA\MediaType(
-                    mediaType: 'multipart/form-data',
-                    schema: new OA\Schema(
-                        required: ['file'],
-                        properties: [
-                            new OA\Property(property: 'file', description: 'Json file with project information', type: 'string', format: 'binary')
-                        ],
-                    )
-                ),
-            ]
+            required:    true,
+            content:     [
+                             new OA\MediaType(
+                                 mediaType: 'multipart/form-data',
+                                 schema:    new OA\Schema(
+                                                required:   ['file'],
+                                                properties: [
+                                                                new OA\Property(
+                                                                    property:    'file',
+                                                                    description: 'Json file with project information',
+                                                                    type:        'string',
+                                                                    format:      'binary'
+                                                                )
+                                                            ],
+                                            )
+                             ),
+                         ]
         ),
         tags: ['Project'],
         responses: [
@@ -72,17 +76,17 @@ final class ProjectListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function create($data = []): ApiProblem|string
+    public function create($data = []): ApiProblem|array
     {
         $filter  = $this->getInputFilter();
         $content = $filter->getValue('file');
 
-        $data = file_get_contents($content['tmp_name']);
-        $data = Json::decode($data, Json::TYPE_OBJECT);
+        $fileContents = file_get_contents($content['tmp_name']);
+        $decodedData  = Json::decode($fileContents, Json::TYPE_OBJECT);
 
         try {
             //Collect all projects from the data
-            $project = $this->projectService->findOrCreateProject(data: $data);
+            $project = $this->projectService->findOrCreateProject(data: $decodedData);
 
             //Delete the versions
             foreach ($project->getVersions() as $version) {
@@ -95,9 +99,21 @@ final class ProjectListener extends AbstractRoutedListener
             }
 
             //Collect an array of partners and specify the unique elements of these partners
-            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_PO, project: $project);
-            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_FPP, project: $project);
-            $this->extractDataFromVersion(data: $data->versions, versionTypeName: Type::TYPE_LATEST, project: $project);
+            $this->extractDataFromVersion(
+                data:            $decodedData->versions,
+                versionTypeName: Type::TYPE_PO,
+                project:         $project
+            );
+            $this->extractDataFromVersion(
+                data:            $decodedData->versions,
+                versionTypeName: Type::TYPE_FPP,
+                project:         $project
+            );
+            $this->extractDataFromVersion(
+                data:            $decodedData->versions,
+                versionTypeName: Type::TYPE_LATEST,
+                project:         $project
+            );
 
             //Update the costs/effort totals for all the project
             $this->projectService->updateProjectCostsAndEffort(project: $project);
@@ -107,7 +123,7 @@ final class ProjectListener extends AbstractRoutedListener
             return new ApiProblem(status: 500, detail: $exception->getMessage());
         }
 
-        return '';
+        return [];
     }
 
     private function extractDataFromVersion(stdClass $data, string $versionTypeName, Project $project): void
@@ -120,8 +136,8 @@ final class ProjectListener extends AbstractRoutedListener
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                data: $data->$versionTypeName,
-                type: $versionType,
+                data:    $data->$versionTypeName,
+                type:    $versionType,
                 project: $project
             );
 
@@ -141,7 +157,6 @@ final class ProjectListener extends AbstractRoutedListener
                 $totalEffort = 0;
 
                 foreach ($partnerData->costsAndEffort as $year => $costsAndEffortData) {
-
                     $totalCosts  += $costsAndEffortData->costs;
                     $totalEffort += $costsAndEffortData->effort;
 

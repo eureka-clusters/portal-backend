@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Application\View\Helper;
 
 use Laminas\Http\Request;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Router\Http\RouteMatch;
 use Laminas\View\Helper\Url;
 use Psr\Container\ContainerInterface;

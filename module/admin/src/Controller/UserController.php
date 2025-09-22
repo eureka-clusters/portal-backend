@@ -22,7 +22,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
@@ -173,7 +173,7 @@ final class UserController extends AbstractActionController
                 $payload = $this->userService->generatePayload(client: $client, user: $user, algorithm: 'RS256');
 
                 //We need to generate a token
-                $token = (new Jwt())->encode(
+                $token = new Jwt()->encode(
                     payload: $payload,
                     key: $client->getPublicKey()?->getPrivateKey(),
                     algo: $client->getPublicKey()?->getEncryptionAlgorithm()

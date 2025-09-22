@@ -10,7 +10,7 @@ use Deeplink\Entity\Target;
 use Deeplink\Form\Manage;
 use Deeplink\Service\DeeplinkService;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Router\Http\TreeRouteStack;

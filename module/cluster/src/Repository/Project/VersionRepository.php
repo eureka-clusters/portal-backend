@@ -58,7 +58,7 @@ class VersionRepository extends EntityRepository
         );
 
         //Create an empty country to have a valid query which will not give any result
-        $country = (new Country())->setId(id: 0);
+        $country = new Country()->setId(id: 0);
 
         //When the user is a funder we can use the country of the funder
         if ($user->isFunder()) {

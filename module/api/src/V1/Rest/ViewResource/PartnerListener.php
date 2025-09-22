@@ -7,7 +7,7 @@ namespace Api\V1\Rest\ViewResource;
 use Api\Listener\AbstractRoutedListener;
 use Cluster\Provider\Project\PartnerProvider;
 use Cluster\Service\Project\PartnerService;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use OpenApi\Attributes as OA;
 
 final class PartnerListener extends AbstractRoutedListener

@@ -2,15 +2,15 @@
 
 {{ form().openTag(form)|raw }}
 
-{% set sender = form.get('reporting_entity_storagelocation') %}
+{% set storageLocationFieldset = form.get('reporting_entity_storagelocation') %}
 
-{{ lbs5formelement(sender.get('id')) }}
-{{ lbs5formelement(sender.get('name')) }}
-{{ lbs5formelement(sender.get('connectionString')) }}
-{{ lbs5formelement(sender.get('container')) }}
-{{ lbs5formelement(sender.get('excelFolder')) }}
-{{ lbs5formelement(sender.get('parquetFolder')) }}
-{{ lbs5formelement(sender.get('oAuth2Service')) }}
+{{ lbs5formelement(storageLocationFieldset.get('id')) }}
+{{ lbs5formelement(storageLocationFieldset.get('name')) }}
+{{ lbs5formelement(storageLocationFieldset.get('connectionString')) }}
+{{ lbs5formelement(storageLocationFieldset.get('exportFileType')) }}
+{{ lbs5formelement(storageLocationFieldset.get('container')) }}
+{{ lbs5formelement(storageLocationFieldset.get('folder')) }}
+{{ lbs5formelement(storageLocationFieldset.get('oAuth2Service')) }}
 
 {{ formelement(form.get('csrf')) }}
 

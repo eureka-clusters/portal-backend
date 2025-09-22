@@ -13,17 +13,16 @@ use Api\Entity\OAuth\Client;
 use Api\Entity\OAuth\PublicKey;
 use Api\Entity\OAuth\Scope;
 use Application\Controller\Plugin\GetFilter;
-use Jield\Search\Form\SearchFilter;
+use Application\Helper\RandomHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
-use Laminas\Crypt\Password\Bcrypt;
+use Jield\Search\Form\SearchFilter;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
-use Laminas\Math\Rand;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\View\Helper\Identity;
 use Laminas\View\Model\ViewModel;
 use OAuth2\Encryption\Jwt;
@@ -34,7 +33,6 @@ use function ceil;
 use function openssl_pkey_export;
 use function openssl_pkey_get_details;
 use function openssl_pkey_new;
-use function sha1;
 use function substr;
 
 /**
@@ -67,8 +65,8 @@ final class ClientController extends AbstractActionController
         $paginator->setCurrentPageNumber(pageNumber: $page);
         $paginator->setPageRange(
             pageRange: ceil(
-                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
-            )
+                           num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+                       )
         );
 
         $form = new SearchFilter();
@@ -76,11 +74,11 @@ final class ClientController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                'paginator' => $paginator,
-                'form'      => $form,
-                'order'     => $filterPlugin->getOrder(),
-                'direction' => $filterPlugin->getDirection(),
-            ]
+                           'paginator' => $paginator,
+                           'form'      => $form,
+                           'order'     => $filterPlugin->getOrder(),
+                           'direction' => $filterPlugin->getDirection(),
+                       ]
         );
     }
 
@@ -97,9 +95,8 @@ final class ClientController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             //Create a secret
-            $secret         = Rand::getString(length: 255);
-            $bCrypt         = new Bcrypt();
-            $bCryptedSecret = $bCrypt->create(password: $secret);
+            $secret         = RandomHelper::getString(length: 255);
+            $bCryptedSecret = password_hash(password: $secret, algo: PASSWORD_BCRYPT);
 
             $client->setClientSecret(clientsecret: $bCryptedSecret);
             $client->setClientSecretTeaser(clientsecretTeaser: substr(string: $secret, offset: 0, length: 2) . '*****');
@@ -131,34 +128,34 @@ final class ClientController extends AbstractActionController
 
         $HS256Token = $jwtHelper->encode(
             payload: $payload,
-            key: $client->getPublicKey()?->getPublicKey(),
-            algo: 'HS256'
+            key:     $client->getPublicKey()?->getPublicKey(),
+            algo:    'HS256'
         );
 
         $payload = $this->userService->generatePayload(client: $client, user: $this->identity(), algorithm: 'RS256');
 
         $RS256Token = $jwtHelper->encode(
             payload: $payload,
-            key: $client->getPublicKey()?->getPrivateKey(),
-            algo: $client->getPublicKey()?->getEncryptionAlgorithm()
+            key:     $client->getPublicKey()?->getPrivateKey(),
+            algo:    $client->getPublicKey()?->getEncryptionAlgorithm()
         );
 
         return new ViewModel(
             variables: [
-                'client'                 => $client,
-                'secret'                 => $secret,
-                'base64EncodedPublicKey' => base64_encode(string: $client->getPublicKey()->getPublicKey()),
-                'RS256Token'             => $RS256Token,
-                'HS256Token'             => $HS256Token,
-                'decodedRS256Token'      => $jwtHelper->decode(
-                    jwt: $RS256Token,
-                    key: $client->getPublicKey()?->getPublicKey()
-                ),
-                'decodedHS256Token'      => $jwtHelper->decode(
-                    jwt: $HS256Token,
-                    key: $client->getPublicKey()?->getPublicKey()
-                ),
-            ]
+                           'client'                 => $client,
+                           'secret'                 => $secret,
+                           'base64EncodedPublicKey' => base64_encode(string: $client->getPublicKey()->getPublicKey()),
+                           'RS256Token'             => $RS256Token,
+                           'HS256Token'             => $HS256Token,
+                           'decodedRS256Token'      => $jwtHelper->decode(
+                               jwt: $RS256Token,
+                               key: $client->getPublicKey()?->getPublicKey()
+                           ),
+                           'decodedHS256Token'      => $jwtHelper->decode(
+                               jwt: $HS256Token,
+                               key: $client->getPublicKey()?->getPublicKey()
+                           ),
+                       ]
         );
     }
 
@@ -177,20 +174,20 @@ final class ClientController extends AbstractActionController
 
             if ($form->isValid()) {
                 $client = new Client();
-                $client->setClientId(clientId: sha1(string: Rand::getString(length: 255)));
+                $client->setClientId(clientId: RandomHelper::getString(length: 25));
 
                 //Create a secret
-                $secret         = Rand::getString(length: 255);
-                $bCrypt         = new Bcrypt();
-                $bCryptedSecret = $bCrypt->create(password: $secret);
+                $secret         = RandomHelper::getString(length: 255);
+                $bCryptedSecret = password_hash(password: $secret, algo: PASSWORD_BCRYPT);
+
 
                 $client->setClientSecret(clientsecret: $bCryptedSecret);
                 $client->setClientSecretTeaser(
                     clientsecretTeaser: substr(
-                        string: $secret,
-                        offset: 0,
-                        length: 2
-                    ) . '*****'
+                                            string: $secret,
+                                            offset: 0,
+                                            length: 2
+                                        ) . '*****'
                 );
                 $client->setName(name: $data['name']);
                 $client->setDescription(description: $data['description']);
@@ -220,16 +217,16 @@ final class ClientController extends AbstractActionController
                 $this->oAuth2Service->save(entity: $client);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-contact-oauth2-client-has-been-created-successfully"
-                    ),
+                               message: "txt-contact-oauth2-client-has-been-created-successfully"
+                           ),
                 );
 
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/client/view',
+                    route:  'zfcadmin/oauth2/client/view',
                     params: [
-                        'id'     => $client->getId(),
-                        'secret' => $secret,
-                    ]
+                                'id'     => $client->getId(),
+                                'secret' => $secret,
+                            ]
                 );
             }
         }
@@ -264,10 +261,10 @@ final class ClientController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             if (isset($data['cancel'])) {
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/client/view',
+                    route:  'zfcadmin/oauth2/client/view',
                     params: [
-                        'id' => $client->getId(),
-                    ]
+                                'id' => $client->getId(),
+                            ]
                 );
             }
 
@@ -286,15 +283,15 @@ final class ClientController extends AbstractActionController
                 $this->oAuth2Service->save(entity: $client);
                 $this->flashMessenger()->addSuccessMessage(
                     message: $this->translator->translate(
-                        message: "txt-contact-oauth2-client-has-been-updated-successfully"
-                    ),
+                               message: "txt-contact-oauth2-client-has-been-updated-successfully"
+                           ),
                 );
 
                 return $this->redirect()->toRoute(
-                    route: 'zfcadmin/oauth2/client/view',
+                    route:  'zfcadmin/oauth2/client/view',
                     params: [
-                        'id' => $client->getId(),
-                    ]
+                                'id' => $client->getId(),
+                            ]
                 );
             }
         }

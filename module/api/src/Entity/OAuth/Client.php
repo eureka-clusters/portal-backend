@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\Entity\OAuth;
 
 use Application\Entity\AbstractEntity;
+use Application\Helper\RandomHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ class Client extends AbstractEntity
 {
     #[ORM\Column(name: 'client_id', unique: true)]
     #[ORM\Id]
-    private ?string $clientId = null;
+    private string $clientId;
 
     #[ORM\Column(name: 'client_secret')]
     private string $clientsecret;
@@ -58,13 +59,15 @@ class Client extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Service::class, cascade: ['persist'])]
     private Collection $oAuthServices;
 
-    #[Pure] public function __construct()
+    #[Pure]
+    public function __construct()
     {
         $this->jwtTokens          = new ArrayCollection();
         $this->accessTokens       = new ArrayCollection();
         $this->authorizationCodes = new ArrayCollection();
         $this->refreshTokens      = new ArrayCollection();
         $this->oAuthServices      = new ArrayCollection();
+        $this->clientId           = RandomHelper::getString(30);
 
         $this->scope = new Scope();
     }
@@ -83,7 +86,7 @@ class Client extends AbstractEntity
 
     public function setId(string|int $clientId): Client
     {
-        $this->setClientId(clientId: (string) $clientId);
+        $this->setClientId(clientId: (string)$clientId);
 
         return $this;
     }

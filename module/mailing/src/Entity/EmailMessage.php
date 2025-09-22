@@ -6,14 +6,12 @@ namespace Mailing\Entity;
 
 use Admin\Entity\User;
 use Application\Entity\AbstractEntity;
+use Application\Helper\RandomHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Laminas\Math\Rand;
-
-use function sha1;
 
 #[ORM\Table(name: 'mailing_email_message')]
 #[ORM\Entity(repositoryClass: \Mailing\Repository\EmailMessage::class)]
@@ -53,13 +51,13 @@ class EmailMessage extends AbstractEntity
     #[ORM\Column]
     private string $subject = '';
 
-    #[ORM\Column(name: 'toUser', type: 'array')]
+    #[ORM\Column(name: 'toUser', type: 'json')]
     private array $to = [];
 
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $cc = null;
 
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $bcc = null;
 
     #[ORM\Column(type: 'text')]
@@ -83,7 +81,7 @@ class EmailMessage extends AbstractEntity
         $this->sender      = new Sender();
         $this->template    = new Template();
         $this->mailer      = new Mailer();
-        $this->identifier  = sha1(string: Rand::getString(length: 30));
+        $this->identifier  = RandomHelper::getString(30);
         $this->event       = new ArrayCollection();
     }
 

@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace Reporting\Controller;
 
 use Admin\Entity\User;
-use Admin\Entity\User\Preferences;
 use Jield\Search\Controller\Plugin\GetFilter;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
-use Laminas\View\Model\ViewModel;
 use Reporting\Service\StorageLocationService;
 
 /**
  * @method FlashMessenger flashMessenger()
  * @method User identity()
  * @method GetFilter getFilter()
- * @method Preferences preferences()
  */
 final class DownloadController extends AbstractActionController
 {
@@ -27,7 +24,7 @@ final class DownloadController extends AbstractActionController
     ) {
     }
 
-    public function blobAction(): Response|ViewModel
+    public function blobAction(): Response
     {
         //Temporary workaround to suppress deprecated warnings
         error_reporting(error_level: E_ALL ^ E_DEPRECATED);
@@ -36,7 +33,7 @@ final class DownloadController extends AbstractActionController
 
         $blob = $blobClient->getBlob(
             container: $this->storageLocationService->getDefaultStorageLocation()->getContainer(),
-            blob: $this->params('name')
+            blob:      $this->params('name')
         );
 
         /** @var Response $response */
@@ -47,15 +44,15 @@ final class DownloadController extends AbstractActionController
         $headers = $response->getHeaders();
         $headers->clearHeaders()->addHeaderLine(
             headerFieldNameOrLine: 'Content-Type',
-            fieldValue: $blob->getProperties()->getContentType()
+            fieldValue:            $blob->getProperties()->getContentType()
         )
             ->addHeaderLine(
                 headerFieldNameOrLine: 'Content-Disposition',
-                fieldValue: 'attachment;'
+                fieldValue:            'attachment;'
             )
             ->addHeaderLine(
                 headerFieldNameOrLine: 'Content-Length',
-                fieldValue: $blob->getProperties()->getContentLength()
+                fieldValue:            $blob->getProperties()->getContentLength()
             );
 
         return $response;

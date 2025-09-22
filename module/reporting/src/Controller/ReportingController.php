@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Reporting\Controller;
 
-use Admin\Entity\User;
-use Admin\Entity\User\Preferences;
 use AzureOSS\Storage\Blob\Models\ListBlobsOptions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Jield\Search\Controller\Plugin\GetFilter;
@@ -17,7 +15,6 @@ use Reporting\Service\StorageLocationService;
 
 /**
  * @method FlashMessenger flashMessenger()
- * @method User identity()
  * @method GetFilter getFilter()
  */
 final class ReportingController extends AbstractActionController
@@ -31,19 +28,27 @@ final class ReportingController extends AbstractActionController
     #[\Override]
     public function indexAction(): Response|ViewModel
     {
-        error_reporting(error_level: E_ALL ^ E_DEPRECATED);
+        if (!$this->storageLocationService->hasDefaultStorageLocation()) {
+            $this->flashMessenger()->addErrorMessage('No storage location found');
+            return $this->redirect()->toRoute('zfcadmin/index');
+        }
 
         $storageLocation = $this->storageLocationService->getDefaultStorageLocation();
-        $reports         = new ArrayCollection();
+
+        $reports = new ArrayCollection();
 
         $blobClient = $this->storageLocationService->getBlobService();
 
         $listBlobsOptions = new ListBlobsOptions();
-        $listBlobsOptions->setPrefix($storageLocation->getExcelFolder() . '/');
+        $listBlobsOptions->setPrefix($storageLocation->getFolder() . '/');
+
+        // Setting max result to 1 is just to demonstrate the continuation token.
+        // It is not the recommended value in a product environment.
+        //$listBlobsOptions->setMaxResults(1);
 
         $blobList = $blobClient->listBlobs(
             container: $storageLocation->getContainer(),
-            options: $listBlobsOptions
+            options:   $listBlobsOptions
         );
 
         foreach ($blobList->getBlobs() as $blob) {
@@ -52,9 +57,9 @@ final class ReportingController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                'reports'         => $reports,
-                'storageLocation' => $storageLocation,
-            ]
+                           'reports'         => $reports,
+                           'storageLocation' => $storageLocation,
+                       ]
         );
     }
 }

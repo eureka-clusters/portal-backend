@@ -24,15 +24,15 @@ use Application\View\Helper\PaginationLink;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Gedmo\Sluggable\SluggableListener;
 use Gedmo\Timestampable\TimestampableListener;
-use Laminas\ApiTools\OAuth2\Adapter\PdoAdapter;
+use Jield\ApiTools\OAuth2\Adapter\PdoAdapter;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
-use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\I18n\Translator\TranslatorServiceFactory;
 use Laminas\I18n\View\Helper\Translate;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
+use Laminas\Translator\TranslatorInterface;
 use Twig\Extension\DebugExtension;
 
 $config = [

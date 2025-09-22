@@ -6,7 +6,7 @@ namespace Application\Navigation\Invokable;
 
 use Application\Event\UpdateNavigation;
 use Doctrine\Common\Collections\ArrayCollection;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Navigation\Page\Mvc;
 use Psr\Container\ContainerInterface;
 

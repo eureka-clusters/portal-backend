@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\HasPermitInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 
 use function class_implements;
 use function in_array;

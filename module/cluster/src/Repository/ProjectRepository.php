@@ -473,7 +473,7 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
         );
 
         //Create an empty country to have a valid query
-        $country = (new Country())->setId(id: 0);
+        $country = new Country()->setId(id: 0);
 
         //When the user is a funder we can use the country of the funder
         if ($user->isFunder()) {

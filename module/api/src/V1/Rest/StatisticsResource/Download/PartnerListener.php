@@ -13,7 +13,7 @@ use Cluster\Service\Project\PartnerService;
 use DateTime;
 use DateTimeInterface;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -68,7 +68,7 @@ final class PartnerListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetch($id): array
+    public function fetch(string $id): array
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']

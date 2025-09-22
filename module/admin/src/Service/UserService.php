@@ -14,20 +14,19 @@ use Cluster\Entity\Country;
 use Cluster\Entity\Funder;
 use Doctrine\ORM\EntityManager;
 use Exception;
+use Jield\ApiTools\MvcAuth\Identity\GuestIdentity;
 use Jield\Authorize\Role\UserAsRoleInterface;
 use Jield\Authorize\Service\AccessRolesByUserInterface;
-use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
-use Laminas\Crypt\Password\Bcrypt;
 use Mailing\Service\EmailService;
+
 use function sprintf;
 
 class UserService extends AbstractService implements AccessRolesByUserInterface
 {
     public function __construct(
-        protected EntityManager       $entityManager,
+        protected EntityManager $entityManager,
         private readonly EmailService $emailService
-    )
-    {
+    ) {
         parent::__construct(entityManager: $entityManager);
     }
 
@@ -41,8 +40,8 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
         //Try to see if we already have the user
         $user = $this->entityManager->getRepository(entityName: User::class)->findOneBy(
             criteria: [
-                'email' => $genericUser->getEmail(),
-            ]
+                          'email' => $genericUser->getEmail(),
+                      ]
         );
 
         if (null === $user) {
@@ -72,17 +71,17 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
             $country = $this->entityManager->getRepository(entityName: Country::class)->findOneBy(
                 criteria: [
-                    'cd' => $genericUser->getFunderCountry(),
-                ]
+                              'cd' => $genericUser->getFunderCountry(),
+                          ]
             );
 
             if (null === $country) {
                 throw new Exception(
                     message: sprintf(
-                        'Error Country with Alpha 2 code "%s" not found',
-                        $genericUser->getFunderCountry()
-                    ),
-                    code: 1
+                                 'Error Country with Alpha 2 code "%s" not found',
+                                 $genericUser->getFunderCountry()
+                             ),
+                    code:    1
                 );
             }
 
@@ -95,7 +94,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
             $this->save(entity: $funder);
 
             $this->updateFunderClusterPermissions(
-                funder: $funder,
+                funder:  $funder,
                 service: $service
             );
         }
@@ -104,10 +103,9 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
     }
 
     private function updateFunderClusterPermissions(
-        Funder  $funder,
+        Funder $funder,
         Service $service,
-    ): void
-    {
+    ): void {
         //Each service is connected to a cluster, and we store this information in the funder object
 
         // get the ClusterPermissions from generic User
@@ -150,7 +148,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
             'iss'        => 'portal-backend',
             'aud'        => $client->getClientId(),
             'sub'        => $user->getId(),
-            'exp'        => (new \DateTime())->add(interval: new \DateInterval(duration: 'P1Y'))->getTimestamp(),
+            'exp'        => new \DateTime()->add(interval: new \DateInterval(duration: 'P1Y'))->getTimestamp(),
             'iat'        => time(),
             'token_type' => $algorithm,
             'scope'      => 'openid',
@@ -177,10 +175,7 @@ class UserService extends AbstractService implements AccessRolesByUserInterface
 
     public function updatePasswordForUser(string $password, User $user): bool
     {
-        $Bcrypt = new Bcrypt();
-        $Bcrypt->setCost(cost: 14);
-
-        $pass = $Bcrypt->create(password: $password);
+        $pass = password_hash(md5(string: $password), algo: PASSWORD_BCRYPT);
         $user->setPassword(password: $pass);
         $this->save(entity: $user);
 

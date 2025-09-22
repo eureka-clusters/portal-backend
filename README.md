@@ -15,6 +15,9 @@ docker exec -i pa-portal-backend-mysql mysql -u root -ppa-portal-root-password p
 ## Generate proxies and other database manipulation
 
 ```shell
+COMPOSE_BAKE=true docker compose build --pull
+COMPOSE_BAKE=true docker up -d
+
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:generate-proxies
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
 
@@ -34,8 +37,3 @@ docker compose run --rm cli /var/www/bin/generate_templatemaps
 
 ./vendor/bin/openapi module -f json -o public/swagger/swagger.json
 ```
-
-
-
-UPDATE cluster_project_version
-SET identifier = id;

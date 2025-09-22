@@ -17,7 +17,6 @@ final class ModuleTest extends AbstractServiceTest
         $module = new Module();
         $config = $module->getConfig();
 
-        self::assertIsArray(actual: $config);
         self::assertArrayHasKey(key: 'service_manager', array: $config);
         self::assertArrayHasKey(key: ConfigAbstractFactory::class, array: $config);
     }

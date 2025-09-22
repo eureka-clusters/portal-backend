@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace Mailing\ValueObject\Mailjet;
 
-use function count;
-
 final readonly class Email
 {
-    public function __construct(private array $from, private array $to, private array $cc, private array $bcc, private string $subject, private string $textPart, private string $htmlPart, private string $customID, private string $eventPayload, private ?array $replyTo = null, private string $trackOpens = 'enabled', private string $trackClicks = 'enabled', private string $customCampaign = '', private array $attachments = [], private array $inlinedAttachments = [], private array $headers = [])
-    {
+    public function __construct(
+        private array $from,
+        private array $to,
+        private array $cc,
+        private array $bcc,
+        private string $subject,
+        private string $textPart,
+        private string $htmlPart,
+        private string $customID,
+        private string $eventPayload,
+        private ?array $replyTo = null,
+        private string $trackOpens = 'enabled',
+        private string $trackClicks = 'enabled',
+        private string $customCampaign = '',
+        private array $attachments = [],
+        private array $inlinedAttachments = [],
+        private array $headers = []
+    ) {
     }
 
     public function isValid(): bool
@@ -64,21 +78,10 @@ final readonly class Email
             $return['ReplyTo'] = $this->replyTo;
         }
 
-        if (null !== $this->customID) {
-            $return['CustomID'] = $this->customID;
-        }
-
-        if (null !== $this->eventPayload) {
-            $return['EventPayload'] = $this->eventPayload;
-        }
-
-        if (null !== $this->customCampaign) {
-            $return['CustomCampaign'] = $this->customCampaign;
-        }
-
-        if ($this->headers !== []) {
-            $return['Headers'] = $this->headers;
-        }
+        $return['CustomID']     = $this->customID;
+        $return['EventPayload'] = $this->eventPayload;
+        $return['CustomCampaign'] = $this->customCampaign;
+        $return['Headers']        = $this->headers;
 
         if ($this->attachments !== []) {
             $return['Attachments'] = $this->attachments;

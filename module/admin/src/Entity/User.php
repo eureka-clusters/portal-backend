@@ -14,7 +14,6 @@ use DateTime;
 use Deeplink\Entity\Deeplink;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -24,6 +23,7 @@ use Laminas\Form\Annotation\Exclude;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Mailing\Entity\EmailMessage;
+
 use function sprintf;
 
 
@@ -205,10 +205,9 @@ class User extends AbstractEntity implements UserAsRoleInterface
 
     public function hasRole(Role $userRole): bool
     {
-        return $this->getRoles() instanceof \Doctrine\Common\Collections\Collection
-            && $this->getRoles()->exists(
-                p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
-            );
+        return $this->roles->exists(
+            p: static fn($key, Role $role) => $role->getId() === $userRole->getId()
+        );
     }
 
     public function getRoles(): Collection

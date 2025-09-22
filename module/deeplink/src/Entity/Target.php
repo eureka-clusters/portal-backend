@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Deeplink\Entity;
 
 use Application\Entity\AbstractEntity;
-use Deeplink\Entity\Deeplink;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,7 +38,7 @@ class Target extends AbstractEntity
         'help-block' => 'txt-deeplink-target-target-help-block',
     ])]
     #[Attributes(attributes: ['placeholder' => 'txt-deeplink-target-target-placeholder'])]
-    private ?string $target = null;
+    private string $target = '';
 
     #[ORM\Column]
     #[Type(type: Text::class)]
@@ -54,7 +53,8 @@ class Target extends AbstractEntity
     #[Exclude]
     private Collection $deeplink;
 
-    #[Pure] public function __construct()
+    #[Pure]
+    public function __construct()
     {
         $this->deeplink = new ArrayCollection();
     }
@@ -62,7 +62,7 @@ class Target extends AbstractEntity
     #[\Override]
     public function __toString(): string
     {
-        return (string) $this->target;
+        return (string)$this->target;
     }
 
     #[\Override]
@@ -77,12 +77,12 @@ class Target extends AbstractEntity
         return $this;
     }
 
-    public function getTarget(): ?string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function setTarget(?string $target): Target
+    public function setTarget(string $target): Target
     {
         $this->target = $target;
         return $this;

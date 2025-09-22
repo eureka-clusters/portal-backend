@@ -9,7 +9,7 @@ use Application\Service\FormService;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Laminas\Http\Response;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Model\ViewModel;
 use Mailing\Entity;

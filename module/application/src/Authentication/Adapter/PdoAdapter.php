@@ -7,9 +7,8 @@ namespace Application\Authentication\Adapter;
 use PDO;
 
 use function array_merge;
-use function sprintf;
 
-final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
+final class PdoAdapter extends \Jield\ApiTools\OAuth2\Adapter\PdoAdapter
 {
     #[\Override]
     public function getUser($username): array|bool
@@ -17,7 +16,7 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
         $stmt = $this->db->prepare(query: $sql = 'SELECT * from admin_user where email=:email');
         $stmt->execute(params: ['email' => $username]);
 
-        if (! $userInfo = $stmt->fetch(mode: PDO::FETCH_ASSOC)) {
+        if (!$userInfo = $stmt->fetch(mode: PDO::FETCH_ASSOC)) {
             return false;
         }
 
@@ -28,6 +27,6 @@ final class PdoAdapter extends \Laminas\ApiTools\OAuth2\Adapter\PdoAdapter
     #[\Override]
     protected function checkPassword($user, $password): bool
     {
-        return $this->getBcrypt()->verify(password: $password, hash: $user['password']);
+        return password_verify(password: $password, hash: $user['password']);
     }
 }

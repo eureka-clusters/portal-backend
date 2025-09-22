@@ -7,7 +7,7 @@ namespace Api\V1\Rest\UserResource;
 use Admin\Provider\UserProvider;
 use Admin\Service\UserService;
 use Api\Listener\AbstractRoutedListener;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use OpenApi\Attributes as OA;
 
 final class MeListener extends AbstractRoutedListener
@@ -29,7 +29,7 @@ final class MeListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetch($id): array|ApiProblem
+    public function fetch(string $id): array|ApiProblem
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']

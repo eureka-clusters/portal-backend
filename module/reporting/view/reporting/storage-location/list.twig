@@ -24,10 +24,10 @@
         <thead>
         <tr>
             <th>{{ translate("txt-id") }}</th>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'container', 'text': translate("txt-container")} %}</th>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'excel-folder', 'text': translate("txt-excel-folder")} %}</th>
-            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'parquet-folder', 'text': translate("txt-parquet-folder")} %}</th>
+            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'container', 'text': translate("txt-storage-container")} %}</th>
+            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'folder', 'text': translate("txt-folder")} %}</th>
+            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'file-type', 'text': translate("txt-file-type")} %}</th>
 
         </tr>
         </thead>
@@ -37,8 +37,8 @@
                 <td><small class="text-muted">{{ storageLocation.id }}</small></td>
                 <td>{{ storageLocationLink(storageLocation,'view', 'name') }} {{ storageLocationLink(storageLocation,'edit', 'icon') }}</td>
                 <td>{{ storageLocation.container }}</td>
-                <td>{{ storageLocation.excelFolder }}</td>
-                <td>{{ storageLocation.parquetFolder }}</td>
+                <td>{{ storageLocation.folder }}</td>
+                <td>{{ translate(storageLocation.exportFileType.toString()) }}</td>
             </tr>
         {% endfor %}
         </tbody>

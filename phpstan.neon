@@ -13,3 +13,4 @@ parameters:
     	- '#Call to an undefined method Jield\\Authorize\\Role\\UserAsRoleInterface::[a-zA-Z]+\(\)#'
     	- '#Access to an undefined property Laminas\\Session\\Container\<string, mixed\>::\$[a-zA-Z]+#'
     	- '#Call to function _\(\) on a separate line has no effect.#'
+    	- identifier: doctrine.associationType

@@ -8,7 +8,7 @@ use Admin\Service\UserService;
 use Api\Listener\AbstractRoutedListener;
 use Cluster\Provider\ProjectProvider;
 use Cluster\Service\ProjectService;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use OpenApi\Attributes as OA;
 
 final class ProjectListener extends AbstractRoutedListener

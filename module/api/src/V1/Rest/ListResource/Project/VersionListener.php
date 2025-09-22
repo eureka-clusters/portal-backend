@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\ListResource\Project;
 
+use Admin\Entity\User;
 use Admin\Service\UserService;
 use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\DoctrineORMAdapter;
@@ -11,10 +12,11 @@ use Cluster\Entity\Project;
 use Cluster\Provider\Project\VersionProvider;
 use Cluster\Service\Project\VersionService;
 use Cluster\Service\ProjectService;
+use Jield\ApiTools\ApiProblem\ApiProblem;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Json\Json;
 use Laminas\Paginator\Paginator;
+use Laminas\Stdlib\Parameters;
 use OpenApi\Attributes as OA;
 
 final class VersionListener extends AbstractRoutedListener
@@ -27,12 +29,11 @@ final class VersionListener extends AbstractRoutedListener
         ];
 
     public function __construct(
-        private readonly VersionService  $versionService,
-        private readonly ProjectService  $projectService,
-        private readonly UserService     $userService,
+        private readonly VersionService $versionService,
+        private readonly ProjectService $projectService,
+        private readonly UserService $userService,
         private readonly VersionProvider $versionProvider
-    )
-    {
+    ) {
     }
 
     #[OA\Get(
@@ -42,28 +43,28 @@ final class VersionListener extends AbstractRoutedListener
         tags: ['Project'],
         parameters: [
             new OA\Parameter(
-                name: 'project',
+                name:        'project',
                 description: 'Project slug to filter by',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'string'),
-                example: 'symfony'
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'string'),
+                example:     'symfony'
             ),
             new OA\Parameter(
-                name: 'pageSize',
+                name:        'pageSize',
                 description: 'Amount per page',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'integer'),
-                example: 25
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'integer'),
+                example:     25
             ),
             new OA\Parameter(
-                name: 'page',
+                name:        'page',
                 description: 'Page',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'integer'),
-                example: 1
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'integer'),
+                example:     1
             ),
         ],
         responses: [
@@ -72,8 +73,9 @@ final class VersionListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetchAll($params = []): Paginator|ApiProblem
+    public function fetchAll(Parameters $params): Paginator|ApiProblem
     {
+        /** @var User $user */
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
@@ -82,21 +84,21 @@ final class VersionListener extends AbstractRoutedListener
 
         //Inject the encoded filter from the results
         $filter['filter'] = [];
-        if (!empty($params->filter)) {
-            $encodedFilter    = base64_decode($params->filter, true);
+        if (null !== $params->get(name: 'filter')) {
+            $encodedFilter    = base64_decode(string: (string)$params->get(name: 'filter'), strict: true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }
 
-        $searchFormResult = SearchFormResult::fromArray($filter);
+        $searchFormResult = SearchFormResult::fromArray(params: $filter);
 
         $projectVersionQueryBuilder = $this->versionService->getVersions(
-            user: $user,
+            user:             $user,
             searchFormResult: $searchFormResult,
         );
 
-        if (isset($params->project)) {
+        if (null !== $params->get(name: 'project')) {
             /** @var Project $project */
-            $project = $this->projectService->findProjectBySlug(slug: (string)$params->project);
+            $project = $this->projectService->findProjectBySlug(slug: (string)$params->get(name: 'project'));
 
             if (null === $project) {
                 return new ApiProblem(status: 400, detail: 'Project cannot not found');
@@ -108,7 +110,6 @@ final class VersionListener extends AbstractRoutedListener
                     y: $project->getId()
                 )
             );
-
         }
 
         $doctrineORMAdapter = new DoctrineORMAdapter(query: $projectVersionQueryBuilder);

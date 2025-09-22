@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\SearchResource;
 
+use Admin\Entity\User;
 use Admin\Service\UserService;
 use Api\Listener\AbstractRoutedListener;
 use Api\Paginator\CustomAdapter;
@@ -12,7 +13,9 @@ use Cluster\Provider\SearchResultProvider;
 use Cluster\Service\OrganisationService;
 use Cluster\Service\ProjectService;
 use Laminas\Paginator\Paginator;
+use Laminas\Stdlib\Parameters;
 use OpenApi\Attributes as OA;
+
 use function usort;
 
 final class ResultListener extends AbstractRoutedListener
@@ -20,12 +23,11 @@ final class ResultListener extends AbstractRoutedListener
     protected static string $route = '/api/search/result';
 
     public function __construct(
-        private readonly ProjectService       $projectService,
-        private readonly OrganisationService  $organisationService,
-        private readonly UserService          $userService,
+        private readonly ProjectService $projectService,
+        private readonly OrganisationService $organisationService,
+        private readonly UserService $userService,
         private readonly SearchResultProvider $searchResultProvider
-    )
-    {
+    ) {
     }
 
     #[OA\Get(
@@ -35,44 +37,44 @@ final class ResultListener extends AbstractRoutedListener
         tags: ['Project'],
         parameters: [
             new OA\Parameter(
-                name: 'query',
+                name:        'query',
                 description: 'Search Query',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'string'),
-                example: null
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'string'),
+                example:     null
             ),
             new OA\Parameter(
-                name: 'order',
+                name:        'order',
                 description: 'Sort order',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'string'),
-                example: 'name'
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'string'),
+                example:     'name'
             ),
             new OA\Parameter(
-                name: 'direction',
+                name:        'direction',
                 description: 'Sort direction',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'string'),
-                example: 'asc'
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'string'),
+                example:     'asc'
             ),
             new OA\Parameter(
-                name: 'pageSize',
+                name:        'pageSize',
                 description: 'Amount per page',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'integer'),
-                example: 25
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'integer'),
+                example:     25
             ),
             new OA\Parameter(
-                name: 'page',
+                name:        'page',
                 description: 'Page',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'integer'),
-                example: 1
+                in:          'query',
+                required:    false,
+                schema:      new OA\Schema(type: 'integer'),
+                example:     1
             ),
         ],
         responses: [
@@ -81,11 +83,12 @@ final class ResultListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetchAll($params = []): Paginator
+    public function fetchAll(Parameters $params): Paginator
     {
-        $query = $params->query ?? null;
-        $limit = $params->pageSize ?? 25;
+        $query = $params->get('query');
+        $limit = $params->get('pageSize', 25);
 
+        /** @var User $user */
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
@@ -93,7 +96,7 @@ final class ResultListener extends AbstractRoutedListener
         $results = [];
 
         $projects = $this->projectService->searchProjects(
-            user: $user,
+            user:  $user,
             query: $query,
             limit: $limit
         );
@@ -103,12 +106,12 @@ final class ResultListener extends AbstractRoutedListener
             $score   = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
-                type: 'project',
-                slug: $project->getSlug(),
-                name: $project->getName(),
-                title: $project->getTitle(),
+                type:        'project',
+                slug:        $project->getSlug(),
+                name:        $project->getName(),
+                title:       $project->getTitle(),
                 description: $project->getDescription(),
-                score: $score
+                score:       $score
             );
         }
 
@@ -122,19 +125,20 @@ final class ResultListener extends AbstractRoutedListener
             $score        = isset($resultArray['score']) ? (float)$resultArray['score'] : null;
 
             $results[] = new SearchResult(
-                type: 'organisation',
-                slug: $organisation->getSlug(),
-                name: $organisation->getName(),
+                type:             'organisation',
+                slug:             $organisation->getSlug(),
+                name:             $organisation->getName(),
                 organisationType: $organisation->getType()->getType(),
-                country: $organisation->getCountry()->getCountry(),
-                score: $score
+                country:          $organisation->getCountry()->getCountry(),
+                score:            $score
             );
         }
 
         //Sort on score, but therefore we need to iterate over the scores
         usort(
             array: $results,
-            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore() < $result2->getScore() ? 1 : -1
+            callback: static fn(SearchResult $result1, SearchResult $result2) => $result1->getScore(
+            ) < $result2->getScore() ? 1 : -1
         );
 
         $doctrineORMAdapter = new CustomAdapter(array: $results);

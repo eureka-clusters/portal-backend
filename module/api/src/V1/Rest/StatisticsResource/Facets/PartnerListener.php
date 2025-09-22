@@ -44,7 +44,7 @@ final class PartnerListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetch($id): array
+    public function fetch(string $id): array
     {
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']

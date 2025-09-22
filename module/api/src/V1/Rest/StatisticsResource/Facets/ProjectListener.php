@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Api\V1\Rest\StatisticsResource\Facets;
 
+use Admin\Entity\User;
 use Admin\Service\UserService;
 use Api\Listener\AbstractRoutedListener;
 use Cluster\Service\ProjectService;
 use Jield\Search\ValueObject\SearchFormResult;
 use Laminas\Json\Json;
 use OpenApi\Attributes as OA;
+
 use function base64_decode;
 
 final class ProjectListener extends AbstractRoutedListener
@@ -18,9 +20,8 @@ final class ProjectListener extends AbstractRoutedListener
 
     public function __construct(
         private readonly ProjectService $projectService,
-        private readonly UserService    $userService
-    )
-    {
+        private readonly UserService $userService
+    ) {
     }
 
     #[OA\Get(
@@ -30,12 +31,12 @@ final class ProjectListener extends AbstractRoutedListener
         tags: ['Project'],
         parameters: [
             new OA\Parameter(
-                name: 'filter',
+                name:        'filter',
                 description: 'base64 encoded JSON filter',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(type: 'string'),
-                example: 'eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0='
+                in:          'path',
+                required:    true,
+                schema:      new OA\Schema(type: 'string'),
+                example:     'eyJ0eXBlIjoiY29udGFjdCIsImNvbnRhY3QiOlt7Im5hbWUiOiJwcm9qZWN0IiwidmFsdWUiOjF9XX0='
             ),
         ],
         responses: [
@@ -44,8 +45,9 @@ final class ProjectListener extends AbstractRoutedListener
         ],
     )]
     #[\Override]
-    public function fetch($id)
+    public function fetch(string $id): array
     {
+        /** @var User $user */
         $user = $this->userService->findUserById(
             id: (int)$this->getIdentity()?->getAuthenticationIdentity()['user_id']
         );
@@ -60,10 +62,10 @@ final class ProjectListener extends AbstractRoutedListener
 
         //Make sure you wrap the response in an array!!
         return $this->projectService->generateFacets(
-            user: $user,
+            user:             $user,
             searchFormResult: SearchFormResult::fromArray(
-                params: $filter
-            )
+                                  params: $filter
+                              )
         );
     }
 }

@@ -12,7 +12,7 @@ use Deeplink\Service\DeeplinkService;
 use Deeplink\View\Helper\CanAssemble;
 use Doctrine\ORM\EntityManager;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\Router\Http\TreeRouteStack;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 

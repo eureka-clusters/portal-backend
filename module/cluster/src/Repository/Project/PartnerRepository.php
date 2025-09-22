@@ -224,7 +224,7 @@ class PartnerRepository extends EntityRepository
                 $queryBuilder->expr()->in(x: 'project_partner_costs_and_effort.year', y: $yearFilter)
             );
             $queryBuilder->andWhere('project_partner_costs_and_effort_version.type = :type');
-            $queryBuilder->setParameter(key: 'type', value: (new Type())->setId(id: 3));
+            $queryBuilder->setParameter(key: 'type', value: new Type()->setId(id: 3));
         }
     }
 
@@ -315,7 +315,7 @@ class PartnerRepository extends EntityRepository
         );
 
         //Create an empty country to have a valid query which will not give any result
-        $country = (new Country())->setId(id: 0);
+        $country = new Country()->setId(id: 0);
 
         //When the user is a funder we can use the country of the funder
         if ($user->isFunder()) {
