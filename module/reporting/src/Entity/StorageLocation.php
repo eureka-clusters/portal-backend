@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Reporting\Entity;
 
-use Api\Repository\OAuth\Service;
 use Application\Entity\AbstractEntity;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
@@ -153,9 +152,9 @@ class StorageLocation extends AbstractEntity implements StorageLocationInterface
         return $this->exportFileType;
     }
 
-    public function setExportFileType(ExportFileTypeEnum $exportFileType): StorageLocation
+    public function setExportFileType(ExportFileTypeEnum|string $exportFileType): StorageLocation
     {
-        $this->exportFileType = $exportFileType;
+        $this->exportFileType = is_string($exportFileType) ? ExportFileTypeEnum::from($exportFileType) : $exportFileType;
         return $this;
     }
 

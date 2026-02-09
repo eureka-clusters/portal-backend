@@ -53,12 +53,4 @@ final class CountryColumns extends AbstractEntityColumns
         ];
     }
 
-    #[\Override]
-    public function getDependencies(): array
-    {
-        return [
-            FunderColumns::class
-        ];
-    }
-
 }

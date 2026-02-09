@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Admin\View\Helper\OAuth2;
 
 use Api\Entity\OAuth\Service;
+use Api\Enum\OAuth2\ServiceTypeEnum;
 use Application\ValueObject\Link\Link;
 use Application\ValueObject\Link\LinkDecoration;
 use Application\View\Helper\AbstractLink;
@@ -12,18 +13,24 @@ use Application\View\Helper\AbstractLink;
 final class ServiceLink extends AbstractLink
 {
     public function __invoke(
-        ?Service $service = null,
-        string $action = 'view',
-        string $show = LinkDecoration::SHOW_TEXT
-    ): string {
+        ?Service         $service = null,
+        string           $action = 'view',
+        string           $show = LinkDecoration::SHOW_TEXT,
+        ?ServiceTypeEnum $serviceType = null
+    ): string
+    {
         $linkParams = [];
-        $service  ??= new Service();
+        $service    ??= new Service();
 
         $routeParams = [];
 
-        if (! $service->isEmpty()) {
+        if (!$service->isEmpty()) {
             $routeParams['id']   = $service->getId();
             $routeParams['name'] = $service->getName();
+        }
+
+        if ($serviceType instanceof \Api\Enum\OAuth2\ServiceTypeEnum) {
+            $routeParams['serviceType'] = $serviceType->value;
         }
 
         switch ($action) {
@@ -31,7 +38,7 @@ final class ServiceLink extends AbstractLink
                 $linkParams = [
                     'icon'  => 'fa-plus',
                     'route' => 'zfcadmin/oauth2/service/new',
-                    'text'  => $this->translator->translate(message: 'txt-new-oauth2-service'),
+                    'text'  => sprintf($this->translator->translate(message: 'txt-new-oauth2-service-of-type-%s'), $serviceType->toString()),
                 ];
                 break;
             case 'view':
@@ -48,11 +55,18 @@ final class ServiceLink extends AbstractLink
                     'text'  => $this->translator->translate(message: 'txt-edit-oauth2-service'),
                 ];
                 break;
-            case 'login':
+            case 'update-client-secret':
                 $linkParams = [
                     'icon'  => 'fa-pencil-square-o',
-                    'route' => 'zfcadmin/oauth2/service/login',
-                    'text'  => $this->translator->translate(message: 'txt-edit-oauth2-service'),
+                    'route' => 'zfcadmin/oauth2/service/update-client-secret',
+                    'text'  => $this->translator->translate(message: 'txt-update-client-secret'),
+                ];
+                break;
+            case 'update-private-key':
+                $linkParams = [
+                    'icon'  => 'fa-pencil-square-o',
+                    'route' => 'zfcadmin/oauth2/service/update-private-key',
+                    'text'  => $this->translator->translate(message: 'txt-update-private-key'),
                 ];
                 break;
         }

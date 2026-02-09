@@ -24,10 +24,10 @@
         <thead>
         <tr>
             <th>{{ translate("txt-id") }}</th>
-            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
-            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'container', 'text': translate("txt-storage-container")} %}</th>
-            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'folder', 'text': translate("txt-folder")} %}</th>
-            <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'file-type', 'text': translate("txt-file-type")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'container', 'text': translate("txt-storage-container")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'folder', 'text': translate("txt-folder")} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/reporting/storage-location/list', 'criteria': 'file-type', 'text': translate("txt-file-type")} %}</th>
 
         </tr>
         </thead>

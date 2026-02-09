@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Table(name: 'oauth_clients')]
-#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Client::class)]
+#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\ClientRepository::class)]
 class Client extends AbstractEntity
 {
     #[ORM\Column(name: 'client_id', unique: true)]

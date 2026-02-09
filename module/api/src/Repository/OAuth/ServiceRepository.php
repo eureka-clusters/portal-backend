@@ -13,7 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 
 use function sprintf;
 
-final class Service extends EntityRepository implements FilteredObjectRepository
+final class ServiceRepository extends EntityRepository implements FilteredObjectRepository
 {
     #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder

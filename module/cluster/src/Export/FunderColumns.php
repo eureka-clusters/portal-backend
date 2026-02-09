@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Export;
 
 use Cluster\Entity\Funder;
+use Cluster\Export\CountryColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -49,6 +50,14 @@ FunderColumns extends AbstractEntityColumns
             $idColumn,
             $userIdColumn,
             $countryIdColumn,
+        ];
+    }
+
+    #[\Override]
+    public function getDependencies(): array
+    {
+        return [
+            CountryColumns::class,
         ];
     }
 }

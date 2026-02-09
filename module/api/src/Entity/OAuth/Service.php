@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Api\Entity\OAuth;
 
+use Api\Enum\OAuth2\ServiceTypeEnum;
 use Application\Entity\AbstractEntity;
 use Cluster\Entity\Cluster;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
 use DoctrineORMModule\Form\Element\EntitySelect;
 use JetBrains\PhpStorm\Pure;
 use Laminas\Form\Annotation;
+use Laminas\Form\Annotation\Exclude;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
+use Laminas\Form\Element\Textarea;
 use Laminas\Form\Element\Url;
 use Reporting\Entity\StorageLocation;
 
 #[ORM\Table(name: 'oauth_service')]
-#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Service::class)]
+#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\ServiceRepository::class)]
 class Service extends AbstractEntity
 {
     #[ORM\Column(type: 'integer')]
@@ -32,77 +34,99 @@ class Service extends AbstractEntity
     #[ORM\Column(unique: true)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-name-help-block',
+        'help-block' => 'txt-oauth2-service-name-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-name-label',
-        'placeholder' => 'txt-oauth-service-name-placeholder',
+        'label'       => 'txt-oauth2-service-name-label',
+        'placeholder' => 'txt-oauth2-service-name-placeholder',
     ])]
     private string $name = '';
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Annotation\Type(type: Textarea::class)]
+    #[Annotation\Options(options: [
+        'help-block' => 'txt-oauth2-service-description-help-block',
+    ])]
+    #[Annotation\Attributes(attributes: [
+        'label'       => 'txt-oauth2-service-description-label',
+        'placeholder' => 'txt-oauth2-service-description-placeholder',
+    ])]
+    private ?string $description = null;
 
     #[ORM\Column]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-client-id-help-block',
+        'help-block' => 'txt-oauth2-service-client-id-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-client-id-label',
-        'placeholder' => 'txt-oauth-service-client-id-placeholder',
+        'label'       => 'txt-oauth2-service-client-id-label',
+        'placeholder' => 'txt-oauth2-service-client-id-placeholder',
     ])]
     private string $clientId = '';
 
     #[ORM\Column(length: 2000)]
     #[Annotation\Type(type: Text::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-client-secret-help-block',
+        'help-block' => 'txt-oauth2-service-client-secret-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-client-secret-label',
-        'placeholder' => 'txt-oauth-service-client-secret-placeholder',
+        'label'       => 'txt-oauth2-service-client-secret-label',
+        'placeholder' => 'txt-oauth2-service-client-secret-placeholder',
     ])]
     private string $clientSecret = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-redirect-url-help-block',
+        'help-block' => 'txt-oauth2-service-redirect-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-redirect-url-label',
-        'placeholder' => 'txt-oauth-service-redirect-url-placeholder',
+        'label'       => 'txt-oauth2-service-redirect-url-label',
+        'placeholder' => 'txt-oauth2-service-redirect-url-placeholder',
     ])]
     private string $redirectUrl = '';
+
+    #[ORM\Column(nullable: true)]
+    #[Annotation\Type(type: Text::class)]
+    #[Annotation\Options(options: [
+        'help-block' => 'txt-oauth2-service-tenant-id-help-block',
+    ])]
+    #[Annotation\Attributes(attributes: [
+        'label'       => 'txt-oauth2-service-tenant-id-label',
+        'placeholder' => 'txt-oauth2-service-tenant-id-placeholder',
+    ])]
+    private ?string $tenantId = null;
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-authorization-url-help-block',
+        'help-block' => 'txt-oauth2-service-authorization-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-authorization-url-label',
-        'placeholder' => 'txt-oauth-service-authorization-url-placeholder',
+        'label'       => 'txt-oauth2-service-authorization-url-label',
+        'placeholder' => 'txt-oauth2-service-authorization-url-placeholder',
     ])]
     private string $authorizationUrl = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-access-token-url-help-block',
+        'help-block' => 'txt-oauth2-service-access-token-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-access-token-url-label',
-        'placeholder' => 'txt-oauth-service-access-token-url-placeholder',
+        'label'       => 'txt-oauth2-service-access-token-url-label',
+        'placeholder' => 'txt-oauth2-service-access-token-url-placeholder',
     ])]
     private string $accessTokenUrl = '';
 
     #[ORM\Column]
     #[Annotation\Type(type: Url::class)]
     #[Annotation\Options(options: [
-        'help-block' => 'txt-oauth-service-profile-url-help-block',
+        'help-block' => 'txt-oauth2-service-profile-url-help-block',
     ])]
     #[Annotation\Attributes(attributes: [
-        'label'       => 'txt-oauth-service-profile-url-label',
-        'placeholder' => 'txt-oauth-service-profile-url-placeholder',
+        'label'       => 'txt-oauth2-service-profile-url-label',
+        'placeholder' => 'txt-oauth2-service-profile-url-placeholder',
     ])]
     private string $profileUrl = '';
 
@@ -113,14 +137,14 @@ class Service extends AbstractEntity
     #[ORM\InverseJoinColumn(nullable: false)]
     #[Annotation\Type(EntityMultiCheckbox::class)]
     #[Annotation\Options([
-        'help-block'   => 'txt-oauth-service-allowed-clusters-help-block',
+        'help-block'   => 'txt-oauth2-service-allowed-clusters-help-block',
         'target_class' => Cluster::class,
         'find_method'  => [
             'name'   => 'findBy',
             'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
-    #[Annotation\Attributes(['label' => 'txt-oauth-service-allowed-clusters-label'])]
+    #[Annotation\Attributes(['label' => 'txt-oauth2-service-allowed-clusters-label'])]
     private Collection $allowedClusters;
 
     #[ORM\ManyToOne(targetEntity: Scope::class, cascade: ['persist'], inversedBy: 'oAuthServices')]
@@ -129,8 +153,8 @@ class Service extends AbstractEntity
     #[Annotation\Options([
         'target_class' => Scope::class,
         'empty_option' => '— Select a scope',
-        'label'        => 'txt-oauth-service-scope-label',
-        'help-block'   => 'txt-oauth-service-scope-help-block',
+        'label'        => 'txt-oauth2-service-scope-label',
+        'help-block'   => 'txt-oauth2-service-scope-help-block',
         'find_method'  => [
             'name'   => 'findBy',
             'params' => ['criteria' => [], 'orderBy' => ['scope' => \Doctrine\Common\Collections\Order::Ascending->value]],
@@ -138,20 +162,35 @@ class Service extends AbstractEntity
     ])]
     private Scope $scope;
 
+    #[ORM\Column(type: 'smallint', nullable: false, enumType: ServiceTypeEnum::class)]
+    #[Exclude]
+    private ServiceTypeEnum $type = ServiceTypeEnum::OTHER;
+
     #[ORM\ManyToOne(targetEntity: Client::class, cascade: ['persist'], inversedBy: 'oAuthServices')]
-    #[ORM\JoinColumn(referencedColumnName: 'client_id', nullable: false)]
+    #[ORM\JoinColumn(referencedColumnName: 'client_id', nullable: true)]
     #[Annotation\Type(EntitySelect::class)]
     #[Annotation\Options([
         'target_class' => Client::class,
         'empty_option' => '— Select a client',
-        'label'        => 'txt-oauth-service-client-label',
-        'help-block'   => 'txt-oauth-service-client-help-block',
+        'label'        => 'txt-oauth2-service-client-label',
+        'help-block'   => 'txt-oauth2-service-client-help-block',
         'find_method'  => [
             'name'   => 'findBy',
             'params' => ['criteria' => [], 'orderBy' => ['name' => \Doctrine\Common\Collections\Order::Ascending->value]],
         ],
     ])]
-    private Client $client;
+    private ?Client $client = null;
+
+    #[ORM\Column(length: 2000, nullable: true)]
+    #[Annotation\Type(type: Textarea::class)]
+    #[Annotation\Options(options: [
+        'help-block' => 'txt-oauth2-service-private-key-help-block',
+    ])]
+    #[Annotation\Attributes(attributes: [
+        'label'       => 'txt-oauth2-service-private-key-label',
+        'placeholder' => 'txt-oauth2-service-private-key-placeholder',
+    ])]
+    private ?string $privateKey = null;
 
     #[ORM\OneToMany(mappedBy: 'oAuth2Service', targetEntity: StorageLocation::class, cascade: ['persist'])]
     private Collection $storageLocations;
@@ -162,12 +201,12 @@ class Service extends AbstractEntity
         return $this->name;
     }
 
-    #[Pure] public function __construct()
+    #[Pure]
+    public function __construct()
     {
         $this->allowedClusters  = new ArrayCollection();
         $this->storageLocations = new ArrayCollection();
         $this->scope            = new Scope();
-        $this->client           = new Client();
     }
 
     public function addAllowedClusters(Collection $allowedClustersCollection): void
@@ -265,6 +304,9 @@ class Service extends AbstractEntity
 
     public function getAccessTokenUrl(): string
     {
+        if ($this->getType()->isMicrosoft()) {
+            return 'https://login.microsoftonline.com/' . $this->getTenantId() . '/oauth2/v2.0/token';
+        }
         return $this->accessTokenUrl;
     }
 
@@ -307,12 +349,12 @@ class Service extends AbstractEntity
         return $this;
     }
 
-    public function getClient(): Client
+    public function getClient(): ?Client
     {
         return $this->client;
     }
 
-    public function setClient(Client $client): Service
+    public function setClient(?Client $client): Service
     {
         $this->client = $client;
         return $this;
@@ -327,5 +369,45 @@ class Service extends AbstractEntity
     {
         $this->storageLocations = $storageLocations;
         return $this;
+    }
+
+    public function getTenantId(): ?string
+    {
+        return $this->tenantId;
+    }
+
+    public function setTenantId(?string $tenantId): void
+    {
+        $this->tenantId = $tenantId;
+    }
+
+    public function getType(): ServiceTypeEnum|int
+    {
+        return $this->type;
+    }
+
+    public function setType(ServiceTypeEnum|int $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getPrivateKey(): ?string
+    {
+        return $this->privateKey;
+    }
+
+    public function setPrivateKey(?string $privateKey): void
+    {
+        $this->privateKey = $privateKey;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 }

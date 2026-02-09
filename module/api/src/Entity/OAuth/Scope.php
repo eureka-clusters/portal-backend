@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Table(name: 'oauth_scopes')]
-#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\Scope::class)]
+#[ORM\Entity(repositoryClass: \Api\Repository\OAuth\ScopeRepository::class)]
 class Scope extends AbstractEntity
 {
     #[ORM\Column(type: 'integer')]

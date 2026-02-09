@@ -2,6 +2,7 @@
 
 return [
     'modules'                 => [
+        'Laminas\\I18n\\Module',
         'Laminas\\Router',
         'Laminas\\Form',
         'Laminas\\InputFilter',
@@ -15,6 +16,7 @@ return [
         'Laminas\\Mvc\\Plugin\\Identity',
 
         'Jield\\ApiTools\\Module',
+        'Jield\\Export',
 
         'AssetManager',
         'LaminasBootstrap5',

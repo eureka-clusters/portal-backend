@@ -7,7 +7,7 @@ use Reporting\Navigation\Invokable\StorageLocationLabel;
 
 return [
     'navigation' => [
-        'admin' => [
+        'default' => [
             'management' => [
                 'pages' => [
                     'reporting'        => [

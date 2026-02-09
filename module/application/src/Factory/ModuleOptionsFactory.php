@@ -15,6 +15,6 @@ final class ModuleOptionsFactory implements FactoryInterface
     {
         $config = $container->get('Config');
 
-        return new ModuleOptions($config['application_option'] ?? []);
+        return new ModuleOptions($config['application_options'] ?? []);
     }
 }

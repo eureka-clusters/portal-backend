@@ -13,26 +13,27 @@ use Doctrine\ORM\QueryBuilder;
 
 use function sprintf;
 
-final class Scope extends EntityRepository implements FilteredObjectRepository
+final class ClientRepository extends EntityRepository implements FilteredObjectRepository
 {
     #[\Override]
     public function findFiltered(SearchFormResult $searchFormResult): QueryBuilder
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('api_entity_oauth_scope');
-        $qb->from(Entity\OAuth\Scope::class, 'api_entity_oauth_scope');
+        $qb->select('api_entity_oauth_client');
+        $qb->from(Entity\OAuth\Client::class, 'api_entity_oauth_client');
 
         if ($searchFormResult->hasQuery()) {
-            $qb->andWhere($qb->expr()->like('api_entity_oauth_scope.scope', ':like'));
+            $qb->andWhere($qb->expr()->like('api_entity_oauth_client.client', ':like'));
             $qb->setParameter('like', sprintf('%%%s%%', $searchFormResult->getQuery()));
         }
 
         $direction = $searchFormResult->getDirection();
 
         match ($searchFormResult->getOrder()) {
-            'id' => $qb->addOrderBy('api_entity_oauth_scope.id', $direction),
-            'scope' => $qb->addOrderBy('api_entity_oauth_scope.scope', $direction),
-            default => $qb->addOrderBy('api_entity_oauth_scope.scope', \Doctrine\Common\Collections\Order::Ascending->value),
+            'id' => $qb->addOrderBy('api_entity_oauth_client.clientId', $direction),
+            'name' => $qb->addOrderBy('api_entity_oauth_client.name', $direction),
+            'description' => $qb->addOrderBy('api_entity_oauth_client.description', $direction),
+            default => $qb->addOrderBy('api_entity_oauth_client.clientId', \Doctrine\Common\Collections\Order::Ascending->value),
         };
 
         return $qb;

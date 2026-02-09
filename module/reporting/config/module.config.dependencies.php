@@ -31,7 +31,6 @@ return [
         ],
         StorageLocationService::class    => [
             EntityManager::class,
-            TranslatorInterface::class,
             oAuth2Service::class,
         ]
     ]

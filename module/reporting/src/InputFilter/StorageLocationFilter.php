@@ -14,73 +14,58 @@ final class StorageLocationFilter extends InputFilter
         $inputFilter = new InputFilter();
         $inputFilter->add(
             input: [
-                'name'       => 'name',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 3,
-                            'max'      => 255,
-                        ],
-                    ],
-                ],
-            ]
+                       'name'       => 'name',
+                       'required'   => true,
+                       'validators' => [
+                           [
+                               'name'    => StringLength::class,
+                               'options' => [
+                                   'encoding' => 'UTF-8',
+                                   'min'      => 3,
+                                   'max'      => 255,
+                               ],
+                           ],
+                       ],
+                   ]
         );
         $inputFilter->add(
             input: [
-                'name'       => 'connectionString',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 3,
-                            'max'      => 2000,
-                        ],
-                    ],
-                ],
-            ]
+                       'name'       => 'connectionString',
+                       'required'   => true,
+                       'validators' => [
+                           [
+                               'name'    => StringLength::class,
+                               'options' => [
+                                   'encoding' => 'UTF-8',
+                                   'min'      => 3,
+                                   'max'      => 2000,
+                               ],
+                           ],
+                       ],
+                   ]
         );
         $inputFilter->add(
             input: [
-                'name'       => 'excelFolder',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 3,
-                            'max'      => 255,
-                        ],
-                    ],
-                ],
-            ]
+                       'name'       => 'folder',
+                       'required'   => true,
+                       'validators' => [
+                           [
+                               'name'    => StringLength::class,
+                               'options' => [
+                                   'encoding' => 'UTF-8',
+                                   'min'      => 3,
+                                   'max'      => 255,
+                               ],
+                           ],
+                       ],
+                   ]
         );
+
         $inputFilter->add(
             input: [
-                'name'       => 'parquetFolder',
-                'required'   => true,
-                'validators' => [
-                    [
-                        'name'    => StringLength::class,
-                        'options' => [
-                            'encoding' => 'UTF-8',
-                            'min'      => 3,
-                            'max'      => 255,
-                        ],
-                    ],
-                ],
-            ]
-        );
-        $inputFilter->add(
-            input: [
-                'name'     => 'oAuth2Service',
-                'required' => false,
-            ]
+                       'name'     => 'oAuth2Service',
+                       'required' => false,
+                   ]
         );
 
         $this->add(input: $inputFilter, name: 'reporting_entity_storagelocation');

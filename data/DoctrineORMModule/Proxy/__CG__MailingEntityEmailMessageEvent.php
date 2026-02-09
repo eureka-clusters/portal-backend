@@ -272,7 +272,7 @@ class EmailMessageEvent extends \Mailing\Entity\EmailMessageEvent implements \Do
     /**
      * {@inheritDoc}
      */
-    public function getMessageId(): ?int
+    public function getMessageId(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMessageId', []);
@@ -283,7 +283,7 @@ class EmailMessageEvent extends \Mailing\Entity\EmailMessageEvent implements \Do
     /**
      * {@inheritDoc}
      */
-    public function setMessageId(?int $messageId): \Mailing\Entity\EmailMessageEvent
+    public function setMessageId(string $messageId): \Mailing\Entity\EmailMessageEvent
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMessageId', [$messageId]);

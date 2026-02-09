@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Cluster\Export\Project;
 
 use Cluster\Entity\Project\Evaluation;
+use Cluster\Export\CountryColumns;
+use Cluster\Export\Funding\StatusColumns as FundingStatusColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -62,6 +64,16 @@ final class EvaluationColumns extends AbstractEntityColumns
             $countryIdColumn,
             $projectIdColumn,
             $projectVersionIdColumn,
+        ];
+    }
+
+    #[\Override]
+    public function getDependencies(): array
+    {
+        return [
+            FundingStatusColumns::class,
+            CountryColumns::class,
+            VersionColumns::class,
         ];
     }
 }

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Cluster\Export\Project;
 
 use Cluster\Entity\Project\Version as ProjectVersion;
+use Cluster\Export\Project\Version\CostsAndEffortColumns;
+use Cluster\Export\Version\StatusColumns as VersionStatusColumns;
+use Cluster\Export\Version\TypeColumns as VersionTypeColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -71,6 +74,16 @@ final class VersionColumns extends AbstractEntityColumns
             $costsColumn,
             $effortColumn,
             $countriesColumn,
+        ];
+    }
+
+    #[\Override]
+    public function getDependencies(): array
+    {
+        return [
+            VersionTypeColumns::class,
+            VersionStatusColumns::class,
+            CostsAndEffortColumns::class
         ];
     }
 }

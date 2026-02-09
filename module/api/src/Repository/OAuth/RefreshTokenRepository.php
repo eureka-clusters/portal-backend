@@ -6,6 +6,6 @@ namespace Api\Repository\OAuth;
 
 use Doctrine\ORM\EntityRepository;
 
-final class RefreshToken extends EntityRepository //implements RefreshTokenInterface
+final class RefreshTokenRepository extends EntityRepository //implements RefreshTokenInterface
 {
 }

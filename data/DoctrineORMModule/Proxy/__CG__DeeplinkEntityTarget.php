@@ -217,7 +217,7 @@ class Target extends \Deeplink\Entity\Target implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getTarget(): ?string
+    public function getTarget(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTarget', []);
@@ -228,7 +228,7 @@ class Target extends \Deeplink\Entity\Target implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function setTarget(?string $target): \Deeplink\Entity\Target
+    public function setTarget(string $target): \Deeplink\Entity\Target
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTarget', [$target]);

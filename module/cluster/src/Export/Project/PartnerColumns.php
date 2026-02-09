@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Export\Project;
 
 use Cluster\Entity\Project\Partner;
+use Cluster\Export\OrganisationColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -89,6 +90,14 @@ final class PartnerColumns extends AbstractEntityColumns
             $fullProjectProposalEffortColumn,
             $latestVersionCostsColumn,
             $latestVersionEffortColumn,
+        ];
+    }
+
+    #[\Override]
+    public function getDependencies(): array
+    {
+        return [
+            OrganisationColumns::class,
         ];
     }
 }

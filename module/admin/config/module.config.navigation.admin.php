@@ -47,7 +47,7 @@ return [
                                             ],
                                         ],
                                     ],
-                                    'edit' => [
+                                    'edit'           => [
                                         'route'  => 'zfcadmin/user/edit',
                                         'label'  => _('txt-edit-user'),
                                         'params' => [
@@ -95,12 +95,10 @@ return [
                     ],
                 ],
             ],
-            'oauth2'         => [
-                'label'     => _('txt-oauth2'),
-                'resource'  => 'route/zfcadmin/oauth2/scope/list',
-                'privilege' => 'list',
-                'uri'       => '#',
-                'pages'     => [
+            'management'     => [
+                'label' => _('txt-management'),
+                'uri'   => '#',
+                'pages' => [
                     'oauth2-scopes'   => [
                         'label' => _('txt-oauth2-scopes-list'),
                         'route' => 'zfcadmin/oauth2/scope/list',
@@ -188,9 +186,33 @@ return [
                                     ],
                                 ],
                                 'pages'  => [
-                                    'edit' => [
+                                    'edit'                 => [
                                         'label'  => _('txt-edit-service'),
                                         'route'  => 'zfcadmin/oauth2/service/edit',
+                                        'params' => [
+                                            'entities'   => [
+                                                'id' => Service::class,
+                                            ],
+                                            'invokables' => [
+                                                ServiceLabel::class,
+                                            ],
+                                        ],
+                                    ],
+                                    'update-client-secret' => [
+                                        'label'  => _('txt-service-update-client-secret'),
+                                        'route'  => 'zfcadmin/oauth2/service/update-client-secret',
+                                        'params' => [
+                                            'entities'   => [
+                                                'id' => Service::class,
+                                            ],
+                                            'invokables' => [
+                                                ServiceLabel::class,
+                                            ],
+                                        ],
+                                    ],
+                                    'update-private-key'   => [
+                                        'label'  => _('txt-service-update-private-key'),
+                                        'route'  => 'zfcadmin/oauth2/service/update-private-key',
                                         'params' => [
                                             'entities'   => [
                                                 'id' => Service::class,

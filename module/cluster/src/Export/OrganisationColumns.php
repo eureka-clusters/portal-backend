@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Export;
 
 use Cluster\Entity\Organisation;
+use Cluster\Export\Organisation\TypeColumns as OrganisationTypeColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -53,6 +54,15 @@ final class OrganisationColumns extends AbstractEntityColumns
             $slugColumn,
             $countryIdColumn,
             $typeIdColumn,
+        ];
+    }
+
+    #[\Override]
+    public function getDependencies(): array
+    {
+        return [
+            CountryColumns::class,
+            OrganisationTypeColumns::class,
         ];
     }
 }

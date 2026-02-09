@@ -5,6 +5,13 @@ declare(strict_types=1);
 namespace Cluster\Export;
 
 use Cluster\Entity\Project;
+use Cluster\Export\ClusterColumns;
+use Cluster\Export\FunderColumns;
+use Cluster\Export\Project\EvaluationColumns;
+use Cluster\Export\Project\PartnerColumns;
+use Cluster\Export\Project\StatusColumns;
+use Cluster\Export\Project\VersionColumns;
+use General\Export\DateColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -119,6 +126,18 @@ final class ProjectColumns extends AbstractEntityColumns
             $fullProjectProposalEffortColumn,
             $latestVersionCostsColumn,
             $latestVersionEffortColumn,
+        ];
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            ClusterColumns::class,
+            StatusColumns::class,
+            VersionColumns::class,
+            PartnerColumns::class,
+            EvaluationColumns::class,
+            FunderColumns::class,
         ];
     }
 }

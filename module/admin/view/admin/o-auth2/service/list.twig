@@ -4,7 +4,7 @@
 {% do form.prepare() %}
 {{ form().openTag(form)|raw }}
 
-<h1>{{ translate("txt-oauth2-service-list") }} {{ oauth2ServiceLink(null, 'new', 'button') }}</h1>
+<h1>{{ translate("txt-oauth2-service-list") }} </h1>
 
 <div class="row">
     <div class="col-md-6">
@@ -27,7 +27,10 @@
             <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/oauth2/service/list', 'criteria': 'name', 'text': translate("txt-name")} %}</th>
             <th>{{ translate("txt-client-id") }}</th>
             <th>{{ translate("txt-scope") }}</th>
-            <th>{{ translate("txt-clusters") }}</th>
+            <th>{{ translate("txt-type") }}</th>
+            <th>{{ translate("txt-mailers") }}</th>
+            <th>{{ translate("txt-storage-locations") }}</th>
+            <th>{{ translate("txt-authentications") }}</th>
         </tr>
         </thead>
         <tbody>
@@ -37,7 +40,10 @@
                 <td>{{ oauth2ServiceLink(service, 'view', 'name') }} {{ oauth2ServiceLink(service, 'edit', 'icon') }}</td>
                 <td>{{ service.clientId }}</td>
                 <td>{{ oauth2ScopeLink(service.scope) }}</td>
-                <td>{% for cluster in service.allowedClusters %}{{ cluster }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</td>
+                <td>{{ translate(service.getTypeText()) }}</td>
+                <td>{{ service.mailers.count() }}</td>
+                <td>{{ service.storageLocations().count() }}</td>
+                <td>{{ service.authentications().count() }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -49,3 +55,10 @@
 
 
 {{ form().closeTag()|raw }}
+
+<h2>{{ translate("txt-create-new-service") }}</h2>
+<ul>
+    {% for serviceType in serviceTypes %}
+        <li>{{ oauth2ServiceLink(null,'new', 'text', serviceType) }}</li>
+    {% endfor %}
+</ul>

@@ -67,10 +67,10 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
     }
 
     /**
@@ -448,7 +448,7 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function getClient(): \Api\Entity\OAuth\Client
+    public function getClient(): ?\Api\Entity\OAuth\Client
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClient', []);
@@ -459,7 +459,7 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function setClient(\Api\Entity\OAuth\Client $client): \Api\Entity\OAuth\Service
+    public function setClient(?\Api\Entity\OAuth\Client $client): \Api\Entity\OAuth\Service
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClient', [$client]);
@@ -487,6 +487,72 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStorageLocations', [$storageLocations]);
 
         return parent::setStorageLocations($storageLocations);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenantId(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenantId', []);
+
+        return parent::getTenantId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTenantId(?string $tenantId): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTenantId', [$tenantId]);
+
+        parent::setTenantId($tenantId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getType(): \Api\Enum\OAuth2\ServiceTypeEnum|int
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
+
+        return parent::getType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setType(\Api\Enum\OAuth2\ServiceTypeEnum|int $type): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setType', [$type]);
+
+        parent::setType($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPrivateKey(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPrivateKey', []);
+
+        return parent::getPrivateKey();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPrivateKey(?string $privateKey): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrivateKey', [$privateKey]);
+
+        parent::setPrivateKey($privateKey);
     }
 
     /**

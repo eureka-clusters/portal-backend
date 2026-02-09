@@ -67,10 +67,10 @@ class StorageLocation extends \Reporting\Entity\StorageLocation implements \Doct
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'id', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'name', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'connectionString', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'container', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'excelFolder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'parquetFolder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'oAuth2Service'];
+            return ['__isInitialized__', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'id', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'name', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'connectionString', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'exportFileType', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'container', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'folder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'oAuth2Service'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'id', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'name', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'connectionString', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'container', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'excelFolder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'parquetFolder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'oAuth2Service'];
+        return ['__isInitialized__', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'id', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'name', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'connectionString', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'exportFileType', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'container', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'folder', '' . "\0" . 'Reporting\\Entity\\StorageLocation' . "\0" . 'oAuth2Service'];
     }
 
     /**
@@ -217,7 +217,7 @@ class StorageLocation extends \Reporting\Entity\StorageLocation implements \Doct
     /**
      * {@inheritDoc}
      */
-    public function setId(?int $id): \Reporting\Entity\StorageLocation
+    public function setId(int $id): \Reporting\Entity\StorageLocation
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
@@ -272,45 +272,67 @@ class StorageLocation extends \Reporting\Entity\StorageLocation implements \Doct
     /**
      * {@inheritDoc}
      */
-    public function getExcelFolder(): string
+    public function getExportFileType(): \Jield\Export\Enum\ExportFileTypeEnum
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExcelFolder', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExportFileType', []);
 
-        return parent::getExcelFolder();
+        return parent::getExportFileType();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setExcelFolder(string $excelFolder): \Reporting\Entity\StorageLocation
+    public function setExportFileType(\Jield\Export\Enum\ExportFileTypeEnum $exportFileType): \Reporting\Entity\StorageLocation
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExcelFolder', [$excelFolder]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExportFileType', [$exportFileType]);
 
-        return parent::setExcelFolder($excelFolder);
+        return parent::setExportFileType($exportFileType);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getParquetFolder(): string
+    public function getContainer(): string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getParquetFolder', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContainer', []);
 
-        return parent::getParquetFolder();
+        return parent::getContainer();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setParquetFolder(string $parquetFolder): \Reporting\Entity\StorageLocation
+    public function setContainer(string $container): \Reporting\Entity\StorageLocation
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setParquetFolder', [$parquetFolder]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContainer', [$container]);
 
-        return parent::setParquetFolder($parquetFolder);
+        return parent::setContainer($container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFolder(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFolder', []);
+
+        return parent::getFolder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFolder(string $folder): \Reporting\Entity\StorageLocation
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFolder', [$folder]);
+
+        return parent::setFolder($folder);
     }
 
     /**
@@ -338,23 +360,12 @@ class StorageLocation extends \Reporting\Entity\StorageLocation implements \Doct
     /**
      * {@inheritDoc}
      */
-    public function getContainer(): string
+    public function getType(): \Jield\Export\Enum\TypeEnum
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContainer', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
 
-        return parent::getContainer();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContainer(string $container): \Reporting\Entity\StorageLocation
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContainer', [$container]);
-
-        return parent::setContainer($container);
+        return parent::getType();
     }
 
     /**

@@ -18,10 +18,8 @@ use Laminas\Translator\TranslatorInterface;
 use Laminas\View\Model\ViewModel;
 use Reporting\Entity\StorageLocation;
 use Reporting\Service\StorageLocationService;
-
 use function ceil;
 use function sprintf;
-
 use const PHP_INT_MAX;
 
 /**
@@ -32,9 +30,10 @@ final class StorageLocationController extends AbstractActionController
 {
     public function __construct(
         private readonly StorageLocationService $storageLocationService,
-        private readonly FormService $formService,
-        private readonly TranslatorInterface $translator
-    ) {
+        private readonly FormService            $formService,
+        private readonly TranslatorInterface    $translator
+    )
+    {
     }
 
     public function listAction(): ViewModel
@@ -51,8 +50,8 @@ final class StorageLocationController extends AbstractActionController
         $paginator->setCurrentPageNumber(pageNumber: (int)$page);
         $paginator->setPageRange(
             pageRange: (int)ceil(
-                         num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
-                     )
+                num: $paginator->getTotalItemCount() / $paginator::getDefaultItemCountPerPage()
+            )
         );
 
         $form = new SearchFilter();
@@ -60,11 +59,11 @@ final class StorageLocationController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                           'paginator' => $paginator,
-                           'form'      => $form,
-                           'order'     => $filterPlugin->getOrder(),
-                           'direction' => $filterPlugin->getDirection(),
-                       ]
+                'paginator' => $paginator,
+                'form'      => $form,
+                'order'     => $filterPlugin->getOrder(),
+                'direction' => $filterPlugin->getDirection(),
+            ]
         );
     }
 
@@ -88,7 +87,7 @@ final class StorageLocationController extends AbstractActionController
 
                 $this->storageLocationService->getBlobService()->listBlobs(
                     container: $storageLocation->getContainer(),
-                    options:   $listBlobsOptions
+                    options: $listBlobsOptions
 
                 );
                 $hasAccess = true;
@@ -100,11 +99,11 @@ final class StorageLocationController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                           'storageLocation' => $storageLocation,
-                           'hasAccessTested' => $hasAccessTested,
-                           'hasAccess'       => $hasAccess,
-                           'accessMessage'   => $accessMessage,
-                       ]
+                'storageLocation' => $storageLocation,
+                'hasAccessTested' => $hasAccessTested,
+                'hasAccess'       => $hasAccess,
+                'accessMessage'   => $accessMessage,
+            ]
         );
     }
 
@@ -134,11 +133,11 @@ final class StorageLocationController extends AbstractActionController
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
-                                 $this->translator->translate(
-                                     message: 'txt-storage-location-%s-has-successfully-been-deleted'
-                                 ),
-                                 $storageLocation->getName()
-                             )
+                        $this->translator->translate(
+                            message: 'txt-storage-location-%s-has-successfully-been-deleted'
+                        ),
+                        $storageLocation->getName()
+                    )
                 );
 
                 return $this->redirect()->toRoute(route: 'zfcadmin/reporting/storage-location/list');
@@ -158,9 +157,9 @@ final class StorageLocationController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                           'form'            => $form,
-                           'storageLocation' => $storageLocation,
-                       ]
+                'form'            => $form,
+                'storageLocation' => $storageLocation,
+            ]
         );
     }
 
@@ -184,11 +183,11 @@ final class StorageLocationController extends AbstractActionController
 
                 $this->flashMessenger()->addSuccessMessage(
                     message: sprintf(
-                                 $this->translator->translate(
-                                     message: 'txt-storage-location-%s-has-successfully-been-created'
-                                 ),
-                                 $storageLocation->getName()
-                             )
+                        $this->translator->translate(
+                            message: 'txt-storage-location-%s-has-successfully-been-created'
+                        ),
+                        $storageLocation->getName()
+                    )
                 );
 
                 return $this->redirect()
@@ -200,9 +199,9 @@ final class StorageLocationController extends AbstractActionController
 
         return new ViewModel(
             variables: [
-                           'form'    => $form,
-                           'service' => $service,
-                       ]
+                'form'    => $form,
+                'service' => $service,
+            ]
         );
     }
 }

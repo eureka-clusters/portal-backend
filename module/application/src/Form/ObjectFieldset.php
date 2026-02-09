@@ -5,24 +5,23 @@ declare(strict_types=1);
 namespace Application\Form;
 
 use Application\Entity\AbstractEntity;
+use Application\Enum\FormElementEnumInterface;
 use Doctrine\Laminas\Hydrator\DoctrineObject;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Form\Element\ObjectMultiCheckbox;
 use DoctrineModule\Form\Element\ObjectRadio;
 use DoctrineModule\Form\Element\ObjectSelect;
+use InvalidArgumentException;
 use Laminas\Form\Annotation\AttributeBuilder;
 use Laminas\Form\Element;
 use Laminas\Form\Element\Collection;
 use Laminas\Form\Element\MultiCheckbox;
-use Laminas\Form\Element\Radio;
 use Laminas\Form\Element\Select;
 use Laminas\Form\Fieldset;
 use Laminas\Form\FieldsetInterface;
 use Laminas\Form\FormInterface;
-
 use function array_key_exists;
 use function array_merge;
-use function asort;
 use function sprintf;
 use function ucfirst;
 
@@ -42,14 +41,15 @@ class ObjectFieldset extends Fieldset
 
     protected function addElements(
         FormInterface|FieldsetInterface $dataFieldset,
-        ?AbstractEntity $object,
-        ?Fieldset $baseFieldset = null
-    ): void {
+        ?AbstractEntity                 $object,
+        ?Fieldset                       $baseFieldset = null
+    ): void
+    {
         /** @var Element $element */
         foreach ($dataFieldset->getElements() as $element) {
             $this->parseElement(element: $element, object: $object);
             // Add only when a type is provided
-            if (! array_key_exists(key: 'type', array: $element->getAttributes())) {
+            if (!array_key_exists(key: 'type', array: $element->getAttributes())) {
                 continue;
             }
 
@@ -74,11 +74,25 @@ class ObjectFieldset extends Fieldset
             }
         }
 
+        // Add sub-fieldsets
         foreach ($dataFieldset->getFieldsets() as $subFieldset) {
             /** @var Fieldset $subFieldset */
-            $subFieldset->setHydrator(hydrator: $this->getHydrator());
-            $this->addElements(dataFieldset: $subFieldset, object: $subFieldset->getObject());
-            $this->add(elementOrFieldset: $subFieldset);
+            $subFieldset->setHydrator($this->getHydrator());
+
+            if (null === $subFieldset->getObject()) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'ObjectFieldset::addElements() expects a valid object for fieldset "%s". 
+                        Most probably the Instance attribute is missing for the composed element',
+                        $subFieldset->getName()
+                    )
+                );
+            }
+
+            $subFieldset->setAllowedObjectBindingClass($subFieldset->getObject()::class);
+            $this->addElements($subFieldset, $subFieldset->getObject());
+
+            $this->add($subFieldset);
         }
     }
 
@@ -99,11 +113,26 @@ class ObjectFieldset extends Fieldset
             );
         }
 
-        if (($element instanceof Radio || $element instanceof Select || $element instanceof MultiCheckbox) && ! $element instanceof ObjectRadio) {
+        if (($element instanceof Select || $element instanceof MultiCheckbox) && !$element instanceof ObjectRadio) {
             $attributes = $element->getAttributes();
 
+
+            if (isset($attributes['enum'])) {
+                /** @var FormElementEnumInterface $enum */
+                $enum   = $attributes['enum'];
+                $values = $enum::toArray();
+
+
+                $element->setOptions(
+                    options: array_merge(
+                        $element->getOptions(),
+                        ['value_options' => $values]
+                    )
+                );
+            }
+
             if (isset($attributes['array'])) {
-                $valueOptionsArray = sprintf('get%s', ucfirst(string: (string) $attributes['array']));
+                $valueOptionsArray = sprintf('get%s', ucfirst(string: (string)$attributes['array']));
 
                 $values = $object::$valueOptionsArray();
 

@@ -27,12 +27,10 @@ use Gedmo\Timestampable\TimestampableListener;
 use Jield\ApiTools\OAuth2\Adapter\PdoAdapter;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Cache\Storage\Adapter\Redis;
-use Laminas\I18n\Translator\TranslatorServiceFactory;
 use Laminas\I18n\View\Helper\Translate;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\Glob;
-use Laminas\Translator\TranslatorInterface;
 use Twig\Extension\DebugExtension;
 
 $config = [
@@ -55,19 +53,19 @@ $config = [
             'BjyAuthorize\Cache' => Redis::class, //Map the bjy on the native cache
         ],
         'factories' => [
-            'doctrine.cache.application_cache'       => DoctrineCacheFactory::class,
-            Authentication\Adapter\PdoAdapter::class => PdoAdapterFactory::class,
-            Redis::class                             => LaminasCacheFactory::class,
-            PdoAdapter::class                        => PdoAdapterFactory::class,
-            TranslatorInterface::class               => TranslatorServiceFactory::class,
-            ModuleOptions::class                     => ModuleOptionsFactory::class,
-            FormService::class                       => InvokableFactory::class,
-            InjectAclInNavigation::class             => ConfigAbstractFactory::class,
-            SetTitle::class                          => ConfigAbstractFactory::class,
-            UpdateNavigation::class                  => InvokableFactory::class,
-            AuthenticationService::class             => ConfigAbstractFactory::class,
-            AuthenticationStorage::class             => ConfigAbstractFactory::class,
-            DoctrineGateway::class                   => ConfigAbstractFactory::class,
+            'doctrine.cache.application_cache'                  => DoctrineCacheFactory::class,
+            Authentication\Adapter\PdoAdapter::class            => PdoAdapterFactory::class,
+            \Laminas\I18n\Translator\TranslatorInterface::class => \Application\Factory\TranslatorServiceFactory::class,
+            Redis::class                                        => LaminasCacheFactory::class,
+            PdoAdapter::class                                   => PdoAdapterFactory::class,
+            ModuleOptions::class                                => ModuleOptionsFactory::class,
+            FormService::class                                  => InvokableFactory::class,
+            InjectAclInNavigation::class                        => ConfigAbstractFactory::class,
+            SetTitle::class                                     => ConfigAbstractFactory::class,
+            UpdateNavigation::class                             => InvokableFactory::class,
+            AuthenticationService::class                        => ConfigAbstractFactory::class,
+            AuthenticationStorage::class                        => ConfigAbstractFactory::class,
+            DoctrineGateway::class                              => ConfigAbstractFactory::class,
         ],
     ],
     'view_helpers'       => [

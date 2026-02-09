@@ -5,15 +5,100 @@
 
 {{ lbs5formelement(serviceFieldset.get('id')) }}
 {{ lbs5formelement(serviceFieldset.get('name')) }}
-{{ lbs5formelement(serviceFieldset.get('clientId')) }}
-{{ lbs5formelement(serviceFieldset.get('clientSecret')) }}
+
+<div class="row mb-3">
+    <label class="col-sm-3 col-form-label">{{ translate("txt-service-type") }}</label>
+
+    <div class="col-sm-9">
+        <p class="form-control-plaintext">{{ translate(serviceType.toString()) }}</p>
+    </div>
+</div>
+
+{{ lbs5formelement(serviceFieldset.get('description')) }}
+
+{% if serviceType.hasFormField('tenantId') %}
+    {{ lbs5formelement(serviceFieldset.get('tenantId')) }}
+{% endif %}
+
+{% if serviceType.hasFormField('clientId') %}
+    {% if serviceType.isDocusign %}
+        {{ lbs5formelement(serviceFieldset.get('clientId').setAttribute('label', translate("txt-docusign-integration-key") )) }}
+    {% else %}
+        {{ lbs5formelement(serviceFieldset.get('clientId')) }}
+    {% endif %}
+{% endif %}
+
+{% if serviceType.hasFormField('userId') %}
+    {{ lbs5formelement(serviceFieldset.get('userId')) }}
+{% endif %}
+
+{% if serviceType.hasFormField('clientSecret') %}
+    {% if serviceFieldset.has('clientSecret') %}
+        {{ lbs5formelement(serviceFieldset.get('clientSecret')) }}
+    {% else %}
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">{{ translate("txt-service-client-secret") }}</label>
+
+            <div class="col-sm-9">
+                <p class="form-control-plaintext font-monospace">
+                    {{ service.clientSecret[0:4] }}***{{ service.clientSecret[-4:] }}</p>
+                <small class="form-text">{{ translate("txt-service-client-secret-can-be-changed-on-the-overview-page") }}</small>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if serviceType.hasFormField('privateKey') %}
+    {% if serviceFieldset.has('privateKey') %}
+        {{ lbs5formelement(serviceFieldset.get('privateKey')) }}
+    {% else %}
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">{{ translate("txt-service-private-key") }}</label>
+
+            <div class="col-sm-9">
+                <p class="form-control-plaintext font-monospace">{% if service.privateKey %}{{ service.privateKey[0:10] }}***{% else %}-{% endif %}</p>
+                <small class="form-text">{{ translate("txt-service-private-key-can-be-changed-on-the-overview-page") }}</small>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
 {{ lbs5formelement(serviceFieldset.get('redirectUrl')) }}
-{{ lbs5formelement(serviceFieldset.get('authorizationUrl')) }}
-{{ lbs5formelement(serviceFieldset.get('accessTokenUrl')) }}
-{{ lbs5formelement(serviceFieldset.get('profileUrl')) }}
-{{ lbs5formelement(serviceFieldset.get('allowedClusters')) }}
+
+{% if serviceType.hasFormField('authorizationUrl') %}
+    {{ lbs5formelement(serviceFieldset.get('authorizationUrl')) }}
+{% endif %}
+
+{% if serviceType.hasFormField('accessTokenUrl') %}
+    {{ lbs5formelement(serviceFieldset.get('accessTokenUrl')) }}
+{% endif %}
+
+{% if serviceType.hasFormField('profileUrl') %}
+    {{ lbs5formelement(serviceFieldset.get('profileUrl')) }}
+{% endif %}
+
 {{ lbs5formelement(serviceFieldset.get('scope')) }}
-{{ lbs5formelement(serviceFieldset.get('client')) }}
+
+{% if serviceType.hasFormField('allowedClusters') %}
+    {{ lbs5formelement(serviceFieldset.get('allowedClusters')) }}
+{% endif %}
+
+{% if serviceType.hasFormField('client') %}
+    {{ lbs5formelement(serviceFieldset.get('client')) }}
+{% endif %}
+
+{% if cannotDeleteServiceReasons|length > 0 %}
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-9">
+            <h4 class="text-danger">{{ translate("txt-cannot-delete-service") }}</h4>
+            <ul>
+                {% for reason in cannotDeleteServiceReasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
 
 <div class="row mb-3">
     <div class="offset-sm-3 col-sm-9">
@@ -27,3 +112,6 @@
 </div>
 
 {{ form().closeTag()|raw }}
+
+
+

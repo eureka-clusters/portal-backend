@@ -10,17 +10,17 @@ use Laminas\Form\Element\Csrf;
 use Laminas\Form\Element\Submit;
 use Laminas\Form\Form;
 use Psr\Container\ContainerInterface;
-
 use function _;
 use function class_exists;
 
 class CreateObject extends Form
 {
     public function __construct(
-        EntityManager $entityManager,
-        AbstractEntity $object,
+        EntityManager      $entityManager,
+        AbstractEntity     $object,
         ContainerInterface $container
-    ) {
+    )
+    {
         parent::__construct(name: $object->get(switch: "entity_name"));
 
         /**

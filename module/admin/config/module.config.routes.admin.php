@@ -286,10 +286,10 @@ return [
                                             ],
                                         ],
                                     ],
-                                    'new'  => [
+                                    'new'                  => [
                                         'type'    => Segment::class,
                                         'options' => [
-                                            'route'    => '/new.html',
+                                            'route'    => '/new/type-[:serviceType].html',
                                             'defaults' => [
                                                 'action' => 'new',
                                             ],
@@ -301,6 +301,24 @@ return [
                                             'route'    => '/edit/[:id].html',
                                             'defaults' => [
                                                 'action' => 'edit',
+                                            ],
+                                        ],
+                                    ],
+                                    'update-client-secret' => [
+                                        'type'    => Segment::class,
+                                        'options' => [
+                                            'route'    => '/update-client-secret/[:id].html',
+                                            'defaults' => [
+                                                'action' => 'update-client-secret',
+                                            ],
+                                        ],
+                                    ],
+                                    'update-private-key' => [
+                                        'type'    => Segment::class,
+                                        'options' => [
+                                            'route'    => '/update-private-key/[:id].html',
+                                            'defaults' => [
+                                                'action' => 'update-private-key',
                                             ],
                                         ],
                                     ],

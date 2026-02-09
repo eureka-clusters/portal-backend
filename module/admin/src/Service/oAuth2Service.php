@@ -11,20 +11,19 @@ use Api\Entity\OAuth\RefreshToken;
 use Api\Entity\OAuth\Service;
 use Application\Service\AbstractService;
 use Doctrine\ORM\EntityManager;
-use GuzzleHttp\RequestOptions;
 use Laminas\Json\Json;
 use Laminas\Translator\TranslatorInterface;
 use OAuth2\Encryption\Jwt;
-
 use function time;
 
 class oAuth2Service extends AbstractService
 {
     public function __construct(
-        EntityManager $entityManager,
-        ?TranslatorInterface $translator,
+        EntityManager          $entityManager,
+        ?TranslatorInterface   $translator,
         private readonly array $config
-    ) {
+    )
+    {
         parent::__construct(entityManager: $entityManager, translator: $translator);
         $this->translator = $translator;
     }
@@ -45,30 +44,18 @@ class oAuth2Service extends AbstractService
     {
         $guzzle = new \GuzzleHttp\Client();
 
-        $response = $guzzle->request(
-            'POST',
-            $service->getAccessTokenUrl(),
-            [
-                RequestOptions::HEADERS     => [
-                    'Accept'       => 'application/json',
-                    'Content-Type' => 'application/json',
-                ],
-                RequestOptions::DEBUG       => false,
-                RequestOptions::HTTP_ERRORS => true,
-                RequestOptions::JSON        => [
-                    'grant_type'    => 'client_credentials',
-                    'redirect_uri'  => $service->getRedirectUrl(),
+        $token = Json::decode(
+            encodedValue: $guzzle->post(uri: $service->getAccessTokenUrl(), options: [
+                'form_params' => [
                     'client_id'     => $service->getClientId(),
                     'client_secret' => $service->getClientSecret(),
                     'scope'         => $service->getScope()->getScope(),
+                    'grant_type'    => 'client_credentials',
                 ],
-            ]
+            ])->getBody()->getContents()
         );
 
-        $responseData = $response->getBody()->getContents();
-        $responseData = Json::decode($responseData);
-
-        return $responseData->access_token;
+        return $token->access_token;
     }
 
     public function generateJwtToken(Client $client, User $user): string
@@ -90,15 +77,15 @@ class oAuth2Service extends AbstractService
         if ($client->getPublicKey()?->getEncryptionAlgorithm() === 'RS256') {
             return $jwtHelper->encode(
                 payload: $payload,
-                key:     $client->getPublicKey()->getPrivateKey(),
-                algo:    $client->getPublicKey()->getEncryptionAlgorithm()
+                key: $client->getPublicKey()->getPrivateKey(),
+                algo: $client->getPublicKey()->getEncryptionAlgorithm()
             );
         }
 
         return $jwtHelper->encode(
             payload: $payload,
-            key:     $client->getPublicKey()?->getPublicKey(),
-            algo:    'HS256'
+            key: $client->getPublicKey()?->getPublicKey(),
+            algo: 'HS256'
         );
     }
 
@@ -148,7 +135,23 @@ class oAuth2Service extends AbstractService
     {
         return $this->entityManager->getRepository(entityName: Service::class)->findBy(
             criteria: [],
-            orderBy:  ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
+            orderBy: ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
         );
+    }
+
+    public function canDeleteService(\Api\Entity\OAuth\Service $service): bool
+    {
+        return $this->cannotDeleteServiceReasons(service: $service) === [];
+    }
+
+    public function cannotDeleteServiceReasons(Service $service): array
+    {
+        $cannotDeleteServiceReasons = [];
+
+        if (!$service->getStorageLocations()->isEmpty()) {
+            $cannotDeleteServiceReasons[] = 'txt-service-used-by-storage-locations';
+        }
+
+        return $cannotDeleteServiceReasons;
     }
 }

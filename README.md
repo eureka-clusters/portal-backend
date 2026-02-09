@@ -16,7 +16,7 @@ docker exec -i pa-portal-backend-mysql mysql -u root -ppa-portal-root-password p
 
 ```shell
 COMPOSE_BAKE=true docker compose build --pull
-COMPOSE_BAKE=true docker up -d
+COMPOSE_BAKE=true docker compose up -d
 
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:generate-proxies
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
@@ -26,6 +26,7 @@ docker compose run --rm cli php /var/www/composer.phar fix
 docker compose run --rm cli php /var/www/composer.phar cs
 
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
+docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:generate-proxies
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:schema-tool:update --dump-sql
 
 docker compose exec redis redis-cli flushall

@@ -12,37 +12,73 @@
 {% endif %}
 
 
-<p class="lead">{{ translate("txt-oauth2-service-explanation") }}</p>
+<p class="lead">{{ translate("txt-o-auth2-service-explanation") }}</p>
 
 <dl class="dl-horizontal">
-    <dt>{{ translate("txt-service-client-id") }}</dt>
+    <dt>{{ translate("txt-oauth2-service-type") }}</dt>
+    <dd>{{ translate(service.getType().toString()) }}</dd>
+
+    {% if service.tenantId %}
+        <dt>{{ translate("txt-service-tenant-id") }}</dt>
+        <dd>{{ service.tenantId }}</dd>
+    {% endif %}
+
+    {% if service.type.isDocusign() %}
+        <dt>{{ translate("txt-integration-key") }}</dt>
+    {% else %}
+        <dt>{{ translate("txt-service-client-id") }}</dt>
+    {% endif %}
     <dd>{{ service.clientId }}</dd>
 
+    {% if service.userId %}
+        <dt>{{ translate("txt-service-user-id") }}</dt>
+        <dd>{{ service.userId }}</dd>
+    {% endif %}
+
     <dt>{{ translate("txt-service-client-secret") }}</dt>
-    <dd class="font-monospace">{{ service.clientSecret[0:3] }}***</dd>
+    <dd><span class="font-monospace">{{ service.clientSecret[0:4] }}***{{ service.clientSecret[-4:] }}</span>
+        {{ oauth2ServiceLink(service,'update-client-secret','button-small') }}</dd>
 
-    <dt>{{ translate("txt-service-redirect-url") }}</dt>
-    <dd>{{ service.redirectUrl }}</dd>
+    {% if service.redirectUrl %}
+        <dt>{{ translate("txt-service-redirect-url") }}</dt>
+        <dd>{{ service.redirectUrl }}</dd>
+    {% endif %}
 
-    <dt>{{ translate("txt-service-authorization-url") }}</dt>
-    <dd>{{ service.authorizationUrl }}</dd>
+    {% if service.authorizationUrl %}
+        <dt>{{ translate("txt-service-authorization-url") }}</dt>
+        <dd>{{ service.authorizationUrl }}</dd>
+    {% endif %}
 
-    <dt>{{ translate("txt-service-access-token-url") }}</dt>
-    <dd>{{ service.accessTokenUrl }}</dd>
+    {% if service.accessTokenUrl %}
+        <dt>{{ translate("txt-service-access-token-url") }}</dt>
+        <dd>{{ service.accessTokenUrl }}</dd>
+    {% endif %}
 
-    <dt>{{ translate("txt-service-profile-url") }}</dt>
-    <dd>{{ service.profileUrl }}</dd>
+    {% if service.profileUrl %}
+        <dt>{{ translate("txt-service-profile-url") }}</dt>
+        <dd>{{ service.profileUrl }}</dd>
+    {% endif %}
 
-    <dt>{{ translate("txt-service-allowed-clusters") }}</dt>
-    {% for cluster in service.allowedClusters %}
-        <dd>{{ cluster.name }}</dd>
-    {% endfor %}
+
+    <dt>{{ translate("txt-service-private-key") }}</dt>
+    <dd>{% if service.privateKey %}{{ service.privateKey[0:10] }}***{{ service.privateKey[-10:] }}{% else %}-{% endif %} {{ oauth2ServiceLink(service,'update-private-key','button-small') }}</dd>
 
     <dt>{{ translate("txt-oauth2-service-scope") }}</dt>
     <dd>{{ oauth2ScopeLink(service.scope,'view') }}</dd>
 
-    <dt>{{ translate("txt-oauth2-service-client") }}</dt>
-    <dd>{{ oauth2ClientLink(service.client,'view','name') }}</dd>
+    {% for mailer in service.getMailers() %}
+        {% if loop.first %}
+            <dt>{{ translate("txt-mailers") }}</dt>
+        {% endif %}
+        <dd>{{ mailerLink(mailer,'view','name') }}</dd>
+    {% endfor %}
+
+    {% for storageLocation in service.getStorageLocations() %}
+        {% if loop.first %}
+            <dt>{{ translate("txt-storage-location") }}</dt>
+        {% endif %}
+        <dd>{{ storageLocationLink(storageLocation,'view','name') }}</dd>
+    {% endfor %}
 </dl>
 
 <form method="post">
