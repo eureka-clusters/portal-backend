@@ -9,7 +9,6 @@ use Admin\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
 use ReturnTypeWillChange;
-
 use function time;
 
 class DoctrineGateway implements SaveHandlerInterface
@@ -115,6 +114,6 @@ class DoctrineGateway implements SaveHandlerInterface
     #[\Override]
     public function gc($max_lifetime): bool
     {
-        return true;
+        return false;
     }
 }

@@ -7,6 +7,7 @@ namespace Api\Paginator;
 use Api\Provider\ProviderInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 
+/** @phpstan-ignore-next-line */
 class CustomAdapter extends ArrayAdapter
 {
     private ProviderInterface $provider;

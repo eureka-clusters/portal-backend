@@ -13,8 +13,8 @@ use Cluster\Service\Project\PartnerService;
 use DateTime;
 use DateTimeInterface;
 use Jield\Search\ValueObject\SearchFormResult;
-use Laminas\Translator\TranslatorInterface;
 use Laminas\Json\Json;
+use Laminas\Translator\TranslatorInterface;
 use OpenApi\Attributes as OA;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -107,179 +107,37 @@ final class PartnerListener extends AbstractRoutedListener
         $partnerSheet = $spreadSheet->getActiveSheet();
         $partnerSheet->setTitle(title: $this->translator->translate(message: 'txt-partners'));
 
-        $row    = 1;
-        $column = 'A';
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-project-number'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-project-name'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-partner'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-country'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-partner-type'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-is-coordinator'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-is-self-funded'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-is-active'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-primary-cluster'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-secondary-cluster'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-programme'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-programme-call'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-label-date'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-official-start-date'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-official-end-date'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-project-status'
-            )
-        );
+        // Build header row as an array
+        $data   = [];
+        $header = [
+            $this->translator->translate(message: 'txt-project-number'),
+            $this->translator->translate(message: 'txt-project-name'),
+            $this->translator->translate(message: 'txt-partner'),
+            $this->translator->translate(message: 'txt-country'),
+            $this->translator->translate(message: 'txt-partner-type'),
+            $this->translator->translate(message: 'txt-is-coordinator'),
+            $this->translator->translate(message: 'txt-is-self-funded'),
+            $this->translator->translate(message: 'txt-is-active'),
+            $this->translator->translate(message: 'txt-primary-cluster'),
+            $this->translator->translate(message: 'txt-secondary-cluster'),
+            $this->translator->translate(message: 'txt-programme'),
+            $this->translator->translate(message: 'txt-programme-call'),
+            $this->translator->translate(message: 'txt-label-date'),
+            $this->translator->translate(message: 'txt-official-start-date'),
+            $this->translator->translate(message: 'txt-official-end-date'),
+            $this->translator->translate(message: 'txt-project-status'),
+            $this->translator->translate(message: 'txt-project-outline-costs'),
+            $this->translator->translate(message: 'txt-project-outline-effort'),
+            $this->translator->translate(message: 'txt-full-project-proposal-costs'),
+            $this->translator->translate(message: 'txt-full-project-proposal-effort'),
+            $this->translator->translate(message: 'txt-latest-version-costs'),
+            $this->translator->translate(message: 'txt-latest-version-effort'),
+            $this->translator->translate(message: 'txt-latest-version-is-fpp'),
+        ];
+        $data[] = $header;
 
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-project-outline-costs'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-project-outline-effort'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-full-project-proposal-costs'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-full-project-proposal-effort'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-latest-version-costs'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-latest-version-effort'
-            )
-        );
-        $partnerSheet->setCellValue(
-            coordinate: $column++ . $row,
-            value: $this->translator->translate(
-                message: 'txt-latest-version-is-fpp'
-            )
-        );
-
+        // Build data rows as arrays
         foreach ($results as $result) {
-            $column = 'A';
-            $row++;
-
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['number']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['name']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['organisation']['name']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['organisation']['country']['country']
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['organisation']['type']['type']
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['isCoordinator']
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['isSelfFunded']
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['isActive']
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['project']['primaryCluster']['name'] ?? null
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(
-                value: $result['project']['secondaryCluster']['name'] ?? null
-            );
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['programme']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['programmeCall']);
-
             $labelDate         = null;
             $officialStartDate = null;
             $officialEndDate   = null;
@@ -296,20 +154,35 @@ final class PartnerListener extends AbstractRoutedListener
                 $officialEndDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $result['project']['officialEndDate'])->format(format: 'Y-m-d');
             }
 
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $labelDate);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialStartDate);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $officialEndDate);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['project']['status']['status'] ?? null);
-
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineCosts']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['projectOutlineEffort']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalCosts']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['fullProjectProposalEffort']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionCosts']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: $result['latestVersionEffort']);
-            $partnerSheet->getCell(coordinate: $column++ . $row)->setValue(value: null === $result['project']['latestVersion'] ? null : $result['project']['latestVersion']['isLatestVersionAndIsFPP']);
-
+            $data[] = [
+                $result['project']['number'],
+                $result['project']['name'],
+                $result['organisation']['name'],
+                $result['organisation']['country']['country'],
+                $result['organisation']['type']['type'],
+                $result['isCoordinator'],
+                $result['isSelfFunded'],
+                $result['isActive'],
+                $result['project']['primaryCluster']['name'] ?? null,
+                $result['project']['secondaryCluster']['name'] ?? null,
+                $result['project']['programme'],
+                $result['project']['programmeCall'],
+                $labelDate,
+                $officialStartDate,
+                $officialEndDate,
+                $result['project']['status']['status'] ?? null,
+                $result['projectOutlineCosts'],
+                $result['projectOutlineEffort'],
+                $result['fullProjectProposalCosts'],
+                $result['fullProjectProposalEffort'],
+                $result['latestVersionCosts'],
+                $result['latestVersionEffort'],
+                (null === $result['project']['latestVersion'] ? null : $result['project']['latestVersion']['isLatestVersionAndIsFPP']),
+            ];
         }
+
+        // Write the entire dataset to the sheet starting at A1
+        $partnerSheet->fromArray($data);
 
         $excelWriter = IOFactory::createWriter(spreadsheet: $spreadSheet, writerType: 'Xlsx');
 
