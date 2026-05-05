@@ -67,10 +67,10 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
+            return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
+        return ['__isInitialized__', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'id', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'name', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'description', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'clientSecret', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'redirectUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'tenantId', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'authorizationUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'accessTokenUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'profileUrl', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'allowedClusters', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'scope', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'type', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'client', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'privateKey', '' . "\0" . 'Api\\Entity\\OAuth\\Service' . "\0" . 'storageLocations'];
     }
 
     /**
@@ -553,6 +553,28 @@ class Service extends \Api\Entity\OAuth\Service implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrivateKey', [$privateKey]);
 
         parent::setPrivateKey($privateKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDescription(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescription', []);
+
+        return parent::getDescription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDescription(?string $description): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
+
+        parent::setDescription($description);
     }
 
     /**

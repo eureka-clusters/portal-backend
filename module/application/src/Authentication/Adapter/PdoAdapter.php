@@ -27,6 +27,6 @@ final class PdoAdapter extends \Jield\ApiTools\OAuth2\Adapter\PdoAdapter
     #[\Override]
     protected function checkPassword($user, $password): bool
     {
-        return password_verify(password: $password, hash: $user['password']);
+        return password_verify(password: $password, hash: (string) $user['password']);
     }
 }

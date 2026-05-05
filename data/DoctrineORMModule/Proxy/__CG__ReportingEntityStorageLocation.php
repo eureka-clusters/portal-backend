@@ -283,7 +283,7 @@ class StorageLocation extends \Reporting\Entity\StorageLocation implements \Doct
     /**
      * {@inheritDoc}
      */
-    public function setExportFileType(\Jield\Export\Enum\ExportFileTypeEnum $exportFileType): \Reporting\Entity\StorageLocation
+    public function setExportFileType(\Jield\Export\Enum\ExportFileTypeEnum|string $exportFileType): \Reporting\Entity\StorageLocation
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExportFileType', [$exportFileType]);

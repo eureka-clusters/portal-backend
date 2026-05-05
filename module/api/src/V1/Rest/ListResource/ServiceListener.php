@@ -36,7 +36,7 @@ final class ServiceListener extends AbstractRoutedListener
     public function fetchAll(Parameters $params): array
     {
         return array_map(
-            fn(Service $service) => $this->serviceProvider->generateArray($service),
+            $this->serviceProvider->generateArray(...),
             $this->oAuth2Service->findAllService()
         );
     }

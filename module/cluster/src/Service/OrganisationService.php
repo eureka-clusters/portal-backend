@@ -57,10 +57,11 @@ class OrganisationService extends AbstractService
     }
 
     public function findOrCreateOrganisation(
-        string $name,
+        string  $name,
         Country $country,
-        Type $type
-    ): Organisation {
+        Type    $type
+    ): Organisation
+    {
         $organisation = $this->entityManager->getRepository(entityName: Organisation::class)
             ->findOneBy(criteria: ['name' => $name, 'country' => $country, 'type' => $type]);
 

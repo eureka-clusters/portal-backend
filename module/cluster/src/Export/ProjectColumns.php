@@ -129,6 +129,7 @@ final class ProjectColumns extends AbstractEntityColumns
         ];
     }
 
+    #[\Override]
     public function getDependencies(): array
     {
         return [

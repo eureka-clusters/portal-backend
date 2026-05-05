@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 return [
     'reporting/reporting/index' => __DIR__ . '/./view/reporting/reporting/index.twig',
     'reporting/reporting/dashboard' => __DIR__ . '/./view/reporting/reporting/dashboard.twig',

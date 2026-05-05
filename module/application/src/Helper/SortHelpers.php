@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Helper;
 
 use Application\Entity\AbstractEntity;

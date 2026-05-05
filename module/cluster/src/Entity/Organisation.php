@@ -42,7 +42,8 @@ class Organisation extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: Partner::class, cascade: ['persist'])]
     private Collection $partners;
 
-    #[Pure] public function __construct()
+    #[Pure]
+    public function __construct()
     {
         $this->country  = new Country();
         $this->type     = new Type();

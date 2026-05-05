@@ -307,6 +307,7 @@ class Service extends AbstractEntity
         if ($this->getType()->isMicrosoft()) {
             return 'https://login.microsoftonline.com/' . $this->getTenantId() . '/oauth2/v2.0/token';
         }
+
         return $this->accessTokenUrl;
     }
 

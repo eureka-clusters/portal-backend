@@ -40,8 +40,9 @@ final class ProjectListener extends AbstractRoutedListener
         private readonly ProjectService $projectService,
         private readonly VersionService $versionService,
         private readonly PartnerService $partnerService,
-        private readonly EntityManager $entityManager
-    ) {
+        private readonly EntityManager  $entityManager
+    )
+    {
     }
 
     #[OA\Post(
@@ -50,23 +51,23 @@ final class ProjectListener extends AbstractRoutedListener
         summary: 'Update project information from backends',
         requestBody: new OA\RequestBody(
             description: "Content",
-            required:    true,
-            content:     [
-                             new OA\MediaType(
-                                 mediaType: 'multipart/form-data',
-                                 schema:    new OA\Schema(
-                                                required:   ['file'],
-                                                properties: [
-                                                                new OA\Property(
-                                                                    property:    'file',
-                                                                    description: 'Json file with project information',
-                                                                    type:        'string',
-                                                                    format:      'binary'
-                                                                )
-                                                            ],
-                                            )
-                             ),
-                         ]
+            required: true,
+            content: [
+                new OA\MediaType(
+                    mediaType: 'multipart/form-data',
+                    schema: new OA\Schema(
+                        required: ['file'],
+                        properties: [
+                            new OA\Property(
+                                property: 'file',
+                                description: 'Json file with project information',
+                                type: 'string',
+                                format: 'binary'
+                            )
+                        ],
+                    )
+                ),
+            ]
         ),
         tags: ['Project'],
         responses: [
@@ -100,19 +101,19 @@ final class ProjectListener extends AbstractRoutedListener
 
             //Collect an array of partners and specify the unique elements of these partners
             $this->extractDataFromVersion(
-                data:            $decodedData->versions,
+                data: $decodedData->versions,
                 versionTypeName: Type::TYPE_PO,
-                project:         $project
+                project: $project
             );
             $this->extractDataFromVersion(
-                data:            $decodedData->versions,
+                data: $decodedData->versions,
                 versionTypeName: Type::TYPE_FPP,
-                project:         $project
+                project: $project
             );
             $this->extractDataFromVersion(
-                data:            $decodedData->versions,
+                data: $decodedData->versions,
                 versionTypeName: Type::TYPE_LATEST,
-                project:         $project
+                project: $project
             );
 
             //Update the costs/effort totals for all the project
@@ -136,8 +137,8 @@ final class ProjectListener extends AbstractRoutedListener
 
             //First we create the version
             $version = $this->versionService->createVersionFromData(
-                data:    $data->$versionTypeName,
-                type:    $versionType,
+                data: $data->$versionTypeName,
+                type: $versionType,
                 project: $project
             );
 

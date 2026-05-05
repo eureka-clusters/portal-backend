@@ -24,11 +24,11 @@ final class RandomHelper
     {
         try {
             return random_bytes(length: $length);
-        } catch (RandomException $e) {
+        } catch (RandomException $randomException) {
             throw new InvalidArgumentException(
                 message:  'Invalid parameter provided to getBytes(length)',
                 code:     0,
-                previous: $e
+                previous: $randomException
             );
         }
     }

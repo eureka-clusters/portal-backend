@@ -102,7 +102,7 @@ class DeeplinkService extends AbstractService
         $target = new Target();
         $target->setTarget(target: sprintf("Target created from %s", $route));
 
-        if ($name !== null && $name !== '' && $name !== '0') {
+        if (!in_array($name, [null, '', '0'], true)) {
             $target->setTarget(target: $name);
         }
 

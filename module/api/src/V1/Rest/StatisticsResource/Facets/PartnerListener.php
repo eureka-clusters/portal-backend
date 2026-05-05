@@ -52,7 +52,7 @@ final class PartnerListener extends AbstractRoutedListener
 
         $filter = [];
 
-        if (!empty($id)) {
+        if ($id !== '' && $id !== '0') {
             $encodedFilter    = base64_decode((string)$id, true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }

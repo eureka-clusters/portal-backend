@@ -58,7 +58,7 @@ final class CacheController extends AbstractActionController
                     }
                 }
 
-                array_map(callback: 'unlink', array: glob(pattern: $rootPath . "data/cache/*"));
+                array_map(callback: unlink(...), array: glob(pattern: $rootPath . "data/cache/*"));
 
                 $this->flashMessenger()->addInfoMessage(message: "Flush of File-cache successful");
 
