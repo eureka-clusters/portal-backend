@@ -20,32 +20,32 @@
 </div>
 
 {% if paginator.pageRange > 0 %}
-<table class="table table-striped table-sm table-hover">
-    <thead>
-    <tr>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'id', 'text': translate('txt-id')} %}</th>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'name', 'text': translate('txt-name')} %}</th>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'identifier', 'text': translate('txt-identifier')} %}</th>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'on-website', 'text': translate('txt-on-website')} %}</th>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'primary-cluster', 'text': translate('txt-primary-cluster')} %}</th>
-        <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'date-updated', 'text': translate('txt-date-updated')} %}</th>
-    </tr>
-    </thead>
+    <table class="table table-striped table-sm table-hover">
+        <thead>
+        <tr>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'id', 'text': translate('txt-id')} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'name', 'text': translate('txt-name')} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'identifier', 'text': translate('txt-identifier')} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'on-website', 'text': translate('txt-on-website')} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'primary-cluster', 'text': translate('txt-primary-cluster')} %}</th>
+            <th>{% include 'application/partial/filter-table-header' with {'route': 'zfcadmin/project/list', 'criteria': 'date-updated', 'text': translate('txt-date-updated')} %}</th>
+        </tr>
+        </thead>
 
-    <tbody>
-    {% for project in paginator.getCurrentItems() %}
-    <tr>
-        <td><small class="text-muted">{{ project.id }}</small></td>
-        <td>{{ projectLink(project, 'view', 'name') }}</td>
-        <td>{{ project.identifier }}</td>
-        <td>{{ project.primaryCluster.name }}</td>
-        <td>{{ project.isOnWebsite() }}{{ translate("txt-yes") }}{% else %}{{ translate("txt-no") }}{% endif %}</td>
-        <td>{% if project.dateUpdated %}{{ project.dateUpdated|date('d-m-Y H:i') }}{% endif %}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% include 'application/partial/pagination-control' %}
+        <tbody>
+        {% for project in paginator.getCurrentItems() %}
+            <tr>
+                <td><small class="text-muted">{{ project.id }}</small></td>
+                <td>{{ projectLink(project, 'view', 'name') }}</td>
+                <td>{{ project.identifier }}</td>
+                <td>{{ project.primaryCluster.name }}</td>
+                <td>{% if project.isOnWebsite() %}{{ translate("txt-yes") }}{% else %}{{ translate("txt-no") }}{% endif %}</td>
+                <td>{% if project.dateUpdated %}{{ project.dateUpdated|date('d-m-Y H:i') }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'application/partial/pagination-control' %}
 {% else %}
     {{ lbs5alert().info(translate("txt-no-projects-found"))|raw }}
 {% endif %}

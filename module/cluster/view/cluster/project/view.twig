@@ -18,7 +18,8 @@
     <dd>{% if project.secondaryCluster %}{{ project.primaryCluster.name }}{% else %}-{% endif %}</dd>
     <dt>{{ translate("txt-description") }}</dt>
     <dd>{{ project.description }}</dd>
-
+    <dt>{{ translate("txt-on-website") }}</dt>
+    <dd>{% if project.isOnWebsite() %}{{ translate("txt-yes") }}{% else %}{{ translate("txt-no") }}{% endif %}</dd>
 </dl>
 
 {% do form.prepare() %}
