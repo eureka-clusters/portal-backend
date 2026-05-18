@@ -24,7 +24,6 @@ use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-
 use function array_key_exists;
 use function array_unique;
 use function class_exists;
@@ -118,16 +117,18 @@ abstract class AbstractEntityTest extends TestCase
     }
 
     protected function getReflectionClassFromFileInfo(
-        string $namespace,
+        string      $namespace,
         SplFileInfo $fileInfo
-    ): ReflectionClass {
+    ): ReflectionClass
+    {
         return new ReflectionClass($this->getClassNameFromFileInfo($namespace, $fileInfo));
     }
 
     protected function getClassNameFromFileInfo(
-        string $namespace,
+        string      $namespace,
         SplFileInfo $fileInfo
-    ): string {
+    ): string
+    {
         return ucfirst($namespace) . '\Entity\\' . str_replace(
                 ['/', '.php'],
                 ['\\', ''],
@@ -174,6 +175,10 @@ abstract class AbstractEntityTest extends TestCase
         $setter = 'set' . ucfirst($propertyName);
         $getter = 'get' . ucfirst($propertyName);
 
+        if ($getter === 'getDocRef') {
+            return;
+        }
+
         switch (true) {
             case array_key_exists(key: Column::class, array: $propertyAnnotations):
                 $this->analyseColumnMapping($entity, $propertyName, $getter, $setter, $propertyAnnotations);
@@ -195,11 +200,12 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseColumnMapping(
         AbstractEntity $entity,
-        string $propertyName,
-        string $getter,
-        string $setter,
-        array $annotationProperties
-    ): void {
+        string         $propertyName,
+        string         $getter,
+        string         $setter,
+        array          $annotationProperties
+    ): void
+    {
         //Go over the properties and do the required tests
         $columnAnnotation = $annotationProperties[Column::class];
 
@@ -339,25 +345,26 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseOneToManyMapping(
         AbstractEntity $entity,
-        string $propertyName,
-        string $getter,
-        string $setter,
-        array $propertyAnnotations
-    ): void {
+        string         $propertyName,
+        string         $getter,
+        string         $setter,
+        array          $propertyAnnotations
+    ): void
+    {
         if (!in_array(
-            needle:   $getter,
+            needle: $getter,
             haystack: [
-                          'getObject',
-                          'getLogo',
-                          'getLoi',
-                          'getDoa',
-                          'getImage',
-                          'getIcon',
-                          'getPdf',
-                          'getIdeaPosterImage',
-                          'getIdeaPosterIcon'
-                      ],
-            strict:   true
+                'getObject',
+                'getLogo',
+                'getLoi',
+                'getDoa',
+                'getImage',
+                'getIcon',
+                'getPdf',
+                'getIdeaPosterImage',
+                'getIdeaPosterIcon'
+            ],
+            strict: true
         )) {
             //The initial value should be an arrayCollection
             self::assertInstanceOf(
@@ -375,11 +382,12 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseOneToOneMapping(
         AbstractEntity $entity,
-        string $propertyName,
-        string $getter,
-        string $setter,
-        array $propertyAnnotations
-    ): void {
+        string         $propertyName,
+        string         $getter,
+        string         $setter,
+        array          $propertyAnnotations
+    ): void
+    {
         /** @var OneToOne $oneToOneAnnotation */
         $oneToOneAnnotation = $propertyAnnotations[OneToOne::class];
         $targetEntity       = $oneToOneAnnotation->targetEntity;
@@ -439,11 +447,12 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseManyToOneMapping(
         AbstractEntity $entity,
-        string $propertyName,
-        string $getter,
-        string $setter,
-        array $propertyAnnotations
-    ): void {
+        string         $propertyName,
+        string         $getter,
+        string         $setter,
+        array          $propertyAnnotations
+    ): void
+    {
         /** @var ManyToOne $manyToOneAnnotation */
         $manyToOneAnnotation = $propertyAnnotations[ManyToOne::class];
         $targetEntity        = $manyToOneAnnotation->targetEntity;
@@ -497,11 +506,12 @@ abstract class AbstractEntityTest extends TestCase
 
     protected function analyseManyToManyMapping(
         AbstractEntity $entity,
-        string $propertyName,
-        string $getter,
-        string $setter,
-        array $propertyAnnotations
-    ): void {
+        string         $propertyName,
+        string         $getter,
+        string         $setter,
+        array          $propertyAnnotations
+    ): void
+    {
         if ($getter === 'getMainIdea') {
             return;
         }

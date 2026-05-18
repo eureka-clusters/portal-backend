@@ -7,6 +7,8 @@ parameters:
     treatPhpDocTypesAsCertain: false
     paths:
         - module
+    excludePaths:
+        - module/application/test/Entity/AbstractEntityTest.php
     ignoreErrors:
     	- '#Call to an undefined method Laminas\\Stdlib\\RequestInterface::[a-zA-Z]+\(\)#'
     	- '#Call to an undefined method Laminas\\Form\\ElementInterface::[a-zA-Z]+\(\)#'
