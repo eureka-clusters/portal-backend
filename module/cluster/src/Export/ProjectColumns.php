@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Cluster\Export;
 
 use Cluster\Entity\Project;
-use Cluster\Export\ClusterColumns;
-use Cluster\Export\FunderColumns;
 use Cluster\Export\Project\EvaluationColumns;
 use Cluster\Export\Project\PartnerColumns;
 use Cluster\Export\Project\StatusColumns;
@@ -45,6 +43,7 @@ final class ProjectColumns extends AbstractEntityColumns
         $cancelDateColumn                = new Column(columnName: 'CancelDate', type: Column::TYPE_DATE);
         $officialStartDateColumn         = new Column(columnName: 'OfficialStartDate', type: Column::TYPE_DATE);
         $officialEndDateColumn           = new Column(columnName: 'OfficialEndDate', type: Column::TYPE_DATE);
+        $onWebsiteColumn                 = new Column(columnName: 'OnWebsite', type: Column::TYPE_BOOLEAN, isNullable: false);
         $statusIdColumn                  = new Column(columnName: 'StatusId', type: Column::TYPE_INTEGER, isNullable: false);
         $projectLeaderColumn             = new Column(columnName: 'ProjectLeader', type: Column::TYPE_STRING, isNullable: true);
         $projectOutlineCostsColumn       = new Column(columnName: 'ProjectOutlineCosts', type: Column::TYPE_FLOAT);
@@ -80,6 +79,7 @@ final class ProjectColumns extends AbstractEntityColumns
                 $cancelDateColumn->addRow($project->getCancelDate());
                 $officialStartDateColumn->addRow($project->getOfficialStartDate());
                 $officialEndDateColumn->addRow($project->getOfficialEndDate());
+                $onWebsiteColumn->addRow($project->isOnWebsite());
                 $statusIdColumn->addRow($project->getStatus()->getId());
 
                 $projectLeaderJson = json_encode($project->getProjectLeader());
@@ -118,6 +118,7 @@ final class ProjectColumns extends AbstractEntityColumns
             $cancelDateColumn,
             $officialStartDateColumn,
             $officialEndDateColumn,
+            $onWebsiteColumn,
             $statusIdColumn,
             $projectLeaderColumn,
             $projectOutlineCostsColumn,

@@ -12,7 +12,6 @@ use Cluster\Entity\Organisation\Type;
 use Cluster\Entity\Project;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Query\Mysql\MatchAgainst;
@@ -83,30 +82,13 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project');
         $queryBuilder->from(from: Project::class, alias: 'cluster_entity_project');
+        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.onWebsite', y: ':onWebsite'))
+            ->setParameter(key: 'onWebsite', value: true);
 
         $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);
 
         $this->applyUserFilter(queryBuilder: $queryBuilder, user: $user);
-
-//        //We only want projects with active partners
-//        $activePartnerSubSelect = $this->_em->createQueryBuilder()
-//            ->select(select: 'cluster_entity_project_active_partner_project')
-//            ->from(from: Partner::class, alias: 'cluster_entity_project_active_partner')
-//            ->join(
-//                join: 'cluster_entity_project_active_partner.project',
-//                alias: 'cluster_entity_project_active_partner_project'
-//            )
-//            ->where(
-//                predicates: $queryBuilder->expr()->eq(
-//                    x: 'cluster_entity_project_active_partner.isActive',
-//                    y: $queryBuilder->expr()->literal(literal: true)
-//                )
-//            );
-//
-//        $queryBuilder->andWhere(
-//            $queryBuilder->expr()->in(x: 'cluster_entity_project', y: $activePartnerSubSelect->getDQL()),
-//        );
 
         return $queryBuilder;
     }

@@ -117,6 +117,9 @@ class Project extends AbstractEntity
     #[ORM\Column(type: 'float')]
     private float $latestVersionEffort = 0;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $onWebsite = true;
+
     public function __construct()
     {
         $this->dateCreated    = new DateTime();
@@ -471,5 +474,15 @@ class Project extends AbstractEntity
     {
         $this->latestVersionEffort = $latestVersionEffort;
         return $this;
+    }
+
+    public function isOnWebsite(): bool
+    {
+        return $this->onWebsite;
+    }
+
+    public function setOnWebsite(bool $onWebsite): void
+    {
+        $this->onWebsite = $onWebsite;
     }
 }

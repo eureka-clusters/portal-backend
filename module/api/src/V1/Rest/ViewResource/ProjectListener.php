@@ -65,6 +65,13 @@ final class ProjectListener extends AbstractRoutedListener
             );
         }
 
+        if (!$project->isOnWebsite()) {
+            return new ApiProblem(
+                status: 403,
+                detail: 'Project is not published'
+            );
+        }
+
         return $this->projectProvider->generateArray(entity: $project);
     }
 }

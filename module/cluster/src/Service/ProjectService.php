@@ -28,7 +28,8 @@ class ProjectService extends AbstractService
 
     final public const string DURATION_DAYS = 'd';
 
-    #[Pure] public function __construct(
+    #[Pure]
+    public function __construct(
         EntityManager                   $entityManager,
         private readonly ClusterService $clusterService
     )
@@ -189,6 +190,7 @@ class ProjectService extends AbstractService
         $project->setProgrammeCall(programmeCall: $data->programmeCall);
         $project->setProjectLeader(projectLeader: (array)$data->projectLeader);
         $project->setTechnicalArea(technicalArea: $data->technicalArea);
+        $project->setOnWebsite(onWebsite: $data->onWebsite ?? false);
 
         //Find or create the primary cluster
         $primaryCluster = $this->clusterService->findOrCreateCluster(clusterData: $data->primaryCluster);

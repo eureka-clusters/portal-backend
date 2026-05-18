@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Cluster\Repository\Project;
 
 use Admin\Entity\User;
-use Cluster\Entity\Cluster;
 use Cluster\Entity\Country;
 use Cluster\Entity\Project;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Jield\Search\ValueObject\SearchFormResult;
@@ -26,6 +24,8 @@ class VersionRepository extends EntityRepository
 
         //We always need a join on project
         $queryBuilder->join(join: 'cluster_entity_project_version.project', alias: 'cluster_entity_project');
+        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.onWebsite', y: ':onWebsite'))
+            ->setParameter(key: 'onWebsite', value: true);
 
         //Sort on the submission date
         $queryBuilder->orderBy(sort: 'cluster_entity_project_version.submissionDate', order: \Doctrine\Common\Collections\Order::Ascending->value);
