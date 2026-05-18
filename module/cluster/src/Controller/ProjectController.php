@@ -12,10 +12,10 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Jield\Search\Form\SearchFilter;
 use Laminas\Http\Response;
-use Laminas\Translator\TranslatorInterface;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Paginator\Paginator;
+use Laminas\Translator\TranslatorInterface;
 use Laminas\View\Model\ViewModel;
 use function ceil;
 
