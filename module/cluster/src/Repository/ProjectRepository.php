@@ -82,8 +82,8 @@ class ProjectRepository extends EntityRepository implements FilteredObjectReposi
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select(select: 'cluster_entity_project');
         $queryBuilder->from(from: Project::class, alias: 'cluster_entity_project');
-        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.onWebsite', y: ':onWebsite'))
-            ->setParameter(key: 'onWebsite', value: true);
+        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.isSuccessful', y: ':isSuccessful'))
+            ->setParameter(key: 'isSuccessful', value: true);
 
         $this->applyFilters(filter: $searchFormResult->getFilter(), queryBuilder: $queryBuilder);
         $this->applySorting(searchFormResult: $searchFormResult, queryBuilder: $queryBuilder);

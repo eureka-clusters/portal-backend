@@ -11,24 +11,17 @@ return [
         'Laminas\\Paginator',
         'Laminas\\Cache',
         'Laminas\\Validator\\Module',
-
         'Laminas\\Mvc\\Plugin\\FlashMessenger',
         'Laminas\\Mvc\\Plugin\\Identity',
-
-        'Jield\\ApiTools\\Module',
+        'Jield\\ApiTools',
         'Jield\\Export',
-
         'AssetManager',
         'LaminasBootstrap5',
-
         'ZfcTwig',
         'BjyAuthorize',
         'Jield\\Authorize',
-
         'LmcCors',
-
         'Api',
-
         'DoctrineModule',
         'DoctrineORMModule',
         'Admin',
@@ -37,7 +30,6 @@ return [
         'Reporting',
         'Deeplink',
         'Mailing',
-
     ],
     'module_listener_options' => [
         'config_glob_paths'        => [

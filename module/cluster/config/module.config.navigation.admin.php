@@ -55,13 +55,51 @@ return [
                         'route' => 'zfcadmin/project/list',
                         'pages' => [
                             'view' => [
-                                'route'  => 'zfcadmin/project/view',
+                                'route'  => 'zfcadmin/project/details/view',
                                 'params' => [
                                     'entities'   => [
                                         'id' => Project::class,
                                     ],
                                     'invokables' => [
                                         ProjectLabel::class,
+                                    ],
+                                ],
+                                'pages'  => [
+                                    'versions' => [
+                                        'label'  => 'Versions',
+                                        'route'  => 'zfcadmin/project/details/versions',
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => Project::class,
+                                            ],
+                                        ],
+                                    ],
+                                    'areas' => [
+                                        'label'  => 'Areas',
+                                        'route'  => 'zfcadmin/project/details/areas',
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => Project::class,
+                                            ],
+                                        ],
+                                    ],
+                                    'partners' => [
+                                        'label'  => 'Partners',
+                                        'route'  => 'zfcadmin/project/details/partners',
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => Project::class,
+                                            ],
+                                        ],
+                                    ],
+                                    'evaluations' => [
+                                        'label'  => 'Evaluations',
+                                        'route'  => 'zfcadmin/project/details/evaluations',
+                                        'params' => [
+                                            'entities' => [
+                                                'id' => Project::class,
+                                            ],
+                                        ],
                                     ],
                                 ],
                             ],

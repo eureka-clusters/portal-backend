@@ -25,7 +25,8 @@ use function sprintf;
 
 class PartnerService extends AbstractService
 {
-    #[Pure] public function __construct(
+    #[Pure]
+    public function __construct(
         EntityManager                        $entityManager,
         private readonly CountryService      $countryService,
         private readonly OrganisationService $organisationService
@@ -222,7 +223,10 @@ class PartnerService extends AbstractService
         $organisation = $this->organisationService->findOrCreateOrganisation(
             name: $data->partner,
             country: $country,
-            type: $type
+            type: $type,
+            vatNumber: $data->vatNumber ?? null,
+            companyRegistrationNumber: $data->companyRegistrationNumber ?? null,
+            companyRegistrationAuthority: $data->companyRegistrationAuthority ?? null
         );
 
         //Check if we already have this partner

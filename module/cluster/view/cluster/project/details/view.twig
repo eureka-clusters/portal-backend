@@ -1,0 +1,80 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(project.name) %}
+{% import 'cluster/partial/project/details-formatters' as details %}
+
+<h1>{{ project.name }}</h1>
+
+<p>{{ translate("txt-project-information") }}</p>
+
+{% include 'cluster/partial/project/details-navigation' with {'navigation': navigation} %}
+
+<div class="row">
+    {% for section in overviewSections %}
+        <div class="col-md-6 mb-4">
+            <h2>{{ section.title }}</h2>
+
+                <dl class="dl-horizontal">
+                {% for item in section.items %}
+                    <dt>{% if item.translate %}{{ translate(item.label) }}{% else %}{{ item.label }}{% endif %}</dt>
+                    <dd>
+                        {% if item.format == 'boolean' %}
+                            {{ translate(item.value ? 'txt-yes' : 'txt-no') }}
+                        {% elseif item.format == 'date' %}
+                            {{ details.date(item.value) }}
+                        {% elseif item.format == 'datetime' %}
+                            {{ details.date(item.value, true) }}
+                        {% elseif item.format == 'number' %}
+                            {{ details.number(item.value) }}
+                        {% elseif item.format == 'contact' %}
+                            {{ details.contact(item.value) }}
+                        {% elseif item.format == 'coordinator' %}
+                            {% if item.value is same as(null) %}
+                                {{ details.notProvided() }}
+                            {% else %}
+                                {% set technicalContact = details.contact(item.value.contact, false)|trim %}
+                                {{ item.value.organisation }}{% if technicalContact != '' %} ({{ technicalContact }}){% endif %}
+                            {% endif %}
+                        {% else %}
+                            {{ details.text(item.value) }}
+                        {% endif %}
+                    </dd>
+                {% endfor %}
+                </dl>
+        </div>
+    {% endfor %}
+</div>
+
+<h2>Dependencies</h2>
+
+<div class="row">
+    {% for dependency in dependencySummary %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>{{ dependency.title }} ({{ dependency.count }})</span>
+                    <a href="{{ url(dependency.route, dependency.routeParams) }}"
+                       class="btn btn-sm btn-outline-secondary">View</a>
+                </div>
+                <div class="card-body">
+                    {% if dependency.lines %}
+                        <ul class="mb-0">
+                            {% for line in dependency.lines %}
+                                <li>{{ line.label }}: {{ line.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="mb-0">{{ translate('txt-not-provided') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% do form.prepare() %}
+{{ form().openTag(form)|raw }}
+
+{{ lbs5formelement(form.get('delete')) }}
+{{ formelement(form.get('csrf')) }}
+
+{{ form().closeTag()|raw }}

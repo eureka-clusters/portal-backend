@@ -21,11 +21,14 @@ final class OrganisationColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $nameColumn      = new Column(columnName: 'Name', isNullable: false);
-        $slugColumn      = new Column(columnName: 'Slug', isNullable: false);
-        $countryIdColumn = new Column(columnName: 'CountryId', type: Column::TYPE_INTEGER, isNullable: false);
-        $typeIdColumn    = new Column(columnName: 'TypeId', type: Column::TYPE_INTEGER, isNullable: false);
+        $idColumn             = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
+        $nameColumn           = new Column(columnName: 'Name', isNullable: false);
+        $slugColumn           = new Column(columnName: 'Slug', isNullable: false);
+        $countryIdColumn      = new Column(columnName: 'CountryId', type: Column::TYPE_INTEGER, isNullable: false);
+        $typeIdColumn         = new Column(columnName: 'TypeId', type: Column::TYPE_INTEGER, isNullable: false);
+        $vatNumberColumn      = new Column(columnName: 'VatNumber', isNullable: true);
+        $companyRegColumn     = new Column(columnName: 'CompanyRegistrationNumber', isNullable: true);
+        $companyRegAuthColumn = new Column(columnName: 'CompanyRegistrationAuthority', isNullable: true);
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;
@@ -40,6 +43,9 @@ final class OrganisationColumns extends AbstractEntityColumns
                 $slugColumn->addRow($organisation->getSlug());
                 $countryIdColumn->addRow($organisation->getCountry()->getId());
                 $typeIdColumn->addRow($organisation->getType()->getId());
+                $vatNumberColumn->addRow($organisation->getVatNumber());
+                $companyRegColumn->addRow($organisation->getCompanyRegistrationNumber());
+                $companyRegAuthColumn->addRow($organisation->getCompanyRegistrationAuthority());
             }
 
             //clear the entity manager to prevent piling up entities
@@ -54,6 +60,9 @@ final class OrganisationColumns extends AbstractEntityColumns
             $slugColumn,
             $countryIdColumn,
             $typeIdColumn,
+            $vatNumberColumn,
+            $companyRegColumn,
+            $companyRegAuthColumn,
         ];
     }
 

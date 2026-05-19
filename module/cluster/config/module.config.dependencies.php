@@ -6,6 +6,7 @@ namespace Cluster;
 
 use Application\Service\FormService;
 use Cluster\Controller\Cluster\GroupController;
+use Cluster\Controller\Project\DetailsController;
 use Cluster\Controller\ProjectController;
 use Cluster\Provider\ClusterProvider;
 use Cluster\Provider\ContactProvider;
@@ -40,6 +41,9 @@ return [
         ProjectController::class               => [
             ProjectService::class,
             TranslatorInterface::class,
+        ],
+        DetailsController::class               => [
+            ProjectService::class,
         ],
         ClusterProvider::class                 => [
             Redis::class,

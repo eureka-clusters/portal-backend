@@ -24,8 +24,8 @@ class VersionRepository extends EntityRepository
 
         //We always need a join on project
         $queryBuilder->join(join: 'cluster_entity_project_version.project', alias: 'cluster_entity_project');
-        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.onWebsite', y: ':onWebsite'))
-            ->setParameter(key: 'onWebsite', value: true);
+        $queryBuilder->andWhere($queryBuilder->expr()->eq(x: 'cluster_entity_project.isSuccessful', y: ':isSuccessful'))
+            ->setParameter(key: 'isSuccessful', value: true);
 
         //Sort on the submission date
         $queryBuilder->orderBy(sort: 'cluster_entity_project_version.submissionDate', order: \Doctrine\Common\Collections\Order::Ascending->value);

@@ -1,0 +1,10 @@
+<ul class="nav nav-tabs mb-4">
+    {% for item in navigation %}
+        <li class="nav-item">
+            <a class="nav-link{% if item.isActive %} active{% endif %}"
+               href="{{ url(item.route, item.routeParams) }}">
+                {{ item.label }}{% if item.count is not null %} <span class="badge bg-secondary">{{ item.count }}</span>{% endif %}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

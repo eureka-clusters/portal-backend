@@ -53,12 +53,13 @@
     {{ lbs5alert().info(translate("txt-no-oauth2-services-found"))|raw }}
 {% endif %}
 
-
 {{ form().closeTag()|raw }}
 
-<h2>{{ translate("txt-create-new-service") }}</h2>
-<ul>
-    {% for serviceType in serviceTypes %}
-        <li>{{ oauth2ServiceLink(null,'new', 'text', serviceType) }}</li>
-    {% endfor %}
-</ul>
+<div>
+    <h2>{{ translate("txt-create-new-service") }}</h2>
+    <ul>
+        {% for serviceType in serviceTypes %}
+            <li>{{ oauth2ServiceLink(null,'new', 'text', serviceType) }}</li>
+        {% endfor %}
+    </ul>
+</div>

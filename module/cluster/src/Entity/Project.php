@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use Application\Entity\AbstractEntity;
+use Cluster\Entity\Project\Area;
 use Cluster\Entity\Project\Evaluation;
 use Cluster\Entity\Project\Partner;
 use Cluster\Entity\Project\Status;
@@ -63,6 +64,18 @@ class Project extends AbstractEntity
     #[ORM\Column]
     private string $programmeCall = '';
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $programCallPoOpenDate = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $programCallPoCloseDate = null;
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private DateTime $programCallFppOpenDate;
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private DateTime $programCallFppCloseDate;
+
     #[ORM\ManyToOne(targetEntity: Cluster::class, cascade: ['persist'], inversedBy: 'projectsPrimary')]
     #[ORM\JoinColumn(nullable: false)]
     private Cluster $primaryCluster;
@@ -99,6 +112,9 @@ class Project extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Evaluation::class, cascade: ['persist', 'remove'])]
     private Collection $evaluation;
 
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Area::class, cascade: ['persist', 'remove'])]
+    private Collection $areas;
+
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $projectOutlineCosts = null;
 
@@ -118,16 +134,19 @@ class Project extends AbstractEntity
     private float $latestVersionEffort = 0;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $onWebsite = true;
+    private bool $isSuccessful = true;
 
     public function __construct()
     {
-        $this->dateCreated    = new DateTime();
-        $this->primaryCluster = new Cluster();
-        $this->status         = new Status();
-        $this->versions       = new ArrayCollection();
-        $this->partners       = new ArrayCollection();
-        $this->evaluation     = new ArrayCollection();
+        $this->dateCreated             = new DateTime();
+        $this->programCallFppOpenDate  = new DateTime();
+        $this->programCallFppCloseDate = new DateTime();
+        $this->primaryCluster          = new Cluster();
+        $this->status                  = new Status();
+        $this->areas                   = new ArrayCollection();
+        $this->versions                = new ArrayCollection();
+        $this->partners                = new ArrayCollection();
+        $this->evaluation              = new ArrayCollection();
     }
 
     public function parseCacheKey(): string
@@ -476,13 +495,70 @@ class Project extends AbstractEntity
         return $this;
     }
 
-    public function isOnWebsite(): bool
+    public function isSuccessful(): bool
     {
-        return $this->onWebsite;
+        return $this->isSuccessful;
     }
 
-    public function setOnWebsite(bool $onWebsite): void
+    public function setIsSuccessful(bool $isSuccessful): Project
     {
-        $this->onWebsite = $onWebsite;
+        $this->isSuccessful = $isSuccessful;
+
+        return $this;
+    }
+
+    public function getProgramCallPoOpenDate(): ?DateTime
+    {
+        return $this->programCallPoOpenDate;
+    }
+
+    public function setProgramCallPoOpenDate(?DateTime $programCallPoOpenDate): Project
+    {
+        $this->programCallPoOpenDate = $programCallPoOpenDate;
+        return $this;
+    }
+
+    public function getProgramCallPoCloseDate(): ?DateTime
+    {
+        return $this->programCallPoCloseDate;
+    }
+
+    public function setProgramCallPoCloseDate(?DateTime $programCallPoCloseDate): Project
+    {
+        $this->programCallPoCloseDate = $programCallPoCloseDate;
+        return $this;
+    }
+
+    public function getProgramCallFppOpenDate(): DateTime
+    {
+        return $this->programCallFppOpenDate;
+    }
+
+    public function setProgramCallFppOpenDate(DateTime $programCallFppOpenDate): Project
+    {
+        $this->programCallFppOpenDate = $programCallFppOpenDate;
+        return $this;
+    }
+
+    public function getProgramCallFppCloseDate(): DateTime
+    {
+        return $this->programCallFppCloseDate;
+    }
+
+    public function setProgramCallFppCloseDate(DateTime $programCallFppCloseDate): Project
+    {
+        $this->programCallFppCloseDate = $programCallFppCloseDate;
+        return $this;
+    }
+
+    public function getAreas(): Collection
+    {
+        return $this->areas;
+    }
+
+    public function setAreas(Collection $areas): Project
+    {
+        $this->areas = $areas;
+        return $this;
     }
 }

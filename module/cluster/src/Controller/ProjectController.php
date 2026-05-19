@@ -83,6 +83,9 @@ final class ProjectController extends AbstractActionController
             );
         }
 
-        return new ViewModel(variables: ['project' => $project, 'form' => $form]);
+        return $this->redirect()->toRoute(
+            route: 'zfcadmin/project/details/view',
+            params: ['id' => $project->getId()]
+        );
     }
 }

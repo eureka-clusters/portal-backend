@@ -188,9 +188,28 @@ class ProjectService extends AbstractService
         $project->setDescription(description: $data->description);
         $project->setProgramme(programme: $data->programme);
         $project->setProgrammeCall(programmeCall: $data->programmeCall);
+        if (isset($data->programCallPoOpenDate)) {
+            $programCallPoOpenDate = DateTime::createFromFormat(
+                format: DateTimeInterface::ATOM,
+                datetime: $data->programCallPoOpenDate
+            );
+            $project->setProgramCallPoOpenDate(programCallPoOpenDate: $programCallPoOpenDate);
+        }
+        if (isset($data->programCallPoCloseDate)) {
+            $programCallPoCloseDate = DateTime::createFromFormat(
+                format: DateTimeInterface::ATOM,
+                datetime: $data->programCallPoCloseDate
+            );
+            $project->setProgramCallPoCloseDate(programCallPoCloseDate: $programCallPoCloseDate);
+        }
+        $programCallFppOpenDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->programCallFppOpenDate);
+        $project->setProgramCallFppOpenDate(programCallFppOpenDate: $programCallFppOpenDate);
+        $programCallFppCloseDate = DateTime::createFromFormat(format: DateTimeInterface::ATOM, datetime: $data->programCallFppCloseDate);
+        $project->setProgramCallFppCloseDate(programCallFppCloseDate: $programCallFppCloseDate);
+
         $project->setProjectLeader(projectLeader: (array)$data->projectLeader);
         $project->setTechnicalArea(technicalArea: $data->technicalArea);
-        $project->setOnWebsite(onWebsite: $data->onWebsite ?? false);
+        $project->setIsSuccessful(isSuccessful: $data->isSuccessful ?? false);
 
         //Find or create the primary cluster
         $primaryCluster = $this->clusterService->findOrCreateCluster(clusterData: $data->primaryCluster);

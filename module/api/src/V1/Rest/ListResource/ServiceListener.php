@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Api\V1\Rest\ListResource;
 
 use Admin\Service\oAuth2Service;
-use Api\Entity\OAuth\Service;
 use Api\Listener\AbstractRoutedListener;
 use Api\Provider\OAuth\ServiceProvider;
 use Laminas\Stdlib\Parameters;
 use OpenApi\Attributes as OA;
-
 use function array_map;
 
 final class ServiceListener extends AbstractRoutedListener
@@ -18,9 +16,10 @@ final class ServiceListener extends AbstractRoutedListener
     protected static string $route = '/api/list/service';
 
     public function __construct(
-        private readonly oAuth2Service $oAuth2Service,
+        private readonly oAuth2Service   $oAuth2Service,
         private readonly ServiceProvider $serviceProvider
-    ) {
+    )
+    {
     }
 
     #[OA\Get(

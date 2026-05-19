@@ -1,0 +1,56 @@
+{% do headTitle().append(translate("txt-admin") ) %}
+{% do headTitle().append(project.name) %}
+{% import 'cluster/partial/project/details-formatters' as details %}
+
+<h1>{{ project.name }}</h1>
+
+<p>{{ translate('txt-partners') }}</p>
+
+{% include 'cluster/partial/project/details-navigation' with {'navigation': navigation} %}
+
+{% for group in groups|filter(group => group.rows) %}
+    <h2>{{ group.title }}</h2>
+
+    <table class="table table-striped table-sm table-hover">
+        <thead>
+        <tr>
+            <th>{{ translate('txt-id') }}</th>
+            <th>{{ translate('txt-partner') }}</th>
+            <th>{{ translate('txt-country') }}</th>
+            <th>{{ translate('txt-type') }}</th>
+            <th>Technical contact</th>
+            <th>{{ translate('txt-is-active') }}</th>
+            <th>{{ translate('txt-is-coordinator') }}</th>
+            <th>{{ translate('txt-is-self-funded') }}</th>
+            <th>{{ translate('txt-project-outline-costs') }}</th>
+            <th>{{ translate('txt-project-outline-effort') }}</th>
+            <th>{{ translate('txt-full-project-proposal-costs') }}</th>
+            <th>{{ translate('txt-full-project-proposal-effort') }}</th>
+            <th>{{ translate('txt-latest-version-costs') }}</th>
+            <th>{{ translate('txt-latest-version-effort') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in group.rows %}
+            <tr>
+                <td><small class="text-muted">{{ row.id }}</small></td>
+                <td>{{ row.organisation }}</td>
+                <td>{{ row.country }}</td>
+                <td>{{ row.type }}</td>
+                <td>{{ details.contact(row.technicalContact) }}</td>
+                <td>{% if row.isActive %}{{ translate('txt-yes') }}{% else %}{{ translate('txt-no') }}{% endif %}</td>
+                <td>{% if row.isCoordinator %}{{ translate('txt-yes') }}{% else %}{{ translate('txt-no') }}{% endif %}</td>
+                <td>{% if row.isSelfFunded %}{{ translate('txt-yes') }}{% else %}{{ translate('txt-no') }}{% endif %}</td>
+                <td class="font-monospace">{{ details.number(row.projectOutlineCosts) }}</td>
+                <td class="font-monospace">{{ details.number(row.projectOutlineEffort) }}</td>
+                <td class="font-monospace">{{ details.number(row.fullProjectProposalCosts) }}</td>
+                <td class="font-monospace">{{ details.number(row.fullProjectProposalEffort) }}</td>
+                <td class="font-monospace">{{ details.number(row.latestVersionCosts) }}</td>
+                <td class="font-monospace">{{ details.number(row.latestVersionEffort) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {{ lbs5alert().info(translate("txt-no-projects-found"))|raw }}
+{% endfor %}

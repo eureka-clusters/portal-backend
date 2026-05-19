@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PA Portal Backend\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-11 13:37+0200\n"
+"POT-Creation-Date: 2026-05-19 10:38+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Johan van der Heide - Jield BV <info@jield.nl>\n"
+"Last-Translator: Johan van der Heide <johan.vanderheide@jield.nl>\n"
 "Language-Team: ITEA Office <johan.van.der.heide@itea4.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: translate;_;label\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/config/language.php:5
@@ -106,7 +106,6 @@ msgid "txt-user-and-roles"
 msgstr "User and roles"
 
 #: admin/config/module.config.navigation.admin.php:26
-#: admin/view/admin/user/list.twig:2 admin/view/admin/user/list.twig:12
 msgid "txt-user-list"
 msgstr "Users"
 
@@ -116,8 +115,6 @@ msgstr "User"
 
 #: admin/config/module.config.navigation.admin.php:43
 #: admin/src/View/Helper/UserLink.php:79
-#: admin/view/admin/user/generate-token.twig:1
-#: admin/view/admin/user/generate-token.twig:3
 msgid "txt-generate-token"
 msgstr "Generate token"
 
@@ -127,7 +124,6 @@ msgid "txt-edit-user"
 msgstr "Edit user"
 
 #: admin/config/module.config.navigation.admin.php:64
-#: admin/view/admin/role/list.twig:2 admin/view/admin/role/list.twig:13
 msgid "txt-role-list"
 msgstr "Roles"
 
@@ -141,76 +137,79 @@ msgid "txt-add-role"
 msgstr "New role"
 
 #: admin/config/module.config.navigation.admin.php:99
-msgid "txt-oauth2"
-msgstr "oAuth2"
+msgid "txt-management"
+msgstr "Management"
 
-#: admin/config/module.config.navigation.admin.php:105
+#: admin/config/module.config.navigation.admin.php:103
 msgid "txt-oauth2-scopes-list"
 msgstr "oAuth2 scopes"
 
-#: admin/config/module.config.navigation.admin.php:109
-#: admin/view/admin/o-auth2/scope/view.twig:2
-#: admin/view/admin/o-auth2/scope/view.twig:4
+#: admin/config/module.config.navigation.admin.php:107
 msgid "txt-oauth2-scope"
 msgstr "Scope"
 
-#: admin/config/module.config.navigation.admin.php:121
+#: admin/config/module.config.navigation.admin.php:119
 #: admin/src/View/Helper/OAuth2/ScopeLink.php:47
 msgid "txt-edit-oauth2-scope"
 msgstr "Edit oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:132
+#: admin/config/module.config.navigation.admin.php:130
 msgid "txt-new-oauth2-scopes"
 msgstr "New oAuth2 scope"
 
-#: admin/config/module.config.navigation.admin.php:138
+#: admin/config/module.config.navigation.admin.php:136
 msgid "txt-oauth2-clients-list"
 msgstr "oAuth2 clients"
 
-#: admin/config/module.config.navigation.admin.php:142
-#: admin/view/admin/o-auth2/client/view.twig:2
-#: admin/view/admin/o-auth2/client/view.twig:4
+#: admin/config/module.config.navigation.admin.php:140
 msgid "txt-oauth2-client"
 msgstr "oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:155
+#: admin/config/module.config.navigation.admin.php:153
 msgid "txt-edit-client"
 msgstr "Edit oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:170
+#: admin/config/module.config.navigation.admin.php:168
 msgid "txt-new-oauth2-clients"
 msgstr "New oAuth2 client"
 
-#: admin/config/module.config.navigation.admin.php:176
-#: admin/view/admin/o-auth2/service/list.twig:2
-#: admin/view/admin/o-auth2/service/list.twig:7
+#: admin/config/module.config.navigation.admin.php:174
 msgid "txt-oauth2-service-list"
 msgstr "oAuth2 Services"
 
-#: admin/config/module.config.navigation.admin.php:180
-#: admin/view/admin/o-auth2/service/view.twig:2
-#: reporting/view/reporting/storage-location/view.twig:18
+#: admin/config/module.config.navigation.admin.php:178
 msgid "txt-oauth2-service"
 msgstr "oAuth2 service"
 
-#: admin/config/module.config.navigation.admin.php:192
+#: admin/config/module.config.navigation.admin.php:190
 msgid "txt-edit-service"
 msgstr "Edit service"
 
-#: admin/config/module.config.navigation.admin.php:206
+#: admin/config/module.config.navigation.admin.php:202
+#, fuzzy
+#| msgid "txt-service-client-secret"
+msgid "txt-service-update-client-secret"
+msgstr "Client secret"
+
+#: admin/config/module.config.navigation.admin.php:214
+#, fuzzy
+#| msgid "txt-private-key"
+msgid "txt-service-update-private-key"
+msgstr "Private Key"
+
+#: admin/config/module.config.navigation.admin.php:228
 msgid "txt-new-oauth2-services"
 msgstr "oAuth2 services"
 
-#: admin/config/module.config.navigation.admin.php:214
-#: admin/view/admin/cache/index.twig:1 admin/view/admin/cache/index.twig:2
+#: admin/config/module.config.navigation.admin.php:236
 msgid "txt-cache-management"
 msgstr "Cache management"
 
-#: admin/src/Controller/OAuth2/ClientController.php:223
+#: admin/src/Controller/OAuth2/ClientController.php:220
 msgid "txt-contact-oauth2-client-has-been-created-successfully"
 msgstr "oAuth2 client has been created successfully"
 
-#: admin/src/Controller/OAuth2/ClientController.php:289
+#: admin/src/Controller/OAuth2/ClientController.php:286
 msgid "txt-contact-oauth2-client-has-been-updated-successfully"
 msgstr "oAuth2 client has been updated successfully"
 
@@ -222,11 +221,29 @@ msgstr "oAuth2 scope has been created successfully"
 msgid "txt-user-oauth2-scope-has-been-updated-successfully"
 msgstr "oAuth2 scope has been updated successfully"
 
-#: admin/src/Controller/OAuth2/ServiceController.php:131
+#: admin/src/Controller/OAuth2/ServiceController.php:143
+#, fuzzy
+#| msgid "txt-user-oauth2-service-has-been-updated-successfully"
+msgid "txt-user-oauth2-service-client-secret-has-been-updated-successfully"
+msgstr "oAuth2 service has been updated successfully"
+
+#: admin/src/Controller/OAuth2/ServiceController.php:192
+#, fuzzy
+#| msgid "txt-user-oauth2-service-has-been-updated-successfully"
+msgid "txt-user-oauth2-service-private-key-has-been-updated-successfully"
+msgstr "oAuth2 service has been updated successfully"
+
+#: admin/src/Controller/OAuth2/ServiceController.php:246
 msgid "txt-user-oauth2-service-has-been-created-successfully"
 msgstr "oAuth2 service has been created successfully"
 
-#: admin/src/Controller/OAuth2/ServiceController.php:177
+#: admin/src/Controller/OAuth2/ServiceController.php:318
+#, fuzzy
+#| msgid "txt-user-oauth2-service-has-been-created-successfully"
+msgid "txt-user-oauth2-service-has-been-deleted-successfully"
+msgstr "oAuth2 service has been created successfully"
+
+#: admin/src/Controller/OAuth2/ServiceController.php:332
 msgid "txt-user-oauth2-service-has-been-updated-successfully"
 msgstr "oAuth2 service has been updated successfully"
 
@@ -240,7 +257,7 @@ msgstr "Role %s has been created successfully"
 msgid "txt-user-role-%s-has-been-deleted-successfully"
 msgstr "Role %s has been deleted successfully"
 
-#: admin/src/Controller/RoleController.php:153
+#: admin/src/Controller/RoleController.php:154
 #, php-format
 msgid "txt-user-role-%s-has-been-updated-successfully"
 msgstr "Role %s has been updated successfully"
@@ -258,11 +275,11 @@ msgstr "An email with instructions to reset your password has been sent to %s"
 msgid "txt-password-successfully-been-updated"
 msgstr "Your password has been successfully updated"
 
-#: admin/src/Form/AdminFunctions.php:36
+#: admin/src/Form/AdminFunctions.php:37
 msgid "txt-cleanup-file-cache"
 msgstr "Cleanup file cache"
 
-#: admin/src/Form/AdminFunctions.php:47
+#: admin/src/Form/AdminFunctions.php:48
 msgid "txt-flush-redis-cache"
 msgstr "Flush Redis cache"
 
@@ -321,21 +338,25 @@ msgid "txt-oauth2-client-select-a-valid-scope-label"
 msgstr "Scope"
 
 #: admin/src/Form/OAuth2/Client.php:120 admin/src/Form/OAuth2/Scope.php:79
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:79
+#: admin/src/Form/OAuth2/UpdateServicePrivateKeyForm.php:67
 #: admin/src/Form/User/GenerateTokenForm.php:70
 #: admin/src/Form/User/LostPassword.php:65 admin/src/Form/User/Password.php:77
-#: application/src/Form/CreateObject.php:71
+#: application/src/Form/CreateObject.php:72
 msgid "txt-cancel"
 msgstr "Cancel"
 
 #: admin/src/Form/OAuth2/Client.php:130 admin/src/Form/OAuth2/Scope.php:89
-#: application/src/Form/CreateObject.php:81
+#: application/src/Form/CreateObject.php:82
 #: cluster/src/Form/ProjectManipulation.php:32
 msgid "txt-delete"
 msgstr "Delete"
 
 #: admin/src/Form/OAuth2/Client.php:140 admin/src/Form/OAuth2/Scope.php:99
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:68
+#: admin/src/Form/OAuth2/UpdateServicePrivateKeyForm.php:56
 #: admin/src/Form/User/GenerateTokenForm.php:60
-#: admin/src/Form/User/Password.php:67 application/src/Form/CreateObject.php:61
+#: admin/src/Form/User/Password.php:67 application/src/Form/CreateObject.php:62
 msgid "txt-submit"
 msgstr "Submit"
 
@@ -370,6 +391,46 @@ msgstr "Indicate here if this scope is default"
 #: admin/src/Form/OAuth2/Scope.php:62
 msgid "txt-oauth2-scope-is-default-label"
 msgstr "Default"
+
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:32
+#: api/config/language.php:16
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-help-block"
+msgid "txt-oauth2-service-client-secret-help-block"
+msgstr "Client Secret of the client in the Eureka Cluster platform"
+
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:35
+#: api/config/language.php:14
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-label"
+msgid "txt-oauth2-service-client-secret-label"
+msgstr "Client secret"
+
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:45
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-help-block"
+msgid "txt-oauth2-service-client-secret-verify-help-block"
+msgstr "Client Secret of the client in the Eureka Cluster platform"
+
+#: admin/src/Form/OAuth2/UpdateServiceClientSecretForm.php:48
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-label"
+msgid "txt-oauth2-service-client-secret-verify-label"
+msgstr "Client secret"
+
+#: admin/src/Form/OAuth2/UpdateServicePrivateKeyForm.php:33
+#: api/config/language.php:40
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-help-block"
+msgid "txt-oauth2-service-private-key-help-block"
+msgstr "Uri to obtain the user profile"
+
+#: admin/src/Form/OAuth2/UpdateServicePrivateKeyForm.php:36
+#: api/config/language.php:38
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-label"
+msgid "txt-oauth2-service-private-key-label"
+msgstr "Profile Uri"
 
 #: admin/src/Form/RoleFilter.php:29 mailing/src/Form/TransactionalFilter.php:29
 msgid "txt-filter-on-locked"
@@ -439,18 +500,18 @@ msgstr "Repeat new password"
 msgid "txt-filter-on-role"
 msgstr "Filter on role"
 
-#: admin/src/Navigation/Invokable/OAuth2/ClientLabel.php:17
-#: admin/src/Navigation/Invokable/OAuth2/ScopeLabel.php:17
-#: admin/src/Navigation/Invokable/OAuth2/ServiceLabel.php:17
-#: admin/src/Navigation/Invokable/RoleLabel.php:17
-#: cluster/src/Navigation/Invokable/Cluster/GroupLabel.php:16
-#: cluster/src/Navigation/Invokable/ProjectLabel.php:16
-#: deeplink/src/Navigation/Invokable/TargetLabel.php:29
-#: mailing/src/Navigation/Invokable/EmailMessageLabel.php:17
+#: admin/src/Navigation/Invokable/OAuth2/ClientLabel.php:18
+#: admin/src/Navigation/Invokable/OAuth2/ScopeLabel.php:18
+#: admin/src/Navigation/Invokable/OAuth2/ServiceLabel.php:18
+#: admin/src/Navigation/Invokable/RoleLabel.php:18
+#: cluster/src/Navigation/Invokable/Cluster/GroupLabel.php:17
+#: cluster/src/Navigation/Invokable/ProjectLabel.php:17
+#: deeplink/src/Navigation/Invokable/TargetLabel.php:30
+#: mailing/src/Navigation/Invokable/EmailMessageLabel.php:18
 msgid "txt-nav-view"
 msgstr "View"
 
-#: admin/src/Navigation/Invokable/UserLabel.php:17
+#: admin/src/Navigation/Invokable/UserLabel.php:18
 msgid "txt-nav-user"
 msgstr "User"
 
@@ -466,16 +527,29 @@ msgstr "Edit oAuth2 client"
 msgid "txt-new-oauth2-scope"
 msgstr "New oAuth2 scope"
 
-#: admin/src/View/Helper/OAuth2/ServiceLink.php:34
-msgid "txt-new-oauth2-service"
-msgstr "New service"
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:41
+#, fuzzy, php-format
+#| msgid "txt-new-oauth2-services"
+msgid "txt-new-oauth2-service-of-type-%s"
+msgstr "oAuth2 services"
 
-#: admin/src/View/Helper/OAuth2/ServiceLink.php:48
 #: admin/src/View/Helper/OAuth2/ServiceLink.php:55
 msgid "txt-edit-oauth2-service"
 msgstr "Edit oAuth2 service"
 
-#: admin/src/View/Helper/RoleLink.php:34 admin/view/admin/role/new.twig:2
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:62
+#, fuzzy
+#| msgid "txt-oauth2-client-secret"
+msgid "txt-update-client-secret"
+msgstr "Secret"
+
+#: admin/src/View/Helper/OAuth2/ServiceLink.php:69
+#, fuzzy
+#| msgid "txt-private-key"
+msgid "txt-update-private-key"
+msgstr "Private Key"
+
+#: admin/src/View/Helper/RoleLink.php:34
 msgid "txt-new-role"
 msgstr "Create role"
 
@@ -497,245 +571,350 @@ msgid "txt-impersonate"
 msgstr "Impersonate"
 
 #: api/config/language.php:5
-msgid "txt-oauth-service-name-label"
+#, fuzzy
+#| msgid "txt-oauth-service-name-label"
+msgid "txt-oauth2-service-name-label"
 msgstr "Name"
 
 #: api/config/language.php:6
-msgid "txt-oauth-service-name-placeholder"
+#, fuzzy
+#| msgid "txt-oauth-service-name-placeholder"
+msgid "txt-oauth2-service-name-placeholder"
 msgstr "Name of the service"
 
 #: api/config/language.php:7
-msgid "txt-oauth-service-name-help-block"
+#, fuzzy
+#| msgid "txt-oauth-service-name-help-block"
+msgid "txt-oauth2-service-name-help-block"
 msgstr "Name of the service"
 
 #: api/config/language.php:8
-msgid "txt-oauth-service-client-id-label"
-msgstr "Client ID"
+#, fuzzy
+#| msgid "txt-oauth2-client-description-label"
+msgid "txt-oauth2-service-description-label"
+msgstr "Description"
 
 #: api/config/language.php:9
-msgid "txt-oauth-service-client-id-placeholder"
-msgstr "Cluster platform Client ID"
+#, fuzzy
+#| msgid "txt-oauth2-client-description-placeholder"
+msgid "txt-oauth2-service-description-placeholder"
+msgstr "Client description"
 
 #: api/config/language.php:10
-msgid "txt-oauth-service-client-id-help-block"
-msgstr "Client ID of the client in the Eureka Cluster platform"
+#, fuzzy
+#| msgid "txt-oauth2-client-description-help-block"
+msgid "txt-oauth2-service-description-help-block"
+msgstr "Give a short description of the client"
 
 #: api/config/language.php:11
-msgid "txt-oauth-service-client-secret-label"
-msgstr "Client secret"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-label"
+msgid "txt-oauth2-service-client-id-label"
+msgstr "Client ID"
 
 #: api/config/language.php:12
-msgid "txt-oauth-service-client-secret-placeholder"
-msgstr "Cluster platform Client secret"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-placeholder"
+msgid "txt-oauth2-service-client-id-placeholder"
+msgstr "Cluster platform Client ID"
 
 #: api/config/language.php:13
-msgid "txt-oauth-service-client-secret-help-block"
-msgstr "Client Secret of the client in the Eureka Cluster platform"
-
-#: api/config/language.php:14
-msgid "txt-oauth-service-redirect-url-label"
-msgstr "Redirect Uri"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-help-block"
+msgid "txt-oauth2-service-client-id-help-block"
+msgstr "Client ID of the client in the Eureka Cluster platform"
 
 #: api/config/language.php:15
-msgid "txt-oauth-service-redirect-url-placeholder"
-msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
-
-#: api/config/language.php:16
-msgid "txt-oauth-service-redirect-url-help-block"
-msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-placeholder"
+msgid "txt-oauth2-service-client-secret-placeholder"
+msgstr "Cluster platform Client secret"
 
 #: api/config/language.php:17
-msgid "txt-oauth-service-authorization-url-label"
-msgstr "Authorization Uri"
+#, fuzzy
+#| msgid "txt-oauth-service-redirect-url-label"
+msgid "txt-oauth2-service-redirect-url-label"
+msgstr "Redirect Uri"
 
 #: api/config/language.php:18
-msgid "txt-oauth-service-authorization-url-placeholder"
-msgstr "Uri the service uses to set up the authorization"
+#, fuzzy
+#| msgid "txt-oauth-service-redirect-url-placeholder"
+msgid "txt-oauth2-service-redirect-url-placeholder"
+msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
 
 #: api/config/language.php:19
-msgid "txt-oauth-service-authorization-url-help-block"
-msgstr "Uri the service uses to set up the authorization"
+#, fuzzy
+#| msgid "txt-oauth-service-redirect-url-help-block"
+msgid "txt-oauth2-service-redirect-url-help-block"
+msgstr "Redirect uri for oAuth2 login in Eureka Cluster Platform"
 
 #: api/config/language.php:20
-msgid "txt-oauth-service-access-token-url-label"
-msgstr "Access token uri"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-label"
+msgid "txt-oauth2-service-tenant-id-label"
+msgstr "Client ID"
 
 #: api/config/language.php:21
-msgid "txt-oauth-service-access-token-url-placeholder"
-msgstr "Uri to obtain the access token"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-placeholder"
+msgid "txt-oauth2-service-tenant-id-placeholder"
+msgstr "Cluster platform Client ID"
 
 #: api/config/language.php:22
-msgid "txt-oauth-service-access-token-url-help-block"
-msgstr "Uri the service uses to obtain the access token"
+#, fuzzy
+#| msgid "txt-oauth-service-client-id-help-block"
+msgid "txt-oauth2-service-tenant-id-help-block"
+msgstr "Client ID of the client in the Eureka Cluster platform"
 
 #: api/config/language.php:23
-msgid "txt-oauth-service-profile-url-label"
-msgstr "Profile Uri"
+#, fuzzy
+#| msgid "txt-oauth-service-authorization-url-label"
+msgid "txt-oauth2-service-authorization-url-label"
+msgstr "Authorization Uri"
 
 #: api/config/language.php:24
-msgid "txt-oauth-service-profile-url-placeholder"
-msgstr "Uri to obtain the user profile information"
+#, fuzzy
+#| msgid "txt-oauth-service-authorization-url-placeholder"
+msgid "txt-oauth2-service-authorization-url-placeholder"
+msgstr "Uri the service uses to set up the authorization"
 
 #: api/config/language.php:25
-msgid "txt-oauth-service-profile-url-help-block"
-msgstr "Uri to obtain the user profile"
+#, fuzzy
+#| msgid "txt-oauth-service-authorization-url-help-block"
+msgid "txt-oauth2-service-authorization-url-help-block"
+msgstr "Uri the service uses to set up the authorization"
 
 #: api/config/language.php:26
-msgid "txt-oauth-service-allowed-clusters-label"
-msgstr "Allowed clusters"
+#, fuzzy
+#| msgid "txt-oauth-service-access-token-url-label"
+msgid "txt-oauth2-service-access-token-url-label"
+msgstr "Access token uri"
 
 #: api/config/language.php:27
-msgid "txt-oauth-service-allowed-clusters-help-block"
+#, fuzzy
+#| msgid "txt-oauth-service-access-token-url-placeholder"
+msgid "txt-oauth2-service-access-token-url-placeholder"
+msgstr "Uri to obtain the access token"
+
+#: api/config/language.php:28
+#, fuzzy
+#| msgid "txt-oauth-service-access-token-url-help-block"
+msgid "txt-oauth2-service-access-token-url-help-block"
+msgstr "Uri the service uses to obtain the access token"
+
+#: api/config/language.php:29
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-label"
+msgid "txt-oauth2-service-profile-url-label"
+msgstr "Profile Uri"
+
+#: api/config/language.php:30
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-placeholder"
+msgid "txt-oauth2-service-profile-url-placeholder"
+msgstr "Uri to obtain the user profile information"
+
+#: api/config/language.php:31
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-help-block"
+msgid "txt-oauth2-service-profile-url-help-block"
+msgstr "Uri to obtain the user profile"
+
+#: api/config/language.php:32
+#, fuzzy
+#| msgid "txt-oauth-service-allowed-clusters-label"
+msgid "txt-oauth2-service-allowed-clusters-label"
+msgstr "Allowed clusters"
+
+#: api/config/language.php:33
+#, fuzzy
+#| msgid "txt-oauth-service-allowed-clusters-help-block"
+msgid "txt-oauth2-service-allowed-clusters-help-block"
 msgstr ""
 "Select for which cluster this service grants access for Public Authorities"
 
-#: api/config/language.php:28
-msgid "txt-oauth-service-scope-label"
+#: api/config/language.php:34
+#, fuzzy
+#| msgid "txt-oauth-service-scope-label"
+msgid "txt-oauth2-service-scope-label"
 msgstr "Scope"
 
-#: api/config/language.php:29
-msgid "txt-oauth-service-scope-help-block"
+#: api/config/language.php:35
+#, fuzzy
+#| msgid "txt-oauth-service-scope-help-block"
+msgid "txt-oauth2-service-scope-help-block"
 msgstr ""
 "Applied scope for this service, should match the scope in the Eureka Cluster "
 "Platform"
 
-#: api/config/language.php:30
-msgid "txt-oauth-service-client-label"
+#: api/config/language.php:36
+#, fuzzy
+#| msgid "txt-oauth-service-client-label"
+msgid "txt-oauth2-service-client-label"
 msgstr "Label"
 
-#: api/config/language.php:31
-msgid "txt-oauth-service-client-help-block"
+#: api/config/language.php:37
+#, fuzzy
+#| msgid "txt-oauth-service-client-help-block"
+msgid "txt-oauth2-service-client-help-block"
 msgstr ""
 "Select here the internal client which is used for key transfer between the "
 "backend and the React frontend"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:105
+#: api/config/language.php:39
+#, fuzzy
+#| msgid "txt-oauth-service-profile-url-placeholder"
+msgid "txt-oauth2-service-private-key-placeholder"
+msgstr "Uri to obtain the user profile information"
+
+#: api/src/Enum/OAuth2/ServiceTypeEnum.php:23
+#, fuzzy
+#| msgid "txt-cost"
+msgid "txt-microsoft"
+msgstr "Costs"
+
+#: api/src/Enum/OAuth2/ServiceTypeEnum.php:24
+msgid "txt-google"
+msgstr "Google"
+
+#: api/src/Enum/OAuth2/ServiceTypeEnum.php:25
+#, fuzzy
+#| msgid "txt-item"
+msgid "txt-itea"
+msgstr "Item"
+
+#: api/src/Enum/OAuth2/ServiceTypeEnum.php:26
+#, fuzzy
+#| msgid "txt-keuro"
+msgid "txt-eurescom"
+msgstr "k&euro;"
+
+#: api/src/Enum/OAuth2/ServiceTypeEnum.php:27
+msgid "txt-other"
+msgstr "Other"
+
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:108
 msgid "txt-partners"
 msgstr "Partners"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:112
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:108
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:113
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:111
 msgid "txt-project-number"
 msgstr "Project number"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:118
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:114
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:114
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:112
 msgid "txt-project-name"
 msgstr "Project name"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:124
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:115
 msgid "txt-partner"
 msgstr "Partner"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:130
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:116
 msgid "txt-country"
 msgstr "Country"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:136
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:117
 msgid "txt-partner-type"
 msgstr "Partner type"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:142
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:118
 msgid "txt-is-coordinator"
 msgstr "Coordinator"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:148
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:119
 msgid "txt-is-self-funded"
 msgstr "Self funded"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:154
-#: mailing/view/mailing/mailer/list.twig:13
-#: mailing/view/mailing/mailer/view.twig:19
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:120
 msgid "txt-is-active"
 msgstr "Is active"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:160
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
-#: cluster/view/cluster/project/list.twig:29
-#: cluster/view/cluster/project/view.twig:15
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:121
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:113
 msgid "txt-primary-cluster"
 msgstr "Primary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:166
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
-#: cluster/view/cluster/project/view.twig:17
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:122
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:114
 msgid "txt-secondary-cluster"
 msgstr "Secondary cluster"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:172
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:132
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:123
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:115
 msgid "txt-programme"
 msgstr "Programme"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:178
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:138
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:124
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:116
 msgid "txt-programme-call"
 msgstr "Programme Call"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:184
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:144
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:125
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:117
 msgid "txt-label-date"
 msgstr "Label date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:190
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:150
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:126
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:118
 msgid "txt-official-start-date"
 msgstr "Official start date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:196
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:156
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:127
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:119
 msgid "txt-official-end-date"
 msgstr "Official end date"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:202
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:162
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:128
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:120
 msgid "txt-project-status"
 msgstr "Status of the project"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:209
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:168
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:129
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:121
 msgid "txt-project-outline-costs"
 msgstr "Costs (PO, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:215
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:174
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:130
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:122
 msgid "txt-project-outline-effort"
 msgstr "Effort (PO, PY)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:221
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:180
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:131
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:123
 msgid "txt-full-project-proposal-costs"
 msgstr "Costs (FPP, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:227
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:186
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:132
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:124
 msgid "txt-full-project-proposal-effort"
 msgstr "Effort (FPP, PY)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:233
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:192
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:133
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:125
 msgid "txt-latest-version-costs"
 msgstr "Costs (latest version, EUR)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:239
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:198
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:134
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:126
 msgid "txt-latest-version-effort"
 msgstr "Effort (latest version)"
 
-#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:245
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:204
+#: api/src/V1/Rest/StatisticsResource/Download/PartnerListener.php:135
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:127
 msgid "txt-latest-version-is-fpp"
 msgstr "Latest version is FPP"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:101
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:106
 msgid "txt-projects"
 msgstr "Projects"
 
-#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:210
+#: api/src/V1/Rest/StatisticsResource/Download/ProjectListener.php:128
 msgid "txt-involved-countries"
 msgstr "Involved countries"
 
-#: application/src/Form/CreateObject.php:91
+#: application/src/Form/CreateObject.php:92
 msgid "txt-restore"
 msgstr "Restore"
 
@@ -783,17 +962,11 @@ msgid "txt-clusters-and-projects"
 msgstr "Clusters and projects"
 
 #: cluster/config/module.config.navigation.admin.php:22
-#: cluster/view/cluster/cluster/group/list.twig:2
-#: cluster/view/cluster/cluster/group/list.twig:8
 msgid "txt-cluster-group-list"
 msgstr "Cluster groups"
 
 #: cluster/config/module.config.navigation.admin.php:37
 #: cluster/src/View/Helper/Cluster/GroupLink.php:50
-#: cluster/view/cluster/cluster/group/edit.twig:2
-#: cluster/view/cluster/cluster/group/edit.twig:4
-#: cluster/view/cluster/cluster/group/new.twig:2
-#: cluster/view/cluster/cluster/group/new.twig:4
 msgid "txt-edit-cluster-group"
 msgstr "Edit cluster group"
 
@@ -803,8 +976,6 @@ msgid "txt-new-cluster-group"
 msgstr "New cluster group"
 
 #: cluster/config/module.config.navigation.admin.php:54
-#: cluster/view/cluster/project/list.twig:2
-#: cluster/view/cluster/project/list.twig:7
 msgid "txt-project-list"
 msgstr "All projects"
 
@@ -816,7 +987,7 @@ msgstr "Cluster group has been created successfully"
 msgid "txt-cluster-group-has-been-deleted-successfully"
 msgstr "Cluster group has been deleted successfully"
 
-#: cluster/src/Controller/Cluster/GroupController.php:151
+#: cluster/src/Controller/Cluster/GroupController.php:152
 msgid "txt-cluster-group-has-been-updated-successfully"
 msgstr "Cluster group has been updated successfully"
 
@@ -1225,8 +1396,6 @@ msgstr "Senders"
 
 #: mailing/config/module.config.navigation.admin.php:71
 #: mailing/src/View/Helper/SenderLink.php:34
-#: mailing/view/mailing/sender/new.twig:2
-#: mailing/view/mailing/sender/new.twig:4
 msgid "txt-new-sender"
 msgstr "New sender"
 
@@ -1235,8 +1404,6 @@ msgid "txt-nav-mailer-list"
 msgstr "Mailers"
 
 #: mailing/config/module.config.navigation.admin.php:103
-#: mailing/view/mailing/mailer/new.twig:2
-#: mailing/view/mailing/mailer/new.twig:4
 msgid "txt-new-mailer"
 msgstr "New mailer"
 
@@ -1332,20 +1499,20 @@ msgstr "Include deleted"
 msgid "txt-filter-on-tags"
 msgstr "Filter on tags"
 
-#: mailing/src/Navigation/Invokable/MailerLabel.php:17
-#: reporting/src/Navigation/Invokable/StorageLocationLabel.php:17
+#: mailing/src/Navigation/Invokable/MailerLabel.php:18
+#: reporting/src/Navigation/Invokable/StorageLocationLabel.php:18
 msgid "txt-nav-mailer"
 msgstr "Mailers"
 
-#: mailing/src/Navigation/Invokable/SenderLabel.php:17
+#: mailing/src/Navigation/Invokable/SenderLabel.php:18
 msgid "txt-nav-sender"
 msgstr "Sender"
 
-#: mailing/src/Navigation/Invokable/TemplateLabel.php:17
+#: mailing/src/Navigation/Invokable/TemplateLabel.php:18
 msgid "txt-nav-email-template"
 msgstr "Email template"
 
-#: mailing/src/Navigation/Invokable/TransactionalLabel.php:17
+#: mailing/src/Navigation/Invokable/TransactionalLabel.php:18
 msgid "txt-nav-transactional-email"
 msgstr "Transactional email"
 
@@ -1355,7 +1522,6 @@ msgid "txt-new-mailer-of-type-%s"
 msgstr "New %s"
 
 #: mailing/src/View/Helper/MailerLink.php:53
-#: mailing/view/mailing/mailer/view.twig:2
 msgid "txt-view-mailer"
 msgstr "Mailer"
 
@@ -1364,7 +1530,6 @@ msgid "txt-edit-mailer"
 msgstr "Edit mailer"
 
 #: mailing/src/View/Helper/SenderLink.php:41
-#: mailing/view/mailing/sender/view.twig:2
 msgid "txt-view-sender"
 msgstr "View sender"
 
@@ -1373,8 +1538,6 @@ msgid "txt-edit-sender"
 msgstr "Edit sender"
 
 #: mailing/src/View/Helper/TemplateLink.php:34
-#: mailing/view/mailing/template/new.twig:2
-#: mailing/view/mailing/template/new.twig:4
 msgid "txt-new-mailing-template"
 msgstr "Create mailing template"
 
@@ -1411,55 +1574,58 @@ msgid "txt-reporting-storage-location-connection-string-help-block"
 msgstr "Give the connection string of the connection to the storage location"
 
 #: reporting/config/language.php:11
+#, fuzzy
+#| msgid "txt-reporting-storage-location-parquet-folder-label"
+msgid "txt-reporting-storage-location-export-file-type-label"
+msgstr "Parquet folder"
+
+#: reporting/config/language.php:12
+#, fuzzy
+#| msgid "txt-reporting-storage-location-parquet-folder-help-block"
+msgid "txt-reporting-storage-location-export-file-type-help-block"
+msgstr "Folder name where the Parquet files will be stored"
+
+#: reporting/config/language.php:13
 msgid "txt-reporting-storage-location-container-label"
 msgstr "Container name"
 
-#: reporting/config/language.php:12
+#: reporting/config/language.php:14
 msgid "txt-reporting-storage-location-container-placeholder"
 msgstr "Name of the container"
 
-#: reporting/config/language.php:13
+#: reporting/config/language.php:15
 msgid "txt-reporting-storage-location-container-help-block"
 msgstr "Name of the container in the data warehouse"
 
-#: reporting/config/language.php:14
-msgid "txt-reporting-storage-location-excel-folder-label"
+#: reporting/config/language.php:16
+#, fuzzy
+#| msgid "txt-reporting-storage-location-excel-folder-label"
+msgid "txt-reporting-storage-location-folder-label"
 msgstr "Excel folder"
 
-#: reporting/config/language.php:15
-msgid "txt-reporting-storage-location-excel-folder-placeholder"
+#: reporting/config/language.php:17
+#, fuzzy
+#| msgid "txt-reporting-storage-location-excel-folder-placeholder"
+msgid "txt-reporting-storage-location-folder-placeholder"
 msgstr "Excel folder name"
 
-#: reporting/config/language.php:16
-msgid "txt-reporting-storage-location-excel-folder-help-block"
+#: reporting/config/language.php:18
+#, fuzzy
+#| msgid "txt-reporting-storage-location-excel-folder-help-block"
+msgid "txt-reporting-storage-location-folder-help-block"
 msgstr "Folder name where the Excel files will be stored"
 
-#: reporting/config/language.php:17
-msgid "txt-reporting-storage-location-parquet-folder-label"
-msgstr "Parquet folder"
-
-#: reporting/config/language.php:18
-msgid "txt-reporting-storage-location-parquet-folder-placeholder"
-msgstr "Parquet folder name"
-
 #: reporting/config/language.php:19
-msgid "txt-reporting-storage-location-parquet-folder-help-block"
-msgstr "Folder name where the Parquet files will be stored"
-
-#: reporting/config/language.php:20
 msgid "txt-reporting-storage-location-oauth2-service-label"
 msgstr "oAuth2 service"
 
-#: reporting/config/language.php:21
+#: reporting/config/language.php:20
 msgid "txt-reporting-storage-location-oauth2-service-help-block"
 msgstr ""
 "Select the oAuth2 service which will take care of generating an oAuth2 token "
 "from the token service"
 
-#: reporting/config/module.config.navigation.admin.php:9
 #: reporting/config/module.config.navigation.admin.php:14
-#: reporting/view/reporting/reporting/index.twig:2
-#: reporting/view/reporting/reporting/index.twig:4
 msgid "txt-reporting"
 msgstr "Reporting"
 
@@ -1469,29 +1635,24 @@ msgstr "Storage locations"
 
 #: reporting/config/module.config.navigation.admin.php:45
 #: reporting/src/View/Helper/StorageLocationLink.php:34
-#: reporting/view/reporting/storage-location/new.twig:2
-#: reporting/view/reporting/storage-location/new.twig:4
 msgid "txt-new-storage-location"
 msgstr "New storage location"
 
-#: reporting/src/Controller/StorageLocationController.php:132
+#: reporting/src/Controller/StorageLocationController.php:137
 #, php-format
 msgid "txt-storage-location-%s-has-successfully-been-deleted"
 msgstr "Storage location %s has been deleted successfully"
 
-#: reporting/src/Controller/StorageLocationController.php:180
+#: reporting/src/Controller/StorageLocationController.php:187
 #, php-format
 msgid "txt-storage-location-%s-has-successfully-been-created"
 msgstr "Storage location %s has been created successfully"
 
 #: reporting/src/View/Helper/StorageLocationLink.php:42
-#: reporting/view/reporting/storage-location/view.twig:2
 msgid "txt-view-storage-location"
 msgstr "Storage location"
 
 #: reporting/src/View/Helper/StorageLocationLink.php:51
-#: reporting/view/reporting/storage-location/edit.twig:2
-#: reporting/view/reporting/storage-location/edit.twig:4
 msgid "txt-edit-storage-location"
 msgstr "Edit storage location"
 
@@ -1525,6 +1686,8 @@ msgstr ""
 #: admin/view/admin/o-auth2/service/edit.twig:1
 #: admin/view/admin/o-auth2/service/list.twig:1
 #: admin/view/admin/o-auth2/service/new.twig:1
+#: admin/view/admin/o-auth2/service/update-client-secret.twig:1
+#: admin/view/admin/o-auth2/service/update-private-key.twig:1
 #: admin/view/admin/o-auth2/service/view.twig:1
 #: admin/view/admin/role/edit.twig:1 admin/view/admin/role/list.twig:1
 #: admin/view/admin/role/new.twig:1 admin/view/admin/role/view.twig:1
@@ -1554,6 +1717,7 @@ msgstr ""
 #: mailing/view/mailing/template/list.twig:1
 #: mailing/view/mailing/template/new.twig:1
 #: mailing/view/mailing/template/view.twig:5
+#: reporting/view/reporting/reporting/dashboard.twig:1
 #: reporting/view/reporting/reporting/index.twig:1
 #: reporting/view/reporting/storage-location/edit.twig:1
 #: reporting/view/reporting/storage-location/list.twig:1
@@ -1629,7 +1793,7 @@ msgstr "No oAuth2 clients could be found"
 #: mailing/view/mailing/sender/view.twig:8
 #: mailing/view/mailing/template/view.twig:12
 #: mailing/view/mailing/transactional/list.twig:33
-#: reporting/view/reporting/storage-location/list.twig:11
+#: reporting/view/reporting/storage-location/list.twig:27
 #: reporting/view/reporting/storage-location/view.twig:7
 msgid "txt-name"
 msgstr "Name"
@@ -1736,7 +1900,7 @@ msgstr "oAuth2 scope information"
 #: mailing/view/mailing/mailer/list.twig:10
 #: mailing/view/mailing/sender/list.twig:10
 #: mailing/view/mailing/template/list.twig:10
-#: reporting/view/reporting/storage-location/list.twig:10
+#: reporting/view/reporting/storage-location/list.twig:26
 msgid "txt-id"
 msgstr "Id"
 
@@ -1755,6 +1919,8 @@ msgstr "Is default"
 #: admin/view/admin/o-auth2/scope/view.twig:16
 #: admin/view/admin/user/view.twig:23 admin/view/admin/user/view.twig:39
 #: application/view/oauth/authorize.twig:11
+#: cluster/view/cluster/project/list.twig:42
+#: cluster/view/cluster/project/view.twig:22
 #: mailing/view/mailing/mailer/view.twig:20
 #: mailing/view/mailing/mailer/view.twig:22
 msgid "txt-yes"
@@ -1763,22 +1929,24 @@ msgstr "Yes"
 #: admin/view/admin/o-auth2/scope/view.twig:16
 #: admin/view/admin/user/view.twig:25 admin/view/admin/user/view.twig:41
 #: application/view/oauth/authorize.twig:13
+#: cluster/view/cluster/project/list.twig:42
+#: cluster/view/cluster/project/view.twig:22
 #: mailing/view/mailing/mailer/view.twig:20
 #: mailing/view/mailing/mailer/view.twig:22
 #: reporting/view/reporting/reporting/index.twig:14
 msgid "txt-no"
 msgstr "No"
 
-#: admin/view/admin/o-auth2/service/edit.twig:2
 #: admin/view/admin/o-auth2/service/edit.twig:4
-#: admin/view/admin/o-auth2/service/new.twig:2
-#: admin/view/admin/o-auth2/service/new.twig:4
-msgid "txt-new-oauth2-service-title"
+#, fuzzy
+#| msgid "txt-new-oauth2-service-title"
+msgid "txt-edit-oauth2-service-title"
 msgstr "Title"
 
 #: admin/view/admin/o-auth2/service/edit.twig:5
-#: admin/view/admin/o-auth2/service/new.twig:5
-msgid "txt-new-oauth2-service-explanation"
+#, fuzzy
+#| msgid "txt-new-oauth2-service-explanation"
+msgid "txt-edit-oauth2-service-explanation"
 msgstr ""
 "Use the form below to add a new oAuth2 service. These services are needed to "
 "setup authentication via one of the Eureka Cluster portals. The information "
@@ -1794,14 +1962,91 @@ msgstr ""
 "cluster portal"
 
 #: admin/view/admin/o-auth2/service/list.twig:30
-#: cluster/view/cluster/cluster/group/list.twig:30
-#: cluster/view/cluster/cluster/group/view.twig:15
-msgid "txt-clusters"
-msgstr "Clusters"
+msgid "txt-type"
+msgstr "Type"
 
-#: admin/view/admin/o-auth2/service/list.twig:47
+#: admin/view/admin/o-auth2/service/list.twig:31
+#: admin/view/admin/o-auth2/service/view.twig:71
+#, fuzzy
+#| msgid "txt-mailer"
+msgid "txt-mailers"
+msgstr "Mailer"
+
+#: admin/view/admin/o-auth2/service/list.twig:32
+#, fuzzy
+#| msgid "txt-storage-location-list"
+msgid "txt-storage-locations"
+msgstr "Storage locations"
+
+#: admin/view/admin/o-auth2/service/list.twig:33
+#, fuzzy
+#| msgid "txt-authenticate"
+msgid "txt-authentications"
+msgstr "Authenticate"
+
+#: admin/view/admin/o-auth2/service/list.twig:53
 msgid "txt-no-oauth2-services-found"
 msgstr "No oAuth2 services could be found"
+
+#: admin/view/admin/o-auth2/service/list.twig:59
+#, fuzzy
+#| msgid "txt-create-new-event"
+msgid "txt-create-new-service"
+msgstr "Create new event"
+
+#: admin/view/admin/o-auth2/service/new.twig:2
+msgid "txt-new-oauth2-service-title"
+msgstr "Title"
+
+#: admin/view/admin/o-auth2/service/new.twig:4
+#, fuzzy
+#| msgid "txt-new-oauth2-service-title"
+msgid "txt-new-oauth-2-service-title"
+msgstr "Title"
+
+#: admin/view/admin/o-auth2/service/new.twig:5
+#, fuzzy
+#| msgid "txt-new-oauth2-service-explanation"
+msgid "txt-new-oauth-2-service-explanation"
+msgstr ""
+"Use the form below to add a new oAuth2 service. These services are needed to "
+"setup authentication via one of the Eureka Cluster portals. The information "
+"in these services correspond to the Client settings in the Eureka cluster "
+"portal"
+
+#: admin/view/admin/o-auth2/service/update-client-secret.twig:2
+#: admin/view/admin/o-auth2/service/update-client-secret.twig:4
+#, fuzzy
+#| msgid "txt-new-oauth2-service-title"
+msgid "txt-update-client-secret-oauth2-service-title"
+msgstr "Title"
+
+#: admin/view/admin/o-auth2/service/update-client-secret.twig:5
+#, fuzzy
+#| msgid "txt-new-oauth2-service-explanation"
+msgid "txt-update-client-secret-oauth2-service-explanation"
+msgstr ""
+"Use the form below to add a new oAuth2 service. These services are needed to "
+"setup authentication via one of the Eureka Cluster portals. The information "
+"in these services correspond to the Client settings in the Eureka cluster "
+"portal"
+
+#: admin/view/admin/o-auth2/service/update-private-key.twig:2
+#: admin/view/admin/o-auth2/service/update-private-key.twig:4
+#, fuzzy
+#| msgid "txt-new-oauth2-service-title"
+msgid "txt-update-private-key-oauth2-service-title"
+msgstr "Title"
+
+#: admin/view/admin/o-auth2/service/update-private-key.twig:5
+#, fuzzy
+#| msgid "txt-new-oauth2-service-explanation"
+msgid "txt-update-private-key-oauth2-service-explanation"
+msgstr ""
+"Use the form below to add a new oAuth2 service. These services are needed to "
+"setup authentication via one of the Eureka Cluster portals. The information "
+"in these services correspond to the Client settings in the Eureka cluster "
+"portal"
 
 #: admin/view/admin/o-auth2/service/view.twig:8
 #, php-format
@@ -1815,7 +2060,9 @@ msgid "txt-an-error-occurred-while-requesting-the-token-error-%s"
 msgstr "An error occurred while requesting the Bearer token:<p><code>%s</code>"
 
 #: admin/view/admin/o-auth2/service/view.twig:15
-msgid "txt-oauth2-service-explanation"
+#, fuzzy
+#| msgid "txt-oauth2-service-explanation"
+msgid "txt-o-auth2-service-explanation"
 msgstr ""
 "Use the form below to add a new oAuth2 service. These services are needed to "
 "setup authentication via one of the Eureka Cluster portals. The information "
@@ -1823,45 +2070,105 @@ msgstr ""
 "portal"
 
 #: admin/view/admin/o-auth2/service/view.twig:18
+#, fuzzy
+#| msgid "txt-oauth2-service-scope"
+msgid "txt-oauth2-service-type"
+msgstr "Scope"
+
+#: admin/view/admin/o-auth2/service/view.twig:22
+#, fuzzy
+#| msgid "txt-service-client-id"
+msgid "txt-service-tenant-id"
+msgstr "Client Id"
+
+#: admin/view/admin/o-auth2/service/view.twig:27
+#, fuzzy
+#| msgid "txt-chat-integration"
+msgid "txt-integration-key"
+msgstr "Yes"
+
+#: admin/view/admin/o-auth2/service/view.twig:29
 msgid "txt-service-client-id"
 msgstr "Client Id"
 
-#: admin/view/admin/o-auth2/service/view.twig:21
+#: admin/view/admin/o-auth2/service/view.twig:34
+#, fuzzy
+#| msgid "txt-service-client-id"
+msgid "txt-service-user-id"
+msgstr "Client Id"
+
+#: admin/view/admin/o-auth2/service/view.twig:38
+#: admin/view/admin/partial/form/oauth2/service.twig:40
 msgid "txt-service-client-secret"
 msgstr "Client secret"
 
-#: admin/view/admin/o-auth2/service/view.twig:24
+#: admin/view/admin/o-auth2/service/view.twig:43
 msgid "txt-service-redirect-url"
 msgstr "Redirect Uri"
 
-#: admin/view/admin/o-auth2/service/view.twig:27
+#: admin/view/admin/o-auth2/service/view.twig:48
 msgid "txt-service-authorization-url"
 msgstr "Authorization Uri"
 
-#: admin/view/admin/o-auth2/service/view.twig:30
+#: admin/view/admin/o-auth2/service/view.twig:53
 msgid "txt-service-access-token-url"
 msgstr "Access token Uri"
 
-#: admin/view/admin/o-auth2/service/view.twig:33
+#: admin/view/admin/o-auth2/service/view.twig:58
 msgid "txt-service-profile-url"
 msgstr "Profile Uri"
 
-#: admin/view/admin/o-auth2/service/view.twig:36
-msgid "txt-service-allowed-clusters"
-msgstr "Allowed clusters"
+#: admin/view/admin/o-auth2/service/view.twig:63
+#: admin/view/admin/partial/form/oauth2/service.twig:56
+#, fuzzy
+#| msgid "txt-private-key"
+msgid "txt-service-private-key"
+msgstr "Private Key"
 
-#: admin/view/admin/o-auth2/service/view.twig:41
+#: admin/view/admin/o-auth2/service/view.twig:66
 msgid "txt-oauth2-service-scope"
 msgstr "Scope"
 
-#: admin/view/admin/o-auth2/service/view.twig:44
-msgid "txt-oauth2-service-client"
-msgstr "Client"
+#: admin/view/admin/o-auth2/service/view.twig:78
+#, fuzzy
+#| msgid "txt-new-storage-location"
+msgid "txt-storage-location"
+msgstr "New storage location"
 
-#: admin/view/admin/o-auth2/service/view.twig:49
+#: admin/view/admin/o-auth2/service/view.twig:85
 #: reporting/view/reporting/storage-location/view.twig:33
 msgid "txt-test-access"
 msgstr "Test access"
+
+#: admin/view/admin/partial/form/oauth2/service.twig:10
+#, fuzzy
+#| msgid "txt-review-type"
+msgid "txt-service-type"
+msgstr "Review type"
+
+#: admin/view/admin/partial/form/oauth2/service.twig:25
+#, fuzzy
+#| msgid "txt-chat-integration"
+msgid "txt-docusign-integration-key"
+msgstr "Yes"
+
+#: admin/view/admin/partial/form/oauth2/service.twig:45
+#, fuzzy
+#| msgid "txt-oauth-service-client-secret-placeholder"
+msgid "txt-service-client-secret-can-be-changed-on-the-overview-page"
+msgstr "Cluster platform Client secret"
+
+#: admin/view/admin/partial/form/oauth2/service.twig:60
+#, fuzzy
+#| msgid "txt-no-reviewers-can-be-found-for-this-review-type"
+msgid "txt-service-private-key-can-be-changed-on-the-overview-page"
+msgstr "There are no reviewers found for this review type"
+
+#: admin/view/admin/partial/form/oauth2/service.twig:93
+#, fuzzy
+#| msgid "txt-edit-service"
+msgid "txt-cannot-delete-service"
+msgstr "Edit service"
 
 #: admin/view/admin/role/edit.twig:2 admin/view/admin/role/edit.twig:4
 #, php-format
@@ -2177,6 +2484,11 @@ msgstr ""
 "A cluster group is used in the frontend as filter element and can be used to "
 "group multiple clusters into 1 filter, for example for Euripides and Celtic"
 
+#: cluster/view/cluster/cluster/group/list.twig:30
+#: cluster/view/cluster/cluster/group/view.twig:15
+msgid "txt-clusters"
+msgstr "Clusters"
+
 #: cluster/view/cluster/cluster/group/list.twig:47
 msgid "txt-no-cluster-groups-found"
 msgstr "No cluster groups could be found"
@@ -2199,11 +2511,16 @@ msgid "txt-identifier"
 msgstr "Identifier"
 
 #: cluster/view/cluster/project/list.twig:30
+#: cluster/view/cluster/project/view.twig:21
+msgid "txt-is-successful"
+msgstr "Is successful"
+
+#: cluster/view/cluster/project/list.twig:31
 #: reporting/view/reporting/reporting/index.twig:18
 msgid "txt-date-updated"
 msgstr "Date updated"
 
-#: cluster/view/cluster/project/list.twig:48
+#: cluster/view/cluster/project/list.twig:50
 msgid "txt-no-projects-found"
 msgstr "No projects can be found"
 
@@ -2647,6 +2964,22 @@ msgstr "Mail subject"
 msgid "txt-content"
 msgstr "Content"
 
+#: reporting/view/reporting/reporting/dashboard.twig:27
+#, fuzzy
+#| msgid "txt-award"
+msgid "txt-dashboard"
+msgstr "Award"
+
+#: reporting/view/reporting/reporting/dashboard.twig:31
+#, fuzzy
+#| msgid "txt-result-list-explanation"
+msgid "txt-run-list-explanation"
+msgstr "Find below an overview of project resuts"
+
+#: reporting/view/reporting/reporting/dashboard.twig:50
+msgid "txt-filter"
+msgstr "Filter"
+
 #: reporting/view/reporting/reporting/index.twig:7
 msgid "txt-no-storage-location-configured"
 msgstr "No storage locations configured"
@@ -2672,28 +3005,43 @@ msgstr "No log files could be found"
 msgid "txt-storage-location-list"
 msgstr "Storage locations"
 
-#: reporting/view/reporting/storage-location/list.twig:12
+#: reporting/view/reporting/storage-location/list.twig:11
+#, fuzzy
+#| msgid "txt-selection-list-explanation"
+msgid "txt-storage-location-list-explanation"
+msgstr "Find here a list of all selections in the database"
+
+#: reporting/view/reporting/storage-location/list.twig:28
 #: reporting/view/reporting/storage-location/view.twig:11
-msgid "txt-container"
-msgstr "Container"
+#, fuzzy
+#| msgid "txt-registration-container"
+msgid "txt-storage-container"
+msgstr "Registration container"
 
-#: reporting/view/reporting/storage-location/list.twig:13
+#: reporting/view/reporting/storage-location/list.twig:29
 #: reporting/view/reporting/storage-location/view.twig:13
-msgid "txt-excel-folder"
-msgstr "Excel folder"
+#, fuzzy
+#| msgid "txt-old"
+msgid "txt-folder"
+msgstr "Old"
 
-#: reporting/view/reporting/storage-location/list.twig:14
-#: reporting/view/reporting/storage-location/view.twig:15
-msgid "txt-parquet-folder"
-msgstr "Parquet folder"
+#: reporting/view/reporting/storage-location/list.twig:30
+msgid "txt-file-type"
+msgstr "File type"
 
-#: reporting/view/reporting/storage-location/list.twig:32
+#: reporting/view/reporting/storage-location/list.twig:48
 msgid "txt-no-storage-locations-found"
 msgstr "No storage locations could be found"
 
 #: reporting/view/reporting/storage-location/view.twig:9
 msgid "txt-connection-string"
 msgstr "Connection string"
+
+#: reporting/view/reporting/storage-location/view.twig:15
+#, fuzzy
+#| msgid "txt-file-type"
+msgid "txt-export-file-type"
+msgstr "File type"
 
 #: reporting/view/reporting/storage-location/view.twig:25
 msgid "txt-successfully-accessed-container"
@@ -2703,6 +3051,30 @@ msgstr "Successfully accessed container"
 #, php-format
 msgid "txt-there-was-an-issue-connecting-to-the-container-%s"
 msgstr "There was an issue connecting to container %s"
+
+#~ msgid "txt-oauth2"
+#~ msgstr "oAuth2"
+
+#~ msgid "txt-new-oauth2-service"
+#~ msgstr "New service"
+
+#~ msgid "txt-reporting-storage-location-parquet-folder-placeholder"
+#~ msgstr "Parquet folder name"
+
+#~ msgid "txt-service-allowed-clusters"
+#~ msgstr "Allowed clusters"
+
+#~ msgid "txt-oauth2-service-client"
+#~ msgstr "Client"
+
+#~ msgid "txt-container"
+#~ msgstr "Container"
+
+#~ msgid "txt-excel-folder"
+#~ msgstr "Excel folder"
+
+#~ msgid "txt-parquet-folder"
+#~ msgstr "Parquet folder"
 
 #~ msgid "txt-partner-costs-in-year"
 #~ msgstr "Partner costs in year"
@@ -2916,9 +3288,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-job-status-buried"
 #~ msgstr "Buried"
 
-#~ msgid "txt-management"
-#~ msgstr "Management"
-
 #~ msgid "txt-access"
 #~ msgstr "Access"
 
@@ -3033,8 +3402,8 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-user-%s-is-already-in-the-database-%s"
 #~ msgstr ""
 #~ "An account with email address %s has been already found in the database. "
-#~ "Please log in and <a href=\"/community/contact/profile/privacy."
-#~ "html\">update your subscriptions</a> if you want to receive our "
+#~ "Please log in and <a href=\"/community/contact/profile/"
+#~ "privacy.html\">update your subscriptions</a> if you want to receive our "
 #~ "newsletter. <a href=\"/user/lost-password.html?email=%s\">Request a new "
 #~ "password</a> in case you forgot your password or did not yet set your "
 #~ "password."
@@ -4673,9 +5042,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-year"
 #~ msgstr "Year"
-
-#~ msgid "txt-type"
-#~ msgstr "Type"
 
 #~ msgid "txt-highlight"
 #~ msgstr "Highlight"
@@ -6465,9 +6831,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-filter-on-content-type"
 #~ msgstr "Filter on content type"
 
-#~ msgid "txt-filter"
-#~ msgstr "Filter"
-
 #~ msgid "txt-no-resize"
 #~ msgstr "No resize"
 
@@ -6687,9 +7050,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-effort-percentage"
 #~ msgstr "Effort %"
-
-#~ msgid "txt-cost"
-#~ msgstr "Costs"
 
 #~ msgid "txt-eligible"
 #~ msgstr "Eligible"
@@ -8185,9 +8545,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-no-chat-integration"
 #~ msgstr "No"
 
-#~ msgid "txt-chat-integration"
-#~ msgstr "Yes"
-
 #~ msgid "txt-invisible"
 #~ msgstr "Invisible"
 
@@ -8219,8 +8576,8 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-meeting-option-values-help-block"
 #~ msgstr ""
-#~ "Give here in the following format the options<br><code>Option1:"
-#~ "TextOption1|Option2:TextOption2</code>"
+#~ "Give here in the following format the "
+#~ "options<br><code>Option1:TextOption1|Option2:TextOption2</code>"
 
 #~ msgid "txt-required-inline-help"
 #~ msgstr "Select here if it is required"
@@ -8496,8 +8853,8 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-exhibition-spec-values-placeholder"
 #~ msgstr ""
-#~ "Give here the values in the following format Option1:TextOption1|Option2:"
-#~ "TextOption2"
+#~ "Give here the values in the following format Option1:TextOption1|"
+#~ "Option2:TextOption2"
 
 #~ msgid "txt-exhibition-spec-values-label"
 #~ msgstr "Values"
@@ -9935,9 +10292,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-type-country-information-session"
 #~ msgstr "Country information session"
-
-#~ msgid "txt-other"
-#~ msgstr "Other"
 
 #~ msgid "txt-nav-password-list"
 #~ msgstr "Passwords"
@@ -11764,9 +12118,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-invitation"
 #~ msgstr "Invitation"
-
-#~ msgid "txt-registration-container"
-#~ msgstr "Registration container"
 
 #~ msgid "txt-desk-confirmation"
 #~ msgstr "Desk confirmation"
@@ -18378,9 +18729,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-old-effort"
 #~ msgstr "Old Effort (PY)"
 
-#~ msgid "txt-old"
-#~ msgstr "Old"
-
 #~ msgid "txt-full-name-of-the-partner"
 #~ msgstr "Full name of the partner"
 
@@ -19144,9 +19492,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-is-closed-text"
 #~ msgstr "Is closed"
-
-#~ msgid "txt-is-successful"
-#~ msgstr "Is successful"
 
 #~ msgid "txt-award-year"
 #~ msgstr "Award year"
@@ -22844,9 +23189,6 @@ msgstr "There was an issue connecting to container %s"
 #~ "in this selection. Select the deep link and target and the system will "
 #~ "produce a deep link for every contact in the selection."
 
-#~ msgid "txt-selection-list-explanation"
-#~ msgstr "Find here a list of all selections in the database"
-
 #, php-format
 #~ msgid "txt-view-selection-%s"
 #~ msgstr "%s"
@@ -23821,9 +24163,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-preferred-reviewers"
 #~ msgstr "Preferred reviewers"
 
-#~ msgid "txt-no-reviewers-can-be-found-for-this-review-type"
-#~ msgstr "There are no reviewers found for this review type"
-
 #~ msgid "txt-automatically-generated"
 #~ msgstr "Auto-Generated"
 
@@ -24101,9 +24440,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-floorplan-items"
 #~ msgstr "Floor plan items"
-
-#~ msgid "txt-item"
-#~ msgstr "Item"
 
 #~ msgid "txt-rotation"
 #~ msgstr "Rotation"
@@ -27909,8 +28245,9 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-contact-the-office-if-you-want-to-update-the-organisation-name"
 #~ msgstr ""
-#~ "Contact the ITEA Office via <a href=\"mailto:info@itea3.org\">info@itea3."
-#~ "org</a> if you want to change the organisation name"
+#~ "Contact the ITEA Office via <a "
+#~ "href=\"mailto:info@itea3.org\">info@itea3.org</a> if you want to change "
+#~ "the organisation name"
 
 #~ msgid "txt-no-organisation-logo-found"
 #~ msgstr "No logo found"
@@ -28666,8 +29003,8 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-download-program-doa-link-text"
 #~ msgstr ""
-#~ "<a href=\"/publication/download/itea-2-declaration-of-acceptance."
-#~ "doc\">Download DOA template</a>"
+#~ "<a href=\"/publication/download/itea-2-declaration-of-"
+#~ "acceptance.doc\">Download DOA template</a>"
 
 #, php-format
 #~ msgid "txt-view-doa-for-organisation-%s-for-program-%s"
@@ -29247,9 +29584,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-project-award-%s"
 #~ msgstr "%s"
 
-#~ msgid "txt-award"
-#~ msgstr "Award"
-
 #~ msgid "txt-award-type"
 #~ msgstr "Award type"
 
@@ -29474,9 +29808,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-before-change-request"
 #~ msgstr "Before Change Request"
-
-#~ msgid "txt-keuro"
-#~ msgstr "k&euro;"
 
 #~ msgid "txt-delay-or-advance-on-the-end-date-months"
 #~ msgstr "Delay (+) or advance (-) in months on the end date"
@@ -29789,9 +30120,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-document-title"
 #~ msgstr "Title"
 
-#~ msgid "txt-file-type"
-#~ msgstr "File type"
-
 #~ msgid "txt-file-size"
 #~ msgstr "File size"
 
@@ -29922,9 +30250,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-no-events-could-be-found"
 #~ msgstr "No events could be found"
-
-#~ msgid "txt-create-new-event"
-#~ msgstr "Create new event"
 
 #~ msgid "txt-create-event"
 #~ msgstr "Create event"
@@ -33452,8 +33777,8 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-download-doa-link-text"
 #~ msgstr ""
-#~ "<a href=\"/publication/download/itea3-declaration-of-acceptance."
-#~ "doc\">Download DOA template</a>"
+#~ "<a href=\"/publication/download/itea3-declaration-of-"
+#~ "acceptance.doc\">Download DOA template</a>"
 
 #, php-format
 #~ msgid "txt-select-top-3-ertp-explanation-link-%s"
@@ -34753,12 +35078,12 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-project-idea-tool-banner"
 #~ msgstr ""
 #~ "<div class=\"alert alert-info\" role=\"alert\">Prepare yourself in "
-#~ "advance and make a <a class=\"alert-link\" href=\"getting-started."
-#~ "html\">flying start</a> to ITEA 3 Call 2 now by using the updated <a "
-#~ "href=\"community/idea/list.html\" class=\"alert-link\">Project idea tool</"
-#~ "a>, the new <a href=\"community/contact/search.html\" class=\"alert-"
-#~ "link\">Partner search</a> and <a href=\"community/idea/message-board/list."
-#~ "html\" class=\"alert-link\">Message board</a></div>"
+#~ "advance and make a <a class=\"alert-link\" href=\"getting-"
+#~ "started.html\">flying start</a> to ITEA 3 Call 2 now by using the updated "
+#~ "<a href=\"community/idea/list.html\" class=\"alert-link\">Project idea "
+#~ "tool</a>, the new <a href=\"community/contact/search.html\" class=\"alert-"
+#~ "link\">Partner search</a> and <a href=\"community/idea/message-board/"
+#~ "list.html\" class=\"alert-link\">Message board</a></div>"
 
 #~ msgid "txt-current-mode"
 #~ msgstr "Current mode"
@@ -36750,9 +37075,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-topic-report-types-label"
 #~ msgstr "Topic report types"
 
-#~ msgid "txt-review-type"
-#~ msgstr "Review type"
-
 #~ msgid "txt-tree-description-%s"
 #~ msgstr "Organise %s"
 
@@ -37138,9 +37460,6 @@ msgstr "There was an issue connecting to container %s"
 
 #~ msgid "txt-no-affiliations-found"
 #~ msgstr "No project partners could be found"
-
-#~ msgid "txt-result-list-explanation"
-#~ msgstr "Find below an overview of project resuts"
 
 #~ msgid "txt-living-roadmap-introduction"
 #~ msgstr ""
@@ -39234,9 +39553,6 @@ msgstr "There was an issue connecting to container %s"
 #~ msgid "txt-login-via-open-id-explanation"
 #~ msgstr "Select an openID provider to log in to your MyITEA account"
 
-#~ msgid "txt-google"
-#~ msgstr "Google"
-
 #~ msgid "txt-yahoo"
 #~ msgstr "Yahoo"
 
@@ -39877,8 +40193,8 @@ msgstr "There was an issue connecting to container %s"
 #~ msgstr ""
 #~ "<h3>Help <i  class=\"fa fa-question-circle\"></i></h3><ul>    <li><a "
 #~ "target=\"_blank\" href=\"/call-documents.html\">Call documents</a></"
-#~ "li>    <li><a target=\"_blank\" href=\"/publication/download/"
-#~ "publication/621\">Community website introduction</a></li></ul>"
+#~ "li>    <li><a target=\"_blank\" href=\"/publication/download/publication/"
+#~ "621\">Community website introduction</a></li></ul>"
 
 #~ msgid "txt-new-facebooks"
 #~ msgstr "New facebook"

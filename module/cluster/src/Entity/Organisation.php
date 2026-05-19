@@ -42,6 +42,15 @@ class Organisation extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'organisation', targetEntity: Partner::class, cascade: ['persist'])]
     private Collection $partners;
 
+    #[ORM\Column(nullable: true)]
+    private ?string $vatNumber = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $companyRegistrationNumber = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $companyRegistrationAuthority = null;
+
     #[Pure]
     public function __construct()
     {
@@ -115,5 +124,35 @@ class Organisation extends AbstractEntity
     {
         $this->partners = $partners;
         return $this;
+    }
+
+    public function getVatNumber(): ?string
+    {
+        return $this->vatNumber;
+    }
+
+    public function setVatNumber(?string $vatNumber): void
+    {
+        $this->vatNumber = $vatNumber;
+    }
+
+    public function getCompanyRegistrationNumber(): ?string
+    {
+        return $this->companyRegistrationNumber;
+    }
+
+    public function setCompanyRegistrationNumber(?string $companyRegistrationNumber): void
+    {
+        $this->companyRegistrationNumber = $companyRegistrationNumber;
+    }
+
+    public function getCompanyRegistrationAuthority(): ?string
+    {
+        return $this->companyRegistrationAuthority;
+    }
+
+    public function setCompanyRegistrationAuthority(?string $companyRegistrationAuthority): void
+    {
+        $this->companyRegistrationAuthority = $companyRegistrationAuthority;
     }
 }

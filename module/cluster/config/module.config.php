@@ -8,6 +8,7 @@ use Application\Factory\InputFilterFactory;
 use Application\Factory\InvokableFactory;
 use Application\View\Factory\LinkHelperFactory;
 use Cluster\Controller\Cluster\GroupController;
+use Cluster\Controller\Project\DetailsController;
 use Cluster\Controller\ProjectController;
 use Cluster\InputFilter\Cluster\GroupFilter;
 use Cluster\Navigation\Invokable\Cluster\GroupLabel;
@@ -42,6 +43,7 @@ $config = [
     'controllers'     => [
         'factories' => [
             ProjectController::class => ConfigAbstractFactory::class,
+            DetailsController::class => ConfigAbstractFactory::class,
             GroupController::class   => ConfigAbstractFactory::class,
         ]
     ],

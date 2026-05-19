@@ -7,8 +7,8 @@ application which
 stores all information in the database. This import tool will create new projects, organisations or will update existing
 entities if necessary.
 
-The user tables will be populated when users log in the system using their indivudual cluster account (using oAuth).
-Note that in this appplication no new data is generated but all data originates from the individual clusters.
+The user tables will be populated when users log in the system using their individual cluster account (using oAuth).
+Note that in this application no new data is generated but all data originates from the individual clusters.
 
 ## Overview tables
 

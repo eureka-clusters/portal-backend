@@ -59,9 +59,36 @@ class OrganisationService extends AbstractService
     public function findOrCreateOrganisation(
         string  $name,
         Country $country,
-        Type    $type
+        Type    $type,
+        ?string $vatNumber = null,
+        ?string $companyRegistrationNumber = null,
+        ?string $companyRegistrationAuthority = null
     ): Organisation
     {
+        $organisation = null;
+        if (null !== $vatNumber) {
+            //First we try to find the organisation by the VAT number
+            $organisation = $this->entityManager->getRepository(entityName: Organisation::class)
+                ->findOneBy(criteria: ['vatNumber' => $vatNumber]);
+        }
+
+        if ($organisation instanceof Organisation) {
+            return $organisation;
+        }
+
+        //Then we try to find the organisation by the company registration number and authority
+        if (null !== $companyRegistrationNumber && null !== $companyRegistrationAuthority) {
+            $organisation = $this->entityManager->getRepository(entityName: Organisation::class)
+                ->findOneBy(criteria: [
+                    'companyRegistrationNumber'    => $companyRegistrationNumber,
+                    'companyRegistrationAuthority' => $companyRegistrationAuthority
+                ]);
+
+            if ($organisation instanceof Organisation) {
+                return $organisation;
+            }
+        }
+
         $organisation = $this->entityManager->getRepository(entityName: Organisation::class)
             ->findOneBy(criteria: ['name' => $name, 'country' => $country, 'type' => $type]);
 

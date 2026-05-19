@@ -51,7 +51,7 @@ final class PartnerListener extends AbstractRoutedListener
             return new ApiProblem(status: 400, detail: 'The selected project partner cannot be found');
         }
 
-        if (!$partner->getProject()->isOnWebsite()) {
+        if (!$partner->getProject()->isSuccessful()) {
             return new ApiProblem(
                 status: 403,
                 detail: 'Partner is not published'

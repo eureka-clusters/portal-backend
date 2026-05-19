@@ -131,7 +131,7 @@ final class PartnerListener extends AbstractRoutedListener
 
         //Inject the encoded filter from the results
         $filter['filter'] = [];
-        if (null !== $params->get(name: 'filter')) {
+        if (null !== $params->get(name: 'filter') && !empty($params->get(name: 'filter'))) {
             $encodedFilter    = base64_decode(string: (string)$params->get(name: 'filter'), strict: true);
             $filter['filter'] = Json::decode(encodedValue: $encodedFilter, objectDecodeType: Json::TYPE_ARRAY);
         }

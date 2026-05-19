@@ -99,6 +99,11 @@ final class ProjectListener extends AbstractRoutedListener
                 $this->projectService->delete(entity: $partner);
             }
 
+            //Delete the areas
+            foreach ($project->getAreas() as $area) {
+                $this->projectService->delete(entity: $area);
+            }
+
             //Collect an array of partners and specify the unique elements of these partners
             $this->extractDataFromVersion(
                 data: $decodedData->versions,
@@ -115,6 +120,17 @@ final class ProjectListener extends AbstractRoutedListener
                 versionTypeName: Type::TYPE_LATEST,
                 project: $project
             );
+
+            //Extract the areas
+            if (isset($decodedData->areas)) {
+                foreach ($decodedData->areas as $areaData) {
+                    $area = new Project\Area()->setProject(project: $project);
+                    $area->setCode(code: $areaData->code);
+                    $area->setLabel(label: $areaData->label);
+                    $area->setType(type: $areaData->type);
+                    $this->entityManager->persist(entity: $area);
+                }
+            }
 
             //Update the costs/effort totals for all the project
             $this->projectService->updateProjectCostsAndEffort(project: $project);

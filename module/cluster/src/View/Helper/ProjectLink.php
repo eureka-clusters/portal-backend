@@ -31,7 +31,7 @@ final class ProjectLink extends AbstractLink
         if ($action === 'view') {
             $linkParams = [
                 'icon'  => 'fa-link',
-                'route' => 'zfcadmin/project/view',
+                'route' => 'zfcadmin/project/details/view',
                 'text'  => $showOptions[$show] ?? $project->getName(),
             ];
         }

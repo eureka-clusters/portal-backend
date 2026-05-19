@@ -1,0 +1,42 @@
+{% macro notProvided() -%}
+    {{- translate('txt-not-provided') -}}
+{%- endmacro %}
+
+{% macro text(value) -%}
+    {%- if value is same as(null) or value|trim == '' -%}
+        {{- _self.notProvided() -}}
+    {%- else -%}
+        {{- value -}}
+    {%- endif -%}
+{%- endmacro %}
+
+{% macro date(value, withTime = false) -%}
+    {%- if value -%}
+        {{- value|date(withTime ? 'd-m-Y H:i' : 'd-m-Y') -}}
+    {%- else -%}
+        {{- _self.notProvided() -}}
+    {%- endif -%}
+{%- endmacro %}
+
+{% macro number(value) -%}
+    {%- if value is same as(null) -%}
+        -
+    {%- else -%}
+        {{- value|number_format(2, '.', ',') -}}
+    {%- endif -%}
+{%- endmacro %}
+
+{% macro contact(contact, emptyFallback = true) -%}
+    {%- set address = contact.address|default({}) -%}
+    {%- set name = contact.fullName|default('')|trim -%}
+    {%- if name == '' -%}
+        {%- set name = [contact.firstName|default('')|trim, contact.lastName|default('')|trim]|filter(part => part != '')|join(' ') -%}
+    {%- endif -%}
+    {%- set location = [address.city|default('')|trim, address.country|default('')|trim]|filter(part => part != '')|join(', ') -%}
+    {%- set parts = [name, contact.email|default('')|trim, location]|filter(part => part != '') -%}
+    {%- if parts -%}
+        {{- parts|join(' / ') -}}
+    {%- elseif emptyFallback -%}
+        {{- _self.notProvided() -}}
+    {%- endif -%}
+{%- endmacro %}
