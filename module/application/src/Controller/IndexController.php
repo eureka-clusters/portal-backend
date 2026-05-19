@@ -19,7 +19,7 @@ final class IndexController extends AbstractActionController
     public function indexAction(): ViewModel
     {
         return new ViewModel(
-            ['services' => $this->oAuth2Service->findAllService()],
+            ['services' => $this->oAuth2Service->findAllServicesForLogin()],
         );
     }
 }

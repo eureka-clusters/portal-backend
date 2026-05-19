@@ -33,6 +33,11 @@ enum ServiceTypeEnum: int implements FormElementEnumInterface
         return in_array(needle: $field, haystack: $this->getFormFields(), strict: true);
     }
 
+    public function canBeUsedAsLogin(): bool
+    {
+        return in_array($this, [self::ITEA, self::EURESCOM], strict: true);
+    }
+
     public function getFormFields(): array
     {
         return match ($this) {

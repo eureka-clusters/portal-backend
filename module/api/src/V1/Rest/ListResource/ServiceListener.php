@@ -36,7 +36,7 @@ final class ServiceListener extends AbstractRoutedListener
     {
         return array_map(
             $this->serviceProvider->generateArray(...),
-            $this->oAuth2Service->findAllService()
+            $this->oAuth2Service->findAllServicesForLogin()
         );
     }
 }

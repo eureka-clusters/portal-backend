@@ -131,11 +131,16 @@ class oAuth2Service extends AbstractService
         return substr(hash('sha512', $randomData), 0, 40);
     }
 
-    public function findAllService(): array
+    public function findAllServicesForLogin(): array
     {
-        return $this->entityManager->getRepository(entityName: Service::class)->findBy(
+        $services = $this->entityManager->getRepository(entityName: Service::class)->findBy(
             criteria: [],
             orderBy: ['name' => \Doctrine\Common\Collections\Order::Ascending->value]
+        );
+
+        return array_filter(
+            array: $services,
+            callback: static fn(Service $service) => $service->getType()->canBeUsedAsLogin()
         );
     }
 
