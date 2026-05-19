@@ -29,8 +29,8 @@ final class ProjectColumns extends AbstractEntityColumns
         $idColumn                        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
         $identifierColumn                = new Column(columnName: 'Identifier', isNullable: false);
         $slugColumn                      = new Column(columnName: 'Slug', isNullable: false);
-        $dateCreatedColumn               = new Column(columnName: 'DateCreated', isNullable: false);
-        $dateUpdatedColumn               = new Column(columnName: 'DateUpdated');
+        $dateCreatedColumn               = new Column(columnName: 'DateCreated', type: Column::TYPE_DATE, isNullable: false);
+        $dateUpdatedColumn               = new Column(columnName: 'DateUpdated', type: Column::TYPE_DATE);
         $numberColumn                    = new Column(columnName: 'Number', isNullable: false);
         $nameColumn                      = new Column(columnName: 'Name', isNullable: false);
         $titleColumn                     = new Column(columnName: 'Title', isNullable: false);
@@ -38,6 +38,10 @@ final class ProjectColumns extends AbstractEntityColumns
         $technicalAreaColumn             = new Column(columnName: 'TechnicalArea');
         $programmeColumn                 = new Column(columnName: 'Programme', isNullable: false);
         $programmeCallColumn             = new Column(columnName: 'ProgrammeCall', isNullable: false);
+        $programmeCallPoOpenDateColumn   = new Column(columnName: 'ProgrammeCallPoOpenDate', type: Column::TYPE_DATE, isNullable: true);
+        $programmeCallPoCloseDateColumn  = new Column(columnName: 'ProgrammeCallPoCloseDate', type: Column::TYPE_DATE, isNullable: true);
+        $programmeCallFppOpenDateColumn  = new Column(columnName: 'ProgrammeCallFppOpenDate', type: Column::TYPE_DATE, isNullable: false);
+        $programmeCallFppCloseDateColumn = new Column(columnName: 'ProgrammeCallFppCloseDate', type: Column::TYPE_DATE, isNullable: false);
         $primaryClusterIdColumn          = new Column(columnName: 'PrimaryClusterId', type: Column::TYPE_INTEGER, isNullable: false);
         $secondaryClusterIdColumn        = new Column(columnName: 'SecondaryClusterId', type: Column::TYPE_INTEGER);
         $labelDateColumn                 = new Column(columnName: 'LabelDate', type: Column::TYPE_DATE);
@@ -65,8 +69,8 @@ final class ProjectColumns extends AbstractEntityColumns
                 $idColumn->addRow($project->getId());
                 $identifierColumn->addRow($project->getIdentifier());
                 $slugColumn->addRow($project->getSlug());
-                $dateCreatedColumn->addRow($project->getDateCreated()->format('Y-m-d H:i:s'));
-                $dateUpdatedColumn->addRow($project->getDateUpdated()?->format('Y-m-d H:i:s'));
+                $dateCreatedColumn->addRow($project->getDateCreated());
+                $dateUpdatedColumn->addRow($project->getDateUpdated());
                 $numberColumn->addRow($project->getNumber());
                 $nameColumn->addRow($project->getName());
                 $titleColumn->addRow($project->getTitle());
@@ -74,6 +78,11 @@ final class ProjectColumns extends AbstractEntityColumns
                 $technicalAreaColumn->addRow($project->getTechnicalArea());
                 $programmeColumn->addRow($project->getProgramme());
                 $programmeCallColumn->addRow($project->getProgrammeCall());
+                $programmeCallPoOpenDateColumn->addRow($project->getProgramCallPoOpenDate());
+                $programmeCallPoCloseDateColumn->addRow($project->getProgramCallPoCloseDate());
+                $programmeCallFppOpenDateColumn->addRow($project->getProgramCallFppOpenDate());
+                $programmeCallFppCloseDateColumn->addRow($project->getProgramCallFppCloseDate());
+
                 $primaryClusterIdColumn->addRow($project->getPrimaryCluster()->getId());
                 $secondaryClusterIdColumn->addRow($project->getSecondaryCluster()?->getId());
                 $labelDateColumn->addRow($project->getLabelDate());
@@ -113,6 +122,10 @@ final class ProjectColumns extends AbstractEntityColumns
             $technicalAreaColumn,
             $programmeColumn,
             $programmeCallColumn,
+            $programmeCallPoOpenDateColumn,
+            $programmeCallPoCloseDateColumn,
+            $programmeCallFppOpenDateColumn,
+            $programmeCallFppCloseDateColumn,
             $primaryClusterIdColumn,
             $secondaryClusterIdColumn,
             $labelDateColumn,

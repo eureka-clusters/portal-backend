@@ -25,10 +25,11 @@ use OAuth2\Encryption\Jwt;
 final class OAuth2Controller extends AbstractActionController
 {
     public function __construct(
-        private readonly UserService $userService,
+        private readonly UserService   $userService,
         private readonly oAuth2Service $oAuth2Service,
-        private readonly array $config
-    ) {
+        private readonly array         $config
+    )
+    {
     }
 
     public function loginAction(): Response|ViewModel
@@ -121,8 +122,7 @@ final class OAuth2Controller extends AbstractActionController
 
                 //Redirect to frontend with the tokens
                 return $this->redirect()->toUrl(
-                    url: $service->getClient()->getRedirectUri(
-                    ) . '?token=' . $token . '&client_id=' . $service->getClient()->getClientId()
+                    url: $service->getClient()->getRedirectUri() . '?token=' . $token . '&client_id=' . $service->getClient()->getClientId()
                 );
             } catch (IdentityProviderException) {
                 return $this->redirect()->toRoute(route: '/');
