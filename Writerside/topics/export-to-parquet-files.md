@@ -7,6 +7,129 @@ consumers.
 Each heading below represents one exported dataset. The tables document the logical structure and columns that are made
 available from the central cluster repository.
 
+## admin_role
+
+This export contains all admin roles. Use the Id column to resolve RoleId references from the user_role export.
+
+| Column      | Type    | Nullable | Description                                |
+|-------------|---------|----------|--------------------------------------------|
+| Id          | integer |          | The unique identifier of the role          |
+| Description | string  |          | The human-readable description of the role |
+
+## admin_user
+
+This export contains all admin users. The Id column is referenced by UserId in the user_role export.
+
+| Column                         | Type    | Nullable | Description                                                     |
+|--------------------------------|---------|----------|-----------------------------------------------------------------|
+| Id                             | integer |          | The unique identifier of the user                               |
+| FirstName                      | string  |          | The first name of the user                                      |
+| LastName                       | string  |          | The last name of the user                                       |
+| EmailAddress                   | string  |          | The email address of the user                                   |
+| DateCreated                    | date    |          | The date when the user record was created                       |
+| DateUpdated                    | date    | Yes      | The date when the user record was last updated                  |
+| DateEnd                        | date    | Yes      | The date when the user account ended                            |
+| IsEurekaSecretariatStaffMember | boolean | Yes      | Whether the user is marked as a Eureka secretariat staff member |
+
+## admin_user_role
+
+This export contains the user-role assignments. UserId links to the user export and RoleId links to the admin_role
+export.
+
+| Column | Type    | Nullable | Description                                 |
+|--------|---------|----------|---------------------------------------------|
+| UserId | integer |          | The id of the user linked to the admin_user |
+| RoleId | integer |          | The id of the role linked to the admin_role |
+
+## cluster_cluster
+
+This export contains all clusters. Use the Id column to resolve cluster references from other exports, such as the
+PrimaryClusterId and SecondaryClusterId columns in cluster_project.
+
+| Column      | Type    | Nullable | Description                                                |
+|-------------|---------|----------|------------------------------------------------------------|
+| Id          | integer |          | The unique identifier of the cluster                       |
+| Name        | string  |          | The name of the cluster                                    |
+| Identifier  | string  |          | The internal identifier of the cluster                     |
+| Description | string  | Yes      | The description of the cluster                             |
+| DateCreated | string  |          | The date and time when the cluster record was created      |
+| DateUpdated | string  | Yes      | The date and time when the cluster record was last updated |
+
+## cluster_cluster_group
+
+| Column      | Type    | Nullable | Description |
+|-------------|---------|----------|-------------|
+| Id          | integer |          |             |
+| Name        | string  |          |             |
+| Description | string  | Yes      |             |
+| DateCreated | string  |          |             |
+| DateUpdated | string  | Yes      |             |
+
+## cluster_cluster_group_cluster
+
+| Column    | Type    | Nullable | Description                                                 |
+|-----------|---------|----------|-------------------------------------------------------------|
+| GroupId   | integer |          | Cluster group identifier, links to cluster_cluster_group.Id |
+| ClusterId | integer |          | Cluster identifier, links to cluster_cluster.Id             |
+
+## cluster_country
+
+This export contains all countries. Use the Id column to resolve CountryId references from other exports, such as
+cluster_organisation and cluster_funder.
+
+| Column  | Type    | Nullable | Description                          |
+|---------|---------|----------|--------------------------------------|
+| Id      | integer |          | The unique identifier of the country |
+| Cd      | string  | Yes      | The two-letter country code          |
+| Country | string  | Yes      | The name of the country              |
+| Iso3    | string  | Yes      | The three-letter ISO country code    |
+
+## cluster_funder
+
+This export contains all funders. UserId identifies the linked user account and CountryId links to cluster_country.
+
+| Column    | Type    | Nullable | Description                                                  |
+|-----------|---------|----------|--------------------------------------------------------------|
+| Id        | integer |          | The unique identifier of the funder record                   |
+| UserId    | integer |          | The id of the user account linked to the funder              |
+| CountryId | integer |          | The id of the funder country, which links to cluster_country |
+
+## cluster_funding_status
+
+| Column           | Type    | Nullable | Description |
+|------------------|---------|----------|-------------|
+| Id               | integer |          |             |
+| Code             | string  |          |             |
+| Status           | string  |          |             |
+| Color            | string  |          |             |
+| StatusFunding    | string  |          |             |
+| IsEvaluation     | boolean |          |             |
+| StatusEvaluation | string  | Yes      |             |
+| Sequence         | integer |          |             |
+
+## cluster_organisation
+
+This export contains all organisations. CountryId links to cluster_country and TypeId links to the organisation type
+export.
+
+| Column                       | Type    | Nullable | Description                                                                          |
+|------------------------------|---------|----------|--------------------------------------------------------------------------------------|
+| Id                           | integer |          | The unique identifier of the organisation                                            |
+| Name                         | string  |          | The name of the organisation                                                         |
+| Slug                         | string  |          | The URL-friendly identifier generated from the organisation name                     |
+| CountryId                    | integer |          | The id of the organisation country, which links to cluster_country                   |
+| TypeId                       | integer |          | The id of the organisation type, which links to the cluster_organisation_type export |
+| VatNumber                    | string  | Yes      | The VAT number of the organisation                                                   |
+| CompanyRegistrationNumber    | string  | Yes      | The company registration number of the organisation                                  |
+| CompanyRegistrationAuthority | string  | Yes      | The authority that manages the organisation registration                             |
+
+## cluster_organisation_type
+
+| Column | Type    | Nullable | Description |
+|--------|---------|----------|-------------|
+| Id     | integer |          |             |
+| Type   | string  |          |             |
+
 ## cluster_project
 
 This export contains all projects and their main metadata. PrimaryClusterId and SecondaryClusterId link to
@@ -47,86 +170,18 @@ project leader details.
 | LatestVersionCosts        | float   |          | The total costs in the latest project version                            |
 | LatestVersionEffort       | float   |          | The total effort in the latest project version                           |
 
-## cluster_cluster
+## cluster_project_area
 
-This export contains all clusters. Use the Id column to resolve cluster references from other exports, such as the
-PrimaryClusterId and SecondaryClusterId columns in cluster_project.
+This export contains the project area records linked to projects. ProjectId links each area to the related project in
+cluster_project.
 
-| Column      | Type    | Nullable | Description                                                |
-|-------------|---------|----------|------------------------------------------------------------|
-| Id          | integer |          | The unique identifier of the cluster                       |
-| Name        | string  |          | The name of the cluster                                    |
-| Identifier  | string  |          | The internal identifier of the cluster                     |
-| Description | string  | Yes      | The description of the cluster                             |
-| DateCreated | string  |          | The date and time when the cluster record was created      |
-| DateUpdated | string  | Yes      | The date and time when the cluster record was last updated |
-
-## cluster_cluster_group
-
-| Column      | Type    | Nullable | Description |
-|-------------|---------|----------|-------------|
-| Id          | integer |          |             |
-| Name        | string  |          |             |
-| Description | string  | Yes      |             |
-| DateCreated | string  |          |             |
-| DateUpdated | string  | Yes      |             |
-
-## cluster_project_status
-
-This export contains the available project statuses. Use the Id column to resolve StatusId references from
-ProjectColumns.
-
-| Column | Type    | Nullable | Description                                 |
-|--------|---------|----------|---------------------------------------------|
-| Id     | integer |          | The unique identifier of the project status |
-| Status | string  |          | The label of the project status             |
-
-## cluster_project_partner
-
-This export contains the partner records for projects. OrganisationId links to OrganisationColumns, ProjectId links to
-ProjectColumns, and TechnicalContact is exported as a JSON string.
-
-| Column                    | Type    | Nullable | Description                                                           |
-|---------------------------|---------|----------|-----------------------------------------------------------------------|
-| Id                        | integer |          | The unique identifier of the project partner record                   |
-| OrganisationId            | integer |          | The id of the linked organisation, which links to OrganisationColumns |
-| ProjectId                 | integer |          | The id of the linked project, which links to ProjectColumns           |
-| Slug                      | string  |          | The URL-friendly identifier generated for the partner record          |
-| OrganisationName          | string  |          | The name of the linked organisation                                   |
-| ProjectName               | string  |          | The name of the linked project                                        |
-| IsActive                  | boolean | Yes      | Whether the partner record is active                                  |
-| IsCoordinator             | boolean | Yes      | Whether this partner is the coordinator for the project               |
-| IsSelfFunded              | boolean | Yes      | Whether this partner is marked as self-funded                         |
-| TechnicalContact          | string  | Yes      | The technical contact details encoded as JSON                         |
-| ProjectOutlineCosts       | float   | Yes      | The partner costs in the project outline phase                        |
-| ProjectOutlineEffort      | float   | Yes      | The partner effort in the project outline phase                       |
-| FullProjectProposalCosts  | float   | Yes      | The partner costs in the full project proposal phase                  |
-| FullProjectProposalEffort | float   | Yes      | The partner effort in the full project proposal phase                 |
-| LatestVersionCosts        | float   | Yes      | The partner costs in the latest project version                       |
-| LatestVersionEffort       | float   | Yes      | The partner effort in the latest project version                      |
-
-## cluster_organisation
-
-This export contains all organisations. CountryId links to cluster_country and TypeId links to the organisation type
-export.
-
-| Column                       | Type    | Nullable | Description                                                                          |
-|------------------------------|---------|----------|--------------------------------------------------------------------------------------|
-| Id                           | integer |          | The unique identifier of the organisation                                            |
-| Name                         | string  |          | The name of the organisation                                                         |
-| Slug                         | string  |          | The URL-friendly identifier generated from the organisation name                     |
-| CountryId                    | integer |          | The id of the organisation country, which links to cluster_country                   |
-| TypeId                       | integer |          | The id of the organisation type, which links to the cluster_organisation_type export |
-| VatNumber                    | string  | Yes      | The VAT number of the organisation                                                   |
-| CompanyRegistrationNumber    | string  | Yes      | The company registration number of the organisation                                  |
-| CompanyRegistrationAuthority | string  | Yes      | The authority that manages the organisation registration                             |
-
-## cluster_organisation_type
-
-| Column | Type    | Nullable | Description |
-|--------|---------|----------|-------------|
-| Id     | integer |          |             |
-| Type   | string  |          |             |
+| Column    | Type    | Nullable | Description                                                   |
+|-----------|---------|----------|---------------------------------------------------------------|
+| Id        | integer |          | The unique identifier of the project area record              |
+| ProjectId | integer |          | The id of the related project, which links to cluster_project |
+| Code      | string  |          | The code of the project area                                  |
+| Label     | string  |          | The display label of the project area                         |
+| Type      | string  |          | The type of project area                                      |
 
 ## cluster_project_evaluation
 
@@ -145,34 +200,43 @@ evaluation applies to a specific project version.
 | ProjectId        | integer |          | The id of the related project, which links to cluster_project                                                                   |
 | ProjectVersionId | integer | Yes      | The id of the related project version, which links to cluster_project_version; this is empty for a project-level funding status |
 
-## cluster_funding_status
+## cluster_project_partner
 
-| Column           | Type    | Nullable | Description |
-|------------------|---------|----------|-------------|
-| Id               | integer |          |             |
-| Code             | string  |          |             |
-| Status           | string  |          |             |
-| Color            | string  |          |             |
-| StatusFunding    | string  |          |             |
-| IsEvaluation     | boolean |          |             |
-| StatusEvaluation | string  | Yes      |             |
-| Sequence         | integer |          |             |
+This export contains the partner records for projects. OrganisationId links to cluster_organisation, ProjectId links to
+cluster_project, and TechnicalContact is exported as a JSON string.
 
-## country
+| Column                    | Type    | Nullable | Description                                                            |
+|---------------------------|---------|----------|------------------------------------------------------------------------|
+| Id                        | integer |          | The unique identifier of the project partner record                    |
+| OrganisationId            | integer |          | The id of the linked organisation, which links to cluster_organisation |
+| ProjectId                 | integer |          | The id of the linked project, which links to cluster_project           |
+| Slug                      | string  |          | The URL-friendly identifier generated for the partner record           |
+| OrganisationName          | string  |          | The name of the linked organisation                                    |
+| ProjectName               | string  |          | The name of the linked project                                         |
+| IsActive                  | boolean | Yes      | Whether the partner record is active                                   |
+| IsCoordinator             | boolean | Yes      | Whether this partner is the coordinator for the project                |
+| IsSelfFunded              | boolean | Yes      | Whether this partner is marked as self-funded                          |
+| TechnicalContact          | string  | Yes      | The technical contact details encoded as JSON                          |
+| ProjectOutlineCosts       | float   | Yes      | The partner costs in the project outline phase                         |
+| ProjectOutlineEffort      | float   | Yes      | The partner effort in the project outline phase                        |
+| FullProjectProposalCosts  | float   | Yes      | The partner costs in the full project proposal phase                   |
+| FullProjectProposalEffort | float   | Yes      | The partner effort in the full project proposal phase                  |
+| LatestVersionCosts        | float   | Yes      | The partner costs in the latest project version                        |
+| LatestVersionEffort       | float   | Yes      | The partner effort in the latest project version                       |
 
-This export contains all countries. Use the Id column to resolve CountryId references from other exports, such as
-OrganisationColumns and FunderColumns.
+## cluster_project_status
 
-| Column  | Type    | Nullable | Description                          |
-|---------|---------|----------|--------------------------------------|
-| Id      | integer |          | The unique identifier of the country |
-| Cd      | string  | Yes      | The two-letter country code          |
-| Country | string  | Yes      | The name of the country              |
-| Iso3    | string  | Yes      | The three-letter ISO country code    |
+This export contains the available project statuses. Use the Id column to resolve StatusId references from
+cluster_project.
+
+| Column | Type    | Nullable | Description                                 |
+|--------|---------|----------|---------------------------------------------|
+| Id     | integer |          | The unique identifier of the project status |
+| Status | string  |          | The label of the project status             |
 
 ## cluster_project_version
 
-This export contains the versions of projects. ProjectId links to ProjectColumns, TypeId links to cluster_version_type,
+This export contains the versions of projects. ProjectId links to cluster_project, TypeId links to cluster_version_type,
 StatusId links to cluster_version_type, and Countries is exported as a JSON array.
 
 | Column         | Type    | Nullable | Description                                                        |
@@ -188,13 +252,19 @@ StatusId links to cluster_version_type, and Countries is exported as a JSON arra
 | Effort         | float   |          | The total effort recorded for the project version, in PY           |
 | Countries      | string  | Yes      | The countries associated with the project version, encoded as JSON |
 
-## cluster_version_type
+## cluster_project_version_costs_and_effort
 
-| Column      | Type    | Nullable | Description |
-|-------------|---------|----------|-------------|
-| Id          | integer |          |             |
-| Type        | string  |          |             |
-| Description | string  |          |             |
+This export contains the yearly costs and effort breakdown per project version and partner. PartnerId links to
+cluster_project_partner and VersionId links to cluster_project_version.
+
+| Column    | Type    | Nullable | Description                                                                   |
+|-----------|---------|----------|-------------------------------------------------------------------------------|
+| Id        | integer |          | The unique identifier of the costs and effort record                          |
+| PartnerId | integer |          | The id of the related project partner, which links to cluster_project_partner |
+| VersionId | integer |          | The id of the related project version, which links to cluster_project_version |
+| Year      | integer |          | The year for this costs and effort entry                                      |
+| Effort    | float   |          | The effort value for this year, partner, and project version, in PY           |
+| Costs     | float   |          | The costs value for this year, partner, and project version, in EUR           |
 
 ## cluster_version_status
 
@@ -203,51 +273,10 @@ StatusId links to cluster_version_type, and Countries is exported as a JSON arra
 | Id     | integer |          |             |
 | Status | string  |          |             |
 
-## cluster_project_version_costs_and_effort
+## cluster_version_type
 
-This export contains the yearly costs and effort breakdown per project version and partner. PartnerId links to
-PartnerColumns and VersionId links to VersionColumns.
-
-| Column    | Type    | Nullable | Description                                                          |
-|-----------|---------|----------|----------------------------------------------------------------------|
-| Id        | integer |          | The unique identifier of the costs and effort record                 |
-| PartnerId | integer |          | The id of the related project partner, which links to PartnerColumns |
-| VersionId | integer |          | The id of the related project version, which links to VersionColumns |
-| Year      | integer |          | The year for this costs and effort entry                             |
-| Effort    | float   |          | The effort value for this year, partner, and project version, in PY  |
-| Costs     | float   |          | The costs value for this year, partner, and project version, in EUR  |
-
-## funder
-
-This export contains all funders. UserId identifies the linked user account and CountryId links to CountryColumns.
-
-| Column    | Type    | Nullable | Description                                                 |
-|-----------|---------|----------|-------------------------------------------------------------|
-| Id        | integer |          | The unique identifier of the funder record                  |
-| UserId    | integer |          | The id of the user account linked to the funder             |
-| CountryId | integer |          | The id of the funder country, which links to CountryColumns |
-
-## country
-
-This export contains all countries. Use the Id column to resolve CountryId references from other exports, such as
-OrganisationColumns and FunderColumns.
-
-| Column  | Type    | Nullable | Description                          |
-|---------|---------|----------|--------------------------------------|
-| Id      | integer |          | The unique identifier of the country |
-| Cd      | string  | Yes      | The two-letter country code          |
-| Country | string  | Yes      | The name of the country              |
-| Iso3    | string  | Yes      | The three-letter ISO country code    |
-
-## cluster_project_area
-
-This export contains the project area records linked to projects. ProjectId links each area to the related project in
-ProjectColumns.
-
-| Column    | Type    | Nullable | Description                                                  |
-|-----------|---------|----------|--------------------------------------------------------------|
-| Id        | integer |          | The unique identifier of the project area record             |
-| ProjectId | integer |          | The id of the related project, which links to ProjectColumns |
-| Code      | string  |          | The code of the project area                                 |
-| Label     | string  |          | The display label of the project area                        |
-| Type      | string  |          | The type of project area                                     |
+| Column      | Type    | Nullable | Description |
+|-------------|---------|----------|-------------|
+| Id          | integer |          |             |
+| Type        | string  |          |             |
+| Description | string  |          |             |
