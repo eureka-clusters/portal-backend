@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cluster\Export\Cluster;
 
 use Cluster\Entity\Cluster\Group;
+use Cluster\Export\Cluster\Group\ClusterColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -53,6 +54,13 @@ final class GroupColumns extends AbstractEntityColumns
             $descriptionColumn,
             $dateCreatedColumn,
             $dateUpdatedColumn,
+        ];
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            ClusterColumns::class
         ];
     }
 }

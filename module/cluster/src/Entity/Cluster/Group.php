@@ -10,7 +10,6 @@ use Cluster\Repository\Cluster\GroupRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineORMModule\Form\Element\EntityMultiCheckbox;
 use Gedmo\Mapping\Annotation as Gedmo;
