@@ -10,7 +10,7 @@ use Jield\Export\ValueObject\Column;
 
 final class RoleColumns extends AbstractEntityColumns
 {
-    protected string $name = 'user_role';
+    protected string $name = 'admin_user_role';
 
     protected string  $entity      = User::class;
     protected ?string $description = 'This export contains the user-role assignments. UserId links to the user export and RoleId links to the admin_role export.';
