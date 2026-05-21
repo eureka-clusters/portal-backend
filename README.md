@@ -25,6 +25,8 @@ docker compose run --rm cli php /var/www/composer.phar phpstan
 docker compose run --rm cli php /var/www/composer.phar fix
 docker compose run --rm cli php /var/www/composer.phar cs
 
+docker compose run --rm cli /var/www/vendor/bin/laminas export:documentation 
+
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:validate-schema
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:generate-proxies
 docker compose run --rm cli /var/www/vendor/bin/doctrine-module orm:schema-tool:update --dump-sql

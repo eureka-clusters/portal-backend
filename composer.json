@@ -6,13 +6,13 @@
   "authors": [
     {
       "name": "Johan van der Heide",
-      "email": "info@jield.nl"
+      "email": "johan.vanderheide@jield.nl"
     }
   ],
   "minimum-stability": "dev",
   "require": {
     "php": "^8.4",
-    "laminas/laminas-cli": "^1.14",
+    "laminas/laminas-cli": "^1.16",
     "laminas/laminas-mvc": "^3.9",
     "laminas/laminas-session": "^2.27",
     "laminas/laminas-serializer": "^2.18",
@@ -23,7 +23,7 @@
     "laminas/laminas-config-aggregator": "^1.20",
     "jield-webdev/laminas-psr-doctrine-error-hero-module": "dev-develop",
     "jield-webdev/jield-api-tools": "^1.1",
-    "phpoffice/phpspreadsheet": "^5.3.0",
+    "phpoffice/phpspreadsheet": "^5.7.0",
     "lm-commons/lmc-cors": "^1.7",
     "league/oauth2-client": "dev-master",
     "eluceo/ical": "^2.2",

@@ -191,6 +191,56 @@
                 }
             }
         },
+        "/api/list/project/version": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Get a list of project versions",
+                "description": "List of project versions",
+                "operationId": "8dd8defcdfa3e7fe5ee23ca1d627c4b6",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "query",
+                        "description": "Project slug to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "symfony"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Amount per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 25
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/project"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/api/list/project": {
             "get": {
                 "tags": [
@@ -356,14 +406,14 @@
                 }
             }
         },
-        "/api/statistics/results/partner/download/{filter}": {
+        "/api/statistics/results/partner/download/{id}": {
             "get": {
                 "tags": [
                     "Project"
                 ],
                 "summary": "Download project partners to Excel",
                 "description": "Download project partners",
-                "operationId": "bb5b6985da29db868026ba920cbd2042",
+                "operationId": "6acc8428fef1611022450f5558578183",
                 "parameters": [
                     {
                         "name": "filter",
@@ -407,14 +457,14 @@
                 }
             }
         },
-        "/api/statistics/results/project/download/{filter}": {
+        "/api/statistics/results/project/download/{id}": {
             "get": {
                 "tags": [
                     "Project"
                 ],
                 "summary": "Download projects to Excel",
                 "description": "Download projects",
-                "operationId": "e088892b2eadc342f907e3cb9aa151ee",
+                "operationId": "87dd956cb679683ef4b961febd572a0e",
                 "parameters": [
                     {
                         "name": "filter",
@@ -699,6 +749,11 @@
                         "type": "string",
                         "example": "Doe"
                     },
+                    "fullName": {
+                        "description": "Full name of the user (and email if empty)",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
                     "email": {
                         "description": "User email",
                         "type": "string",
@@ -962,15 +1017,41 @@
                     "organisation": {
                         "$ref": "#/components/schemas/organisation"
                     },
+                    "projectOutlineCosts": {
+                        "description": "Costs in Project Outline (in EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000000
+                    },
+                    "projectOutlineEffort": {
+                        "description": "Effort in Project Outline (in PY)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 34.42
+                    },
+                    "fullProjectProposalCosts": {
+                        "description": "Costs in Full Project Proposal (in EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2304000
+                    },
+                    "fullProjectProposalEffort": {
+                        "description": "Effort in Full Project Proposal (in PY)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 54.85
+                    },
                     "latestVersionCosts": {
-                        "description": "Latest version costs",
-                        "type": "string",
-                        "example": "100.00"
+                        "description": "Latest version costs (in EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 3000000
                     },
                     "latestVersionEffort": {
-                        "description": "Latest version effort",
-                        "type": "string",
-                        "example": "200.00"
+                        "description": "Latest version effort (in PY)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 123.42
                     }
                 },
                 "type": "object"
@@ -1006,6 +1087,29 @@
                     },
                     "status": {
                         "$ref": "#/components/schemas/project_version_status"
+                    },
+                    "dateSubmitted": {
+                        "description": "Date when the version was submitted by the project",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00+00:00"
+                    },
+                    "isLatestVersionAndIsFPP": {
+                        "description": "Boolean value to trigger if this version is the same as the FPP (and can be ignored)",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "effort": {
+                        "description": "Total effort in this version in PY",
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.3
+                    },
+                    "costs": {
+                        "description": "Total effort in this version in Euro",
+                        "type": "number",
+                        "format": "float",
+                        "example": 3400300
                     }
                 },
                 "type": "object"
@@ -1057,7 +1161,8 @@
                                 "$ref": "#/components/schemas/project_partner_coordinator"
                             }
                         ],
-                        "nullable": true
+                        "nullable": true,
+                        "description": "Project coordinator information"
                     },
                     "projectLeader": {
                         "$ref": "#/components/schemas/contact"
@@ -1068,7 +1173,8 @@
                                 "$ref": "#/components/schemas/project_version"
                             }
                         ],
-                        "nullable": true
+                        "nullable": true,
+                        "description": "Latest project version information"
                     },
                     "programme": {
                         "description": "Programme of the project",
@@ -1138,13 +1244,39 @@
                     "status": {
                         "$ref": "#/components/schemas/project_status"
                     },
-                    "latestVersionTotalCosts": {
+                    "projectOutlineTotalCosts": {
+                        "description": "Total costs of the Project Outline (In EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000000,
+                        "nullable": true
+                    },
+                    "projectOutlineEffort": {
+                        "description": "Total effort of the Project Outline (In Person Years)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 13.1,
+                        "nullable": true
+                    },
+                    "fullProjectProposalCosts": {
+                        "description": "Total costs of the Full Project Proposal (In EUR)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2000000
+                    },
+                    "fullProjectProposalEffort": {
+                        "description": "Total effort of the Full Project Proposal (In Person Years)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 22.3
+                    },
+                    "latestVersionCosts": {
                         "description": "Total costs of the latest project version (In EUR)",
                         "type": "number",
                         "format": "float",
                         "example": 5000000
                     },
-                    "latestVersionTotalEffort": {
+                    "latestVersionEffort": {
                         "description": "Total effort of the latest project version (In Person Years)",
                         "type": "number",
                         "format": "float",
@@ -1283,8 +1415,8 @@
                             "$ref": "#/components/schemas/facet_content"
                         }
                     },
-                    "clusters": {
-                        "description": "Result of clusters",
+                    "clusterGroups": {
+                        "description": "Result of cluster groups (collection of clusters)",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/facet_content"
@@ -1332,8 +1464,8 @@
                             "$ref": "#/components/schemas/facet_content"
                         }
                     },
-                    "clusters": {
-                        "description": "Result of clusters",
+                    "clusterGroups": {
+                        "description": "Result of cluster groups (collection of clusters)",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/facet_content"
@@ -1346,6 +1478,11 @@
                 "title": "Facets content",
                 "description": "Response per facet",
                 "properties": {
+                    "id": {
+                        "description": "ID of the facet",
+                        "type": "integer",
+                        "example": 1
+                    },
                     "name": {
                         "description": "Name of the facet",
                         "type": "string",

@@ -11,9 +11,9 @@ use Jield\Export\ValueObject\Column;
 
 final class ClusterColumns extends AbstractEntityColumns
 {
-    protected string $name = 'cluster_cluster';
-
-    protected string $entity = Cluster::class;
+    protected string  $name        = 'cluster_cluster';
+    protected string  $entity      = Cluster::class;
+    protected ?string $description = 'This export contains all clusters. Use the Id column to resolve cluster references from other exports, such as the PrimaryClusterId and SecondaryClusterId columns in cluster_project.';
 
     /**
      * @return array<Column>
@@ -21,12 +21,12 @@ final class ClusterColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn          = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $nameColumn        = new Column(columnName: 'Name', isNullable: false);
-        $identifierColumn  = new Column(columnName: 'Identifier', isNullable: false);
-        $descriptionColumn = new Column(columnName: 'Description');
-        $dateCreatedColumn = new Column(columnName: 'DateCreated', isNullable: false);
-        $dateUpdatedColumn = new Column(columnName: 'DateUpdated');
+        $idColumn          = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the cluster');
+        $nameColumn        = new Column(columnName: 'Name', isNullable: false, description: 'The name of the cluster');
+        $identifierColumn  = new Column(columnName: 'Identifier', isNullable: false, description: 'The internal identifier of the cluster');
+        $descriptionColumn = new Column(columnName: 'Description', description: 'The description of the cluster');
+        $dateCreatedColumn = new Column(columnName: 'DateCreated', isNullable: false, description: 'The date and time when the cluster record was created');
+        $dateUpdatedColumn = new Column(columnName: 'DateUpdated', description: 'The date and time when the cluster record was last updated');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

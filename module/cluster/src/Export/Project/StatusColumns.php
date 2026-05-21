@@ -13,6 +13,7 @@ final class StatusColumns extends AbstractEntityColumns
     protected string $name = 'cluster_project_status';
 
     protected string $entity = Status::class;
+    protected ?string $description = 'This export contains the available project statuses. Use the Id column to resolve StatusId references from cluster_project.';
 
     /**
      * @return array<Column>
@@ -20,8 +21,8 @@ final class StatusColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn     = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $statusColumn = new Column(columnName: 'Status', isNullable: false);
+        $idColumn     = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the project status');
+        $statusColumn = new Column(columnName: 'Status', isNullable: false, description: 'The label of the project status');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

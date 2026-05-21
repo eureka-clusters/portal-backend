@@ -12,7 +12,8 @@ final class FundingColumns extends AbstractEntityColumns
 {
     protected string $name = 'cluster_project_partner_funding';
 
-    protected string $entity = Funding::class;
+    protected string  $entity      = Funding::class;
+    protected ?string $description = 'This export contains the yearly funding records for project partners. StatusId links to cluster_version_status and PartnerId links to cluster_project_partner.';
 
     /**
      * @return array<Column>
@@ -20,12 +21,12 @@ final class FundingColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn          = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $yearColumn        = new Column(columnName: 'Year', type: Column::TYPE_INTEGER, isNullable: false);
-        $dateUpdatedColumn = new Column(columnName: 'DateUpdated', type: Column::TYPE_DATE);
-        $dateCreatedColumn = new Column(columnName: 'DateCreated', type: Column::TYPE_DATE);
-        $statusIdColumn    = new Column(columnName: 'StatusId', type: Column::TYPE_INTEGER, isNullable: false);
-        $partnerIdColumn   = new Column(columnName: 'PartnerId', type: Column::TYPE_INTEGER, isNullable: false);
+        $idColumn          = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the partner funding record');
+        $yearColumn        = new Column(columnName: 'Year', type: Column::TYPE_INTEGER, isNullable: false, description: 'The funding year for this partner funding record');
+        $dateUpdatedColumn = new Column(columnName: 'DateUpdated', type: Column::TYPE_DATE, description: 'The date when the partner funding record was last updated');
+        $dateCreatedColumn = new Column(columnName: 'DateCreated', type: Column::TYPE_DATE, description: 'The date when the partner funding record was created');
+        $statusIdColumn    = new Column(columnName: 'StatusId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the funding status for this record, which links to cluster_version_status');
+        $partnerIdColumn   = new Column(columnName: 'PartnerId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the related project partner, which links to cluster_project_partner');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

@@ -10,7 +10,6 @@ use Cluster\Export\Project\EvaluationColumns;
 use Cluster\Export\Project\PartnerColumns;
 use Cluster\Export\Project\StatusColumns;
 use Cluster\Export\Project\VersionColumns;
-use General\Export\DateColumns;
 use Jield\Export\Columns\AbstractEntityColumns;
 use Jield\Export\ValueObject\Column;
 
@@ -18,7 +17,8 @@ final class ProjectColumns extends AbstractEntityColumns
 {
     protected string $name = 'cluster_project';
 
-    protected string $entity = Project::class;
+    protected string  $entity      = Project::class;
+    protected ?string $description = 'This export contains all projects and their main metadata. PrimaryClusterId and SecondaryClusterId link to cluster_cluster, StatusId links to the project status export, and ProjectLeader is exported as a JSON string with the project leader details.';
 
     /**
      * @return array<Column>
@@ -26,37 +26,37 @@ final class ProjectColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn                        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $identifierColumn                = new Column(columnName: 'Identifier', isNullable: false);
-        $slugColumn                      = new Column(columnName: 'Slug', isNullable: false);
-        $dateCreatedColumn               = new Column(columnName: 'DateCreated', type: Column::TYPE_DATE, isNullable: false);
-        $dateUpdatedColumn               = new Column(columnName: 'DateUpdated', type: Column::TYPE_DATE);
-        $numberColumn                    = new Column(columnName: 'Number', isNullable: false);
-        $nameColumn                      = new Column(columnName: 'Name', isNullable: false);
-        $titleColumn                     = new Column(columnName: 'Title', isNullable: false);
-        $descriptionColumn               = new Column(columnName: 'Description');
-        $technicalAreaColumn             = new Column(columnName: 'TechnicalArea');
-        $programmeColumn                 = new Column(columnName: 'Programme', isNullable: false);
-        $programmeCallColumn             = new Column(columnName: 'ProgrammeCall', isNullable: false);
-        $programmeCallPoOpenDateColumn   = new Column(columnName: 'ProgrammeCallPoOpenDate', type: Column::TYPE_DATE, isNullable: true);
-        $programmeCallPoCloseDateColumn  = new Column(columnName: 'ProgrammeCallPoCloseDate', type: Column::TYPE_DATE, isNullable: true);
-        $programmeCallFppOpenDateColumn  = new Column(columnName: 'ProgrammeCallFppOpenDate', type: Column::TYPE_DATE, isNullable: false);
-        $programmeCallFppCloseDateColumn = new Column(columnName: 'ProgrammeCallFppCloseDate', type: Column::TYPE_DATE, isNullable: false);
-        $primaryClusterIdColumn          = new Column(columnName: 'PrimaryClusterId', type: Column::TYPE_INTEGER, isNullable: false);
-        $secondaryClusterIdColumn        = new Column(columnName: 'SecondaryClusterId', type: Column::TYPE_INTEGER);
-        $labelDateColumn                 = new Column(columnName: 'LabelDate', type: Column::TYPE_DATE);
-        $cancelDateColumn                = new Column(columnName: 'CancelDate', type: Column::TYPE_DATE);
-        $officialStartDateColumn         = new Column(columnName: 'OfficialStartDate', type: Column::TYPE_DATE);
-        $officialEndDateColumn           = new Column(columnName: 'OfficialEndDate', type: Column::TYPE_DATE);
-        $isSuccessfulColumn              = new Column(columnName: 'isSuccessful', type: Column::TYPE_BOOLEAN, isNullable: false);
-        $statusIdColumn                  = new Column(columnName: 'StatusId', type: Column::TYPE_INTEGER, isNullable: false);
-        $projectLeaderColumn             = new Column(columnName: 'ProjectLeader', type: Column::TYPE_STRING, isNullable: true);
-        $projectOutlineCostsColumn       = new Column(columnName: 'ProjectOutlineCosts', type: Column::TYPE_FLOAT);
-        $projectOutlineEffortColumn      = new Column(columnName: 'ProjectOutlineEffort', type: Column::TYPE_FLOAT);
-        $fullProjectProposalCostsColumn  = new Column(columnName: 'FullProjectProposalCosts', type: Column::TYPE_FLOAT, isNullable: false);
-        $fullProjectProposalEffortColumn = new Column(columnName: 'FullProjectProposalEffort', type: Column::TYPE_FLOAT, isNullable: false);
-        $latestVersionCostsColumn        = new Column(columnName: 'LatestVersionCosts', type: Column::TYPE_FLOAT, isNullable: false);
-        $latestVersionEffortColumn       = new Column(columnName: 'LatestVersionEffort', type: Column::TYPE_FLOAT, isNullable: false);
+        $idColumn                        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the project');
+        $identifierColumn                = new Column(columnName: 'Identifier', isNullable: false, description: 'The unique identifier string of the project');
+        $slugColumn                      = new Column(columnName: 'Slug', isNullable: false, description: 'The URL-friendly identifier generated from the project name');
+        $dateCreatedColumn               = new Column(columnName: 'DateCreated', type: Column::TYPE_DATE, isNullable: false, description: 'The date when the project record was created');
+        $dateUpdatedColumn               = new Column(columnName: 'DateUpdated', type: Column::TYPE_DATE, description: 'The date when the project record was last updated');
+        $numberColumn                    = new Column(columnName: 'Number', isNullable: false, description: 'The project reference number');
+        $nameColumn                      = new Column(columnName: 'Name', isNullable: false, description: 'The name of the project');
+        $titleColumn                     = new Column(columnName: 'Title', isNullable: false, description: 'The title of the project');
+        $descriptionColumn               = new Column(columnName: 'Description', description: 'The detailed description of the project');
+        $technicalAreaColumn             = new Column(columnName: 'TechnicalArea', description: 'The technical area assigned to the project');
+        $programmeColumn                 = new Column(columnName: 'Programme', isNullable: false, description: 'The programme under which the project is submitted');
+        $programmeCallColumn             = new Column(columnName: 'ProgrammeCall', isNullable: false, description: 'The programme call associated with the project');
+        $programmeCallPoOpenDateColumn   = new Column(columnName: 'ProgrammeCallPoOpenDate', type: Column::TYPE_DATE, isNullable: true, description: 'The opening date of the project outline call');
+        $programmeCallPoCloseDateColumn  = new Column(columnName: 'ProgrammeCallPoCloseDate', type: Column::TYPE_DATE, isNullable: true, description: 'The closing date of the project outline call');
+        $programmeCallFppOpenDateColumn  = new Column(columnName: 'ProgrammeCallFppOpenDate', type: Column::TYPE_DATE, isNullable: false, description: 'The opening date of the full project proposal call');
+        $programmeCallFppCloseDateColumn = new Column(columnName: 'ProgrammeCallFppCloseDate', type: Column::TYPE_DATE, isNullable: false, description: 'The closing date of the full project proposal call');
+        $primaryClusterIdColumn          = new Column(columnName: 'PrimaryClusterId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the primary cluster, which links to cluster_cluster');
+        $secondaryClusterIdColumn        = new Column(columnName: 'SecondaryClusterId', type: Column::TYPE_INTEGER, description: 'The id of the secondary cluster, which links to cluster_cluster');
+        $labelDateColumn                 = new Column(columnName: 'LabelDate', type: Column::TYPE_DATE, description: 'The date when the project received its label');
+        $cancelDateColumn                = new Column(columnName: 'CancelDate', type: Column::TYPE_DATE, description: 'The date when the project was cancelled');
+        $officialStartDateColumn         = new Column(columnName: 'OfficialStartDate', type: Column::TYPE_DATE, description: 'The official start date of the project');
+        $officialEndDateColumn           = new Column(columnName: 'OfficialEndDate', type: Column::TYPE_DATE, description: 'The official end date of the project');
+        $isSuccessfulColumn              = new Column(columnName: 'isSuccessful', type: Column::TYPE_BOOLEAN, isNullable: false, description: 'Whether the project is marked as successful');
+        $statusIdColumn                  = new Column(columnName: 'StatusId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the project status, which links to the cluster_project_partner');
+        $projectLeaderColumn             = new Column(columnName: 'ProjectLeader', type: Column::TYPE_STRING, isNullable: true, description: 'The project leader details encoded as JSON');
+        $projectOutlineCostsColumn       = new Column(columnName: 'ProjectOutlineCosts', type: Column::TYPE_FLOAT, description: 'The total project outline costs');
+        $projectOutlineEffortColumn      = new Column(columnName: 'ProjectOutlineEffort', type: Column::TYPE_FLOAT, description: 'The total project outline effort');
+        $fullProjectProposalCostsColumn  = new Column(columnName: 'FullProjectProposalCosts', type: Column::TYPE_FLOAT, isNullable: false, description: 'The total costs in the full project proposal');
+        $fullProjectProposalEffortColumn = new Column(columnName: 'FullProjectProposalEffort', type: Column::TYPE_FLOAT, isNullable: false, description: 'The total effort in the full project proposal');
+        $latestVersionCostsColumn        = new Column(columnName: 'LatestVersionCosts', type: Column::TYPE_FLOAT, isNullable: false, description: 'The total costs in the latest project version');
+        $latestVersionEffortColumn       = new Column(columnName: 'LatestVersionEffort', type: Column::TYPE_FLOAT, isNullable: false, description: 'The total effort in the latest project version');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

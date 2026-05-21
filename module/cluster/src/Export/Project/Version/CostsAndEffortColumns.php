@@ -12,7 +12,8 @@ final class CostsAndEffortColumns extends AbstractEntityColumns
 {
     protected string $name = 'cluster_project_version_costs_and_effort';
 
-    protected string $entity = CostsAndEffort::class;
+    protected string  $entity      = CostsAndEffort::class;
+    protected ?string $description = 'This export contains the yearly costs and effort breakdown per project version and partner. PartnerId links to cluster_project_partner and VersionId links to cluster_project_version.';
 
     /**
      * @return array<Column>
@@ -20,12 +21,12 @@ final class CostsAndEffortColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $partnerIdColumn = new Column(columnName: 'PartnerId', type: Column::TYPE_INTEGER, isNullable: false);
-        $versionIdColumn = new Column(columnName: 'VersionId', type: Column::TYPE_INTEGER, isNullable: false);
-        $yearColumn      = new Column(columnName: 'Year', type: Column::TYPE_INTEGER, isNullable: false);
-        $effortColumn    = new Column(columnName: 'Effort', type: Column::TYPE_FLOAT, isNullable: false);
-        $costsColumn     = new Column(columnName: 'Costs', type: Column::TYPE_FLOAT, isNullable: false);
+        $idColumn        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the costs and effort record');
+        $partnerIdColumn = new Column(columnName: 'PartnerId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the related project partner, which links to cluster_project_partner');
+        $versionIdColumn = new Column(columnName: 'VersionId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the related project version, which links to cluster_project_version');
+        $yearColumn      = new Column(columnName: 'Year', type: Column::TYPE_INTEGER, isNullable: false, description: 'The year for this costs and effort entry');
+        $effortColumn    = new Column(columnName: 'Effort', type: Column::TYPE_FLOAT, isNullable: false, description: 'The effort value for this year, partner, and project version, in PY');
+        $costsColumn     = new Column(columnName: 'Costs', type: Column::TYPE_FLOAT, isNullable: false, description: 'The costs value for this year, partner, and project version, in EUR');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

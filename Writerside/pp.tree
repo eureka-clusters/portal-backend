@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="pp"
+                 name="PA Portal" start-page="index.md">
+
+    <toc-element topic="index.md"/>
+    <toc-element topic="project-import.md"/>
+    <toc-element topic="export-to-parquet-files.md"/>
+    <toc-element topic="swagger-documentation.md">
+        <toc-element topic="API-Reference.topic"/>
+    </toc-element>
+    <toc-element topic="support.md"/>
+</instance-profile>

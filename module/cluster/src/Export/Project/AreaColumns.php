@@ -13,6 +13,7 @@ final class AreaColumns extends AbstractEntityColumns
     protected string $name = 'cluster_project_area';
 
     protected string $entity = Area::class;
+    protected ?string $description = 'This export contains the project area records linked to projects. ProjectId links each area to the related project in cluster_project.';
 
     /**
      * @return array<Column>
@@ -21,11 +22,11 @@ final class AreaColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $projectIdColumn = new Column(columnName: 'ProjectId', type: Column::TYPE_INTEGER, isNullable: false);
-        $codeColumn      = new Column(columnName: 'Code', type: Column::TYPE_STRING, isNullable: false);
-        $labelColumn     = new Column(columnName: 'Label', type: Column::TYPE_STRING, isNullable: false);
-        $typeColumn      = new Column(columnName: 'Type', type: Column::TYPE_STRING, isNullable: false);
+        $idColumn        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the project area record');
+        $projectIdColumn = new Column(columnName: 'ProjectId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the related project, which links to cluster_project');
+        $codeColumn      = new Column(columnName: 'Code', type: Column::TYPE_STRING, isNullable: false, description: 'The code of the project area');
+        $labelColumn     = new Column(columnName: 'Label', type: Column::TYPE_STRING, isNullable: false, description: 'The display label of the project area');
+        $typeColumn      = new Column(columnName: 'Type', type: Column::TYPE_STRING, isNullable: false, description: 'The type of project area');
 
 
         $amount = $this->findCount(criteria: []);

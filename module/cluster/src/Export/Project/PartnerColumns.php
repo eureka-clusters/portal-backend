@@ -14,6 +14,7 @@ final class PartnerColumns extends AbstractEntityColumns
     protected string $name = 'cluster_project_partner';
 
     protected string $entity = Partner::class;
+    protected ?string $description = 'This export contains the partner records for projects. OrganisationId links to cluster_organisation, ProjectId links to cluster_project, and TechnicalContact is exported as a JSON string.';
 
     /**
      * @return array<Column>
@@ -21,22 +22,22 @@ final class PartnerColumns extends AbstractEntityColumns
     #[\Override]
     public function getColumns(): array
     {
-        $idColumn                       = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false);
-        $organisationIdColumn           = new Column(columnName: 'OrganisationId', type: Column::TYPE_INTEGER, isNullable: false);
-        $projectIdColumn                = new Column(columnName: 'ProjectId', type: Column::TYPE_INTEGER, isNullable: false);
-        $slugColumn                     = new Column(columnName: 'Slug', isNullable: false);
-        $organisationNameColumn         = new Column(columnName: 'OrganisationName', isNullable: false);
-        $projectNameColumn              = new Column(columnName: 'ProjectName', isNullable: false);
-        $isActiveColumn                 = new Column(columnName: 'IsActive', type: Column::TYPE_BOOLEAN, isNullable: false);
-        $isCoordinatorColumn            = new Column(columnName: 'IsCoordinator', type: Column::TYPE_BOOLEAN, isNullable: false);
-        $isSelfFundedColumn             = new Column(columnName: 'IsSelfFunded', type: Column::TYPE_BOOLEAN, isNullable: false);
-        $technicalContactColumn         = new Column(columnName: 'TechnicalContact');
-        $projectOutlineCostsColumn      = new Column(columnName: 'ProjectOutlineCosts', type: Column::TYPE_FLOAT);
-        $projectOutlineEffortColumn     = new Column(columnName: 'ProjectOutlineEffort', type: Column::TYPE_FLOAT);
-        $fullProjectProposalCostsColumn = new Column(columnName: 'FullProjectProposalCosts', type: Column::TYPE_FLOAT);
-        $fullProjectProposalEffortColumn = new Column(columnName: 'FullProjectProposalEffort', type: Column::TYPE_FLOAT);
-        $latestVersionCostsColumn       = new Column(columnName: 'LatestVersionCosts', type: Column::TYPE_FLOAT);
-        $latestVersionEffortColumn      = new Column(columnName: 'LatestVersionEffort', type: Column::TYPE_FLOAT);
+        $idColumn                        = new Column(columnName: 'Id', type: Column::TYPE_INTEGER, isNullable: false, description: 'The unique identifier of the project partner record');
+        $organisationIdColumn            = new Column(columnName: 'OrganisationId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the linked organisation, which links to cluster_organisation');
+        $projectIdColumn                 = new Column(columnName: 'ProjectId', type: Column::TYPE_INTEGER, isNullable: false, description: 'The id of the linked project, which links to cluster_project');
+        $slugColumn                      = new Column(columnName: 'Slug', isNullable: false, description: 'The URL-friendly identifier generated for the partner record');
+        $organisationNameColumn          = new Column(columnName: 'OrganisationName', isNullable: false, description: 'The name of the linked organisation');
+        $projectNameColumn               = new Column(columnName: 'ProjectName', isNullable: false, description: 'The name of the linked project');
+        $isActiveColumn                  = new Column(columnName: 'IsActive', type: Column::TYPE_BOOLEAN, isNullable: false, description: 'Whether the partner record is active');
+        $isCoordinatorColumn             = new Column(columnName: 'IsCoordinator', type: Column::TYPE_BOOLEAN, isNullable: false, description: 'Whether this partner is the coordinator for the project');
+        $isSelfFundedColumn              = new Column(columnName: 'IsSelfFunded', type: Column::TYPE_BOOLEAN, isNullable: false, description: 'Whether this partner is marked as self-funded');
+        $technicalContactColumn          = new Column(columnName: 'TechnicalContact', description: 'The technical contact details encoded as JSON');
+        $projectOutlineCostsColumn       = new Column(columnName: 'ProjectOutlineCosts', type: Column::TYPE_FLOAT, description: 'The partner costs in the project outline phase');
+        $projectOutlineEffortColumn      = new Column(columnName: 'ProjectOutlineEffort', type: Column::TYPE_FLOAT, description: 'The partner effort in the project outline phase');
+        $fullProjectProposalCostsColumn  = new Column(columnName: 'FullProjectProposalCosts', type: Column::TYPE_FLOAT, description: 'The partner costs in the full project proposal phase');
+        $fullProjectProposalEffortColumn = new Column(columnName: 'FullProjectProposalEffort', type: Column::TYPE_FLOAT, description: 'The partner effort in the full project proposal phase');
+        $latestVersionCostsColumn        = new Column(columnName: 'LatestVersionCosts', type: Column::TYPE_FLOAT, description: 'The partner costs in the latest project version');
+        $latestVersionEffortColumn       = new Column(columnName: 'LatestVersionEffort', type: Column::TYPE_FLOAT, description: 'The partner effort in the latest project version');
 
         $amount = $this->findCount(criteria: []);
         $i      = 0;

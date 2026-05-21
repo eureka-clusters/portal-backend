@@ -1,0 +1,44 @@
+name: Build and Deploy Writerside Documentation
+
+on:
+  push:
+    branches: [ "main", "develop" ]  # Trigger deployment only when pushing to the "develop" branch
+  workflow_dispatch:        # Allow triggering manually
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
+env:
+  INSTANCE: 'Writerside/sd'
+  DOCKER_VERSION: '2026.04.8711'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: github-pages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build docs using Writerside Docker builder
+        uses: JetBrains/writerside-github-action@v4
+        with:
+          instance: ${{ env.INSTANCE }}
+          docker-version: ${{ env.DOCKER_VERSION }}
+
+      - name: Unzip built documentation
+        run: unzip -O UTF-8 -qq "artifacts/webHelpSD2-all.zip" -d dir
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages Content
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dir
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

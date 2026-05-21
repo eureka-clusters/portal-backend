@@ -192,8 +192,6 @@ msgid "txt-service-update-client-secret"
 msgstr "Client secret"
 
 #: admin/config/module.config.navigation.admin.php:214
-#, fuzzy
-#| msgid "txt-private-key"
 msgid "txt-service-update-private-key"
 msgstr "Private Key"
 
