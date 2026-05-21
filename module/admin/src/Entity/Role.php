@@ -13,7 +13,6 @@ use Laminas\Form\Annotation;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Laminas\Permissions\Acl\Role\RoleInterface;
-
 use function in_array;
 use function strtolower;
 
@@ -22,9 +21,9 @@ use function strtolower;
 #[Annotation\Name(name: 'admin_role')]
 class Role extends AbstractEntity implements RoleInterface
 {
-    final public const int ROLE_ADMIN  = 1;
+    final public const int ROLE_ADMIN = 1;
 
-    final public const int ROLE_USER   = 2;
+    final public const int ROLE_USER = 2;
 
     final public const int ROLE_PUBLIC = 3;
 
@@ -59,10 +58,11 @@ class Role extends AbstractEntity implements RoleInterface
     #[\Override]
     public function getRoleId(): string
     {
-        return strtolower(string: (string) $this->id);
+        return strtolower(string: (string)$this->id);
     }
 
-    #[Pure] public function __construct()
+    #[Pure]
+    public function __construct()
     {
         $this->users = new ArrayCollection();
     }
