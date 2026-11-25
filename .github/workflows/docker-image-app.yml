@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - feature/update-to-php82-containers
+      - feature/update-php-82-containers
   pull_request:
     branches:
       - main
-      - feature/update-to-php82-containers
+      - feature/update-php-82-containers
 
 jobs:
   build:
